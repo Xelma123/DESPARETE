@@ -1,0 +1,251 @@
+"""
+Yayılım — kanalın YAVAŞ bileşenleri: yol kaybı · gölgeleme · anten deseni.
+
+Hızlı sönümleme burada DEĞİL (`kanal/sonumleme.py`). Ayrımın sebebi teknik
+değil, ölçüsel: `kopma_fiziksel` sayacı *"SINR eşiği altına inen bağ"* diye
+tanımlı ve o tanım **yavaş** SINR üzerinden yapılmalı. Hızlı sönümleme
+saniyede yüzlerce kez eşiği geçer; onu kopma saymak, sayacı gürültüye çevirir.
+
+🔒 VERİCİ GÜCÜ TÜRETİLİR, YAZILMAZ
+==================================
+Menzil tanımı şudur: *"girişimsiz SINR'in tam olarak eşiğe (β) eşit olduğu
+mesafe"*. Verici gücü bundan çıkar. Elle yazılsaydı menzil ile radyo fiziği
+çelişebilirdi ve hangisinin doğru olduğu belirsiz kalırdı.
+
+    N  = k·T·B·F                          (gürültü tabanı)
+    Pr(R) = N·β                           (menzilde alınan güç)
+    Pt = Pr(R) · 10^(PL(R)/10)
+
+Ölçüldü — bant 1 MHz'den 2 MHz'e çıkınca:
+    gürültü tabanı  −107,98 → −104,96 dBm
+    türetilen Pt     +15,49 → +18,50 dBm
+Yani eski karıştırıcı gücü (+2 dBm) yeni fizikte düğüme göre 3 dB daha zayıf
+bir karıştırıcıya karşılık gelir. Üretici: `python kalibrasyon/adim3_oncesi.py`
+
+🔴 ANTEN DESENİ — ilk karar ÖLÇÜMLE ÇEVRİLDİ
+============================================
+İlk yargı *"izotropik bırak, beyan et"* idi. 3B'de ölçüldü:
+
+    hacim                    yükseliş açısı p95    dipol kaybı p95
+    1000×1000×300 m                66,4°               9,70 dB
+    1000×1000×120 m (seçilen)      40,6°               3,27 dB
+
+9,70 dB, gölgeleme σ'sının (3 dB) çok üstünde. İzotropik varsaymak modeli tam
+da **yakın komşularda** iyimser yapardı. Yarım dalga dipol, düz uçuş
+varsayımıyla — Gauss-Markov'un ortalama pitch = 0 değeriyle tutarlı. Uçuş
+yatıklığı (attitude) modellenmez ve **beyan edilir**.
+
+🔒 GÖLGELEME — bağ-simetrik ve KONUMA BAĞLI
+===========================================
+Hash bağın kimliğine VE bağ ortasının hücresine bakar; hücre köşeleri
+arasında trilineer yumuşatma yapılır. Böylece hareket eden düğüm gölgeleme
+alanında **sürekli** ilerler, ışınlanmaz. Bağ-simetriklik `min(i,j), max(i,j)`
+ile sağlanır: A→B ile B→A aynı gölgelemeyi görür.
+
+⚠️ Neden gölgeleme şart: ölçüldü, PER'in 0,01'den 0,99'a düştüğü SINR bandı
+yalnızca **3,02 dB** — yani geçiş bandı tek bir σ'dan dar. Gölgelemesiz bir
+modelde bağlar gerçeğe göre keskin açılıp kapanır.
+"""
+
+from __future__ import annotations
+
+import math
+
+from sim2.cekirdek.degismezler import dogrula
+from sim2.cekirdek.rng import normal_cekimi
+from sim2.dunya.geometri import Nokta3, mesafe, yukselis_acisi_rad
+from sim2.yapilandirma.konfig import Konfig
+
+__all__ = ["BOLTZMANN", "ISIK_HIZI", "REFERANS_MESAFE_M", "Yayilim",
+           "dbm_to_w", "w_to_dbm", "db_to_lin", "lin_to_db"]
+
+BOLTZMANN = 1.380649e-23
+ISIK_HIZI = 299792458.0
+REFERANS_MESAFE_M = 1.0
+
+
+def dbm_to_w(dbm: float) -> float:
+    return 10.0 ** (dbm / 10.0) / 1000.0
+
+
+def w_to_dbm(w: float) -> float:
+    return 10.0 * math.log10(w * 1000.0)
+
+
+def db_to_lin(db: float) -> float:
+    return 10.0 ** (db / 10.0)
+
+
+def lin_to_db(lin: float) -> float:
+    return 10.0 * math.log10(lin)
+
+
+# Köşe önbelleğinin üst sınırı (~2^19 giriş). Aşılınca boşaltılır.
+KOSE_ONBELLEK_SINIRI = 1 << 19
+
+class Yayilim:
+    """Yavaş kanal. Saf: aynı girdi her zaman aynı çıktıyı verir."""
+
+    __slots__ = ("konfig", "gurultu_w", "verici_gucu_w", "_pl_referans_db",
+                 "_hucre_m", "_sigma_db", "_golge_onbellek")
+
+    def __init__(self, konfig: Konfig) -> None:
+        self.konfig = konfig
+        self.gurultu_w = self.gurultu_tabani_w(konfig)
+        self._pl_referans_db = 20.0 * math.log10(
+            4.0 * math.pi * REFERANS_MESAFE_M * konfig.frekans_hz / ISIK_HIZI)
+        # Pt, MENZİL TANIMINDAN türetilir — bağımsız bir parametre değil.
+        hedef_alinan_w = self.gurultu_w * db_to_lin(konfig.sinr_esigi_db)
+        self.verici_gucu_w = hedef_alinan_w * db_to_lin(
+            self.yol_kaybi_db(konfig.iletim_menzili_m))
+        self._hucre_m = konfig.golgeleme_hucre_m
+        self._sigma_db = konfig.golgeleme_sigma_db if konfig.golgeleme_acik else 0.0
+        # 🔒 KÖŞE ÖNBELLEĞİ — SONUCU DEĞİŞTİRMEZ, yalnız hızlandırır.
+        # `normal_cekimi` tam sayı anahtarların SAF bir fonksiyonudur; aynı
+        # anahtar her zaman aynı sayıyı verir. Ölçüldü: gölgeleme çekimi koşu
+        # süresinin %52'siydi (10,4 milyon çekim / 354 bin olay), çünkü her
+        # SINR parçası aynı bağın aynı hücre köşelerini yeniden çekiyordu.
+        # Önbellek dolduğunda TAMAMEN boşaltılır; bu da belirlenimcidir (aynı
+        # erişim dizisi → aynı boşaltma anları) ve değerler yeniden
+        # üretilebilir olduğu için hiçbir bilgi kaybolmaz.
+        self._golge_onbellek: dict[tuple[int, int, int, int, int], float] = {}
+
+    # ------------------------------------------------------------- gürültü
+    @staticmethod
+    def gurultu_tabani_w(konfig: Konfig) -> float:
+        """N = k·T·B·F — analitik doğrulama hedefi.
+
+        290 K'de 2 MHz bant için k·T·B ≈ −111,0 dBm; 6 dB gürültü figürüyle
+        ≈ −105,0 dBm.
+        """
+        termal = (BOLTZMANN * konfig.sicaklik_k * konfig.bant_genisligi_hz)
+        return termal * db_to_lin(konfig.gurultu_figuru_db)
+
+    # ------------------------------------------------------------ yol kaybı
+    def yol_kaybi_db(self, mesafe_m: float) -> float:
+        """PL(d) = PL(1 m) + 10·α·log10(d),  PL(1 m) = 20·log10(4π·f/c).
+
+        2,4 GHz'de PL(1 m) ≈ 40,05 dB — analitik olarak doğrulanır.
+        """
+        d = max(mesafe_m, REFERANS_MESAFE_M)
+        return self._pl_referans_db + 10.0 * self.konfig.yol_kaybi_usteli \
+            * math.log10(d / REFERANS_MESAFE_M)
+
+    # -------------------------------------------------------- anten deseni
+    def anten_kaybi_db(self, yukselis_rad: float) -> float:
+        """Yarım dalga dipolün **bir ucundaki** kaybı, kapalı formda.
+
+            F(φ) = cos(½π·sin φ) / cos φ          (φ = yataya göre yükseliş)
+            kayıp_dB = −20·log10 F(φ)
+
+        φ = 0'da F = 1 (kayıp 0); φ → 90°'de F → 0 (dipolün ekseni boyunca
+        yayın yok). Kapalı form olduğu için analitik doğrulanabilir.
+
+        🔴 BİR BAĞDA İKİ ANTEN VARDIR: `bag_anten_kaybi_db` iki ucu toplar.
+        Tek uç sayılsaydı bağ bütçesi sistematik olarak iyimser olurdu.
+        """
+        if not self.konfig.anten_deseni_acik:
+            return 0.0
+        phi = abs(yukselis_rad)
+        kos = math.cos(phi)
+        if kos <= 1e-12:                      # dipol ekseni — yayın yok
+            return 60.0                       # kelepçe: −60 dB pratikte sıfır
+        f = math.cos(0.5 * math.pi * math.sin(phi)) / kos
+        if f <= 1e-6:
+            return 60.0
+        return min(-20.0 * math.log10(f), 60.0)
+
+    def bag_anten_kaybi_db(self, a: Nokta3, b: Nokta3) -> float:
+        """İki ucun toplam anten kaybı. Bağ-simetrik: yükseliş açısı aynıdır."""
+        phi = yukselis_acisi_rad(a, b)
+        return 2.0 * self.anten_kaybi_db(phi)
+
+    # ---------------------------------------------------------- gölgeleme
+    def golgeleme_db(self, i: int, j: int, a: Nokta3, b: Nokta3) -> float:
+        """Log-normal X_σ — bağ-simetrik, konuma bağlı, SÜREKLİ.
+
+        Bağ ortasının bulunduğu hücrenin sekiz köşesinden çekilen bağımsız
+        normaller, trilineer ağırlıklarla harmanlanır.
+
+        🔴 AĞIRLIKLAR VARYANSI DÜŞÜRÜR ve bu düzeltilir. `Σ wₖ = 1` olduğu
+        için `Var(Σ wₖ Xₖ) = Σ wₖ²` ve bu, hücre merkezinde 1/8'e kadar iner
+        — düzeltilmeseydi ilan edilen σ, alanın çoğunda GERÇEKLEŞMEZDİ.
+        `√(Σ wₖ²)`ye bölmek varyansı her yerde tam olarak 1 yapar ve ağırlıklar
+        konumla sürekli değiştiği için alan sürekli kalır.
+        """
+        if self._sigma_db <= 0.0:
+            return 0.0
+        ox = 0.5 * (a.x + b.x)
+        oy = 0.5 * (a.y + b.y)
+        oz = 0.5 * (a.z + b.z)
+        h = self._hucre_m
+        gx, gy, gz = ox / h, oy / h, oz / h
+        cx, cy, cz = math.floor(gx), math.floor(gy), math.floor(gz)
+        fx, fy, fz = gx - cx, gy - cy, gz - cz
+        alt, ust = min(i, j), max(i, j)
+        onbellek = self._golge_onbellek
+
+        toplam = 0.0
+        agirlik_kare = 0.0
+        for dx in (0, 1):
+            wx = fx if dx else 1.0 - fx
+            for dy in (0, 1):
+                wy = fy if dy else 1.0 - fy
+                for dz in (0, 1):
+                    wz = fz if dz else 1.0 - fz
+                    w = wx * wy * wz
+                    if w == 0.0:
+                        continue
+                    anahtar = (alt, ust, cx + dx, cy + dy, cz + dz)
+                    deger = onbellek.get(anahtar)
+                    if deger is None:
+                        deger = normal_cekimi("golgeleme", self.konfig.tohum,
+                                              *anahtar)
+                        if len(onbellek) >= KOSE_ONBELLEK_SINIRI:
+                            onbellek.clear()
+                        onbellek[anahtar] = deger
+                    toplam += w * deger
+                    agirlik_kare += w * w
+        if agirlik_kare <= 0.0:
+            return 0.0
+        return self._sigma_db * toplam / math.sqrt(agirlik_kare)
+
+    # ------------------------------------------------------- alınan güç
+    def yavas_kayip_db(self, i: int, j: int, a: Nokta3, b: Nokta3) -> float:
+        """Yol kaybı + anten + gölgeleme. Hızlı sönümleme DÂHİL DEĞİL."""
+        return (self.yol_kaybi_db(mesafe(a, b))
+                + self.bag_anten_kaybi_db(a, b)
+                + self.golgeleme_db(i, j, a, b))
+
+    def yavas_alinan_w(self, i: int, j: int, a: Nokta3, b: Nokta3,
+                       verici_w: float | None = None) -> float:
+        pt = self.verici_gucu_w if verici_w is None else verici_w
+        return pt / db_to_lin(self.yavas_kayip_db(i, j, a, b))
+
+    def yavas_sinr_db(self, i: int, j: int, a: Nokta3, b: Nokta3,
+                      girisim_w: float = 0.0) -> float:
+        """🔒 `kopma_fiziksel` BU büyüklükle tanımlanır (Adım 8 taahhüdü).
+
+        Hızlı sönümleme dışarıda: saniyede yüzlerce kez eşiği geçer ve onu
+        kopma saymak sayacı gürültüye çevirirdi.
+        """
+        s = self.yavas_alinan_w(i, j, a, b)
+        return lin_to_db(s / (self.gurultu_w + girisim_w))
+
+    def bag_kopuk_mu(self, i: int, j: int, a: Nokta3, b: Nokta3,
+                     girisim_w: float = 0.0) -> bool:
+        return self.yavas_sinr_db(i, j, a, b, girisim_w) < self.konfig.sinr_esigi_db
+
+    # ---------------------------------------------------------------- teşhis
+    def menzilde_yavas_sinr_db(self) -> float:
+        """Menzil sınırında, gölgelemesiz ve antensiz SINR — β'ya eşit olmalı.
+
+        Verici gücünün türetiminin kendi tanımıyla tutarlı olduğunu gösteren
+        kapalı devre kontrol.
+        """
+        pr = self.verici_gucu_w / db_to_lin(
+            self.yol_kaybi_db(self.konfig.iletim_menzili_m))
+        return lin_to_db(pr / self.gurultu_w)
+
+
+dogrula(REFERANS_MESAFE_M > 0.0, "referans mesafe pozitif olmalı")
