@@ -44,14 +44,14 @@ from test_kosum import _konfig  # noqa: E402
 
 
 def _gozlem(dugum: int, saat_s: float, paket_hedefi: int | None = None,
-            paket_kaynagi: int | None = None) -> Gozlem:
+            paket_kaynagi: int | None = None, paket_sira: int = 0) -> Gozlem:
     """Kanca çağrıları için gözlem. `paket_hedefi=None` → elde paket yok."""
     gorunum = None
     if paket_hedefi is not None:
         gorunum = PaketGorunumu(
             hedef=paket_hedefi,
             kaynak=dugum if paket_kaynagi is None else paket_kaynagi,
-            ttl=30, atlama_sayisi=2, bayt=512)
+            ttl=30, atlama_sayisi=2, bayt=512, kaynak_sira=paket_sira)
     return Gozlem(
         dugum=dugum, saat_s=YerelZaman(saat_s), olculen_gurultu_w=1e-13,
         kanal_mesgul_mu=False, kuyruk_uzunlugu=1, kuyruk_kapasitesi=50,

@@ -132,7 +132,7 @@ class Dugum:
             gorunum = PaketGorunumu(
                 hedef=paket.hedef, kaynak=paket.kaynak, ttl=paket.ttl_kalan,
                 atlama_sayisi=self.kur.konfig.ttl_baslangic - paket.ttl_kalan,
-                bayt=paket.boyut_bayt)
+                bayt=paket.boyut_bayt, kaynak_sira=paket.kaynak_sira)
         return Gozlem(
             dugum=self.kimlik, saat_s=saat,
             olculen_gurultu_w=self.kur.kanal.girisim.girisim_w(

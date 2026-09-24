@@ -59,6 +59,118 @@ gelir; bir protokol denenmeden tasarlanamaz. Yeni sıra:
   değişirse gerekçesiyle kaydedilir ve değişen hipotez keşifsel etiketlenir.
 - Öğrenci bu sırayı 10 Eylül 2026'da onayladı.
 
+### 0.4 · Adım 3 — özgün protokolün İLK KOŞUSUNDAN ÖNCE yazıldı (23 Eylül 2026)
+
+> **Karar kaydı:** `04` K-153. **Durum:** formüller ve yöntem BAĞLAYICI —
+> DESPARETE'nin hiçbir simülasyon sonucu görülmeden yazıldı. Üç seçim
+> öğrenci tarafından aynı gün verildi (§0.4.4) — adım 3 TAMAM.
+> Bu bölüm yalnız **Aile 2 (üstünlük)** ve **Aile 3 (mekanizma)** içindir:
+> Aile 1 yalnız taban protokolleri kapsar ve özgün protokolün sonucundan
+> etkilenemez; hücreleri mühürde yazılır.
+
+#### 0.4.1 · Birincil testler
+
+Aile 2'nin birincil testi rakip başına BİR tanedir: **H2.a** DESPARETE ↔
+AODV · **H2.b** ↔ OLSR · **H2.c** ↔ AOMDV — `m = 3`, Holm–Bonferroni aile
+içinde (§7). Her biri birincil hücrede, birincil metrikte, 40 ana deney
+tohumunda eşleştirilmiş, çift yönlü Wilcoxon. Gecikme ve kontrol yükü
+betimleyicidir (güven aralığıyla, §3'ün üçlü sunumu) — birincil test
+değildir; test sayısını artırmak her hipotezin eşiğini yükseltirdi (§1).
+
+#### 0.4.2 · Eşiğin türetme formülü — serbest sabit YOK
+
+Birincil hücrede, **yalnız taban protokollerle**, geliştirme tohumlarında
+(`G` = 1100–1119, 20 tohum; ana deney tohumlarıyla kesişmez):
+
+    d_XY(s) = M_X(s) − M_Y(s)          X, Y ∈ {AODV, OLSR, AOMDV}, s ∈ G
+    SD_ref  = max( SD(d_AODV,OLSR) , SD(d_AODV,AOMDV) , SD(d_OLSR,AOMDV) )
+    δ       = 2 · SD_ref / √n          n = ana deney tohum sayısı (40)
+
+`M` birincil metriktir. δ, projenin çözünürlük tanımının (`kalibrasyon/
+cozunurluk.py`: `R = 2 · SD / √n`) eşleştirilmiş hâlidir — kâhin kolları
+yerine gerçek rakiplerle: *deneyin iki protokol arasında görebileceği en
+küçük fark.* En gürültülü taban çifti alınır (muhafazakâr). Özgün protokolün
+hiçbir koşusu δ'ya GİRMEZ.
+
+**H2.x'in hükmü** (rakip Y için; §5.2'nin biçimi sayıya bağlandı):
+
+| hüküm | koşul |
+|---|---|
+| **üstün** | Holm'dan sonra p < α = 0,05 **ve** eşleştirilmiş ortalama fark ≥ δ, yönü DESPARETE lehine **ve** mekanizma kapısı geçer (Aile 3 — kapı tanımı mühürde, ablasyon bayraklarıyla) |
+| **aşağı** | aynı iki sayısal koşul, ters yönde — negatif sonuç olarak raporlanır |
+| **ayırt edilemedi** | geri kalan her durum; dışlanan etki büyüklüğü (%95 GA'nın uçları) ve ulaşılan güç yazılır (`03` §B2) |
+
+⚠️ δ koşulu Wilcoxon'un anlamlılığından AYRI bir koşuldur: sıra testi,
+çarpık bir dağılımda ortalaması küçük bir farkı da anlamlı bulabilir.
+
+#### 0.4.3 · Güç analizi yöntemi — Aşama 4'ün başında, bu yöntemle
+
+1. **Gürültü dağılımı:** §0.4.2'nin `d_XY(s)` farkları, her çift kendi
+   ortalamasından arındırılarak (sıfır merkezli). Aşama 4 başında
+   DESPARETE'nin geliştirme tohumlarındaki `d_D,Y(s)` farkları da varsa,
+   SADECE YAYILIMLARI (ortalamaları çıkarılarak) havuza girer — hangisinin SD'si
+   büyükse güç onunla hesaplanır. Özgün protokolün ORTALAMA farkı hiçbir
+   yerde kullanılmaz.
+2. **Benzetim:** her Δ için `B = 2 000` örneklem: gürültü dağılımından
+   yerine koyarak `n` fark çekilir, Δ eklenir, çift yönlü Wilcoxon;
+   ret ölçütü `p < α / m` (Holm'un ilk adımı — en kötü durum, muhafazakâr).
+   `güç(Δ)` = ret oranı.
+3. **Çıktı:** `MDE₈₀` = gücün 0,80'i geçtiği en küçük Δ; ve δ'daki güç.
+4. **Tohum kuralı:** `MDE₈₀ > Δ_hedef` ise mühürden ÖNCE tohum sayısı
+   artırılır — `n' = ⌈n · (MDE₈₀ / Δ_hedef)²⌉`, sonra 1–3 yeni `n` ile
+   yeniden (§7: *"mühürden önce artırılır, sonra artırılamaz"*). `Δ_hedef`
+   öğrenci kararıdır (§0.4.4).
+5. Tümü sıfır farklar için NaN tuzağı (§7) benzetimde de açıkça denetlenir.
+
+*Ön tahmin (gerçek gürültüyle ölçüm değil):* yöntem NORMAL gürültüyle
+denendi — `n = 40`, `α / m = 0,05 / 3`, `B = 2 000`: güç δ'da **0,31**,
+1,6·δ'da 0,72, **1,7·δ'da 0,81** → `MDE₈₀ ≈ 1,7 · δ` (normal yaklaşımın
+1,62'si Wilcoxon'da biraz büyüyor). Kâhin kollarının eşleştirilmiş
+çözünürlüğü ~0,023 ile (`07` §09.3): `MDE₈₀ ≈ 0,039 < Δ_hedef = 0,05`
+(önerilen). Taban protokollerin gürültüsü kâhininkinden büyükse bu büyür —
+o yüzden ölçülür. Üretici: `python arsiv/teshis/guc_on_tahmin_2026-09-23/guc.py`
+(tohum 20260923).
+
+#### 0.4.4 · Aday birincil hücre ve öğrenci kararları
+
+**Önceki kararlardan sabit:** N = 40 · alan 1800 m · **yere toplama**
+(8 Eylül: birincil desen) · **formasyon + istasyon tutma** (10 Eylül:
+çekirdek mobilite) · 40 tohum. ⚠️ Formasyon kolunda ana deney tohumlarının
+2'sinde ağ ölçüm penceresi içinde bölünüyor (K-132); bölünmüş tohum
+atılmaz, satır onu söyler.
+
+**Seçilecek üç şey:**
+
+1. **Karıştırma koşulu** (aile · sinyal sınıfı). ρ = karıştırıcının
+   engellediği bağ oranı (`07` §05.3.1, K-127):
+
+   | aday | ρ | ne sınar | bedeli |
+   |---|---|---|---|
+   | `tekli_merkez` · sürekli | 0,258 | referans kurgu; en temiz yorum; evre metriklerinin kapıları bu karıştırıcıyla koşuldu (statik kolda — `kalibrasyon/evre_metrikleri_kapilari.py`) | sahaya en az paralel olan (tek, sabit, merkezde) |
+   | `hava_eslik` · sürekli | 0,260 | en güçlü etki + **hareketli** kötü bölge: rota, bozulan bağlardan yerel ölçümle kaçabiliyor mu — DESPARETE'nin tasarım gerekçesinin tam karşılığı | şok yavaş gelir; evre metriklerinin bu kurguda ne ölçtüğü ayrıca sınanmalı (`07` §05.3) |
+   | `derin_sizma` · sürekli (yay–sus–taşın 15/15 s) | 0,170 (açık evrede 0,382) | tekrarlanan şok ve toparlanma — onarım hızı, literatür boşluğu B (`01` §2.2) | ortalama etki en zayıf; pencere ortalaması açık/sessiz dönemleri karıştırır |
+
+2. **Birincil metrik:** **PDR** (ölçüm penceresinde teslim; çözünürlüğü
+   ölçülü, en sağlam) · ya da **toparlanma süresi** (M3, `08`; projenin *"ne
+   kadar hızlı toparlandım"* iddiası, ama tek şoklu kurguda anlamlı).
+3. **`Δ_hedef`** — tohum kuralının hedef etkisi (§0.4.3).
+
+✅ **ÖĞRENCİ KARARI (23 Eylül 2026): öneri olduğu gibi** — *"önerdiğin gibi
+olsun"*. **Aday birincil hücre: `formasyon · yere_toplama · hava_eslik ·
+sürekli` · birincil metrik PDR (ölçüm penceresi) · `Δ_hedef = 0,05`.**
+DESPARETE'nin simülatörde hiçbir koşusu yokken verildi. Mühürde (adım 5)
+değişirse gerekçesiyle kaydedilir ve değişen hipotez keşifsel etiketlenir
+(§0.3).
+
+**Ajanın önerisi (kararın dayanağı):** `formasyon · yere_toplama ·
+hava_eslik · sürekli · PDR` ve `Δ_hedef = 0,05` (5 PDR puanı). Gerekçe: aday hücre, protokolün
+iddiasının SINANABİLDİĞİ yer olmalı ve bu, DESPARETE'nin hiçbir sonucu
+görülmeden, yalnız tasarım gerekçesinden seçiliyor — adım 3'ün koruduğu şey
+tam olarak bu. `tekli_merkez` Aile 1'in referansı ve keşifsel eksen olarak
+çekirdekte kalır. 0,05, üç taban protokolün karıştırıcısız hareketli
+kollarda birbirinden ayrıldığı farkların mertebesi: kol ortalamalarının çift
+farkları 0,01–0,17 (U1 oranları, PDR değil — K-149 §2).
+
 ---
 
 ## 1 · Aileler
@@ -396,15 +508,20 @@ değerlendirilir; değişirse gerekçesiyle kaydedilir.
 
 ## 6 · Özgün protokol — tasarım öğrenciden
 
-Bu bölüm bilerek boştur. Öğrenci tasarımını simülasyon tam oturduğunda
-gösterecek.
+🔄 **23 Eylül 2026:** tasarım geldi — **DESPARETE v0.1**
+(`protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/`, tek okuma `36`). İnceleme
+ve öğrencinin kararları `04` K-150; gerçeklemenin ilk kararları K-152.
+Hipotezler (§5.2 · §5.3) ve ablasyon kolları mühürde bu tasarıma göre
+yazılır.
 
 **Tasarım doldurulduğunda geçerli olacaklar:**
 
 - kâhin bilgisi yok (`05`)
 - derin öğrenme yok
 - parametreler mühürde sabit
-- her mekanizma ayrı bir konfigürasyon bayrağı
+- her mekanizma ayrı bir konfigürasyon bayrağı — 🟢 **yazıldı** (K-159: sekiz
+  bayrak, varsayılan hepsi açık = v0.1; güvenlik değişmezleri bayrakla
+  kapanmaz). Hangilerinin Aile 3'te KOL olacağı mühürde seçilir.
 - durum tutan her bileşende başlangıç koşulu sorulur
 
 **Bilinen iki tuzak:**
@@ -457,7 +574,8 @@ Dördü birden sağlanmayan hiçbir sonuç raporlanmaz:
 
 - [ ] Aşama 1 işleri (`12` §3)
 - [ ] SINANMAMIŞ = 0 ve duyarlılık borcu = 0 — ya da borçlu sabitler eksen olarak ilan edilir
-- [ ] U1–U4 üç taban protokolde geçti
+- [ ] U1–U4 üç taban protokolde geçti — 🟢 **U1 üçünde de** (K-145 · K-147 · K-149) · U2–U4 AODV ve OLSR'da adıyla kapı · AOMDV'de U3 ölçüldü (K-149), U2'nin karşılığı bakım kapıları (K-148) — ⚠️ mühürden önce AOMDV'nin U2 ve U4 karşılıkları adıyla eşlenmeli
+- [ ] §0.3 adım 3 — eşik türetme formülleri · güç analizi yöntemi · aday birincil hücre — **özgün protokolün ilk koşusundan ÖNCE** — 🟢 **§0.4'te yazıldı (23 Eylül 2026, K-153)**: formüller ve yöntem bağlayıcı; aday hücre `formasyon · yere_toplama · hava_eslik · sürekli`, birincil metrik PDR, `Δ_hedef = 0,05` (öğrenci kararı, aynı gün)
 - [ ] birincil hücre: mobilite kolu · karıştırıcı senaryosu · trafik deseni · düğüm sayısı
 - [ ] α · eşik formülleri · güç analizi · tohum sayısı
 - [ ] özgün protokolün parametreleri ve ablasyon bayrakları

@@ -14,7 +14,7 @@ yukarıdaki indirme kuralına tabi değildir:
 
 | klasör | içerik |
 |---|---|
-| `DESPARETE_TASARIM_PAKETI/` | öğrencinin protokol tasarımı, v0.1 (41 belge; tek okuma `36`). İnceleme ve kararlar `v2/04` K-150 |
+| `DESPARETE_TASARIM_PAKETI/` | öğrencinin protokol tasarımı, v0.1 (40 dosya: dizin + 39 tasarım belgesi — 23 Eylül'de sayıldı, önceki "41" yanlıştı; tek okuma `36`). İnceleme ve kararlar `v2/04` K-150 |
 | `literatur_taramasi_2026-08-31/` | öğrencinin ikinci literatür taraması (20 dosya) — 23 Eylül'de `v2/`den taşındı. ⚠️ İçindeki atıflar kullanılmadan önce birincil kaynaktan doğrulanır (`v2/02`) |
 
 ---

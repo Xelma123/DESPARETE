@@ -699,19 +699,23 @@ buna göre güncellenecek (§17 A23).
 
 ## 14 · Uygulama durumu
 
-| paket | bugün | Aşama 1'de |
+> 🔄 **23 Eylül 2026'da tazelendi** — tablo 10 Eylül'de donmuştu ve o günden
+> beri uygulanan işleri hâlâ açık gösteriyordu. Dayanak: `12` §3'ün kapanmış
+> satırları.
+
+| paket | bugün | açık |
 |---|---|---|
-| `cekirdek` | 🟢 | değişmez |
-| `yapilandirma` | 🟢 yedi kova | senaryolar: yere toplama, karıştırıcı kümesi, mobilite kolu |
-| `dunya` | 🟢 Gauss-Markov 3B · görev · sabit | 🔵 istasyon tutma (§03.4) |
-| `kanal` | 🟢 tek karıştırıcı, beş sınıf | 🟡 çoklu hareketli karıştırıcı (§05.3) |
-| `mac` | 🟢 · veri onayı yalnız göndericinin kendisi çözdüğünde işlenir (Y2) | — |
-| `ag` | 🟢 eşler arası CBR · yere toplama (Y4) | çekirdekte hangi desenin varsayılan olacağı C1/C3'ten sonra |
-| `gozlem` | 🟢 pencere + kontrol niyetleri | 🔵 iletim sonucu kancası (R3) |
-| `olcum` | 🟢 evre metrikleri · kopma · PSR alıcı tarafında (Y1) | 🔵 anlamlılık sabitleri (`08` §05.3) · bağ başına PSR |
-| `kosum` | 🟢 kontrol düzlemi · kontrol istatistikleri sayaç kütüğünde (R8, Y1) | 🔵 beacon'ın protokol başına kapatılması (R2) · rastgelelik alt akışı (R4) |
-| `kalibrasyon` | 🟢 | onay etkisi ölçümü · teslim olasılığı kâhini · düğüm sayısı · görev yarıçapı · pencere taraması |
-| `protokoller` | koşum aletleri | Aşama 2 |
+| `cekirdek` | 🟢 | — |
+| `yapilandirma` | 🟢 yedi kova · yere toplama · karıştırıcı kümesi · dört mobilite kolu | — |
+| `dunya` | 🟢 Gauss-Markov 3B · görev · formasyon + istasyon tutma (K-118) · sabit | — |
+| `kanal` | 🟢 beş karıştırıcı sınıfı · çoklu ve hareketli karıştırıcı, beş tehdit ailesi (K-117 · K-120) | — |
+| `mac` | 🟢 · veri onayı yalnız göndericinin kendisi çözdüğünde işlenir (§18 Y2) | — |
+| `ag` | 🟢 eşler arası CBR · yere toplama (Y4) · kaynak başına paket sırası (K-157) | çekirdekte hangi desenin varsayılan olacağı (§17 A8) |
+| `gozlem` | 🟢 pencere + kontrol niyetleri · iletim başarısızlığı kancası (R3, K-121) · her unicast sonucunun bildirimi ve protokolün veri başlığı (K-151 Y1 · Y2) · paket kimliği `(kaynak, kaynak_sira)` (K-157) | — |
+| `olcum` | 🟢 evre metrikleri ve anlamlılık sabitleri (K-123) · kopma · PSR alıcı tarafında (§18 Y1) · Θ protokol başına (K-122) | 🔵 bağ başına PSR |
+| `kosum` | 🟢 kontrol düzlemi · kontrol istatistikleri (R8) · beacon'ın protokol başına kapatılması (R2) · rastgelelik alt akışı (R4) (K-121) · rota bekleme tamponu (K-131) | — |
+| `kalibrasyon` | 🟢 | görev yarıçapı (C5) · pencere taraması (C6) · `12` §3 |
+| `protokoller` | 🟢 AODV · OLSR · AOMDV — kapalı (K-145 · K-147 · K-149) | Aşama 3: DESPARETE |
 | `analiz` | yok | Aşama 4 — istatistik katmanı |
 
 ---
@@ -897,9 +901,9 @@ buna göre güncellenecek (§17 A23).
   duyarlılık kolunda ölçülür (K-150).
 - **DESPARETE'nin yedekli gönderimi** ilk gerçeklemede yok; kopyalama ve
   tekil teslim sayımı sonraya (K-150).
-- **Ters yön (komut) trafiği: A · isteğe bağlı hedef alanı** — komut alacak
+- ~~**Ters yön (komut) trafiği: A · isteğe bağlı hedef alanı** — komut alacak
   düğüm kendi alanını üretir; edinim mekanizması her hedef için çalışır
-  (K-150 §4).
+  (K-150 §4).~~ 🔴 **24 Eylül 2026'da C ile değişti** (aşağıda, K-160 §10).
 - **`sim2/` yapısı Y1 ve Y2 onaylandı:** her unicast sonucunun tekrar
   sayısıyla bildirimi · protokolün veri başlığı baytı, yönlendirme ek yüküne
   sayılır (K-150 §4 · K-151).
@@ -916,6 +920,38 @@ buna göre güncellenecek (§17 A23).
   eski teknik referans, eski kaynak listesi ve 19 eski regresyon tabanı
   arşive · literatür taraması `protokol_kaynaklari/`na. Devir istemi
   güncellendi (`DEVIR-PROMPT.md`).
+- **Kök `README.md` GitHub okuru için** yazılır — ajan yönergesi içermez.
+- **Depo herkese açık değil** (K-152).
+- **K-151 kapanış paketi onaylandı** — küçük taşıma + regresyon (K-151 §6).
+- **DESPARETE taslaktır:** *"geliştirmek, eklemek veya düzeltmek istediğin
+  bir yer varsa çekinme"* — uygulanışı K-152 §1.
+- **TV-02** ajana: *"ölçerek sen bul"* → ölçüldü (K-152 §4). **UNREACHABLE'dan
+  çıkış** ajana devredildi: *"mantıklı olanı yapalım"* (K-152 §2). **Onarım
+  tamponu kotası:** *"bilmiyorum"* → ajan önerisi, ölçülecek (K-152 §3).
+- *"Tamamdır dediğin gibi devam edelim"*: DFSN_REQUEST diyagramdaki gibi
+  (76 bayt, K-152 §6) · ön-kaydın adım 3'ü ilk entegrasyon koşusundan önce
+  yazılır → `06` §0.4 (K-153).
+- **Aday birincil hücre** *"önerdiğin gibi olsun"*: `formasyon ·
+  yere_toplama · hava_eslik · sürekli`, birincil metrik **PDR**, `Δ_hedef =
+  0,05` — DESPARETE'nin simülatörde hiçbir koşusu yokken (K-153).
+- **Paket kimliği gözlem yüzeyine** *"a ile devam edebilirsin"*: kaynak
+  başına sıra (`kaynak_sira`); küresel kimlik açılmadı. Yüzey 23 → 24 alan
+  (`05` §3.3 · §5). Regresyon `k151 ↔ k157` birebir (K-157).
+
+### 24 Eylül 2026
+
+- **Komut trafiği: C** *("komutları taşımasın")* — DESPARETE v0.1 yalnız
+  geçit alanıyla çalışır; geçit dışı hedefli veri yerel politika hatasıyla
+  düşer (`23` §7). A, tam ölçekte ağı çökerttiği ÖLÇÜLDÜKTEN sonra bırakıldı
+  (PDR 0,08–0,09 · komutsuz 0,84–0,85; K-160 §6–§10). Deneyin trafiği
+  herkes için aynı kalır; komut kaybı DESPARETE'nin aleyhine sayılır.
+- **v0.2'ye geç** — v0.1 C ile de hareketli kollarda eşiğin çok altında
+  (oran 0,12–0,34; K-160 §13 · §14); v0.1'in resmi U1'i koşulmadı.
+  Ölçeklenebilirlik adayları kanıtıyla öğrenciye (K-161).
+- **v0.2 = yalın profil** *("Yalın profil (V0)")* — boşta sondalama, onarım
+  edinimi ve ilan koruması kapalı; üçü birlikte kapalıyken tam ölçekte
+  hareketli kollar eşiği geçti (K-161 §2 · §6). İnceltmeler (V1 · V2 · V5)
+  sonra.
 
 ---
 
@@ -933,16 +969,16 @@ Kapanmış satırlar ve eski tablolar: `arsiv/07-SIMULATOR-TASARIMI-2026-09-10.m
 
 | # | belge | kod | durum |
 |---|---|---|---|
-| A4 | istasyon tutma, duvarsız hareket (§03.4) | Gauss-Markov + duvar yansıması | 🔵 öğrenci kararı |
+| A4 | istasyon tutma, duvarsız hareket (§03.4) | Gauss-Markov + duvar yansıması | 🟢 **kapandı** (K-119, 11 Eylül): duvar teması nadir kabul edilir, sayılır ve beyan edilir (öğrenci kararı) |
 | A6 | menzil yalnız verici gücünün çapası; adı bunu söylemeli | ad hâlâ "iletim menzili" | ⚪ kozmetik ama ad yanlış bir iddia taşıyor |
 | A8 | yere toplama birincil (§06.2) | 🟢 desen uygulandı (Y4, `04` K-116); varsayılan hâlâ `esler_arasi` | 🟡 çekirdekte varsayılan desenin seçimi C1/C3'ten sonra |
 | A14 | OLSR HELLO 2 s | koşum düzeyinde tek 1 s beacon | 🟢 **kapandı** (K-142, 19 Eylül): OLSR de `kosum_beaconi = False` bildiriyor ve RFC 3626'nın `HELLO_INTERVAL` 2 s'ini kendi HELLO'suyla kullanıyor; AODV aynı yoldan RFC 3561'in 1 s'ini (17 Eylül). Koşum düzeyindeki 1 s'lik beacon iki taban protokolde de hiç yayılmıyor |
 | A19 | kontrol düzlemi | 🟢 uygulandı | R1–R4, R8 kapandı; R5–R7 beyanlı (`13` §06) |
 | A24 | protokol rota ararken paketi bekletebilmeli (RFC 3561 §6.3) | 🟢 uygulandı (K-131): `Karar.beklet` + düğüm başına tampon, iki tavan | 🟢 kapandı; tamponun iki parametresi `SINANMAMIS` ve Aşama 2'de kapanacak |
 | A25 | gözlem penceresi yalnız veri gönderme kararında sunuluyordu | 🟢 uygulandı (K-131): yedi kanca gözlem alıyor | 🟢 kapandı; yüzey 24 → 23 alan (`05` §5) |
-| A20 | çoklu hareketli karıştırıcı (§05.3) | tek karıştırıcı, merkezde sabit | 🟡 Aşama 1 |
+| A20 | çoklu hareketli karıştırıcı (§05.3) | 🟢 uygulandı: mekanizma (K-117) · beş aile (K-120) | 🟢 kapandı |
 | A21 | PSR alıcı tarafında (§08.2) | 🟢 uygulandı (Y1, `04` K-115) | 🟢 kapandı; bağ başına dağılım §08.2'de 🔵 açık |
-| A22 | Θ protokol başına raporlanır (§03.3) | tek Θ | 🔵 |
+| A22 | Θ protokol başına raporlanır (§03.3) | 🟢 uygulandı (K-122): her satır iki Θ ve temsil oranını taşıyor | 🟢 kapandı; formasyon kolunun Θ'sı aşağı yanlı (`12` §3 C4) |
 | A23 | kapsam dışı listesi güncellendi (§12) | kodun kapsam listesi eski hâlde olabilir | ⚪ kontrol edilecek |
 | A26 | sözleşme *"protokol niyet döndürür"* diyor (§13 §03) | niyet doğrulayıcı yalnız iki tipi tanıyordu; `Beyan` yalnız `Karar` içinden geçebiliyordu | 🟢 kapandı (K-134): kancalar da beyan döndürüyor, `Dugum.beyan_isle` tek kaynak. Öncesinde U2 ifade EDİLEMEZDİ — protokol kopmayı biliyor ama söyleyemiyordu |
 | A27 | `rota_gecersiz` düşme sebebi şemada taahhüt edildi (K-131) | onu üreten kod yolu YOKTU; rota geçersizken de `hedef_yok` yazılıyordu | 🟢 kapandı (K-134): `gonderim.py` kararın beyanına bakıyor. Ayrım ölçüm için gerçek — *"hedefi hiç bilmiyorum"* ile *"biliyordum, bağ koptu"* aynı şey değil |

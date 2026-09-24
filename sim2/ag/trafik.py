@@ -70,7 +70,7 @@ class Dogum:
 class TrafikUreteci:
     """CBR akışları ve doğum çizelgesi. Kurulumda tam olarak belirlenir."""
 
-    __slots__ = ("konfig", "akislar", "_hizlar", "_cizelge")
+    __slots__ = ("konfig", "akislar", "_hizlar", "_cizelge", "_kaynak_sira")
 
     @staticmethod
     def _yere_toplama(konfig: Konfig, r_cift
@@ -94,6 +94,9 @@ class TrafikUreteci:
 
     def __init__(self, konfig: Konfig, akislar: Akislar) -> None:
         self.konfig = konfig
+        # kaynak → sıradaki `kaynak_sira` (K-157). Akış başına değil KAYNAK
+        # başına: yere toplamada geçit birden çok komut akışının kaynağıdır.
+        self._kaynak_sira: dict[int, int] = {}
         r_cift = akislar["trafik_ciftleri"]
         r_zaman = akislar["trafik_zamani"]
 
@@ -149,10 +152,12 @@ class TrafikUreteci:
     def paket_kur(self, dogum: Dogum, sayac: PaketSayaci) -> Paket:
         """Çizelgelenmiş bir doğumdan paket üretir."""
         akis = self.akislar[dogum.akis_kimligi]
+        sira = self._kaynak_sira.get(akis.kaynak, 0)
+        self._kaynak_sira[akis.kaynak] = sira + 1
         return Paket(kimlik=sayac.yeni(), akis_kimligi=akis.kimlik,
                      kaynak=akis.kaynak, hedef=akis.hedef,
                      dogum_s=dogum.t_s, boyut_bayt=self.konfig.paket_bayt,
-                     ttl_kalan=self.konfig.ttl_baslangic)
+                     ttl_kalan=self.konfig.ttl_baslangic, kaynak_sira=sira)
 
     # ---------------------------------------------------------------- teşhis
     def sunulan_hiz_hz(self) -> float:

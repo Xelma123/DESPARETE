@@ -430,7 +430,9 @@ def test_P6_gozlem_penceresi_BUYUMEDI():
     # protokolden bağımsız olarak HER ZAMAN boştu; konum isteyen protokol onu
     # `beacon_yuku`na koyar ve bedelini öder.
     assert len(IZINLI_KOMSU_ALANLARI) == 6
-    assert len(IZINLI_PAKET_ALANLARI) == 5
+    # 🔴 5 → 6: `kaynak_sira` eklendi (23 Eylül 2026, K-157). Başlıkta yazar
+    # ve bedeli ödenir; küresel paket kimliği bilerek açılmadı (`v2/05` §3.3).
+    assert len(IZINLI_PAKET_ALANLARI) == 6
 
 
 def test_P6_niyet_tiplerinde_GERI_REFERANS_YOK():

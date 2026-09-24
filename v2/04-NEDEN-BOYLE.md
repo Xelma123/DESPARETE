@@ -106,8 +106,22 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-149 | 🟢 AOMDV KAPANDI — 12 hücrenin 12'sinde AODV'den iyi; düşük hücrenin sebebi ÖLÇÜLDÜ | 🟢 geçerli |
 | K-150 | 🟡 AŞAMA 3 AÇILDI — DESPARETE v0.1 tasarım paketi okundu; simülatörle üç yapısal boşluk,  | 🟢 geçerli |
 | K-151 | 🟢 sim2/ Y1 · Y2 — her unicast sonucunun bildirimi ve protokolün veri başlığı | 🟢 geçerli |
+| K-152 | 🟡 DESPARETE'NİN İLK GERÇEKLEME KARARLARI — ikisi devredildi, biri ölçüldü, biri ölçülece | 🟢 geçerli |
+| K-153 | 🟢 ÖN-KAYDIN ADIM 3'Ü YAZILDI — eşik formülü, güç yöntemi; aday hücre öğrencinin kararıyl | 🟢 geçerli |
+| K-154 | 🟢 DESPARETE 3.3 · KOMŞU YAŞAMI — simülatörde ilk koşu; belirsizlik tahmini ilk kez ölçül | 🟢 geçerli |
+| K-155 | 🟢 DESPARETE 3.4 · ALAN VE ARDIL — veri ilk kez taşındı; ~30 000 denetimde döngü 0; ek yü | 🟢 geçerli |
+| K-156 | 🟢 DESPARETE 3.5 · EDİNİM VE ONARIM — komut hedefleri alanını istekle açıyor; beş hedefte | 🟢 geçerli |
+| K-157 | 🟢 PAKET KİMLİĞİ GÖZLEMDE ve DESPARETE'NİN ALAN KOTASI — regresyon birebir; kota küçük dü | 🟢 geçerli |
+| K-158 | 🟢 DESPARETE 3.6 · POSTÜRLER — CAUTION'ın %100'ü belirsizlikten; karıştırıcılı kolda doğr | 🟢 geçerli |
+| K-159 | 🟢 DESPARETE 3.7 · ABLASYON BAYRAKLARI — sekiz mekanizma; bayrak = kod çıkarma; yeniden e | 🟢 geçerli |
+| K-160 | 🟢 DESPARETE 3.8 · KABUL KAPISI — v0.1 tam ölçekte ÇÖKÜYOR: komut alanları (→ C) ve harek | 🟢 geçerli |
+| K-161 | 🟡 DESPARETE v0.2 HAZIRLIĞI — ölçeklenebilirlik adayları, kanıtıyla | 🟢 geçerli |
+| K-162 | 🟡 DESPARETE v0.2 ANALİZİ — test öncesi iyileştirme | 🟢 geçerli |
+| K-163 | 🟡 V1 · V5 GERÇEKLENDİ — ikisi de tek başına ağı KİLİTLİYOR; eksik parça V7 | 🟢 geçerli |
+| K-164 | 🟡 DESPARETE v0.3 = v0.2 + V1 + V5 + V7 · V5a sınanıyor | 🟢 geçerli |
+| K-165 | 🟡 V2+ HEDEFLİ CANLILIK — ardıl ve en iyi iki yedek boşta sondalanır | 🟢 geçerli |
 
-**62 kayıt · 1 revize · 61 geçerli**
+**76 kayıt · 1 revize · 75 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -8062,3 +8076,1826 @@ yok. Beklenen:
 
 Bir tek var olan metrik değişirse düzeltme değil kusurdur ve sebebi
 bulunmadan devam edilmez.
+
+## 6 · Kapanış paketi — 23 Eylül 2026 · beklenti ÖNCEDEN yazıldı
+
+> **Karar:** öğrenci (*"kapanış paketini onaylıyorum"*) · **Uygulama:** ajan
+
+**Neden yarım kalmıştı — ÖLÇÜLDÜ.** 23 Eylül'ün ilk tam test koşusu:
+**642 geçti · 1 kaldı** (630 s). Kalan tek kapı `kosu.py`nin 150 kod satırı
+ölçütüydü: **152**. 22 Eylül'deki taşıma (`veri_cercevesi_kur`) yetmemişti ve
+yeniden doğrulanmamıştı.
+
+**Düzeltme — mekanik taşıma, davranış BİREBİR.** Beacon'ı havaya veren blok
+(yük · çerçeve · dört sayaç · `gonder`) `kosu._beacon`dan
+`gonderim.beacon_gonder`e taşındı; aynı çağrılar, aynı sırayla. Çekişme
+kararı (`gonderiyor` · `kanal_mesgul_mu`) ve yeniden zamanlama olay
+döngüsünde kaldı. Gerekçe: çerçeveyi havaya vermek zaten `gonderim.py`nin
+işi (dosyanın başlığındaki üç sorumluluk). `kosu.py` **143** kod satırı. Yan
+etki (olumlu): `tests2/test_kosum.py`nin *"meşgul kanalda gönderim yok"*
+kapısı `gonderim.gonder`i modül üzerinden izliyor; beacon artık bu yoldan
+geçtiği için kapı beacon'ları da görüyor — kural değişmedi, kapsamı arttı.
+
+**Regresyon aletine iki ek (ölçüm aleti, `sim2/` değil):**
+
+- Aletin kendi kuralı *"yeni bir mekanizma eklendiğinde matrise vakası da
+  eklenir"* diyordu; K-151'in iki yolu matriste YOKTU. Yeni vaka
+  `j-statik-surekli-baslikli_sonuc` (tohum 1008, kısa): 36 B veri başlığı
+  taşıyan ve sonuç bildirimi isteyen bir doğrudan-komşu sınav protokolü.
+- `--sifir alan,…`: ilan edilmiş alanın iki dosyada da bulunan HER vakada
+  VAR ve SIFIR olması, çıkış koduna bağlı. Sebep: izinli bir farkın değeri
+  basılmıyordu, yani §5'in *"44 vakanın hepsinde 0"* beklentisini alet
+  sınamıyordu. Kapının kendi sınavı (`k144 ↔ k144`): düz karşılaştırma
+  çıkış 0 · sıfır olmayan alan (`metrikler.kontrol_bayt`) çıkış 1 ·
+  olmayan alan çıkış 1 · 44 vakada sıfır olan alan
+  (`metrikler.en_yuksek_tampon`) `44/44 vakada 0` ve çıkış 0.
+
+⚠️ `DEVIR-PROMPT.md`deki karşılaştırma komutu `--izin` taşımıyordu; öyle
+koşulsaydı §5'in beklentisi birebir tutsa bile çıkış 1 (*"FARK VAR"*)
+verirdi — K-145'teki köken kovası durumunun tekrarı.
+
+**🔒 Beklenen sonuçlar — koşulardan ÖNCE:**
+
+| adım | komut | beklenen |
+|---|---|---|
+| test takımı | `python -m pytest tests2 -q` | **`643 passed`** |
+| regresyon üretimi | `python -u kalibrasyon/regresyon_satirlari.py uret k151` | **45** vaka (44 + `j-`), **45/45 geçerli** · bant 25–40 dk (8 işçi) |
+| karşılaştırma | `python -u kalibrasyon/regresyon_satirlari.py karsilastir k144 k151 --izin kimlik.sayac_semasi_hash,metrikler.veri_baslik_*,metrikler.sonuc_bildirimi* --yeni j- --sifir metrikler.veri_baslik_*,metrikler.sonuc_bildirimi*` | **çıkış 0** · bulgusuz vaka 44/44 · beklenen: `kimlik.arac_hash` ve `kimlik.kosu_kimligi` · izinli: `kimlik.sayac_semasi_hash` ve altı yeni alan (`veri_baslik_bayt` · `veri_baslik_airtime_s` · `sonuc_bildirimi` ve üçünün pencere ikizi), her biri 44 vakada · sıfır: altı alanın altısı `44/44 vakada 0` · yeni vaka `j-…` `gecerli=True` |
+| yeni vaka | `k151.jsonl`de `j-` satırı | `veri_baslik_bayt = 36 × mac_deneme` · `sonuc_bildirimi > 0` |
+
+Değişmemesi gerekenler §5'te yazılı ve aynen geçerli: var olan bütün
+metrikler (`nrl_*` dâhil) · korunum ve mutabakat · kapsam · `kurulum_hash` ·
+`evren_hash` · köken kovaları. Bunlardan biri BULGU çıkarsa kapanış durur.
+
+## 7 · 🟢 Sonuç — dördü de beklenen değeri verdi, K-151 KAPANDI
+
+| adım | önceden yazılan | sonuç |
+|---|---|---|
+| test takımı | `643 passed` | ✅ **643 passed** (626 s) |
+| regresyon üretimi | 45 vaka, 45/45 geçerli, 25–40 dk | ✅ **45/45 geçerli**, hata 0 · **23,5 dk** (8 işçi; en uzun `d-bagimsiz-surekli-yuklu` 732 s) |
+| karşılaştırma | çıkış 0 · 44/44 bulgusuz · yalnız ilan edilen farklar · altı alan 44/44'te 0 · `j-` geçerli | ✅ **BİREBİR** — çıkış 0 · bulgusuz 44/44 · beklenen: `arac_hash` · `calisma_kimligi` · `kosu_kimligi` · `zaman_damgasi_utc` · izinli: `sayac_semasi_hash` ve altı yeni alan (44'er vaka) · sıfır: altısı **44/44 vakada 0** · `j-` `gecerli=True` |
+| yeni vaka | `veri_baslik_bayt = 36 × mac_deneme` · `sonuc_bildirimi > 0` | ✅ 50 508 = 36 × 1 403 · `sonuc_bildirimi` 427 (başarılı veri 191) · `nrl_bayt` = (kontrol + başlık) / veri birebir |
+
+🔒 Var olan hiçbir metrik, korunum ya da kapsam alanı değişmedi;
+`kurulum_hash`, `evren_hash` ve köken kovaları birebir. **Geçerli regresyon
+tabanı artık `k151`** (45 vaka). Beacon taşımasının davranışı değiştirmediği
+de buradan okunur: koşum beacon'ı kullanan bütün vakalar birebir aynı.
+
+---
+
+# K-152 · 🟡 DESPARETE'NİN İLK GERÇEKLEME KARARLARI — ikisi devredildi, biri ölçüldü, biri ölçülecek
+
+> **Tarih:** 23 Eylül 2026 · **Karar:** öğrenci (hazırlık raporuna yanıt) ·
+> devredilen iki karar ve ölçüm: ajan
+> **Üreticiler:** `python -m pytest tests2/test_desparete.py -q` (74 kapı) ·
+> `python kalibrasyon/mimari_denetimi.py`
+
+## 1 · Öğrencinin yanıtları
+
+- **Depo herkese açık DEĞİL.** AOMDV makalesinin PDF'i depoda kalır
+  (`protokol_kaynaklari/README.md`'nin dağıtım uyarısı yalnız açık depo
+  içindir); lisans şimdilik gerekmiyor.
+- **DESPARETE taslaktır:** *"geliştirmek, eklemek veya düzeltmek istediğin
+  bir yer varsa çekinme."* Bu, K-150'nin *"v0.1 yazıldığı gibi, değişiklik
+  v0.2'de"* kuralını gevşetir. 🔒 Nasıl uygulanır — fikir sahipliği
+  (`01` §4) korunarak:
+  1. belgeler arası çelişki ve hesap hatası → **düzeltme**, gerekçesi ve
+     ölçümüyle bu deftere;
+  2. simülasyonda karşılığı olmayan boşluk → **ajanın seçimi**, "ajan
+     seçimi" diye kayda;
+  3. davranışı değiştiren tasarım önerisi → önce öğrenciye **gerekçe ve
+     ölçümle** sunulur; öğrenci onu jüri önünde savunacaktır.
+- **TV-02** → *"ölçerek sen bul"* (§4).
+- **UNREACHABLE'dan çıkış** → *"emin değilim, mantıklı olanı yapalım"* —
+  ajana DEVREDİLDİ (§2).
+- **Onarım tamponu kotası** → *"bilmiyorum"* — ajan önerir, ölçülür (§3).
+- ⏳ Ön-kaydın §0.3 adım 3'ünün (eşik formülleri · güç analizi yöntemi ·
+  aday birincil hücre) DESPARETE'nin ilk entegrasyon koşusundan önce
+  yazılması — yanıt bekliyor.
+
+## 2 · UNREACHABLE'dan çıkış — ajan kararı (devredildi)
+
+**(a) Aynı sıra numarasındaki uygulanabilir ilan yeter.** `23` §4.3'ün
+`RecomputeField`i adayları alanın durumundan ÖNCE hesaplar ve `36` §6 bunu
+açıkça yazar (*"yeni geçerli feasible ilan … field tekrar FORWARDABLE
+olabilir"*); `22` §5.2'nin tablosunda bu satır eksikti. Güvenlik: döngüsüzlüğü
+alanın durumu değil uygulanabilirlik koşulu sağlar ve koşul değişmiyor.
+Gerçekleme `23`'ü izler.
+
+**(b) Simülasyonda yeniden edinim.** Tasarım `UNREACHABLE`dan yeni onarımı
+yalnız üç yoldan başlatır; üçüncüsü *"uygulamanın açık `Acquire` isteği"*dir
+(`22` §5.3 · `23` §5.1). Simülasyonda o isteği üretecek bir uygulama YOK.
+Sonucu bir canlılık boşluğudur: aynı sıra numarasında uygulanabilir komşusu
+kalmayan düğüm, BAŞKA bir düğüm hedeften yeni sıra numarası istetene kadar
+kendi trafiğini kaybeder — hareketli ağda bu süre sınırsız olabilir.
+
+- ✅ **Seçilen:** düğümün KENDİ ürettiği veri (telemetri; geçitte komut) için
+  alan `UNREACHABLE` ya da hiç yokken, son onarım bölümünün bitişinden en az
+  `T_repair_max` (6,0 s) geçmişse yerel uygulama bir `Acquire` üretir. Röleler
+  üretmez. **Yeni sabit yok** (`T_repair_max` yeniden kullanıldı). Tasarımın
+  *"her yeni DATA paketi kontrol başlatmaz"* kuralı korunur: alan başına iki
+  bölüm arasında en az 6 s sessizlik; her bölüm tasarımın kendi sınırlarıyla
+  (`N_solicit = 2` · `N_req = 2` · 4 s).
+- Elenenler: hiç `Acquire` yok (canlılık boşluğu) · her pakette (tasarımın
+  açıkça reddettiği kontrol fırtınası) · yeni bir periyot sabiti (gerekçesiz
+  sayı).
+- Ölçülecek: `Acquire` sayısı · `UNREACHABLE`da geçen süre · o yüzden düşen
+  paket. Kural bir **ablasyon bayrağıyla** kapatılabilir olacak (kapalı =
+  tasarımın saf hâli).
+
+## 3 · Onarım tamponu kotası — ajan önerisi, ÖLÇÜLECEK
+
+`21` §2.4: *"yerel repair buffer'ın en çok %10'u ve en çok 32 paket"* — alan
+başına adil kullanım sınırı. Simülasyonda yerel tampon, düğüm başına rota
+bekleme tamponudur (64 paket; üç taban protokolle ORTAK — karşılaştırma
+eşitliği). Harfiyen: `min(⌊0,10 × 64⌋, 32) = 6` paket / alan.
+
+⚠️ AODV aynı tamponun 64'ünü tek hedefe kullanabilir; yani harfiyen okuma
+DESPARETE'yi tam tamponlamanın işe yaradığı yerde (onarım) kısıtlayabilir.
+Öneri: v0.1 **harfiyen (6)** gerçeklenir; geliştirme tohumlarında kota ve
+ömür (6 s) kaynaklı düşmeler AYRI sayılır; kota düşmeleri belirginse 32 ile
+yan yana ölçülür ve karar kanıtla öğrenciye gelir.
+
+## 4 · TV-02 — ÖLÇÜLDÜ: belgenin vektörü yanlış, kurallar doğru
+
+M0.1 saf ve tamsayı bir modül olarak yazıldı (`protokoller/desparete_metrik.py`;
+simülatörden hiçbir şey içe aktarmaz) ve `35` §8'in vektörleri iki biçimde
+sınandı: **soyut** (belgenin verdiği değerler saf fonksiyonlara) ve **uçtan
+uca** (aynı durum, MAC'ten gelecek gerçek sonuç dizisiyle).
+
+| vektör | soyut | uçtan uca |
+|---|---|---|
+| TV-01 | — | ✅ Q = 111 · ceza 16 |
+| TV-02 | 🔴 kurallar **C = 28** verir, belge 40 bekliyor | belgedeki hâli KURULAMAZ; düzeltilmiş hâli ✅ C = 28 |
+| TV-03 | ✅ C = 32 | belgedeki hâli (Q = 240, iki sonuç) KURULAMAZ; aynı yol ✅ C = 32 |
+| TV-04 | ✅ C = 146 | ✅ C = 146 (Q = 223, aynı ceza bandı) |
+| TV-05 | ✅ ∞ | — |
+| TV-06 | simülasyonda kapsam dışı: bütün düğümler aynı profili yapı gereği taşır (K-150 §2) | — |
+
+**Neden 28:** `N_Q = 12` ve her epochta en az dört sonuç → her epochta TAM
+dört sonuç. Q (§3.2) on iki sonucun ortalamasıdır; epoch toplamları
+`[4q ; 4q + 3]` aralığında → Q ∈ {170, 171} → kalite cezası 4 → `16 + 4 + 8
+= 28`. Belgenin 40'ı, Q'yu yalnız SON epochtan (112) hesaplamaktan çıkar ve
+bu, Q'yu tanımlayan üç metinle (`35` §3.2 · `36` §4 · `27`) çelişen tek yer.
+
+**Kurulamazlık:** dört sonucun ortalaması 224 ya da 176 olamaz (skor kümesi
+255 · 127 · 85 · 63 · …; tekrar üst sınırı 63'e kadar sınandı — simülatörün
+sınırı 4). TV-03'ün Q = 240'ı da iki sonuçla kurulamaz.
+
+**Düzeltilmiş TV-02 (tasarım paketine önerilen):** epoch sonuçları (tekrar
+sayısıyla) `0 0 0 1` · `0 0 1 3` · `0 1 3 ✗` → q = 223 · 175 · 111 →
+H = 112 (belgeyle aynı), N_Q = 12, U = 0, R = 112, Q = ⌊2037 / 12⌋ = 169,
+kalite cezası 4, risk cezası 8 → **C = 28**.
+
+⚠️ Tasarım paketinin kaynağı bu deponun dışında (paketin dizini: *"sonraki
+değişiklikler önce ana proje corpusunda yapılmalı"*). Paketteki belgeler
+DEĞİŞTİRİLMEDİ; düzeltme burada kayıtlı ve öğrencinin kendi kaynağına
+işlemesi gerekir. `22` §5.2'nin eksik satırı (§2a) için de aynısı.
+
+## 5 · Durum
+
+- 🟢 M0.1 ve mesaj biçimleri gerçeklendi — `tests2/test_desparete.py`
+  **`74 passed`**. Yapısal denetim: ihlal yok · **127** modül (124 + 3:
+  `desparete_metrik.py` · `desparete_bicim.py` · test). Parametre sayısı
+  değişmedi (169): DESPARETE'nin sabitleri, taban protokollerinki gibi,
+  belgenin alıntısıdır ve köken taraması yalnız `sim2/`yi kapsar.
+- Adlandırma notu: K-151'in "Y1 · Y2"si, `07` §18'in Y1 (PSR) · Y2 (onay)
+  adımlarıyla AYNI adı taşıyor — testlerin adlarında da. Karışmasın diye bu
+  defterde ve belgelerde **"K-151 Y1 · Y2"** diye anılır.
+- K-150'deki *"41 belge"* yanlıştı: paket 40 dosya (dizin + 39 belge).
+- ⏭️ Sıradaki parça: komşu yaşamı (`22` §4 · `23` §3).
+
+## 6 · Mesaj biçimleri — bir çelişki, diyagram izlendi
+
+`protokoller/desparete_bicim.py`: yedi biçim `19`'un alan diyagramlarından,
+boyut alanlardan türüyor ve `19` §14'ün en küçük başlık tablosuna TESTLE
+bağlı: DATA 36 · FIELD_UPDATE 60 · FIELD_SOLICIT 52 · PROBE 40 ·
+PROBE_REPLY 52 · FAILURE_REPORT 84 — altısı **birebir**.
+
+🔴 **DFSN_REQUEST:** belge üç yerde (§8 · §14 · §16) çekirdeği 44 bayt, toplamı
+72 yazıyor; aynı §8'in alan diyagramı İstek Sırası'ndan sonra 32 bitlik bir
+Reserved gösteriyor ve toplamı **48 / 76**. **Diyagram izlendi** (ajan
+seçimi, K-152 §1 madde 1):
+
+1. Simülatörün sözleşmesi boyutu alanlardan türetir; bit düzeyi düzen
+   diyagramdır.
+2. İstek kimliği bloğu (kimlik · örnek · sıra · ayrılmış 32) Kontrol
+   Gönderen Bloğunun birebir aynısı ve o blok 24 bayt.
+3. Aynı deseni taşıyan PROBE_REPLY ve FAILURE_REPORT ayrılmış 32 biti
+   boyutlarına KATIYOR. 44, o alanın toplamada unutulmasından çıkıyor.
+
+Etkisi 4 bayt, seyrek bir yayın mesajında. Öğrencinin kararına açık.
+
+**Simülasyona eşleme (beyan):** tel kimlikleri 64 bit ve 0 geçersiz →
+`düğüm + 1` · yeniden başlatma yok → örnek kimliği ve OIID sabit 1 ·
+Güvenlik Profili 1 kapalı (K-150) · veri başlığı `VERI_BASLIK_BAYT` = DATA
+biçiminin alanlarından **36** (K-151 Y2'ye bildirilecek sayı elle yazılmıyor).
+
+✅ **Öğrenci (23 Eylül):** *"tamamdır dediğin gibi devam edelim"* — DFSN_REQUEST
+diyagramdaki gibi (76 bayt) kalır; sıradaki iş ön-kaydın adım 3'ü (K-153).
+
+---
+
+# K-153 · 🟢 ÖN-KAYDIN ADIM 3'Ü YAZILDI — eşik formülü, güç yöntemi; aday hücre öğrencinin kararıyla
+
+> **Tarih:** 23 Eylül 2026 · **Karar:** öğrenci (*"dediğin gibi devam
+> edelim"* — adım 3 ilk entegrasyon koşusundan önce) · **Taslak:** ajan
+> **Yer:** `06` §0.4 · **Üretici (ön tahmin):**
+> `python arsiv/teshis/guc_on_tahmin_2026-09-23/guc.py`
+
+## 1 · Neden şimdi
+
+`06` §0.3'ün sırası: eşiklerin türetme formülleri, güç analizi yöntemi ve
+aday birincil hücre **özgün protokolün ilk koşusundan ÖNCE** yazılır.
+DESPARETE'nin sıradaki parçası (komşu yaşamı) simülatörde koşan ilk parça
+olacaktı. Bu adım 23 Eylül'e kadar yazılmamıştı ve devir planında da yoktu
+(hazırlık raporu bulgu 3). 🔒 Yazıldığı an DESPARETE'nin HİÇBİR simülasyon
+sonucu yok — yalnız saf M0.1 ve biçim testleri var.
+
+## 2 · Ne yazıldı — bağlayıcı olanlar
+
+- **Birincil testler:** rakip başına bir (`m = 3`), Holm aile içinde; gecikme
+  ve kontrol yükü betimleyici.
+- **Eşik formülü — serbest sabit yok:** `δ = 2 · SD_ref / √40`; `SD_ref` üç
+  TABAN protokol çiftinin, birincil hücrede, 20 geliştirme tohumundaki
+  (1100–1119) eşleştirilmiş farklarının EN BÜYÜK SD'si. Projenin çözünürlük
+  tanımının (`R = 2 · SD / √n`) gerçek rakiplerle eşleştirilmiş hâli.
+  Özgün protokol δ'ya girmez.
+- **Hüküm:** üstün ⇔ Holm sonrası p < 0,05 **ve** ortalama fark ≥ δ **ve**
+  mekanizma kapısı geçer; aşağı ⇔ aynısı ters yönde; aksi hâlde "ayırt
+  edilemedi" + dışlanan etki ve ulaşılan güç.
+- **Güç yöntemi:** sıfır merkezli gürültü dağılımından (taban çiftleri; varsa
+  DESPARETE'nin YALNIZ yayılımı) yerine koyarak `B = 2 000` örneklem, Δ
+  eklenir, çift yönlü Wilcoxon `p < α/m`; `MDE₈₀ > Δ_hedef` ise mühürden
+  önce `n' = ⌈n · (MDE₈₀/Δ_hedef)²⌉`.
+
+## 3 · Ön tahmin — yöntemin kendisi normal gürültüyle denendi
+
+| Δ | 1,0·δ | 1,4·δ | 1,6·δ | **1,7·δ** | 1,8·δ |
+|---|---|---|---|---|---|
+| güç (n = 40, α/3, B = 2 000) | 0,306 | 0,608 | 0,724 | **0,806** | 0,848 |
+
+`MDE₈₀ ≈ 1,7 · δ`. 🔎 İlk taslakta normal yaklaşımla **1,6** yazmıştım;
+benzetim Wilcoxon'un biraz daha fazla istediğini gösterdi ve metin
+düzeltildi. Kâhin kollarının çözünürlüğüyle (~0,023) `MDE₈₀ ≈ 0,039`. Bu bir
+**ön tahmindir**: gerçek gürültü taban protokollerden ölçülecek.
+
+## 4 · ⏳ Öğrenci kararları — ilk entegrasyon koşusu bunları bekler
+
+1. **Karıştırma koşulu:** `tekli_merkez` · `hava_eslik` · `derin_sizma`
+   (sürekli sınıf) — ρ, ne sınadığı ve bedeli `06` §0.4.4'te.
+2. **Birincil metrik:** PDR · toparlanma süresi (M3).
+3. **`Δ_hedef`**.
+
+Ajanın önerisi: `formasyon · yere_toplama · hava_eslik · sürekli · PDR`,
+`Δ_hedef = 0,05`. Gerekçe `06` §0.4.4. Sabit kalanlar önceki kararlardan:
+N = 40 · yere toplama · formasyon + istasyon tutma · 40 tohum.
+
+✅ **Öğrenci (23 Eylül):** *"önerdiğin gibi olsun"* — **aday birincil hücre
+`formasyon · yere_toplama · hava_eslik · sürekli`, birincil metrik PDR,
+`Δ_hedef = 0,05`.** DESPARETE'nin simülatörde hiçbir koşusu yokken verildi;
+adım 3 TAMAM. İlk entegrasyon koşusunun önündeki engel kalktı.
+
+## 5 · Açık — mühürden önce
+
+- Mekanizma kapısı ve Aile 3'ün ablasyon kolları (DESPARETE'nin bayrakları
+  gerçeklemeyle birlikte konuyor).
+- Gürültü ölçümü: üç taban protokol × 20 geliştirme tohumu, birincil hücrede,
+  tam pencere — koşum bandı hücre seçildikten sonra ölçülerek verilir.
+- Aile 1'in hücreleri (yalnız taban protokoller).
+
+---
+
+# K-154 · 🟢 DESPARETE 3.3 · KOMŞU YAŞAMI — simülatörde ilk koşu; belirsizlik tahmini ilk kez ölçüldü
+
+> **Tarih:** 23 Eylül 2026 · **Karar:** öğrenci (*"tamamdır devam edelim"*) ·
+> **Gerçekleme ve eşleme seçimleri:** ajan (K-152 §1 madde 2)
+> **Üreticiler:** `python -m pytest tests2/test_desparete.py -q` (89 kapı) ·
+> `python arsiv/teshis/desparete_komsu_2026-09-23/ilk_kosu.py statik-yok 12` ·
+> `python kalibrasyon/mimari_denetimi.py`
+
+## 1 · Ne yazıldı
+
+- `protokoller/desparete_komsu.py` — komşu yaşam döngüsü, SAF: zamanı
+  dışarıdan alır, zamanlayıcı kurmaz, yalnız son tarihleri tutar. UNQUALIFIED
+  → ACTIVE → STALE / SUSPECT → EXPIRED; nitelik, boşta ve hata PROBE
+  oturumları; M0.1 ölçümü komşu başına (`22` §4 · `23` §3 · `21` §2.1).
+- `protokoller/desparete.py` — simülatöre bağlanan sınıf: kontrol düzleminin
+  beş kancası + K-151'in sonuç bildirimi; PROBE / PROBE_REPLY (unicast);
+  hedefin (geçit) kendi başlangıç ilanı. Veri henüz İLETİLMEZ (alan 3.4'te).
+
+## 2 · Simülasyona eşleme — ajan seçimleri (tasarımın açık bıraktığı yerler)
+
+| # | boşluk | seçilen | gerekçe |
+|---|---|---|---|
+| 1 | *"yerel link katmanının bildirdiği doğrudan peer adayı"* (`23` §3.1) — simülatörde MAC'in böyle bir bildirimi yok | başarıyla alınan her DESPARETE kontrol çerçevesinin göndereni aday; **koşum beacon'ı KAPALI** | pasif duyma `10` §2'de ACTIVE kanıtı değil, yalnız aday; keşfin her baytı DESPARETE'nin kendi mesajı — AODV ve OLSR'ın kendi HELLO'suyla aynı ilke |
+| 2 | adaylığın *"rate-limited"* olması (`23` §3.1) sayısız | aynı komşuya yeni nitelik oturumu, öncekinin başlangıcından en az `T_retention` (5 s) sonra | yeni sabit yok; doğrulanamayan bir komşuya 5 s'de en çok iki PROBE |
+| 3 | ileri yönlü kanıt | HER unicast'in MAC onayı (veri ya da kontrol) + eşleşen PROBE_REPLY | `23` §3.1 *"confirmed local unicast/ACK to j"* harfiyen; simülatör onayı K-151 Y1 ile veriyor |
+| 4 | STALE'den sonra hata oturumu: `21` §2.1 koşulsuz okunuyor, `22` §4.2 ve `23` §3.2 *"alan ihtiyaç duyarsa"* diyor | `23` izlendi — ihtiyacı soran geri çağrı 3.4'e kadar hayır der | iki metin (biri algoritma) koşullu diyor; öğrencinin kaynağına not |
+| 5 | zamanlayıcılar | komşu başına tek bekleyen uyandırma + son tarih; son tarih 1 ms içindeyse dolmuş sayılır; niyet döndüremeyen sonuç kancasında doğan son tarih en geç sonraki 0,5 s'lik epochta kurulur | simülatörün uyandırması iptal edilemez ve düğüm başına tavanı 256; 20 ppm σ saat sapması ≤ 10 s'de 1 ms'nin altında |
+| 6 | `T_probe_start` | ilk deneme `J_probe` (0,1 s) titreşimiyle kuyruğa girer; yanıt süresi en geç gönderimden işler (0,1 + 0,5) | `21`'in 1,3 s'lik oturum bütçesi birebir: 0,1 + 0,5 + 0,2 + 0,5 |
+| 7 | SinkID | kurucu argümanı; fabrika `Konfig.gecit`ten | `36` §2: görev öncesi yapılandırma — kâhin bilgisi değil |
+| 8 | M0.1 örneği | yalnız ACTIVE komşuya giden sonuç; epoch bütün kayıtlarda işler | `35` §3.1; epoch dizisi komşu ACTIVE'e dönünce kesintisiz kalsın |
+
+## 3 · Kapılar
+
+**89 passed** (`test_desparete.py`; 15 yeni: 13 saf tablo — zaman ilişkileri
+TR-01 · TR-02 · TR-12, nitelik oturumunun 1,3 s'si, hız sınırı, kanıt, eşleşen
+yanıt, boşta PROBE, STALE / SUSPECT / EXPIRED, M0.1'in yalnız ACTIVE'de
+olması, uyandırmaların tekrarlanmaması — ve 2 simülatör koşusu). İçe aktarma
+grafiği kapısı yeni dosyalarla geçti. Yapısal denetim: ihlal yok · **129**
+modül.
+
+## 4 · 🔎 İlk ölçüm — K-150'nin 4. sorusu İLK KEZ ÖLÇÜLDÜ
+
+Küçük dünya (14 düğüm), `statik-yok`, yere toplama, 12 s, tohum 1000:
+
+- Geçidin ilanını duyan 8 düğümün 7'si geçitle **karşılıklı ACTIVE**; biri
+  gri bir bağda (MAC vazgeçiyor → SUSPECT, 4 kez). Korunum geçerli; düğüm
+  başına bekleyen uyandırma tepesi **9**.
+- 🔴 **Yalnız boşta sondalanan 7 bağın 7'sinde de U = 128** (son 2 s'de 1–2
+  örnek → `U_sample = 128`) → R = 128 → risk cezası +16 ve **CautionEvidence
+  sürekli doğru.** K-150 §3.4'ün kâğıt üstündeki tahmini ilk ölçümde tuttu.
+
+⚠️ Tek tohum, küçük dünya, 12 s, yalnız geçidin komşuları — bir **işaret**,
+sonuç değil. Etkisi 3.4 ve 3.6'da ölçülecek: veri taşıyan bağ çok örnek
+toplayıp U'yu düşürürken boşta bağ +16 ceza taşıyacak. *Hipotez (ölçülmedi):*
+bu, trafiği zaten taşıyan bağları kayırıp yedek bağları pahalı gösterebilir.
+Tasarım değişikliği değil — v0.1 yazıldığı gibi; karar 3.9'un ölçümünden
+sonra, kanıtla (K-150 §4).
+
+## 5 · Durum
+
+- 🟢 3.3 bitti. ⏭️ 3.4 · alan, uygulanabilirlik ve sıra numarası.
+- Aşama 3'ün süre tahmini (tahmin, ölçüm değil): kalan parçalar 5–8
+  çalışma oturumu — 3.4 ≈ 1 · 3.5 ≈ 1–2 · 3.6 ≈ 0,5–1 · 3.7 ≈ 0,5 · 3.8 ≈ 1
+  (+ U1 koşumu 2,5–4,5 sa) · 3.9 ≈ 1–2 (+ koşumlar).
+
+---
+
+# K-155 · 🟢 DESPARETE 3.4 · ALAN VE ARDIL — veri ilk kez taşındı; ~30 000 denetimde döngü 0; ek yük 4–9 kat
+
+> **Tarih:** 23 Eylül 2026 · **Karar:** öğrenci (*"tamamdır devam"*) ·
+> **Gerçekleme ve eşleme seçimleri:** ajan (K-152 §1 madde 2)
+> **Üreticiler:** `python -m pytest tests2/test_desparete.py -q` (107 kapı) ·
+> `python arsiv/teshis/desparete_alan_2026-09-23/ayna.py` ·
+> `python kalibrasyon/mimari_denetimi.py`
+
+## 1 · Ne yazıldı
+
+- `protokoller/desparete_alan.py` — alan tablosu, SAF: ilan kabulü (`23`
+  §4.1), uygulanabilirlik ve ardıl seçimi (§4.3), FORWARDABLE / REPAIRING /
+  UNREACHABLE (`22` §5.2), tetik ilanı birleştirme ve hız sınırı (`21`
+  §2.2), RFC 1982 sıra karşılaştırması.
+- `protokoller/desparete.py` — veri artık alanın ardılı üzerinden iletilir;
+  her iletilebilir alan saniyede bir (titreşimli) ve değişimde tetikle ilan
+  edilir; veride 16 atlama sınırı (`23` §7).
+- `desparete_komsu.py` — ACTIVE sınırını geçen komşular alanlara bildirilir;
+  ardıl olan komşu için hata oturumu açılır.
+
+## 2 · Eşleme seçimleri — ajan (tasarımın açık bıraktığı yerler)
+
+| # | boşluk | seçilen | gerekçe |
+|---|---|---|---|
+| 1 | olay sırası | her kancada önce komşu değişimleri alanlara, sonra alan işlemi | `22` §3 adım 3 → 4; tersi olsaydı ardılı kopan alan kopma beyan etmeden yeni ardıla geçebilirdi |
+| 2 | beyanlar | AODV'nin tanımı: `kopma(j)` yalnız ardıl olan `j` düşünce; `rota_kuruldu(j)` etkilenen alan yeniden iletilebilir olunca; `rota_gecersiz(hedef)` alanı bilinen ama iletilemeyen hedefte | K-139 · K-141: taban protokollerle AYNI tanım olmadan algılama duyarlılığı ve Δ karşılaştırılamaz |
+| 3 | sonuç kancasında (niyet döndüremez) doğan kurtarma | ilk niyet döndürebilen kancada beyan — en geç 0,5 s | Δ en çok o kadar büyük ölçülebilir; beyan edildi |
+| 4 | periyodik tazeleme REPAIRING'de | withdrawal tazelenmez; bir arıza bölümünde BİR kez gider | `22` §5.2 *"aynı failure episode'unda tekrar tekrar withdrawal üretilmez"* |
+| 5 | tetik ilanının zamanı | uyandırma `[en erken, en erken + T_urgent / T_coalesce]` içinde; içerik gönderim anında okunur | birleştirme `20` §6.1: *"ADS son state'i temsil eder"* |
+| 6 | veri Hop Limit'i | paketin atlama sayısından: `16 − atlama ≤ 1` ise bırak | başlığın alanı simülatörün paketinde yok; aynı kural |
+
+## 3 · Kapılar
+
+**107 passed** (`test_desparete.py`; 18 yeni: 15 saf alan — RFC 1982, ilk ilan,
+ACTIVE olmayanın ilanı, **eşit potansiyelin uygulanabilir olmaması ve FD'nin
+aynı turda artmaması**, açlık ve onarım, eski ADS, ömür sınırı, yeni DFSN,
+UNREACHABLE'dan aynı turda çıkış, ilan süresi, eşitlikte küçük kimlik, yasak
+birleşimler, withdrawal'ın bir kez gitmesi, tetik birleştirme ve hız sınırı,
+EXPIRED komşunun ilanları, kendi alanı, belirsiz DFSN — ve 3 simülatör
+koşusu). 🔒 Simülatör koşularında **her kancadan sonra** ardıl grafiği
+döngüye ve FD'nin aynı turda artmasına karşı denetleniyor. Yapısal denetim:
+ihlal yok · **130** modül.
+
+## 4 · 🔎 İlk ölçümler — küçük dünya, 30 s, tohum 1000 (işaret, sonuç değil)
+
+**Döngüsüzlük:** statik, bağımsız-sürekli ve formasyon-sürekli kollarda
+toplam ~41 600 olay sonrası denetimde **döngü 0 · aynı turda artan FD 0**.
+
+**Ayna — aynı dünyada üç protokol** (`ayna.py`):
+
+| kol | ölçü | DESPARETE | AODV | OLSR |
+|---|---|---|---|---|
+| `statik-yok` | PDR (pencere) | 0,774 | 0,742 | 0,810 |
+| | ek yük (bayt, pencere) | **1,039** | 0,157 | 0,276 |
+| | kontrol çerçevesi | 6 430 | 1 653 | 1 539 |
+| `bagimsiz-surekli` | PDR (pencere) | 0,690 | 0,627 | 0,635 |
+| | ek yük (bayt, pencere) | **1,336** | 0,199 | 0,144 |
+| | kontrol çerçevesi | 9 674 | 2 280 | 802 |
+
+- Teslim taban protokollerle **aynı mertebede** — gerçekleme çalışıyor.
+- 🔴 **Ek yük 4–9 kat.** K-150 §3.3'ün kâğıt üstündeki uyarısı (boşta
+  sondalama) ilk kez ölçülür hâlde. Ayrıca: gelen PROBE_REPLY'lerin çoğu
+  **fazla** (`yanit_fazla`) — simülatörde PROBE'un kendi MAC onayı zaten
+  ileri yönlü kanıt, yani yanıt geldiğinde oturum kapanmış oluyor.
+  Tasarım yazıldığı gibi; bu iki gözlem 3.9'un ölçümüne ve v0.2 kararına
+  girdi (öğrencinin).
+- ⏱️ Çerçeve sayısı koşu süresini belirliyor (profil: süre neredeyse tamamen
+  kanal fiziğinde): DESPARETE aynı koşuyu AODV'den 2–3 kat yavaş koşuyor.
+  3.8'deki U1 koşumunun bandı (2,5–4,5 sa, taban protokoller için ölçülmüştü)
+  DESPARETE'de BÜYÜK olasılıkla aşılır — bant koşumdan önce ölçülerek
+  yeniden verilecek.
+
+## 5 · Açık — 3.5'e
+
+REPAIRING alan yalnız bekliyor: FIELD_SOLICIT · DFSN_REQUEST yok, onarım
+tamponu yok, hedef alanları (komut trafiği) yok. Bu yüzden 3.4'te alan
+turu (DFSN) hiç ilerlemez; uygulanabilirlik açlığı yalnız başka bir
+uygulanabilir ilanla çözülebilir. Komut paketleri alan olmadığı için düşer.
+
+---
+
+# K-156 · 🟢 DESPARETE 3.5 · EDİNİM VE ONARIM — komut hedefleri alanını istekle açıyor; beş hedefte döngü 0; bir tasarım kuralı gözlemle uygulanamıyor
+
+> **Tarih:** 23 Eylül 2026 · **Karar:** öğrenci (*"tamamdır devam"*) ·
+> **Gerçekleme ve eşleme seçimleri:** ajan (K-152 §1 madde 2) ·
+> **Öğrenci kararı bekleyen:** §3 *(verildi: A — K-157)*
+> **Üreticiler:** `python -m pytest tests2/test_desparete.py -q` (118 kapı) ·
+> `python arsiv/teshis/desparete_onarim_2026-09-23/ayna.py` ·
+> `python kalibrasyon/mimari_denetimi.py`
+
+## 1 · Ne yazıldı
+
+- `protokoller/desparete_edinim.py` — edinim denetçisi, SAF: QUIESCENT /
+  SOLICITING / REQUESTING; iki solicit (0,4 s yanıt, 0,2 s ara) → iki dalgalı,
+  4 s'lik istek oturumu, her dalga yeni Request-ID (`22` §6 · `23` §5.1 ·
+  `21` §2.3). Bölüm sonları saklanır (K-152 §2'nin yeniden edinim kuralı).
+- `desparete_alan.py` — geçiş olayları (onarım · iletilebilir · ulaşılamaz ·
+  koruma), ilan koruması (`20` §6.2: seçili ilan bitmeden 1,5 s önce), açlık
+  tespiti, hedefin tur artırması, tek alıcılı yanıt içeriği.
+- `desparete.py` — FIELD_SOLICIT (yayın) ve yanıtı (tek alıcılı
+  FIELD_UPDATE), DFSN_REQUEST (tek yayın, Request-ID bir kez, Hop Limit
+  azalır, yalnız ACTIVE komşudan kabul), hedefte işleme (`23` §5.4'ün dar
+  yetkisi), **isteğe bağlı hedef alanı** (K-150 §4: komut alacak düğüm
+  alanını ilk bağlamsız istekte açar), onarım tamponu, yeniden edinim.
+- Teşhis çıktısı gruplandı (`<grup>_adlari` + `<grup>_sayac`): 32 alanlık
+  sözleşme sınırı aşılmasın diye.
+
+## 2 · Eşleme seçimleri — ajan
+
+| # | boşluk | seçilen | gerekçe |
+|---|---|---|---|
+| 1 | DFSN_REQUEST'in NEDENİ ne zaman belirlenir | her dalgada, dalga anındaki alandan: aynı turda uygulanamaz bir ilan varsa açlık, yoksa edinim | `23` §5.1 nedeni oturum başında sabitler; ama onarımın ilk anında komşuların yeni ilanları gelmemiş olabilir ve hedef YALNIZ açlıkta yeni tur üretir. Aynı kural, daha güncel bilgiyle |
+| 2 | isteğin taşımadığı "bilinen DFSN" | `istenen en az DFSN − 1`; istek bağlamlıysa hep `bilinen + 1` istenir | `19` §8'de bilinen DFSN alanı yok; `23` §5.4 onu kullanıyor |
+| 3 | FIELD_SOLICIT'in adresi | tek atlamalı YAYIN | `18` §5.2: *"Alıcı: tek-atlama komşular"* |
+| 4 | yayınlanan solicit ve iletilen istek titreşimi | `J_control` = 0,1 s | `21` §1'in çalışma varsayımı; aynı dalgayı duyan komşular aynı anda yeniden yayınlamasın |
+| 5 | yanıtın ADS'si | her tek alıcılı yanıt yeni ADS alır; bekleyen yayın tetiğini SİLMEZ | eşit ADS alıcıda reddedilir (`23` §4.1); yanıtı yalnız bir komşu duyar |
+| 6 | onarım tamponunun 6 s'si | tampondaki paket, onarım bölümü bittiğinde (iletilebilir ya da ulaşılamaz) yeniden sorulur | bölüm en çok `T_repair_max` = `T_buffer[Class-0]` = 6 s sürer — sınır birebir |
+
+## 3 · 🔴 Öğrenci kararı — alan başına tampon kotası UYGULANAMIYOR
+
+`21` §2.4: *"yerel repair buffer'ın en çok %10'u ve en çok 32 paket"*
+(K-152 §3'te harfiyen 6 önerilmişti). Simülatör bekleme tamponundaki paketi
+yeniden sorarken protokol onu YENİ bir paketten AYIRT EDEMİYOR: paket
+görünümünde (`gozlem/pencere.py::PaketGorunumu`) kimlik yok. Kota sayılamaz;
+yerine simülatörün bütün protokollere ORTAK tavanı (düğüm başına 64 paket)
+işliyor. Seçenekler:
+
+| # | seçenek | bedeli |
+|---|---|---|
+| A | `PaketGorunumu`na paket kimliği eklenir (`sim2/` yapı değişikliği, regresyon) | DESPARETE'nin Data-ID'si zaten 36 baytlık başlıkta ödeniyor, yani bilgi bedava değil; ama alan bütün protokollere açılır (IPv4'ün kimlik alanı gibi — gerçekçi). Aynı alan ileride yedekli gönderim (K-150 Y3) için de gerekir |
+| B | kota uygulanmaz, sapma beyan edilir | ortak tavan (64) DESPARETE'yi kotadan GEVŞEK bırakır — yani sapma DESPARETE'nin lehine olabilir; ölçülmezse bilinmez |
+
+Ajanın önerisi: **A**, Aşama 3'ün kapanışından (3.8) önce — kota tasarımın
+parçası ve K-152 §3'ün ölçümü (6 ↔ 32) ancak onunla yapılabilir. İlk
+ölçümde tamponun kullanımı küçük (aşağıda), yani karar acil değil.
+
+🟢 *(Öğrenci A'yı seçti; uygulandı ve kota yazıldı — K-157.)*
+
+## 4 · Kapılar
+
+**118 passed** (`test_desparete.py`; 11 yeni: edinim denetçisinin iki
+solicit + iki dalga + 4 s zaman çizelgesi, koruma solicit'inin gereksizse
+istek açmaması, başarıda iptal ve 6 s'lik yeniden edinim kuralı; açlık
+tespiti, hedefin tur artırması, yanıtın tetiği silmemesi; isteğin ACTIVE
+komşudan BİR kez ve azalan Hop Limit'le iletilmesi, hedefin bağlamsız
+istekte alan açması, hedefin YALNIZ açlıkta ve BİR kez tur artırması,
+solicit'in tek alıcılı yanıtı; simülatörde komut hedeflerinin alan açıp
+geçide ulaştırması). 🔒 Döngü denetimi artık BÜTÜN hedeflerin alanlarını
+kapsıyor. Yapısal denetim: ihlal yok · **131** modül.
+
+## 5 · 🔎 İlk ölçümler — küçük dünya, 30 s, tohum 1000 (işaret, sonuç değil)
+
+- **Döngüsüzlük, beş hedefte:** `statik-yok` 34 176 · `bagimsiz-surekli`
+  42 202 denetimde **döngü 0 · aynı turda artan FD 0**.
+- **İsteğe bağlı hedef alanları:** dört komut hedefinin dördü alanını açtı
+  ve alan geçide ulaştı; hedefler tur artırdı (statik 6 · hareketli 13).
+- **Onarım tamponu:** 39 / 23 paket bekletildi, tampondan düşen **0**.
+  🔴 *(K-157 §6: bunlar bekletme KARARI sayısı — yeniden soruşlar dâhil;
+  ayrı paket 6 / 3.)*
+
+| kol | ölçü | DESPARETE 3.4 | **DESPARETE 3.5** | AODV | OLSR |
+|---|---|---|---|---|---|
+| `statik-yok` | PDR (pencere) | 0,774 | **0,829** | 0,742 | 0,810 |
+| | ek yük (bayt, pencere) | 1,039 | **2,168** | 0,157 | 0,276 |
+| `bagimsiz-surekli` | PDR (pencere) | 0,690 | **0,798** | 0,627 | 0,635 |
+| | ek yük (bayt, pencere) | 1,336 | **2,480** | 0,199 | 0,144 |
+
+- Onarım ve istek üzerine açılan alanlar teslimi belirgin yükseltti; hareketli
+  karıştırıcılı kolda DESPARETE üç protokolün en yükseği — **tek tohum, küçük
+  dünya, ana deneyin karşılaştırması DEĞİL.**
+- 🔴 **Ek yük 8–17 kat.** Beş alanın her biri her düğümden saniyede bir
+  ilan ediliyor (statik 30 s'de 6 057 FIELD_UPDATE çerçevesi), maliyet
+  bandı değiştikçe tetik ilanları geliyor (ardıl değişimi 1 005, statik
+  dünyada) ve boşta sondalama sürüyor. K-150'nin iki kâğıt üstündeki
+  uyarısı (sondalama · beş alanın ilan yükü) artık ÖLÇÜLÜR hâlde; 3.9'un
+  birinci sorusu. Karşılaştırma bayt/kanal süresi cinsinden ve üçlü sunumla
+  (`06` §3) yapılacak — teslim kazancı bu bedelle birlikte okunur.
+
+---
+
+# K-157 · 🟢 PAKET KİMLİĞİ GÖZLEMDE ve DESPARETE'NİN ALAN KOTASI — regresyon birebir; kota küçük dünyada hiç bağlamadı
+
+> **Tarih:** 23 Eylül 2026 · **Karar:** öğrenci (K-156 §3'te A: *"a ile
+> devam edebilirsin"*) · **Yapı:** ajan
+> **Üreticiler:** `python -m pytest tests2 -q` ·
+> `python kalibrasyon/mimari_denetimi.py` ·
+> `python kalibrasyon/regresyon_satirlari.py uret k157` ·
+> `python kalibrasyon/regresyon_satirlari.py karsilastir k151 k157` ·
+> `python arsiv/teshis/desparete_kota_2026-09-23/tampon.py`
+
+## 1 · Ne değişti
+
+| yer | değişiklik |
+|---|---|
+| `sim2/ag/paket.py` | `Paket.kaynak_sira` (varsayılan 0, negatif olamaz). TTL azalınca korunur |
+| `sim2/ag/trafik.py` | `paket_kur` KAYNAK başına sayaç tutar: her kaynağın paketleri 0, 1, 2, … |
+| `sim2/gozlem/pencere.py` | `PaketGorunumu.kaynak_sira` (ZORUNLU); izinli paket alanları 5 → 6 |
+| `sim2/kosum/dugum.py` | gözlem kurulurken alan paketten kopyalanır |
+| `v2/05` | §3.3 gerekçe · §5 yüzey 23 → **24** alan |
+
+Paket gözlemde `(kaynak, kaynak_sira)` ile tanınır.
+
+## 2 · Neden kaynak başına sıra, küresel kimlik DEĞİL
+
+Simülatörün `Paket.kimlik`i koşu boyunca bütün ağda artar. Onu açmak, iki
+paketin kimlik farkıyla aradaki sürede BÜTÜN AĞDA kaç paket üretildiğini
+söylerdi — hiçbir telsizin bilemeyeceği bilgi (`05` §3.3'ün sorusu: *gerçek
+bir telsiz bunu bilir mi?*). Kaynak başına sıra yalnız kaynağın KENDİ
+trafiğini söyler; IPv4 kimlik alanı ve DESPARETE'nin DATA başlığındaki Data
+Sequence tam olarak budur ve başlıkla ödenir.
+
+**Sayaç akış başına değil kaynak başına:** yere toplamada geçit birden çok
+komut akışının kaynağıdır; akış başına sayaçta geçitin iki komut paketi aynı
+kimliği taşırdı. Test bunu iki trafik deseninde de sınar.
+
+⚠️ **Varsayılan 0'ın bedeli:** trafik üreticisini kullanmayan kurucular
+(`kalibrasyon/iki_cift.py`, `li_replikasyonu.py`, testlerdeki elle kurulan
+paketler) her pakete 0 verir. Oralarda paket kimliğine dayanan bir protokol
+mantığı ölçülemez; bugün hiçbiri böyle bir protokol koşmuyor. Varsayılan
+bilerek bırakıldı: kaldırmak bu kurucuların hepsine anlamsız bir alan
+yazdırırdı.
+
+## 3 · 🔒 ÖLÇMEDEN ÖNCE — beklenen regresyon farkı
+
+Bugün hiçbir protokol ve hiçbir koşum aleti bu alanı okumuyor; sayaç rastgele
+akış TÜKETMİYOR; sonuç satırları paket alanlarını yazmıyor; köken defteri
+(`sim2/yapilandirma/kokenler.py`) K-151'den beri değişmedi. Dolayısıyla:
+
+- `karsilastir k151 k157` **izinsiz** koşar ve **45/45 vaka BİREBİR** çıkar;
+- farklı çıkan alanlar YALNIZ kod kimliği (`kimlik.arac_hash`,
+  `kimlik.kosu_kimligi`) ve her koşuda değişenlerdir;
+- herhangi bir 🔴 BULGU, bu kaydın yanlış olduğunu gösterir ve DESPARETE'nin
+  kotasına geçilmeden önce sebebi bulunur.
+
+## 4 · DESPARETE'nin alan başına kotası — `21` §2.4
+
+`Q_buffer[alan, sınıf 0]` = yerel onarım tamponunun en çok %10'u ve en çok
+32 paket, küçüğü. Yerel tampon = simülatörün ortak rota tamponu (64, K-152
+§3; bir test ikisini bağlar) → **6**. Kurucu argümanı (`tampon_kotasi`) —
+3.9'da 6 ↔ 32 ölçülecek.
+
+| # | boşluk | seçilen — ajan (K-152 §1 madde 2) | gerekçe |
+|---|---|---|---|
+| 1 | tampondaki paket nasıl tanınır | Data-ID = `(kaynak, kaynak_sira)`; alan başına küme | simülatör HER uyandırmada bütün tamponu yeniden sorar; kimliksiz sayım aynı paketi defalarca sayardı |
+| 2 | küme ne zaman boşalır | onarım bölümü bitince (iletilebilir ya da ulaşılamaz) — TEK kural | simülatörün kendi düşürdüğü (süre ya da sayı tavanı) paket protokole bildirilmez; kotayı en çok bölüm sonuna kadar (≤ 6 s) işgal eder. Hedef sayısı × 6 < 64 olduğu sürece sayı tavanı ateşlenemez (küçük dünyada 5 hedef: 30); süre tavanı 30 s, bölüm ≤ 6 s |
+| 3 | kota dolunca | yeni paket düşer, `rota_gecersiz` beyanıyla | alan biliniyor ama iletilemiyor — mevcut düşürme dalının tanımı; kotaya takılan sayı ayrıca `tampon_kota_disi` |
+
+## 5 · 🔒 ÖLÇMEDEN ÖNCE — kotanın küçük dünyadaki izi
+
+Üretici: `python arsiv/teshis/desparete_kota_2026-09-23/tampon.py` (K-156
+§5'in koşusu: 14 düğüm, yere toplama, 30 s, tohum 1000; her senaryo kota 6
+ve kota ∞ ile).
+
+- **Kota ∞, K-156 §5'i BİREBİR üretir** (`statik-yok` PDR 0,829 · ek yük
+  2,168; `bagimsiz-surekli` 0,798 · 2,480): kotasız karar dizisi 3.5'inkiyle
+  aynıdır ve K-157'nin simülatör değişikliği sonuç üretmez (§3).
+- **Kota 6:** hiçbir alan 6'dan fazla ayrı paket tutmaz. ∞ koşusunda alan
+  başına tepe ≤ 6 ise iki koşu birebir aynıdır; > 6 ise fark kotanındır ve
+  `kota_disi` sayısı onu gösterir.
+- Ayrı paket sayısı bekletme kararından AZDIR — yeniden soruşlar tanınıyor.
+
+## 6 · Kapılar ve ölçüm
+
+**Regresyon — §3'ün beklentisiyle BİREBİR.** `uret k157`: 45/45 geçerli,
+**33,7 dk / 8 işçi**, hata 0. `karsilastir k151 k157` izinsiz: **bulgusuz
+vaka 45/45**; farklı çıkan yalnız `kimlik.arac_hash` · `kimlik.kosu_kimligi`
+(kod kimliği) ve `kimlik.calisma_kimligi` · `kimlik.zaman_damgasi_utc` (her
+koşuda); `🟢 BIREBIR`, çıkış 0. **Geçerli taban artık `k157`.**
+
+**Kotanın izi — §5'in üç beklentisi de TUTTU** (`tampon.py`, 4 koşu, 4 işçi):
+
+| kol | kota | PDR (pencere) | ek yük (bayt) | bekletme kararı | ayrı paket | kota dışı | alan başına tepe |
+|---|---|---|---|---|---|---|---|
+| `statik-yok` | 6 | 0,829 | 2,168 | 39 | **6** | 0 | **1** |
+| | ∞ | 0,829 | 2,168 | 39 | 6 | 0 | 1 |
+| `bagimsiz-surekli` | 6 | 0,798 | 2,480 | 23 | **3** | 0 | **1** |
+| | ∞ | 0,798 | 2,480 | 23 | 3 | 0 | 1 |
+
+Simülatörün tamponu: giriş 39 / 23, tampondan düşen **0**. Koşu süresi
+67 s / 210 s.
+
+- Kota ∞ K-156 §5'i birebir üretti; kota 6 onunla aynı. **Bu küçük dünyada
+  kota hiç bağlamadı:** bir alan aynı anda en çok **1** paket tuttu. 3.9'un
+  6 ↔ 32 sorusu ancak daha yoğun trafikte ya da daha uzun onarımlarda bir
+  şey gösterebilir — ölçülmeden bilinmez.
+- 🔴 **K-156 §5'in düzeltmesi:** orada *"39 / 23 paket bekletildi"*
+  yazıyordu. Bunlar **bekletme KARARI** sayısıydı — simülatör her
+  uyandırmada tamponu yeniden sorduğu için aynı paket birden çok sayılıyordu.
+  Ayrı paket **6 / 3**. Kimlik olmadan bu ayrım yapılamıyordu; sayının ne
+  saydığını ben yanlış adlandırmıştım.
+
+**Kapılar:** tam takım `python -m pytest tests2 -q` → **768 passed**
+(1 513 s; beklenen 761 + 7 yeni: yüzey değişikliğinden sonra 763, kotayla
+768 — birebir) · `test_desparete.py` **122** ·
+yapısal denetim ihlal **0**, **131** modül. Yeni kapılar: iki trafik
+deseninde kaynak başına ardışık ve eşsiz sıra (`test_ag`) · TTL azalınca
+korunur ve negatif reddedilir · gerçek koşuda kimlik gözleme ulaşır, rölede
+aynıdır (`test_kosum`) · kota = min(%10 × 64, 32) = 6 ve yerel tampon
+simülatörünküyle aynı · altı ayrı paket tutulur, yedincisi `rota_gecersiz`
+ile düşer, yeniden sorulan sayılmaz · kimlik kaynakla birlikte ve alan
+başına ayrı · küme iletilebilir ve ulaşılamaz bölüm sonlarında boşalır
+(`test_desparete`).
+
+---
+
+# K-158 · 🟢 DESPARETE 3.6 · POSTÜRLER — CAUTION'ın %100'ü belirsizlikten; karıştırıcılı kolda doğrulamanın bedeli tutarlı
+
+> **Tarih:** 23 Eylül 2026 · **Karar:** öğrenci (*"devam edelim"*; CAUTION'ın
+> eylemi K-150 §4) · **Gerçekleme ve eşleme seçimleri:** ajan (K-152 §1
+> madde 2)
+> **Üreticiler:** `python -m pytest tests2/test_desparete.py -q` ·
+> `python arsiv/teshis/desparete_postur_2026-09-23/ayna.py` ·
+> `python arsiv/teshis/desparete_postur_2026-09-23/ab.py` ·
+> `python kalibrasyon/mimari_denetimi.py`
+
+## 1 · Ne yazıldı
+
+- `protokoller/desparete_politika.py` — SAF postür makinesi (`22` §7):
+  STEADY → CAUTION (`CautionEvidence` 1,5 s kesintisiz) · CAUTION → PROTECT
+  (`ProtectEvidence` ∧ ek güvenli ardıl 2,5 s ∧ koruma izni) · CAUTION →
+  STEADY (`RecoveryEvidence` 4,0 s) · PROTECT → CAUTION (ek ardıl kaybında
+  HEMEN; ya da 2,0 s'den sonra 4,0 s toparlanma) · alan iletilebilir
+  değilken kanıt sıfır · yeniden iletilebilir → STEADY.
+- `desparete_metrik.py` — `35` §5'in üç yüklemi (64 · 128 · 128).
+- `desparete_komsu.py` — ACTIVE komşuya **doğrulama oturumu** (en çok 2
+  PROBE; yanıtsız biterse komşu düşmez, `T_fresh` karar verir).
+- `desparete_alan.py` — güvenli aday listesi ayrı yönteme çıktı (davranış
+  aynı); `ek_ardil_var`.
+- `desparete.py` — epochta her iletilebilir alan EN SON değerlendirilir
+  (`21` §3 madde 4); STEADY → CAUTION girişinde seçili ardıla doğrulama.
+
+## 2 · Eşleme seçimleri — ajan
+
+| # | boşluk | seçilen | gerekçe |
+|---|---|---|---|
+| 1 | "kesintisiz" epochla nasıl ölçülür | yüklem art arda her epochta doğru; başlangıç doğru olduğu ilk epoch | `35` §6 değerlendirmeyi epocha bağlar |
+| 2 | ardıl değişince kanıt | SIFIRLANIR; postür korunur | eski ardılın kanıtı yenisi hakkında değil; `15` §3: ardıl kaybı kendiliğinden postür değiştirmez |
+| 3 | postür geçişinde kanıt | yeniden başlar (geçiş epochunda doğru olan o epochtan) — süreler postürün İÇİNDE | aksi hâlde PROTECT → CAUTION'ı yarım saniye sonra CAUTION → STEADY izlerdi: `15` §5'in yasakladığı doğrudan dönüş |
+| 4 | koruma izni | YOK → PROTECT'e girilmez; koşulların izinsiz sağlandığı her kanıt bölümü BİR kez sayılır (`protect_izinsiz`) | K-150 §4: yedeklilik yok, korumaya izinli trafik yok. Sayaç, yedekliliğin ileride ne sıklıkla devreye gireceğini ölçer |
+| 5 | doğrulama hangi girişte | yalnız STEADY → CAUTION | K-150 §4 *"CAUTION'a GİRİŞTE"*; PROTECT'ten inişte gözlem zaten yüksek |
+| 6 | yanıtsız doğrulama | komşu düşmez | `22` §4 ACTIVE için yanıtsızlığa geçiş tanımlamaz; MAC vazgeçerse zaten SUSPECT olur |
+
+🔎 Teşhis için CAUTION girişleri sebebine göre ayrı sayılır: giriş anında
+`H ≥ 64` ise **bozunma**, değilse **yalnız belirsizlik** (U ≥ 128).
+
+## 3 · 🔒 ÖLÇMEDEN ÖNCE — beklenen
+
+Küçük dünyada telemetri düğüm başına **1 paket/s**, komut 0,25 paket/s.
+Tek akış taşıyan bir bağın 2 s'lik penceresinde ~2 veri sonucu + boşta
+PROBE → `N_Q < 4` → `U_sample = 128` → **CautionEvidence doğru** (K-150 §3
+madde 4'ün yapısal belirsizliği). Buna göre:
+
+1. **Döngü 0 · aynı turda artan FD 0**, iki senaryoda — postür ardıl
+   seçimine dokunmaz.
+2. **PROTECT'e giriş 0** (izin yok — yapı gereği).
+3. **CAUTION yaygın:** girişlerin çoğu (> yarısı) `statik-yok`ta **yalnız
+   belirsizlikten**; koşu sonunda iletilebilir alanların çoğu CAUTION'da.
+   STEADY'ye dönüş, girişlerden çok daha az (yalnız ≥ 2 akış toplayan
+   bağlarda U < 128 olabilir).
+4. **Doğrulama PROBE'u ≤ 2 × CAUTION girişi.**
+5. **Bedel küçük:** ek yük (bayt, pencere) K-157'ye göre (2,168 · 2,480)
+   **%5'ten az** artar — giriş başına en çok 2 PROBE + 2 yanıt, binlerce
+   FIELD_UPDATE yanında.
+6. PDR için yön öngörülmüyor; tek tohumda fark sonuç sayılmaz.
+
+## 4 · Kapılar ve ilk ölçüm
+
+**Kapılar:** tam takım `python -m pytest tests2 -q` → **779 passed**
+(717 s; beklenen 768 + 11 — birebir) · `test_desparete.py` **133** ·
+yapısal denetim ihlal **0**, **132** modül. Yeni kapılar: TR-09 ve dört
+süre · üç yüklemin eşikleri (yüksek U tek başına PROTECT kanıtı değil) ·
+CAUTION 1,5 s kesintisiz kanıtla, kesinti sıfırlar · STEADY'ye dönüş 4 s,
+postürün içinde ölçülür · PROTECT izinle girilir, izinsiz bölüm başına bir
+kez sayılır, ek ardıl yoksa girilmez · ek ardıl kaybında HEMEN iner,
+STEADY'ye doğrudan dönmez · ardıl değişince kanıt sıfır, onarımda etkisiz,
+sonra STEADY · doğrulama oturumu iki PROBE, yanıtsızsa ACTIVE düşmez · ek
+ardıl yalnız başka UYGULANABİLİR aday varsa · protokol düzeyinde boştaki
+ardıl CAUTION'a girer ve ardıla PROBE gider · simülatörde CAUTION var,
+doğrulama ≤ 2 × giriş, PROTECT yok, döngü 0.
+
+`ayna.py`, tohum 1000, her kancadan sonra döngü denetimi:
+
+| kol | PDR | ek yük (bayt) | denetim · döngü · FD | CAUTION girişi (belirsizlik / bozunma) | STEADY'ye dönüş | doğrulama PROBE'u | sonda iletilebilir alan · CAUTION'da |
+|---|---|---|---|---|---|---|---|
+| `statik-yok` | 0,913 | 2,304 | 34 955 · 0 · 0 | 94 (94 / 0) | 15 | 86 | 61 · 54 |
+| `bagimsiz-surekli` | 0,722 | 2,834 | 43 577 · 0 · 0 | 96 (96 / 0) | 8 | 91 | 64 · 44 |
+
+PROTECT girişi 0, izinsiz PROTECT koşulu 0 (H hiç 128'e çıkmadı).
+
+- Beklenti 1 · 2 · 3 · 4 **tuttu**. CAUTION girişlerinin **hepsi** yalnız
+  belirsizlikten — K-150 §3 madde 4'ün kâğıt üstündeki uyarısı artık ÖLÇÜLDÜ:
+  bu dünyada CAUTION bir bozunma sinyali değil, trafik seyrekliğinin
+  sinyali.
+- 🔴 **Beklenti 5 TUTMADI:** ek yük K-157'ye göre +%6 ve +%14 arttı; PDR de
+  iki yönde büyük oynadı (0,829 → 0,913 · 0,798 → 0,722). Doğrulama
+  PROBE'larının sayısı (86 / 91) bu farkı tek başına açıklayamaz. Sebebi
+  ölçmeden yorum yok → §5.
+
+## 5 · 🔒 ÖLÇMEDEN ÖNCE — farkın kaynağı (A/B, 5 tohum)
+
+Üretici: `python arsiv/teshis/desparete_postur_2026-09-23/ab.py` — aynı
+tohumlarda (1000–1004) postürlü ↔ postürsüz, iki senaryo, kontrol baytı
+mesaj biçimine göre. Beklenen:
+
+- (a) Postürsüz varyant tohum 1000'de K-157'yi **birebir** üretir
+  (0,829 · 2,168 ve 0,798 · 2,480).
+- (b) PROBE + PROBE_REPLY bayt farkı, toplam kontrol bayt farkının **küçük
+  bir kısmıdır**; farkın çoğu öteki biçimlerden (FIELD_UPDATE, istek)
+  gelir — tek bir PROBE bile olayların sırasını değiştirir ve koşu başka bir
+  yörüngeye sapar.
+- (c) Beş tohumda PDR farkının işareti **tutarlı değildir**: tek tohumdaki
+  ±0,08, tohumlar arası yayılımın içindedir.
+
+**Sonuç** (20 koşu, 8 işçi, hepsi geçerli; fark = postürlü − postürsüz,
+kontrol baytı ölçüm penceresinde):
+
+| kol | tohum | PDR farkı | ek yük farkı | kontrol baytı farkı | PROBE + yanıt bayt farkı |
+|---|---|---|---|---|---|
+| `statik-yok` | 1000 | +0,084 | +0,136 | +6 750 | −2 596 |
+| | 1001 | −0,040 | +0,104 | +70 632 | −9 364 |
+| | 1002 | 0,000 | −0,091 | +6 142 | +12 544 |
+| | 1003 | −0,004 | −0,063 | −4 404 | +6 592 |
+| | 1004 | +0,020 | +0,090 | +17 942 | +180 |
+| | **ort.** | **+0,012** | **+0,035** | | **+1 471** |
+| `bagimsiz-surekli` | 1000 | −0,076 | +0,354 | +89 280 | +48 336 |
+| | 1001 | −0,024 | +0,093 | −15 790 | +23 812 |
+| | 1002 | −0,028 | +0,065 | +22 060 | +19 408 |
+| | 1003 | −0,036 | +0,042 | +97 010 | +31 008 |
+| | 1004 | +0,059 | +0,105 | +13 086 | +13 404 |
+| | **ort.** | **−0,021** | **+0,132** | | **+27 194** |
+
+- **(a) TUTTU:** postürsüz varyant tohum 1000'de K-157'yi birebir üretti.
+- **(b) statikte TUTTU, karıştırıcılıda TUTMADI.** Statikte PROBE baytı
+  farkı küçük ve işareti karışık; kontrol baytı farkının çoğu FIELD_UPDATE'
+  in yörünge oynaması (1001'de +69 440), ve tohum 1000'deki +%6'lık ek yük
+  büyük ölçüde PAYDADAN: aynı pencerede veri baytı −%5,2. 🔴
+  Karıştırıcılıda ise PROBE + yanıt baytı **5 tohumun 5'inde arttı**
+  (toplam +135 968; kontrol farkının toplamı +205 646) ve ek yük 5/5 arttı
+  (ortalama +0,132 ≈ **+%4,4**). Bu tutarlı bir bedel; doğrulama
+  PROBE'larının kendi sayısıyla (koşu başına ~90) orantılı olup olmadığı —
+  MAC tekrarları mı, zincirleme hata oturumları mı — ÖLÇÜLMEDİ.
+- **(c) TUTTU:** PDR farkının işareti iki kolda da karışık. Karıştırıcılıda
+  5 tohumun 4'ünde düşük (ortalama −0,021); tohumlar arası yayılım
+  (postürsüz 0,798–0,933) bundan büyük — 5 tohumla bir yön iddia edilemez.
+- Tek tohumdaki ±0,08'lik PDR oynaması (§4) **tohum gürültüsüydü**; K-158
+  §3'ün beklenti 5'i yanlış çerçevelenmişti: tek tohumda bedel, yörünge
+  sapmasından ayrılamaz.
+
+## 6 · 🔎 Tasarım için kanıt (3.9 · 3.10'a — karar DEĞİL)
+
+v0.1'in CAUTION'ı bu dünyada **bozunmayı değil trafik seyrekliğini** ölçüyor:
+girişlerin %100'ü yalnız `U ≥ 128`den (190 / 190), bir kez bile `H ≥ 64`
+yok. Seyrek trafikli bir bağ, `35` §3.4'ün örnek tablosuyla hep
+"belirsiz" — K-150 §3 madde 4 kâğıt üstünde bunu söylüyordu, artık ölçüldü.
+Karıştırıcılı kolda bunun bir bedeli var (+%4,4 ek yük, 5/5) ve teslime
+ölçülebilir bir katkısı görünmüyor. v0.2 için aday sorular — **öğrencinin**:
+U'nun CAUTION'a girişte tek başına yetip yetmemesi · örnek eşiğinin trafik
+hızına bağlanması · CAUTION eyleminin belirsizlikte yalnız izleme olması.
+Ana deneyde (40 düğüm, geliştirme tohumları) ölçülmeden karar yok.
+
+---
+
+# K-159 · 🟢 DESPARETE 3.7 · ABLASYON BAYRAKLARI — sekiz mekanizma; bayrak = kod çıkarma; yeniden edinim küçük dünyada etkisiz
+
+> **Tarih:** 23 Eylül 2026 · **Karar:** öğrenci (*"devam"*) · **Bayrak
+> kümesi ve "kapalı"nın anlamı:** ajan — tasarım paketinde ablasyon önerisi
+> yok; hangi bayrağın KOL olacağı mühürde öğrencinin (`06` §6)
+> **Üreticiler:** `python -m pytest tests2/test_desparete.py -q` ·
+> `python arsiv/teshis/desparete_ablasyon_2026-09-23/kapi.py` ·
+> `python kalibrasyon/mimari_denetimi.py`
+
+## 1 · Ne yazıldı
+
+`protokoller/desparete_bayrak.py` — sekiz bayrak, hepsi varsayılan AÇIK;
+DESPARETE'nin kurucu argümanı. Bölme **mekanizma sınırlarından** (`03`
+§B1):
+
+| bayrak | mekanizma sınırı | kapalıyken |
+|---|---|---|
+| `risk_maliyeti` | `35` §4 `C_risk(R)` | terim 0; postür H/U'yu yine görür |
+| `kalite_maliyeti` | `35` §4 `C_quality(Q)` | terim 0; ikisi kapalı → atlama sayısı |
+| `postur` | `22` §7 | değerlendirme ve doğrulama yok |
+| `bosta_sondalama` | `20` §5 `T_idle_probe` | boşta PROBE yok; ACTIVE yalnız trafiğin kanıtıyla tazelenir |
+| `onarim_tamponu` | `22` §8.1 | REPAIRING alana giden paket düşer (`rota_gecersiz`) |
+| `onarim_edinimi` | `23` §4.4 `StartRepair → StartAcquisition` | onarım yalnız olağan ilanları bekler (≤ 6 s) |
+| `ilan_korumasi` | `20` §6.2 | seçili ilan bitmeden solicit yok |
+| `yeniden_edinim` | K-152 §2 | ULAŞILAMAZ alan kendi paketiyle yeniden edinilmez; hiç bilinmeyen hedefin İLK edinimi sürer (`22` §11 madde 4) |
+
+**Bayrakla kapanmayanlar — güvenlik değişmezleri:** uygulanabilirlik
+koşulu (FD) · DFSN/OIID tazeliği ve fail-closed · ACTIVE kapısı · Hop Limit.
+Bunları kapatmak bir mekanizmayı ayırmaz, öteki bütün mekanizmaların
+dayandığı döngüsüzlük garantisini bozar (`15` §1: politika bile atlayamaz).
+
+**Satıra yazım:** her düğümün teşhisi, o düğümün GERÇEKTEN kullandığı
+bayrakları taşır (`bayraklar_adlari` · `bayraklar`). `sim2/` değişmedi.
+⚠️ **Koşu kimliği protokol parametrelerini içermez** (`kol` · tohum ·
+kurulum · araç): her ablasyon kolu kendi `kol` etiketini taşımalı; analiz,
+etiket ile satırdaki bayrakların uyuştuğunu denetler (Aşama 4'ün koşum
+aletine not).
+
+**Mekanizmanın işlediğinin sayaçları** (`03` §B1 *"önce mekanizma çalışıyor
+mu ölçülür"*): komşu × epoch başına uygulanan risk ve kalite cezası ·
+tetikleyicisine göre edinim oturumu (ilk · yeniden · onarım · koruma) ·
+mevcut `caution_girdi` · `probe_bosta` · `tampon_alinan`.
+
+## 2 · 🔒 ÖLÇMEDEN ÖNCE — mekanizma kapısı
+
+Üretici: `kapi.py` — küçük dünya, yere toplama, 30 s, tohum 1000; her
+senaryoda hepsi açık + sekiz tekli kapalı + hepsi kapalı = 10 koşu; her
+kancadan sonra döngü denetimi. Beklenen:
+
+1. **Hepsi açık K-158 §4'ü BİREBİR üretir** (0,913 · 2,304 ve 0,722 ·
+   2,834) — varsayılan v0.1'dir.
+2. **20 koşunun hepsi geçerli; hepsinde döngü 0 · FD artışı 0.**
+3. Hepsi açıkken şu mekanizmaların sayacı **> 0**: risk · kalite · postür ·
+   boşta sondalama · onarım tamponu · onarım edinimi. İlan koruması ve
+   yeniden edinim için öngörü YOK — bu dünyada 0 çıkarsa o bayrağın
+   ablasyonu burada ETKİSİZDİR ve bu kendi başına bir bulgudur.
+4. Her tekli kapalı koşuda kendi sayacı **0**.
+5. PDR ve ek yük için öngörü yok (tek tohum = yörünge gürültüsü, K-158 §5).
+
+## 3 · Kapılar ve ölçüm
+
+**Mekanizma kapısı — §2'nin beklentilerinin HEPSİ TUTTU** (`kapi.py`, 20
+koşu, 8 işçi). Sayaç: bayrağın kendi mekanizmasının sayacı (tanımlar §1).
+
+| kapalı | `statik-yok` PDR · ek yük | sayacı (hepsi açıkken) | `bagimsiz-surekli` PDR · ek yük | sayacı (hepsi açıkken) |
+|---|---|---|---|---|
+| — (hepsi açık) | **0,913 · 2,304** | | **0,722 · 2,834** | |
+| `risk_maliyeti` | 0,798 · 2,157 | 0 (4 301) | 0,750 · 2,570 | 0 (5 056) |
+| `kalite_maliyeti` | 0,611 · 2,074 | 0 (2 188) | 0,623 · 2,640 | 0 (3 254) |
+| `postur` | **0,829 · 2,168** | 0 (94) | **0,798 · 2,480** | 0 (96) |
+| `bosta_sondalama` | 0,873 · 2,174 | 0 (439) | 0,742 · 2,392 | 0 (437) |
+| `onarim_tamponu` | 0,825 · 2,278 | 0 (6) | 0,738 · 2,736 | 0 (5) |
+| `onarim_edinimi` | 0,889 · 2,226 | 0 (45) | 0,766 · 2,489 | 0 (123) |
+| `ilan_korumasi` | 0,853 · 1,847 | 0 (143) | 0,718 · 2,152 | 0 (276) |
+| `yeniden_edinim` | 0,913 · 2,304 | 0 (**0**) | 0,722 · 2,834 | 0 (**0**) |
+| hepsi | 0,579 · 1,107 | hepsi 0 | 0,468 · 1,460 | hepsi 0 |
+
+- **1 · 2:** hepsi açık K-158 §4'ü birebir üretti; 20 koşunun hepsi geçerli,
+  **hepsinde döngü 0 · FD artışı 0** (21 796 – 44 558 denetim/koşu) — hepsi
+  kapalıyken de. Her koşuda satırdaki bütün düğümler aynı bayrak kümesini
+  taşıyor.
+- 🟢 **Bayrak = kod çıkarma:** `postur` kapalı koşu, K-158 §5'in politikayı
+  koddan çıkaran varyantını (ve K-157'yi) BİREBİR üretti — bayrak, kaynağı
+  düzenlemeden aynı kolu veriyor (`03` §B1'in şartı).
+- **3 · 4:** hepsi açıkken yedi mekanizma bu dünyada İŞLİYOR (ilan koruması
+  dâhil: 143 / 276 oturum); her tekli kapalı koşuda kendi sayacı 0.
+- 🔎 **`yeniden_edinim` bu dünyada ETKİSİZ:** 20 koşunun hiçbirinde tek bir
+  yeniden edinim oturumu yok; kapalı kolu, açık kolla bit bit aynı. Küçük
+  dünyada hiçbir kaynak, bölüm sonundan 6 s sonra hâlâ ulaşılamayan bir
+  alana paket göndermedi. Ana deneyde farklı olabilir — ölçülmeden bilinmez.
+- **5 · tek tohum, sonuç DEĞİL:** farklar K-158 §5'in tohum gürültüsüyle
+  aynı mertebede ya da büyük (kalite kapalı: statikte −0,30; ilan koruması
+  kapalı: ek yük −%20 / −%24). Bunlar 3.9'a ve Aile 3'ün kol seçimine
+  **işaret**; ≥ 5 tohumlu A/B'siz yorum yok.
+
+**Kapılar:** tam takım `python -m pytest tests2 -q` → **790 passed** (653 s;
+beklenen 779 + 11 — birebir) · `test_desparete.py` **144** · yapısal denetim
+ihlal **0**, **133** modül. Yeni kapılar: sekiz bayrağın adı ve sırası,
+varsayılan hepsi açık · bayraklar teşhiste düz ve sözleşmeye uygun ·
+maliyet terimleri (48 · 32 · 32 · 16) ve epoch sayaçları · her bayrağın
+kapalıyken kendi mekanizmasını durdurduğu, açıkken işlediği birim sınav ·
+yeniden edinim kapalıyken hiç bilinmeyen hedefin İLK edinimi sürüyor ·
+simülatörde hepsi kapalıyken döngü 0, veri taşınıyor, satırdaki her düğüm
+kapalı bayraklarını taşıyor.
+
+---
+
+# K-160 · 🟢 DESPARETE 3.8 · KABUL KAPISI — v0.1 tam ölçekte ÇÖKÜYOR: komut alanları (→ C) ve hareketlide kontrol yükü (→ v0.2)
+
+> **Tarih:** 23 Eylül 2026 · **Karar:** öğrenci (*"devam"*) · **Eşleme:**
+> ajan · **Eşikler:** K-136 (öğrenci), aynen
+> **Üreticiler:** `python -m pytest tests2/test_desparete.py -q` ·
+> `python arsiv/teshis/desparete_kabul_2026-09-23/sure.py` ·
+> `python arsiv/teshis/desparete_kabul_2026-09-23/kopma.py <etiket>` ·
+> `python arsiv/teshis/desparete_kabul_2026-09-23/olcek.py` · `olcek2.py` ·
+> `olcek3.py` · (karardan sonra) `python -u kalibrasyon/aodv_uygunluk.py
+> --protokol desparete` · `python -u kalibrasyon/aodv_uygunluk.py u3`
+
+## 1 · U1–U4'ün DESPARETE karşılıkları
+
+| # | taban protokolde | DESPARETE'de | nerede |
+|---|---|---|---|
+| U1-U | defter kapanıyor · teslim çok atlamalı · kâhin AŞILMIYOR | aynısı, **yere toplamada**, kâhin aynı desende | yapı: `test_U1_YAPI_…` · sayısal: `aodv_uygunluk.py --protokol desparete` |
+| U1-B | oran ≥ 0,90 statik · ≥ 0,60 hareketli | **aynı eşikler** (K-136), aynı hüküm kodu | `aodv_uygunluk.py` |
+| U2 | bağ koptuğunda RERR + yeni RREQ | ardılın bağı koptuğunda **kopma** beyanı; uygulanabilir alternatif varsa yerel geçiş (edinim yok), yoksa REPAIRING + geri çekme + edinim; ardıl dönünce **rota_kuruldu** (`36` §6) | `test_U2_…` (iki) · simülatörde `test_SIM_hareketli_…` |
+| U3 | yükün süreyle büyümesi | aynı ölçüm (60 → 120 s), yere toplamada | `aodv_uygunluk.py u3` |
+| U4 | RFC'nin mesaj sırası ve zamanlayıcıları | `21` §4'ün dokuz satırlık doğrulama listesi | §5 |
+
+`aodv_uygunluk.py` genişletildi: `desparete` bir protokol argümanı, deseni
+yere toplama (hem protokol hem kâhin), fabrika geçidi kurucuya verir;
+açıklanmış düşük hücre listesi boş. Hüküm kodu TEK kaldı.
+
+## 2 · 🔴 U2 bir kusur yakaladı — kopma beyanı yığın sırasına bağlıydı
+
+Aynı kancada birden çok komşu değişimi birikmişse, ilki işlenirken alan
+yeniden hesaplanıyor ve kopan komşunun GÜNCEL durumunu görüp ardılı sessizce
+değiştiriyordu; sıra kopan komşuya geldiğinde o artık ardıl olmadığı için
+**kopma beyan edilmiyordu**. `desparete.py`nin kendi kuralı (*"ardılı kopan
+bir alan kopma BEYAN edilmeden sessizce yeni ardıla geçemez"*) tam bunu
+yasaklıyordu. Birim testte, yığında kopmadan önce bekleyen bir ACTIVE
+değişimi olduğunda yakalandı.
+
+**Düzeltme:** etkilenen alanlar yığının BAŞINDAKİ ardıllardan belirlenir;
+kopma komşu başına bir kez beyan edilir; sonra bütün değişimler alanlara
+verilir.
+
+🔒 **ÖLÇMEDEN ÖNCE — beklenen** (`kopma.py`, önce/sonra, 30 s, iki senaryo):
+beyan yönlendirmeyi değiştirmez → **PDR, ek yük ve kontrol çerçevesi
+BİREBİR aynı**; `kopma_algilanan` ve `rota_etkilendi` **aynı ya da büyük**.
+
+**Sonuç — TUTTU, ve fark SIFIR:**
+
+| kol | PDR (pencere) | ek yük | kontrol çerçevesi | kopma algılanan · etkilenen · kurtarılan |
+|---|---|---|---|---|
+| `statik-yok` önce / sonra | 0,9127 / 0,9127 | 2,3042 / 2,3042 | 13 005 / 13 005 | 58 · 58 · 58 / 58 · 58 · 58 |
+| `bagimsiz-surekli` önce / sonra | 0,7222 / 0,7222 | 2,8335 / 2,8335 | 19 598 / 19 598 | 172 · 172 · 171 / 172 · 172 · 171 |
+
+Kusur gerçek (birim testte tekrar üretiliyor) ama bu iki koşuda o sıra hiç
+oluşmamış: ölçülmüş hiçbir sonuç etkilenmedi. Tetiklenmesi için bir ardılın
+ACTIVE sınırını, aynı iki niyet kancası arasında başka bir değişimin
+ARKASINDA geçmesi gerekiyor — ana deneyin yoğun kollarında olabilir;
+düzeltme onu kapatıyor.
+
+## 3 · 🔒 U1 — ÖLÇMEDEN ÖNCE
+
+Eşikler K-136'nınki, aynen: **statik oran ≥ 0,90 · hareketli oran ≥ 0,60**;
+4 `-yok` kolu × tohum 1000–1002, tam ölçek, tam pencere; kâhin aynı yere
+toplama dünyasında. Geçip geçmeyeceğine dair **öngörü YOK** — küçük dünyada
+tam ölçek ölçülmedi. Eşiğin altındaki her hücre K-137'nin kuralıyla
+**ölçülerek açıklanmadan** geçemez.
+
+## 4 · 🔒 U3 — ÖLÇMEDEN ÖNCE
+
+DESPARETE proaktiftir: her düğüm her alanı saniyede bir ilan eder, boşta
+komşuyu 2 s'de bir sondalar. Beklenen 60 → 120 s kontrol çerçevesi oranı
+**1,8–2,2** (periyodik yük ≈ 2; başlangıçtaki edinim patlaması oranı biraz
+aşağı, süren onarımlar yukarı çeker).
+
+## 5 · U4 — `21` §4'ün doğrulama listesi ↔ testler
+
+| # | `21` §4 satırı | test |
+|---|---|---|
+| 1 | sessiz ACTIVE komşuya 2 s'de boşta PROBE; yanıt 3 s tazeler | `test_BOSTA_PROBE_onayi_tazeler_STALE_olmaz` · `test_MAC_ONAYI_…` |
+| 2 | boşta + iki hata PROBE'u yanıtsız → ≤ 5 s'de STALE/SUSPECT/EXPIRED | `test_BOSTA_tek_PROBE_sonra_T_fresh_STALE_sonra_T_retention_EXPIRED` · `test_STALE_komsu_alan_gerekliyse_SUSPECT_ve_HATA_oturumu` |
+| 3 | tek olağan FIELD_UPDATE kaybı alanı düşürmez | **`test_U4_TEK_ILAN_KAYBI_alani_DUSURMEZ`** (yeni) |
+| 4 | seçili ilanlar kaybolur → 1,5 s korumada ≤ 2 solicit, iki dalgalı istek, ≤ 6 s'de iletilebilir ya da ulaşılamaz | `test_EDINIM_iki_SOLICIT_sonra_iki_DALGALI_4_s_istek_oturumu` · `test_ONARIM_SURESI_UNREACHABLE_…` · `test_ILAN_KORUMASI_kapali_…` (açık kolu) |
+| 5 | geri çekmeden sonra eski sonlu ilan sonlu ardıl yapmaz | **`test_U4_WITHDRAWALdan_sonra_ESKI_SONLU_ilan_ARDIL_OLAMAZ`** (yeni) · `test_ESKI_ya_da_ESIT_ADS_…` |
+| 6 | aynı DFSN_REQUEST bir kez iletilir | `test_ISTEK_ACTIVE_komsudan_BIR_KEZ_iletilir_Hop_Limit_azalir` |
+| 7 | gerçek yeniden deneme yeni Request-ID; `N_req` sınırı | `test_EDINIM_iki_SOLICIT_sonra_iki_DALGALI_4_s_istek_oturumu` |
+| 8 | onarım tamponunda 6 s'yi aşan paket düşer; Data-ID önbelleği 10 s | tampon: `test_KOTA_bolum_BITINCE_bosalir_…` · ⚠️ **Data-ID tekrar önbelleği GERÇEKLENMEDİ** — yedeklilik yok, tekrar paket doğmuyor; Y3 ile gelir (beyan) |
+| 9 | PROTECT'te güvenli alternatif kaybında çoğaltma beklemeden durur | `test_POSTUR_PROTECT_ek_ardil_kaybinda_HEMEN_iner_…` (çoğaltma yok; postür iner) |
+
+## 6 · 🔴 Süre ölçümü tam ölçekte bir ÇÖKÜŞ gösterdi
+
+`sure.py` (tam ölçek, N = 40, yere toplama, 60 s koşu — ısınma 10, ölçüm
+50 —, tohum 1000, 8 iş / 8 işçi, duvar 2 666 s). Kısa pencerenin PDR'si
+kapının PDR'si DEĞİLDİR; ama fark kısa pencereyle açıklanamayacak kadar
+büyük:
+
+| kol | DESPARETE PDR · süre | kâhin PDR · süre | 350 s'ye ölçekli DESPARETE süresi |
+|---|---|---|---|
+| `statik-yok` | **0,089** · 712 s | 0,984 · 86 s | ~69 dk |
+| `bagimsiz-yok` | **0,025** · 1 884 s | 0,804 · 382 s | ~183 dk |
+| `gorev-yok` | **0,019** · 1 980 s | 0,925 · 327 s | ~192 dk |
+| `formasyon-yok` | **0,158** · 2 659 s | 0,764 · 525 s | ~259 dk |
+
+- **Süre:** tam U1 (12 DESPARETE + 12 kâhin işi) doğrusal ölçekle ~41 sa
+  işlemci; 8 işçiyle en az **5–8 saat** (taban protokollerde 2–2,5 sa).
+- 🔴 **Teslim:** küçük dünyada (N = 14) 0,91 olan PDR, 40 düğümde ilk 60
+  s'de %2–16. Bu hâliyle U1 kesin kalır; 5–8 saatlik koşu yalnız bunu teyit
+  ederdi. Önce SEBEP ölçülür.
+
+## 7 · 🔒 ÖLÇMEDEN ÖNCE — çöküşün sebebi
+
+Üretici: `python arsiv/teshis/desparete_kabul_2026-09-23/olcek.py` — tam
+ölçek, `statik-yok`, 60 s, tohum 1000; yedi DESPARETE varyantı (varsayılan ·
+boşta sondalama kapalı · ilan koruması kapalı · postür kapalı · onarım
+edinimi kapalı · üçü birden kapalı [sondalama, koruma, postür] · hepsi
+kapalı) + kâhin. Her koşuda: düşme sebepleri, kontrol çerçevesi türe göre,
+kontrol ve veri kanal süresi, sonda geçit alanı iletilebilir düğüm oranı,
+ortalama ACTIVE komşu, edinim ve komşu sayaçları.
+
+İki hipotez, ayırt edici ölçütleriyle:
+
+- **(a) Kontrol yükü kanalı boğuyor.** Beklenen iz: kontrol kanal süresi
+  veri kanal süresinin katları; düşüşler kuyruk taşması ve/veya MAC
+  vazgeçmesi ağırlıklı; yük azaltan varyantlar (özellikle üçlü ve hepsi
+  kapalı) PDR'yi BELİRGİN yükseltir.
+- **(b) Alanlar 40 düğümde kurulamıyor.** Beklenen iz: sonda geçit alanı
+  iletilebilir düğüm oranı düşük; düşüşler `hedef_yok` / `rota_gecersiz` /
+  tampon ağırlıklı; yük azaltmak PDR'yi kurtarmaz.
+
+İkisi birlikte de olabilir. Ajanın önceliği (a) — K-150 §3'ün kâğıt üstü
+tahmini (yalnız boşta sondalama kanal süresinin %20–26'sı, N = 40) ve
+küçük dünyada ölçülen 8–17 kat ek yük yüzünden — ama bu bir öngörü değil,
+ölçütlerin ayıracağı bir soru.
+
+**Sonuç** (`olcek.py`, 8 iş; üretilen 2 000 paket; kanal süreleri bütün
+düğümlerin toplamı):
+
+| varyant | PDR | kontrol · veri kanal süresi (s) | düşen: kuyruk · MAC · rota_gecersiz · hedef_yok | FIELD_UPDATE · DFSN_REQUEST · PROBE çerçevesi | geçit alanı iletilebilir |
+|---|---|---|---|---|---|
+| varsayılan | **0,089** | 74,1 · 4,4 | 232 · 95 · 171 · 47 | 54 346 · 17 027 · 16 112 | 34/39 |
+| sondalama yok | 0,095 | 73,5 · 5,2 | 216 · 112 · 140 · 47 | 56 360 · 18 671 · 13 034 | 31/39 |
+| koruma yok | 0,096 | 72,8 · 5,4 | 223 · 137 · 200 · 47 | 48 519 · 20 392 · 17 813 | 28/39 |
+| postür yok | 0,066 | 74,3 · 4,1 | 244 · 90 · 206 · 47 | 54 412 · 18 030 · 15 454 | 22/39 |
+| onarım edinimi yok | 0,161 | 68,1 · 7,8 | 383 · 164 · 129 · 47 | 51 909 · 8 887 · 18 347 | 36/39 |
+| üçlü yok | 0,152 | 70,0 · 7,7 | 326 · 141 · 164 · 47 | 52 496 · 19 356 · 13 472 | 28/39 |
+| hepsi kapalı | **0,466** | 30,5 · 12,8 | 0 · 433 · 589 · 47 | 17 627 · 314 · 12 731 | 28/39 |
+| kâhin | **0,984** | 1,8 · 15,6 | 0 · 32 · 0 · 0 | — | — |
+
+- **(b) REDDEDİLDİ:** alanlar kuruluyor — varsayılanda sonda 34/39 düğümün
+  geçit alanı iletilebilir.
+- **(a)'nın izleri TUTTU:** kontrol kanal süresi veri kanal süresinin **17
+  katı**; en büyük düşüş sebebi kuyruk taşması; üretilen 2 000 paketin
+  **1 278'i** koşu sonunda hâlâ kuyruklarda (ne teslim ne düşüş). Çalkantı
+  çok büyük: 60 s'de **8 788 ardıl değişimi**, 1 811 onarıma giriş, 1 947
+  komşu kaybı (EXPIRED).
+- 🔴 **(a)'nın öngörüsü YARI tuttu:** üçlü (sondalama · koruma · postür)
+  kapatmak PDR'yi yalnız 0,09 → 0,15 taşıdı. Yükün çoğu onlardan değil:
+  **FIELD_UPDATE 60 s'de 54 346 çerçeve = düğüm başına 22,6/s** — tasarımın
+  kendi sınırına yakın (alan başına tetik ≤ 5/s, `21` §2.5; 5 alanla düğüm
+  başına ≤ 25/s + periyodik). Yalnız HEPSİ kapalıyken FIELD_UPDATE 17 627'ye
+  iner ve PDR 0,47'ye çıkar.
+
+## 8 · 🔒 ÖLÇMEDEN ÖNCE — iki YENİ hipotez (veri görüldükten SONRA kuruldu)
+
+⚠️ Bu iki hipotez §7'nin verisi görüldükten sonra yazıldı; sınamaları YENİ
+koşularla yapılır (`olcek2.py`, aynı dünya, aynı tohum).
+
+- **(c) FIELD_UPDATE fırtınasını M0.1 maliyet bandının oynaması
+  sürüklüyor.** U örnek sayısına bağlı (`N_Q` 4'ün altı/üstü → U 128 ↔ 64)
+  ve tek akış taşıyan bağda sınırda gidip geliyor → `C_risk` 16 ↔ 4 → ardıl
+  ya da potansiyel değişir → tetik ilanı → komşularda yeniden hesap.
+  **Beklenen:** risk + kalite kapalıyken (atlama sayısı) FIELD_UPDATE
+  varsayılanın **yarısından azına** iner ve PDR **belirgin** (≥ +0,15)
+  artar; yalnız riski kapatmak farkın çoğunu verir.
+- **(d) Komut hedeflerinin alanları (K-150 §4 A) yükü katlıyor.** Komut
+  akışı yokken (`komut_akis_sayisi = 0`, tek alan) FIELD_UPDATE ve
+  DFSN_REQUEST **kabaca 5'te 1'e** yaklaşır ve telemetri PDR'si artar.
+
+**Sonuç** (`olcek2.py`, 8 iş, tohum 1000):
+
+| varyant | PDR | kontrol · veri kanal süresi | FIELD_UPDATE · DFSN_REQUEST | kuyruk taşması | geçit alanı iletilebilir |
+|---|---|---|---|---|---|
+| (varsayılan, §7) | 0,089 | 74,1 · 4,4 | 54 346 · 17 027 | 232 | 34/39 |
+| risk + kalite yok | 0,088 | 71,3 · 5,5 | 48 213 · 17 252 | 226 | 27/39 |
+| risk yok | 0,075 | 73,5 · 4,5 | 54 094 · 15 931 | 290 | 29/39 |
+| kalite yok | 0,084 | 73,4 · 4,6 | 52 856 · 16 236 | 168 | 27/39 |
+| risk + kalite + onarım edinimi yok | 0,156 | 67,2 · 7,1 | 47 145 · 10 216 | 175 | 31/39 |
+| **komut yok** | **0,839** | 38,3 · 18,5 | 13 261 · 663 | **0** | **39/39** |
+| komut yok, risk + kalite yok | 0,619 | 39,6 · 19,9 | 16 063 · 1 562 | 0 | 34/39 |
+| komut yok, hepsi kapalı | 0,536 | 16,3 · 12,4 | 3 594 · 312 | 0 | 33/39 |
+| komut yok, kâhin | 0,984 | 1,8 · 15,2 | — | 0 | — |
+
+- **(c) REDDEDİLDİ:** risk + kalite kapalıyken FIELD_UPDATE yalnız −%11,
+  PDR değişmedi. Fırtınayı maliyet bandı oynaması sürüklemiyor.
+- **(d) GÜÇLÜ biçimde TUTTU:** komut akışı yokken (tek alan) DESPARETE'nin
+  PDR'si **0,089 → 0,839**; FIELD_UPDATE ~4'te 1'e, DFSN_REQUEST **26'da
+  1'e** iniyor, kuyruk taşması 0, geçit alanı 39/39. Kâhine oran **0,853**
+  (statik eşik 0,90 — yine de altında). **Çöküşü, K-150 §4'te seçilen A
+  seçeneği (komut hedefleri için isteğe bağlı alanlar) getiriyor.**
+- 🔎 Yan bulgu (tek tohum): komut yokken risk + kalite terimlerini
+  kapatmak PDR'yi 0,839 → 0,619 düşürüyor — M0.1 maliyeti bu dünyada
+  teslime katkı veriyor.
+
+## 9 · 🔒 ÖLÇMEDEN ÖNCE — yükün kaynağı ve ikinci tohum
+
+Üretici: `olcek3.py` — (i) tohum 1000 varsayılan, her kontrol çerçevesi
+alanına göre (geçit alanı mı, komut hedefi alanı mı) ve alan olayları
+tetikleyicisine göre sayılır; (ii) tohum 1001'de varsayılan ve komutsuz.
+
+- **(e)** FIELD_UPDATE ve DFSN_REQUEST çerçevelerinin **> %70'i** dört komut
+  hedefinin alanlarına ait. DFSN_REQUEST dalgalarını hangi tetikleyicinin
+  (ilk · yeniden · onarım · koruma edinimi) sürüklediğine dair öngörü YOK.
+- **(f)** Çöküş tohuma özgü değil: tohum 1001'de de varsayılan PDR < 0,30,
+  komutsuz PDR > 0,70.
+
+**Sonuç — (e) ve (f) TUTTU** (`olcek3.py`, 3 iş):
+
+- **(e):** komut hedeflerinin alanlarının payı — FIELD_UPDATE 42 355 /
+  54 681 = **%77**, DFSN_REQUEST 18 553 / 24 870 = **%75**, FIELD_SOLICIT
+  4 781 / 6 041 = **%79**. (Kancanın döndürdüğü niyetler sayıldı; simülatör
+  bunların bir kısmını iletmeden düşürdüğü için DFSN_REQUEST sayısı
+  simülatörün döküm sayısından büyük — pay karşılaştırması etkilenmez.)
+  Edinimi tetikleyen: **ilan koruması 1 975 · onarım 1 456** · ilk 42 ·
+  yeniden 0 (komutsuz koşuda koruma 150 · onarım 135). Alan olayları da
+  aynı oranda komut alanlarında: onarıma giriş 1 441 / 1 825, koruma
+  1 716 / 2 133.
+- **Mekanizma (ölçülen izlerden):** tıkanıklık döngüsü — dört fazladan
+  alanın ilanı ve edinimi kanalı doldurur → ilanlar kaybolur → seçili ilan
+  bitmeden koruma solicit'i ve onarım edinimi (ağ çapında DFSN_REQUEST)
+  tetiklenir → yük daha da artar. Geçit alanı da bu döngüye çekilir
+  (komutluda geçit alanının kendi DFSN_REQUEST'i 6 317; komutsuzda toplam
+  663).
+- **(f):** tohum 1001 — varsayılan PDR **0,079**, komutsuz **0,848**.
+
+## 10 · 🔴 ÖĞRENCİ KARARI — komut trafiği (K-150 §4'ün A seçeneği ölçüldü)
+
+K-150 §4'te A seçilirken bedeli *"alan sayısı 1 → 5, alan ilanı yükü ~5
+kat"* diye yazılmıştı. Ölçülen bedel bundan büyük: **tam ölçekte ağ
+çöküyor** (PDR 0,08–0,09, iki tohum). Bu hâliyle U1 kesin kalır; 5–8
+saatlik koşu yalnız bunu teyit eder — **koşulmadı**. Seçenekler (K-150'nin
+elenen seçenekleri yeniden masada):
+
+| # | seçenek | bedeli |
+|---|---|---|
+| A′ | A kalır, v0.2'de ölçeklenecek biçimde yeniden tasarlanır (ör. komut alanı yalnız talep yolunda; komut alanlarına ayrı ilan hızı; komut hedefi için ağ çapında istek yok) | tasarım işi (öğrencinin); etkisi ölçülmeden bilinmez; 3.8 bekler |
+| C | DESPARETE v0.1 komutları taşımaz (yalnız geçit alanı — tasarımın kendi tek-sink profili, `22` §11 madde 5) | komut paketleri DESPARETE'de düşer: tam ölçekte trafiğin ~%2,5'i (4 × 0,25 / 40 paket/s) → PDR tavanı ~0,975; karşılaştırmada DESPARETE'nin aleyhine ve dürüst |
+| D | komutlar ana deneyden çıkar (bütün protokollerde `komut_akis_sayisi = 0`) | deneyin trafik tasarımı değişir (ön-kayıt değişikliği, mühürden önce); yere toplamanın komut boyutu kaybolur |
+| B | ters ağaç (RPL benzeri aşağı yön) | yeni döngüsüzlük argümanı — gelecek çalışma |
+
+**Ajanın önerisi: C.** Tasarımın kendi profili; deney herkes için aynı
+kalır; bedel görünür ve DESPARETE'nin aleyhine sayılır; A'nın çöküşü bir
+BULGU olarak v0.2'nin aşağı yön sorusunu besler. ⚠️ C ile de statik
+hücrede kâhine oran **0,853** (tek pencere, 60 s) — eşiğin altında;
+açıklanması gerekecek ya da tam pencerede farklı çıkabilir.
+
+## 11 · Kapılar
+
+Tam takım `python -m pytest tests2 -q` → **795 passed** (754 s; beklenen
+790 + 5 — birebir) · `test_desparete.py` **149** · yapısal denetim ihlal
+**0**, **133** modül. Yeni kapılar: U1 yapı (defter kapalı · çok atlamalı
+teslim · kâhin aşılmıyor, küçük dünya yere toplamada) · U2 (alternatifle
+yerel geçiş ve kopma · tek ardılda onarım, geri çekme, edinim ve
+`rota_kuruldu`) · U4 satır 3 ve 5. `aodv_uygunluk.py` DESPARETE'yi yere
+toplamada koşabiliyor; taban protokollerin yapılandırması değişmedi.
+
+**3.8'in durumu:** U1'in sayısal yarısı §10'un kararını BEKLİYOR. U3 (yük
+profili) da karardan sonra ölçülür — ölçülecek profil karara bağlı.
+
+## 12 · 🟢 ÖĞRENCİ KARARI: **C** (24 Eylül 2026)
+
+*"C — komutları taşımasın"*. Uygulama:
+
+- `desparete.py` — hedefi geçit olmayan DATA her düğümde yerel politika
+  hatasıdır (`23` §7'nin kendi kuralı) ve beyansız düşer → `hedef_yok`;
+  geçit dışı hedef için edinim başlamaz, istek hedefe ulaşsa bile alan
+  açılmaz. Sayaç `veri_sink_disi`.
+- K-150 §4 A silinmedi: kurucu argümanı `komut_alanlari=True` (varsayılan
+  KAPALI) — K-160'ın çöküş bulgusunu yeniden üretmek ve v0.2'nin A′ sorusu
+  için. Ablasyon bayrağı DEĞİL (bayrakların "hepsi açık = v0.1"
+  sözleşmesini bozardı); satırda her düğümün teşhisinde ayrıca yazılır.
+- Testler: iki alanlı kota testleri ve A'nın simülatör testi
+  `komut_alanlari=True` ile; C'nin üç yeni testi (politika hatası · hedefte
+  alan açılmaz · simülatörde yalnız geçit alanı, komutlar `hedef_yok`).
+  `test_desparete.py` **152 passed** · tam takım **798 passed** (630 s;
+  beklenen 795 + 3 — birebir).
+
+🔒 **ÖLÇMEDEN ÖNCE — C tam ölçekte** (`sure.py`, 60 s, tohum 1000, dört
+kol, DESPARETE + kâhin):
+
+- `statik-yok` PDR **0,78–0,85** (komutsuz koşunun 0,839'u × 39/40 ≈
+  0,82); kâhine oran ~0,83 — eşiğin (0,90) ALTINDA.
+- Hareketli kollar: sayısal öngörü YOK; A'nınkinden (0,02–0,16) belirgin
+  yüksek.
+- Süre: `statik-yok` ~komutsuz koşunun 523 s'si; hareketli kollar A'dan
+  kısa.
+
+**Sonuç** (`sure.py`, C, duvar 2 303 s):
+
+| kol | DESPARETE PDR (A → **C**) | kâhin | oran (C) | eşik | 350 s'ye ölçekli süre (C) |
+|---|---|---|---|---|---|
+| `statik-yok` | 0,089 → **0,808** | 0,984 | 0,82 | 0,90 | ~45 dk |
+| `bagimsiz-yok` | 0,025 → **0,095** | 0,804 | 0,12 | 0,60 | ~161 dk |
+| `gorev-yok` | 0,019 → **0,151** | 0,925 | 0,16 | 0,60 | ~165 dk |
+| `formasyon-yok` | 0,158 → **0,263** | 0,764 | 0,34 | 0,60 | ~224 dk |
+
+- Statik öngörü TUTTU (0,808 ∈ 0,78–0,85). Hareketli kollar A'dan yüksek
+  (öngörü tuttu) ama **hâlâ çöküş düzeyinde** — oran 0,12–0,34, eşik 0,60.
+- Tam U1 (C): ~36 sa işlemci → 8 işçiyle **~4,5–6 saat**. Bu hâliyle üç
+  hareketli kolun dokuz hücresi de açıklanmamış düşük olur; koşum kalışı
+  teyit etmekten öteye geçmez. **Koşulmadı** — önce sebep.
+
+## 13 · 🔒 ÖLÇMEDEN ÖNCE — hareketli çöküşün sebebi (C, tek alan)
+
+Üretici: `olcek4.py` — tam ölçek, `bagimsiz-yok`, **40 s** (ısınma 10 ·
+ölçüm 35; 30 dk sınırı için kısaltıldı), tohum 1000; varsayılan · onarım
+edinimi yok · ilan koruması yok · ikisi birden yok · boşta sondalama yok ·
+postür yok · hepsi kapalı · kâhin.
+
+- **(g)** Hareketli çöküş de TIKANIKLIK: kontrol kanal süresi veri kanal
+  süresinin **≥ 5 katı**; kuyruk taşması düşüşlerin başında.
+- **(h)** Hareketlilik ardılları koparıyor, onarım ve koruma edinimleri
+  ağ çapında istek taşkınına dönüyor: **onarım edinimi + ilan koruması
+  birlikte kapalıyken PDR en az İKİ katına** çıkar ve DFSN_REQUEST
+  çerçevesi 10'da 1'in altına iner.
+
+**Sonuç** (`olcek4.py`, 8 iş; üretilen 1 399 paket; kâhin 0,762):
+
+| varyant | PDR | kontrol · veri kanal süresi | düşen: MAC · rota_gecersiz · hedef_yok · kuyruk | PROBE · FIELD_UPDATE · DFSN_REQUEST |
+|---|---|---|---|---|
+| varsayılan | **0,114** | 39,5 · 6,7 | 210 · 107 · 63 · 54 | 21 729 · 16 181 · 5 339 |
+| onarım edinimi yok | 0,303 | 33,1 · 11,1 | 275 · 177 · 81 · 82 | 22 412 · 9 473 · 1 249 |
+| koruma yok | 0,219 | 38,8 · 7,3 | 213 · 92 · 66 · 54 | 22 953 · 13 621 · 5 633 |
+| **onarım edinimi + koruma yok** | **0,380** | 31,3 · 11,9 | 359 · 223 · 81 · 38 | 23 686 · 4 907 · 559 |
+| sondalama yok | 0,310 | 32,9 · 11,4 | 250 · 226 · 81 · 19 | 18 334 · 14 020 · 4 498 |
+| postür yok | 0,170 | 38,5 · 7,5 | 225 · 134 · 48 · 29 | 22 209 · 14 472 · 4 788 |
+| hepsi kapalı | 0,327 | 17,7 · 8,9 | 299 · 561 · 81 · 0 | 13 339 · 2 674 · 274 |
+
+- **(g) YARI:** kontrol kanal süresi verinin **5,9 katı** (tuttu); ama
+  düşüşlerin başında kuyruk taşması DEĞİL, **MAC vazgeçmesi** (210 · 54) —
+  tutmadı.
+- **(h) YARI:** onarım edinimi + koruma kapalıyken PDR **0,114 → 0,380
+  (3,3 kat)** — tuttu; DFSN_REQUEST 5 339 → 559 = **%10,5**, "10'da 1'in
+  altı" eşiğini kıl payı KAÇIRDI — tutmadı sayılır.
+- **Tek bir baskın mekanizma yok.** Hareketli dünyada en büyük çerçeve
+  kalemi **PROBE** (21 729): komşular sürekli değişiyor (40 s'de 2 115
+  EXPIRED, 3 690 nitelik oturumu) ve her yeni komşu sondalanıyor. Yük
+  sondalama, onarım edinimi, koruma ve tetik ilanlarına yayılmış; her biri
+  kapatıldığında PDR artıyor ama en iyi varyant bile (0,380) kâhinin
+  yarısında (oran 0,50 < 0,60).
+
+## 14 · 🔴 ÖĞRENCİ KARARI — v0.1 tam ölçekte hareketli kollarda eşiğin çok altında
+
+**Durum (C ile, kısa pencere):** statik oran ~0,82 (eşik 0,90) · hareketli
+oranlar 0,12–0,34 (eşik 0,60). Sebep ölçüldü: kontrol düzleminin yükü
+(hareketli dünyada veri kanal süresinin ~6 katı) ve bağ çalkantısı; tek bir
+mekanizmaya bağlı değil. U1'in yapı yarısı (U1-U: defter · çok atlamalı
+teslim · kâhin aşılmıyor) geçiyor; başarım yarısı (U1-B) resmi koşumda
+büyük olasılıkla 12 hücrenin 12'sinde düşük çıkar. Seçenekler öğrenciye
+sunuldu (K-160 kapanışında kayda geçer).
+
+🟢 **ÖĞRENCİ KARARI (24 Eylül 2026): v0.2'ye geç** — *"v0.2'ye geç"*
+(seçenekler: v0.1'in resmi U1'i önce · v0.1'i olduğu gibi kabul). v0.1'in
+5 saatlik resmi U1'i KOŞULMADI; kısa pencere kanıtları bu kayıtta. Ajan,
+ölçülen sebeplerden ölçeklenebilirlik için aday değişiklikleri kanıtıyla
+çıkarır, öğrenci seçer; U1 v0.2 ile koşulur. v0.1 bayraklar ve
+parametrelerle yeniden üretilebilir kalır. → K-161.
+
+---
+
+# K-161 · 🟡 DESPARETE v0.2 HAZIRLIĞI — ölçeklenebilirlik adayları, kanıtıyla
+
+> **Tarih:** 24 Eylül 2026 · **Karar:** öğrenci (*"v0.2'ye geç"*, K-160
+> §14) · **Adaylar ve kanıt:** ajan · **Seçim:** öğrenci (tasarım onun)
+> **Üreticiler:** `python arsiv/teshis/desparete_v02_2026-09-24/ust_sinir.py`
+
+## 1 · Soru
+
+K-160'ın ölçtüğü sebepler: tam ölçekte kontrol düzleminin yükü (hareketli
+dünyada veri kanal süresinin ~6 katı) ve bağ çalkantısı. Tek tek
+mekanizma kapatmak hareketlide PDR'yi en çok 0,38'e taşıdı (kâhin 0,76).
+v0.2'nin adaylarını kurmadan ÖNCE bilinmesi gereken: **yükü azaltmak TEK
+BAŞINA eşiğe (0,60) yetebilir mi**, yoksa hareketlilikle başa çıkışın
+kendisi de mi değişmeli?
+
+## 2 · 🔒 ÖLÇMEDEN ÖNCE — yük azaltmanın üst sınırı
+
+Üretici: `ust_sinir.py` — tam ölçek, C, 40 s (ısınma 10 · ölçüm 35), tohum
+1000. "Üçlü kapalı" = boşta sondalama + onarım edinimi + ilan koruması;
+"dörtlü" = + postür. Koşular: `bagimsiz-yok` üçlü · dörtlü; `formasyon-yok`
+(birincil hücrenin hareketliliği, K-153) varsayılan · üçlü; `gorev-yok`
+üçlü; `statik-yok` varsayılan · üçlü · dörtlü.
+
+- **(i)** Hareketli kollarda üçlü kapalı PDR, K-160 §13'ün en iyi ikilisinden
+  (0,380) **düşük değil**; ama kâhine oran **yine 0,60'ın altında** — yük
+  azaltmak TEK BAŞINA yetmez.
+- **(ii)** Statikte üçlü kapalı PDR varsayılandan **düşük değil**.
+- **(iii)** Statikte PROBE_REPLY'lerin **> %80'i "fazla"**: PROBE'un MAC
+  onayı zaten ileri yönlü kanıt olduğundan yanıt bir şey katmıyor (K-155
+  §4'ün gözlemi, tam ölçekte).
+
+**Sonuç** (`ust_sinir.py`, 8 iş, 40 s):
+
+| kol | varsayılan PDR | üçlü kapalı | dörtlü kapalı | kâhin | oran (üçlü) |
+|---|---|---|---|---|---|
+| `bagimsiz-yok` | 0,114 (K-160 §13) | **0,595** | 0,606 | 0,762 (40 s) | **0,78** |
+| `formasyon-yok` | 0,149 | **0,670** | — | ~0,764 (60 s)* | **~0,88** |
+| `gorev-yok` | — | **0,756** | — | ~0,925 (60 s)* | **~0,82** |
+| `statik-yok` | 0,821 | **0,875** | 0,853 | ~0,984 (60 s)* | **~0,89** |
+
+\* Kâhin bu pencerede (40 s) ölçülmedi; 60 s değeri — oran YAKLAŞIK.
+
+- 🔴 **(i) TUTMADI — yanlış öngörü, iyi yönde:** üç mekanizmayı BİRLİKTE
+  kapatmak hareketli kolları eşiğin (0,60) **üstüne** taşıyor (oran
+  ~0,78–0,88). Tek tek kapatınca en çok 0,31'e çıkıyordu; birlikte 0,60–
+  0,76. Tıkanıklık DOĞRUSAL DEĞİL: yükü eşiğin altına indirince çöküş
+  kalkıyor. Kontrol kanal süresi veri kanal süresinin ~1,1–2,1 katına iniyor
+  (varsayılanda hareketlide ~6), kuyruk taşması 0.
+- **(ii) TUTTU:** statikte üçlü kapalı 0,875 ≥ 0,821. Postür kapalı olup
+  olmaması fark etmiyor (dörtlü ≈ üçlü).
+- **(iii) TUTTU:** PROBE_REPLY'lerin **%96'sı** (statik, 5 031 / 5 257) ve
+  hareketlide **%89'u** fazla.
+- Kalan en büyük yük: **nitelik PROBE'ları** (hareketlide 40 s'de 4 865–
+  5 669 oturum; komşular sürekli yeni). Üçlü kapalıyken boşta sondalama
+  olmadığı için komşular boşta da düşüyor ve yeniden nitelendiriliyor.
+
+## 3 · v0.2 adayları — ölçülen sebepten, KARAR DEĞİL
+
+| # | aday | ölçülen sebep | kanıt | bedel / risk |
+|---|---|---|---|---|
+| V0 | **yalın profil:** boşta sondalama + onarım edinimi + ilan koruması KAPALI (bayraklar hazır, kod yok) | kontrol yükü doğrusal olmayan çöküş | §2: oranlar ~0,78–0,89 | üç mekanizmanın işlevi gider: boşta bağ düşer ve yeniden nitelenir; onarım yalnız olağan ilanlarla (≤ 6 s); seçili ilan bitebilir |
+| V1 | PROBE_REPLY yalnız MAC onayı YOKSA (ya da hiç) | yanıtların %89–96'sı fazla | §2 (iii) | ters yön kanıtı yalnız veri/ilan akışından; gerçek telsizde bağ katmanı onayı varsayımı |
+| V2 | boşta sondalama yalnız GEREKLİ komşuya (ardıl ya da uygulanabilir alternatif) | boşta PROBE'ların çoğu hiç kullanılmayan komşuya | statikte 4 954 boşta oturum / 40 s | kullanılmayan komşu boşta düşer (zaten kullanılmıyor) |
+| V3 | onarım edinimi önce YEREL (solicit), istek dalgası sınırlı yarıçapla | ağ çapında DFSN_REQUEST taşkını | onarım edinimi kapalı: hareketlide PDR ×2,7 | uzak onarım yavaşlar |
+| V4 | ilan koruması seyrek (ör. yalnız veri taşıyan alanda) ya da yok | tıkanıkta sürekli tetikleniyor | koruma kapalı: +0,10 (hareketli), ek yük −%20 (küçük dünya) | ilan bitimi → kısa onarım |
+| V5 | ihtiyaca bağlı nitelik (komşu ancak ilanı uygulanabilir aday olacaksa sondalanır) | hareketlide en büyük kalan yük | 4 865–5 669 oturum / 40 s | ölçülmedi — bayrak/kod gerekir |
+
+Yol seçimi öğrencinin; seçenekler §4'te sorulur.
+
+## 4 · 🟢 ÖĞRENCİ KARARI: **yalın profil (V0)** (24 Eylül 2026)
+
+*"Yalın profil (V0)"* (seçenekler: V0 + V1 + V2 birlikte · mekanizmaları
+incelt V1–V5). İnceltmeler (V1 · V2 · V5) sonra, iyileştirme olarak ölçülür.
+
+## 5 · Uygulama
+
+- `desparete_bayrak.py` — adlı profiller: `PROFIL_V01` (= hepsi açık) ·
+  `PROFIL_V02` (boşta sondalama · onarım edinimi · ilan koruması KAPALI).
+- `desparete.py` — kurucunun varsayılanı **`PROFIL_V02`**: deneyde
+  "DESPARETE" öğrencinin seçtiği sürümdür; v0.1 `bayraklar=PROFIL_V01`
+  ile birebir yeniden üretilir.
+- `aodv_uygunluk.py` — DESPARETE profili AÇIKÇA v0.2 verilir.
+- Testler: mekanizmaları sınayan birim testleri profili açıkça verir (v0.1);
+  U2 iki profilde (v0.2'de onarım edinimi YOK). `test_desparete.py` **152**.
+
+## 6 · 🔒 ÖLÇMEDEN ÖNCE — v0.2'nin tam ölçekte doğrulaması
+
+Üretici: `python arsiv/teshis/desparete_v02_2026-09-24/dogrulama.py` — tam
+ölçek, C, v0.2, **40 s** (ısınma 10 · ölçüm 35), **U1'in tohumları
+1000–1002**, dört `-yok` kolu; kâhin AYNI pencerede ve tohumda (oran bu
+kez tam eşleşik). 24 iş, 8 işçi, ~25–30 dk.
+
+- **(j)** Hareketli **9 hücrenin 9'unda** oran **≥ 0,60**.
+- **(k)** Statik 3 hücrede oran **≥ 0,85**; ≥ 0,90 olup olmayacağına dair
+  öngörü YOK (tohum 1000'de ~0,89).
+- **(l)** 24 satırın hepsi geçerli; her DESPARETE hücresinde kontrol kanal
+  süresi veri kanal süresinin **< 2,5 katı**.
+
+**Sonuç — üç beklenti de TUTTU** (duvar **2 517 s = 42 dk**; ⚠️ 25–30 dk
+tahminini AŞTI — hareketli işler tek tohumdakinden yavaştı; koşum
+durdurulmadı, yarıda kalan ölçüm boşa giderdi):
+
+| kol | tohum 1000 | 1001 | 1002 | eşik |
+|---|---|---|---|---|
+| `statik-yok` (DESPARETE · kâhin · oran) | 0,875 · 0,985 · **0,888** | 0,864 · 0,996 · **0,868** | 0,878 · 0,998 · **0,880** | 0,90 |
+| `bagimsiz-yok` | 0,595 · 0,762 · **0,780** | 0,704 · 0,885 · **0,795** | 0,589 · 0,819 · **0,719** | 0,60 |
+| `gorev-yok` | 0,756 · 0,969 · **0,780** | 0,619 · 0,844 · **0,734** | 0,694 · 0,860 · **0,807** | 0,60 |
+| `formasyon-yok` | 0,670 · 0,765 · **0,876** | 0,726 · 0,791 · **0,919** | 0,642 · 0,756 · **0,849** | 0,60 |
+
+- **(j):** hareketli 9 / 9 hücre ≥ 0,60 (0,719–0,919).
+- **(k):** statik 3 / 3 hücre ≥ 0,85 — ama **üçü de 0,90'ın ALTINDA**
+  (0,868–0,888). Resmi U1'de açıklanmaları gerekebilir. İki bilinen pay:
+  komut paketleri C gereği düşüyor (trafiğin ~%2,5'i; kâhin onları da
+  taşıyor) ve kısa koşuda alanların kurulduğu ilk saniyelerin ağırlığı büyük
+  — tam pencerede (350 s) ikincisi küçülür. Ölçülmeden iddia edilmez.
+- **(l):** 24 / 24 geçerli; kontrol / veri kanal süresi **1,10–2,11**.
+
+**Resmi U1'in süre bandı** (40 s'lik işlerin 350 / 40 = 8,75 katı, doğrusal
+varsayımla): hareketli DESPARETE işi 2,5–4,3 sa, statik ~0,6 sa; toplam
+~38 sa işlemci → 8 işçiyle **~5–7 saat**.
+
+**Kapılar:** tam takım **798 passed** (701 s; v0.2 varsayılanıyla) ·
+`test_desparete.py` **152** · yapısal denetim ihlal **0**, **133** modül.
+
+**Resmi U1:** öğrenci *"Daha sonra"* — uygun zamanı öğrenci söyler.
+
+## 7 · 🔒 ÖLÇMEDEN ÖNCE — U3 (yük profili), v0.2
+
+Üretici: `python -u kalibrasyon/aodv_uygunluk.py u3` — küçük dünya,
+`statik-yok`, 60 s ve 120 s; taban protokoller eşler arası, DESPARETE yere
+toplamada (C, v0.2). K-160 §4'ün beklentisi v0.1 için yazılmıştı; v0.2'de
+de periyodik ilan sürdüğü için aynı bant geçerli:
+
+- **(m)** DESPARETE'nin 60 → 120 s kontrol çerçevesi oranı **1,8–2,2**.
+- **(n)** Taban protokoller kayıtlı oranlarını **birebir** üretir: AODV
+  2,070 · OLSR 2,130 · AOMDV 2,310 (`06` §4.3) — aletin genişletilmesi
+  onların yapılandırmasına dokunmadı.
+
+**Sonuç — ikisi de TUTTU:**
+
+| protokol | 60 s → 120 s kontrol çerçevesi | oran | PDR (60 · 120 s) |
+|---|---|---|---|
+| AODV | 1 832 → 3 793 | **2,070** | 0,849 · 0,846 |
+| OLSR | 2 042 → 4 350 | **2,130** | 0,720 · 0,775 |
+| AOMDV | 1 357 → 3 134 | **2,310** | 0,864 · 0,841 |
+| **DESPARETE v0.2** | 5 103 → 10 246 | **2,008** | 0,781 · 0,813 |
+
+- **(m):** DESPARETE'nin yükü süreyle DOĞRUSAL (periyodik, sabit hızlı) —
+  taban protokollerdeki gibi hızlanmıyor (onlar ~2,07–2,31).
+- **(n):** taban oranları birebir.
+- 🔎 Boşta sondalama kapalıyken bile PROBE yükü büyük (60 s'de 1 750 PROBE ·
+  1 749 PROBE_REPLY): boşta düşen komşular yeniden NİTELENİYOR. V1 (yanıt
+  yalnız onay yoksa) ve V5 (ihtiyaca bağlı nitelik) bu yüzden hâlâ anlamlı
+  adaylar. (Bu tablo taban protokollerle bir KARŞILAŞTIRMA değildir —
+  desenler farklı: onlar eşler arası, DESPARETE yere toplama.)
+
+---
+
+# K-162 · 🟡 DESPARETE v0.2 ANALİZİ — test öncesi iyileştirme
+
+> **Tarih:** 24 Eylül 2026 · **Karar:** öğrenci — *"şuanlık o protokolü
+> test etmektense protokolü ilk önce mükemmelleştirmeye çalışalım … senden
+> protokolü incelemeni ve analiz etmeni istiyorum"* · resmi U1 bekler ·
+> **Analiz:** ajan · **Değişiklik kararları:** öğrenci
+> **Üreticiler:** `python arsiv/teshis/desparete_analiz_2026-09-24/analiz1.py`
+
+## 1 · Yöntem
+
+Tasarımın kendi gözden geçirmesi (`40`, TG-01…TG-10) belge tutarlılığı ve
+uygulama sözleşmeleri üzerinedir; ölçeklenme sorununu öngörmez. Açık sorular
+(`07`) tasarım düzeyinde kapalı; yalnız TG-09 (düşük trafikte M0.1)
+"ölçülerek kalibre edilecek" diye açık — K-158 onu ölçtü. Bu analiz
+ÖLÇÜLEN davranıştan gider: v0.2'de paketler nerede ve neden kayboluyor;
+DESPARETE'nin seçtiği bağlar GERÇEKTE ne kadar iyi (kâhinin kanal
+grafiğiyle, yalnız teşhis — protokole hiçbir şey sızmaz); alan ve komşu
+bilgisi ne kadar süre doğru; yük hangi mesajdan.
+
+## 2 · 🔒 ÖLÇMEDEN ÖNCE — ajanın beklentileri (keşif ölçümü)
+
+Üretici: `analiz1.py` — tam ölçek, C, v0.2, 30 s (ısınma 10 · ölçüm 15 ·
+boşalma 5), tohum 1000; dört `-yok` kolu × (DESPARETE, kâhin).
+
+- **(A1)** Hareketli kollarda iletimlerin **≥ %20'si** gerçek tek deneme
+  başarısı **< 0,7** olan bağlardan; kâhinin sonraki atlamasıyla uyuşma
+  **< %50**.
+- **(A2)** Hareketli kollarda geçit alanı epoch örneklerinin **≤ %80'inde**
+  iletilebilir; kalanın önemli kısmında kâhinin bir yolu VAR.
+- **(A3)** Hareketli kollarda kâhinin kullanılabilir saydığı komşuların
+  **< %70'i** DESPARETE'de ACTIVE (v0.2'de boşta sondalama yok).
+- **(A4)** Hareketli kollarda en büyük kayıp kalemi MAC vazgeçmesi; onu
+  rotasızlık (`rota_gecersiz` + `hedef_yok`) izler.
+
+## 3 · Sonuç (`analiz1.py`, 8 iş; duvar **62 dk** — ⚠️ 20–25 dk tahmini
+AŞILDI: makine aynı anda başka bir yoğun uygulamayla paylaşıldı, işler
+zamanın ~yarısında işlemci bekledi; koşum durdurulmadı)
+
+Her kolda 1 000 paket; 5 s'lik boşalmayla koşu sonunda yolda kalan **0**.
+
+| kol | PDR DESPARETE · kâhin | MAC vazgeçme D · K | rotasızlık D (`rota_gecersiz` + `hedef_yok`) | gecikme p50 · p95 (s) D | K |
+|---|---|---|---|---|---|
+| `statik-yok` | 0,863 · 0,974 | 72 · 26 | 7 + 58 | 0,018 · 0,19 | 0,010 · 0,027 |
+| `bagimsiz-yok` | 0,546 · 0,786 | 269 · 214 | 125 + 60 | **0,28 · 3,2** | 0,017 · 0,061 |
+| `gorev-yok` | 0,777 · 0,925 | 160 · 75 | 0 + 63 | 0,047 · 1,3 | 0,009 · 0,033 |
+| `formasyon-yok` | **0,736 · 0,737** | 170 · 263 | 35 + 59 | **0,29 · 4,4** | 0,016 · 0,055 |
+
+| kol | iletimde bağın gerçek tek deneme başarısı < 0,5 · 0,5–0,7 · 0,7–0,9 · ≥ 0,9 | kâhinle aynı sonraki atlama | geçit alanı: iletilebilir · onarımda · yok | ACTIVE komşu kapsamı · fazlası | onarım bölümü (30 s) · p50 · p90 |
+|---|---|---|---|---|---|
+| `statik-yok` | %7 · %7 · %18 · %68 | %74 | %89 · %8 · %3 | 0,64 · 0,24 | 105 · 0,09 s · 1,2 s |
+| `bagimsiz-yok` | %23 · %14 · %27 · %35 | %56 | %79 · %17 · %3 | 0,62 · 0,31 | 396 · 0,17 s · 1,4 s |
+| `gorev-yok` | %16 · %13 · %20 · %51 | %66 | %86 · %10 · %3 | 0,61 · 0,38 | 202 · 0,12 s · 0,8 s |
+| `formasyon-yok` | %21 · %18 · %37 · %24 | %53 | %86 · %11 · %3 | 0,62 · 0,33 | 263 · 0,17 s · 1,0 s |
+
+"Kapsam": kâhinin kullanılabilir saydığı komşuların (8 denemede ≥ %90)
+DESPARETE'de ACTIVE olan payı. "Fazlası": ACTIVE komşuların kâhince
+kullanılamaz olan payı. İletilebilir olmayan HER alan örneğinde kâhinin bir
+yolu vardı.
+
+Kontrol yükü (30 s): PROBE 5 166–13 385 · PROBE_REPLY 4 570–7 915 ·
+FIELD_UPDATE 3 064–3 663 çerçeve. Nitelik oturumu **2 488–4 279**, EXPIRED
+**1 974–3 054** — düğüm başına saniyede ~2–3,7 nitelik oturumu. PROBE +
+yanıt, kontrol çerçevelerinin **%76–86'sı**. Yanıtların **%95–97'si** fazla
+(MAC onayı zaten kanıttı).
+
+- **(A1) YARI:** hareketlide iletimlerin **%29–39'u** gerçek başarısı < 0,7
+  bağlardan (tuttu); kâhinle uyuşma %53–66 (< %50 öngörüsü tutmadı).
+- **(A2) ÇOĞUNLUKLA TUTMADI:** geçit alanı zamanın %79–86'sında iletilebilir
+  (yalnız bağımsız ≤ %80); ama iletilebilir OLMAYAN her anda kâhinin yolu
+  vardı (tuttu).
+- **(A3) TUTTU — statikte bile:** kapsam 0,61–0,64.
+- **(A4) TUTTU.**
+
+## 4 · Bulgular — ölçülen sebepler
+
+| # | bulgu | kanıt |
+|---|---|---|
+| F1 | **Komşu çalkantı döngüsü.** v0.2'de boşta sondalama yok: veri taşımayan komşu ~3 s'de STALE, ~5 s'de EXPIRED olur; bir sonraki ilanı duyulunca yeniden NİTELENİR. Kontrol yükünün en büyük kalemi bu döngü | 30 s'de 2–3 bin EXPIRED, 2,5–4,3 bin nitelik oturumu; PROBE + yanıt kontrol çerçevelerinin %76–86'sı |
+| F2 | **Bayat komşu bilgisi → zayıf bağ → MAC vazgeçmesi.** ACTIVE komşuların üçte biri gerçekte kullanılamaz; kullanılabilirlerin üçte biri ACTIVE değil | kapsam 0,61–0,64 · fazlası 0,24–0,38; iletimlerin %29–39'u < 0,7 bağlardan; en büyük kayıp MAC |
+| F3 | **Sık, kısa onarımlar → tampon gecikmesi.** Ardıl kopunca ACTIVE uygulanabilir alternatif çoğu an YOK (F1 yüzünden) → yerel geçiş yerine REPAIRING | hareketlide 30 s'de 200–400 bölüm (düğüm başına ~3–6 s'de bir), p50 0,1–0,2 s ama gecikme p95 1,3–4,4 s (kâhin ~0,05 s) |
+| F4 | **Başlangıç kaybı.** İlk ~1–2 s alan yok | alan örneklerinin ~%3'ü "yok"; `hedef_yok`un ~35'i (kalan ~25'i C gereği komut) |
+| F5 | **Komut paketleri** C gereği düşer | ~25 / 1 000 |
+
+🔎 `formasyon-yok`ta (birincil hücrenin hareketliliği) bu tohum ve pencerede
+DESPARETE kâhinle **aynı PDR'de** (0,736 · 0,737) — kâhin MAC'e daha çok
+kaybediyor (263 · 170). Tek tohum; sonuç değil.
+
+## 5 · İyileştirme adayları — bulgudan, KARAR DEĞİL
+
+| # | aday | hedef bulgu | beklenen | risk |
+|---|---|---|---|---|
+| V2+ | **hedefli canlılık:** yalnız ARDIL ve en iyi 1–2 UYGULANABİLİR alternatif boşta sondalanır | F1 · F3 · F2 | çalkantı azalır; ardıl kopunca yerel geçiş (onarım ve tampon gecikmesi azalır) | alternatif başına küçük sondalama yükü |
+| V5 | **ihtiyaca bağlı nitelik:** yeni duyulan komşu ancak ilanı UYGULANABİLİR bir aday olacaksa (ya da alan onarımdaysa) nitelendirilir | F1 (en büyük yük) | nitelik oturumları büyük ölçüde düşer | yararsız komşu bilinmez (zaten kullanılmıyor) |
+| V1 | PROBE_REPLY yalnız MAC onayı yoksa | F1'in yükü | PROBE çerçevelerinin ~%40'ı gider | ters yön kanıtı yalnız veri/ilandan |
+| V6 | **ardılın tazeliği:** ardıl için kanıt yaşı sınırı kısaltılır ya da her MAC denemesi başarısızlığında kalite hemen düşer | F2 | zayıflayan bağdan erken kaçış | ölçülmeli: gereksiz geçişler artabilir |
+
+Önerilen sıra: V5 + V1 (yük) → V2+ (yedek ve onarım) → V6 (ölçülerek).
+Her aday, varsayılanı KAPALI bir bayrakla (v0.2 yeniden üretilebilir
+kalır) ve tam ölçekte ≥ 3 tohumlu A/B ile değerlendirilir.
+
+🔴 *(K-163 §2: §3'ün "yanıtların %95–97'si fazla" cümlesi yalnız KANIT için
+doğrudur; yanıtlar M0.1'in ilk örneğini sağlıyormuş — V1 tek başına ağı
+kilitliyor.)*
+
+---
+
+# K-163 · 🟡 V1 · V5 GERÇEKLENDİ — ikisi de tek başına ağı KİLİTLİYOR; eksik parça V7
+
+> **Tarih:** 24 Eylül 2026 · **Karar:** öğrenci — *"V5 + V1 ile başla"* ·
+> **Gerçekleme ve V7:** ajan (kanıt için; benimsenmesi öğrencinin)
+> **Üreticiler:** `python -m pytest tests2/test_desparete.py -q` ·
+> `python arsiv/teshis/desparete_analiz_2026-09-24/ab_v1v5v7.py`
+
+## 1 · Ne yazıldı — hepsi varsayılan KAPALI (`Secenekler`)
+
+`desparete_bayrak.py::Secenekler` — ablasyon bayraklarından AYRI (onların
+"hepsi açık = v0.1" sözleşmesi bozulmasın); teşhiste her düğümün seçenekleri.
+
+| seçenek | ne yapar |
+|---|---|
+| **V1** `yanit_yalniz_onaysiz` | sondalayan, oturumun 2. ve sonraki denemelerinde (ilki onayla kanıtlanmadı demektir) PROBE bayraklarının 0. bitini koyar; alıcı yalnız o bitle yanıtlar. 🔴 Tel biçimi: ayrılmış bit |
+| **V5** `ihtiyac_nitelik` | komşu yalnız bizim için UYGULANABİLİR bir FIELD_UPDATE'i varsa nitelendirilir (alan/FD yok · daha yeni tur · aynı turda potansiyel < FD) |
+| **V7** `nitelik_olcumu` | yeni ACTIVE olan, henüz örneği olmayan komşuya TEK ölçüm PROBE'u |
+
+Seçenekler kapalıyken v0.2 **BİREBİR**: U3'ün DESPARETE koşusu (küçük dünya,
+60 s) PDR 0,7809 ve dört çerçeve sayısıyla aynen tekrarlandı.
+
+## 2 · 🔴 Bulgu — M0.1'in İLK ÖRNEĞİ gizli bir bağımlılıktı
+
+Simülatör kapısı yakaladı: V1 ve V5 açıkken küçük dünyada hiç veri
+iletilmedi. Tek tek (12 s, statik): v0.2 PDR 0,772 · **V1 0,000 · V5 0,015**.
+Sebep sayaçlardan: komşular ACTIVE oluyor (V1'de 105 geçiş) ama **maliyet
+doğmuyor**. Nitelik PROBE'unun onayı komşuyu ACTIVE yapar ama M0.1 örneği
+DEĞİLDİR (`35` §3.1: örnek, ACTIVE komşuya yapılan denemedir). v0.2'de ilk
+örneği, KARŞI yönün sondalamasına verilen **PROBE_REPLY** sağlıyordu: A, G'yi
+sondalar; G de A'yı sondalar; A'nın yanıtı A→G'nin ilk örneğidir.
+
+- V1 yanıtları kaldırır → ilk örnek yok → maliyet yok → alan yok.
+- V5 karşılıklı sondalamayı kaldırır (G, A'yı "yararsız" bulur) → aynı.
+- 🔴 **K-162 §3'ün düzeltmesi:** "yanıtların %95–97'si fazla" yalnız KANIT
+  için doğruydu; yanıtlar ÖLÇÜM için gerekliymiş.
+
+**V7** bu bağımlılığı açık bir adıma çevirir: her yön kendi ilk örneğini
+kendi ölçüm PROBE'uyla üretir (onayı ACTIVE iken gelir).
+
+Küçük dünya, 30 s, tohum 1000 (tek tohum — PDR farkları gürültü içinde;
+tıkanıklık yok):
+
+| varyant | PDR statik · karıştırıcılı | PROBE | PROBE_REPLY | nitelik | EXPIRED |
+|---|---|---|---|---|---|
+| v0.2 | 0,812 · 0,657 | 958 · 2 082 | 847 · 1 413 | 417 · 627 | 319 · 459 |
+| V7 | 0,746 · 0,657 | 1 726 · 3 567 | 1 697 · 2 651 | 418 · 637 | 324 · 455 |
+| V1 | **0,000 · 0,039** | 888 · 1 398 | 114 · 162 | 418 · 512 | 354 · 388 |
+| V1 + V7 | 0,794 · 0,696 | 1 677 · 3 616 | 76 · 199 | 456 · 734 | 349 · 506 |
+| V5 + V7 | 0,719 · 0,681 | 764 · 1 572 | 797 · 1 108 | 111 · 194 | 167 · 250 |
+| **V1 + V5 + V7** | 0,719 · 0,663 | **516 · 1 267** | **37 · 116** | **112 · 191** | **85 · 160** |
+
+Üçü birlikte: PROBE + yanıt + FIELD_UPDATE ~**%50** az; nitelik oturumu
+~%70, EXPIRED ~%65–73 az.
+
+**Kapılar:** `test_desparete.py` **159** (7 yeni: seçenekler kapalı ve
+teşhiste · V1 bayrak ve yanıt · V1 deneme numarası · V5 uygulanabilirlik
+kapısı · V7 ilk örnek olmadan maliyet yok ve ölçüm PROBE'u onu üretir · V7
+kancada · simülatörde üçü birlikte döngü 0 ve işliyor).
+
+## 3 · 🔒 ÖLÇMEDEN ÖNCE — tam ölçekte V1 + V5 + V7
+
+Üretici: `ab_v1v5v7.py` — tam ölçek, C, v0.2 + üç seçenek, 40 s (ısınma
+10 · ölçüm 25 · boşalma 5), tohum 1000–1002, dört `-yok` kolu; v0.2 ve kâhin
+değerleri K-161 §6'dan (aynı pencere ve tohumlar).
+
+- **(B1)** Kontrol / veri kanal süresi oranı her hücrede v0.2'ninkinden
+  (1,10–2,11) **en az %30 düşük**.
+- **(B2)** Hareketli 9 hücrenin PDR ortalaması v0.2'ninkinden (0,666)
+  **düşük değil**; kâhine oran 9 / 9 hücrede ≥ 0,60 kalır.
+- **(B3)** Statik 3 hücrede PDR v0.2'den en çok 0,02 düşük.
+
+## 4 · Sonuç (`ab_v1v5v7.py`, 12 iş, duvar 1 709 s = 28,5 dk)
+
+| kol | tohum | PDR v0.2 → V1+V5+V7 | fark | kâhine oran | kontrol / veri kanal süresi v0.2 → V157 | gecikme p95 (V157) |
+|---|---|---|---|---|---|---|
+| `statik-yok` | 1000 | 0,875 → 0,834 | −0,041 | 0,847 | 1,12 → 0,57 | 0,05 s |
+| | 1001 | 0,864 → 0,824 | −0,040 | 0,828 | 1,10 → 0,54 | 0,07 s |
+| | 1002 | 0,878 → 0,857 | −0,021 | 0,859 | 1,27 → 0,58 | 0,04 s |
+| `bagimsiz-yok` | 1000 | 0,595 → 0,607 | +0,012 | 0,796 | 1,44 → 0,66 | 0,78 s |
+| | 1001 | 0,704 → 0,710 | +0,006 | 0,802 | 1,64 → 0,73 | 0,38 s |
+| | 1002 | 0,589 → 0,639 | +0,050 | 0,780 | 1,48 → 0,69 | 0,65 s |
+| `gorev-yok` | 1000 | 0,756 → 0,791 | +0,035 | 0,817 | 2,11 → 0,91 | 0,11 s |
+| | 1001 | 0,619 → 0,651 | +0,032 | 0,771 | 1,56 → 0,70 | 0,56 s |
+| | 1002 | 0,694 → 0,704 | +0,010 | 0,818 | 1,58 → 0,74 | 0,20 s |
+| `formasyon-yok` | 1000 | 0,670 → 0,707 | +0,037 | 0,924 | 1,60 → 0,74 | 0,20 s |
+| | 1001 | 0,726 → 0,721 | −0,005 | 0,911 | 1,53 → 0,79 | 0,52 s |
+| | 1002 | 0,642 → 0,719 | +0,077 | 0,951 | 1,60 → 0,77 | 0,49 s |
+
+- **(B1) TUTTU:** kontrol / veri kanal süresi her hücrede **%48–57** düştü.
+- **(B2) TUTTU:** hareketli ortalama **0,666 → 0,694** (+0,028; 9 hücrenin
+  8'inde artış); kâhine oran 9 / 9 ≥ 0,77 (0,771–0,951).
+- 🔴 **(B3) TUTMADI:** statik PDR **−0,021 … −0,041** (eşik −0,02); kâhine
+  oran 0,868–0,888 → 0,828–0,859. Sebep ölçülüyor (§5).
+- Gecikme p95 V157'de 0,04–0,78 s; v0.2'nin AYNI pencerede gecikmesi
+  ölçülmemişti (K-162'deki 1,3–4,4 s 30 s'lik penceredendi) — karşılaştırma
+  §5'te eşleşik ölçümle.
+
+## 5 · Statik düşüşün sebebi — BAŞLANGIÇ (`statik_fark.py`, eşleşik)
+
+| `statik-yok` | PDR (tüm koşu) v0.2 → V157 | PDR (pencere, 10–35 s) | `hedef_yok` | MAC | gecikme p95 |
+|---|---|---|---|---|---|
+| 1000 | 0,875 → 0,834 | 0,901 → **0,902** | 72 → **118** | 94 → 106 | 0,152 → 0,053 s |
+| 1001 | 0,864 → 0,824 | 0,890 → **0,879** | 69 → **113** | 121 → 133 | 0,124 → 0,066 s |
+| 1002 | 0,878 → 0,857 | 0,907 → **0,904** | 79 → **116** | 85 → 84 | 0,088 → 0,037 s |
+
+- Düşüşün tamamı **`hedef_yok`**: alanı henüz kurulmamış düğümün kendi
+  paketi (+37…+46). Başlangıcı dışlayan PENCERE PDR'si eşit
+  (−0,011…+0,001). Sebep: V5 + V7 ile alan hop hop daha YAVAŞ yayılıyor —
+  komşu ancak uygulanabilir ilanı duyulunca nitelenir, sonra ölçüm PROBE'u,
+  sonra ilan KABULÜ için bir sonraki periyodik ilan beklenir (ACTIVE değilken
+  gelen ilan reddedilmişti). v0.2'de herkes birbirini ilk çerçevede
+  nitelendiriyordu. Tam pencerede (350 s) başlangıcın payı küçüktür.
+- **Eşleşik gecikme (tohum 1000, aynı pencere):** `bagimsiz-yok` p95
+  **4,03 → 0,78 s**, `gorev-yok` **2,47 → 0,11 s**; statik 0,09–0,15 →
+  0,04–0,07 s. Mekanizması ÖLÇÜLMEDİ: K-162 v0.2'nin gecikmesini sık
+  onarımda tamponda bekleyen paketlere bağlamıştı; V157'de onarımın ve
+  beklemenin azalıp azalmadığı hareketli kollarda sayılmadı (statikte
+  onarıma giriş belirgin değişmiyor: 135 · 112 · 118 → 156 · 152 · 105).
+
+**Kapılar:** tam takım **805 passed** (1 229 s; beklenen 798 + 7 — birebir;
+makine paylaşımlıydı) · `test_desparete.py` **159**.
+
+## 6 · İnceltme adayı — başlangıç
+
+- **V5a (ilanı sakla):** ACTIVE olmayan komşunun uygulanabilir ilanı
+  reddedilmek yerine SAKLANIR; komşu ACTIVE olup maliyeti doğunca uygulanır
+  → hop başına bir periyodik ilan beklemesi (≤ 1 s) kalkar.
+  ⚠️ `23` §4.1 ACTIVE olmayan komşunun ilanını reddeder; saklamak bir
+  tasarım değişikliğidir (güvenlik kapısı değişmez: ilan yalnız komşu
+  ACTIVE ve maliyeti varken UYGULANIR).
+
+---
+
+# K-164 · 🟡 DESPARETE v0.3 = v0.2 + V1 + V5 + V7 · V5a sınanıyor
+
+> **Tarih:** 24 Eylül 2026 · **Karar:** öğrenci — *"Üçlüyü benimse + V5a,
+> sonra V2+"* · **Gerçekleme:** ajan
+> **Üreticiler:** `python -m pytest tests2/test_desparete.py -q` ·
+> `python arsiv/teshis/desparete_analiz_2026-09-24/v5a.py`
+
+## 1 · v0.3 profili
+
+`SECENEK_V03` = V1 + V5 + V7; DESPARETE'nin varsayılanı artık **`PROFIL_V02`
+bayrakları + `SECENEK_V03`**. v0.2 = `secenekler=SECENEK_YOK`, v0.1 =
+`bayraklar=PROFIL_V01, secenekler=SECENEK_YOK`. U1 aracı profili açıkça
+verir. Testler: komşu yaşam döngüsü kapısı seçeneksiz (v0.2) koşar; yeni
+kapı — v0.3'te geçit kimseyi nitelendirmez (V5: kendi alanı var), düğümler
+geçidi nitelendirir.
+
+## 2 · V5a — `ilan_sakla` (varsayılan KAPALI)
+
+ACTIVE OLMAYAN komşunun V5 kapısını geçen (uygulanabilir) ilanı saklanır
+(komşu başına son ilan); komşu ACTIVE olduğu kancada kalan ömrüyle (orijinal
+bitiş anı korunur) OLAĞAN yoldan `ilan_al` ile uygulanır — sıra, tur ve
+uygulanabilirlik denetimleri o anda. Ömrü dolmuş saklı ilan atılır. ACTIVE
+ama henüz maliyeti olmayan komşunun ilanı zaten tabloda tutuluyor; kaybolan
+YALNIZ ACTIVE olmayanınkiydi.
+
+**Kapılar:** `test_desparete.py` **161** (yeni: v0.3 varsayılanı · geçit
+nitelendirmez · V5a saklama, orijinal bitiş, eskime, kapalıyken ret).
+
+## 3 · 🔒 ÖLÇMEDEN ÖNCE — V5a tam ölçekte
+
+Üretici: `v5a.py` — tam ölçek, C, v0.3 + V5a, 40 s (K-161 §6 penceresi),
+tohum 1000–1002, dört `-yok` kolu. Karşılaştırma v0.3'e (= K-163 §4 · §5'in
+V157 değerleri; aynı yapılandırma).
+
+- **(C1)** Statik: `hedef_yok` 3 / 3 tohumda v0.3'ten (118 · 113 · 116)
+  **düşük** ve tüm koşu PDR'si 3 / 3'te v0.3'ten (0,834 · 0,824 · 0,857)
+  **yüksek**.
+- **(C2)** Hareketli 9 hücrenin PDR ortalaması v0.3'ünkinden (0,694) **düşük
+  değil**.
+- **(C3)** Statik pencere PDR'si (başlangıç hariç) v0.3'ünkinden (0,902 ·
+  0,879 · 0,904) en çok **±0,01** farklı.
+
+## 4 · Sonuç (`v5a.py`, 12 iş, duvar 1 197 s)
+
+| kol | tohum | PDR v0.3 → +V5a | fark | pencere PDR | `hedef_yok` | saklı ilan uygulandı |
+|---|---|---|---|---|---|---|
+| `statik-yok` | 1000 | 0,834 → 0,850 | +0,016 | 0,902 → **0,881** | 118 → **75** | 939 |
+| | 1001 | 0,824 → 0,854 | +0,030 | 0,879 → 0,880 | 113 → **68** | 926 |
+| | 1002 | 0,857 → 0,845 | −0,012 | 0,904 → **0,864** | 116 → **73** | 942 |
+| `bagimsiz-yok` | 1000 · 1001 · 1002 | 0,607 · 0,710 · 0,639 → 0,595 · 0,706 · 0,627 | −0,012 · −0,004 · −0,012 | | | |
+| `gorev-yok` | | 0,791 · 0,651 · 0,704 → 0,780 · 0,587 · 0,722 | −0,011 · **−0,064** · +0,018 | | | |
+| `formasyon-yok` | | 0,707 · 0,721 · 0,719 → 0,627 · 0,724 · 0,691 | **−0,080** · +0,003 · −0,028 | | | |
+
+- **(C1) YARI:** `hedef_yok` 3 / 3 düştü (başlangıç düzeldi — tuttu); tüm
+  koşu PDR'si yalnız 2 / 3 yükseldi (tutmadı).
+- 🔴 **(C2) TUTMADI:** hareketli ortalama **0,694 → 0,673** (−0,021; 9
+  hücrenin 7'sinde düşük).
+- 🔴 **(C3) TUTMADI:** statik pencere PDR'si iki tohumda −0,021 · −0,040.
+- **Hüküm:** V5a başlangıcı düzeltiyor ama KARARLI durumda zarar veriyor;
+  mekanizması ÖLÇÜLMEDİ (saklı ilanlar koşu boyunca sürekli uygulanıyor —
+  40 s'de ~930–1 300; yalnız başlangıçla sınırlı değil). **Ajanın önerisi:
+  benimsenmesin**; seçenek varsayılan KAPALI olarak kodda kalır.
+
+---
+
+# K-165 · 🟡 V2+ HEDEFLİ CANLILIK — ardıl ve en iyi iki yedek boşta sondalanır
+
+> **Tarih:** 24 Eylül 2026 · **Karar:** öğrenci — plan *"… sonra V2+"*
+> (K-164) · **Gerçekleme ve `K_YEDEK_CANLI = 2`:** ajan (aday parametre)
+> **Üreticiler:** `python -m pytest tests2/test_desparete.py -q` ·
+> `python arsiv/teshis/desparete_analiz_2026-09-24/v2p.py`
+
+## 1 · Ne yazıldı — `hedefli_canlilik` (varsayılan KAPALI)
+
+Boşta sondalama (v0.2'de bayrakla kapalı) bu seçenekle YALNIZ gerekli komşu
+için çalışır: bir iletilebilir alanın **ardılı** ya da **en iyi 2
+uygulanabilir yedeği** (maliyete göre). Karar sondalama anında verilir;
+gerekli olmayan komşu sondalanmaz (`bosta_atlandi`), `T_fresh` dolunca
+STALE olur. Hedef (K-162 F3): ardıl kopunca ACTIVE ve ölçülmüş bir yedek
+bulunsun → onarım yerine yerel geçiş.
+
+**Kapılar:** `test_desparete.py` **164** (yeni: filtre yalnız gerekli
+komşuya · ardıl + en ucuz 2 yedek canlı, 4.'sü değil · simülatörde döngü 0
+ve işliyor).
+
+## 2 · 🔒 ÖLÇMEDEN ÖNCE — tam ölçekte v0.3 + V2+
+
+Üretici: `v2p.py` — tam ölçek, C, v0.3 + V2+, 40 s (K-161 §6 penceresi),
+tohum 1000–1002, dört `-yok` kolu; eşleşik onarım sayımı için tohum 1000'de
+üç hareketli kolda v0.3 de koşulur. v0.3'ün PDR'si K-163 §4'ten.
+
+- **(D1)** Hareketli, tohum 1000: onarıma giriş V2+ ile v0.3'ten **düşük**
+  (3 / 3 kol).
+- **(D2)** Hareketli 9 hücrenin PDR ortalaması v0.3'ünkinden (0,694)
+  **yüksek**.
+- **(D3)** Kontrol / veri kanal süresi oranı v0.3'ünkinden (0,54–0,91) en
+  çok **%30 yüksek**.
+- **(D4)** Statik PDR v0.3'ünkinden (0,834 · 0,824 · 0,857) en çok **0,01
+  düşük**.
+
+## 3 · Sonuç (`v2p.py`, 15 iş, duvar 1 467 s)
+
+| kol | PDR v0.3 → +V2+ (tohum 1000 · 1001 · 1002) | kontrol / veri v0.3 → V2+ | onarıma giriş (V2+) |
+|---|---|---|---|
+| `statik-yok` | 0,834 · 0,824 · 0,857 → 0,796 · 0,804 · 0,827 | 0,54–0,58 → 0,59–0,63 | 148 · 77 · 74 |
+| `bagimsiz-yok` | 0,607 · 0,710 · 0,639 → 0,640 · 0,698 · 0,607 | 0,66–0,73 → 0,71–0,72 | 373 · 298 · 335 |
+| `gorev-yok` | 0,791 · 0,651 · 0,704 → 0,788 · 0,653 · 0,706 | 0,70–0,91 → 0,75–0,97 | 133 · 342 · 323 |
+| `formasyon-yok` | 0,707 · 0,721 · 0,719 → 0,707 · 0,679 · 0,683 | 0,74–0,79 → 0,77–0,81 | 281 · 258 · 320 |
+
+Eşleşik v0.3 (tohum 1000) K-163 §4'ü **birebir** tekrarladı (0,607 · 0,791 ·
+0,707); onarıma giriş v0.3'te 453 · 231 · 256.
+
+- **(D1) TUTMADI:** onarım bağımsızda 453 → 373, görevde 231 → 133 azaldı;
+  formasyonda 256 → 281 arttı (2 / 3).
+- 🔴 **(D2) TUTMADI:** hareketli ortalama **0,694 → 0,662** (−0,032).
+- **(D3) TUTTU:** kontrol / veri en çok +%11.
+- 🔴 **(D4) TUTMADI:** statik −0,020 … −0,038.
+- **Hüküm: benimsenmesin**; seçenek varsayılan KAPALI kalır. Mekanizması
+  ölçülmedi.
+
+**Kapılar (K-164 + K-165):** tam takım **810 passed** (799 s; 646 +
+`test_desparete.py` 164 — birebir). ⚠️ Bir önceki tam koşu (807 test) V2+
+seçenek demeti koşum SIRASINDA değiştirildiği için 2 testte kaldı (demet
+uzunluğu sınavları); kusur değil, geçersiz koşu — temiz koşu yukarıda.
+
+## 4 · 🔎 Yöntem dersi — PDR farklarının gürültü düzeyi
+
+Üç tohumlu, 40 s'lik tam ölçek hücrelerinde tek hücre farkları ±0,03–0,08
+oynuyor; K-158 §5'in eşleşik farklarından kaba bir ölçekle 9 hücrelik
+ortalamanın standart hatası ~0,016. Yani V157 (+0,028), V5a (−0,021) ve V2+
+(−0,032) PDR farkları ~1,3–2 standart hata düzeyindedir — YÖN işareti,
+kanıt değil. v0.3'ün SAĞLAM kazançları PDR değil: **kontrol yükü ~yarı**
+(12 / 12 hücre, %48–57) ve **hareketli gecikme p95 5–22× düşük** (iki
+eşleşik hücre). Sonraki adayların değerlendirmesi daha çok tohum ya da daha
+uzun pencere ister.

@@ -29,7 +29,7 @@ yapılan anlaşmalardan gelir.
 
 | anlaşma | neden |
 |---|---|
-| `git` komutu çalıştırılmaz (`status` dâhil) | depo ve commit geçmişi öğrencinin; fikir sahipliğinin kanıtı |
+| `git` komutlarını **yalnız öğrenci** çalıştırır — salt-okur olanlar (`status`, `log`, `ls-files`) dâhil. Depoda 23 Eylül 2026'dan beri git var; kural değişmedi | depo ve commit geçmişi öğrencinin; fikir sahipliğinin kanıtı |
 | Öğrenciyle Türkçe konuşulur; özetler kısa olur ve kod referansı içermez | öğrenci kararları okur, kodu değil |
 | `sim2/` içinde yapısal bir değişiklikten önce yapı anlatılır ve onay alınır. Ölçüm betikleri ve belgeler bunun dışındadır | öğrenci anlamadığı kodu jüri önünde savunamaz |
 | 30 dakikayı aşacağı tahmin edilen bir koşumdan önce sorulur; süreler bant olarak verilir | makine öğrencinin; deney koşarken kullanılabilir kalmalı |
@@ -39,7 +39,7 @@ yapılan anlaşmalardan gelir.
 | 🔴 **Bir iş BİTİRİLİR, sonra ölçülür.** Uzun kapı koşumları iş sürerken tekrar tekrar koşulmaz; işin kapanışında **bir kez** koşulur (öğrenci kararı, 17 Eylül 2026) | ara koşumlar donanımı saatlerce meşgul eder ve sayıları havada bırakır: hangi tablonun hangi kod hâline ait olduğu kaybolur. Ayrıca kod değişmeye devam ettiği için o tablo zaten yeniden koşulacaktır |
 | 🔴 **Protokoller sırayla kapatılır.** Bir protokol yazılır → entegre edilir → ölçülür → sorunları düzeltilir → *bitti* denir; ancak sonra sıradakine geçilir | paralel yürüyen iki yarım protokol, birinin kusurunu diğerinin ölçümüne karıştırır |
 | 🔴 **Ağır koşumda makine kullanılabilir kalır:** havuz varsayılanı **8 işçi** (öğrenci, 21 Eylül 2026: *"8 çekirdeğini kullanabilirsin"*; 17 Eylül'de 4 idi). Makine i5-13420H — **8 fiziksel çekirdek** (4 performans + 4 verimlilik), 12 mantıksal iş parçacığı. 8'i aşan varsayılanlar (dört alette 10) 8'e indirildi | öğrencinin tek makinesi var ve koşum sırasında onu kullanabilmeli. ⚠️ Verimlilik çekirdekleri daha yavaş: 4 → 8 işçinin kazancı 2 kattan az |
-| 🔴 **Dosya kalıcı olarak SİLİNMEZ; eskiyen belge arşive TAŞINIR** (öğrenci, 23 Eylül 2026 — temizliğin amacı bağlam kirliliğini önlemek) | depoda `git` yok, silinen geri gelmez; tarih, bir kararın neden verildiğinin hafızasıdır |
+| 🔴 **Dosya kalıcı olarak SİLİNMEZ; eskiyen belge arşive TAŞINIR** (öğrenci, 23 Eylül 2026 — temizliğin amacı bağlam kirliliğini önlemek) | tarih, bir kararın neden verildiğinin hafızasıdır. (Kural konduğunda depoda git yoktu ve silinen geri gelmezdi; git gelince de kural değişmedi — arşiv ve çıktılar git'in DIŞINDA tutuluyor) |
 
 **Ortamın fiziği (Windows):** her Python çağrısında `PYTHONIOENCODING=utf-8`;
 `Pool` kullanan betikte `if __name__ == "__main__":`; iç içe havuz ve

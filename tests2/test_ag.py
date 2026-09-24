@@ -257,6 +257,32 @@ def test_Y4_yere_toplama_URETIM_HIZI_akis_basina_ILAN_EDILENE_esit():
         assert n == pytest.approx(hiz * KY.olcum_bitis_s, abs=2)
 
 
+def test_K157_kaynak_sira_KAYNAK_BASINA_ardisik_ve_paketi_TANIR():
+    """Her kaynağın paketleri 0, 1, 2, … sırası alır; `(kaynak, kaynak_sira)`
+    bütün koşuda eşsizdir. Yere toplamada geçit birden çok komut akışının
+    kaynağıdır ve TEK sayaç kullanır — sayaç akış başına olsaydı geçitin iki
+    komut paketi aynı kimliği taşırdı."""
+    for konfig in (K, KY):
+        t = TrafikUreteci(konfig, Akislar(1))
+        sayac = PaketSayaci()
+        paketler = [t.paket_kur(d, sayac) for d in t.cizelge]
+        kaynaklar = {p.kaynak for p in paketler}
+        for kaynak in kaynaklar:
+            siralar = [p.kaynak_sira for p in paketler if p.kaynak == kaynak]
+            assert siralar == list(range(len(siralar)))
+        assert len({(p.kaynak, p.kaynak_sira) for p in paketler}) == len(paketler)
+    gecit_akislari = {a.kimlik for a in t.akislar if a.kaynak == KY.gecit}
+    assert len(gecit_akislari) >= 2
+
+
+def test_K157_kaynak_sira_TTL_azalinca_KORUNUR():
+    p = _paket(1, 0, 2)
+    p = dataclasses.replace(p, kaynak_sira=7)
+    assert p.ttl_azalt().kaynak_sira == 7
+    with pytest.raises(DegismezHatasi):
+        dataclasses.replace(p, kaynak_sira=-1)
+
+
 def test_Y4_varsayilan_ESLER_ARASI_ve_GECIT_YOK():
     assert K.trafik_deseni == "esler_arasi" and K.gecit is None
     assert not K.yere_toplama

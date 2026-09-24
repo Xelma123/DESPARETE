@@ -11,7 +11,7 @@
 | 01 | `01-PROBLEM-VE-AMAC.md` | problem · kapsam · **beş aşamalı iş akışı** · başarı ölçütü | güncel |
 | 02 | `02-DOGRULANMIS-KAYNAKLAR.md` | tek tek açılıp okunmuş kaynaklar · RFC tabloları · doğrulanmayı bekleyen sorular (§S) | güncel |
 | 03 | `03-YONTEM-KURALLARI.md` | yöntem ilkeleri · hata sınıfları · çalışma anlaşmaları | güncel |
-| 04 | `04-NEDEN-BOYLE.md` | karar kaydı — `sim2/` dönemi (K-090 ve sonrası). Baştan okunmaz; en yeni kayıtlardan geriye. K-001…K-089 (emekli `sim/`) `arsiv/04-NEDEN-BOYLE-K001-K089.md`de | K-151'e kadar (23 Eylül) |
+| 04 | `04-NEDEN-BOYLE.md` | karar kaydı — `sim2/` dönemi (K-090 ve sonrası). Baştan okunmaz; en yeni kayıtlardan geriye. K-001…K-089 (emekli `sim/`) `arsiv/04-NEDEN-BOYLE-K001-K089.md`de | K-160'a kadar (24 Eylül) |
 | 05 | `05-GOZLEM-PENCERESI.md` | protokolün görebildiği her şey — sözleşme | güncel |
 | 06 | `06-ON-KAYIT.md` | ön-kayıt taslağı: aileler · tohumlar · metrikler · istatistik · uygunluk testleri | taslak, mühürlenmedi |
 | 07 | `07-SIMULATOR-TASARIMI.md` | simülatörün tasarımı · uygulanma durumu · Aşama 1 tasarım önerileri · ayrışma defteri | güncel |

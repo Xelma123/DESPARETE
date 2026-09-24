@@ -11,12 +11,12 @@
 
 | | |
 |---|---|
-| aşama | **1 · Simülasyon** (`01` §5) — hedef: 26 Eylül 2026'ya kadar bitirmeye çalışmak |
-| yazılmış yönlendirme protokolü | 🟢 **AODV — KAPANDI** (`AODV-e`, 19 Eylül, K-145; K-140'ın kapanışı K-143'te geçersizleşmişti) · 🟢 **OLSR — KAPANDI** (`OLSR-b`, 22 Eylül, K-147; RFC 3626 §13 öğrenci kararıyla uygulandı, K-146) · 🟢 **AOMDV — KAPANDI** (`AOMDV-a`, 22 Eylül, K-149; makale + RFC 3561, öğrenci seçeneği a). 🟢 **Üç taban protokol de kapandı;** sırada Aşama 3 · özgün protokol |
+| aşama | **3 · Özgün protokol** (`01` §5) — DESPARETE v0.1'in gerçeklenmesi, 23 Eylül 2026'da başladı. Aşama 1 ve 2 bitti (üç taban protokolün sonuncusu 22 Eylül'de kapandı — plandaki "Ekim ortası"nın önünde) |
+| yazılmış yönlendirme protokolü | 🟢 **AODV — KAPANDI** (`AODV-e`, 19 Eylül, K-145; K-140'ın kapanışı K-143'te geçersizleşmişti) · 🟢 **OLSR — KAPANDI** (`OLSR-b`, 22 Eylül, K-147; RFC 3626 §13 öğrenci kararıyla uygulandı, K-146) · 🟢 **AOMDV — KAPANDI** (`AOMDV-a`, 22 Eylül, K-149; makale + RFC 3561, öğrenci seçeneği a). 🟢 **Üç taban protokol de kapandı.** 🟡 **DESPARETE** (23 Eylül): biçimler ve M0.1 (K-152) · komşu yaşamı (K-154) · alan ve ardıl (K-155) · edinim ve onarım (K-156) · paket kimliği ve alan kotası (K-157) · postürler (K-158) · ablasyon bayrakları (K-159) yazıldı — veri ve komutlar DESPARETE'yle taşınıyor · 🔴 kabul kapısında tam ölçekte çöküş ölçüldü (K-160): sebep komut hedeflerinin alanları → 🟢 öğrenci C'yi seçti (v0.1 yalnız geçit alanı, komutlar düşer); U1 sırada (§5) |
 | trafik yükü | yere toplama 39×1,0 + 4×0,25 = 40,0 pkt/s · eşler arası 10×4,0 = 40,0 pkt/s (İKİ DESEN EŞİT YÜKTE) — `python -u kalibrasyon/yere_toplama_yuku.py` (15 Eylül, C3) |
-| test takımı | **`637 passed`** — `python -m pytest tests2 -q` (22 Eylül, K-149; 572 s). AODV ve OLSR'ın uygunluk kapıları dâhil · ⏭️ `sim2/` Y1 · Y2 (K-151) sonrası **643** bekleniyor — henüz DOĞRULANMADI |
-| regresyon tabanı | **`k144`** · 44 vaka, 44/44 geçerli — `python -u kalibrasyon/regresyon_satirlari.py uret <etiket>` (19 Eylül, K-145; 38,2 dk / 4 işçi; `k141` ile yalnız önceden ilan edilen köken kovası farkı) |
-| yapısal denetim | ihlal yok · **169** parametre · **SINANMAMIŞ 40** · duyarlılık borcu **9** · **124** modül · tekrarlı tanım **0** · ölü köken kaydı **0** · `DUYARSIZ` |Δ| **13/13** — `python kalibrasyon/mimari_denetimi.py` (19 Eylül, K-145) |
+| test takımı | **`643 passed`** — `python -m pytest tests2 -q` (23 Eylül, K-151 kapanışı; 626 s) · DESPARETE'nin ilk iki parçasıyla (M0.1 · biçimler, K-152) `tests2/test_desparete.py` **118 passed** (3.5 dâhil, K-156); tam takım **`761 passed`** (23 Eylül, 3.5 sonrası; 701 s; beklentiyle birebir) → **`768 passed`** (23 Eylül, K-157 sonrası; 1 513 s; `test_desparete.py` 122; beklentiyle birebir) → **`779 passed`** (23 Eylül, K-158 sonrası; 717 s; `test_desparete.py` 133; beklentiyle birebir) → **`790 passed`** (23 Eylül, K-159 sonrası; 653 s; `test_desparete.py` 144; beklentiyle birebir) → **`795 passed`** (24 Eylül, K-160; 754 s; `test_desparete.py` 149; beklentiyle birebir) → **`798 passed`** (24 Eylül, K-160 §12 C; 630 s; `test_desparete.py` 152; beklentiyle birebir) → **`810 passed`** (24 Eylül, K-165 sonrası, v0.3 varsayılanıyla; 799 s; `test_desparete.py` 164) |
+| regresyon tabanı | **`k151`** · 45 vaka, 45/45 geçerli — `python -u kalibrasyon/regresyon_satirlari.py uret <etiket>` (23 Eylül, K-151 §7; 23,5 dk / 8 işçi; `k144` ile önceden yazılan beklentiyle BİREBİR, çıkış 0 — yeni vaka `j-` K-151'in iki yolunu sınar) |
+| yapısal denetim | ihlal yok · **169** parametre · **SINANMAMIŞ 40** · duyarlılık borcu **9** · **130** modül · tekrarlı tanım **0** · ölü köken kaydı **0** · `DUYARSIZ` |Δ| **13/13** — `python kalibrasyon/mimari_denetimi.py` (23 Eylül, K-155) |
 | U1 uygunluk kapısı | `python -u kalibrasyon/aodv_uygunluk.py` — dört `-yok` kolu × üç tohum, TAM pencerede; ölçüt **statik ≥ 0,90 · hareketli ≥ 0,60** (protokol/ETX kâhini oranı, K-136) · 🟢 **AODV (`AODV-e`): U1-U geçti · U1-B temiz · 2 açıklanmış düşük hücre** (bulgu) — `python -u kalibrasyon/aodv_uygunluk.py hukum` (19 Eylül, K-145) · 🟢 **AOMDV (`AOMDV-a`): U1-U geçti · U1-B temiz · 1 açıklanmış düşük hücre** (22 Eylül, K-149) · 🟢 **OLSR (`OLSR-b`): U1-U geçti · U1-B temiz · 0 açıklanmış düşük hücre** — `… aodv_uygunluk.py hukum ciktilar2/aodv_uygunluk/olsr_20260922_073356.json` (22 Eylül, K-147; §13 öncesi K-146) |
 | çalışma noktası | tek karıştırıcı −15,0 dBm, ρ = 0,258 · alan 1800 m, 40 düğüm, derece 8,67 — ikisi de 15 Eylül'de BİREBİR doğrulandı (K-128) · beş tehdit ailesinin beşi de sert kısıtı geçiyor (K-127) · 🔴 **ana deney tohumlarının 15 (kol, tohum) çiftinde ağ ölçüm penceresi içinde BÖLÜNÜYOR** (`--bolunme`, K-132); satır bunu `kapsam.bolunme_payi` ile beyan ediyor |
 | mobilite | çekirdek Θ = 3,25 · yüksek çalkantı Θ = 1,78 — `python -u kalibrasyon/bag_kumesi.py f g h` |
@@ -72,7 +72,11 @@ protokol de kapalı; sırada Aşama 3 · özgün protokol.**
 | **4 · Pürüz temizleme ve veri toplama** | mühür; ana deney (40 tohum); istatistik; keşifsel eksenler | Kasım başı – ortası |
 | **5 · Rapor ve sunum** | yazım (~5 hafta); görselleştirme | Kasım ortası – 19 Aralık |
 
-En büyük takvim riski, özgün protokol tasarımının henüz başlamamış olmasıdır.
+~~En büyük takvim riski, özgün protokol tasarımının henüz başlamamış olmasıdır.~~
+🔄 23 Eylül 2026: tasarım (v0.1) hazır, gerçekleme başladı. Bugünkü en büyük
+risk DESPARETE'nin **kanal yükü** — beş alanın ilanı ve boşta sondalama
+birlikte ölçülmedi (K-150 §3; `04` K-152) — ve gerçeklemenin süresi (ilk iki
+parçadan sonra ölçülerek bantlanacak).
 
 ---
 
@@ -187,40 +191,152 @@ D1) sığabilir, ama B2'nin tasarımı ve kalibrasyon koşumları uzun. Sığmaz
 
 ---
 
-## 5 · Sonraki aşamalar
+## 5 · Tam yol haritası — 23 Eylül 2026
 
-**Aşama 2 · Protokoller.**
+> 🟢 bitti · 🟡 sürüyor · ⏳ sırada · ⚪ açık, zamanı gelince. Her adım bir
+> kapıyla kapanır; kapının adı ve kararın kaydı yanında. Süreler tahmindir.
 
-- Önce bir protokol uçtan uca (dikey dilim), sonra diğer ikisi.
-- U1–U4 · M4'ün boş kol kapısı.
-  🟢 **AODV için U1–U4 yazıldı ve geçti** (17 Eylül, K-136) · 🟢 **AODV
-  KAPANDI** (`AODV-e`, 19 Eylül, K-145) · 🟢 **OLSR KAPANDI** (`OLSR-b`,
-  22 Eylül, K-147). U1'in sayısal
-  yarısı `kalibrasyon/aodv_uygunluk.py`de, yapı yarısı `tests2/test_aodv.py`de.
-  ⏭️ M4'ün boş kol kapısı hâlâ açık — AODV kopma beyan ediyor, koşulabilir.
-- Protokol olmadan kapanmayan borçlar — **artık ALTI**: kuyruk kapasitesi,
-  TTL, beacon aralığı, komşu ömrü, **rota tamponu kapasitesi (64)** ve
-  **rota tamponu ömrü (30 s)**. Son ikisi 16 Eylül'de eklendi (K-131) ve
-  değerleri NS-2 geleneğinden; bu projede ÖLÇÜLMEDİ. ⚠️ Ömür özellikle
-  önemli: ölçüm penceresi 270 s ve 30 s onun %11'i — parametre PDR'yi ve
-  gecikmeyi doğrudan oynatabilir, o yüzden AODV yazılır yazılmaz ilk o
-  ölçülecek.
-- Taban protokollerin geliştirme tohumlarında gürültüsü; eşiklerin türetme
-  formülleri (`06` §0.3 adım 3).
+**📍 ŞU AN BURADAYIZ: Aşama 3, adım 3.8** — kabul kapısı. Tam ölçekte
+(N = 40) A seçeneğiyle DESPARETE çöküyordu (PDR 0,08–0,09; sebep ölçüldü:
+komut hedeflerinin alanları). 🟢 **Öğrenci C'yi seçti** (24 Eylül, K-160
+§12): v0.1 yalnız geçit alanıyla, komutlar düşer. C ile statik oran ~0,82
+(eşik 0,90), 🔴 hareketli oranlar 0,12–0,34 (eşik 0,60) — sebep kontrol
+yükü ve bağ çalkantısı, tek mekanizmaya bağlı değil (K-160 §13).
+🟢 **Öğrenci: v0.2'ye geç** (K-160 §14) → **yalın profil** (K-161 §4):
+boşta sondalama · onarım edinimi · ilan koruması kapalı; DESPARETE'nin
+varsayılanı. Tam ölçek doğrulaması (40 s, U1'in tohumları): hareketli 9/9
+hücre oran ≥ 0,60 (0,72–0,92), statik 3/3 hücre 0,87–0,89 (eşik 0,90).
+🔄 **Öğrenci: test öncesi protokolü iyileştir** (K-162) — resmi U1 bekler.
+Analiz: kontrol yükünün %76–86'sı komşu çalkantısının PROBE'ları; ACTIVE
+komşu bilgisi bayat (kapsam ~0,62); ardıl kopunca yedek ACTIVE değil →
+sık kısa onarım, gecikme p95 1–4 s. Adaylar V5 · V1 · V2+ · V6 (K-162 §5).
+K-163: V1 + V5 + V7 tam ölçekte kontrol yükünü ~yarıya, hareketli gecikme
+p95'i 2,5–4 s'den 0,1–0,8 s'ye indirdi → 🟢 **v0.3 = v0.2 + V1 + V5 + V7**,
+DESPARETE'nin varsayılanı (K-164). V5a (ilanı sakla) ve V2+ (hedefli
+canlılık) denendi, **benimsenmedi** (kararlı durumda zararlı; K-164 · K-165).
+Yöntem dersi: 3 tohumluk 40 s hücrelerinde ±0,03'lük PDR farkı gürültü
+düzeyinde (K-165 §4). Önceki: ablasyon bayrakları (K-159).
 
-**Aşama 3 · Özgün protokol.** Öğrencinin tasarımı · mekanizma bayrakları ·
-geliştirme tohumlarında deneme · parametrelerin sabitlenmesi.
+### Aşama 1 · Simülasyon — 🟢 BİTTİ (10–16 Eylül)
 
-**Aşama 4 · Veri.**
+- 🟢 Ölçüm ortamı: dünya, kanal, MAC, beş karıştırıcı sınıfı ve beş tehdit
+  ailesi, yere toplama, dört mobilite kolu, kontrol düzlemi, rota bekleme
+  tamponu, evre metrikleri (§3; K-112…K-135).
+- 🟢 Kalibrasyonlar C1–C3, C7 · doğrulama listesi 18/18 (K-133).
+- ⚪ Kalan küçük işler (Aşama 4'ten önce yeter): C4 formasyonda Θ daha çok
+  tohumla · C5 görev kolu yarıçapı · C6 ısınma × ölçüm penceresi taraması ·
+  A6–A7 kaynak doğrulamaları · B6 iz kanalı (görselleştirme — Aşama 5 onu
+  ister).
 
-- Mühür (`06` §9) · ana deney (40 tohum; koşum bandı çekirdek hücre sayısına
-  göre mühürde verilir).
-- İstatistik katmanı (henüz yazılmadı) · keşifsel eksenler.
-- Öğrencinin fikri — **parça parça koşup birleştirmek** — destekleniyor: sonuç
-  satırı her koşuda anında ve kendi konfigürasyonuyla yazılır.
+### Aşama 2 · Taban protokoller — 🟢 BİTTİ (17–22 Eylül)
 
-**Aşama 5 · Rapor ve sunum.** Yazım · görselleştirme (`07` §13) · simülasyon–
-gerçeklik beyanı (`01` §8).
+- 🟢 AODV (`AODV-e`, K-145) · OLSR (`OLSR-b`, §13 ile, K-147) · AOMDV
+  (`AOMDV-a`, K-149) — üçü de aynı 12 hücrede U1'den geçti.
+- ⚪ Açık kalanlar: M4'ün boş kol kapısı · AOMDV'nin U2/U4 karşılıklarının
+  adıyla eşlenmesi (`06` §9) · OLSR §13'ün hareketli kolda mekanizması
+  (hipotez, K-147) · AOMDV'nin bayat yedek yolu (S2) · rota tamponunun iki
+  parametresi (64 paket · 30 s — ölçülmedi).
+
+### Aşama 3 · Özgün protokol DESPARETE — 🟡 SÜRÜYOR (23 Eylül →)
+
+- 🟢 **3.0 · Hazırlık** — tasarım paketi okundu, kararlar (K-150) ·
+  simülatöre iki eklenti: her unicast sonucunun bildirimi ve veri başlığı
+  (K-151, 23 Eylül'de kapandı) · öğrencinin 23 Eylül yanıtları (K-152).
+- 🟢 **3.1 · Mesaj biçimleri** — yedi biçim, boyutlar alanlardan; belgenin
+  DFSN_REQUEST boyu hatası bulundu (K-152 §6).
+- 🟢 **3.2 · M0.1 metrik profili** — bağ kalitesi, risk, maliyet; belgenin
+  TV-02 hatası ölçüldü (K-152 §4). Ara toplam: `717 passed`.
+- 🟢 **3.2b · Ön-kaydın adım 3'ü** — eşik formülü, güç yöntemi, aday
+  birincil hücre `formasyon · yere_toplama · hava_eslik · sürekli · PDR`,
+  `Δ_hedef = 0,05` (`06` §0.4, K-153).
+- 🟢 **3.3 · Komşu yaşamı** (K-154) — UNQUALIFIED → ACTIVE → STALE /
+  SUSPECT → EXPIRED; PROBE / PROBE_REPLY; boşta sondalama; M0.1 simülatörün
+  sonuç bildirimine bağlı; protokol iskeleti. DESPARETE simülatörde ilk kez
+  koştu. İlk ölçüm: yalnız boşta sondalanan bağlarda belirsizlik U = 128
+  (K-150'nin tahmini tuttu). Ara toplam: `test_desparete.py` 89 passed.
+- 🟢 **3.4 · Alan, uygulanabilirlik ve sıra numarası** (K-155) — veri ilk
+  kez DESPARETE'yle taşındı; her kancadan sonra döngü denetimi, ihlal 0.
+  Küçük dünyada teslim taban protokollerle aynı mertebede, **ek yük 4–9
+  kat** (3.9'un ölçeceği ilk soru). Ara toplam: `test_desparete.py` 107.
+  Tasarımın dökümü: FIELD_UPDATE (yayın),
+  ardıl seçimi, uygulanabilirlik mesafesi; veri ilk kez DESPARETE'yle
+  taşınır. 🔒 Döngüsüzlük değişmezleri her olaydan sonra denetlenir.
+- 🟢 **3.5 · Edinim ve onarım** (K-156) — solicit ve iki dalgalı istek
+  oturumu, hedefin dar tur yetkisi, isteğe bağlı hedef alanları, onarım
+  tamponu, yeniden edinim. Alan başına tampon kotası paket kimliği
+  olmadan uygulanamıyordu (K-156 §3) → 🟢 öğrenci A'yı seçti: kimlik
+  `(kaynak, kaynak_sira)` gözlem yüzeyinde, kota 6 yazıldı, `k151 ↔ k157`
+  birebir (K-157). Ara toplam: `test_desparete.py` 122. Tasarımın dökümü: FIELD_SOLICIT, DFSN_REQUEST (tek yayın),
+  REPAIRING / UNREACHABLE, 6 s'lik onarım tamponu ve alan başına kota,
+  yeniden edinim kuralı (K-152 §2), komut trafiği için hedef alanları
+  (K-150).
+- 🟢 **3.6 · Postürler** (K-158) — alan başına STEADY / CAUTION / PROTECT;
+  CAUTION'a girişte bir doğrulama oturumu (K-150). Yedeklilik yok → koruma
+  izni yok → PROTECT'e girilmez (koşulların izinsiz sağlandığı anlar
+  sayılıyor: küçük dünyada 0). CAUTION'ın %100'ü belirsizlikten; A/B, 5
+  tohum: statikte etki yok, karıştırıcılıda ek yük +%4,4 (5/5), PDR −0,021
+  (4/5, anlamlı değil). Ara toplam: `test_desparete.py` 133.
+- 🟢 **3.7 · Ablasyon bayrakları** (K-159) — sekiz mekanizma (risk ve
+  kalite terimi · postür · boşta sondalama · onarım tamponu · onarım
+  edinimi · ilan koruması · yeniden edinim); güvenlik değişmezleri bayrakla
+  kapanmaz. Kullanılan bayraklar her düğümün teşhisinde, satırda. ⚠️ Koşu
+  kimliği protokol parametresi içermez: her kol kendi `kol` etiketini
+  taşımalı (Aşama 4'ün koşum aletine). Hangi bayrak KOL olur → mühürde
+  (öğrenci). Ara toplam: `test_desparete.py` 144.
+- 🔴 **3.8 · Kabul kapısı** ← BURADAYIZ (K-160) — U1 yapı · U2 · U4 testleri
+  yazıldı (U2 bir kopma beyanı kusuru yakaladı, düzeltildi; ölçülen etkisi
+  0). Tam ölçekte çöküş ölçüldü, sebebi komut alanları → **öğrenci kararı
+  C** (K-160 §12: yalnız geçit alanı, komutlar düşer). U1'in sayısal
+  koşumu ve U3 sırada. Ara toplam: `test_desparete.py` 152. Asıl plan: DESPARETE'nin U1'i yere toplama deseninde
+  (K-150); U2–U4 karşılıkları. Tam kapanış paketi: test takımı + U1 (bant
+  2,5–4,5 sa) + regresyon.
+- ⏳ **3.9 · İlk ölçümler (geliştirme tohumları)** — boşta sondalama yükü ·
+  belirsizlik eşiği ↔ sondalama hızı (küçük dünyada CAUTION'ın %100'ü
+  belirsizlikten, K-158 §6) · beş alanın ilan yükü (K-150 §3) ·
+  tampon kotası 6 ↔ 32 (K-152 §3; küçük dünyada alan başına tepe 1 —
+  ancak daha yoğun trafikte bir şey gösterebilir, K-157 §6) · yeniden
+  edinim sayısı (K-152 §2).
+- ⏳ **3.10 · v0.2 kararları** (öğrenci) — ölçümlerin gösterdiği tasarım
+  değişiklikleri, kanıtla; parametreler sabitlenir. Tasarım paketinin asıl
+  kaynağına düzeltmelerin işlenmesi (TV-02 · durum makinesindeki eksik satır
+  · DFSN_REQUEST boyu — öğrenci).
+- ⚪ Kapsam kararı bekleyenler: güvenlik kolunun bayt bedeli (ayrı
+  duyarlılık kolu, K-150) · yedekli gönderim (simülatör yapısı ister —
+  gelecek çalışma olabilir).
+
+### Aşama 4 · Pürüz temizleme ve veri — ⏳ (tahmin: Kasım başı–ortası)
+
+- ⏳ **4.1 · Gürültü ölçümü** — üç taban protokol × 20 geliştirme tohumu
+  (1100–1119), birincil hücrede, tam pencere → δ ve güç → tohum sayısı
+  (40 yeterli mi) (`06` §0.4). Koşum bandı hücre sabitlenince ölçülür.
+- ⏳ **4.2 · Ön-kaydın tamamlanması** — Aile 1'in hipotez ve hücreleri ·
+  Aile 3'ün mekanizma kapısı ve ablasyon kolları · AOMDV öngörüsünün yeni
+  tehdit modeline göre yazılması · çekirdek matris (karıştırma koşulları
+  listesi) · koşu uzunluğu ölçütünün k değeri · durdurma kuralı (`06` §9).
+- ⏳ **4.3 · Borçlar** — 40 `SINANMAMIŞ` parametre ve 9 duyarlılık borcu:
+  kaynakla, ölçümle ya da eksen ilanıyla sıfırlanır · `algilama_duyarliligi`
+  ikiye bölünür · doğrulama listesinin tamamı yeni kodla bir kez (~3,5+ sa).
+- ⏳ **4.4 · İstatistik katmanı** (`analiz/` — henüz yazılmadı): eşleştirilmiş
+  Wilcoxon, Holm, güven aralıkları, NaN tuzağının kapısı; satırdaki
+  yüzdeliklerin ham listeden yeniden üretilmesi.
+- ⏳ **4.5 · 🔒 MÜHÜR** (öğrenci onayı) — hipotezler, eşik değerleri,
+  parametreler, tohum sayısı, birincil hücre.
+- ⏳ **4.6 · Ana deney** — 4 protokol × çekirdek hücreler × 40 tohum
+  (2000–2039, mühürden önce hiç koşulmaz). Parça parça koşup birleştirmek
+  mümkün: her satır kendi konfigürasyonunu taşır. Koşum bütçesi mühürde.
+- ⏳ **4.7 · Keşifsel eksenler** — yüksek çalkantı · görev kolu · eşler
+  arası trafik · kalan aileler ve sınıflar · ρ taraması · derinlik · 2 geçit ·
+  güvenlik kolu. Takvim sıkışırsa ilk düşenler bunlar (§7).
+
+### Aşama 5 · Rapor ve sunum — ⏳ (tahmin: ~15 Kasım – 19 Aralık)
+
+- ⏳ Rapor yazımı (~5 hafta; kısaltılmaz — §6) · sonuç tabloları ve güven
+  aralıkları · negatif sonuçlar dürüstçe.
+- ⏳ Görselleştirme: iz kanalı (B6) ve simülasyonun işleyişinin gösterimi
+  (`07` §13).
+- ⏳ Simülasyon–gerçeklik beyanı (`01` §8) · fikir sahipliği: karar defteri
+  ve ablasyonla ölçülmüş katkı payı (`01` §4).
+- ⏳ Poster, sunum, jüri savunması hazırlığı.
 
 ---
 
@@ -236,6 +352,11 @@ gerçeklik beyanı (`01` §8).
 
 Hepsi tahmindir. Bir aşama kayarsa sonraki aşamanın başlangıcı kayar;
 yazım süresi (Aşama 5) kısaltılmaz.
+
+🔄 **Gerçekleşen (23 Eylül 2026):** Aşama 1 ve 2 22 Eylül'de bitti (Aşama 2'nin
+hedef bitişi ~15 Ekim'di); Aşama 3 23 Eylül'de başladı. Aşama 4 ve 5'in
+tarihleri değişmedi; kazanılan süre Aşama 3'ün ölçümlerine (kanal yükü,
+geliştirme tohumları) ayrılıyor.
 
 ---
 

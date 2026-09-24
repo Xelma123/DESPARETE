@@ -3,7 +3,7 @@ REGRESYON SATIRLARI — bir `sim2` değişikliği ölçülmüş sonuçları değ
 
 Üretici:
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/regresyon_satirlari.py uret <etiket>
-    PYTHONIOENCODING=utf-8 python -u kalibrasyon/regresyon_satirlari.py karsilastir <a> <b> [--izin onek,onek] [--yeni onek,onek]
+    PYTHONIOENCODING=utf-8 python -u kalibrasyon/regresyon_satirlari.py karsilastir <a> <b> [--izin onek,onek] [--yeni onek,onek] [--sifir alan,alan]
 
 Bağlam: `v2/07-SIMULATOR-TASARIMI.md` §18 Y0 · K-114.
 
@@ -29,6 +29,12 @@ değişikliğinden önce ve sonra koşar.
     (ör. tanımı değişen `metrikler.psr`). İzinli fark ayrı basılır, gizlenmez.
     `--yeni` ile matrise BİLEREK eklenmiş vakaların kimlik önekleri verilir;
     yalnız sonraki dosyada bulunmaları bulgu sayılmaz ama ayrı basılırlar.
+    `--sifir` ile, iki dosyada da bulunan HER vakada sonraki dosyada VAR ve
+    SIFIR olması ilan edilmiş alanlar verilir (desen `--izin`inkiyle aynı).
+    🔴 NEDEN (23 Eylül 2026, K-151 kapanışı): izinli bir alanın farkı
+    basılır ama DEĞERİ basılmaz — *"yeni sayaç 44 vakanın hepsinde 0"* gibi
+    bir beklenti bu yüzden ya elle okunuyordu ya hiç sınanmıyordu. Artık
+    çıkış koduna bağlı.
 
 🔒 VAKA MATRİSİ — hangi yolu neden sınıyor
 ===========================================
@@ -46,6 +52,10 @@ değişikliğinden önce ve sonra koşar.
   · kontrol düzlemi sınav protokolü × 2, kısa — K-112 mekanizmasının her yolu
   · yere toplama × 2, kısa — geçit, telemetri ve komut akışları, kayıp yeri
     (Y4; kimliği `-yere_toplama` ile biter)
+  · başlıklı ve sonuç bildirimli sınav protokolü × 1, kısa — protokolün veri
+    başlığının çerçeveyi uzatması ve ek yüke sayılması, her unicast sonucunun
+    bildirimi (K-151 Y1 · Y2; kimliği `j-` ile başlar, 23 Eylül 2026'da
+    eklendi — o güne kadar iki yol da matriste YOKTU)
   · 4 tam uzunluk — evre metrikleri, ham bölüm, tam pencere. Süreye göre
     seçildi: statik kolda ETX kâhini, hareketli kollarda doğrudan komşu
     (ölçülen süreler ve gerekçe `vakalar()` içinde)
@@ -173,6 +183,10 @@ def vakalar() -> tuple[tuple[str, str, str, int, bool], ...]:
                   "statik-surekli", "en_guvenilir_kahin", 1005, False))
     cikti.append(("g-bagimsiz-surekli-dogrudan_komsu-yere_toplama",
                   "bagimsiz-surekli", "dogrudan_komsu", 1005, False))
+    # K-151 · Y1 + Y2: karıştırıcılı statik kol — hem başarılı hem vazgeçilen
+    # unicast sonucu doğsun; başlık her veri çerçevesini uzatsın.
+    cikti.append(("j-statik-surekli-baslikli_sonuc", "statik-surekli",
+                  "baslikli_sonuc", 1008, False))
     return tuple(cikti)
 
 
@@ -198,6 +212,16 @@ def _fabrika(protokol: str, kur):
         from test_kontrol_duzlemi import SinavProtokolu, yeni_kayit
         kayit = yeni_kayit()
         return lambda i: SinavProtokolu(i, kayit)
+    if protokol == "baslikli_sonuc":
+        from protokoller.kosum_kosumu import DogrudanKomsu
+
+        class BaslikliSonuc(DogrudanKomsu):
+            """K-151 · 36 B veri başlığı (DESPARETE'ninki) + sonuç bildirimi."""
+            veri_baslik_bayt = 36
+
+            def iletim_sonucu(self, gozlem, hedef, basarili, tekrar, tur):
+                return None
+        return lambda i: BaslikliSonuc()
     raise ValueError(f"bilinmeyen protokol: {protokol!r}")
 
 
@@ -287,8 +311,17 @@ def _oku(etiket: str) -> dict[str, dict]:
     return satirlar
 
 
+def _eslesir(alan: str, onek: str) -> bool:
+    """Yıldızsız önek yalnız TAM bir yol bölümüyle eşleşir (`metrikler.psr`,
+    `metrikler.psr_pencere`yi kapsamaz); `*` ile biten önek düz metin
+    önekidir (`metrikler.kontrol_*`)."""
+    if onek.endswith("*"):
+        return alan.startswith(onek[:-1])
+    return alan == onek or alan.startswith(onek + ".")
+
+
 def karsilastir(a: str, b: str, izin: tuple[str, ...],
-                yeni: tuple[str, ...] = ()) -> int:
+                yeni: tuple[str, ...] = (), sifir: tuple[str, ...] = ()) -> int:
     sa, sb = _oku(a), _oku(b)
     print(f"REGRESYON KARSILASTIRMASI — {a} ({len(sa)} satir) ↔ "
           f"{b} ({len(sb)} satir)")
@@ -309,6 +342,8 @@ def karsilastir(a: str, b: str, izin: tuple[str, ...],
     bulgu: dict[str, list[str]] = {}
     izinli: dict[str, list[str]] = {}
     beklenen: dict[str, int] = {}
+    sifir_ihlal: dict[str, list[str]] = {}
+    sifir_sayi: dict[str, int] = {}
     for kimlik in sorted(set(sa) & set(sb)):
         da, db = _duzlestir(sa[kimlik]), _duzlestir(sb[kimlik])
         vaka_bulgu = False
@@ -318,17 +353,21 @@ def karsilastir(a: str, b: str, izin: tuple[str, ...],
             if alan in HER_KOSUDA_DEGISEN or alan in KOD_KIMLIGI:
                 beklenen[alan] = beklenen.get(alan, 0) + 1
                 continue
-            # Yıldızsız önek yalnız TAM bir yol bölümüyle eşleşir
-            # (`metrikler.psr`, `metrikler.psr_pencere`yi kapsamaz); `*` ile
-            # biten önek düz metin önekidir (`metrikler.kontrol_*`).
-            if any(alan.startswith(o[:-1]) if o.endswith("*")
-                   else (alan == o or alan.startswith(o + "."))
-                   for o in izin):
+            if any(_eslesir(alan, o) for o in izin):
                 izinli.setdefault(alan, []).append(kimlik)
                 continue
             bulgu.setdefault(alan, []).append(kimlik)
             vaka_bulgu = True
         birebir += 0 if vaka_bulgu else 1
+        # 🔒 `--sifir`: ilan edilmiş alan sonraki dosyada VAR ve SIFIR olmalı.
+        for onek in sifir:
+            eslesen = [alan for alan in db if _eslesir(alan, onek)]
+            if not eslesen:
+                sifir_ihlal.setdefault(f"{onek} <yok>", []).append(kimlik)
+            for alan in eslesen:
+                sifir_sayi[alan] = sifir_sayi.get(alan, 0) + 1
+                if db[alan] != 0:
+                    sifir_ihlal.setdefault(alan, []).append(kimlik)
     print()
     print(f"  bulgusuz vaka : {birebir}/{len(set(sa) & set(sb))}")
     for alan, n in sorted(beklenen.items()):
@@ -338,7 +377,14 @@ def karsilastir(a: str, b: str, izin: tuple[str, ...],
     for alan, vakalar_ in sorted(bulgu.items()):
         print(f"  🔴 BULGU   {alan:<48} {len(vakalar_)} vakada farkli "
               f"· ilk: {vakalar_[0]}")
-    temiz = not bulgu and not eksik
+    ortak = len(set(sa) & set(sb))
+    for alan, n in sorted(sifir_sayi.items()):
+        if alan not in sifir_ihlal:
+            print(f"  (sifir)    {alan:<48} {n}/{ortak} vakada 0")
+    for alan, vakalar_ in sorted(sifir_ihlal.items()):
+        print(f"  🔴 SIFIR DEGIL {alan:<44} {len(vakalar_)} vakada "
+              f"· ilk: {vakalar_[0]}")
+    temiz = not bulgu and not eksik and not sifir_ihlal
     print()
     print(f"  {'🟢 BIREBIR (izinli farklar disinda)' if temiz else '🔴 FARK VAR'}")
     return 0 if temiz else 1
@@ -363,6 +409,7 @@ if __name__ == "__main__":
             return tuple(o for o in arguman[arguman.index(bayrak) + 1]
                          .split(",") if o)
         raise SystemExit(karsilastir(arguman[1], arguman[2],
-                                     _onekler("--izin"), _onekler("--yeni")))
+                                     _onekler("--izin"), _onekler("--yeni"),
+                                     _onekler("--sifir")))
     print(__doc__)
     raise SystemExit(2)

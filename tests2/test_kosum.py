@@ -1220,3 +1220,38 @@ def test_Y2_NEGATIF_baslik_REDDEDILIR():
     kur = kurulum_yap(_konfig("statik-yok", 1000, 6.0))
     with pytest.raises(DegismezHatasi):
         Kosu(kur, lambda i: _NegatifBaslik())
+
+
+# --------------------------------------------------------------------------
+# K-157 · PAKET KİMLİĞİ GÖZLEMDE — `(kaynak, kaynak_sira)`
+# --------------------------------------------------------------------------
+def test_K157_kaynak_sira_GOZLEME_ulasiyor_ROLEDE_ayni():
+    """Gerçek koşuda: kaynakta (atlama 0) her kaynağın sırası artarak görünür
+    (kuyruk FIFO) ve birden çok değer alır; rölede görülen her kimlik kaynakta
+    önce görülmüştür. Alan hep 0 kalsaydı ya da rölede değişseydi kırılırdı."""
+    gorulen: list[tuple[int, int, int, int]] = []
+
+    class Kayitci(EnYakinKimlik):
+        __slots__ = ()
+
+        def sonraki_atlama(self, gozlem):
+            p = gozlem.paket
+            if p is not None:
+                gorulen.append((gozlem.dugum, p.kaynak, p.kaynak_sira,
+                                p.atlama_sayisi))
+            return super().sonraki_atlama(gozlem)
+
+    kur = kurulum_yap(_konfig("statik-yok", 1000, 6.0))
+    Kosu(kur, lambda i: Kayitci()).kostur()
+    kaynakta: dict[int, list[int]] = {}
+    for dugum, kaynak, sira, atlama in gorulen:
+        if atlama == 0:
+            assert dugum == kaynak
+            kaynakta.setdefault(kaynak, []).append(sira)
+    assert kaynakta, "sınav boş geçti"
+    for kaynak, siralar in kaynakta.items():
+        assert siralar == sorted(siralar), f"{kaynak}: kaynakta sıra geriledi"
+        assert len(set(siralar)) > 1, f"{kaynak}: tek sıra görüldü"
+    roleler = [(k, s) for d, k, s, a in gorulen if a > 0]
+    assert roleler, "sınav boş geçti: röle yok"
+    assert all(s in kaynakta[k] for k, s in roleler)

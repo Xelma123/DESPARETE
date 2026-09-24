@@ -23,8 +23,8 @@ from sim2.kanal.cerceve import cerceve_kur
 from sim2.kanal.girisim import Iletim
 from sim2.kosum.dugum import Dugum
 
-__all__ = ["alim_say", "beacon_cercevesi", "gonder", "veri_gonder",
-           "veri_cercevesi_kur", "iletime_basla", "vazgec"]
+__all__ = ["alim_say", "beacon_cercevesi", "beacon_gonder", "gonder",
+           "veri_gonder", "veri_cercevesi_kur", "iletime_basla", "vazgec"]
 
 
 def veri_cercevesi_kur(kur, dugumler) -> tuple:
@@ -92,6 +92,27 @@ def beacon_cercevesi(kosu, ek_bayt: int):
                               bayt=kosu.kur.konfig.beacon_bayt + ek_bayt)
         kosu._beacon_onbellegi[ek_bayt] = cerceve
     return cerceve
+
+
+def beacon_gonder(kosu, d: Dugum, t: float) -> None:
+    """Beacon'ı havaya verir — çekişme kararı `kosu._beacon`da verilmiştir.
+
+    🔒 `kosu.py`den buraya TAŞINDI (23 Eylül 2026, K-151 kapanışı): davranış
+    BİREBİR aynı — aynı çağrılar, aynı sırayla; yalnız `kosu.py`nin 150 kod
+    satırı kapanış ölçütü için. Çerçeveyi havaya vermek bu dosyanın işidir.
+    🔒 TEK KAYNAK: bedel çerçevenin boyutundan okunur. `Dugum` ayrıca
+    saymaz — yoksa yük çift faturalanırdı.
+    """
+    yuk, ek_bayt = d.beacon_yuku(t)
+    cerceve = beacon_cercevesi(kosu, ek_bayt)
+    s = kosu.kur.sayaclar
+    s.artir("beacon_gonderilen")
+    s.artir("kontrol_cerceve")
+    s.ekle("kontrol_bayt", cerceve.bayt)
+    s.ekle("kontrol_airtime_s", cerceve.sure_s)
+    gonder(kosu, d.kimlik, Iletim(d.kimlik, cerceve, t,
+                                  kosu.kur.kanal.yayilim.verici_gucu_w),
+           ("beacon", yuk))
 
 
 def gonder(kosu, n: int, iletim: Iletim, yuk) -> None:

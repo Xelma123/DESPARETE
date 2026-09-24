@@ -4,6 +4,7 @@ U1 — AODV'nin teslim oranı kâhin referansına YAKIN mı? (`v2/06` §4.3)
 Üretici:
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py --protokol olsr
+    PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py --protokol desparete
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py duman
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py hukum [kayit]
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py u3
@@ -14,6 +15,8 @@ kalmalı — OLSR için ikinci bir alet yazmak, iki hükmün bir gün ayrışmas
 demek olurdu. Protokol bir argümandır; açıklanmış düşük hücre listesi
 protokol başınadır. Dosya adı AODV ilk protokol olduğu için böyle kaldı:
 adı değiştirmek köken defterindeki ve belgelerdeki atıfları kırardı.
+🔒 DESPARETE de AYNI hüküm koduyla ve aynı eşiklerle sınanır — tek fark
+deseni: yere toplama, kâhin de o desende (K-150 §4 · K-160).
 
 🔴 BU DOSYA NEDEN VAR — BİR KAPI YANLIŞ YERDE KURULMUŞTU
 ========================================================
@@ -118,6 +121,8 @@ from kalibrasyon.kahin import EnGuvenilirKahin, KanalGrafigi  # noqa: E402
 from protokoller.aodv import AODV  # noqa: E402
 from protokoller.olsr import OLSR  # noqa: E402
 from protokoller.aomdv import AOMDV  # noqa: E402
+from protokoller.desparete import DESPARETE  # noqa: E402
+from protokoller.desparete_bayrak import PROFIL_V02, SECENEK_V03  # noqa: E402
 from sim2.kosum.kosu import Kosu  # noqa: E402
 from sim2.kosum.kurulum import kurulum_yap  # noqa: E402
 from sim2.kosum.sonuc import sonuc_satiri  # noqa: E402
@@ -126,8 +131,28 @@ from sim2.yapilandirma.konfig import Konfig  # noqa: E402
 __all__ = ["U1_ESIK_STATIK", "U1_ESIK_HAREKETLI", "KOLLAR", "TOHUMLAR", "u1",
            "hukum", "PROTOKOLLER"]
 
-# Kapının sınadığı taban protokoller — ad → sınıf.
-PROTOKOLLER = {"aodv": AODV, "olsr": OLSR, "aomdv": AOMDV}
+# Kapının sınadığı protokoller — ad → sınıf.
+PROTOKOLLER = {"aodv": AODV, "olsr": OLSR, "aomdv": AOMDV,
+               "desparete": DESPARETE}
+# 🔒 DESPARETE v0.1 tek-sink işletme profilidir: U1'i YERE TOPLAMADA koşulur
+# (`04` K-150 §4 · K-160); kâhin AYNI desende koşar, oran aynı dünyanın
+# oranıdır. Taban protokollerin U1'i eşler arası desende geçerli kalır.
+TRAFIK_DESENI: dict[str, str] = {"desparete": "yere_toplama"}
+
+
+def _desen(protokol: str) -> dict[str, str]:
+    """Protokolün U1 deseni — taban protokollerde `Konfig` varsayılanı."""
+    return ({"trafik_deseni": TRAFIK_DESENI[protokol]}
+            if protokol in TRAFIK_DESENI else {})
+
+
+def _fabrika(protokol: str, kfg: Konfig):
+    """DESPARETE geçidi (SinkID) kurucudan alır — yapılandırma (`36` §2).
+    Profil AÇIKÇA verilir: v0.3 (K-164, öğrenci kararı)."""
+    if protokol == "desparete":
+        return lambda i: DESPARETE(i, kfg.gecit, bayraklar=PROFIL_V02,
+                                   secenekler=SECENEK_V03)
+    return PROTOKOLLER[protokol]
 
 # 🔒 Tam koşumun ölçtüğü hücreler buraya yazılır (`regresyon_satirlari.py`
 # ile aynı gelenek). Sebebi ölçüldü, 19 Eylül 2026: açıklanmış hücre listesi
@@ -177,7 +202,7 @@ ACIKLANMIS_DUSUK: dict[str, dict[tuple[str, int], str]] = {"aodv": {
     ("gorev-yok", 1001):
         "esiksiz en kisa yol 0,2502 (kolun en dusugu; 1000'de 0,5519). "
         "Ag hicbir anda bolunmuyor. K-137 §4",
-}, "olsr": {}, "aomdv": {
+}, "olsr": {}, "desparete": {}, "aomdv": {
     # 🔒 AOMDV, AODV'nin atlama sayısıyla yönlendirmesini miras alır; bağ
     # kalitesi kabul eşiği YOKTUR. Ölçüm tam pencerede, bu hücrede yapıldı
     # (22 Eylül 2026; `arsiv/teshis/aomdv_gorev1001_2026-09-22/`, ön-kayıtlı
@@ -223,7 +248,7 @@ def _pdr(kfg: Konfig, kahin: bool, protokol: str = "aodv") -> tuple:
         grafik = KanalGrafigi(kur)
         kosu = Kosu(kur, lambda i: EnGuvenilirKahin(i, grafik))
     else:
-        kosu = Kosu(kur, PROTOKOLLER[protokol])
+        kosu = Kosu(kur, _fabrika(protokol, kfg))
     kosu.kostur()
     satir = sonuc_satiri(kur, kosu.dugumler, "u1")
     m = satir["metrikler"]
@@ -238,8 +263,8 @@ def _is(gorev):
     try:
         t0 = time.perf_counter()
         pdr, gecerli, tampon = _pdr(
-            Konfig(kol="u1", senaryo=kol, tohum=tohum, **dict(pencere)), kahin,
-            protokol)
+            Konfig(kol="u1", senaryo=kol, tohum=tohum, **_desen(protokol),
+                   **dict(pencere)), kahin, protokol)
         return {"pdr": pdr, "gecerli": gecerli, "tampon": tampon,
                 "sure": time.perf_counter() - t0}, None
     except Exception as e:                       # noqa: BLE001
@@ -261,10 +286,10 @@ def u1(kollar=KOLLAR, tohumlar=TOHUMLAR, isci: int = 8,
         print("  ⚠️ DUMAN KESITI — KISA PENCERE. Bastigi oran KAPININ")
         print("     orani DEGILDIR; yalniz aletin kostugunu gosterir.")
     ornek = Konfig(kol="u1", senaryo=kollar[0], tohum=tohumlar[0],
-                   **dict(pencere or {}))
+                   **_desen(protokol), **dict(pencere or {}))
     print(f"  N = {ornek.dugum_sayisi} · pencere "
           f"({ornek.isinma_s:.0f}; {ornek.olcum_bitis_s:.0f}) s · "
-          f"kosu {ornek.kosu_bitis_s:.0f} s")
+          f"kosu {ornek.kosu_bitis_s:.0f} s · desen {ornek.trafik_deseni}")
     print(f"  kollar: {list(kollar)}")
     print(f"  tohumlar: {list(tohumlar)}  (GELISTIRME — ana deney tohumu YOK)")
     print(f"  🔒 OLCUT: statik oran >= {U1_ESIK_STATIK:.2f} · "
@@ -305,8 +330,9 @@ U3_SURELERI_S: tuple[float, ...] = (60.0, 120.0)
 def _u3_is(gorev):
     protokol, bitis = gorev
     from test_kosum import _konfig
-    kur = kurulum_yap(_konfig("statik-yok", 1000, bitis))
-    kosu = Kosu(kur, PROTOKOLLER[protokol])
+    kfg = _konfig("statik-yok", 1000, bitis, **_desen(protokol))
+    kur = kurulum_yap(kfg)
+    kosu = Kosu(kur, _fabrika(protokol, kfg))
     kosu.kostur()
     satir = sonuc_satiri(kur, kosu.dugumler, "u3")
     bicim = satir["teshis"]["kontrol_duzlemi"]["bicim"]["tum"]

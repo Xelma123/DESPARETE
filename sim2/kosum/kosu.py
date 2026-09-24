@@ -45,8 +45,8 @@ from __future__ import annotations
 from sim2.kanal.girisim import Iletim
 from sim2.kosum import kontrol
 from sim2.kosum.dugum import Dugum
-from sim2.kosum.gonderim import (alim_say, beacon_cercevesi, gonder,
-                                 iletime_basla, vazgec, veri_cercevesi_kur)
+from sim2.kosum.gonderim import (alim_say, beacon_gonder, iletime_basla,
+                                 vazgec, veri_cercevesi_kur)
 from sim2.kosum.kurulum import Kurulum
 from sim2.kosum.teslim import onay_alindi, veri_alindi
 from sim2.olcum.kopma import fiziksel_kopma_say
@@ -134,18 +134,7 @@ class Kosu:
         t, d = self.olaylar.simdi, self.dugumler[n]
         d.komsu_temizle(t)
         if not (d.alici.gonderiyor or d.kanal_mesgul_mu(t)):
-            yuk, ek_bayt = d.beacon_yuku(t)
-            # 🔒 TEK KAYNAK: bedel çerçevenin boyutundan okunur. `Dugum`
-            # artık ayrıca saymıyor — yoksa yük çift faturalanırdı.
-            cerceve = beacon_cercevesi(self, ek_bayt)
-            s = self.kur.sayaclar
-            s.artir("beacon_gonderilen")
-            s.artir("kontrol_cerceve")
-            s.ekle("kontrol_bayt", cerceve.bayt)
-            s.ekle("kontrol_airtime_s", cerceve.sure_s)
-            gonder(self, n, Iletim(n, cerceve, t,
-                                   self.kur.kanal.yayilim.verici_gucu_w),
-                   ("beacon", yuk))
+            beacon_gonder(self, d, t)          # çerçeve ve bedel: gonderim.py
         sonraki = t + self.kur.konfig.beacon_araligi_s
         if sonraki <= self.kur.konfig.kosu_bitis_s:
             self.olaylar.ekle(sonraki, self._beacon, n)

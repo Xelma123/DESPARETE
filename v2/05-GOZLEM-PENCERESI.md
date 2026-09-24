@@ -77,6 +77,19 @@ yetenek anlatıyor, kod vermiyordu. Doldurmak yerine kaldırıldı — çünkü
 doldurmak, *"konum beacon'da taşınır"* kararını protokol adına simülatörün
 vermesi olurdu. Konum isteyen protokol onu yukarıdaki yoldan taşır ve öder.
 
+🟢 **`kaynak_sira` alanı 23 Eylül 2026'da EKLENDİ (K-157, öğrenci kararı).**
+Paketin, kaynağın KENDİ ürettiği paketler arasındaki sırası (0'dan). Paketin
+kimliği böylece `(kaynak, kaynak_sira)` olur. *Gerçek bir telsiz bunu bilir
+mi?* Evet: IPv4 başlığının kimlik alanı ve DESPARETE'nin DATA başlığındaki
+Data Sequence (`19` §4) tam olarak budur ve başlıkla birlikte ÖDENİR
+(DESPARETE'de 36 baytın içinde, `veri_baslik_bayt`). Neden gerekti: DESPARETE
+onarım tamponundaki paketi yeniden sorulduğunda tanımalı — alan başına kota
+(`21` §2.4) ancak böyle sayılır (K-156 §3).
+🔒 Simülatörün KÜRESEL paket kimliği bilerek AÇILMADI: iki paketin küresel
+kimlik farkı, aradaki sürede BÜTÜN AĞDA kaç paket üretildiğini söylerdi —
+hiçbir telsizin bilemeyeceği bir kâhin bilgisi. Kaynak başına sıra yalnız
+kaynağın kendi trafiğini söyler.
+
 🔴 **Bilgi yokluğu sıfır değildir (K-131).** Bir protokol bir alanı beacon'a
 koymazsa komşu kaydında o alan **`None`** döner, `0` değil. Önceden `0`
 dönüyordu ve *"ölçtü, sıfır buldu"* ile *"hiç koymadı"* ayrışmıyordu; bu,
@@ -128,8 +141,9 @@ yalnız teşhis ve analiz kodu okur ve okuduğu şey rapora girer, karara değil
 - **Yapısal ayrım:** protokol simülatör nesnesini görmez; donmuş bir görünüm
   alır. `protokoller/` paketi yalnız `gozlem/`i içe aktarabilir.
 - **Otomatik test:** görünümün yüzeyi taranır; izin listesinin dışındaki bir
-  alan testi kırar. Bugünkü yüzey **12 gözlem + 6 komşu + 5 paket = 23
-  alan**dır (`13` §04). *(24 → 23: `bildirdigi_konum` kaldırıldı, K-131.)*
+  alan testi kırar. Bugünkü yüzey **12 gözlem + 6 komşu + 6 paket = 24
+  alan**dır (`13` §04). *(24 → 23: `bildirdigi_konum` kaldırıldı, K-131 ·
+  23 → 24: `kaynak_sira` eklendi, K-157.)*
 - **Pencere artık HER KANCADA sunuluyor (K-131).** Gözlem 16 Eylül 2026'ya
   kadar TEK bir yerde üretiliyordu: veri gönderme kararı. Kontrol düzleminin
   beş kancası, `beacon_yuku` ve `beacon_alindi` gözlem almıyordu. Yüzey
@@ -141,7 +155,8 @@ yalnız teşhis ve analiz kodu okur ve okuduğu şey rapora girer, karara değil
 
 ## 6 · Bugünkü kullanım ve Aşama 2'de dikkat edilecekler
 
-Depodaki koşum aletleri ve kâhinler 23 alanın yalnız **5**'ini okuyor.
+Depodaki koşum aletleri ve kâhinler — sayıldığı tarihte (K-111), yüzey henüz
+23 alanken — yalnız **5** alan okuyordu.
 Karıştırma sezimi için gereken alanların (ölçülen gürültü, son iletim sonucu,
 kanal meşguliyeti, duyulan beacon, son duyulma anı, kuyruk uzunluğu) hiçbiri
 henüz okunmuyor.

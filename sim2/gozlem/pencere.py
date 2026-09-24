@@ -101,13 +101,19 @@ class KomsuKaydi:
 
 @dataclass(frozen=True, slots=True)
 class PaketGorunumu:
-    """Paketin başlığında YAZAN alanlar. Başka bir şey görünmez."""
+    """Paketin başlığında YAZAN alanlar. Başka bir şey görünmez.
+
+    `kaynak_sira` kaynağın kendi paket sırasıdır; `(kaynak, kaynak_sira)`
+    paketi tanır. Küresel paket kimliği bilerek YOK: iki paketin küresel
+    kimlik farkı bütün ağın ürettiğini söylerdi (`v2/05` §3.3, K-157).
+    """
 
     hedef: int
     kaynak: int
     ttl: int
     atlama_sayisi: int
     bayt: int
+    kaynak_sira: int
 
 
 @dataclass(frozen=True, slots=True)
@@ -170,7 +176,7 @@ IZINLI_KOMSU_ALANLARI: frozenset[str] = frozenset({
 })
 
 IZINLI_PAKET_ALANLARI: frozenset[str] = frozenset({
-    "hedef", "kaynak", "ttl", "atlama_sayisi", "bayt",
+    "hedef", "kaynak", "ttl", "atlama_sayisi", "bayt", "kaynak_sira",
 })
 
 # 🔴 Bu tiplerden birine gözlem penceresinden ULAŞILABİLİYORSA sözleşme

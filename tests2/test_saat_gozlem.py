@@ -172,7 +172,7 @@ def _gozlem() -> Gozlem:
                              bildirdigi_kuyruk=2,
                              bildirdigi_yuk=(("etx", 1.5),)),),
         paket=PaketGorunumu(hedef=20, kaynak=3, ttl=30, atlama_sayisi=2,
-                            bayt=512))
+                            bayt=512, kaynak_sira=0))
 
 
 def test_gozlem_DONDURULMUS():

@@ -23,6 +23,13 @@ karşılaştırılamaz yapar. Bu üçü metrikler yazılmadan ÖNCE burada:
 
 ⚠️ `boyut_bayt` paketin KENDİ boyutudur; çerçeve süresi ondan `kanal/cerceve`
 tarafından türetilir. Burada bir süre hesabı YOKTUR — kusur 1'in kuralı.
+
+`kaynak_sira` (K-157) — paketin, kaynağın KENDİ ürettiği paketler arasındaki
+sırası. Başlıkta yazar (IPv4 kimlik alanı, DESPARETE Data Sequence); gözlem
+penceresine açılan kimlik budur, küresel `kimlik` DEĞİL (`v2/05` §3.3).
+⚠️ Varsayılan 0 yalnız trafik üreticisini kullanmayan kalibrasyon ve test
+kurucuları içindir: orada her paket aynı sırayı taşır ve paket kimliğine
+dayanan bir protokol mantığı bu kurucularla ölçülemez.
 """
 
 from __future__ import annotations
@@ -45,12 +52,14 @@ class Paket:
     dogum_s: float
     boyut_bayt: int
     ttl_kalan: int
+    kaynak_sira: int = 0
 
     def __post_init__(self) -> None:
         dogrula(self.kaynak != self.hedef,
                 "paketin kaynağı ve hedefi aynı olamaz")
         dogrula(self.boyut_bayt > 0, "paket boyutu pozitif olmalı")
         dogrula(self.ttl_kalan >= 0, "TTL negatif olamaz")
+        dogrula(self.kaynak_sira >= 0, "kaynak sırası negatif olamaz")
 
     # ------------------------------------------------------------------
     def ttl_azalt(self) -> "Paket":
