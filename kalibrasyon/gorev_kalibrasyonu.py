@@ -30,6 +30,7 @@ from mobilite_gercekcilik import (ADIM_S, BITIS_S, N, bagil_hizlar,  # noqa: E40
 from sim2.cekirdek.rng import Akislar  # noqa: E402
 from sim2.dunya.topoloji import Topoloji, topoloji_kur  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 
 TOHUMLAR = range(1, 11)
 DERECE_TOLERANSI = 0.3
@@ -45,7 +46,7 @@ def olc(senaryo: str, **ek) -> dict:
     derece, bagli, hiz, bagomur, rotaomur, olay = [], [], [], [], [], []
     for tohum in TOHUMLAR:
         top = topoloji_kur(
-            Konfig(kol="kalib", senaryo=senaryo, tohum=tohum, **ek),
+            DS.konfig(kol="kalib", senaryo=senaryo, tohum=tohum, **ek),
             Akislar(tohum))
         seri = top.zaman_serisi(0.0, BITIS_S, 2.0)
         oz = Topoloji.baglantililik_ozeti(seri)

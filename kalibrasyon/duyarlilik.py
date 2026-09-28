@@ -145,6 +145,7 @@ from sim2.kosum.kosu import Kosu  # noqa: E402
 from sim2.kosum.kurulum import kurulum_yap  # noqa: E402
 from sim2.olcum.metrikler import metrik_sozlugu  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 from sim2.yapilandirma.kokenler import KOKENLER  # noqa: E402
 from kalibrasyon.kahin import (EnGuvenilirKahin,  # noqa: E402
                                EnKisaYolKahin, KanalGrafigi)
@@ -182,6 +183,23 @@ ADAYLAR: tuple[str, ...] = tuple(sorted(
 
 _ALANLAR = {f.name: f for f in dataclasses.fields(Konfig)}
 
+# 🔴 K-198 · OYNATMANIN TABANI SEÇİLİ DÜNYANIN DEĞERİ. Eskiden taban dataclass
+# varsayılanıydı — yani ESKİ dünyanın değeri. Referans dünyada (`referans_2026`
+# pek çok alanı ezer: irtifa, frekans, yeniden deneme, karıştırıcı gücü…)
+# "×0,5" referans değerin yarısı değil, eski değerin yarısı olurdu. Eski
+# dünyada davranış birebir aynı kalır (taban yine dataclass varsayılanı).
+_TABAN_KONFIG: list = []
+
+
+def _taban_degeri(ad: str, varsayilan):
+    if not DS.referans_mi():
+        return varsayilan
+    if not _TABAN_KONFIG:
+        _TABAN_KONFIG.append(DS.konfig(kol="duyarlilik",
+                                       senaryo="statik-surekli",
+                                       tohum=TOHUMLAR[0], **PENCERE))
+    return getattr(_TABAN_KONFIG[0], ad)
+
 
 def _oynat(ad: str, carpan: float):
     """Parametrenin oynatılmış değeri; oynatılamıyorsa `None`.
@@ -195,7 +213,7 @@ def _oynat(ad: str, carpan: float):
     # 🔴 OYNATMA, TARAMANIN KULLANDIĞI DEĞERE GÖRE — dataclass
     # varsayılanına göre DEĞİL. `PENCERE` üç zaman alanını eziyor; onları
     # varsayılana göre oynatmak "x0,5" etiketiyle 2,5 kat büyütmek demekti.
-    varsayilan = PENCERE.get(ad, alan.default)
+    varsayilan = PENCERE.get(ad, _taban_degeri(ad, alan.default))
     tip = str(alan.type)
     if tip == "bool":
         return not varsayilan
@@ -213,12 +231,20 @@ def _oynat(ad: str, carpan: float):
         digeri = [m for m in MODULASYONLAR if m != varsayilan]
         return digeri[0] if digeri else None
     if ad == "karistirici_guc_override_dbm":
-        # 🔴 dBm LOGARİTMİKTİR — çarpmak anlamsız. Taban güç −15,0 dBm;
+        # 🔴 dBm LOGARİTMİKTİR — çarpmak anlamsız. Taban güç eski dünyada
+        # −15,0 dBm, referans dünyada o dünyanın ETKİN gücü (K-198);
         # ±3 dB (yani güçte iki kat) oynatılır.
-        return -15.0 + (3.0 if carpan > 1.0 else -3.0)
+        taban = (_taban_degeri("karistirici_guc_dbm", -15.0)
+                 if DS.referans_mi() else -15.0)
+        return taban + (3.0 if carpan > 1.0 else -3.0)
     if ad == "karistirici_konum":
-        # Varsayılan `None` = alan merkezi. Oynatma = köşeye taşı.
-        return (450.0, 450.0) if carpan > 1.0 else (1350.0, 1350.0)
+        # Varsayılan `None` = alan merkezi. Oynatma = köşeye taşı — alanın
+        # ÇEYREĞİ (eski dünyanın 450 / 1350 m'si 1800 m'lik alanın ¼ ve ¾'ü;
+        # referans dünyada aynı oran, K-198).
+        en = (_taban_degeri("alan_en_m", 1800.0) if DS.referans_mi()
+              else 1800.0)
+        return (0.25 * en, 0.25 * en) if carpan > 1.0 else (0.75 * en,
+                                                             0.75 * en)
     return None
 
 
@@ -227,7 +253,7 @@ def _kos(senaryo: str, tohum: int, alet: str, ek: dict):
     # geçiyordu ve `isinma_s` gibi bir pencere alanı oynatıldığında koşum
     # `TypeError` ile patlıyordu — üstelik hata "GECERSIZ" diye düşülüp
     # parametre "OLCULEMEDI" kovasına girdiği için SESSİZCE AKLANIYORDU.
-    kfg = Konfig(kol="duyarlilik", senaryo=senaryo, tohum=tohum,
+    kfg = DS.konfig(kol="duyarlilik", senaryo=senaryo, tohum=tohum,
                  **{**PENCERE, **ek})
     kur = kurulum_yap(kfg)
     if alet == "en_guvenilir_kahin":

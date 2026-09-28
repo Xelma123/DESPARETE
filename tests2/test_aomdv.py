@@ -5,6 +5,14 @@ AOMDV — makale (Marina & Das 2001) + RFC 3561 uygunluk kapıları.
 AODV'den MİRAS alınan RFC davranışı (HELLO, halka araması, tampon, hız
 sınırları, RERR öncül kuralı) `test_aodv.py`de sınanıyor ve burada tekrar
 edilmez; burası makalenin DEĞİŞTİRDİĞİ her şeyi ve beyanlı seçimleri sınar.
+
+🔒 U1–U4 EŞLEMESİ (`06` §4.3 · §9, K-194) — AOMDV'nin kapıları adıyla:
+    U1  `test_U1_YAPI_…` (yapı yarısı; sayısal yarısı `kalibrasyon/aodv_uygunluk.py`)
+    U2  `test_BAG_KOPUNCA_…` (yedek yol kalır, RERR yok) · `test_SON_YOL_…`
+        (son yol kopunca RERR) · `test_U2_AOMDV_…` (kaynak yeniden keşfeder)
+    U3  AODV'nin U3'ü miras (keşif rotalar kurulunca durur) — bulgu K-144
+    U4  `test_U4_AOMDV_…` (genişleyen halka ve RREQ_RETRIES AODV ile aynı;
+        RREQ makalenin biçiminde, ilk atlama alanıyla)
 """
 
 from __future__ import annotations
@@ -19,7 +27,8 @@ if str(KOK) not in sys.path:
     sys.path.insert(0, str(KOK))
 
 from protokoller.aodv_bicim import (  # noqa: E402
-    RERR, RREP, RREQ as AODV_RREQ, TIP_RERR, TIP_RREP, TIP_RREQ)
+    NET_DIAMETER, RERR, RREP, RREQ as AODV_RREQ, RREQ_RETRIES, TIP_RERR,
+    TIP_RREP, TIP_RREQ, TTL_INCREMENT, TTL_START, TTL_THRESHOLD)
 from protokoller.aomdv import AOMDV, CokluRota  # noqa: E402
 from protokoller.aomdv_bicim import K_CEVAP, RREQ  # noqa: E402
 from sim2.kosum.kosu import Kosu  # noqa: E402
@@ -270,3 +279,42 @@ def test_korunum_ve_mutabakat_hareketli_kolda_kapaniyor():
 
 def test_kosum_beaconi_KAPALI_ve_ad():
     assert AOMDV.kosum_beaconi is False and AOMDV.ad == "aomdv"
+
+
+# ==========================================================================
+# U2 · U4 — AODV'nin kapılarının AOMDV karşılıkları (K-194)
+# ==========================================================================
+def test_U2_AOMDV_son_yol_kopunca_KAYNAK_yeniden_KESFEDER():
+    """U2'nin ikinci yarısı: son yolu kopan KAYNAK yeni keşif başlatır, paket
+    BEKLER; RREQ makalenin biçimindedir (ilk atlama alanı)."""
+    p = AOMDV(0)
+    p._komsu[1] = 0.0
+    p._rota[9] = CokluRota(hedef_sira=5, yollar={1: 2}, son_gecerli_s=100.0)
+    p.iletim_basarisiz(_gozlem(0, 1.0), hedef=1, tur="veri")
+    karar = p.sonraki_atlama(_gozlem(0, 1.1, paket_hedefi=9))
+    assert karar.beklet and karar.sonraki is None
+    rreq = [i for i in _istekler(karar.niyetler) if i.bicim is RREQ]
+    assert len(rreq) == 1, "yeni keşif başlamadı"
+    y = dict(rreq[0].yuk)
+    assert y["hedef"] == 9 and y["kaynak"] == 0 and "ilk_atlama" in y
+    assert y["ttl"] == TTL_START
+    assert _uyandirmalar(karar.niyetler), "keşif zaman aşımı kurulmadı"
+
+
+def test_U4_AOMDV_genisleyen_halka_ve_RREQ_RETRIES_AODV_ile_AYNI():
+    """§6.4 · §6.3 — keşif AODV'den miras: TTL dizisi RFC kadar, deneme hakkı
+    bitince keşif bırakılır. Makale keşfin ZAMANLAMASINI değiştirmez."""
+    p = AOMDV(0)
+    karar = p.sonraki_atlama(_gozlem(0, 1.0, paket_hedefi=9))
+    ilk = [i for i in _istekler(karar.niyetler) if i.bicim is RREQ]
+    ttl_dizisi = [dict(ilk[0].yuk)["ttl"]]
+    t = 1.0
+    for _ in range(3 + RREQ_RETRIES * 2):
+        t += 10.0
+        cikti = p.uyandi(_gozlem(0, t), "kesif:9")
+        istek = [i for i in _istekler(cikti) if i.bicim is RREQ]
+        if istek:
+            ttl_dizisi.append(dict(istek[0].yuk)["ttl"])
+    assert ttl_dizisi[:2] == [TTL_START, TTL_START + TTL_INCREMENT]
+    assert TTL_THRESHOLD in ttl_dizisi and NET_DIAMETER in ttl_dizisi
+    assert 9 not in p._kesif and p._sayac["kesif_basarisiz"] == 1

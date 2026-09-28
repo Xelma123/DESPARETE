@@ -241,8 +241,11 @@ def test_DOGUM_ZAMANI_pencerede_YOK():
 
 
 def test_MOBILITE_bedava_alan_EKLEMEDI():
-    """🔒 Ağ hareketli ama pencerede hız/yön/yörünge yok. Hareket bilgisi
-    isteyen protokol onu `bildirdigi_yuk` ile taşır ve bedelini öder."""
+    """🔒 Ağ hareketli ama pencerede KOMŞUNUN hız/yön/yörüngesi yok. Hareket
+    bilgisi isteyen protokol onu `bildirdigi_yuk` ile taşır ve bedelini öder.
+    `v2/15` B3 (K-179): düğüm KENDİ konum ve hızını GPS/INS hatasıyla bilir
+    (öğrenci kararı 25 Eylül) — `kendi_*` adlarıyla, komşu alanında değil."""
+    assert {"kendi_konum", "kendi_hiz"} <= IZINLI_GOZLEM_ALANLARI
     yasak = {"hiz", "hiz_ms", "yon", "azimut", "yorunge", "bildirdigi_hiz",
              "komsu_hizi", "gorece_hiz"}
     assert not (yasak & (IZINLI_GOZLEM_ALANLARI | IZINLI_KOMSU_ALANLARI))

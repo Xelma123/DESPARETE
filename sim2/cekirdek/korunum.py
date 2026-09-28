@@ -65,6 +65,16 @@ DUSME_SEBEPLERI: tuple[str, ...] = (
     # eklemek eski satırları karşılaştırılamaz yapar; `rota_gecersiz` de tam
     # bu yüzden protokoller yazılmadan ÖNCE eklenmişti, bu da öyle.
     "tampon_asimi",
+    # 🔒 PROTOKOL POLİTİKASI GEREĞİ DÜŞTÜ — 25 Eylül 2026 (`v2/15` A1, K-171).
+    # Rota YOK değil, protokol bu paketi BİLEREK taşımıyor (DESPARETE v0.1
+    # tek-sink profili geçit dışı hedefe giden komutu taşımaz — K-160 §10 C).
+    # `hedef_yok`a karışsaydı "rota bulunamadı" ile "tasarım gereği
+    # taşınmadı" aynı sayıda toplanır ve iki kol arasındaki fark yanlış
+    # okunurdu. Protokol bunu `Beyan("politika")` ile söyler.
+    "politika",
+    # 🔒 DÜĞÜM KAYBI — `v2/15` C1 (K-180): telsiz kapandı, kuyruk, tampon ve
+    # uçuştaki (el değiştirmemiş) paket düştü.
+    "dugum_kaybi",
 )
 
 _NEREDEN = ("kuyruk", "ucus")

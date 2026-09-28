@@ -425,7 +425,10 @@ def test_P5_tavan_ALTINDA_hicbir_uyandirma_DUSMEZ():
 # P6 · SÖZLEŞME YÜZEYİ — pencere büyümedi, geri referans yok, hepsi-ya-hiç
 # ==========================================================================
 def test_P6_gozlem_penceresi_BUYUMEDI():
-    assert len(IZINLI_GOZLEM_ALANLARI) == 12
+    # 🔴 12 → 17: `v2/15` B3 (K-179, öğrenci onayı K-170) — kendi GPS/INS'i
+    # (konum, hız) ve telsiz sayaçları (meşgul süre, PHY hatası, alınan
+    # çerçeve). Hepsi gerçek telsizin ve otopilotun verdiği şeyler.
+    assert len(IZINLI_GOZLEM_ALANLARI) == 17
     # 🔴 7 → 6: `bildirdigi_konum` kaldırıldı (16 Eylül 2026, K-131). Alan
     # protokolden bağımsız olarak HER ZAMAN boştu; konum isteyen protokol onu
     # `beacon_yuku`na koyar ve bedelini öder.
@@ -536,7 +539,9 @@ def test_P8_kayipli_kanalda_UCTAN_UCA(monkeypatch):
     basari = sum(1 for *_, b in casus.kontrol_alimlari if b)
     assert kur.kanal.karistirici is not None
     assert kayip > 0 and basari > 0, "kanal gerçekten kayıplı olmalı"
-    assert d["unicast_vazgecilen"] + d["kuyruk_tasmasi"] >= 0
+    # K-166 (denetim O-3): eski iddia (`… >= 0`) tanım gereği doğruydu.
+    # Kayıplı kanalda unicast vazgeçmesi GÖZLENMELİ — ölçüldü: 22 / 550.
+    assert d["unicast_vazgecilen"] > 0, "kayıplı kanalda vazgeçme yok"
     assert k["korunum_tamam"] and k["mutabakat_tamam"] \
         and k["iletim_sonucu_tamam"], "VERİ defteri bozuldu"
     assert k["kontrol_mesaj_tamam"] and k["kontrol_uyandirma_tamam"]
@@ -720,3 +725,40 @@ def test_P11_gecersiz_titresim_REDDEDILIR(jitter):
     with pytest.raises(DegismezHatasi):
         KontrolIstegi.kur(None, HELLO, {"tip": 1, "kaynak": 1, "sira": 1},
                           jitter_s=jitter)
+
+
+# ==========================================================================
+# `v2/15` B1 (K-172) — kontrol ve kontrol onayı çerçeveleri de bildirilir
+# ==========================================================================
+def test_B1_KONTROL_ve_KONAY_cerceveleri_de_duyuluyor():
+    duyulan: list = []
+
+    class Duyan(SinavProtokolu):
+        __slots__ = ()
+
+        def cerceve_duyuldu(self, gozlem, gonderen, tur, hedef, rssi_dbm,
+                            paket):
+            duyulan.append((gozlem.dugum, tur, hedef))
+
+    kayit = yeni_kayit()
+    kur, _, _ = _kos(bitis=10.0, fabrika=lambda i: Duyan(i, kayit))
+    s = kur.sayaclar.disa_ver()
+    assert len(duyulan) == s["duyma_bildirimi"] == s["alim_basarili"]
+    turler = {t for _, t, _ in duyulan}
+    assert {"kontrol", "konay", "veri", "onay"} <= turler, turler
+    # yayın kontrolünde hedef yok, unicast'ta var — ikisi de görülmeli
+    kontrol_hedefleri = {h is None for _, t, h in duyulan if t == "kontrol"}
+    assert kontrol_hedefleri == {True, False}
+
+
+# ==========================================================================
+# `v2/15` A4 (K-177) — kontrol unicast'ı ARF hızıyla, yayın temel hızda
+# ==========================================================================
+def test_A4_KONTROL_unicast_ARF_ile_defter_KAPANIR():
+    kur, kosu, _ = _kos(bitis=10.0, islem_kazanci=True,
+                        bant_genisligi_hz=22e6, hiz_uyarlamasi=True)
+    komsular = sum(sum(d.hiz_denetcisi.dagilim().values())
+                   for d in kosu.dugumler)
+    assert komsular > 0, "ARF hiç bildirim almadı"
+    from sim2.kosum.sonuc import korunum_bolumu
+    assert korunum_bolumu(kur, kosu.dugumler)["gecerli"]

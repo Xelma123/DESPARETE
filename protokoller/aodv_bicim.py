@@ -41,7 +41,7 @@ AODV'nin lehine bir sapma OLMADIĞI böylece garanti.
 | özellik | RFC | neden yok |
 |---|---|---|
 | yerel onarım | §6.12 | RFC'de OPSİYONEL; `LOCAL_ADD_TTL`, `MAX_REPAIR_TTL` ve `MIN_REPAIR_TTL` yeni parametreler getirir ve üçü de ölçülmemiş olurdu |
-| RREP-ACK · kara liste | §5.4 · §6.8 | yalnız TEK YÖNLÜ bağlar için gerekli; bu simülatörde bağ SİMETRİKTİR (`olcum/kopma.py`: yol kaybı, anten ve gölgeleme yön değiştirince aynı) |
+| RREP-ACK MESAJI (yalnız mesaj) | §5.4 | 🟢 **Kara liste UYGULANIYOR (§6.8, K-194)** — tetiği RREP'in bağ katmanı onayının gelmemesi: RFC *"Such failures can be detected via the absence of a link-layer or network-layer acknowledgment (e.g., RREP-ACK)"*. Bu gerçeklemede tek yönlü (unicast) giden TEK kontrol mesajı RREP'tir (RREQ ve RERR yayın), yani `iletim_basarisiz(tur="kontrol")` tam olarak "RREP iletimi başarısız" demektir; ayrı bir RREP-ACK mesajı ek bayt dışında bilgi getirmez. 🔴 Eski gerekçe ("bağ SİMETRİKTİR") referans dünyada geçersizdi: ortalama güç simetrik ama karıştırıcı gücü ve ED susturması ALICIDA/VERİCİDE ayrı etki eder — bağ fiziksel olarak tek yönlü olabilir (denetim O-1) |
 | karşılıksız RREP (G bayrağı) | §6.6.3 | kaynağa geri yol zaten RREQ'in ters rotasından kuruluyor; G bayrağı ek bir eniyileme |
 | çok arayüzlü düğüm · alt ağ öneki | §5.2 Prefix Sz | tek arayüz, düz adresleme |
 | §6.2'nin **ÖNCEKİ ATLAMA** ömrü | §6.2 | 🔴 GÖZLEM YÜZEYİ SINIRI: bir veri paketinin görünümü hedefini, kaynağını, TTL'ini, atlama sayısını ve baytını taşır — **onu kime aldığını taşımaz.** RFC *"the Active Route Lifetime for the previous hop … is also updated"* diyor; bu bilgi gerçek bir telsizde vardır (çerçevenin MAC kaynak adresi), yani yüzeye eklenebilirdi — ama bu `sim2/`de YAPISAL bir değişikliktir ve P6'nın "yüzey büyümedi" kapısını açar. Yüzeyin dar tutulması bilinçli bir sözleşmedir (`05`) ve bir kolaylık için genişletilmedi |
@@ -55,8 +55,9 @@ atlamaya kendisinin hiç göndermediği bir yoldur; orada ters rota
 ulaşmasını zorlaştırmaktır, yani AODV'yi olduğundan **zayıf** gösterir —
 lehine bir sapma değildir.
 
-⚠️ Bu dört sapma AODV'yi **zayıflatır mı?** Üçü hayır (simetrik bağda
-RREP-ACK'in işi yok, G bayrağı bir eniyileme, önek tek arayüzde anlamsız).
+⚠️ Bu sapmalar AODV'yi **zayıflatır mı?** RREP-ACK mesajının yokluğu hayır
+(kara liste bağ katmanı onayıyla tetikleniyor, K-194), G bayrağı bir
+eniyileme, önek tek arayüzde anlamsız.
 Yerel onarım EVET zayıflatabilir ve bu açıkça yazılıyor: karıştırma altında
 kopma sıktır ve yerel onarım tam orada iş görür. Ölçüm raporlanırken bu sapma
 sonucun yanında anılır.
@@ -74,7 +75,7 @@ __all__ = [
     "MY_ROUTE_TIMEOUT_S", "DELETE_PERIOD_K", "TTL_START", "TTL_INCREMENT",
     "TTL_THRESHOLD", "TIMEOUT_BUFFER", "RREQ_RATELIMIT", "RERR_RATELIMIT",
     "NET_TRAVERSAL_TIME_S", "PATH_DISCOVERY_TIME_S", "DELETE_PERIOD_S",
-    "halka_suresi_s", "SONSUZ_SIRA",
+    "BLACKLIST_TIMEOUT_S", "halka_suresi_s", "SONSUZ_SIRA",
 ]
 
 # ==========================================================================
@@ -107,6 +108,15 @@ NET_TRAVERSAL_TIME_S: float = 2 * NODE_TRAVERSAL_TIME_S * NET_DIAMETER
 PATH_DISCOVERY_TIME_S: float = 2 * NET_TRAVERSAL_TIME_S
 DELETE_PERIOD_S: float = DELETE_PERIOD_K * max(ACTIVE_ROUTE_TIMEOUT_S,
                                                HELLO_INTERVAL_S)
+# §6.8 · §10 — kara liste süresi. Taban tanım `RREQ_RETRIES *
+# NET_TRAVERSAL_TIME`; RFC §10: *"BLACKLIST_TIMEOUT should be suitably
+# increased if an expanding ring search is used. In such cases, it should be
+# {[(TTL_THRESHOLD - TTL_START)/TTL_INCREMENT] + 1 + RREQ_RETRIES} *
+# NET_TRAVERSAL_TIME"* — bu gerçekleme halka araması kullanıyor (§6.4):
+# (3 + 1 + 2) × 2,8 s = 16,8 s. Seçilmedi, RFC'nin formülü (K-194).
+BLACKLIST_TIMEOUT_S: float = (
+    ((TTL_THRESHOLD - TTL_START) // TTL_INCREMENT) + 1 + RREQ_RETRIES
+) * NET_TRAVERSAL_TIME_S
 
 
 def halka_suresi_s(ttl: int) -> float:

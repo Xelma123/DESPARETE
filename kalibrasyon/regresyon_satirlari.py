@@ -3,7 +3,7 @@ REGRESYON SATIRLARI — bir `sim2` değişikliği ölçülmüş sonuçları değ
 
 Üretici:
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/regresyon_satirlari.py uret <etiket>
-    PYTHONIOENCODING=utf-8 python -u kalibrasyon/regresyon_satirlari.py karsilastir <a> <b> [--izin onek,onek] [--yeni onek,onek] [--sifir alan,alan]
+    PYTHONIOENCODING=utf-8 python -u kalibrasyon/regresyon_satirlari.py karsilastir <a> <b> [--izin onek,onek] [--yeni onek,onek] [--sifir alan,alan] [--degisen vaka_onek,...]
 
 Bağlam: `v2/07-SIMULATOR-TASARIMI.md` §18 Y0 · K-114.
 
@@ -35,6 +35,11 @@ değişikliğinden önce ve sonra koşar.
     basılır ama DEĞERİ basılmaz — *"yeni sayaç 44 vakanın hepsinde 0"* gibi
     bir beklenti bu yüzden ya elle okunuyordu ya hiç sınanmıyordu. Artık
     çıkış koduna bağlı.
+    `--degisen` ile davranışı BİLEREK değişen vakaların kimlik önekleri
+    verilir (ör. bir protokolün varsayılan profili değişti, K-173): o vaka
+    alan karşılaştırmasından çıkar, farklı alan sayısıyla ayrı basılır ve
+    GEÇERLİ olmak zorundadır. Alan izni bütün vakalara uygulandığı için o
+    vakanın her metriğine izin vermek öteki vakaların farkını gizlerdi.
 
 🔒 VAKA MATRİSİ — hangi yolu neden sınıyor
 ===========================================
@@ -94,7 +99,10 @@ DIZIN = KOK / "ciktilar2" / "regresyon"
 # Her koşuda değişmesi GEREKEN alanlar — fark değil, tanım.
 HER_KOSUDA_DEGISEN = ("kimlik.calisma_kimligi", "kimlik.zaman_damgasi_utc")
 # Kaynak kodunun özetine bağlı alanlar — kod değişince değişmeleri GEREKİR.
-KOD_KIMLIGI = ("kimlik.arac_hash", "kimlik.kosu_kimligi")
+# 🔒 `protokol_hash` `protokoller/` paketinin özetini taşır (K-171): herhangi
+# bir protokol dosyası değişince bütün vakalarda değişmesi GEREKİR.
+KOD_KIMLIGI = ("kimlik.arac_hash", "kimlik.kosu_kimligi",
+               "kimlik.protokol_hash")
 
 # 🔴 ÜÇÜNCÜ BİR SINIF VAR AMA OTOMATİK DEĞİL — 15 Eylül 2026'da öğrenildi.
 # `teshis.koken_kovalari.*` her satırda taşınır ve KÖKEN DEFTERİ her
@@ -187,6 +195,83 @@ def vakalar() -> tuple[tuple[str, str, str, int, bool], ...]:
     # unicast sonucu doğsun; başlık her veri çerçevesini uzatsın.
     cikti.append(("j-statik-surekli-baslikli_sonuc", "statik-surekli",
                   "baslikli_sonuc", 1008, False))
+    # 🔒 K-171 (`v2/15` A1) · GERÇEK PROTOKOLLER. Matris 25 Eylül'e kadar
+    # yalnız sınav protokolleri ve kâhinlerle koşuyordu; asıl karşılaştırılan
+    # dört protokolün yolları (RREQ/RERR, HELLO/TC, çok yol, DESPARETE'nin
+    # kontrol düzlemi ve politika düşmesi) hiçbir vakada sınanmıyordu.
+    # Karıştırıcılı statik kol, kısa; DESPARETE kendi işletme deseninde
+    # (yere toplama, varsayılan profil — `aodv_uygunluk._fabrika` ile aynı;
+    # `k171`/`k172`de v0.4, K-172'den sonra v0.4.1).
+    for p in ("aodv", "olsr", "aomdv"):
+        cikti.append((f"k-statik-surekli-{p}", "statik-surekli", p, 1009,
+                      False))
+    cikti.append(("k-statik-surekli-desparete-yere_toplama", "statik-surekli",
+                  "desparete", 1009, False))
+    # 🔒 K-173 · `v2/15` A2 — işlem kazancı AÇIK (B = 22 MHz, NF 7 dB).
+    # Kimliği `-islem_kazanci` ile biten vaka bu anahtarla koşar (`_kos`).
+    # Tek atlama, karıştırıcılı statik kol: kazanç girişime karşı işler.
+    cikti.append(("l-statik-surekli-dogrudan_komsu-islem_kazanci",
+                  "statik-surekli", "dogrudan_komsu", 1010, False))
+    # 🔒 K-174 · `v2/15` A3 — güce dayalı taşıyıcı dinleme + ED-CCA. Kimliğinde
+    # `-tasiyici_guc` geçen vaka bu kiple koşar (`_kos`). Sabit ve hareketli
+    # (hava eşlik) karıştırıcı: ED donması, geçiş ve 10 ms yeniden denetim.
+    cikti.append(("n-statik-surekli-dogrudan_komsu-tasiyici_guc",
+                  "statik-surekli", "dogrudan_komsu", 1010, False))
+    cikti.append(("n-statik-surekli-dogrudan_komsu-tasiyici_guc-hava_eslik",
+                  "statik-surekli", "dogrudan_komsu", 1010, False))
+    # 🔒 K-175 · `v2/15` A5 — yayılım gecikmesi; kimliğinde
+    # `-yayilim_gecikmesi` geçen vaka o anahtarla koşar. Geometrik ve güç
+    # kipinde (varış penceresi iki yolda da ayrı yazıldı).
+    cikti.append(("o-statik-surekli-dogrudan_komsu-yayilim_gecikmesi",
+                  "statik-surekli", "dogrudan_komsu", 1010, False))
+    cikti.append(("o-statik-surekli-dogrudan_komsu-tasiyici_guc"
+                  "-yayilim_gecikmesi",
+                  "statik-surekli", "dogrudan_komsu", 1010, False))
+    # 🔒 K-176 · `v2/15` A6 — karıştırıcı gerçekçiliği; kimliğinde
+    # `-karistirici_gercekci` geçen vaka o anahtarla koşar. Yer karıştırıcısı
+    # (yer–hava kanalı) · aldatıcı kilidi (geometrik ve güç kipinde) ·
+    # reaktif eşik · hareketli kolda karıştırıcı bağı sönümlemesi.
+    for kimlik, senaryo in (
+            ("p-statik-surekli-dogrudan_komsu-karistirici_gercekci"
+             "-cephe_hatti", "statik-surekli"),
+            ("p-statik-aldatici-dogrudan_komsu-karistirici_gercekci",
+             "statik-aldatici"),
+            ("p-statik-aldatici-dogrudan_komsu-tasiyici_guc"
+             "-karistirici_gercekci", "statik-aldatici"),
+            ("p-statik-reaktif-dogrudan_komsu-karistirici_gercekci",
+             "statik-reaktif"),
+            ("p-bagimsiz-surekli-dogrudan_komsu-karistirici_gercekci",
+             "bagimsiz-surekli")):
+        cikti.append((kimlik, senaryo, "dogrudan_komsu", 1010, False))
+    # 🔒 K-177 · `v2/15` A4 — hız uyarlaması (işlem kazancıyla): veri yolu
+    # tek atlamada, kontrol düzleminin unicast'ı sınav protokolüyle.
+    cikti.append(("q-statik-surekli-dogrudan_komsu-islem_kazanci"
+                  "-hiz_uyarlamasi", "statik-surekli", "dogrudan_komsu",
+                  1010, False))
+    cikti.append(("q-bagimsiz-surekli-kontrol_sinav-islem_kazanci"
+                  "-hiz_uyarlamasi", "bagimsiz-surekli", "kontrol_sinav",
+                  1010, False))
+    # 🔒 K-178 · `v2/15` A7 — referans dünya (1:1, EIRP 20 dBm, 7 km, 40
+    # düğüm). K-181'den (A8) beri `referans_2026` bütün anahtarları açar;
+    # `k180` ↔ `k181` bu üç vakanın A7 → A8 farkıdır.
+    cikti.append(("r-referans-statik-yok-dogrudan_komsu", "statik-yok",
+                  "dogrudan_komsu", 1010, False))
+    cikti.append(("r-referans-bagimsiz-surekli-dogrudan_komsu",
+                  "bagimsiz-surekli", "dogrudan_komsu", 1010, False))
+    cikti.append(("r-referans-statik-surekli-aodv", "statik-surekli", "aodv",
+                  1010, False))
+    # 🔒 K-179 · `v2/15` B3 — gözlem v2 alanları (doluluk yalnız isteyen
+    # protokolde çalışır; bu sınav protokolü ister ve teşhise yazar).
+    cikti.append(("s-statik-surekli-doluluk_sinav-tasiyici_guc",
+                  "statik-surekli", "doluluk_sinav", 1010, False))
+    # 🔒 K-180 · `v2/15` C1 — düğüm kaybı (5 İHA, 15–35 s): kuyruk, tampon,
+    # uçuş ve onay bekleyen deneme; rota protokolünde ve tek atlamada.
+    # Tohumlar İKİZ vakayla aynı (`m-bagimsiz-surekli-dogrudan_komsu`,
+    # `k-statik-surekli-aodv`): ilk ölüme kadar ikizle aynı koşu.
+    cikti.append(("t-bagimsiz-surekli-dogrudan_komsu-dugum_kaybi",
+                  "bagimsiz-surekli", "dogrudan_komsu", 1000, False))
+    cikti.append(("t-statik-surekli-aodv-dugum_kaybi", "statik-surekli",
+                  "aodv", 1009, False))
     return tuple(cikti)
 
 
@@ -222,6 +307,43 @@ def _fabrika(protokol: str, kur):
             def iletim_sonucu(self, gozlem, hedef, basarili, tekrar, tur):
                 return None
         return lambda i: BaslikliSonuc()
+    if protokol == "doluluk_sinav":
+        from protokoller.kosum_kosumu import DogrudanKomsu
+
+        class DolulukSinav(DogrudanKomsu):
+            """B3 (K-179): gözlem v2 alanlarını ister, son gözlemi teşhise
+            yazar — kanal doluluğu, PHY hatası, alınan çerçeve, GPS."""
+            kanal_dolulugu_ister = True
+
+            def __init__(self):
+                self._son = None
+
+            def sonraki_atlama(self, gozlem):
+                self._son = gozlem
+                return super().sonraki_atlama(gozlem)
+
+            def teshis(self, dugum):
+                g = self._son
+                if g is None:
+                    return {}
+                return {"mesgul_sure_s": g.mesgul_sure_s,
+                        "phy_hata": g.phy_hata,
+                        "alinan_cerceve": g.alinan_cerceve,
+                        "konum_x": g.kendi_konum[0],
+                        "hiz_x": g.kendi_hiz[0]}
+        return lambda i: DolulukSinav()
+    if protokol in ("aodv", "olsr", "aomdv"):
+        from protokoller.aodv import AODV
+        from protokoller.aomdv import AOMDV
+        from protokoller.olsr import OLSR
+        tip = {"aodv": AODV, "olsr": OLSR, "aomdv": AOMDV}[protokol]
+        return lambda i: tip(i)
+    if protokol == "desparete":
+        from protokoller.desparete import DESPARETE
+        from protokoller.desparete_bayrak import PROFIL_V02, SECENEK_V041
+        gecit = kur.konfig.gecit
+        return lambda i: DESPARETE(i, gecit, bayraklar=PROFIL_V02,
+                                   secenekler=SECENEK_V041)
     raise ValueError(f"bilinmeyen protokol: {protokol!r}")
 
 
@@ -235,8 +357,39 @@ def _kos(vaka: tuple[str, str, str, int, bool]) -> dict:
     # Y5b: kimliği bir tehdit ailesinin adıyla biten vaka o aileyle koşar.
     tehdit = next(({"tehdit_senaryosu": a} for a in TEHDIT_SENARYOLARI
                    if a != "tekli_merkez" and kimlik.endswith(f"-{a}")), {})
-    kfg = Konfig(kol="regresyon", senaryo=senaryo, tohum=tohum, not_=kimlik,
-                 **pencere, **desen, **tehdit)
+    # A2 (K-173): kimliği `-islem_kazanci` ile biten vaka o anahtarla koşar.
+    kazanc = ({"islem_kazanci": True, "bant_genisligi_hz": 22e6,
+               "gurultu_figuru_db": 7.0}
+              if "-islem_kazanci" in kimlik else {})
+    # A4 (K-177): kimliğinde `-hiz_uyarlamasi` geçen vaka (işlem kazancı ister).
+    if "-hiz_uyarlamasi" in kimlik:
+        kazanc["hiz_uyarlamasi"] = True
+    # A3 (K-174): kimliğinde `-tasiyici_guc` geçen vaka güç kipinde koşar.
+    dinleme = ({"tasiyici_dinleme": "guc"} if "-tasiyici_guc" in kimlik
+               else {})
+    # A5 (K-175): kimliğinde `-yayilim_gecikmesi` geçen vaka.
+    if "-yayilim_gecikmesi" in kimlik:
+        dinleme["yayilim_gecikmesi"] = True
+    # C1 (K-180): kimliğinde `-dugum_kaybi` geçen vaka.
+    if "-dugum_kaybi" in kimlik:
+        dinleme.update(kayip_dugum_sayisi=5, kayip_bas_s=15.0,
+                       kayip_bitis_s=35.0)
+    # A6 (K-176): kimliğinde `-karistirici_gercekci` geçen vaka.
+    if "-karistirici_gercekci" in kimlik:
+        dinleme["karistirici_gercekci"] = True
+    # A7 (K-178): `r-referans-` önekli vaka referans dünyada koşar.
+    if kimlik.startswith("r-referans-"):
+        from sim2.kanal.dunya import referans_2026
+        kazanc.pop("islem_kazanci", None)
+        kazanc.pop("bant_genisligi_hz", None)
+        kazanc.pop("gurultu_figuru_db", None)
+        kfg = referans_2026(kol="regresyon", senaryo=senaryo, tohum=tohum,
+                            not_=kimlik, **pencere, **desen, **tehdit,
+                            **kazanc, **dinleme)
+    else:
+        kfg = Konfig(kol="regresyon", senaryo=senaryo, tohum=tohum,
+                     not_=kimlik, **pencere, **desen, **tehdit, **kazanc,
+                     **dinleme)
     kur = kurulum_yap(kfg)
     kosu = Kosu(kur, _fabrika(protokol, kur))
     kosu.kostur()
@@ -321,7 +474,8 @@ def _eslesir(alan: str, onek: str) -> bool:
 
 
 def karsilastir(a: str, b: str, izin: tuple[str, ...],
-                yeni: tuple[str, ...] = (), sifir: tuple[str, ...] = ()) -> int:
+                yeni: tuple[str, ...] = (), sifir: tuple[str, ...] = (),
+                degisen: tuple[str, ...] = ()) -> int:
     sa, sb = _oku(a), _oku(b)
     print(f"REGRESYON KARSILASTIRMASI — {a} ({len(sa)} satir) ↔ "
           f"{b} ({len(sb)} satir)")
@@ -344,7 +498,27 @@ def karsilastir(a: str, b: str, izin: tuple[str, ...],
     beklenen: dict[str, int] = {}
     sifir_ihlal: dict[str, list[str]] = {}
     sifir_sayi: dict[str, int] = {}
+    # 🔒 `--degisen` — K-173. Vaka önekiyle İLAN EDİLMİŞ davranış değişikliği
+    # (ör. bir protokolün varsayılan profili değişti). Alan izni bütün
+    # vakalara uygulanır; bir vakanın her metriğine izin vermek öteki
+    # vakalardaki farkları da gizlerdi. İlan edilen vaka alan
+    # karşılaştırmasından ÇIKAR, ayrı basılır ve GEÇERLİ olmak zorundadır.
+    degisen_vaka: list[str] = []
     for kimlik in sorted(set(sa) & set(sb)):
+        if any(kimlik.startswith(o) for o in degisen):
+            da, db = _duzlestir(sa[kimlik]), _duzlestir(sb[kimlik])
+            n = sum(1 for alan in set(da) | set(db)
+                    if alan not in HER_KOSUDA_DEGISEN
+                    and da.get(alan, "<yok>") != db.get(alan, "<yok>"))
+            gecerli = sb[kimlik]["korunum"]["gecerli"]
+            print(f"  (ilan edilmis degisen vaka) {kimlik} · {n} alan farkli "
+                  f"· gecerli={gecerli}")
+            if not gecerli:
+                eksik.append(kimlik)
+            degisen_vaka.append(kimlik)
+    for kimlik in sorted(set(sa) & set(sb)):
+        if kimlik in degisen_vaka:
+            continue
         da, db = _duzlestir(sa[kimlik]), _duzlestir(sb[kimlik])
         vaka_bulgu = False
         for alan in sorted(set(da) | set(db)):
@@ -369,7 +543,10 @@ def karsilastir(a: str, b: str, izin: tuple[str, ...],
                 if db[alan] != 0:
                     sifir_ihlal.setdefault(alan, []).append(kimlik)
     print()
-    print(f"  bulgusuz vaka : {birebir}/{len(set(sa) & set(sb))}")
+    print(f"  bulgusuz vaka : {birebir}/"
+          f"{len(set(sa) & set(sb)) - len(degisen_vaka)}"
+          + (f" (+{len(degisen_vaka)} ilan edilmis degisen)"
+             if degisen_vaka else ""))
     for alan, n in sorted(beklenen.items()):
         print(f"  (beklenen) {alan:<48} {n} vakada farkli")
     for alan, vakalar_ in sorted(izinli.items()):
@@ -377,7 +554,7 @@ def karsilastir(a: str, b: str, izin: tuple[str, ...],
     for alan, vakalar_ in sorted(bulgu.items()):
         print(f"  🔴 BULGU   {alan:<48} {len(vakalar_)} vakada farkli "
               f"· ilk: {vakalar_[0]}")
-    ortak = len(set(sa) & set(sb))
+    ortak = len(set(sa) & set(sb)) - len(degisen_vaka)
     for alan, n in sorted(sifir_sayi.items()):
         if alan not in sifir_ihlal:
             print(f"  (sifir)    {alan:<48} {n}/{ortak} vakada 0")
@@ -410,6 +587,7 @@ if __name__ == "__main__":
                          .split(",") if o)
         raise SystemExit(karsilastir(arguman[1], arguman[2],
                                      _onekler("--izin"), _onekler("--yeni"),
-                                     _onekler("--sifir")))
+                                     _onekler("--sifir"),
+                                     _onekler("--degisen")))
     print(__doc__)
     raise SystemExit(2)

@@ -118,10 +118,14 @@ def test_bilinmeyen_modulasyon_REDDEDILIYOR():
 
 
 def test_modulasyon_ABLASYONU():
+    """🔒 A4 (K-177): modülasyon çerçevenin özelliği (hızı belirler); her
+    çerçeve kendi konfigünden kurulur. Eskiden kanalın özelliğiydi ve bu test
+    DBPSK konfigünün çerçevesini DQPSK kanalında değerlendiriyordu —
+    koşularda çerçeve ve kanal hep aynı konfigden, sonuç birebir."""
     kanal = _kanal(modulasyon="dbpsk")
-    c = cerceve_kur(kanal.konfig, "veri")
-    dbpsk = kanal.kahin_per(c, 10.0)
-    dqpsk = _kanal().kahin_per(c, 10.0)
+    dbpsk = kanal.kahin_per(cerceve_kur(kanal.konfig, "veri"), 10.0)
+    kanal2 = _kanal()
+    dqpsk = kanal2.kahin_per(cerceve_kur(kanal2.konfig, "veri"), 10.0)
     assert dqpsk > dbpsk, "DQPSK aynı SINR'de daha kırılgan olmalı"
 
 
@@ -391,3 +395,249 @@ def test_uc_kolda_da_calisiyor():
         c = cerceve_kur(kanal.konfig, "veri")
         p = kanal.alim_per(0, 1, c, bas_s=100.0)
         assert 0.0 <= p <= 1.0
+
+
+# ==========================================================================
+# A2 · DSSS İŞLEM KAZANCI — `v2/15` A2 (K-173)
+# ==========================================================================
+def _a2_kanal():
+    return _kanal(islem_kazanci=True, bant_genisligi_hz=22e6,
+                  gurultu_figuru_db=7.0)
+
+
+def test_A2_KAPALIYKEN_carpan_TAM_BIR_acikken_22_ve_11():
+    c0 = cerceve_kur(Konfig(kol="t"), "veri")
+    assert (c0.govde_ebn0_carpani, c0.onbelge_ebn0_carpani) == (1.0, 1.0)
+    c = cerceve_kur(_a2_kanal().konfig, "veri")
+    assert (c.govde_ebn0_carpani, c.onbelge_ebn0_carpani) == (11.0, 22.0)
+
+
+def test_A2_ACIKKEN_bant_22_MHz_ZORUNLU():
+    """Çarpan B/R_b ancak gerçek kanal bandında fiziksel — 2 MHz eski
+    dünyanın birim seçimidir."""
+    from sim2.cekirdek.degismezler import DegismezHatasi
+    with pytest.raises(DegismezHatasi):
+        Konfig(kol="t", islem_kazanci=True)
+
+
+def test_A2_gurultu_tabani_22_MHz_NF7():
+    import math
+    n = _a2_kanal().yayilim.gurultu_w
+    assert 10 * math.log10(n * 1e3) == pytest.approx(-93.55, abs=0.01)
+
+
+def _esik_db(per_fn, hedef):
+    alt, ust = -20.0, 30.0
+    for _ in range(80):
+        orta = 0.5 * (alt + ust)
+        if per_fn(10.0 ** (orta / 10.0)) > hedef:
+            alt = orta
+        else:
+            ust = orta
+    return 0.5 * (alt + ust)
+
+
+def test_A2_PER_SINR_egrisi_ns3_ile_ORTUSUR():
+    """🔒 KAPI (`v2/15` A2). ns-3 `DsssErrorRateModel` (depodaki kopya,
+    satır 34–57; G1 Pei & Henderson): DBPSK ½e^(−22γ) · DQPSK Ferrari–
+    Corazza yaklaşımı x = 11γ. Bizim DQPSK'mız kesin kapalı form → gövde
+    eşikleri 0,1 dB içinde; önbelge formülü aynı → birebir. Ölçülen fark
+    en çok 0,05 dB (`arsiv/teshis/a2_islem_kazanci_2026-09-26/`)."""
+    import math
+    kanal = _a2_kanal()
+    c = cerceve_kur(kanal.konfig, "veri")
+    n, nb = c.hataya_acik_bit, c.onbelge_bit
+
+    def ns3_govde(s):
+        x = s * 22e6 / 1e6 / 2.0
+        ber = ((math.sqrt(2) + 1.0) / math.sqrt(8.0 * math.pi * math.sqrt(2))
+               / math.sqrt(x) * math.exp(-(2.0 - math.sqrt(2)) * x))
+        return 1.0 - (1.0 - min(ber, 1.0)) ** n
+
+    for hedef in (0.9, 0.5, 0.1, 0.01):
+        bizim = _esik_db(lambda s: kanal.kahin_per(c, s), hedef)
+        assert bizim == pytest.approx(_esik_db(ns3_govde, hedef), abs=0.1)
+    for db in (-8.0, -6.0, -4.0):
+        s = 10.0 ** (db / 10.0)
+        ns3 = 1.0 - (1.0 - 0.5 * math.exp(-s * 22.0)) ** nb
+        assert kanal.onbelge_per(c, ((float(nb), s),)) == pytest.approx(
+            ns3, rel=1e-9)
+
+
+def test_A2_girisime_karsi_kazanc_TAM_10log11():
+    """Açık kanalın PER(γ) = kapalı modelin PER(11γ): girişim ve karıştırma
+    SINR'a gürültü gibi girer ve kazancı aynen alır."""
+    acik, kapali = _a2_kanal(), _kanal()
+    c, c0 = cerceve_kur(acik.konfig, "veri"), cerceve_kur(kapali.konfig, "veri")
+    for db in (-2.0, 0.0, 1.0, 2.0):
+        s = 10.0 ** (db / 10.0)
+        assert acik.kahin_per(c, s) == pytest.approx(
+            kapali.kahin_per(c0, 11.0 * s), rel=1e-12)
+
+
+# ==========================================================================
+# A4 · HIZ UYARLAMASI — `v2/15` A4 (K-177)
+# ==========================================================================
+def _a4_konfig(**ek):
+    return Konfig(kol="t", islem_kazanci=True, bant_genisligi_hz=22e6,
+                  gurultu_figuru_db=7.0, hiz_uyarlamasi=True, **ek)
+
+
+def test_A4_KAPALIYKEN_cerceve_BUGUNKU_acikken_HIZ_ve_MODULASYON():
+    c0 = cerceve_kur(Konfig(kol="t"), "veri")
+    assert (c0.hiz_bps, c0.govde_modulasyonu) == (2e6, "dqpsk")
+    k = _a4_konfig()
+    assert cerceve_kur(k, "onay").hiz_bps == 1e6
+    assert cerceve_kur(k, "beacon").hiz_bps == 1e6
+    assert cerceve_kur(k, "veri").hiz_bps == 2e6
+    c11 = cerceve_kur(k, "veri", hiz_bps=11e6)
+    assert (c11.govde_modulasyonu, c11.govde_ebn0_carpani) == ("cck", 2.0)
+    assert c11.sure_s < cerceve_kur(k, "veri", hiz_bps=1e6).sure_s
+
+
+def test_A4_ISLEM_KAZANCI_ZORUNLU():
+    from sim2.cekirdek.degismezler import DegismezHatasi
+    with pytest.raises(DegismezHatasi):
+        Konfig(kol="t", hiz_uyarlamasi=True)
+
+
+def test_A4_CCK_SEP16_tablosu_DOGRUDAN_integralle_ORTUSUR():
+    """ns-3 GSL formu: SEP₁₆(e) = 1 − ∫_{−β}^{∞} (2Φ(x+β) − 1)^7 φ(x) dx."""
+    import math
+    import numpy as np
+    from scipy.integrate import quad
+    from scipy.special import ndtr
+    from sim2.kanal.kanal import sep16
+    for e in (0.01, 0.3, 1.0, 3.0, 8.0, 15.0):
+        b = math.sqrt(2 * e)
+        ic = quad(lambda x: (2 * ndtr(x + b) - 1) ** 7 * math.exp(-x * x / 2)
+                  / math.sqrt(2 * math.pi), -b, math.inf)[0]
+        assert float(sep16(np.array([e]))[0]) == pytest.approx(1 - ic,
+                                                               rel=1e-3)
+
+
+def test_A4_dort_HIZIN_esikleri_SIRALI_ve_KAYNAKLA_UYUMLU():
+    """Duyarlılık (PER %10, 512 B, 22 MHz, NF 7): ölçülen −97,0 · −92,5 ·
+    −89,9 · −86,9 dBm; 1 ve 2 Mb/s `v2/14`ün kaynaklı değerleriyle aynı."""
+    import math
+    k = _a4_konfig()
+    kanal = Kanal(k, topoloji_kur(k, Akislar(1)))
+    gurultu = 10 * math.log10(kanal.yayilim.gurultu_w * 1e3)
+    duyarlilik = []
+    for h in (1e6, 2e6, 5.5e6, 11e6):
+        c = cerceve_kur(k, "veri", hiz_bps=h)
+        duyarlilik.append(gurultu + _esik_db(lambda s: kanal.kahin_per(c, s),
+                                             0.1))
+    assert duyarlilik == sorted(duyarlilik), "yüksek hız daha güçlü sinyal ister"
+    for olcu, beklenen in zip(duyarlilik, (-97.0, -92.5, -89.9, -86.9)):
+        assert olcu == pytest.approx(beklenen, abs=0.2)
+
+
+# ==========================================================================
+# A7 · REFERANS DÜNYA — `v2/15` A7 (K-178)
+# ==========================================================================
+def test_A7_referans_BAG_BUTCESI_ile_AYNI_SAYILAR():
+    """🔒 KAPI (`v2/15` A7): `arsiv/teshis/referans_dunya_2026-09-25/
+    bag_butcesi.py` — EIRP 20 dBm, 22 MHz, NF 7 → gürültü −93,6 dBm; 2 Mb/s
+    sönümsüz duyarlılık menzili 5,2 km; 10 dB payla nominal bağ 1,65 km.
+    (Betik 576 B'lık çerçeveyle, simülatörün veri çerçevesi 512 B.)"""
+    from sim2.kanal.dunya import referans_2026, snr_esigi_db
+    from sim2.kanal.kanal import cerceve_per
+    from sim2.kanal.yayilim import Yayilim, lin_to_db
+    k = referans_2026(kol="t")
+    y = Yayilim(k)
+    assert y.verici_gucu_w == pytest.approx(0.1)
+    assert lin_to_db(y.gurultu_w * 1e3) == pytest.approx(-93.55, abs=0.02)
+    assert k.iletim_menzili_m == pytest.approx(1650.0, rel=0.03)
+    assert y.menzilde_yavas_sinr_db() == pytest.approx(k.menzil_snr_db,
+                                                        abs=0.05)
+    c = cerceve_kur(k, "veri")
+    s10 = snr_esigi_db(lambda s: cerceve_per(c, s), 0.10)
+    s50 = snr_esigi_db(lambda s: cerceve_per(c, s), 0.50)
+    duyarlilik_menzili = k.iletim_menzili_m * 10 ** (
+        (k.menzil_snr_db - s10) / (10 * k.yol_kaybi_usteli))
+    assert duyarlilik_menzili == pytest.approx(5200.0, rel=0.03)
+    assert k.sinr_esigi_db == pytest.approx(s50 + 2 * k.golgeleme_sigma_db)
+    # K-185/K-188 (Faz 4.1a): alan 7 km → 33 km — bağ 1 Mb/s'te ~9–10 km
+    assert (k.olcek, k.alan_en_m, k.irtifa_min_m, k.irtifa_maks_m) == (
+        1.0, 33000.0, 50.0, 300.0)
+    assert (k.gm_hiz_min_ms * 3.6, k.gm_hiz_maks_ms * 3.6) == pytest.approx(
+        (40.0, 120.0))
+    assert (k.yeniden_deneme_siniri, k.cca_s, k.rician_k_db) == (7, 15e-6, 10.0)
+
+
+def test_A7_ESKI_DUNYA_AYNI_ve_TUTARSIZ_referans_REDDEDILIR():
+    from dataclasses import replace
+    from sim2.cekirdek.degismezler import DegismezHatasi
+    from sim2.kanal.dunya import referans_2026
+    from sim2.kanal.yayilim import Yayilim
+    k = Konfig(kol="t")
+    assert (k.dunya, k.verici_eirp_dbm, k.menzil_snr_db) == (
+        "olcek_1_50", None, None)
+    with pytest.raises(DegismezHatasi):
+        Konfig(kol="t", dunya="referans_2026")
+    with pytest.raises(DegismezHatasi):
+        Konfig(kol="t", verici_eirp_dbm=20.0)
+    r = referans_2026(kol="t")
+    with pytest.raises(DegismezHatasi):
+        Yayilim(replace(r, iletim_menzili_m=2.0 * r.iletim_menzili_m))
+    with pytest.raises(DegismezHatasi):
+        referans_2026(kol="t", sinr_esigi_db=10.0)
+
+
+def test_A7_referans_KARISTIRICI_TABAN_gucu_darbelide_TELAFI():
+    from sim2.kanal.dunya import REFERANS_KARISTIRICI_DBM, referans_2026
+    k = referans_2026(kol="t", senaryo="statik-surekli")
+    assert k.karistirici_guc_dbm == REFERANS_KARISTIRICI_DBM
+    d = referans_2026(kol="t", senaryo="statik-surekli_darbeli")
+    assert d.karistirici_guc_dbm == pytest.approx(
+        REFERANS_KARISTIRICI_DBM + d.tepe_telafisi_db)
+
+
+# ==========================================================================
+# A8 · REFERANS DÜNYADA BÜTÜN ANAHTARLAR — `v2/15` A8 (K-181)
+# ==========================================================================
+_ANAHTARLI_SINIRLAR = ("hiz_uyarlamasi", "yayilma_kazanci",
+                       "enerji_sezmeli_cca", "yayilim_gecikmesi")
+
+
+def test_A8_referans_dunyada_BUTUN_anahtarlar_ACIK():
+    from sim2.kanal.dunya import referans_2026
+    k = referans_2026(kol="t")
+    assert (k.islem_kazanci and k.hiz_uyarlamasi and k.yayilim_gecikmesi
+            and k.karistirici_gercekci)
+    assert k.tasiyici_dinleme == "guc"
+    eski = Konfig(kol="t")
+    assert not (eski.islem_kazanci or eski.hiz_uyarlamasi
+                or eski.yayilim_gecikmesi or eski.karistirici_gercekci), \
+        "varsayılan eski dünyada kalır"
+
+
+def test_A8_kapsam_ANAHTARLI_siniri_satirdan_OKUR():
+    """🔴 Anahtarı açık koşu o sınırı "modellenmeyen" diye beyan etmez;
+    kapalı koşu eder. Liste Faz 1'de güncellenmemişti (K-181)."""
+    from sim2.kanal.dunya import referans_2026
+    from sim2.yapilandirma.kapsam import MODELLENMEYEN, kapsam_bolumu
+    tam = {ad for ad, _ in MODELLENMEYEN}
+    assert set(_ANAHTARLI_SINIRLAR) <= tam
+    assert set(kapsam_bolumu(Konfig(kol="t"))["modellenmeyen"]) == tam
+    ref = kapsam_bolumu(referans_2026(kol="t"))["modellenmeyen"]
+    assert set(ref) == tam - set(_ANAHTARLI_SINIRLAR)
+    tek = kapsam_bolumu(Konfig(kol="t", tasiyici_dinleme="guc"))
+    assert set(tek["modellenmeyen"]) == tam - {"enerji_sezmeli_cca"}
+
+
+def test_K188_kapsam_THETA_ve_BOLUNME_satirin_DUNYASINDAN():
+    """🔴 K-188: referans satırı eski dünyanın Θ'sını ve bölünme payını
+    beyan ediyordu. Satır kendi dünyasının tablosunu okur."""
+    from sim2.kanal.dunya import referans_2026
+    from sim2.yapilandirma.kapsam import kapsam_bolumu
+    from sim2.yapilandirma.senaryolar import (MOBILITE_THETA,
+                                              MOBILITE_THETA_REFERANS)
+    ref = kapsam_bolumu(referans_2026(kol="t", senaryo="bagimsiz-yok",
+                                      tohum=2007))
+    assert ref["theta_olsr"] == MOBILITE_THETA_REFERANS["bagimsiz"][0]
+    assert ref["bolunme_payi"] == pytest.approx(0.2222)
+    eski = kapsam_bolumu(Konfig(kol="t", senaryo="bagimsiz-yok", tohum=2007))
+    assert eski["theta_olsr"] == MOBILITE_THETA["bagimsiz"][0]
+    assert eski["bolunme_payi"] == pytest.approx(0.1111)

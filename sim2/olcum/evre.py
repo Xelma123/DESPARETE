@@ -18,6 +18,24 @@ M3'ün bandı `z(1 − α/2)`, M4'ün eşiği pencere başına `α / taranan pen
 (Bonferroni). Eskiden iki ayrı sabit vardı (2,0 ve 0,01); ikisi de
 gerekçesizdi ve M4'ün aile düzeyi yanlış alarmı %37–70'e çıkıyordu.
 
+🔴 HATA PAYI KÜMELENMEYE DAYANIKLI (K-196, 28 Eylül 2026)
+=========================================================
+İlk hâl paket ve beyan BAĞIMSIZLIĞI varsayıyordu: M1/M3'ün SE'si yalnız
+Agresti–Caffo (binom), M4'ün boş hipotezi yalnız Poisson. Kâhinle (G1) doğru
+— kayıplar bağımsız. Gerçek protokolde kayıp ve kopma beyanı zamanda
+KÜMELENİYOR (rota boşalması, komşu kaybı dalgaları): karıştırıcısız kolda
+OLSR 3/3 tohumda "tespit" etti, şok derinliği ±0,06–0,09 çıktı (K-193).
+Düzeltme SERBEST PARAMETRE GETİRMEZ, iki moment de koşunun KENDİ temiz
+evresinden kestirilir:
+    M1 · M3   SE = max(Agresti–Caffo, s_L · √(1 + L/T))  — `_kume_se`
+    M4        1 s kova sayımlarının ortalaması VE varyansıyla negatif binom
+              (varyans ≤ ortalama ise Poisson — bağımsız kolda eşik aynı)
+`s_L`: temiz evredeki kayan `L` pencerelerinin PDR'lerinin standart sapması;
+`√(1 + L/T)`: temizin kendi kestirim hatası (T/L bağımsız blok varsayımı).
+⚠️ Beyan edilen bedel: kümelenen kolda band ve eşik genişler — gerçek bir
+etki daha geç "tespit" edilir, "toparlandı" demek kolaylaşır. Alternatifi,
+karıştırıcısız kolda tespit gören bir metrikti.
+
 🔒 SIFIR SERBEST PARAMETRE — ölçüm kafesi iki RFC sabitinden türer
 ==================================================================
     ızgara adımı  S = 1 s   — RFC 3561, AODV HELLO_INTERVAL
@@ -105,6 +123,32 @@ ALFA: float = 0.05
 # yazmak α ile İKİNCİ bir doğru kaynağı doğururdu; α değişirse band da
 # değişmek zorunda.
 BANT_SE_KATI: float = NormalDist().inv_cdf(1.0 - ALFA / 2.0)
+
+
+def _negatif_binom_esigi(ort: float, var: float, alfa: float) -> int:
+    """En küçük k öyle ki P(X > k) ≤ alfa; X negatif binom, ortalaması `ort`,
+    varyansı `var` (momentlerle: `r = ort² / (var − ort)`, `p = ort / var`).
+
+    🔒 `var ≤ ort` ise aşırı yayılım YOK → `_poisson_esigi(ort)`; yani
+    beyanları zamanda bağımsız olan bir kolda eşik eskisiyle BİREBİR aynı.
+    Olasılıklar log uzayında toplanır (büyük `ort`ta alt taşma olmasın).
+    """
+    dogrula(ort >= 0.0 and var >= 0.0, "moment negatif olamaz")
+    if var <= ort:
+        return _poisson_esigi(ort, alfa)
+    r = ort * ort / (var - ort)
+    # 🔒 `1 − p` doğrudan `(var − ort) / var` — `log1p` bu depoda PER
+    # gövdesinin imzası, `kanal.py` dışında yasak (`test_TEK_per_govdesi_VAR`).
+    log_p, log_q = math.log(ort / var), math.log((var - ort) / var)
+    sabit = r * log_p - math.lgamma(r)
+    birikim = 0.0
+    k = 0
+    while True:
+        birikim += math.exp(sabit + math.lgamma(k + r) - math.lgamma(k + 1)
+                            + k * log_q)
+        if 1.0 - birikim <= alfa or k > 100_000:    # patolojiye karşı emniyet
+            return k
+        k += 1
 
 
 def _poisson_esigi(lam: float, alfa: float) -> int:
@@ -205,6 +249,48 @@ class Evreler:
         t1, t2 = (x1 + 1.0) / m1, (x2 + 1.0) / m2
         return math.sqrt(t1 * (1.0 - t1) / m1 + t2 * (1.0 - t2) / m2)
 
+    def _kume_se(self) -> float | None:
+        """TEMİZ ile tek bir `L` penceresinin PDR farkının KÜMELENMEYE
+        DAYANIKLI standart hatası (K-196): `s_L · √(1 + L/T)`.
+
+        `s_L` temiz evredeki kayan pencerelerin (ızgara adımıyla, `[t; t+L)`
+        temizin içinde) PDR'lerinin örneklem standart sapmasıdır — pencere
+        düzeyindeki GERÇEK oynaklık, paket bağımsızlığı varsaymaz. `L/T`
+        temizin kendi kestirim hatası (T/L bağımsız blok). Temizde iki
+        pencere yoksa `None` → yalnız Agresti–Caffo.
+
+        ⚠️ Beyanlı sınırlar: kayan pencereler örtüşür (s_L'nin kendisi
+        gürültülüdür); temiz evre kümelenmenin karakteristik süresinden kısa
+        ise s_L aşağı yanlıdır. Pencere ile temiz arasındaki ilinti yok
+        sayılır — pozitifse band gereğinden geniş (tutucu).
+        """
+        uzunluk = self.acilma_s - self.bas_s
+        pdrler: list[float] = []
+        k = 0
+        while True:
+            t = self.bas_s + k * self.izgara_s
+            if t + self.pencere_s > self.acilma_s:
+                break
+            p, _ = self.pdr(t, t + self.pencere_s)
+            if p is not None:
+                pdrler.append(p)
+            k += 1
+        if len(pdrler) < 2:
+            return None
+        ort = math.fsum(pdrler) / len(pdrler)
+        s = math.sqrt(math.fsum((p - ort) ** 2 for p in pdrler)
+                      / (len(pdrler) - 1))
+        return s * math.sqrt(1.0 + self.pencere_s / uzunluk)
+
+    def _fark_se(self, p1: float, n1: int, p2: float, n2: int,
+                 kume: float | None) -> float:
+        """🔒 M1 ve M3'ün TEK hata payı: Agresti–Caffo ile kümelenmeye
+        dayanıklı SE'nin BÜYÜĞÜ. Kayıplar bağımsızsa ikisi AYNI büyüklüğü
+        (binom) kestirir — max yalnız kestirim gürültüsü kadar genişletir;
+        temizde PDR = 1 ise (kâhin) `s_L = 0` ve eski davranış birebir."""
+        se = self._se(p1, n1, p2, n2)
+        return se if kume is None else max(se, kume)
+
     def izgara(self) -> tuple[float, ...]:
         """Açılmadan sonraki ızgara anları; pencere ölçüm sonunu AŞMAZ."""
         anlar: list[float] = []
@@ -246,7 +332,8 @@ class Evreler:
         sok, n_s = self.pdr(*self.sok_araligi)
         if temiz is None or sok is None:
             return None, None
-        return temiz - sok, self._se(temiz, n_t, sok, n_s)
+        return temiz - sok, self._fark_se(temiz, n_t, sok, n_s,
+                                          self._kume_se())
 
     def toparlanma_tamligi(self) -> float | None:
         """M2 — `PDR(toparlanma) / PDR(temiz)`.
@@ -271,15 +358,19 @@ class Evreler:
         ⚠️ Beyan edilen sınır: band, `p̂` 0 ya da 1'e yakın olmadığında
         genişler; gürültülü bir kolda "toparlandı" demek daha kolaydır. Bu
         yüzden `sok_derinligi`nin SE'si sonuç sözlüğünde birlikte durur.
+        K-196'dan beri SE kümelenmeye dayanıklı (`_fark_se`) — kümelenen
+        kolda band o koşunun KENDİ temiz oynaklığı kadar genişler.
         """
         temiz, n_t = self.pdr(self.bas_s, self.acilma_s)
         if temiz is None:
             return None
+        kume = self._kume_se()
         for t in self.izgara():
             p, n = self.pdr(t, t + self.pencere_s)
             if p is None:
                 continue
-            if p >= temiz - BANT_SE_KATI * self._se(temiz, n_t, p, n):
+            if p >= temiz - BANT_SE_KATI * self._fark_se(temiz, n_t, p, n,
+                                                         kume):
                 return t - self.acilma_s
         return None
 
@@ -307,19 +398,21 @@ class Evreler:
         🔒 Susan protokol hızlı görünemez: `beyan_etmiyor` ise `None` döner.
         `algilama_duyarliligi` ile aynı disiplin; ikinci bir kural koymak
         ikisinin ayrışabileceği anlamına gelirdi.
+
+        🔴 K-196: boş hipotez temiz kovaların ortalaması VE varyansıyla
+        negatif binom — beyanlar kümeleniyorsa Poisson kuyruğu fazla incedir
+        (karıştırıcısız OLSR 3/3 tohumda "tespit" ediyordu, K-193).
         """
         if rota_defteri.beyan_etmiyor:
             return None
-        anlar = rota_defteri.beyan_anlari("kopma")
-        temiz_sayi = sum(1 for t in anlar if self.bas_s <= t < self.acilma_s)
-        kova_sayisi = max((self.acilma_s - self.bas_s) / self.izgara_s, 1.0)
+        sirali = sorted(rota_defteri.beyan_anlari("kopma"))
+        ort, var = self._kova_momentleri(sirali)
         # 🔒 BONFERRONI (Y10): eşik pencere BAŞINA `α / taranan pencere`.
         # Tek bir pencere için α kullanmak, ~170 pencere tarandığında aile
         # düzeyi yanlış alarmı %37–70'e çıkarıyordu — ölçüldü, üretici:
         # `python -u kalibrasyon/anlamlilik_sabitleri.py`.
         taranan = max(int((self.bitis_s - self.acilma_s) / self.izgara_s), 1)
-        esik = _poisson_esigi(temiz_sayi / kova_sayisi, ALFA / taranan)
-        sirali = sorted(anlar)
+        esik = _negatif_binom_esigi(ort, var, ALFA / taranan)
         k = 1
         while True:
             t = self.acilma_s + k * self.izgara_s
@@ -328,6 +421,29 @@ class Evreler:
             if self._aralikta(sirali, t - self.izgara_s, t) > esik:
                 return t - self.acilma_s
             k += 1
+
+    def _kova_momentleri(self, sirali: list[float]) -> tuple[float, float]:
+        """TEMİZ evrenin ızgara kovalarındaki beyan sayısının ortalaması ve
+        örneklem varyansı (n − 1).
+
+        🔒 Kovalar `[bas + i·S; bas + (i+1)·S)`, yalnız TAM olanlar. İki tam
+        kova yoksa varyans kestirilemez: ortalama eskisi gibi (kesirli kova
+        sayısıyla) ve varyans = ortalama döner → Poisson, yani K-196 öncesi
+        davranış birebir.
+        """
+        tam = int((self.acilma_s - self.bas_s) / self.izgara_s + 1e-9)
+        if tam < 2:
+            temiz_sayi = self._aralikta(sirali, self.bas_s, self.acilma_s)
+            kova_sayisi = max((self.acilma_s - self.bas_s) / self.izgara_s,
+                              1.0)
+            ort = temiz_sayi / kova_sayisi
+            return ort, ort
+        sayimlar = [self._aralikta(sirali, self.bas_s + i * self.izgara_s,
+                                   self.bas_s + (i + 1) * self.izgara_s)
+                    for i in range(tam)]
+        ort = math.fsum(sayimlar) / tam
+        var = math.fsum((c - ort) ** 2 for c in sayimlar) / (tam - 1)
+        return ort, var
 
 
 def evre_sozlugu(paket_defteri: PaketDefteri, rota_defteri: RotaDefteri,

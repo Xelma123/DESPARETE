@@ -29,6 +29,7 @@ from sim2.cekirdek.rng import Akislar  # noqa: E402
 from sim2.dunya.geometri import mesafe  # noqa: E402
 from sim2.dunya.topoloji import topoloji_kur  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 
 TOHUMLAR = range(1000, 1010)
 # Teşhis eşiği: kullanılabilir bağ yarıçapının mertebesi (`konfig.py`
@@ -45,7 +46,7 @@ def _yuzdelik(sirali: list[float], q: float) -> float:
 
 def sapma_ve_temas(tohum: int) -> dict:
     """Bir tohumda istasyondan sapma dağılımı ve duvar teması."""
-    k = Konfig(kol="formasyon_olcumu", senaryo="formasyon-yok", tohum=tohum)
+    k = DS.konfig(kol="formasyon_olcumu", senaryo="formasyon-yok", tohum=tohum)
     m = topoloji_kur(k, Akislar(tohum)).mobilite
     s, yat, dik = [], [], []
     for i in range(k.dugum_sayisi):
@@ -64,7 +65,7 @@ def sapma_ve_temas(tohum: int) -> dict:
 
 def bagil_hiz(senaryo: str, tohum: int) -> list[float]:
     """Ölçüm penceresinde, eşiğin içindeki çiftlerin bağıl hızları (m/s)."""
-    k = Konfig(kol="formasyon_olcumu", senaryo=senaryo, tohum=tohum)
+    k = DS.konfig(kol="formasyon_olcumu", senaryo=senaryo, tohum=tohum)
     top = topoloji_kur(k, Akislar(tohum))
     n, dt = k.dugum_sayisi, k.gm_adim_s
     cikti: list[float] = []
@@ -83,7 +84,7 @@ def bagil_hiz(senaryo: str, tohum: int) -> list[float]:
 
 
 def main() -> None:
-    k = Konfig(kol="formasyon_olcumu")
+    k = DS.konfig(kol="formasyon_olcumu")
     print("FORMASYON OLCUMU — Y6 (K-118)")
     print(f"  {len(TOHUMLAR)} tohum ({TOHUMLAR.start}–{TOHUMLAR.stop - 1}) × "
           f"{k.kosu_bitis_s:.0f} s · gm_alfa {k.gm_alfa} · gm_hiz_sigma_ms "

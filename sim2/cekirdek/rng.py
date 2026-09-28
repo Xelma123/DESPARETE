@@ -51,9 +51,12 @@ import math
 import random
 import struct
 
+import numpy as np
+
 __all__ = [
     "AKIS_ADLARI", "HASH_ALANLARI", "HENUZ_KULLANILMAYAN",
-    "Akislar", "hash_cekimi", "normal_cekimi",
+    "Akislar", "hash_cekimi", "normal_cekimi", "blok_anahtari",
+    "normal_dizisi",
     "akis_listesi_hash",
 ]
 
@@ -252,6 +255,61 @@ def normal_cekimi(alan: str, ana_tohum: int, *anahtarlar) -> float:
     u1 = max(ust / (_UINT64 + 1), 1.0 / (_UINT64 + 1))
     u2 = alt / (_UINT64 + 1)
     return math.sqrt(-2.0 * math.log(u1)) * math.cos(2.0 * math.pi * u2)
+
+
+# ---------------------------------------------------------- durumsuz · blok
+# 🔒 K-198 · SAYAÇ TABANLI BLOK ÜRETECİ (28 Eylül 2026, öğrenci onayı).
+# `normal_cekimi` her yenilik için bir blake2b özeti hesaplıyor (~10 µs);
+# birincil hücrede sönümleme yeniliklerinin üretimi koşunun ~%30'uydu.
+# Burada bağ başına BİR blake2b özeti anahtar olur; indeks `n`in değeri
+# SplitMix64'ün `n`inci çıktısıdır: `karıştır(anahtar + (n + 1)·γ)` — saf,
+# rastgele erişimli, sıra duyarsız (durumsuzluk sözleşmesi aynı). Normal,
+# ardışık iki indeksin çiftinden Box-Muller'ın cos ve sin kolu: çift
+# `(2p, 2p+1)` hep birlikte üretilir, yani bir indeksin değeri hangi
+# pencereden okunursa okunsun AYNIDIR (pencere başı çift olmak zorunda).
+# SplitMix64: Steele, Lea ve Flood 2014 (OOPSLA, "Fast splittable
+# pseudorandom number generators"); Java `SplittableRandom`ın çekirdeği.
+_GAMA = np.uint64(0x9E3779B97F4A7C15)
+_KARISTIR_1 = np.uint64(0xBF58476D1CE4E5B9)
+_KARISTIR_2 = np.uint64(0x94D049BB133111EB)
+_KAYDIR = (np.uint64(30), np.uint64(27), np.uint64(31), np.uint64(11))
+_IKI_UZERI_53 = 1.0 / 9007199254740992.0
+
+
+def blok_anahtari(alan: str, ana_tohum: int, *anahtarlar) -> int:
+    """Bir bağın blok üreteci anahtarı — 64 bit, blake2b.
+
+    🔒 Alan adı ve `b"blok"` etiketi özete girer: aynı alanın `normal_cekimi`
+    çekimleriyle ve öteki bağların anahtarlarıyla çakışmaz."""
+    if alan not in HASH_ALANLARI:
+        raise KeyError(f"bilinmeyen hash alanı: {alan!r}")
+    return _hash_bit(alan.encode(), struct.pack("<q", int(ana_tohum)), b"blok",
+                     *_anahtar_baytlari(anahtarlar))
+
+
+def normal_dizisi(anahtarlar: np.ndarray, bas: int, uzunluk: int
+                  ) -> np.ndarray:
+    """İndeks `bas … bas + uzunluk − 1` için `N(0, 1)` yenilikler.
+
+    `anahtarlar` `(s, 1)` biçiminde `uint64` (her satır bir akış, ör. I ve
+    Q); dönüş `(s, uzunluk)`. `bas` ve `uzunluk` ÇİFT olmalı — Box-Muller
+    çifti bölünmesin. `bas` negatif olabilir (64 bitte sarılır).
+    """
+    if bas % 2 or uzunluk % 2:
+        raise ValueError("blok başı ve uzunluğu çift olmalı (Box-Muller çifti)")
+    sayac = (np.arange(uzunluk, dtype=np.uint64)
+             + np.uint64(bas & _UINT64) + np.uint64(1))
+    z = anahtarlar + sayac * _GAMA
+    z = (z ^ (z >> _KAYDIR[0])) * _KARISTIR_1
+    z = (z ^ (z >> _KAYDIR[1])) * _KARISTIR_2
+    z = z ^ (z >> _KAYDIR[2])
+    u = (z >> _KAYDIR[3]).astype(np.float64) * _IKI_UZERI_53     # [0, 1)
+    r = np.sqrt(-2.0 * np.log(1.0 - u[:, 0::2]))                 # (0, 1]
+    teta = (2.0 * math.pi) * u[:, 1::2]
+    cikti = np.empty(u.shape, dtype=np.float64)
+    cikti[:, 0::2] = r * np.cos(teta)
+    cikti[:, 1::2] = r * np.sin(teta)
+    return cikti
 
 
 def akis_listesi_hash() -> str:

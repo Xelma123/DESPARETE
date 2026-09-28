@@ -37,6 +37,7 @@ from sim2.kosum.kosu import Kosu  # noqa: E402
 from sim2.kosum.kurulum import kurulum_yap  # noqa: E402
 from sim2.kosum.sonuc import sonuc_satiri  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 import test_kontrol_duzlemi as T  # noqa: E402
 
 
@@ -132,7 +133,7 @@ def main() -> None:
     print("=" * 78)
     kanitlar = []
     for senaryo, tohum in senaryolar:
-        kfg = Konfig(kol="kontrol_kapi", senaryo=senaryo, tohum=tohum, **tam)
+        kfg = DS.konfig(kol="kontrol_kapi", senaryo=senaryo, tohum=tohum, **tam)
         print(f"  kosuluyor: {senaryo} · tohum {tohum} · {tam['kosu_bitis_s']} s")
         kanitlar.append(_kanit(senaryo, kfg))
 

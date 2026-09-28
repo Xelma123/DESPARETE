@@ -137,6 +137,27 @@ def test_Y5b_derin_sizma_YALNIZ_SUSARKEN_TASINIR():
     assert yol == pytest.approx(hiz * toplam_sessiz, rel=1e-9)
 
 
+def test_K197_CIZELGELI_uye_HAREKETLI_sayilir_geciste_uyanma_SINIRLI():
+    """🔒 K-197 · Yayın çizelgesinin geçişleri (açık ↔ sessiz) ve açılma anı
+    `gecis_anlari`na GİRMEZ. Güç kipinde karıştırıcıyla donan düğüm, susma
+    anını ancak yeniden denetimle görür: hareketli karıştırıcıda
+    `karistirici_denetim_araligi_s` (10 ms), hareketsizde bir beacon aralığı
+    (1 s) sonra. Bugün çizelgeli tek aile `derin_sizma` ve üyesi hareketli →
+    gecikme ≤ 10 ms (30 s'lik çevrimde ≤ %0,07). Hareketsiz ve çizelgeli bir
+    aile eklenirse bu test kırılır: ya geçişler `gecis_anlari`na eklenir
+    (`sim2/` yapısı) ya da gecikme ölçülüp beyan edilir."""
+    for aile in TEHDIT_SENARYOLARI:
+        tanimlar = tehdit_tanimlari(_konfig(aile)) or ()
+        for t in tanimlar:
+            if t.yayin.duzen != "surekli":
+                assert t.yorunge.tur != "sabit", (
+                    f"{aile}: çizelgeli ama hareketsiz üye — susma anı "
+                    f"en geç 1 s sonra görülür")
+    kanal = _kanal("derin_sizma")
+    assert kanal.karistirici.hareketli
+    assert kanal.konfig.karistirici_denetim_araligi_s == 0.010
+
+
 def test_Y5b_KUME_kurulur_ve_ACIK_DONEMDE_guc_verir():
     kanal = _kanal("cephe_hatti")
     assert isinstance(kanal.karistirici, KaristiriciKumesi)

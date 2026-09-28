@@ -34,6 +34,7 @@ değil, akışların birbirine göre kaymasının titreşimi olurdu. `Paket`
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Mapping
 
 from sim2.cekirdek.degismezler import dogrula
 
@@ -68,11 +69,28 @@ class PaketDefteri:
     _dogum: dict[int, tuple[int, float]] = field(default_factory=dict)
     _teslim: list[TeslimKaydi] = field(default_factory=list)
     _teslim_kimlikleri: set[int] = field(default_factory=set)
+    # 🔒 KR-E (K-182) — DÜĞÜM KAYBINDA PDR'NİN KOHORTU. Doğduğu anda hedefi
+    # ölü olan paket PDR'ye GİRMEZ: hiçbir protokol onu teslim edemez ve
+    # ölüm anları protokolden bağımsızdır (hash), yani her kolda aynı
+    # paketler dışarıda kalır. Ölü kaynağın ÜRETEMEDİĞİ paket zaten doğmaz.
+    # İkisi de GÖREV teslim oranının paydasındadır (`planlanan`). Kayıp
+    # yokken iki küme boştur ve her şey birebir eskisi gibidir.
+    olu_dugumler: set[int] = field(default_factory=set)
+    _olu_hedefe_s: list[float] = field(default_factory=list)
+    _uretilmeyen_s: list[float] = field(default_factory=list)
 
     # ------------------------------------------------------------ kayıt
-    def dogdu(self, kimlik: int, akis_kimligi: int, dogum_s: float) -> None:
+    def dogdu(self, kimlik: int, akis_kimligi: int, dogum_s: float,
+              hedef: int | None = None) -> None:
         dogrula(kimlik not in self._dogum, "aynı paket kimliği iki kez doğdu")
+        if hedef is not None and hedef in self.olu_dugumler:
+            self._olu_hedefe_s.append(dogum_s)          # KR-E: kohort dışı
+            return
         self._dogum[kimlik] = (akis_kimligi, dogum_s)
+
+    def uretilmedi(self, dogum_s: float) -> None:
+        """KR-E: kaynağı ölü olduğu için doğmayan çizelgeli paket."""
+        self._uretilmeyen_s.append(dogum_s)
 
     def teslim_edildi(self, kimlik: int, teslim_s: float) -> None:
         dogrula(kimlik in self._dogum, "doğmamış paket teslim edilemez")
@@ -100,9 +118,38 @@ class PaketDefteri:
     def teslim(self) -> int:
         return len(self._teslim)
 
+    def planlanan(self, yalniz_pencere: bool = False) -> int:
+        """KR-E: görevin istediği talep — doğan + hedefi ölüyken doğan +
+        kaynağı ölü olduğu için doğmayan. Kayıp yokken `uretilen`."""
+        if not yalniz_pencere:
+            return (self.uretilen + len(self._olu_hedefe_s)
+                    + len(self._uretilmeyen_s))
+        return (self.pencerede_uretilen
+                + sum(1 for d in self._olu_hedefe_s if self._penceredeyse(d))
+                + sum(1 for d in self._uretilmeyen_s
+                      if self._penceredeyse(d)))
+
     @property
     def pencerede_teslim(self) -> int:
         return sum(1 for t in self._teslim if self._penceredeyse(t.dogum_s))
+
+    def sinif_sayimi(self, akis_siniflari: Mapping[int, str],
+                     yalniz_pencere: bool = False
+                     ) -> dict[str, tuple[int, int]]:
+        """Akış sınıfı başına `(doğan, teslim)` — kohort DOĞUMA göre (K-171).
+
+        🔒 Haritada olmayan bir akış HATADIR: sınıfsız kalan paket iki
+        sınıfın toplamını `uretilen`den ayırır ve fark sessiz kalırdı.
+        """
+        cikti = {s: [0, 0] for s in set(akis_siniflari.values())}
+        for akis, dogum in self._dogum.values():
+            if yalniz_pencere and not self._penceredeyse(dogum):
+                continue
+            dogrula(akis in akis_siniflari, "sınıfı bilinmeyen akış")
+            cikti[akis_siniflari[akis]][0] += 1
+        for t in self.kayitlar(yalniz_pencere):
+            cikti[akis_siniflari[t.akis_kimligi]][1] += 1
+        return {s: (u, t) for s, (u, t) in cikti.items()}
 
     def dogumlar(self, yalniz_pencere: bool = False
                  ) -> tuple[tuple[int, int, float], ...]:
@@ -196,4 +243,8 @@ class PaketDefteri:
             "dogum_s": tuple(sorted(d for _, _, d in self.dogumlar())),
             "pencere_kimlik_araligi": self.pencere_kimlik_araligi(),
             "pencerede_uretilen": self.pencerede_uretilen,
+            # KR-E (K-182): görev teslim oranının paydası ham listeden
+            # yeniden üretilebilsin diye.
+            "olu_hedefe_dogum_s": tuple(sorted(self._olu_hedefe_s)),
+            "uretilmeyen_dogum_s": tuple(sorted(self._uretilmeyen_s)),
         }

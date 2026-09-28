@@ -22,12 +22,13 @@ from sim2.ag.trafik import TrafikUreteci  # noqa: E402
 from sim2.cekirdek.korunum import KorunumDefteri  # noqa: E402
 from sim2.cekirdek.rng import Akislar  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 
 TOHUMLAR = range(1, 31)
 
 
 def bolum_a():
-    k = Konfig(kol="kalib")
+    k = DS.konfig(kol="kalib")
     print("=" * 74)
     print("A - TRAFIK  (ilan: 10 akis x 4 pkt/s x 512 B)")
     print("=" * 74)
@@ -77,7 +78,7 @@ def kosum(konfig, tohum, kapasite=None):
 
 
 def bolum_b():
-    k = Konfig(kol="kalib")
+    k = DS.konfig(kol="kalib")
     print()
     print("=" * 74)
     print("B - KORUNUM + MUTABAKAT  (30 tohum, bosaltmayan kosum)")
@@ -106,7 +107,7 @@ def bolum_c():
     print("=" * 74)
     print(f"{'kapasite':>9s} {'tasma':>8s} {'tasma orani':>13s}")
     for kapasite in (1, 2, 5, 10, 50):
-        k = Konfig(kol="kalib", kuyruk_kapasitesi=kapasite)
+        k = DS.konfig(kol="kalib", kuyruk_kapasitesi=kapasite)
         oran, adet = [], []
         for t in range(1, 11):
             defter, _, tasma = kosum(k, t, kapasite)

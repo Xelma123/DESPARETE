@@ -48,6 +48,15 @@ Kanal bir çerçeve süresince ortancada ~1,4, p95'te ~2,5 kez değişiyor:
 paket başına tek çekim yanlış olurdu. Çerçeve başına ~11,8 parça.
 Üretici: `python kalibrasyon/adim4_sonumleme.py`
 
+🔒 K-198 · İKİ ÜRETEÇ, TEK MODEL (`Konfig.sonumleme_uretec`)
+===========================================================
+`"tekil"`: her `w_n` bir blake2b özeti (`normal_cekimi`) — eski dünya,
+birebir. `"blok"`: bağ başına bir blake2b anahtarı, `w_n` SplitMix64'ün
+`n`inci çıktısından (`rng.normal_dizisi`), 64'lük bloklar numpy'de; FIR
+I ve Q için tek matris çarpımı. Formül, ρ, M ve `c` AYNI; iki üreteç aynı
+dağılımdan çeker, aynı sayıları değil. Referans dünyada `"blok"`:
+birincil hücrede sönümleme koşunun ~%70'iydi (K-197).
+
 🔒 STATİK KOLDA SÖNÜMLEME DONDURULUR
 ====================================
 Hareket yoksa Doppler yoktur; hareketsiz bir geometride kanal zamanla
@@ -61,13 +70,16 @@ from __future__ import annotations
 
 import math
 
+import numpy as np
+
 from sim2.cekirdek.degismezler import dogrula
-from sim2.cekirdek.rng import normal_cekimi
+from sim2.cekirdek.rng import blok_anahtari, normal_cekimi, normal_dizisi
 from sim2.dunya.topoloji import Topoloji
 from sim2.kanal.yayilim import ISIK_HIZI
 from sim2.yapilandirma.konfig import Konfig
 
 __all__ = ["FIR_EN_COK_KATSAYI", "BAGIL_HIZ_TABANI_MS", "YENILIK_ONBELLEK_SINIRI",
+           "AGIRLIK_ONBELLEK_SINIRI", "BLOK_BOYU", "PENCERE_ONBELLEK_SINIRI",
            "Sonumleme"]
 
 # FIR kesme sınırı. Marjinal varyans `c` ile düzeltildiği için bu sayı
@@ -133,13 +145,30 @@ BAGIL_HIZ_TABANI_MS: float = 1.0
 # Üretici: `python kalibrasyon/sonumleme_onbellegi.py`
 YENILIK_ONBELLEK_SINIRI: int = 250_000
 
+# FIR ağırlık önbelleğinin tavanı — performans, sonucu DEĞİŞTİREMEZ (saf
+# memo, dolunca boşaltılır). Girdi başına ≤ 64 kayan nokta.
+AGIRLIK_ONBELLEK_SINIRI: int = 20_000
+
+# 🔒 K-198 · BLOK ÜRETECİ (`Konfig.sonumleme_uretec = "blok"`). Yenilikler
+# `BLOK_BOYU`luk bloklarla üretilir; blok `b`nin PENCERESİ `[bB − B; bB + B)`
+# indekslerini tutar, yani `k`de biten her FIR penceresi (en çok `B` dokunuş,
+# `k ∈ [bB; bB + B)`) TEK bir pencerenin içindedir — birleştirme yok. Blok
+# boyu FIR sınırına eşit olmak ZORUNDA (daha kısası bu garantiyi bozar).
+BLOK_BOYU: int = FIR_EN_COK_KATSAYI
+
+# Pencere önbelleğinin tavanı — saf memo, sonucu DEĞİŞTİREMEZ (dolunca
+# boşaltılır, değer aynı indeksten aynı çıkar). Girdi ~2,3 KB (I ve Q ×
+# 2B kayan nokta) → tavanda ~46 MB.
+PENCERE_ONBELLEK_SINIRI: int = 20_000
+
 
 class Sonumleme:
     """Rician sönümleme. Saf ve durumsuz; memo yalnız hızlandırır."""
 
     __slots__ = ("konfig", "topoloji", "_lambda", "_dt", "_acik",
                  "_k_lin", "_los", "_dagilan", "_memo", "_donuk",
-                 "_sinir", "_tahliye", "_olcek")
+                 "_sinir", "_tahliye", "_olcek", "_agirlik", "_blok",
+                 "_pencereler", "_bag_anahtari", "_pencere_sinir", "_usler")
 
     def __init__(self, konfig: Konfig, topoloji: Topoloji) -> None:
         dogrula(konfig.sonumleme_parca_suresi_s > 0.0,
@@ -165,6 +194,22 @@ class Sonumleme:
         self._memo: dict[tuple[str, int, int, int], float] = {}
         self._sinir = YENILIK_ONBELLEK_SINIRI
         self._tahliye = 0
+        # (ρ, M) → (ağırlıklar, √Σ ağırlık²) — `_fir`in ağırlıkları. SAF memo
+        # (performans, 28 Eylül 2026): değerler AYNI işlemlerle AYNI sırada
+        # üretilir, yalnız tekrarlanmaz; aynı çağrıdaki I ve Q süzgeci aynı
+        # (ρ, M)'yi paylaşır.
+        self._agirlik: dict[tuple[float, int], tuple[tuple[float, ...],
+                                                      float]] = {}
+        # K-198 · blok üreteci. (i, j, blok) → (2, 2B) pencere [I; Q];
+        # (i, j) → (2, 1) uint64 anahtar. İkisi de KOŞUM BAŞINA — anahtar
+        # tohumu içerir ama pencere anahtarı içermez (aynı gerekçe).
+        self._blok = konfig.sonumleme_uretec == "blok"
+        self._pencereler: dict[tuple[int, int, int], np.ndarray] = {}
+        self._bag_anahtari: dict[tuple[int, int], np.ndarray] = {}
+        self._pencere_sinir = PENCERE_ONBELLEK_SINIRI
+        # FIR ağırlıklarının üsleri, artan indeks sırasıyla: `k − m + 1 … k`
+        # indeksinin ağırlığı `ρ^(m−1) … ρ^0` → `_usler[B − m:]`.
+        self._usler = np.arange(BLOK_BOYU - 1, -1, -1, dtype=np.float64)
 
     # ------------------------------------------------------------ yardımcı
     def bagil_hiz_ms(self, i: int, j: int, t_s: float) -> float:
@@ -236,21 +281,91 @@ class Sonumleme:
         %0,4 sapıyor. Tam sayım her çağrıda bir sayaç ister ve %11 CPU'ya
         mal olur — 100 saatlik bir taramada 11 saat.
         """
+        if self._blok:
+            # K-198 · blok kipinde yenilik memo'su kullanılmaz; aynı dört
+            # alan PENCERE önbelleğini anlatır (girdi = pencere).
+            return {"sinir": self._pencere_sinir, "tahliye": self._tahliye,
+                    "girdi": len(self._pencereler),
+                    "iskalama_tahmini": self._tahliye * self._pencere_sinir
+                    + len(self._pencereler)}
         return {"sinir": self._sinir, "tahliye": self._tahliye,
                 "girdi": len(self._memo),
                 "iskalama_tahmini": self._tahliye * self._sinir
                 + len(self._memo)}
 
+    def _agirliklar(self, ro: float, m: int
+                    ) -> tuple[tuple[float, ...], float]:
+        """FIR ağırlıkları `ρ^adım` ve `√Σ ağırlık²` — saf memo.
+
+        🔒 BİREBİR (performans, 28 Eylül 2026): ağırlık eskiden olduğu gibi
+        ardışık çarpımla (`ağırlık *= ρ`), kare toplamı aynı sırayla birikir
+        — aynı kayan nokta sayıları. Tavan dolunca boşaltılır; değer aynı
+        işlemle yeniden üretilir.
+        """
+        anahtar = (ro, m)
+        a = self._agirlik.get(anahtar)
+        if a is None:
+            agirliklar = []
+            agirlik = 1.0
+            kare = 0.0
+            for _ in range(m):
+                agirliklar.append(agirlik)
+                kare += agirlik * agirlik
+                agirlik *= ro
+            if len(self._agirlik) >= AGIRLIK_ONBELLEK_SINIRI:
+                self._agirlik.clear()
+            a = self._agirlik[anahtar] = (tuple(agirliklar), math.sqrt(kare))
+        return a
+
     def _fir(self, alan: str, i: int, j: int, k: int, ro: float, m: int
              ) -> float:
+        # 🔒 BİREBİR (performans, 28 Eylül 2026): toplam aynı ağırlıklarla
+        # AYNI sırada birikir; önbellek isabetinde `_yenilik` çağrısı
+        # atlanır (ıskalamada o çağrılır — tahliye davranışı aynı). Eskiden
+        # her terim bir metot çağrısıydı ve ağırlıklar her çağrıda yeniden
+        # üretiliyordu: birincil hücre profilinde sürenin %72'si buradaydı.
+        agirliklar, kok = self._agirliklar(ro, m)
+        al = self._memo.get
         toplam = 0.0
-        agirlik = 1.0
-        kare = 0.0
         for adim in range(m):
-            toplam += agirlik * self._yenilik(alan, i, j, k - adim)
-            kare += agirlik * agirlik
-            agirlik *= ro
-        return toplam / math.sqrt(kare)
+            deger = al((alan, i, j, k - adim))
+            if deger is None:
+                deger = self._yenilik(alan, i, j, k - adim)
+            toplam += agirliklar[adim] * deger
+        return toplam / kok
+
+    def _pencere(self, i: int, j: int, blok: int) -> np.ndarray:
+        """K-198 · `(2, 2B)` pencere: I ve Q yenilikleri, indeks
+        `[blok·B − B; blok·B + B)`. Saf memo — tahliye değeri değiştirmez."""
+        anahtar = (i, j, blok)
+        p = self._pencereler.get(anahtar)
+        if p is None:
+            bag = self._bag_anahtari.get((i, j))
+            if bag is None:
+                tohum = self.konfig.tohum
+                bag = self._bag_anahtari[(i, j)] = np.array(
+                    [[blok_anahtari("sonumleme_i", tohum, i, j)],
+                     [blok_anahtari("sonumleme_q", tohum, i, j)]],
+                    dtype=np.uint64)
+            if len(self._pencereler) >= self._pencere_sinir:
+                self._pencereler.clear()
+                self._tahliye += 1
+            p = self._pencereler[anahtar] = normal_dizisi(
+                bag, blok * BLOK_BOYU - BLOK_BOYU, 2 * BLOK_BOYU)
+        return p
+
+    def _fir_blok(self, i: int, j: int, k: int, ro: float, m: int
+                  ) -> tuple[float, float]:
+        """K-198 · `_fir`in blok karşılığı, I ve Q birlikte:
+        `h_k = c · Σ_{a<m} ρ^a · w_{k−a}`, `c = 1/√Σ ρ^{2a}` — aynı model.
+        `c` kapalı formdan (`(1 − ρ^{2m}) / (1 − ρ²)`); ρ = 0'da 1."""
+        blok = k // BLOK_BOYU
+        p = self._pencere(i, j, blok)
+        bas = k - m + 1 - (blok * BLOK_BOYU - BLOK_BOYU)
+        h = p[:, bas:bas + m] @ (ro ** self._usler[BLOK_BOYU - m:])
+        kok = (1.0 if ro == 0.0 else
+               math.sqrt((1.0 - ro ** (2 * m)) / (1.0 - ro * ro)))
+        return float(h[0]) / kok, float(h[1]) / kok
 
     # ------------------------------------------------------------- ana API
     def guc_kazanci(self, i: int, j: int, t_s: float) -> float:
@@ -272,8 +387,40 @@ class Sonumleme:
             m = FIR_EN_COK_KATSAYI if ro >= 1.0 else min(
                 FIR_EN_COK_KATSAYI,
                 max(1, math.ceil(math.log(0.01) / (2.0 * math.log(ro)))))
-        hi = self._fir("sonumleme_i", alt, ust, k, ro, m)
-        hq = self._fir("sonumleme_q", alt, ust, k, ro, m)
+        if self._blok:
+            hi, hq = self._fir_blok(alt, ust, k, ro, m)
+        else:
+            hi = self._fir("sonumleme_i", alt, ust, k, ro, m)
+            hq = self._fir("sonumleme_q", alt, ust, k, ro, m)
+        gi = self._los + self._dagilan * hi
+        gq = self._dagilan * hq
+        return gi * gi + gq * gq
+
+    def karistirici_kazanci(self, kimlik: int, dugum: int, t_s: float,
+                            bagil_hiz_ms: float) -> float:
+        """A6 (K-176) — karıştırıcı ↔ düğüm bağının Rician kazancı.
+
+        Düğüm bağıyla AYNI model ve aynı hash alanları; tek fark bağıl
+        hızın çağırandan gelmesi (karıştırıcının konumu topolojide yok) ve
+        anahtarın ilk üyesinin karıştırıcı kimliği (negatif — düğüm
+        çiftleriyle çakışmaz). İki uç da duruyorsa kanal donar.
+        """
+        if not self._acik:
+            return 1.0
+        if self._donuk and bagil_hiz_ms == 0.0:
+            k, ro, m = 0, 0.0, 1
+        else:
+            k = int(math.floor(t_s / self._dt))
+            v = max(bagil_hiz_ms * self._olcek, BAGIL_HIZ_TABANI_MS)
+            ro = math.exp(-self._dt / (0.423 * self._lambda / v))
+            m = FIR_EN_COK_KATSAYI if ro >= 1.0 else min(
+                FIR_EN_COK_KATSAYI,
+                max(1, math.ceil(math.log(0.01) / (2.0 * math.log(ro)))))
+        if self._blok:
+            hi, hq = self._fir_blok(kimlik, dugum, k, ro, m)
+        else:
+            hi = self._fir("sonumleme_i", kimlik, dugum, k, ro, m)
+            hq = self._fir("sonumleme_q", kimlik, dugum, k, ro, m)
         gi = self._los + self._dagilan * hi
         gq = self._dagilan * hq
         return gi * gi + gq * gq

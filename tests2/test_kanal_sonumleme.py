@@ -428,6 +428,116 @@ def test_STATIK_kolda_onbellek_KUCUK_kalir():
     assert len(son._memo) <= 2
 
 
+# ==========================================================================
+# K-198 · BLOK ÜRETECİ — aynı model, başka sayı kaynağı
+# ==========================================================================
+
+def _blok(hiz_ms: float = 30.0, hareketli: bool = True, **ek) -> Sonumleme:
+    return _sonumleme(hiz_ms, hareketli, sonumleme_uretec="blok", **ek)
+
+
+def test_K198_varsayilan_TEKIL_referans_dunya_BLOK():
+    from sim2.cekirdek.degismezler import DegismezHatasi
+    from sim2.kanal.dunya import referans_2026
+    assert Konfig(kol="t").sonumleme_uretec == "tekil"
+    assert referans_2026(kol="t").sonumleme_uretec == "blok"
+    assert _blok()._blok and not _sonumleme()._blok
+    with pytest.raises(DegismezHatasi):
+        Konfig(kol="t", sonumleme_uretec="numpy")
+
+
+def test_K198_blok_ORTALAMA_ve_RICIAN_varyansi():
+    for k_db in (0.0, 6.0, 12.0):
+        k_lin = 10.0 ** (k_db / 10.0)
+        beklenen = (1.0 + 2.0 * k_lin) / (1.0 + k_lin) ** 2
+        g = _kazanclar(_blok(rician_k_db=k_db), adet=20000)
+        assert ist.mean(g) == pytest.approx(1.0, abs=0.05), f"K = {k_db}"
+        assert ist.pvariance(g) == pytest.approx(beklenen, rel=0.15), (
+            f"K = {k_db} dB: ölçülen {ist.pvariance(g):.3f}, "
+            f"analitik {beklenen:.3f}")
+
+
+def test_K198_blok_OTOKORELASYON_ve_marjinal_varyans():
+    """Kapanış ölçütü (d) blok üretecinde: I ve Q ayrı ayrı."""
+    hiz = 30.0
+    son = _blok(hiz)
+    dt = son.konfig.sonumleme_parca_suresi_s
+    tc = 0.423 * (ISIK_HIZI / son.konfig.frekans_hz) / hiz
+    ro = math.exp(-dt / tc)
+    m = min(FIR_EN_COK_KATSAYI,
+            max(1, math.ceil(math.log(0.01) / (2.0 * math.log(ro)))))
+    ciftler = [son._fir_blok(0, 1, k, ro, m) for k in range(30000)]
+    for bilesen in (0, 1):
+        iz = [c[bilesen] for c in ciftler]
+        ort, var = ist.mean(iz), ist.pvariance(iz)
+        assert var == pytest.approx(1.0, rel=0.05), f"bileşen {bilesen}"
+        for gecikme in (1, 2, 3, 5, 8):
+            pay = sum((iz[n] - ort) * (iz[n + gecikme] - ort)
+                      for n in range(len(iz) - gecikme)) / (len(iz) - gecikme)
+            olculen, beklenen = pay / var, ro ** gecikme
+            assert abs(olculen - beklenen) < 0.10 * beklenen + 0.02, (
+                f"bileşen {bilesen} gecikme {gecikme}: {olculen:.4f} ≠ "
+                f"{beklenen:.4f}")
+    iq = sum(a * b for a, b in ciftler) / len(ciftler)
+    assert abs(iq) < 0.05, f"I ile Q ilintili: {iq:.3f}"
+
+
+def test_K198_blok_DAGILIM_her_hizda_AYNI():
+    k_lin = 10.0 ** (Konfig(kol="t").rician_k_db / 10.0)
+    beklenen_var = (1.0 + 2.0 * k_lin) / (1.0 + k_lin) ** 2
+    for hiz in (1.0, 25.0):
+        g = _kazanclar(_blok(hiz), adet=60000)
+        assert ist.mean(g) == pytest.approx(1.0, abs=0.03), f"hız {hiz}"
+        assert ist.pvariance(g) == pytest.approx(beklenen_var, rel=0.15)
+
+
+def test_K198_blok_IZLER_cagri_sirasindan_ve_TAHLIYEDEN_BAGIMSIZ():
+    """🔒 (g) + (h) blok kipinde: durumsuz, ters sırada aynı, tahliye
+    altında aynı, başka bağların çekimleri araya girse de aynı."""
+    zamanlar = [0.0011 * n for n in range(1500)]
+    temiz = _blok()
+    beklenen = [temiz.guc_kazanci(0, 1, t) for t in zamanlar]
+    dar = _blok()
+    dar._pencere_sinir = 3
+    karisik = []
+    for n, t in enumerate(zamanlar):
+        for baska in range(3):
+            dar.guc_kazanci(2 + baska, 9, t * 1.7 + baska)
+        karisik.append(dar.guc_kazanci(0, 1, t))
+    assert dar._tahliye > 0, "🔴 tahliye tetiklenmedi — test bir şey ölçmüyor"
+    assert karisik == beklenen
+    geri_son = _blok()
+    geri = {t: geri_son.guc_kazanci(0, 1, t) for t in reversed(zamanlar)}
+    assert beklenen == [geri[t] for t in zamanlar]
+    assert len(dar._pencereler) <= 3
+
+
+def test_K198_blok_SIMETRIK_DONUK_ve_AYIRT_EDICI():
+    son = _blok()
+    for t in (0.0, 0.13, 7.77):
+        assert son.guc_kazanci(0, 1, t) == son.guc_kazanci(1, 0, t)
+    assert son.guc_kazanci(0, 1, 1.0) != son.guc_kazanci(0, 2, 1.0)
+    baska = _blok(tohum=Konfig(kol="t").tohum + 1)
+    assert son.guc_kazanci(0, 1, 1.0) != baska.guc_kazanci(0, 1, 1.0)
+    donuk = _blok(hareketli=False)
+    ilk = donuk.guc_kazanci(0, 1, 0.0)
+    assert all(donuk.guc_kazanci(0, 1, t) == ilk for t in (0.001, 55.5, 349.9))
+    assert donuk.guc_kazanci(0, 2, 0.0) != ilk
+    # karıştırıcı bağı da aynı yoldan (negatif kimlik)
+    k1 = son.karistirici_kazanci(-1, 3, 2.0, 30.0)
+    assert k1 > 0.0 and k1 == son.karistirici_kazanci(-1, 3, 2.0, 30.0)
+
+
+def test_K198_iki_uretec_AYNI_dagilim_FARKLI_sayilar():
+    """Aynı tohumda iki üreteç farklı iz, aynı istatistik (ortalama ve
+    varyans iki örneklem SE'si içinde)."""
+    a = _kazanclar(_sonumleme(), adet=40000)
+    b = _kazanclar(_blok(), adet=40000)
+    assert a[:50] != b[:50]
+    assert ist.mean(a) == pytest.approx(ist.mean(b), abs=0.04)
+    assert ist.pvariance(a) == pytest.approx(ist.pvariance(b), rel=0.12)
+
+
 def test_MODUL_SABITI_ornege_BAGLI():
     """🔴 Bildirim ≠ kullanım: sabit gerçekten örneğin tavanı mı?
 

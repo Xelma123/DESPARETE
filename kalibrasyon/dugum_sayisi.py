@@ -49,6 +49,7 @@ from kalibrasyon.kahin import KanalGrafigi  # noqa: E402
 from sim2.kosum.kosu import Kosu  # noqa: E402
 from sim2.kosum.kurulum import kurulum_yap  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 
 # Aday düğüm sayıları — `12` §3 C1'in aralığı (30–50), beş nokta.
 ADAYLAR: tuple[int, ...] = (30, 35, 40, 45, 50)
@@ -71,14 +72,22 @@ BOLUNME_KOLLARI: tuple[str, ...] = ("statik", "bagimsiz", "gorev", "formasyon")
 BOLUNME_ANLARI: tuple[float, ...] = tuple(50.0 + k * 31.1 for k in range(9))
 
 
+def _alan_capasi_m() -> float:
+    """🔴 K-188: çapa SEÇİLİ dünyadan. Sabit (1800 m) eski dünyanındır;
+    referans dünyada kullanılsaydı araç `--dunya referans_2026` ile bile
+    1800 m'lik alan kurardı (K-187'nin sınıfı, ikinci örnek)."""
+    return (DS.konfig(kol="dugum_sayisi").alan_en_m if DS.referans_mi()
+            else ALAN_CAPASI_M)
+
+
 def alan_m(n: int) -> float:
     """Yoğunluğu sabit tutan alan — çapadan TÜRETİLİR, taranmaz."""
-    return ALAN_CAPASI_M * math.sqrt(n / CAPA_N)
+    return _alan_capasi_m() * math.sqrt(n / CAPA_N)
 
 
 def _konfig(n: int, tohum: int, **ek) -> Konfig:
     a = alan_m(n)
-    return Konfig(kol="dugum_sayisi", tohum=tohum, dugum_sayisi=n,
+    return DS.konfig(kol="dugum_sayisi", tohum=tohum, dugum_sayisi=n,
                   alan_en_m=a, alan_boy_m=a, trafik_deseni="yere_toplama",
                   **ek)
 
@@ -257,7 +266,7 @@ def ana_deney_bolunmesi(isci: int = 6) -> int:
     """
     tohumlar = list(ANA_DENEY_TOHUMLARI)
     print("ANA DENEY TOHUMLARININ BOLUNMESI — B6 (`v2/12` §3)")
-    print(f"  N = {CAPA_N} · alan = {ALAN_CAPASI_M:.0f} m · "
+    print(f"  N = {CAPA_N} · alan = {_alan_capasi_m():.0f} m · "
           f"tohumlar {tohumlar[0]}–{tohumlar[-1]} ({len(tohumlar)} tohum)")
     print(f"  kollar: {BOLUNME_KOLLARI}")
     print(f"  pencere boyunca {len(BOLUNME_ANLARI)} an: "
@@ -314,7 +323,7 @@ def main(isci: int = 6) -> int:
     tohumlar = list(TOHUMLAR)
     print("DUGUM SAYISI — C1 (olcut taramadan ONCE ilan edildi, K-124)")
     print(f"  adaylar {ADAYLAR} · {len(tohumlar)} tohum · alan = "
-          f"{ALAN_CAPASI_M:.0f} m × sqrt(N/{CAPA_N}) · bag: kahin grafigi")
+          f"{_alan_capasi_m():.0f} m × sqrt(N/{CAPA_N}) · bag: kahin grafigi")
     print(f"  KISIT 1: ulasilamaz cift = 0 (her tohumda)")
     print(f"  KISIT 2: gecide dugum-ayrik ikinci yolu olan kaynak orani >= "
           f"{ALTERNATIF_ORAN:.0%}")
@@ -366,6 +375,8 @@ def main(isci: int = 6) -> int:
 
 
 if __name__ == "__main__":
+    DS.secimi_oku()                         # K-187: --dunya
+    print(f"  DUNYA: {DS.secili()}")
     # 🔒 Windows `spawn` korumasi — Pool bu blok disinda acilmaz.
     if "--bolunme" in sys.argv:
         raise SystemExit(ana_deney_bolunmesi())

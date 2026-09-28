@@ -4,6 +4,18 @@ KARIŞTIRICI ŞİDDETİ — dBm ile değil, ρ (ENGELLENEN BAĞ ORANI) ile.
 Üretici:
     PYTHONIOENCODING=utf-8 python kalibrasyon/karistirici_gucu.py
 
+🔒 FAZ 4 (K-183) — `--dunya referans_2026`: ölçüt AYNEN korunur (sert kısıt:
+30 tohumda birden fazla çok üyeli bileşen yok · amaç: ρ en büyük). Değişen:
+  · dünya (1:1) ve güç ızgarası — EIRP olarak, `karistirici_taban_dbm` ile
+    (son güç override'ı darbeli sınıfta tepe telafisini atlardı);
+  · ρ kâhin grafiğinde ED SUSTURMASI dâhil (`kahin.py`, K-183): verici
+    kanalı alamıyorsa bağı yok — referans dünyanın baskın etkisi (K-181);
+  · `mesafe` bölümü: güç kaynak bandında SABİT (`v2/14` §4, İHA taşıyıcılı
+    1–5 W), rejim karıştırıcının merkezden uzaklığıyla seçilir;
+  · tohumlar 8 işçili havuzda (yönlü grafik iki kat pahalı).
+Argümansız koşu eski dünyada birebir eskisidir (havuz sırayı değiştirmez:
+tohum sonuçları tohum sırasıyla toplanır).
+
 🔴 NEDEN GÜÇLE DEĞİL
 ====================
 `senaryolar.KARISTIRICI_GUCU_DBM` sözlüğündeki beş değerin beşi de `None`
@@ -217,6 +229,7 @@ from __future__ import annotations
 
 import statistics as ist
 import sys
+from multiprocessing import Pool
 from pathlib import Path
 
 KOK = Path(__file__).resolve().parent.parent
@@ -230,6 +243,26 @@ from sim2.yapilandirma.senaryolar import (  # noqa: E402
     KARISTIRICI_GUCU_DBM, KARISTIRICI_SINIFLARI, TEHDIT_SENARYOLARI)
 from sim2.kanal.tehdit import tehdit_tanimlari  # noqa: E402
 from kalibrasyon.kahin import KanalGrafigi  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402
+
+ISCI = 8
+# 🔒 K-186 — BÜYÜK BÖLÜNME: ikinci bileşen ≥ bir MÜFREZE (N/10 = 4 İHA;
+# `gorev_grup_sayisi` 10 × 4 üye). Sert kısıtın gerekçesi "ağın İKİ BÜYÜK
+# parçaya ayrılması"ydı; operasyon tanımı ("birden fazla çok üyeli
+# bileşen") seyrek referans ağında kenardan kopan 2–3 düğümlük grubu da
+# bölünme sayıyordu (35 km, yer aileleri: ulaşılabilirlik 0,97–0,99 iken
+# 15–19/30 "ayrılma"). Küçük kopuk grup boğulmadır — olgunun kendisi.
+# Eski sütun (`AYRILAN`) yanında basılmaya devam eder, gizlenmez — ama
+# referans dünyada (yönlü grafik) BFS kümeleriyle sayıldığı için
+# güvenilmezdir; büyük bölünme GÜÇLÜ bağlı bileşenlerden (`kahin.ozet`).
+BUYUK_BOLUNME_ORANI = 0.10
+# Faz 4 (K-183): referans güç ızgarası (EIRP, dBm) — 100 mW … 50 W; `v2/14`
+# §4'ün kaynak bandının tamamı: İHA taşıyıcılı 1–5 W (30–37) · taşınabilir
+# 10 W (40) · araç 50 W (47).
+GUCLER_REFERANS = (20.0, 25.0, 30.0, 33.0, 37.0, 40.0, 44.0, 47.0)
+# Mesafe ızgarası: karıştırıcının alan merkezinden +x yönünde uzaklığı, ALAN
+# KENARININ YARISI cinsinden (0 = merkez, 1 = kenar, >1 = alan dışı).
+MESAFE_ORANLARI = (0.0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5)
 
 TOHUMLAR = range(1000, 1030)          # 30 tohum — ölçütün gerektirdiği
 
@@ -247,45 +280,80 @@ SINIFLAR = tuple(s for s in KARISTIRICI_SINIFLARI if s != "yok")
 
 
 def _graf_ozeti(senaryo: str, tohum: int, guc_dbm: float | None,
-                t_s: float, aile: str | None = None) -> dict[str, float]:
+                t_s: float, aile: str | None = None,
+                konum: tuple[float, float] | None = None
+                ) -> dict[str, float]:
     ek: dict[str, object] = {}
     if guc_dbm is not None:
-        ek["karistirici_guc_override_dbm"] = guc_dbm
+        # K-183: referansta TABAN güç (tepe telafisi korunur)
+        ek["karistirici_taban_dbm" if DS.referans_mi()
+           else "karistirici_guc_override_dbm"] = guc_dbm
     if aile is not None:
         ek["tehdit_senaryosu"] = aile
-    kfg = Konfig(kol="rho", senaryo=senaryo, tohum=tohum, **ek)
+    if konum is not None:
+        ek["karistirici_konum"] = konum
+    kfg = DS.konfig(kol="rho", senaryo=senaryo, tohum=tohum, **ek)
     kur = kurulum_yap(kfg)
     g = KanalGrafigi(kur)
     return g.ozet(t_s)
 
 
-def olc(sinif: str, guc_dbm: float | None) -> dict[str, float]:
-    """Bir sınıf ve güçte ρ, bağlantılılık ve BİLEŞEN YAPISI."""
+def _tohum_olcusu(is_) -> tuple[list, list, list, bool, bool, float]:
+    """Havuz işçisi (K-183) — bir tohumun dokuz anı. 🔒 Modül düzeyinde
+    (Windows `spawn`); dünya seçimi ortamdan devralınır."""
+    senaryo, tohum, guc_dbm, aile, konum, anlar = is_
+    temiz = _graf_ozeti("statik-yok", tohum, None, anlar[0])
     rho, ulas, yalniz = [], [], []
-    ayrilan_tohum = 0
-    for tohum in TOHUMLAR:
-        temiz = _graf_ozeti("statik-yok", tohum, None, ORNEK_ANLARI[0])
-        ayrildi = False
-        for t in ORNEK_ANLARI:
-            o = _graf_ozeti(f"statik-{sinif}", tohum, guc_dbm, t)
-            rho.append(1.0 - o["derece"] / temiz["derece"]
-                       if temiz["derece"] else 0.0)
-            ulas.append(o["ulasilabilirlik"])
-            yalniz.append(o["yalniz_dugum"])
-            # 🔴 SERT KISIT: birden fazla ÇOK ÜYELİ bileşen = AYRILMA.
-            # Tek tek boğulmuş düğümler ayrılma DEĞİLDİR.
-            if o["cok_uyeli_bilesen"] > 1.0:
-                ayrildi = True
-        ayrilan_tohum += ayrildi
+    ayrildi = buyuk = False
+    en_buyuk_min = 1.0
+    for t in anlar:
+        o = _graf_ozeti(senaryo, tohum, guc_dbm, t, aile, konum)
+        en_buyuk_min = min(en_buyuk_min, o["gb_en_buyuk"])
+        if o["gb_ikinci"] >= BUYUK_BOLUNME_ORANI:
+            buyuk = True
+        rho.append(1.0 - o["derece"] / temiz["derece"]
+                   if temiz["derece"] else 0.0)
+        ulas.append(o["ulasilabilirlik"])
+        yalniz.append(o["yalniz_dugum"])
+        # 🔴 SERT KISIT: birden fazla ÇOK ÜYELİ bileşen = AYRILMA.
+        # Tek tek boğulmuş düğümler ayrılma DEĞİLDİR.
+        if o["cok_uyeli_bilesen"] > 1.0:
+            ayrildi = True
+    return rho, ulas, yalniz, ayrildi, buyuk, en_buyuk_min
+
+
+def _olc_tohumlar(senaryo: str, guc_dbm: float | None, aile: str | None,
+                  konum: tuple[float, float] | None = None
+                  ) -> dict[str, float]:
+    """Tohumlar havuzda; sonuçlar TOHUM SIRASIYLA toplanır (`map`), yani
+    ortalama sırayla birebir tek işçili koşuyla aynı."""
+    isler = [(senaryo, tohum, guc_dbm, aile, konum, ORNEK_ANLARI)
+             for tohum in TOHUMLAR]
+    with Pool(ISCI) as havuz:
+        sonuc = havuz.map(_tohum_olcusu, isler, chunksize=1)
+    rho = [x for s in sonuc for x in s[0]]
+    ulas = [x for s in sonuc for x in s[1]]
+    yalniz = [x for s in sonuc for x in s[2]]
     return {"rho": ist.mean(rho), "ulasilabilirlik": ist.mean(ulas),
             "yalniz_dugum": ist.mean(yalniz),
-            "ayrilan_tohum": float(ayrilan_tohum)}
+            "ayrilan_tohum": float(sum(s[3] for s in sonuc)),
+            # K-186: büyük bölünmeli tohum ve en kötü anın en büyük bileşeni
+            "buyuk_ayrilan_tohum": float(sum(s[4] for s in sonuc)),
+            "en_buyuk_min": min(s[5] for s in sonuc)}
 
 
-def tarama(sinif: str = "surekli",
-           gucler=(-30.0, -24.0, -18.0, -15.0, -12.0, -9.0, -6.0)) -> None:
+def olc(sinif: str, guc_dbm: float | None,
+        konum: tuple[float, float] | None = None) -> dict[str, float]:
+    """Bir sınıf ve güçte ρ, bağlantılılık ve BİLEŞEN YAPISI."""
+    return _olc_tohumlar(f"statik-{sinif}", guc_dbm, None, konum)
+
+
+def tarama(sinif: str = "surekli", gucler=None) -> None:
+    if gucler is None:
+        gucler = (GUCLER_REFERANS if DS.referans_mi() else
+                  (-30.0, -24.0, -18.0, -15.0, -12.0, -9.0, -6.0))
     print("=" * 78)
-    print(f"RHO TARAMASI — sinif '{sinif}'")
+    print(f"RHO TARAMASI — sinif '{sinif}' · dunya {DS.secili()}")
     print("=" * 78)
     print(f"  OLCUT: {len(list(TOHUMLAR))} tohumun hicbirinde BIRDEN FAZLA "
           f"COK UYELI bilesen YOK")
@@ -315,6 +383,17 @@ def tarama(sinif: str = "surekli",
         print("     ⚠️ Sayi ELLE KONMADI: sert kisit ile amacin kesistigi nokta.")
 
 
+def _taban_dbm(sinif: str) -> float:
+    """Rapor başlığının taban gücü — SEÇİLİ dünyadan (K-186). Eskiden
+    `senaryolar.KARISTIRICI_GUCU_DBM`den okunuyordu ve referans dünyada
+    ölçülen 30 dBm yerine −15 dBm yazıyordu (ölçüm doğruydu, başlık
+    yanlıştı)."""
+    if DS.referans_mi():
+        return DS.konfig(kol="rho", senaryo=f"statik-{sinif}",
+                         tohum=1000).karistirici_taban_dbm
+    return KARISTIRICI_GUCU_DBM[sinif]
+
+
 def _acik_orani(sinif: str) -> tuple[float, float]:
     """Sınıfın örnek anlarında AÇIK kalma oranı ve yayılan ortalama güç.
 
@@ -324,7 +403,7 @@ def _acik_orani(sinif: str) -> tuple[float, float]:
     # 🔒 OVERRIDE YOK — güç `senaryolar.KARISTIRICI_GUCU_DBM`den okunur.
     # Zorunlu: override darbeli sınıfta tepe telafisini atlar ve "aynı
     # ortalama güç" eşitlemesini kırar; `Konfig` bunu zaten yasaklıyor.
-    kfg = Konfig(kol="rho", senaryo=f"statik-{sinif}", tohum=1000)
+    kfg = DS.konfig(kol="rho", senaryo=f"statik-{sinif}", tohum=1000)
     kar = kurulum_yap(kfg).kanal.karistirici
     dogrula(kar is not None, f"'{sinif}' icin karistirici kurulmadi")
     # İnce ızgara — açık oranı, örnek anlarından değil sürekli taramadan.
@@ -343,7 +422,7 @@ def sinif_raporu() -> None:
     okunanlar o tek gücün sınıf mekanizmasına göre ne yaptığıdır.
     """
     print("=" * 78)
-    taban = KARISTIRICI_GUCU_DBM["surekli"]
+    taban = _taban_dbm("surekli")
     print(f"SINIF RAPORU — hepsi {taban:.1f} dBm TABAN gucunde "
           f"(senaryolar.KARISTIRICI_GUCU_DBM)")
     print("=" * 78)
@@ -383,8 +462,8 @@ def _aile_gucu(aile: str) -> tuple[int, float]:
     çıkması gerekir. Çıkmazsa aileler farklı ŞİDDETTE demektir ve
     "aile X daha kötü" bulgusu mekanizmaya yazılamaz.
     """
-    kfg = Konfig(kol="rho", senaryo="statik-surekli", tohum=1000,
-                 tehdit_senaryosu=aile)
+    kfg = DS.konfig(kol="rho", senaryo="statik-surekli", tohum=1000,
+                    tehdit_senaryosu=aile)
     tanimlar = tehdit_tanimlari(kfg)
     if tanimlar is None:
         return 1, 1.0
@@ -404,23 +483,7 @@ def olc_aile(aile: str, sinif: str = "surekli") -> dict[str, float]:
     referans grafiği aileden BAĞIMSIZDIR (karıştırıcı yok), bu yüzden
     aileler arası ρ karşılaştırması aynı paydayı kullanır.
     """
-    rho, ulas, yalniz = [], [], []
-    ayrilan_tohum = 0
-    for tohum in TOHUMLAR:
-        temiz = _graf_ozeti("statik-yok", tohum, None, ORNEK_ANLARI[0])
-        ayrildi = False
-        for t in ORNEK_ANLARI:
-            o = _graf_ozeti(f"statik-{sinif}", tohum, None, t, aile)
-            rho.append(1.0 - o["derece"] / temiz["derece"]
-                       if temiz["derece"] else 0.0)
-            ulas.append(o["ulasilabilirlik"])
-            yalniz.append(o["yalniz_dugum"])
-            if o["cok_uyeli_bilesen"] > 1.0:
-                ayrildi = True
-        ayrilan_tohum += ayrildi
-    return {"rho": ist.mean(rho), "ulasilabilirlik": ist.mean(ulas),
-            "yalniz_dugum": ist.mean(yalniz),
-            "ayrilan_tohum": float(ayrilan_tohum)}
+    return _olc_tohumlar(f"statik-{sinif}", None, aile)
 
 
 def aile_raporu(sinif: str = "surekli") -> bool:
@@ -446,7 +509,7 @@ def aile_raporu(sinif: str = "surekli") -> bool:
     Projenin kendi dersinin ikizi: *okunmayan kapı da kapı değildir.*
     """
     print("=" * 78)
-    taban = KARISTIRICI_GUCU_DBM[sinif]
+    taban = _taban_dbm(sinif)
     print(f"AILE RAPORU — bes tehdit ailesi, hepsi {taban:.1f} dBm TABAN "
           f"toplam gucunde")
     print("=" * 78)
@@ -602,12 +665,49 @@ def hedef_teshisi() -> None:
     print("     olan bir karistiricida 'acik evre' diye ayri bir evre yoktur.")
 
 
+def mesafe_taramasi(sinif: str = "surekli") -> None:
+    """🔒 Faz 4.1 (K-183) — güç KAYNAKTAN, rejim MESAFEDEN (`v2/14` §4).
+
+    Güç seçili dünyanın taban gücünde sabit (referansta 30 dBm, İHA
+    taşıyıcılı bandın alt ucu); karıştırıcı alan merkezinden +x yönünde
+    uzaklaşır. Ölçüt `tarama` ile AYNI: sert kısıt ayrılma yok, amaç ρ en
+    büyük → kısıtı sağlayan EN YAKIN mesafe seçilir.
+    """
+    kfg = DS.konfig(kol="rho", senaryo=f"statik-{sinif}", tohum=1000)
+    cx, cy = kfg.alan_en_m / 2.0, kfg.alan_boy_m / 2.0
+    print("=" * 78)
+    print(f"MESAFE TARAMASI — sinif '{sinif}' · {kfg.karistirici_guc_dbm:.1f} "
+          f"dBm · dunya {DS.secili()} · alan {kfg.alan_en_m:.0f} m")
+    print("=" * 78)
+    print(f"  {'mesafe_m':>9} {'rho':>7} {'ulas':>7} {'bogulan':>8} "
+          f"{'AYRILAN tohum':>15} {'olcut':>8}")
+    secilen = None
+    for oran in MESAFE_ORANLARI:
+        d = oran * cx
+        s = olc(sinif, None, (cx + d, cy))
+        gecti = s["ayrilan_tohum"] == 0.0
+        if gecti and secilen is None:
+            secilen = (d, s["rho"])
+        print(f"  {d:>9.0f} {s['rho']:>7.3f} {s['ulasilabilirlik']:>7.3f} "
+              f"{s['yalniz_dugum']:>8.2f} "
+              f"{int(s['ayrilan_tohum']):>10}/{len(list(TOHUMLAR))} "
+              f"{'GECER' if gecti else 'kalir':>8}")
+    print()
+    if secilen is None:
+        print("  🔴 HICBIR MESAFE OLCUTU SAGLAMADI — izgara uzaga genisletilmeli.")
+    else:
+        print(f"  🟢 SECILEN: merkezden {secilen[0]:.0f} m · rho = "
+              f"{secilen[1]:.3f} — ayrilmanin olmadigi EN YAKIN konum.")
+
+
 if __name__ == "__main__":
+    DS.secimi_oku()                         # Faz 4 (K-183): --dunya
     # 🔒 KAPI OLAN BÖLÜM VERDİKT DÖNER, ÖLÇÜM OLAN BÖLÜM `None` (16 Eylül 2026).
     # `tarama`, `sinif` ve `hedef_teshis` birer ÖLÇÜMDÜR: bir ölçütü yoktur,
     # dolayısıyla "kalabilecekleri" bir kapı da yoktur. `aile` ve `acik_evre`
     # sert kısıtı sınar ve verdikti artık ÇIKIŞ KODUNA bağlıdır.
     BOLUMLER = {"tarama": lambda: tarama("surekli"),
+                "mesafe": lambda: mesafe_taramasi("surekli"),
                 "sinif": sinif_raporu, "aile": aile_raporu,
                 "acik_evre": acik_evre_raporu,
                 "hedef_teshis": hedef_teshisi}

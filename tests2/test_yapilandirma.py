@@ -386,6 +386,15 @@ def test_HENUZ_OKUNMAYAN_bayatlayamaz():
         f"Listeden çıkar — bayat bir gerekçe, gerekçe değildir.")
 
 
+def test_K198_yakalama_penceresi_ONBELGEYE_esit():
+    """🔒 Yakalama penceresi TANIM gereği önbelge süresidir (köken:
+    TÜRETİLMİŞ). Ayrı sabit olarak durması kasıtlı; ikisi sessizce ayrışırsa
+    bu test kırılır — birini değiştiren ötekini de değiştirir."""
+    from sim2.kanal.dunya import referans_2026
+    for k in (Konfig(kol="t"), referans_2026(kol="t")):
+        assert k.yakalama_penceresi_s == k.onbelge_s
+
+
 def test_adim3_te_okunan_alanlar_GERCEKTEN_dunyayi_kuruyor():
     """Listede olmayan alanların hangileri olduğunu SABİTLER.
 
@@ -406,23 +415,30 @@ def test_adim3_te_okunan_alanlar_GERCEKTEN_dunyayi_kuruyor():
         "istasyon_kayma_hiz_ms",
     }
     kanal = {
-        # kanal/cerceve.py
-        "bit_hizi_bps", "temel_bit_hizi_bps", "onbelge_s",
+        # kanal/cerceve.py — `islem_kazanci` A2 (K-173), `hiz_uyarlamasi` A4
+        "bit_hizi_bps", "temel_bit_hizi_bps", "onbelge_s", "islem_kazanci",
+        "hiz_uyarlamasi",
         "paket_bayt", "onay_bayt", "beacon_bayt",
         # kanal/yayilim.py
         "frekans_hz", "yol_kaybi_usteli", "sinr_esigi_db", "gurultu_figuru_db",
         "sicaklik_k", "bant_genisligi_hz", "tohum",
         "golgeleme_acik", "golgeleme_sigma_db", "golgeleme_hucre_m",
         "anten_deseni_acik",
-        # kanal/sonumleme.py
+        # kanal/sonumleme.py — `sonumleme_uretec` K-198 (28 Eylül 2026,
+        # bilinçli: aynı model, blok üreteci referans dünyada)
         "sonumleme_acik", "rician_k_db", "sonumleme_parca_suresi_s",
+        "sonumleme_uretec",
         # kanal/kanal.py
         "modulasyon",
         # 🔒 Y5b — kanal/tehdit.py aileleri ve yapilandirma/kapsam.py beyanı
         # (11 Eylül 2026, bilinçli).
         "tehdit_senaryosu", "tehdit_acik_s", "tehdit_sessiz_s",
         "tehdit_arac_hiz_kmh", "tehdit_hava_hiz_kmh",
-        # kanal/karistirici.py
+        # kanal/yayilim.py — A7 (K-178): referans dünyada güç girdi
+        "verici_eirp_dbm", "menzil_snr_db", "alici_anten_kazanci_dbi",
+        # kanal/karistirici.py · kanal/yer_hava.py — A6 (K-176)
+        "karistirici_gercekci", "yer_karistirici_yukseklik_m", "a2g_ortam",
+        "a2g_durum_dilimi_s", "reaktif_esik_dbm", "reaktif_sezme_olasiligi",
         "darbe_periyodu_s", "darbe_gorev_cevrimi",
         "reaktif_sezme_s", "reaktif_patlama_s",
         "taramali_konak_suresi_s", "taramali_konak_sayisi",
@@ -473,6 +489,22 @@ def test_adim3_te_okunan_alanlar_GERCEKTEN_dunyayi_kuruyor():
         # muhasebesini bozar — `karistirici_baslangic_s`ın 8 Eylül'deki
         # aynı dersi.
         "rota_tamponu_kapasitesi", "rota_tamponu_omru_s",
+        # 🔒 `v2/15` B2 · `kosum/kontrol.py::cerceve_duyuldu` — RSSI hatası
+        "rssi_olcum_sigma_db",
+        # 🔒 `v2/15` A3 · `kosum/dugum.py` — taşıyıcı dinleme kipi (K-174)
+        "tasiyici_dinleme", "ed_esigi_dbm", "karistirici_denetim_araligi_s",
+        # 🔒 `v2/15` A5 · `kosum/kurulum.py` — yayılım gecikmesi (K-175)
+        "yayilim_gecikmesi",
+        # 🔒 `v2/15` A4 · `kosum/dugum.py` — ARF eşikleri (K-177)
+        "arf_basari_esigi", "arf_zamanlayici_esigi",
+        # 🔒 `v2/15` A7 · `yapilandirma/kapsam.py` — satırın dünyası (K-178)
+        "dunya",
+        # 🔒 `v2/15` C1 · C3 · `kosum/kayip.py`, `kosum/sonuc.py` (K-180)
+        "kayip_dugum_sayisi", "kayip_bas_s", "kayip_bitis_s",
+        "enerji_gonderim_w", "enerji_alim_w",
+        # 🔒 `v2/15` B3 · `kosum/dugum.py` — kendi GPS/INS'i (K-179)
+        "gps_yatay_cep_m", "gps_dikey_sigma_m", "gps_hiz_sigma_ms",
+        "gps_tazeleme_s",
     }
     assert _alan_adlari() - HENUZ_OKUNMAYAN == dunya | kanal | ag | mac | kosum
 
@@ -679,8 +711,8 @@ def test_KOKENI_YAZILMAYAN_alan_KONFIGI_PATLATIR():
 
 
 def test_SINANMAMIS_sayisi_RAPORLANIYOR():
-    """⚠️ Bu test SINANMAMIS'ı yasaklamaz — bugün 51 tane var ve bu bilinen
-    bir borç. Yasakladığı şey borcun GÖRÜNMEZ olmasıdır: sayım her koşunun
+    """⚠️ Bu test SINANMAMIS'ı yasaklamaz — bilinen bir borç (25 Eylül 2026:
+    40; güncel sayı `mimari_denetimi.py`de). Yasakladığı şey borcun GÖRÜNMEZ olmasıdır: sayım her koşunun
     sonuç satırına yazılır.
 
     🔒 Ön-kayıt mühürlenmeden önce bu sayı sıfırlanmalıdır; o gün geldiğinde

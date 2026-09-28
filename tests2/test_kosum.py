@@ -554,20 +554,54 @@ def test_sonuc_py_de_SOZLUK_LITERALI_YOK():
         f"satır {[n.lineno for n in literaller]}")
 
 
+_PROTOKOLE_YASAK = ("sim2.kanal", "sim2.dunya", "sim2.olcum",
+                    "sim2.yapilandirma", "sim2.mac", "sim2.kosum",
+                    "sim2.cekirdek", "kalibrasyon", "tests2", "analiz")
+
+
+def _yasak_ice_aktarmalar(kaynak: str) -> list[str]:
+    """Kaynağın içe aktardığı TAM modül adlarından yasak olanlar.
+
+    K-166 (denetim D-1): eski tarama yalnız `import a.b`'nin ilk adını ve
+    `from a.b import x`'in modülünü görüyordu; `from sim2 import kanal`,
+    `import os, sim2.kanal`, `import sim2` ve dinamik içe aktarma kaçıyordu.
+    """
+    adlar: list[str] = []
+    for n in ast.walk(ast.parse(kaynak)):
+        if isinstance(n, ast.Import):
+            adlar += [a.name for a in n.names]
+        elif isinstance(n, ast.ImportFrom) and not n.level:
+            if n.module != "sim2":           # `from sim2 import gozlem` meşru
+                adlar.append(n.module or "")
+            adlar += [f"{n.module}.{a.name}" for a in n.names]
+        elif isinstance(n, ast.Name) and n.id == "__import__":
+            adlar.append("__import__")
+    kotu = [a for a in adlar
+            if a == "sim2" or a == "__import__" or a.startswith("importlib")
+            or any(a == y or a.startswith(y + ".") for y in _PROTOKOLE_YASAK)]
+    return sorted(set(kotu))
+
+
+def test_ICE_AKTARMA_taramasi_KACAMAKLARI_yakalar():
+    """🔴 Mekanizmanın kendisi sınanır (K-166)."""
+    for kaynak in ("from sim2 import kanal", "import os, sim2.kanal",
+                   "import sim2", "from kalibrasyon.kahin import X",
+                   "import importlib", "m = __import__('sim2.kanal')",
+                   "from sim2.kosum.kosu import Kosu"):
+        assert _yasak_ice_aktarmalar(kaynak), kaynak
+    for kaynak in ("from sim2.gozlem.pencere import Gozlem",
+                   "from sim2.gozlem import kontrol", "from sim2 import gozlem",
+                   "from protokoller.aodv import AODV", "import math",
+                   "from . import yardimci"):
+        assert not _yasak_ice_aktarmalar(kaynak), kaynak
+
+
 def test_PROTOKOL_paketi_YALNIZ_gozlemi_goruyor():
     """🔴 Kâhin sızıntısının yapısal panzehiri — disiplin değil, GRAFİK."""
-    yasak = ("sim2.kanal", "sim2.dunya", "sim2.olcum", "sim2.yapilandirma",
-             "sim2.mac", "sim2.kosum", "sim2.cekirdek")
     ihlal = []
     for yol in (KOK / "protokoller").rglob("*.py"):
-        for n in ast.walk(ast.parse(yol.read_text(encoding="utf-8"))):
-            ad = None
-            if isinstance(n, ast.ImportFrom):
-                ad = n.module or ""
-            elif isinstance(n, ast.Import):
-                ad = n.names[0].name
-            if ad and any(ad == y or ad.startswith(y + ".") for y in yasak):
-                ihlal.append((yol.name, ad))
+        kotu = _yasak_ice_aktarmalar(yol.read_text(encoding="utf-8"))
+        ihlal += [(yol.name, ad) for ad in kotu]
     assert not ihlal, f"🔴 protokol katmanı sim2'nin içine uzanıyor: {ihlal}"
 
 
@@ -1025,6 +1059,143 @@ def test_beyansiz_dusus_HALA_hedef_yok():
     d = kur.korunum.dusen
     assert d["hedef_yok"] > 0, "test BOŞ koşuyor — hiç `hedef_yok` düşüşü yok"
     assert d["rota_gecersiz"] == 0
+    assert d["politika"] == 0
+
+
+# ==========================================================================
+# POLİTİKA DÜŞMESİ — K-171 (`v2/15` A1)
+#
+# 🔴 DESPARETE v0.1 geçit dışı hedefe giden komutu BİLEREK taşımaz (K-160
+# §10 C) ve bu düşüş `hedef_yok`a yazılıyordu: "rota bulunamadı" ile
+# "tasarım gereği taşınmadı" aynı sayıda toplanıyordu.
+# ==========================================================================
+class _Politikaci:
+    """Her veri kararında `politika` beyan eder ve göndermez."""
+
+    ad = "politikaci"
+    __slots__ = ()
+
+    def sonraki_atlama(self, gozlem):
+        return Karar(sonraki=None, beyan=(Beyan("politika"),))
+
+    def beacon_yuku(self, gozlem):
+        return {}
+
+    def beacon_alindi(self, gozlem, komsu, yuk):
+        return None
+
+    def teshis(self, dugum):
+        return {}
+
+
+def test_politika_DUSME_SEBEBI_ayri_ve_ROTA_olayi_DEGIL():
+    kur = kurulum_yap(_konfig("statik-yok", 1000, 6.0))
+    Kosu(kur, lambda i: _Politikaci()).kostur()
+    d = kur.korunum.dusen
+    s = kur.sayaclar.disa_ver()
+    assert d["politika"] > 0, "test BOŞ koşuyor — hiç politika düşüşü yok"
+    assert d["hedef_yok"] == 0 and d["rota_gecersiz"] == 0
+    assert s["politika_dusen"] == d["politika"]
+    # rota olayı değil: kopma sayaçlarına ve rota defterine GİRMEZ
+    assert s["kopma_rota_gecersiz"] == 0 and s["kopma_algilanan"] == 0
+    assert kur.rota_defteri.sayim("politika") == 0
+
+
+def test_politika_beyani_YALNIZ_dusen_kararda():
+    """🔒 Gönderilen ya da bekletilen pakette anlamsız; `rota_gecersiz`le
+    birlikte düşme sebebi belirsiz; kancada elde paket yok."""
+    from sim2.gozlem.kontrol import KontrolHatasi, niyetleri_dogrula
+    Karar(sonraki=None, beyan=(Beyan("politika"),))
+    with pytest.raises(DegismezHatasi):
+        Karar(sonraki=3, beyan=(Beyan("politika"),))
+    with pytest.raises(DegismezHatasi):
+        Karar(beklet=True, beyan=(Beyan("politika"),))
+    with pytest.raises(DegismezHatasi):
+        Karar(beyan=(Beyan("politika"), Beyan("rota_gecersiz", komsu=1)))
+    with pytest.raises(KontrolHatasi):
+        niyetleri_dogrula((Beyan("politika"),), beyan_izinli=True)
+    niyetleri_dogrula((Beyan("kopma", komsu=1),), beyan_izinli=True)
+
+
+# ==========================================================================
+# KOŞU KİMLİĞİ — K-171: farklı koşu → farklı kimlik
+# ==========================================================================
+class _Parametreli(DogrudanKomsu):
+    """`kimlik_parametreleri()` bildiren sınav protokolü."""
+
+    def __init__(self, esik):
+        super().__init__()
+        self._esik = esik
+
+    def kimlik_parametreleri(self):
+        return {"esik": self._esik}
+
+
+def _kimlik(kur, kosu, ad="p"):
+    return sonuc_satiri(kur, kosu.dugumler, ad)["kimlik"]
+
+
+def test_FARKLI_tedavi_FARKLI_kosu_kimligi():
+    """🔴 Eskiden tedavi alanlarından yalnız `kol` ve `tohum` kimliğe
+    giriyordu: aynı kol ve tohumla farklı senaryo AYNI kimliği taşırdı."""
+    a = _kos("statik-yok", "dogrudan", tohum=77, bitis=3.0)
+    b = _kos("statik-surekli", "dogrudan", tohum=77, bitis=3.0)
+    x, y = _kimlik(*a), _kimlik(*b)
+    assert x["kol"] == y["kol"] and x["tohum"] == y["tohum"]
+    assert x["tedavi_hash"] != y["tedavi_hash"]
+    assert x["kosu_kimligi"] != y["kosu_kimligi"]
+
+
+def test_FARKLI_protokol_FARKLI_kosu_kimligi():
+    """🔴 Protokol kodu ve parametreleri hiçbir özete girmiyordu."""
+    def kos(fabrika):
+        kur = kurulum_yap(_konfig("statik-yok", 77, 3.0))
+        kosu = Kosu(kur, fabrika)
+        kosu.kostur()
+        return kur, kosu
+    dogrudan = _kimlik(*kos(lambda i: DogrudanKomsu()))
+    enyakin = _kimlik(*kos(lambda i: EnYakinKimlik()))
+    p1 = _kimlik(*kos(lambda i: _Parametreli(1)))
+    p1_yine = _kimlik(*kos(lambda i: _Parametreli(1)))
+    p2 = _kimlik(*kos(lambda i: _Parametreli(2)))
+    # aynı konfig, aynı ad ("p") — yalnız protokol farklı
+    assert dogrudan["kurulum_hash"] == enyakin["kurulum_hash"]
+    assert dogrudan["tedavi_hash"] == enyakin["tedavi_hash"]
+    assert dogrudan["protokol_hash"] != enyakin["protokol_hash"]
+    assert dogrudan["kosu_kimligi"] != enyakin["kosu_kimligi"]
+    assert p1["kosu_kimligi"] == p1_yine["kosu_kimligi"]
+    assert p1["protokol_hash"] != p2["protokol_hash"]
+    assert p1["kosu_kimligi"] != p2["kosu_kimligi"]
+    assert p1["protokol_hash"] != dogrudan["protokol_hash"]
+
+
+# ==========================================================================
+# PDR YÖN AYRIMI — K-171: telemetri (geçide) · komut (geçitten)
+# ==========================================================================
+def test_yere_toplamada_PDR_telemetri_ve_komut_AYRI():
+    kur, kosu = _kos("bagimsiz-yok", "enyakin", bitis=5.0,
+                     trafik_deseni="yere_toplama")
+    m = sonuc_satiri(kur, kosu.dugumler, "enyakin")["metrikler"]
+    g = kur.konfig.gecit
+    sinif = {a.kimlik: a.hedef == g for a in kur.trafik.akislar}
+    for sonek, pencere in (("", False), ("_pencere", True)):
+        dogan = kur.paket_defteri.dogumlar(pencere)
+        teslim = kur.paket_defteri.kayitlar(pencere)
+        for ad, telemetri_mi in (("telemetri", True), ("komut", False)):
+            u = sum(1 for _, a, _ in dogan if sinif[a] is telemetri_mi)
+            t = sum(1 for k in teslim if sinif[k.akis_kimligi] is telemetri_mi)
+            assert u > 0, f"{ad}{sonek}: test BOŞ koşuyor"
+            assert m[f"pdr_{ad}{sonek}"] == t / u
+        # iki sınıf birlikte tek PDR'yi verir
+        toplam_u = len(dogan)
+        assert m[f"pdr{sonek}"] == len(teslim) / toplam_u
+
+
+def test_esler_arasinda_PDR_sinif_alani_YOK():
+    """🔒 Eşler arası desende satır birebir eskisi gibi."""
+    kur, kosu = _kos("statik-yok", "enyakin", bitis=3.0)
+    m = sonuc_satiri(kur, kosu.dugumler, "enyakin")["metrikler"]
+    assert not any(k.startswith(("pdr_telemetri", "pdr_komut")) for k in m)
 
 
 class _KancadanBildiren:
@@ -1255,3 +1426,779 @@ def test_K157_kaynak_sira_GOZLEME_ulasiyor_ROLEDE_ayni():
     roleler = [(k, s) for d, k, s, a in gorulen if a > 0]
     assert roleler, "sınav boş geçti: röle yok"
     assert all(s in kaynakta[k] for k, s in roleler)
+
+
+# ==========================================================================
+# `cerceve_duyuldu` — `v2/15` B1 · B2 (K-172)
+# ==========================================================================
+class _Duyan(EnYakinKimlik):
+    """Çözülen her çerçeveyi kaydeder; davranışı `EnYakinKimlik`in aynısı."""
+
+    def __init__(self, kayit):
+        self._kayit = kayit
+
+    def cerceve_duyuldu(self, gozlem, gonderen, tur, hedef, rssi_dbm, paket):
+        self._kayit.append((gozlem.dugum, gonderen, tur, hedef, rssi_dbm,
+                            None if paket is None else
+                            (paket.kaynak, paket.kaynak_sira, paket.hedef)))
+
+
+def _duyan_kos(senaryo="statik-yok", **ek):
+    kayit: list = []
+    kur = kurulum_yap(_konfig(senaryo, 1000, 4.0, **ek))
+    kosu = Kosu(kur, lambda i: _Duyan(kayit))
+    kosu.kostur()
+    return kur, kosu, kayit
+
+
+def test_B1_her_BASARILI_alimda_BIR_kez_ve_DAVRANIS_degismiyor():
+    kur, kosu, kayit = _duyan_kos()
+    s = kur.sayaclar.disa_ver()
+    assert len(kayit) == s["duyma_bildirimi"] == s["alim_basarili"] > 0
+    turler = {k[2] for k in kayit}
+    assert {"veri", "onay", "beacon"} <= turler
+    for dugum, gonderen, tur, hedef, rssi, paket in kayit:
+        assert gonderen != dugum and isinstance(rssi, int)
+        assert (paket is not None) == (tur == "veri")
+        assert (hedef is None) == (tur == "beacon")
+    # başkasına adresli veri çerçevesi de gelir (kulak misafiri)
+    assert any(k[2] == "veri" and k[3] != k[0] for k in kayit)
+    # 🔒 kanca hiçbir şeyi değiştirmez: kancasız ikizle birebir aynı satır
+    ikiz_kur, ikiz = _kos("statik-yok", "enyakin", bitis=4.0)
+    a = sonuc_satiri(kur, kosu.dugumler, "p")["metrikler"]
+    b = sonuc_satiri(ikiz_kur, ikiz.dugumler, "p")["metrikler"]
+    fark = {k for k in a if a[k] != b.get(k)} - {"duyma_bildirimi",
+                                                  "duyma_bildirimi_pencere"}
+    assert not fark, fark
+    assert b["duyma_bildirimi"] == 0, "kancasız protokol bildirim almamalı"
+
+
+def test_B1_BELIRLENIMCI_ve_KARISTIRICI_cercevesi_SIZMIYOR():
+    _, _, a = _duyan_kos("statik-surekli")
+    kur, _, b = _duyan_kos("statik-surekli")
+    assert a == b and a
+    assert all(0 <= k[1] < kur.konfig.dugum_sayisi for k in a)
+
+
+def test_B2_RSSI_hatasi_SIFIR_ortalamali_ve_sigma_BEYANLI():
+    """Aynı çerçeveler (davranış değişmiyor) σ 0 ve σ 2 dB ile: fark N(0, 2²)
+    + yuvarlama. Hata alım kararına girmez — kayıtlar sıra sıra eşleşir."""
+    _, _, sifir = _duyan_kos(rssi_olcum_sigma_db=0.0)
+    _, _, iki = _duyan_kos(rssi_olcum_sigma_db=2.0)
+    assert [k[:4] for k in sifir] == [k[:4] for k in iki]
+    fark = [b[4] - a[4] for a, b in zip(sifir, iki)]
+    n = len(fark)
+    ort = sum(fark) / n
+    sd = (sum((f - ort) ** 2 for f in fark) / (n - 1)) ** 0.5
+    assert n > 500
+    assert abs(ort) < 0.2 and 1.8 < sd < 2.3, (n, ort, sd)
+
+
+def test_B1_NIYET_dondurmek_HATA():
+    class Donduren(_Duyan):
+        def cerceve_duyuldu(self, *a):
+            return (Uyandirma(1.0, "x"),)
+    from sim2.kosum.kontrol_durum import KontrolDuzlemiHatasi
+    kur = kurulum_yap(_konfig("statik-yok", 1000, 2.0))
+    with pytest.raises(KontrolDuzlemiHatasi):
+        Kosu(kur, lambda i: Donduren([])).kostur()
+
+
+def test_A2_duyma_menzili_ISLEM_KAZANCIYLA_genisler():
+    """K-173: önbelge ×22 → menzil ×22^(1/α); kapalıyken birebir."""
+    kapali = kurulum_yap(_konfig("statik-yok", 1000, 2.0))
+    acik = kurulum_yap(_konfig("statik-yok", 1000, 2.0, islem_kazanci=True,
+                               bant_genisligi_hz=22e6))
+    assert kapali.duyanlar_menzili_m == kapali.konfig.girisim_menzili_m
+    a = acik.konfig.yol_kaybi_usteli
+    assert acik.duyanlar_menzili_m == pytest.approx(
+        acik.konfig.girisim_menzili_m * 22.0 ** (1.0 / a), rel=1e-12)
+
+
+# ==========================================================================
+# A3 · GÜCE DAYALI TAŞIYICI DİNLEME + ED-CCA — `v2/15` A3 (K-174)
+# ==========================================================================
+def test_A3_kip_KAPALI_KUME_varsayilan_GEOMETRIK():
+    assert Konfig(kol="t").tasiyici_dinleme == "geometrik"
+    with pytest.raises(DegismezHatasi):
+        Konfig(kol="t", tasiyici_dinleme="sezgi")
+
+
+def _a3_kur(**ek):
+    kur = kurulum_yap(_konfig("statik-yok", 1000, 2.0,
+                              tasiyici_dinleme="guc", **ek))
+    kosu = Kosu(kur, lambda i: DogrudanKomsu())
+    a, b = min(((i, j) for i in range(kur.dugum_sayisi)
+                for j in range(kur.dugum_sayisi) if i < j),
+               key=lambda c: kur.topoloji.mesafe(c[0], c[1], 0.5))
+    iletim = Iletim(a, kur.veri_cercevesi, 0.5,
+                    kur.kanal.yayilim.verici_gucu_w)
+    kur.kanal.ortam.ekle(iletim)
+    return kur, kosu.dugumler[b], iletim
+
+
+def test_A3_ONBELGE_sezme_KILIT_enerji_sezme_ESIK():
+    """Üç dal: kilitliyse meşgul (ED eşiği ne olursa olsun) · kilitsiz ve
+    enerji eşiğin altındaysa BOŞ (geometrik kip burada meşgul derdi) ·
+    kilitsiz ama enerji eşiği aşıyorsa meşgul."""
+    t = 0.5 + 1e-4
+    kur, d, iletim = _a3_kur(ed_esigi_dbm=100.0)
+    assert not d.kanal_mesgul_mu(t), "kilit yok, enerji eşik altı → boş"
+    d.alici.cerceve_geldi(iletim, 0.5)
+    assert d.alici.kilitli_iletim is iletim, "en yakın çift kilitlenmeli"
+    assert d.kanal_mesgul_mu(t)
+    assert d.mesgul_bitisi_s(t) == pytest.approx(iletim.bitis_s)
+    _, d2, _ = _a3_kur(ed_esigi_dbm=-200.0)
+    assert d2.kanal_mesgul_mu(t), "kilit yok ama enerji eşiğin üstünde"
+    # `cca_s`: aynı anda başlayan iletim henüz sezilmez
+    assert not d2.kanal_mesgul_mu(0.5, ayni_an_haric=True)
+
+
+def test_A3_ED_surekli_karistirici_VERICIYI_SUSTURUR():
+    """🔒 KAPI (`v2/15` A3). Sürekli karıştırıcının enerjisi her düğümde ED
+    eşiğinin üstündeyken, açıldığı andan sonra HİÇBİR düğüm iletime
+    başlamaz (veri, beacon); geometrik kipte gürültü karıştırıcısı taşıyıcı
+    dinlemeye görünmez ve düğümler göndermeye devam eder."""
+    ortak = dict(karistirici_baslangic_s=1.0, karistirici_guc_override_dbm=40.0)
+    kur, _ = _kos("statik-surekli", "enyakin", bitis=5.0,
+                  tasiyici_dinleme="guc", **ortak)
+    s = kur.sayaclar.disa_ver()
+    assert kur.konfig.olcum_penceresi[0] >= 1.0
+    assert s["mac_deneme_pencere"] == 0 and s["beacon_gonderilen_pencere"] == 0
+    assert s["mac_deneme"] > 0, "açılmadan önce gönderilmeli (test boş değil)"
+    geo, _ = _kos("statik-surekli", "enyakin", bitis=5.0, **ortak)
+    assert geo.sayaclar.disa_ver()["mac_deneme_pencere"] > 0
+
+
+def test_A3_TEK_CARPISMA_ALANINDA_geometrikle_ESDEGER():
+    """Bianchi'nin rejimi (herkes herkesi duyar): ED eşiği her iletimi
+    sezecek kadar düşükken güç kipi geometrik kiple aynı MAC davranışını
+    verir. Birebir değil — sezme `cca_s` sürer ve donma alım kararından
+    sonra gelir — ama deneme, çarpışma ve teslim %5 içinde."""
+    sonuc = []
+    for ek in ({}, {"tasiyici_dinleme": "guc", "ed_esigi_dbm": -200.0}):
+        kur, _ = _kos("statik-yok", "enyakin", bitis=6.0, **ek)
+        s = kur.sayaclar.disa_ver()
+        sonuc.append((s["mac_deneme"], s["alim_red_mesgul"], s["teslim_paket"]))
+    for a, b in zip(*sonuc):
+        assert a > 0 and abs(a - b) <= 0.05 * a, sonuc
+
+
+def test_A3_HAREKETLI_karistirici_10_ms_SABIT_olan_gecis_ya_da_ufuk():
+    """Karıştırıcı yüzünden donmuş düğüm: hareketliyse en geç
+    `karistirici_denetim_araligi_s` sonra yeniden bakar; sabit sürekli
+    karıştırıcıda geçiş yok → ufuk (beacon aralığı)."""
+    ortak = dict(tasiyici_dinleme="guc", karistirici_baslangic_s=0.5,
+                 karistirici_guc_override_dbm=40.0)
+    t = 1.0
+    for aile, bekle in (("hava_eslik", "denetim"), ("tekli_merkez", "ufuk")):
+        kur = kurulum_yap(_konfig("statik-surekli", 1000, 3.0,
+                                  tehdit_senaryosu=aile, **ortak))
+        kosu = Kosu(kur, lambda i: DogrudanKomsu())
+        d = kosu.dugumler[0]
+        assert kur.kanal.karistirici.hareketli == (aile == "hava_eslik")
+        assert d.karistirici_mesgul_mu(t) and d.kanal_mesgul_mu(t)
+        k = kur.konfig
+        hedef = (t + k.karistirici_denetim_araligi_s if bekle == "denetim"
+                 else t + k.beacon_araligi_s)
+        assert d.mesgul_bitisi_s(t) == pytest.approx(hedef)
+
+
+def test_A3_HAREKETLI_karistiricili_TAM_KOSU_defter_KAPANIR():
+    kur, kosu = _kos("statik-surekli", "enyakin", bitis=5.0,
+                     tasiyici_dinleme="guc", tehdit_senaryosu="hava_eslik",
+                     karistirici_baslangic_s=1.0)
+    k, _ = _defter(kur, kosu)
+    assert k["gecerli"], k
+    assert kur.sayaclar.disa_ver()["mac_deneme"] > 0
+
+
+# ==========================================================================
+# A5 · YAYILIM GECİKMESİ — `v2/15` A5 (K-175)
+# ==========================================================================
+def _a5(**ek):
+    kur = kurulum_yap(_konfig("statik-yok", 1000, 2.0, **ek))
+    return kur, Kosu(kur, lambda i: DogrudanKomsu())
+
+
+def test_A5_KAPALIYKEN_gecikme_TAM_SIFIR():
+    kur, kosu = _a5()
+    assert not kur.yayilim_gecikmeli and kur.maks_gecikme_s == 0.0
+    assert kosu.dugumler[1].gecikme_s(0, 0.5) == 0.0
+
+
+def test_A5_ACIKKEN_gecikme_d_bolu_c_ve_ONAY_PAYI():
+    from sim2.kanal.yayilim import ISIK_HIZI
+    kur, kosu = _a5(yayilim_gecikmesi=True)
+    assert kosu.dugumler[1].gecikme_s(0, 0.5) == pytest.approx(
+        kur.topoloji.mesafe(0, 1, 0.5) / ISIK_HIZI)
+    assert kur.maks_gecikme_s == pytest.approx(
+        kur.duyanlar_menzili_m / ISIK_HIZI)
+
+
+def test_A5_tasiyici_dinleme_VARIS_PENCERESINDE():
+    """Uzaktaki vericinin çerçevesi d/c sonra sezilir ve kaynakta bittikten
+    d/c sonrasına kadar sezilmeye devam eder."""
+    kur, kosu = _a5(yayilim_gecikmesi=True)
+    n = kur.dugum_sayisi
+    a, b = max(((i, j) for i in range(n) for j in range(n)
+                if i != j and kosu.dugumler[j].duyar_mi(i, 0.5)),
+               key=lambda c: kur.topoloji.mesafe(c[0], c[1], 0.5))
+    d = kosu.dugumler[b]
+    iletim = Iletim(a, kur.veri_cercevesi, 0.5,
+                    kur.kanal.yayilim.verici_gucu_w)
+    kur.kanal.ortam.ekle(iletim)
+    g = d.gecikme_s(a, 0.5)
+    assert g > 0.0
+    assert not d.kanal_mesgul_mu(0.5 + 0.5 * g), "henüz ulaşmadı"
+    assert d.kanal_mesgul_mu(0.5 + 1.5 * g)
+    assert d.mesgul_bitisi_s(0.5 + 1.5 * g) == pytest.approx(
+        iletim.bitis_s + g)
+    assert d.kanal_mesgul_mu(iletim.bitis_s + 0.5 * g), "kaynakta bitti, burada sürüyor"
+
+
+@pytest.mark.parametrize("ek", [{}, {"tasiyici_dinleme": "guc"}])
+def test_A5_ACIK_TAM_KOSU_defter_KAPANIR(ek):
+    kur, kosu = _kos("statik-surekli", "enyakin", bitis=5.0,
+                     yayilim_gecikmesi=True, **ek)
+    k, _ = _defter(kur, kosu)
+    assert k["gecerli"], k
+    assert kur.sayaclar.disa_ver()["teslim_paket"] > 0
+
+
+# ==========================================================================
+# A6 · KARIŞTIRICI GERÇEKÇİLİĞİ — `v2/15` A6 (K-176)
+# ==========================================================================
+def test_A6_al_hourani_BANLIYO_ve_P_LoS_ACIYLA_ARTAR():
+    from sim2.kanal.yer_hava import (A2G_ORTAMLARI, gorus_hatti_olasiligi,
+                                     s_egrisi)
+    from sim2.yapilandirma.konfig import A2G_ORTAM_ADLARI
+    assert tuple(A2G_ORTAMLARI) == A2G_ORTAM_ADLARI
+    a, b = s_egrisi("banliyo")
+    assert a == pytest.approx(4.88, abs=0.01)
+    assert b == pytest.approx(0.429, abs=0.001)
+    for ortam in A2G_ORTAMLARI:
+        a, b = s_egrisi(ortam)
+        p = [gorus_hatti_olasiligi(a, b, th) for th in (1, 10, 30, 60, 89)]
+        assert p == sorted(p), f"{ortam}: P(LoS) yükseklik açısıyla artmalı"
+
+
+def test_A6_yer_karistiricisi_YERDE_ek_kayip_IKI_DEGERLI():
+    def uyeler(k):
+        return getattr(k, "uyeler", (k,))
+    kur = kurulum_yap(_konfig("statik-surekli", 1000, 2.0,
+                              tehdit_senaryosu="cephe_hatti",
+                              karistirici_gercekci=True))
+    k = kur.konfig
+    assert all(u.konum.z == k.yer_karistirici_yukseklik_m
+               for u in uyeler(kur.kanal.karistirici))
+    u = uyeler(kur.kanal.karistirici)[0]
+    hava = kur.topoloji.konum(0, 1.0)
+    ek = {u._a2g.ek_kayip_db(u._golge_kimligi, 0, u.konum, hava, float(t))
+          for t in range(60)}
+    assert ek <= {0.1, 21.0} and ek
+    kapali = kurulum_yap(_konfig("statik-surekli", 1000, 2.0,
+                                 tehdit_senaryosu="cephe_hatti"))
+    orta = 0.5 * (k.irtifa_min_m + k.irtifa_maks_m)
+    assert all(u._a2g is None and u.konum.z == orta
+               for u in uyeler(kapali.kanal.karistirici))
+
+
+def test_A6_karistirici_bagi_SONUMLENIR_ortalama_KORUNUR():
+    ortak = dict(karistirici_baslangic_s=0.5)
+    acik = kurulum_yap(_konfig("bagimsiz-surekli", 1000, 2.0,
+                               karistirici_gercekci=True, **ortak))
+    kapali = kurulum_yap(_konfig("bagimsiz-surekli", 1000, 2.0, **ortak))
+    oran = []
+    for i in range(1300):
+        t = 0.6 + 0.001 * i
+        konum = kapali.topoloji.konum(0, t)
+        oran.append(acik.kanal.karistirici.alinan_guc_w(0, konum, t)
+                    / kapali.kanal.karistirici.alinan_guc_w(0, konum, t))
+    ort = sum(oran) / len(oran)
+    assert 0.85 < ort < 1.15, ort
+    assert max(oran) / min(oran) > 2.0, "kazanç zamanla değişmeli"
+
+
+def test_A6_reaktif_GUC_ESIGI_menzilsiz_duyma_YOK():
+    sonuc = {}
+    for esik in (200.0, -300.0):
+        kur = kurulum_yap(_konfig("statik-reaktif", 1000, 2.0,
+                                  karistirici_gercekci=True,
+                                  reaktif_esik_dbm=esik,
+                                  karistirici_baslangic_s=0.0))
+        k = kur.kanal.karistirici
+        acik = []
+        for n in range(kur.dugum_sayisi):
+            il = Iletim(n, kur.veri_cercevesi, 0.5 + 0.01 * n,
+                        kur.kanal.yayilim.verici_gucu_w)
+            kur.kanal.ortam.ekle(il)
+            acik.append(k.acik_mi(il.baslangic_s + k._sezme + 1e-6))
+        sonuc[esik] = acik
+    assert not any(sonuc[200.0]), "eşiğin altındaki iletim sezilmemeli"
+    assert sum(sonuc[-300.0]) >= 0.8 * len(sonuc[-300.0])
+
+
+def test_A6_aldatici_SAHTE_CERCEVE_bos_aliciyi_KILITLER():
+    ortak = dict(karistirici_baslangic_s=0.0, karistirici_guc_override_dbm=30.0)
+    kur = kurulum_yap(_konfig("statik-aldatici", 1000, 2.0,
+                              karistirici_gercekci=True, **ortak))
+    d = Kosu(kur, lambda i: DogrudanKomsu()).dugumler[0]
+    k = kur.kanal.karistirici
+    t_ic = 5 * k._periyot + 0.5 * k._cerceve_s
+    t_bosluk = 5 * k._periyot + k._cerceve_s + 0.5 * k._bosluk_s
+    assert d.alici.sahte_kilitli_mi(t_ic)
+    assert not d.alici.sahte_kilitli_mi(t_bosluk)
+    d.alici._bos_bas_s = 5 * k._periyot + 0.1 * k._cerceve_s
+    assert not d.alici.sahte_kilitli_mi(t_ic), "başı kaçırılan çerçeve kilitlemez"
+    kur0 = kurulum_yap(_konfig("statik-aldatici", 1000, 2.0, **ortak))
+    d0 = Kosu(kur0, lambda i: DogrudanKomsu()).dugumler[0]
+    assert not d0.alici.sahte_kilitli_mi(t_ic), "kapalıyken kilit modeli yok"
+
+
+@pytest.mark.parametrize("senaryo,ek", [
+    ("statik-aldatici", {}),
+    ("statik-aldatici", {"tasiyici_dinleme": "guc"}),
+    ("statik-reaktif", {}),
+    ("statik-surekli", {"tehdit_senaryosu": "cephe_hatti"}),
+    ("bagimsiz-surekli", {}),
+])
+def test_A6_TAM_KOSU_defter_KAPANIR(senaryo, ek):
+    kur, kosu = _kos(senaryo, "enyakin", bitis=4.0, karistirici_gercekci=True,
+                     karistirici_baslangic_s=1.0, **ek)
+    k, _ = _defter(kur, kosu)
+    assert k["gecerli"], k
+
+
+# ==========================================================================
+# A4 · HIZ UYARLAMASI — `v2/15` A4 (K-177)
+# ==========================================================================
+_A4 = dict(islem_kazanci=True, bant_genisligi_hz=22e6, hiz_uyarlamasi=True)
+
+
+def test_A4_ARF_ns3_ile_AYNI_DIZI():
+    """G14 — ns-3 `ArfWifiManager`in birebir davranışı."""
+    from sim2.mac.hiz import Arf
+    a = Arf((1e6, 2e6, 5.5e6, 11e6), 10, 15)
+    assert a.hiz(7) == 1e6, "en düşük hızdan başlar"
+    for _ in range(10):
+        a.basarili(7)
+    assert a.hiz(7) == 2e6, "10 başarı → bir hız yukarı (kurtarma)"
+    a.basarisiz(7)
+    assert a.hiz(7) == 1e6, "kurtarmada ilk başarısızlık → aşağı"
+    for _ in range(10):
+        a.basarili(7)
+    a.basarili(7)                      # kurtarma kapandı
+    for _ in range(9):
+        a.basarili(7)
+    assert a.hiz(7) == 5.5e6
+    a.basarili(7)                      # normal kip
+    beklenen = (5.5e6, 2e6, 2e6, 1e6)  # 2. ve 4. başarısızlıkta aşağı
+    for b in beklenen:
+        a.basarisiz(7)
+        assert a.hiz(7) == b
+    s = Arf((1e6, 2e6), 10, 15)
+    for i in range(15):                # B,A,B,…,B — 15. denemede sayaç dolar
+        (s.basarili if i % 2 == 0 else s.basarisiz)(3)
+    assert s.hiz(3) == 2e6, "sayaç eşiği (15) başarıda yukarı çıkarır"
+
+
+def test_A4_TEK_BAG_SINR_ile_HIZ_SECIMI():
+    """🔒 KAPI (`v2/15` A4): tek bağ, sabit SNR; ARF'ye her denemede
+    Bernoulli(1 − PER) — ortalama hız SNR ile artar."""
+    import random
+    from sim2.cekirdek.rng import Akislar
+    from sim2.dunya.topoloji import topoloji_kur
+    from sim2.kanal.cerceve import cerceve_kur
+    from sim2.kanal.kanal import Kanal
+    from sim2.mac.hiz import Arf
+    from sim2.yapilandirma.konfig import HIZLAR_BPS
+    k = Konfig(kol="t", gurultu_figuru_db=7.0, **_A4)
+    kanal = Kanal(k, topoloji_kur(k, Akislar(1)))
+    cer = {h: cerceve_kur(k, "veri", hiz_bps=h) for h in HIZLAR_BPS}
+    ortalama = []
+    for snr_db in (-2.0, 2.0, 6.0, 10.0):
+        s = 10 ** (snr_db / 10)
+        a, r, toplam = Arf(HIZLAR_BPS, 10, 15), random.Random(1), 0.0
+        for _ in range(3000):
+            h = a.hiz(1)
+            toplam += h
+            (a.basarili if r.random() >= kanal.kahin_per(cer[h], s)
+             else a.basarisiz)(1)
+        ortalama.append(toplam / 3000)
+    assert ortalama == sorted(ortalama), ortalama
+    assert ortalama[0] < 1.5e6 and ortalama[-1] > 10e6, ortalama
+
+
+def test_A4_TAM_KOSU_defter_KAPANIR_ve_HIZ_YUKSELIR():
+    """Tam koşuda ARF beslenir ve hız başlangıçtan (1 Mb/s) yükselir; 11
+    Mb/s'e ulaşmayı tek bağ kapısı sınar (kısa küçük dünyada komşu başına
+    trafik seyrek)."""
+    kur, kosu = _kos("statik-surekli", "enyakin", bitis=4.0, **_A4)
+    k, _ = _defter(kur, kosu)
+    assert k["gecerli"], k
+    dagilim = {}
+    for d in kosu.dugumler:
+        for h, n in d.hiz_denetcisi.dagilim().items():
+            dagilim[h] = dagilim.get(h, 0) + n
+    assert sum(n for h, n in dagilim.items() if h > 1e6) > 0, dagilim
+    kapali, kosu0 = _kos("statik-surekli", "enyakin", bitis=4.0)
+    assert all(d.hiz_denetcisi is None for d in kosu0.dugumler)
+
+
+# ==========================================================================
+# A7 · REFERANS DÜNYA — `v2/15` A7 (K-178)
+# ==========================================================================
+def test_A7_referans_dunyada_KISA_KOSU_defter_KAPANIR():
+    from sim2.kanal.dunya import referans_2026
+    kfg = referans_2026(kol="t", senaryo="bagimsiz-surekli", tohum=1000,
+                        isinma_s=1.0, olcum_bitis_s=4.0, kosu_bitis_s=5.0,
+                        karistirici_baslangic_s=2.0)
+    kur = kurulum_yap(kfg)
+    kosu = Kosu(kur, lambda i: EnYakinKimlik())
+    kosu.kostur()
+    k, _ = _defter(kur, kosu)
+    assert k["gecerli"], k
+    assert kur.sayaclar.disa_ver()["teslim_paket"] > 0
+    satir = sonuc_satiri(kur, kosu.dugumler, "p")
+    assert satir["kapsam"]["dunya"] == "referans_2026"
+
+
+# ==========================================================================
+# B3 · GÖZLEM v2 — kendi GPS/INS'i ve telsiz sayaçları (`v2/15` B3, K-179)
+# ==========================================================================
+class _Dolulukcu(EnYakinKimlik):
+    """Kanal doluluğunu ister; her kararın gözlemini kaydeder."""
+
+    kanal_dolulugu_ister = True
+
+    def __init__(self, kayit):
+        self._kayit = kayit
+
+    def sonraki_atlama(self, gozlem):
+        self._kayit.append(gozlem)
+        return super().sonraki_atlama(gozlem)
+
+
+def test_B3_SAYACLAR_global_alimla_TUTARLI_ve_alanlar_DOLU():
+    kayit: list = []
+    kur = kurulum_yap(_konfig("statik-yok", 1000, 4.0))
+    kosu = Kosu(kur, lambda i: _Dolulukcu(kayit))
+    kosu.kostur()
+    s = kur.sayaclar.disa_ver()
+    assert sum(d._alinan_cerceve for d in kosu.dugumler) == s["alim_basarili"]
+    assert sum(d._phy_hata for d in kosu.dugumler) == s["alim_red_per"]
+    assert kayit, "sınav boş geçti"
+    g = kayit[-1]
+    assert g.kendi_konum is not None and g.kendi_hiz is not None
+    assert 0.0 <= g.mesgul_sure_s <= kur.konfig.kosu_bitis_s
+    assert g.alinan_cerceve > 0
+
+
+def test_B3_DOLULUK_istemeyen_protokolde_OLCULMEDI():
+    kur, kosu = _kos("statik-yok", "enyakin", bitis=2.0)
+    g = kosu.dugumler[0].gozlem(1.0, None)
+    assert g.mesgul_sure_s is None, "ölçülmedi ≠ 0"
+    assert g.kendi_konum is not None
+
+
+def test_B3_DOLULUK_surekli_karistiricida_TAM_MESGUL():
+    """Güç kipinde 40 dBm'lik sürekli karıştırıcı 1 s'de açılır: her düğüm
+    ED'den meşgul — 1–4 s arası süre TAMAMEN sayılır."""
+    ortak = dict(karistirici_baslangic_s=1.0, karistirici_guc_override_dbm=40.0,
+                 tasiyici_dinleme="guc")
+    kur = kurulum_yap(_konfig("statik-surekli", 1000, 4.0, **ortak))
+    kosu = Kosu(kur, lambda i: _Dolulukcu([]))
+    kosu.kostur()
+    for d in kosu.dugumler:
+        d.mesgul_guncelle(4.0)
+        assert 3.0 - 1e-6 <= d._mesgul_toplam_s <= 4.0, d._mesgul_toplam_s
+
+
+def test_B3_GPS_hatasi_CEP_DIKEY_ve_DILIM_icinde_SABIT():
+    import math
+    kur = kurulum_yap(_konfig("statik-yok", 1000, 2.0))
+    d = Kosu(kur, lambda i: DogrudanKomsu()).dugumler[0]
+    yatay, dikey = [], []
+    for s in range(400):
+        t = s + 0.5
+        (x, y, z), _ = d._gps(t)
+        p = kur.topoloji.konum(0, t)
+        yatay.append(math.hypot(x - p.x, y - p.y))
+        dikey.append(z - p.z)
+    yatay.sort()
+    assert 1.2 < yatay[len(yatay) // 2] < 1.8, "CEP (ortanca yatay hata) 1,5 m"
+    sd = (sum(v * v for v in dikey) / len(dikey)) ** 0.5
+    assert 1.7 < sd < 2.3
+    a = d._gps(10.1)[0][0] - kur.topoloji.konum(0, 10.1).x
+    b = d._gps(10.9)[0][0] - kur.topoloji.konum(0, 10.9).x
+    assert a == pytest.approx(b), "dilim (1 s) içinde hata sabit"
+
+
+# ==========================================================================
+# C · SENARYO EKSENLERİ — düğüm kaybı · enerji (`v2/15` C1 · C3, K-180)
+# ==========================================================================
+_KAYIP = dict(kayip_dugum_sayisi=4, kayip_bas_s=1.0, kayip_bitis_s=3.0)
+
+
+def test_C1_OLU_dugum_SUSAR_gecit_OLMEZ_defter_KAPANIR():
+    from sim2.kosum.kayip import olum_anlari
+    kfg = _konfig("bagimsiz-surekli", 1000, 5.0, trafik_deseni="yere_toplama",
+                  karistirici_baslangic_s=1.0, **_KAYIP)
+    anlar = olum_anlari(kfg)
+    assert sum(a is not None for a in anlar) == 4
+    assert anlar[kfg.gecit] is None, "geçit düşmez"
+    assert anlar == olum_anlari(kfg), "belirlenimci"
+    kur = kurulum_yap(kfg)
+    kosu = Kosu(kur, lambda i: EnYakinKimlik())
+    gonderilen_olumde: dict = {}
+    from sim2.kosum import kayip
+
+    asil = kayip.dugum_oldur
+
+    def izle(kosu_, n):
+        asil(kosu_, n)
+        gonderilen_olumde[n] = kosu_.dugumler[n]._gonderilen_bayt
+    kayip.dugum_oldur = izle              # `kostur` ölümleri zamanlarken okur
+    try:
+        kosu.kostur()
+    finally:
+        kayip.dugum_oldur = asil
+    assert set(gonderilen_olumde) == {n for n, a in enumerate(anlar)
+                                      if a is not None}
+    for n, bayt in gonderilen_olumde.items():
+        d = kosu.dugumler[n]
+        assert d.olu and d._gonderilen_bayt == bayt, "ölümden sonra gönderdi"
+    k, _ = _defter(kur, kosu)
+    assert k["gecerli"], k
+
+
+def test_C1_KAYIP_YOKKEN_kimse_OLMEZ():
+    kur, kosu = _kos("statik-yok", "enyakin", bitis=2.0)
+    assert all(a is None for a in kur.olum_anlari)
+    assert not any(d.olu for d in kosu.dugumler)
+
+
+def test_C3_ENERJI_sure_DEGISMEZI_ve_FORMUL():
+    kfg = _konfig("bagimsiz-surekli", 1000, 5.0, karistirici_baslangic_s=1.0,
+                  **_KAYIP)
+    kur = kurulum_yap(kfg)
+    kosu = Kosu(kur, lambda i: EnYakinKimlik())
+    kosu.kostur()
+    satir = sonuc_satiri(kur, kosu.dugumler, "p")
+    assert satir["korunum"]["enerji_sure_tamam"]
+    toplam = 0.0
+    for d in kosu.dugumler:
+        e, tx, rx, dinle = d.enerji(kfg.kosu_bitis_s)
+        sure = kfg.kosu_bitis_s if d.olum_s is None else d.olum_s
+        assert tx >= 0 and rx >= 0 and dinle >= -1e-9
+        assert tx + rx + dinle == pytest.approx(sure)
+        assert e == pytest.approx(kfg.enerji_gonderim_w * tx
+                                  + kfg.enerji_alim_w * (sure - tx))
+        toplam += e
+    m = satir["metrikler"]
+    assert m["enerji_toplam_j"] == pytest.approx(toplam)
+    assert m["enerji_dugum_p50_j"] <= m["enerji_dugum_p95_j"] <= \
+        m["enerji_dugum_maks_j"]
+
+
+def test_C1_YAYIN_ORTASINDA_olum_cerceve_VARINCA_gerceklesir(monkeypatch):
+    """🔴 K-180: ölüm kendi veri çerçevesinin ortasına düşerse ertelenir —
+    ertelenmeseydi alıcı ölü göndericiden "devralır", değişmez patlardı.
+    Gecikme kapalı ve açık (A5: varış çerçeve sonundan d/c sonra)."""
+    from sim2.kosum import kayip
+    from sim2.kosum.dugum import Dugum
+    for ek in ({}, {"yayilim_gecikmesi": True}):
+        kur = kurulum_yap(_konfig("statik-yok", 1000, 3.0, **ek))
+        kosu = Kosu(kur, lambda i: EnYakinKimlik())
+        asil = Dugum.gonderim_ekle
+        kurban: dict = {}
+
+        def izle(self, t_s, sure_s, kosu=kosu, kurban=kurban, asil=asil):
+            asil(self, t_s, sure_s)
+            if not kurban and t_s > 1.0 and self.ucustaki is not None \
+                    and self.dcf.durum != "bos":
+                kurban.update(n=self.kimlik, bitis=t_s + sure_s)
+                kosu.olaylar.ekle(t_s + sure_s / 2, kayip.dugum_oldur, kosu,
+                                  self.kimlik)
+        monkeypatch.setattr(Dugum, "gonderim_ekle", izle)
+        kosu.kostur()
+        monkeypatch.undo()
+        d = kosu.dugumler[kurban["n"]]
+        assert d.olu
+        assert d.olum_s >= kurban["bitis"] + kur.maks_gecikme_s - 1e-12
+        assert d.olum_s <= kurban["bitis"] + kur.maks_gecikme_s + 1e-3
+        k, _ = _defter(kur, kosu)
+        assert k["gecerli"], k
+
+
+def test_KRE_kayipli_kosuda_defterler_MUTABIK():
+    """KR-E: korunumun ürettiği = PDR kohortu + ölü hedefe doğan; kayıpsız
+    koşuda görev oranı PDR'ye birebir eşit."""
+    kfg = _konfig("bagimsiz-surekli", 1000, 5.0, karistirici_baslangic_s=1.0,
+                  **_KAYIP)
+    kur = kurulum_yap(kfg)
+    kosu = Kosu(kur, lambda i: EnYakinKimlik())
+    kosu.kostur()
+    pd = kur.paket_defteri
+    ham = pd.ham_sozluk()
+    assert kur.korunum.uretilen == pd.uretilen + len(ham["olu_hedefe_dogum_s"])
+    m = sonuc_satiri(kur, kosu.dugumler, "p")["metrikler"]
+    assert m["pdr"] == pytest.approx(pd.teslim / pd.uretilen)
+    assert m["gorev_teslim_orani"] <= m["pdr"]
+    kur0, kosu0 = _kos("statik-yok", "enyakin", bitis=2.0)
+    m0 = sonuc_satiri(kur0, kosu0.dugumler, "p")["metrikler"]
+    assert m0["gorev_teslim_orani"] == m0["pdr"]
+
+
+# ==========================================================================
+# FAZ 4.0 · KÂHİN REFERANS DÜNYAYI GÖRÜR · DÜNYA SEÇİMİ (K-183)
+# ==========================================================================
+_GUCLU = dict(karistirici_baslangic_s=0.5, karistirici_guc_override_dbm=40.0)
+
+
+def test_K183_kahin_GUC_KIPINDE_susan_vericinin_CIKAN_bagi_YOK():
+    """ED susturması: karıştırıcı enerjisi ED eşiğini aşan verici kanalı
+    alamaz; kâhin grafiğinde çıkan bağı yoktur. Geometrik kipte susturma
+    yoktur (eski dünya birebir)."""
+    from kalibrasyon.kahin import KanalGrafigi
+    t = 1.0
+    kur = kurulum_yap(_konfig("statik-surekli", 1000, 3.0,
+                              tasiyici_dinleme="guc", **_GUCLU))
+    g = KanalGrafigi(kur)
+    g._tazele(t)
+    susan = [i for i in range(kur.dugum_sayisi) if g._susturulmus_mu(i, t)]
+    assert susan, "10 W'lık merkez karıştırıcı en az bir düğümü susturmalı"
+    for i in susan:
+        assert g._komsu[i] == [] and not g._etx[i], i
+    kur0 = kurulum_yap(_konfig("statik-surekli", 1000, 3.0, **_GUCLU))
+    g0 = KanalGrafigi(kur0)
+    g0._tazele(t)
+    assert not any(g0._susturulmus_mu(i, t)
+                   for i in range(kur0.dugum_sayisi))
+
+
+def test_K195_kahin_KARISTIRICI_CIZELGESINDE_grafigi_YENILER():
+    """🔴 K-195: kâhin grafiği yalnız hareket dilimiyle yenileniyordu; açık ·
+    sessiz çizelgeli karıştırıcıda (`derin_sizma`, 15 s · 15 s) aynı dilim
+    içindeki kapanma görünmüyordu. Artık üyelerin `devrede_mi` durumu
+    değişince grafik yeniden kurulur; karıştırıcısız kolda imza boş."""
+    from kalibrasyon.kahin import KanalGrafigi
+    kur = kurulum_yap(_konfig("statik-surekli", 1000, 40.0,
+                              tehdit_senaryosu="derin_sizma",
+                              tasiyici_dinleme="guc", **_GUCLU))
+    g = KanalGrafigi(kur)
+    t_acik, t_sessiz = 15.4, 15.6          # açılma 0,5 s → kapanma 15,5 s
+    assert int(t_acik / g.dilim_s) == int(t_sessiz / g.dilim_s), \
+        "ön koşul: iki an aynı hareket diliminde"
+    g._tazele(t_acik)
+    once = [dict(e) for e in g._etx]
+    assert g._imza == (True,)
+    g._tazele(t_sessiz)
+    assert g._imza == (False,), "kapanma grafiği yenilemedi"
+    assert [dict(e) for e in g._etx] != once, \
+        "karıştırıcı kapandı ama kâhin grafiği değişmedi"
+    g0 = KanalGrafigi(kurulum_yap(_konfig("statik-yok", 1000, 3.0)))
+    g0._tazele(1.0)
+    assert g0._devrede_imzasi(1.0) == ()
+
+
+def test_K183_kahin_HIZ_UYARLAMASINDA_bag_ARF_TABANINDA():
+    from kalibrasyon.kahin import KanalGrafigi
+    from sim2.kanal.cerceve import cerceve_kur
+    kur = kurulum_yap(_konfig("statik-yok", 1000, 3.0, islem_kazanci=True,
+                              bant_genisligi_hz=22e6, hiz_uyarlamasi=True))
+    assert KanalGrafigi(kur)._veri.hiz_bps == 1e6
+    kur0 = kurulum_yap(_konfig("statik-yok", 1000, 3.0))
+    assert KanalGrafigi(kur0)._veri.hiz_bps == \
+        cerceve_kur(kur0.konfig, "veri").hiz_bps
+
+
+def test_K183_dunya_secimi_ARGUMANI_cikarir_ORTAMA_yazar(monkeypatch):
+    from kalibrasyon import dunya_secimi as DS
+    monkeypatch.delenv(DS.ORTAM, raising=False)
+    assert DS.secili() == "olcek_1_50"
+    argv = ["arac", "--dunya", "referans_2026", "tarama"]
+    assert DS.secimi_oku(argv) == "referans_2026"
+    assert argv == ["arac", "tarama"]
+    assert DS.konfig(kol="t").dunya == "referans_2026"
+    assert DS.etiket("x") == "x_referans_2026"
+    monkeypatch.setenv(DS.ORTAM, "olcek_1_50")
+    assert DS.konfig(kol="t").dunya == "olcek_1_50"
+    with pytest.raises(DegismezHatasi):
+        DS.secimi_oku(["arac", "--dunya", "hayal"])
+
+
+def test_K183_ELLE_KURULUM_kuran_araclar_KURULABILIR_ve_KOSAR():
+    """🔴 K-183: Li zinciri ve iki çift `Kurulum`u elle kuruyor ve A5/C1
+    alanları eklenince KURULAMAZ hâle gelmişti — kimse fark etmedi, çünkü
+    son koşumları eskiydi. Bu duman testi onları her takımda kurdurur ve
+    kısa koşturur; `Kurulum`a yeni zorunlu alan eklenirse burada kırılır."""
+    from kalibrasyon.iki_cift import kos as iki_cift_kos
+    from kalibrasyon.li_replikasyonu import _kos as li_kos
+    li = li_kos(3, 250.0, 1000, 50.0, bitis_s=1.0)
+    assert li["uretilen"] > 0 and li["pdr"] is not None
+    assert iki_cift_kos(1, 1000, 1000.0, yuk_hz=50.0, bitis_s=1.0) >= 0.0
+
+
+def test_K183_duyma_turetimi_KURULUMLA_AYNI():
+    from sim2.kanal.cerceve import cerceve_kur
+    from sim2.kosum.kurulum import duyma_turetimi
+    for ek in ({}, {"islem_kazanci": True, "bant_genisligi_hz": 22e6,
+                    "yayilim_gecikmesi": True}):
+        kur = kurulum_yap(_konfig("statik-yok", 1000, 2.0, **ek))
+        m, g = duyma_turetimi(kur.konfig, cerceve_kur(kur.konfig, "beacon"))
+        assert (m, g) == (kur.duyanlar_menzili_m, kur.maks_gecikme_s)
+
+
+def test_K185_dunya_secimi_ALAN_gecersiz_kilma(monkeypatch):
+    """Faz 4.1 alan × güç taraması: `--alan` referans alanını ve görev
+    yarıçapını (alan oranıyla) değiştirir; eski dünyada etkisizdir."""
+    from kalibrasyon import dunya_secimi as DS
+    monkeypatch.delenv(DS.ORTAM, raising=False)
+    monkeypatch.delenv(DS.ALAN_ORTAM, raising=False)
+    argv = ["arac", "--dunya", "referans_2026", "--alan", "15000", "x"]
+    DS.secimi_oku(argv)
+    assert argv == ["arac", "x"]
+    k = DS.konfig(kol="t")
+    assert (k.alan_en_m, k.alan_boy_m) == (15000.0, 15000.0)
+    assert k.gorev_grup_yaricapi_m == pytest.approx(15000.0 * 650.0 / 1800.0)
+    assert DS.etiket("a") == "a_referans_2026_alan15000"
+    monkeypatch.setenv(DS.ORTAM, "olcek_1_50")
+    assert DS.konfig(kol="t").alan_en_m == Konfig(kol="t").alan_en_m
+
+
+def test_K186_kahin_ozeti_GUCLU_bilesenler_yonlu_grafikte():
+    """Yönlü grafikte (güç kipi) güçlü bileşenler: boyutlar toplamı N,
+    susan düğüm tek başına; simetrik grafikte eski bileşenlerle aynı."""
+    from kalibrasyon.kahin import KanalGrafigi
+    kur = kurulum_yap(_konfig("statik-surekli", 1000, 3.0,
+                              tasiyici_dinleme="guc", **_GUCLU))
+    g = KanalGrafigi(kur)
+    o = g.ozet(1.0)
+    assert 0.0 < o["gb_ikinci"] <= o["gb_en_buyuk"] <= 1.0
+    kur0 = kurulum_yap(_konfig("statik-yok", 1000, 3.0))
+    o0 = KanalGrafigi(kur0).ozet(1.0)
+    assert o0["gb_en_buyuk"] == o0["en_buyuk_bilesen"]
+
+
+def test_K187_kalibrasyon_Konfigi_YALNIZ_dunya_seciminden_kurar():
+    """🔴 K-187: `theta_kollari` `--dunya` alıyordu ama ölçüm gövdesi
+    (`bag_kumesi._is_theta_hiz`) Konfig'i doğrudan kuruyordu — referans
+    dünya istenince SESSİZCE eski dünyayı ölçecekti. Bütün araçlar
+    `dunya_secimi.konfig` üzerinden kurar; muaflar gerekçeli."""
+    muaf = {"dunya_secimi.py",        # seçimin kendisi
+            "adim3_oncesi.py",        # tarihsel, dondurulmuş
+            "mimari_denetimi.py",     # varsayılanları inceler
+            "regresyon_satirlari.py"}  # dünya vaka önekinden, bilerek
+    kok = Path(__file__).resolve().parent.parent / "kalibrasyon"
+    ihlal = []
+    for dosya in sorted(kok.glob("*.py")):
+        if dosya.name in muaf:
+            continue
+        agac = ast.parse(dosya.read_text(encoding="utf-8"))
+        for d in ast.walk(agac):
+            if (isinstance(d, ast.Call) and isinstance(d.func, ast.Name)
+                    and d.func.id == "Konfig"):
+                ihlal.append(f"{dosya.name}:{d.lineno}")
+    assert not ihlal, ihlal

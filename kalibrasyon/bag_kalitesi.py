@@ -40,6 +40,7 @@ from sim2.kanal.kanal import Kanal, ber_dqpsk  # noqa: E402
 from sim2.dunya.topoloji import topoloji_kur  # noqa: E402
 from sim2.cekirdek.rng import Akislar  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 
 
 def _kanal(konfig):
@@ -82,7 +83,7 @@ def bolum(b):
 
 
 if __name__ == "__main__":
-    k0 = Konfig(kol="kalib")
+    k0 = DS.konfig(kol="kalib")
     menzil = k0.iletim_menzili_m
     print(f"varsayilan: sinr_esigi_db={k0.sinr_esigi_db}  "
           f"iletim_menzili_m={menzil}  paket_bayt={k0.paket_bayt}  "
@@ -103,7 +104,7 @@ if __name__ == "__main__":
     print(f"  {'esik_db':>8} {'menzilde_sinr':>14} {'per_veri':>9} "
           f"{'per_onay':>9} {'atlama_basari':>14} {'3 atlama':>9}")
     for esik in (10.0, 12.0, 14.0, 16.0, 18.0, 20.0, 22.0, 25.0):
-        kx = Konfig(kol="kalib", sinr_esigi_db=esik)
+        kx = DS.konfig(kol="kalib", sinr_esigi_db=esik)
         d, sinr, pv, po = per_mesafeye_gore(kx, [kx.iletim_menzili_m])[0]
         b = basari_olasiligi(pv, po, kx.yeniden_deneme_siniri)
         print(f"  {esik:>8.1f} {sinr:>14.2f} {pv:>9.4f} {po:>9.4f} "
@@ -113,7 +114,7 @@ if __name__ == "__main__":
     print(f"  {'paket_bayt':>11} {'per_veri@menzil':>16} "
           f"{'atlama_basari':>14}")
     for bayt in (128, 256, 512, 1024):
-        kx = Konfig(kol="kalib", paket_bayt=bayt)
+        kx = DS.konfig(kol="kalib", paket_bayt=bayt)
         d, sinr, pv, po = per_mesafeye_gore(kx, [kx.iletim_menzili_m])[0]
         print(f"  {bayt:>11} {pv:>16.4f} "
               f"{basari_olasiligi(pv, po, kx.yeniden_deneme_siniri):>14.4f}")
@@ -123,7 +124,7 @@ if __name__ == "__main__":
         bulunan = None
         for esik10 in range(100, 400):
             esik = esik10 / 10.0
-            kx = Konfig(kol="kalib", sinr_esigi_db=esik)
+            kx = DS.konfig(kol="kalib", sinr_esigi_db=esik)
             d, sinr, pv, po = per_mesafeye_gore(kx, [kx.iletim_menzili_m])[0]
             if basari_olasiligi(pv, po, kx.yeniden_deneme_siniri) >= hedef:
                 bulunan = esik

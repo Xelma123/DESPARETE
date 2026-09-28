@@ -39,6 +39,7 @@ import math
 
 from sim2.gozlem.kontrol import (KontrolIstegi, Uyandirma,  # noqa: F401
                                  niyetleri_dogrula)
+from sim2.cekirdek.rng import normal_cekimi
 from sim2.kanal.cerceve import cerceve_kur
 from sim2.kanal.girisim import Iletim
 from sim2.kosum.gonderim import gonder
@@ -47,7 +48,8 @@ from sim2.kosum.kontrol_durum import DEFTER_ALANLARI, KontrolDuzlemiHatasi
 __all__ = ["BEKLEYEN_UYANDIRMA_TAVANI", "sirada_mi", "zamanlayicilari_kur",
            "gelenleri_uygula", "iletime_basla", "iletim_bitti",
            "onay_zaman_asimi", "cerceve_alindi", "iletim_basarisiz",
-           "iletim_sonucu", "kontrol_teshisi", "kontrol_korunumu"]
+           "iletim_sonucu", "cerceve_duyuldu", "kontrol_teshisi",
+           "kontrol_korunumu"]
 
 # 🔒 Düğüm başına bekleyen DİNAMİK uyandırma tavanı — köken defterinde.
 # Aşılırsa koşu durur; tamamlanan hiçbir koşunun sonucunu değiştiremez.
@@ -213,6 +215,45 @@ def iletim_sonucu(kosu, d, hedef: int | None, basarili: bool, deneme: int,
             f"geçmişine girer; dönen: {donen!r}")
 
 
+def cerceve_duyuldu(kosu, d, gonderen: int, tip: str, bilgi,
+                    guc_w: float) -> None:
+    """`v2/15` B1 · B2 — çözülen çerçeveyi isteyen protokole bildirir.
+
+    🔒 RSSI = alıcının kilitlendiği güç + N(0, σ²), tamsayı dBm. Hata
+    DURUMSUZ hash çekimidir (`kanal_karar` alanı, `rssi` anahtarı — yeni
+    alan açılmaz, eski çekimler kaymaz): aynı tohumda aynı çerçevenin
+    RSSI'ı protokolden bağımsız aynıdır. Alım kararına GİRMEZ.
+    🔒 Taşımayan protokolde hiçbir şey yapılmaz.
+    """
+    if not d.duyma_kancasi:
+        return
+    if tip == "veri":
+        paket, hedef, _ = bilgi
+        gorunum = d.paket_gorunumu(paket)
+    else:
+        gorunum = None
+        if tip in ("onay", "konay"):
+            hedef = bilgi[0]
+        elif tip == "kontrol":
+            istek = bilgi[0]
+            hedef = None if istek.yayin_mi else istek.hedef
+        else:                                   # beacon
+            hedef = None
+    t = kosu.olaylar.simdi
+    konfig = kosu.kur.konfig
+    hata_db = konfig.rssi_olcum_sigma_db * normal_cekimi(
+        "kanal_karar", konfig.tohum, gonderen, d.kimlik,
+        int(t / konfig.kanal_dilimi_s), "rssi")
+    rssi = round(10.0 * math.log10(guc_w * 1e3) + hata_db)
+    kosu.kur.sayaclar.artir("duyma_bildirimi")
+    donen = d.protokol.cerceve_duyuldu(d.gozlem(t, None), gonderen, tip,
+                                       hedef, rssi, gorunum)
+    if donen:
+        raise KontrolDuzlemiHatasi(
+            "`cerceve_duyuldu` niyet döndüremez — yalnız protokolün kendi "
+            f"geçmişine girer; dönen: {donen!r}")
+
+
 def sirada_mi(d) -> bool:
     return d.kontrol.sirada_mi(d.ucustaki is not None)
 
@@ -278,8 +319,13 @@ def iletime_basla(kosu, d) -> None:
     """Geri çekilme bitti ve sıra kontrolde. Uçuştaki varsa YENİDEN DENEME."""
     k = d.kontrol
     istek = k.ucustaki if k.ucustaki is not None else k.ucusa_al()
+    # A4 (K-177): yayın temel hızda, unicast ARF hızıyla; kapalıyken hız yok.
+    hiz = None
+    if d.hiz_denetcisi is not None:
+        hiz = (kosu.kur.konfig.temel_bit_hizi_bps if istek.yayin_mi
+               else d.hiz_denetcisi.hiz(istek.hedef))
     cerceve = cerceve_kur(kosu.kur.konfig, "kontrol",
-                          mesaj_bayt=istek.mesaj_bayt)
+                          mesaj_bayt=istek.mesaj_bayt, hiz_bps=hiz)
     iletim = Iletim(d.kimlik, cerceve, kosu.olaylar.simdi,
                     kosu.kur.kanal.yayilim.verici_gucu_w)
     s = kosu.kur.sayaclar
@@ -309,12 +355,15 @@ def iletim_bitti(kosu, d, yuk) -> None:
         kosu.cekismeye_basla(d)
         return
     z = kosu.kur.zamanlar
-    kosu.olaylar.ekle(kosu.olaylar.simdi + z.sifs_s + z.onay_s + z.slot_s,
+    kosu.olaylar.ekle(kosu.olaylar.simdi + z.sifs_s + z.onay_s + z.slot_s
+                      + 2.0 * kosu.kur.maks_gecikme_s,     # A5 (K-175)
                       kosu._onay_penceresi, d.kimlik, d.surum)
 
 
 def onay_zaman_asimi(kosu, d) -> None:
     d.kontrol.onay_bekleniyor = False
+    if d.kontrol.ucustaki is not None:                     # A4 (K-177)
+        d.arf_bildir(d.kontrol.ucustaki.hedef, False)
     deneme = d.dcf.deneme               # 🔒 Y1 — sayaç sıfırlanmadan önce
     if d.dcf.onay_gelmedi():
         # 🔒 Y3 · R3 — hedef, uçuştan İNDİRİLMEDEN önce okunur.
@@ -382,6 +431,7 @@ def _onay_alindi(kosu, d, bilgi) -> None:
         return                            # bayat onay
     komsu = k.ucustaki.hedef if k.ucustaki else None   # 🔒 Y1 — indirmeden
     deneme = d.dcf.deneme                              # önce okunur
+    d.arf_bildir(komsu, True)                          # A4 (K-177)
     k.ucustan_indir("unicast_onaylanan")
     d.dcf.onay_geldi()
     iletim_sonucu(kosu, d, komsu, True, deneme, "kontrol")

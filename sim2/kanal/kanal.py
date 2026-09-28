@@ -56,10 +56,10 @@ from sim2.kanal.tehdit import tehdit_tanimlari
 from sim2.kanal.yayilim import Yayilim
 from sim2.yapilandirma.konfig import Konfig
 
-__all__ = ["MODULASYONLAR", "ber_dbpsk", "ber_dqpsk",
+__all__ = ["MODULASYONLAR", "cerceve_per", "ber_dbpsk", "ber_dqpsk",
            "ber_dbpsk_dizi", "ber_dqpsk_dizi", "Kanal"]
 
-MODULASYONLAR: tuple[str, ...] = ("dbpsk", "dqpsk")
+MODULASYONLAR: tuple[str, ...] = ("dbpsk", "dqpsk", "cck")
 
 _KOK_YARIM = math.sqrt(0.5)
 
@@ -119,7 +119,59 @@ def ber_dbpsk_dizi(sinr_lin: Sequence[float]) -> list[float]:
     return [ber_dbpsk(g) for g in sinr_lin]
 
 
-_BER = {"dbpsk": ber_dbpsk_dizi, "dqpsk": ber_dqpsk_dizi}
+# 🔒 CCK — 5,5 ve 11 Mb/s (`v2/15` A4, K-177). ns-3 `DsssErrorRateModel`in
+# GSL sürümü (G1 Pursley–Royster; depodaki kopya): 5,5 Mb/s Eb/N0 = SINR·4,
+# 16'lık sembol hatası SEP₁₆(2·Eb/N0), başarı (1 − SEP)^(bit/4); 11 Mb/s
+# Eb/N0 = SINR·2, SEP₂₅₆ = 1 − (1 − SEP₁₆(2·Eb/N0))², başarı
+# (1 − SEP₂₅₆)^(bit/8). İkisi de BİT BAŞINA aynı biçime iner:
+#     b = 1 − (1 − SEP₁₆(2·Eb/N0))^(1/4)
+# fark yalnız Eb/N0 çarpanındadır (B/R: ×4, ×2) ve o çerçeveden gelir.
+#     SEP₁₆(e) = 1 − ∫_{−β}^{∞} (2Φ(x+β) − 1)^7 φ(x) dx ,  β = √(2e)
+# Sayısal kararlılık için Φ(−β) + ∫ [1 − (1 − 2Q(x+β))^7] φ(x) dx biçiminde
+# log-ızgarada bir kez hesaplanır (ilk CCK çağrısında) ve aradeğerlenir;
+# doğrudan integralle örtüşmesi bir testle bağlanır.
+_SEP16_LOG_E = np.linspace(-3.0, 2.5, 1101)
+_sep16_log: "np.ndarray | None" = None
+
+
+def _sep16_tablosu() -> "np.ndarray":
+    global _sep16_log
+    if _sep16_log is None:
+        from scipy.integrate import quad  # type: ignore[import-untyped]
+        from scipy.special import ndtr  # type: ignore[import-untyped]
+        kok_2pi = math.sqrt(2.0 * math.pi)
+        degerler = []
+        for le in _SEP16_LOG_E:
+            b = math.sqrt(2.0 * 10.0 ** le)
+
+            def f(x: float, b: float = b) -> float:
+                q = float(ndtr(-(x + b)))
+                return (-math.expm1(7.0 * math.log1p(-2.0 * q))
+                        * math.exp(-0.5 * x * x) / kok_2pi)
+            ic, _ = quad(f, -b, np.inf, epsabs=0.0, epsrel=1e-10, limit=200)
+            degerler.append(max(float(ndtr(-b)) + ic, 1e-300))
+        _sep16_log = np.log(np.array(degerler))
+    return _sep16_log
+
+
+def sep16(e: "np.ndarray") -> "np.ndarray":
+    """SEP₁₆ — tablodan, log-ızgarada doğrusal aradeğerleme."""
+    return np.exp(np.interp(np.log10(e), _SEP16_LOG_E, _sep16_tablosu()))
+
+
+def ber_cck_dizi(ebn0: Sequence[float]) -> "np.ndarray":
+    """CCK'nın bit başına eşdeğer hatası — yukarıdaki biçim."""
+    g = np.asarray(ebn0, dtype=float)
+    cikti = np.full(g.shape, 0.5)
+    gecerli = g > 0.0
+    if gecerli.any():
+        sep = sep16(2.0 * g[gecerli])
+        cikti[gecerli] = np.clip(-np.expm1(0.25 * np.log1p(-sep)), 0.0, 0.5)
+    return cikti
+
+
+_BER = {"dbpsk": ber_dbpsk_dizi, "dqpsk": ber_dqpsk_dizi,
+        "cck": ber_cck_dizi}
 
 
 class Kanal:
@@ -146,7 +198,8 @@ class Kanal:
         # `tekli_merkez` tanım üretmez ve bugünkü nesne birebir kurulur.
         self.karistirici = karistirici_kur(konfig, self.yayilim, topoloji,
                                            self.ortam,
-                                           tanimlar=tehdit_tanimlari(konfig))
+                                           tanimlar=tehdit_tanimlari(konfig),
+                                           sonumleme=self.sonumleme)
         self.girisim = Girisim(konfig, topoloji, self.yayilim, self.sonumleme,
                                self.ortam, self.karistirici)
         self._ber = _BER[konfig.modulasyon]
@@ -154,8 +207,10 @@ class Kanal:
     # ==================================================================
     # 🔒 TEK PER GÖVDESİ
     # ==================================================================
-    def _hata_olasiligi(self, sinr_izi: Sequence[tuple[float, float]],
-                        beklenen_bit: int, ber_dizi_fn) -> float:
+    @staticmethod
+    def _hata_olasiligi(sinr_izi: Sequence[tuple[float, float]],
+                        beklenen_bit: int, ber_dizi_fn,
+                        ebn0_carpani: float = 1.0) -> float:
         """🔒 PROJEDEKİ TEK OLASILIK GÖVDESİ.
 
             hata = 1 − Π_k (1 − BER(γ_k))^(bit_k)
@@ -167,6 +222,10 @@ class Kanal:
 
         Bit toplamı `beklenen_bit`e eşit OLMALIDIR: eşitlik bozulursa parçalı
         hesap sessizce tek parçadan ayrışır.
+
+        🔒 BER'in girdisi Eb/N0 = SINR · `ebn0_carpani` (`v2/15` A2, K-173).
+        Çarpan çerçeveden gelir (`cerceve_kur` — bit hızı aritmetiğinin tek
+        yeri); işlem kazancı kapalıyken 1,0 ve çarpma birebir.
         """
         dogrula(len(sinr_izi) > 0, "boş SINR izi ile hata olasılığı hesaplanamaz")
         toplam_bit = math.fsum(bit for bit, _ in sinr_izi)
@@ -175,7 +234,7 @@ class Kanal:
         gecerli = [(bit, sinr) for bit, sinr in sinr_izi if bit > 0.0]
         if not gecerli:
             return 0.0
-        berler = ber_dizi_fn([sinr for _, sinr in gecerli])
+        berler = ber_dizi_fn([sinr * ebn0_carpani for _, sinr in gecerli])
         log_basari = 0.0
         for (bit, _), ber in zip(gecerli, berler):
             if ber >= 0.5:
@@ -188,8 +247,11 @@ class Kanal:
     def per(self, cerceve: Cerceve,
             sinr_izi: Sequence[tuple[float, float]]) -> float:
         """GÖVDE PER'i — çerçevenin yükü, `Konfig.modulasyon` ile."""
+        # 🔒 A4: modülasyon çerçeveden (hız uyarlaması kapalıyken
+        # `Konfig.modulasyon` — `self._ber` ile aynı fonksiyon).
         return self._hata_olasiligi(sinr_izi, cerceve.hataya_acik_bit,
-                                    self._ber)
+                                    _BER[cerceve.govde_modulasyonu],
+                                    cerceve.govde_ebn0_carpani)
 
     def onbelge_per(self, cerceve: Cerceve,
                     sinr_izi: Sequence[tuple[float, float]]) -> float:
@@ -202,7 +264,14 @@ class Kanal:
         `alim_red_per`i aynı şey saymak olurdu.
         """
         return self._hata_olasiligi(sinr_izi, cerceve.onbelge_bit,
-                                    ber_dbpsk_dizi)
+                                    ber_dbpsk_dizi,
+                                    cerceve.onbelge_ebn0_carpani)
+
+    def sahte_onbelge_per(self, cerceve: Cerceve, guc_w: float) -> float:
+        """A6 (K-176) — aldatıcının sahte önbelgesinin PER'i; yalnız gürültüye
+        karşı (beyan: öteki girişim ihmal). Aynı önbelge gövdesi."""
+        return self.onbelge_per(
+            cerceve, ((float(cerceve.onbelge_bit), guc_w / self.yayilim.gurultu_w),))
 
     def kahin_per(self, cerceve: Cerceve, sinr_lin: float) -> float:
         """Tek parçalı kâhin PER — **aynı** `per()` gövdesini çağırır.
@@ -286,3 +355,15 @@ class Kanal:
     def menzilde_per(self, cerceve: Cerceve) -> float:
         """Menzil sınırında, girişimsiz, sönümlemesiz PER — analitik hedef."""
         return self.kahin_per(cerceve, 10.0 ** (self.konfig.sinr_esigi_db / 10.0))
+
+
+def cerceve_per(cerceve: Cerceve, sinr_lin: float) -> float:
+    """Tek parçalı PER — `Kanal.per`in AYNI gövdesi, kanal nesnesi olmadan.
+
+    🔒 A7 (K-178): referans dünyanın türetimleri (`kanal/dunya.py`) kanal
+    kurmadan PER ister; ikinci bir gövde yazılmaz, statik gövde çağrılır.
+    """
+    return Kanal._hata_olasiligi(
+        ((float(cerceve.hataya_acik_bit), sinr_lin),),
+        cerceve.hataya_acik_bit, _BER[cerceve.govde_modulasyonu],
+        cerceve.govde_ebn0_carpani)

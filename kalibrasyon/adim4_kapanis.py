@@ -28,12 +28,13 @@ from sim2.kanal.cerceve import cerceve_kur  # noqa: E402
 from sim2.kanal.girisim import Iletim  # noqa: E402
 from sim2.kanal.kanal import Kanal  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 
 TOHUMLAR = range(1, 21)
 
 
 def _kanal(senaryo="statik-yok", **ek):
-    k = Konfig(kol="kalib", senaryo=senaryo, **ek)
+    k = DS.konfig(kol="kalib", senaryo=senaryo, **ek)
     return Kanal(k, topoloji_kur(k, Akislar(1)))
 
 
@@ -70,7 +71,7 @@ def bolum_a():
     print()
     # ⚠️ ETIKET KONFIGDEN OKUNUR. Elle yazilmis "10 dB" burada duruyordu ve
     # esik 16 dB olunca sessizce yanlislasti — `03` B5, "etiketi elle tasima".
-    kfg = Konfig(kol="kalib")
+    kfg = DS.konfig(kol="kalib")
     print(f"  Not: menzil {kfg.iletim_menzili_m:.0f} m, orada girisimsiz "
           f"SINR tam olarak esik ({kfg.sinr_esigi_db:.0f} dB); "
           f"yol kaybi usteli {kfg.yol_kaybi_usteli:.1f}.")
@@ -231,7 +232,7 @@ def bolum_e():
     from sim2.kosum.kurulum import kurulum_yap
     from kalibrasyon.kahin import KanalGrafigi
     for senaryo in ("statik-yok", "bagimsiz-yok"):
-        kfg = Konfig(kol="kalib", senaryo=senaryo, tohum=1000)
+        kfg = DS.konfig(kol="kalib", senaryo=senaryo, tohum=1000)
         print(f"  --- {senaryo}  (donuk = {not kfg.hareketli})")
         dereceler = {}
         for K in (1, 2, 6, 16, 48):

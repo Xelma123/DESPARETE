@@ -68,6 +68,7 @@ if str(KOK) not in sys.path:
 
 from sim2.kosum.kurulum import kurulum_yap  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 from kalibrasyon.kahin import ATLAMA_ESIGI, KanalGrafigi  # noqa: E402
 from kalibrasyon.karistirici_gucu import ORNEK_ANLARI, TOHUMLAR  # noqa: E402
 
@@ -140,7 +141,7 @@ def graf_ozeti(senaryo: str, tohum: int, t_s: float,
     """
     if guc_dbm is not None:
         ek["karistirici_guc_override_dbm"] = guc_dbm
-    kfg = Konfig(kol="bag_kumesi", senaryo=senaryo, tohum=tohum, **ek)
+    kfg = DS.konfig(kol="bag_kumesi", senaryo=senaryo, tohum=tohum, **ek)
     kur = kurulum_yap(kfg)
     g = KanalGrafigi(kur)
     if ornek is not None:
@@ -381,7 +382,7 @@ def c_sonumleme_ornegi(isci: int = 6) -> None:
           f"(gorev kolu esitlemesi)")
     print()
     for senaryo in ("statik-yok", "bagimsiz-yok"):
-        donuk = not Konfig(kol="b", senaryo=senaryo).hareketli
+        donuk = not DS.konfig(kol="b", senaryo=senaryo).hareketli
         print(f"  --- {senaryo}   (donuk = {donuk})")
         gorevler = [(senaryo, 1000, 200.0 + d, K)
                     for K in K_ADAYLARI for d in KAYDIRMALAR]
@@ -455,7 +456,7 @@ def _is_theta(gorev):
     import random
     senaryo, tohum, adim_s, bitis_s, cift_sayisi = gorev
     try:
-        kfg = Konfig(kol="bag_kumesi", senaryo=senaryo, tohum=tohum)
+        kfg = DS.konfig(kol="bag_kumesi", senaryo=senaryo, tohum=tohum)
         n = kfg.dugum_sayisi
         deneme = kfg.yeniden_deneme_siniri + 1
         adet = int(bitis_s / adim_s)
@@ -603,7 +604,7 @@ def _is_theta_tanim(gorev):
             ek = {} if tanim == "kahin_sonumlemesiz" else {}
             if tanim == "kahin_sonumlemesiz":
                 ek = dict(sonumleme_acik=False)
-            kfg = Konfig(kol="bag_kumesi", senaryo="bagimsiz-yok",
+            kfg = DS.konfig(kol="bag_kumesi", senaryo="bagimsiz-yok",
                          tohum=tohum, **ek)
             kur = kurulum_yap(kfg)
             n = kur.dugum_sayisi
@@ -760,7 +761,7 @@ def _is_theta_hiz(gorev):
     tohum, hmin, hmaks, adim_s, bitis_s, cift_sayisi = gorev[:6]
     senaryo = gorev[6] if len(gorev) > 6 else "bagimsiz-yok"
     try:
-        kfg = Konfig(kol="bag_kumesi", senaryo=senaryo, tohum=tohum,
+        kfg = DS.konfig(kol="bag_kumesi", senaryo=senaryo, tohum=tohum,
                      gm_hiz_min_ms=hmin, gm_hiz_maks_ms=hmaks,
                      gm_hiz_sigma_ms=max(hmaks / 10.0, 1e-4),
                      gorev_jitter_hiz_ms=max(hmaks / 15.0, 1e-4))
@@ -851,7 +852,7 @@ def h_hiz_turetme(isci: int = 6) -> None:
     from kalibrasyon.calkanti import (ADIM_S, BITIS_S, CIFT_SAYISI,
                                       OLSR_TOP_HOLD_S,
                                       TOHUMLAR as C_TOHUMLAR)
-    kfg0 = Konfig(kol="bag_kumesi")
+    kfg0 = DS.konfig(kol="bag_kumesi")
     olcek = kfg0.olcek
     adaylar = ((10.0, 30.0), (2.0, 6.0), (1.0, 3.0), (0.5, 1.5),
                (0.25, 0.75), (0.12, 0.36), (0.06, 0.18))
@@ -948,7 +949,7 @@ def i_serbestlik_dereceleri() -> None:
     print("     yukselt → sonuc BIREBIR ayni. Degilse cebir eksik.\n")
 
     def imza(**ek):
-        kfg = Konfig(kol="dg", senaryo="statik-surekli", tohum=1000, **ek)
+        kfg = DS.konfig(kol="dg", senaryo="statik-surekli", tohum=1000, **ek)
         kur = kurulum_yap(kfg)
         g = KanalGrafigi(kur)
         o = g.ozet(200.0)
@@ -989,7 +990,7 @@ def i_serbestlik_dereceleri() -> None:
         kfg0 = dict(kol="dg", senaryo=senaryo, tohum=1000)
 
         def _im(**ek):
-            kfg = Konfig(**kfg0, **ek)
+            kfg = DS.konfig(**kfg0, **ek)
             kur = kurulum_yap(kfg)
             g = KanalGrafigi(kur)
             o = g.ozet(200.0)
@@ -1017,12 +1018,12 @@ def i_serbestlik_dereceleri() -> None:
     print("     SINR = β·(R/d)^α ⟹ yalniz R/d orani onemli.")
     print(f"  {'olcek λ':>10} {'karistirici':>12} {'derece':>13} "
           f"{'kenar':>6} {'Jaccard':>9}")
-    kfg_t = Konfig(kol="dg")
+    kfg_t = DS.konfig(kol="dg")
     alfa = kfg_t.yol_kaybi_usteli
     olcek_ok = True
     for lam in (1.25, 2.0):
         dB = 10.0 * alfa * math.log10(lam)
-        kfg = Konfig(kol="dg", senaryo="statik-surekli", tohum=1000,
+        kfg = DS.konfig(kol="dg", senaryo="statik-surekli", tohum=1000,
                      alan_en_m=kfg_t.alan_en_m * lam,
                      alan_boy_m=kfg_t.alan_boy_m * lam,
                      irtifa_min_m=kfg_t.irtifa_min_m * lam,
@@ -1071,7 +1072,7 @@ def _is_dugum(gorev):
     from collections import deque
     n, alan, tohum = gorev
     try:
-        kfg = Konfig(kol="dg", senaryo="statik-yok", tohum=tohum,
+        kfg = DS.konfig(kol="dg", senaryo="statik-yok", tohum=tohum,
                      dugum_sayisi=n, alan_en_m=alan, alan_boy_m=alan,
                      akis_sayisi=min(10, n // 2),
                      gorev_grup_sayisi=min(10, n),
@@ -1204,7 +1205,7 @@ def k_kisitlama_kapisi(isci: int = 6) -> None:
     for alet, ad in ((DogrudanKomsu, "dogrudan_komsu"),
                      (EnYakinKimlik, "en_yakin_kimlik")):
         for senaryo in ("statik-yok", "statik-surekli"):
-            kfg = Konfig(kol="kisit", senaryo=senaryo, tohum=1000,
+            kfg = DS.konfig(kol="kisit", senaryo=senaryo, tohum=1000,
                          isinma_s=10.0, olcum_bitis_s=40.0,
                          kosu_bitis_s=50.0, karistirici_baslangic_s=5.0)
             kur = kurulum_yap(kfg)
@@ -1257,7 +1258,7 @@ def _is_stres(gorev):
         from sim2.kosum.kosu import Kosu
         from sim2.olcum.metrikler import metrik_sozlugu
         from protokoller.kosum_kosumu import EnYakinKimlik
-        kfg = Konfig(kol="stres", senaryo="statik-surekli", tohum=1000,
+        kfg = DS.konfig(kol="stres", senaryo="statik-surekli", tohum=1000,
                      isinma_s=10.0, olcum_bitis_s=40.0, kosu_bitis_s=50.0,
                      karistirici_baslangic_s=5.0, **ek)
         kur = kurulum_yap(kfg)
@@ -1374,7 +1375,7 @@ def m_rician(isci: int = 6) -> None:
     print(f"  {'K (dB)':>8} {'Γ (denk)':>9} {'p10 fade':>10} {'p1 fade':>9} "
           f"{'derece':>8} {'Jaccard':>9}")
 
-    kfg0 = Konfig(kol="rician", senaryo="statik-surekli", tohum=1000,
+    kfg0 = DS.konfig(kol="rician", senaryo="statik-surekli", tohum=1000,
                   karistirici_guc_override_dbm=-15.0)
     kur0 = kurulum_yap(kfg0)
     g0 = KanalGrafigi(kur0)
@@ -1383,7 +1384,7 @@ def m_rician(isci: int = 6) -> None:
                    for j in ks if i < j)
 
     for kdb in (0.0, 3.0, 6.0, 10.0, 15.0):
-        kfg = Konfig(kol="rician", senaryo="bagimsiz-yok", tohum=1000,
+        kfg = DS.konfig(kol="rician", senaryo="bagimsiz-yok", tohum=1000,
                      rician_k_db=kdb)
         son = Sonumleme(kfg, topoloji_kur(kfg, Akislar(1000)))
         ornek = sorted(son.guc_kazanci(0, 1, 0.2 + n * 0.02)
@@ -1391,7 +1392,7 @@ def m_rician(isci: int = 6) -> None:
         p10 = 10.0 * math.log10(max(ornek[len(ornek) // 10], 1e-12))
         p1 = 10.0 * math.log10(max(ornek[len(ornek) // 100], 1e-12))
         gam = 10.0 ** (-kdb / 20.0)
-        kfg_s = Konfig(kol="rician", senaryo="statik-surekli", tohum=1000,
+        kfg_s = DS.konfig(kol="rician", senaryo="statik-surekli", tohum=1000,
                        rician_k_db=kdb,
                        karistirici_guc_override_dbm=-15.0)
         gs = KanalGrafigi(kurulum_yap(kfg_s))
@@ -1670,6 +1671,8 @@ def e_k_pdr(isci: int = 6) -> None:
 
 # ==========================================================================
 if __name__ == "__main__":
+    DS.secimi_oku()                         # K-187: --dunya
+    print(f"  DUNYA: {DS.secili()}")
     # 🔒 Windows `spawn` korumasi — calisma kurali 11. TEK havuz, IC ICE YOK.
     BOLUMLER = {"a": a_kapilar, "b": b_esik_taramasi, "c": c_sonumleme_ornegi,
                 "d": d_kahin_duyarliligi, "e": e_k_pdr,

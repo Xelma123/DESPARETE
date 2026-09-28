@@ -265,6 +265,10 @@ def niyetleri_dogrula(niyetler, beyan_izinli: bool = False) -> tuple:
                     "demetine girebilir.")
             raise KontrolHatasi(
                 f"bilinmeyen niyet tipi: {type(n).__name__}")
+        if isinstance(n, Beyan) and n.tip == "politika":
+            raise KontrolHatasi(
+                "`Beyan('politika')` kancada verilemez — elde düşürülecek "
+                "paket yok; yalnız `Karar.beyan`da, `sonraki=None` ile.")
     return niyetler
 
 # ==========================================================================
@@ -277,18 +281,24 @@ def niyetleri_dogrula(niyetler, beyan_izinli: bool = False) -> tuple:
 # veriyor, yani `from sim2.gozlem.karar import Beyan` YAZAN HER YER
 # çalışmaya devam ediyor.
 # ==========================================================================
-BeyanTipi = Literal["kopma", "rota_kuruldu", "rota_gecersiz"]
+BeyanTipi = Literal["kopma", "rota_kuruldu", "rota_gecersiz", "politika"]
 
 # Kapalı küme. Protokol keyfi bir olay adı uyduramaz: uydurabilseydi sonuç
 # şeması protokole göre değişir ve kollar karşılaştırılamaz olurdu.
-BEYAN_TIPLERI: tuple[str, ...] = ("kopma", "rota_kuruldu", "rota_gecersiz")
+# 🔒 `politika` — 25 Eylül 2026 (`v2/15` A1, K-171): *"bu paketi bilerek
+# taşımıyorum"*. Bir rota olayı DEĞİLDİR; yalnız `Karar`da, `sonraki=None`
+# ile gelir ve paketin düşme sebebini `politika` yapar. Kancada anlamı yok
+# (elde paket yok) ve orada reddedilir.
+BEYAN_TIPLERI: tuple[str, ...] = ("kopma", "rota_kuruldu", "rota_gecersiz",
+                                  "politika")
 
 
 @dataclass(frozen=True, slots=True)
 class Beyan:
     """Protokolün *"şu oldu"* dediği şey. 🔴 YALNIZ ÖLÇÜME GİDER.
 
-    Simülatörün davranışını değiştirmez. Tek istisna `rota_gecersiz`dir ve
+    Simülatörün davranışını değiştirmez; yalnız düşme SEBEBİNİ seçen iki
+    istisna var (`politika` için yukarıdaki not). İlki `rota_gecersiz`dir ve
     o istisna 16 Eylül 2026'da GERÇEKTEN UYGULANDI (`04` K-134): aynı kararda
     `sonraki is None` ile birlikte verilirse paket `hedef_yok` yerine
     `rota_gecersiz` sebebiyle düşer. Öncesinde bu cümle belgede yazıyordu ama

@@ -410,3 +410,77 @@ def test_Y10_M4_esigi_BONFERRONI_ile_kuruluyor():
     gecikme = e.tespit_gecikmesi(r)
     assert gecikme is not None, "yedi beyan eşiği AŞMALI"
     assert gecikme == pytest.approx(11.0)
+
+
+# ==========================================================================
+# K-196 · HATA PAYI KÜMELENMEYE DAYANIKLI
+# ==========================================================================
+
+def test_K196_negatif_binom_esigi_kuyruk_orani_ve_MOMENTLER_tutuyor():
+    """P(X > k) ≤ alfa olan EN KÜÇÜK k; dağılım istenen ortalama ve
+    varyansı taşıyor. Olasılıklar modüldeki log-gamma yolundan BAĞIMSIZ,
+    ardışık oranla (`P(k+1)/P(k) = (k+r)/(k+1)·(1−p)`) kurulur."""
+    from sim2.olcum.evre import _negatif_binom_esigi
+    for alfa in (0.01, ALFA / 170.0):
+        for ort, var in ((0.8, 5.8), (2.0, 6.0), (26.0, 200.0), (0.3, 3.0)):
+            r, p = ort * ort / (var - ort), ort / var
+            pmf = [p ** r]
+            for i in range(4000):
+                pmf.append(pmf[-1] * (i + r) / (i + 1) * (1.0 - p))
+            ortalama = sum(i * q for i, q in enumerate(pmf))
+            varyans = sum((i - ortalama) ** 2 * q for i, q in enumerate(pmf))
+            assert ortalama == pytest.approx(ort, rel=1e-6)
+            assert varyans == pytest.approx(var, rel=1e-6)
+            k = _negatif_binom_esigi(ort, var, alfa)
+            kuyruk = 1.0 - sum(pmf[:k + 1])
+            assert kuyruk <= alfa < kuyruk + pmf[k]
+
+
+def test_K196_varyans_ortalamayi_ASMAZSA_esik_POISSON_ile_ayni():
+    """🔒 Beyanları bağımsız olan kolda eşik K-196 öncesiyle BİREBİR."""
+    from sim2.olcum.evre import _negatif_binom_esigi
+    for alfa in (0.01, ALFA / 170.0):
+        for lam in (0.0, 0.5, 1.0, 3.0, 7.0):
+            for var in (lam, 0.5 * lam, 0.0):
+                assert (_negatif_binom_esigi(lam, var, alfa)
+                        == _poisson_esigi(lam, alfa))
+
+
+def test_K196_tespit_KUMELENEN_temiz_gurultusunu_eliyor():
+    """Temizde her 10 s'de bir kovaya 8 beyan yığılıyor (ortalama 0,8,
+    varyans 5,8). Açılmadan sonra AYNI desen sürüyor — yükselme YOK.
+
+    Poisson(0,8) eşiği 5 olurdu ve ilk yığın "tespit" sayılırdı (K-193'te
+    karıştırıcısız OLSR'ın başına gelen tam buydu); negatif binomun eşiği
+    31. Gerçek bir sıçrama (tek kovada 60 beyan) yine yakalanır."""
+    r = RotaDefteri()
+    for t0 in range(int(BAS), int(BITIS), 10):
+        for j in range(8):
+            r.beyan_isle(0, Beyan("kopma", komsu=j), t0 + 0.5 + 0.01 * j)
+    e = Evreler(_defter(_duzgun()), BAS, ACILMA, BITIS)
+    assert e.tespit_gecikmesi(r) is None
+    for j in range(60):
+        r.beyan_isle(1, Beyan("kopma", komsu=j % 7), ACILMA + 20.2 + 0.001 * j)
+    assert e.tespit_gecikmesi(r) == pytest.approx(21.0)
+
+
+def test_K196_toparlanma_KUMELENEN_kayipta_ANINDA_ve_SE_GENISLER():
+    """Temizde her 20 s'nin ilk 5 s'i tam kesinti (PDR 0,75; kayıp zamanda
+    kümeli). Açılmadan sonra AYNI desen — toparlanma süresi 0 olmalı.
+
+    Yalnız Agresti–Caffo ile band ≈ 0,75 − 1,96·0,02 ≈ 0,71 idi; ilk
+    pencere (kesinti 150–155 içinde, PDR 0,667) bandın DIŞINDA kalıyor ve
+    metrik karıştırıcısız bir "toparlanma" uyduruyordu. Kümelenmeye dayanıklı
+    SE temizin kendi pencere oynaklığını taşır."""
+    dogumlar = _duzgun()
+    teslim = [k for k, t in dogumlar if (t - BAS) % 20.0 >= 5.0]
+    e = Evreler(_defter(dogumlar, teslim), BAS, ACILMA, BITIS)
+    temiz, n_t = e.pdr(BAS, ACILMA)
+    ilk, n_i = e.pdr(ACILMA, ACILMA + PENCERE_S)
+    assert temiz == pytest.approx(0.75) and ilk == pytest.approx(2.0 / 3.0)
+    ac = e._se(temiz, n_t, ilk, n_i)
+    assert ilk < temiz - BANT_SE_KATI * ac, "kurgu: eski band ilk pencereyi REDDETMELİ"
+    assert e._kume_se() > 3.0 * ac
+    assert e.toparlanma_suresi() == 0.0
+    _, se = e.sok_derinligi()
+    assert se == pytest.approx(e._kume_se())

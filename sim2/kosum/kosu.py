@@ -6,8 +6,9 @@ Koşu — olay döngüsü ve çekişme. Bütün katmanların birleştiği yer.
     dogum · beacon · geri_cekilme_bitti · difs_bitti
     iletim_bitti · cerceve_geldi · cerceve_bitti · onay_penceresi
 
-Yayılım gecikmesi modellenmez: 600 m'de 2 µs, slotun (20 µs) onda biri.
-Kapsam belgesine yazılır.
+Yayılım gecikmesi `yayilim_gecikmesi` anahtarıyla modellenir (`v2/15` A5,
+K-175; referans dünyada açık): alım ve taşıyıcı dinleme varış anına göre.
+Eski dünyada kapalı ve kapsam bölümünde beyanlı.
 
 🔒 ÜÇ DOSYA, ÜÇ SORUMLULUK
 ==========================
@@ -43,12 +44,11 @@ düzleminin bedeli değil, modelin kuralsızlığı olurdu.
 from __future__ import annotations
 
 from sim2.kanal.girisim import Iletim
-from sim2.kosum import kontrol
+from sim2.kosum import alim, kayip, kontrol
 from sim2.kosum.dugum import Dugum
-from sim2.kosum.gonderim import (alim_say, beacon_gonder, iletime_basla,
-                                 vazgec, veri_cercevesi_kur)
+from sim2.kosum.gonderim import (beacon_gonder, iletime_basla, vazgec,
+                                 veri_cercevesi_kur)
 from sim2.kosum.kurulum import Kurulum
-from sim2.kosum.teslim import onay_alindi, veri_alindi
 from sim2.olcum.kopma import fiziksel_kopma_say
 
 __all__ = ["Kosu"]
@@ -58,7 +58,7 @@ class Kosu:
     """Tek bir koşu. `kostur()` bir kez çağrılır, sonra sonuç okunur."""
 
     __slots__ = ("kur", "dugumler", "olaylar", "_temizleme_s",
-                 "_beacon_onbellegi", "veri_cercevesi", "veri_baslik_bayt",
+                 "_cerceve_onbellegi", "veri_cercevesi", "veri_baslik_bayt",
                  "veri_baslik_sure_s")
 
     def __init__(self, kur: Kurulum, protokol_fabrikasi) -> None:
@@ -75,7 +75,7 @@ class Kosu:
         # `Ortam.aktif()` koşu boyunca yüz binlerce iletimi tarardı.
         self._temizleme_s = 2.0 * self.veri_cercevesi.sure_s
         # Yuk boyutuna gore beacon cercevesi onbellegi — SAF memo.
-        self._beacon_onbellegi: dict = {}
+        self._cerceve_onbellegi: dict = {}
 
     def kostur(self) -> None:
         k = self.kur.konfig
@@ -87,6 +87,9 @@ class Kosu:
             if self.dugumler[n].kontrol.kosum_beaconi:
                 self.olaylar.ekle(faz, self._beacon, n)
         kontrol.zamanlayicilari_kur(self)
+        for n, an in enumerate(self.kur.olum_anlari):       # C1 (K-180)
+            if an is not None:
+                self.olaylar.ekle(an, kayip.dugum_oldur, self, n)
         self.olaylar.ekle(k.olcum_penceresi[0], self.kur.sayaclar.pencere_baslat)
         self.olaylar.ekle(k.olcum_penceresi[1], self.kur.sayaclar.pencere_bitir)
         self.olaylar.kostur(k.kosu_bitis_s)
@@ -125,6 +128,8 @@ class Kosu:
     # OLAYLAR
     # ==================================================================
     def _dogum(self, dogum) -> None:
+        if self.dugumler[self.kur.trafik.akis(dogum.akis_kimligi).kaynak].olu:
+            return self.kur.paket_defteri.uretilmedi(dogum.t_s)  # C1 · KR-E
         paket = self.kur.trafik.paket_kur(dogum, self.kur.paket_sayaci)
         d = self.dugumler[paket.kaynak]
         if d.kuyruga_al(paket, uretim=True):
@@ -132,6 +137,8 @@ class Kosu:
 
     def _beacon(self, n: int) -> None:
         t, d = self.olaylar.simdi, self.dugumler[n]
+        if d.olu:
+            return                              # C1: telsiz kapalı
         d.komsu_temizle(t)
         if not (d.alici.gonderiyor or d.kanal_mesgul_mu(t)):
             beacon_gonder(self, d, t)          # çerçeve ve bedel: gonderim.py
@@ -161,37 +168,24 @@ class Kosu:
 
     def _iletim_bitti(self, n: int, iletim: Iletim, yuk) -> None:
         t, d = self.olaylar.simdi, self.dugumler[n]
-        d.alici.gonderim_bitti()
+        d.mesgul_guncelle(t)                     # B3: durum değişmeden önce
+        d.alici.gonderim_bitti(t)
         if yuk[0] == "veri":
             z = self.kur.zamanlar
-            self.olaylar.ekle(t + z.sifs_s + z.onay_s + z.slot_s,
+            # 🔒 A5 (K-175): en uzak bağın gidiş-dönüşü; kapalıyken + 0,0.
+            self.olaylar.ekle(t + z.sifs_s + z.onay_s + z.slot_s
+                              + 2.0 * self.kur.maks_gecikme_s,
                               self._onay_penceresi, n, d.surum)
         elif yuk[0] == "kontrol":
             kontrol.iletim_bitti(self, d, yuk)
         self.kur.kanal.ortam.bitenleri_at(t - self._temizleme_s)
 
+    # 🔒 Alım olayları `kosum/alim.py`de (B3, K-179 — davranış birebir).
     def _cerceve_geldi(self, n: int, iletim: Iletim, yuk) -> None:
-        yeni, ezilen = self.dugumler[n].alici.cerceve_geldi(
-            iletim, self.olaylar.simdi)
-        alim_say(self, yeni)
-        alim_say(self, ezilen)
+        alim.cerceve_geldi(self, n, iletim, yuk)
 
     def _cerceve_bitti(self, n: int, iletim: Iletim, yuk) -> None:
-        d = self.dugumler[n]
-        sonuc = d.alici.cerceve_bitti(iletim, self.olaylar.simdi)
-        alim_say(self, sonuc)
-        if sonuc is None or not sonuc.basarili:
-            return
-        d.alim_kaydet(iletim.cerceve.bayt)
-        tip, bilgi = yuk
-        if tip == "beacon":
-            d.beacon_isle(iletim.gonderen, bilgi, self.olaylar.simdi)
-        elif tip == "onay":
-            onay_alindi(self, n, bilgi)
-        elif tip == "veri":
-            veri_alindi(self, d, iletim.gonderen, bilgi)
-        else:
-            kontrol.cerceve_alindi(self, d, iletim.gonderen, tip, bilgi)
+        alim.cerceve_bitti(self, n, iletim, yuk)
 
     def _onay_penceresi(self, n: int, surum: int) -> None:
         d = self.dugumler[n]
@@ -228,7 +222,7 @@ class Kosu:
         denetler. Burada sessizce dönmek, çağıranların (doğum, teslim,
         vazgeçme) sıralamayı düşünmek zorunda kalmamasını sağlar.
         """
-        if (d.dcf.durum != "bos" or d.ucustaki is not None
+        if (d.olu or d.dcf.durum != "bos" or d.ucustaki is not None
                 or (d.kuyruk.bos_mu and d.kontrol.bos_mu)):
             return
         d.dcf.cerceve_hazir()

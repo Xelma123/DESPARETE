@@ -79,6 +79,7 @@ from sim2.dunya.topoloji import Topoloji
 from sim2.kanal.cerceve import cerceve_kur
 from sim2.kanal.girisim import Ortam
 from sim2.kanal.yayilim import Yayilim, dbm_to_w
+from sim2.kanal.yer_hava import YerHavaKanali
 from sim2.yapilandirma.konfig import Konfig
 
 __all__ = ["Karistirici", "KaristiriciTabani", "Surekli", "Darbeli",
@@ -105,6 +106,14 @@ class Karistirici(Protocol):
 
     def gecis_anlari(self, bas_s: float, bitis_s: float
                      ) -> tuple[float, ...]: ...
+
+    def sahte_cerceveler(self, dugum: int, dugum_konum: Nokta3, t_s: float
+                         ) -> tuple[tuple[float, float, int], ...]: ...
+
+    @property
+    def hareketli(self) -> bool:
+        """Konumu zamanla değişiyor mu — A3 yeniden denetimi (K-174)."""
+        ...
 
 
 # ==========================================================================
@@ -247,7 +256,8 @@ class KaristiriciTabani:
     sinif = "taban"
 
     __slots__ = ("konfig", "yayilim", "topoloji", "ortam", "konum", "tepe_w",
-                 "_baslangic_s", "_tanim", "_indeks", "_golge_kimligi")
+                 "_baslangic_s", "_tanim", "_indeks", "_golge_kimligi",
+                 "_sonumleme", "_a2g")
 
     def __init__(self, konfig: Konfig, yayilim: Yayilim, topoloji: Topoloji,
                  ortam: Ortam, tanim: KaristiriciTanimi | None = None,
@@ -274,6 +284,15 @@ class KaristiriciTabani:
         # Başlangıç konumu; hareketli üyede zamanla `konum_t` değişir.
         self.konum = Nokta3(x, y, 0.5 * (konfig.irtifa_min_m
                                          + konfig.irtifa_maks_m))
+        # 🔒 A6 (K-176): yer platformu yerde ve bağı yer–hava kanalıyla;
+        # sönümleme `karistirici_kur` bağlar. Kapalıyken ikisi de yok.
+        self._sonumleme = None
+        self._a2g = None
+        if (konfig.karistirici_gercekci and tanim is not None
+                and tanim.platform in ("sabit_yer", "arac")):
+            self.konum = Nokta3(x, y, konfig.yer_karistirici_yukseklik_m)
+            self._a2g = YerHavaKanali(konfig.tohum, konfig.a2g_ortam,
+                                      konfig.a2g_durum_dilimi_s)
         self.tepe_w = dbm_to_w(float(guc_dbm))
         if tanim is not None:
             self.tepe_w *= tanim.guc_payi
@@ -288,6 +307,11 @@ class KaristiriciTabani:
     def _uye_anahtari(self) -> tuple[int, ...]:
         """Hash anahtarına eklenen üye kimliği — ilk üyede BOŞ (bugünkü çekim)."""
         return () if self._indeks == 0 else (self._indeks,)
+
+    @property
+    def hareketli(self) -> bool:
+        """Konumu zamanla değişiyor mu — A3 yeniden denetimi (K-174)."""
+        return self._tanim is not None and self._tanim.yorunge.tur != "sabit"
 
     def konum_t(self, t_s: float) -> Nokta3:
         """Karıştırıcının `t` anındaki konumu — zamanın saf fonksiyonu."""
@@ -321,9 +345,39 @@ class KaristiriciTabani:
         bağının gölgelemesi bir düğüm çiftininkiyle çakışırdı. Kümede her
         üyenin kimliği ayrıdır.
         """
-        kayip_db = self.yayilim.yavas_kayip_db(self._golge_kimligi, alici,
-                                               self.konum_t(t_s), alici_konum)
-        return self.tepe_w / (10.0 ** (kayip_db / 10.0))
+        g = self.tepe_w / (10.0 ** (self._kayip_db(alici, alici_konum, t_s)
+                                    / 10.0))
+        if self._sonumleme is not None:                     # A6
+            g *= self._sonumleme.karistirici_kazanci(
+                self._golge_kimligi, alici, t_s, self._bagil_hiz_ms(alici, t_s))
+        return g
+
+    def _kayip_db(self, dugum: int, dugum_konum: Nokta3, t_s: float) -> float:
+        """Yavaş kayıp; yer platformunda + yer–hava ek kaybı (A6)."""
+        kaynak = self.konum_t(t_s)
+        kayip = self.yayilim.yavas_kayip_db(self._golge_kimligi, dugum,
+                                            kaynak, dugum_konum)
+        if self._a2g is not None:
+            kayip += self._a2g.ek_kayip_db(self._golge_kimligi, dugum, kaynak,
+                                           dugum_konum, t_s)
+        return kayip
+
+    def _bagil_hiz_ms(self, dugum: int, t_s: float) -> float:
+        """Karıştırıcı ile düğümün bağıl hız büyüklüğü — sönümlemenin Doppler'i."""
+        h = 1e-3
+        a0, a1 = self.konum_t(t_s), self.konum_t(t_s + h)
+        b0 = self.topoloji.konum(dugum, t_s)
+        b1 = self.topoloji.konum(dugum, t_s + h)
+        vx = ((a1.x - a0.x) - (b1.x - b0.x)) / h
+        vy = ((a1.y - a0.y) - (b1.y - b0.y)) / h
+        vz = ((a1.z - a0.z) - (b1.z - b0.z)) / h
+        return math.sqrt(vx * vx + vy * vy + vz * vz)
+
+    def sahte_cerceveler(self, dugum: int, dugum_konum: Nokta3, t_s: float
+                         ) -> tuple[tuple[float, float, int], ...]:
+        """`t`de süren sahte çerçeveler — `(başlangıç, alınan güç, kimlik)`.
+        Yalnız aldatıcı üretir (A6)."""
+        return ()
 
     def acik_mi(self, t_s: float) -> bool:
         """Sınıfın KENDİ zamanlaması — darbe, reaktif, taramalı vb."""
@@ -454,7 +508,7 @@ class Reaktif(KaristiriciTabani):
     """
 
     sinif = "reaktif"
-    __slots__ = ("_sezme", "_patlama", "_cevrim")
+    __slots__ = ("_sezme", "_patlama", "_cevrim", "_esik_w")
 
     def __init__(self, konfig, yayilim, topoloji, ortam, tanim=None,
                  indeks=0) -> None:
@@ -462,17 +516,28 @@ class Reaktif(KaristiriciTabani):
         self._sezme = konfig.reaktif_sezme_s
         self._patlama = konfig.reaktif_patlama_s
         self._cevrim = self._sezme + self._patlama
+        self._esik_w = dbm_to_w(konfig.reaktif_esik_dbm)
         dogrula(self._sezme >= 0.0 and self._patlama > 0.0,
                 "reaktif sezme/patlama süreleri geçersiz")
 
-    def _sezildi_mi(self, gonderen: int, baslangic_s: float) -> bool:
-        dilim = int(baslangic_s / self.konfig.kanal_dilimi_s)
-        return hash_cekimi("reaktif_sezme", self.konfig.tohum,
-                           gonderen, "sezme", dilim, *self._uye_anahtari) < 0.95
+    def _sezildi_mi(self, iletim) -> bool:
+        """Sezme olasılığı (köken defterinde, A6) — gerçekçide ayrıca iletimin
+        karıştırıcıda alınan gücü eşiği aşmalı (menzilsiz duyma yok)."""
+        dilim = int(iletim.baslangic_s / self.konfig.kanal_dilimi_s)
+        if hash_cekimi("reaktif_sezme", self.konfig.tohum, iletim.gonderen,
+                       "sezme", dilim, *self._uye_anahtari
+                       ) >= self.konfig.reaktif_sezme_olasiligi:
+            return False
+        if not self.konfig.karistirici_gercekci:
+            return True
+        konum = self.topoloji.konum(iletim.gonderen, iletim.baslangic_s)
+        alinan = iletim.guc_w / (10.0 ** (self._kayip_db(
+            iletim.gonderen, konum, iletim.baslangic_s) / 10.0))
+        return alinan >= self._esik_w
 
     def acik_mi(self, t_s: float) -> bool:
         for iletim in self.ortam.aktif(t_s):
-            if not self._sezildi_mi(iletim.gonderen, iletim.baslangic_s):
+            if not self._sezildi_mi(iletim):
                 continue
             # Çevrim içindeki konum: [0, sezme) sessiz, [sezme, çevrim) patlama.
             faz = (t_s - iletim.baslangic_s) % self._cevrim
@@ -525,6 +590,14 @@ class Aldatici(KaristiriciTabani):
 
     def csma_ya_gorunur(self, t_s: float) -> bool:
         return self.acik_mi(t_s)
+
+    def sahte_cerceveler(self, dugum: int, dugum_konum: Nokta3, t_s: float
+                         ) -> tuple[tuple[float, float, int], ...]:
+        if not self.acik_mi(t_s):
+            return ()
+        bas = self._cerceve_indeksi(t_s) * self._periyot
+        return ((bas, self.alinan_guc_w(dugum, dugum_konum, bas),
+                 self._golge_kimligi),)
 
     def sahte_icerik(self, t_s: float) -> float:
         """Sahte çerçevenin içeriği — `aldatici_icerik` hash alanından.
@@ -625,6 +698,15 @@ class KaristiriciKumesi:
     def devrede_mi(self, t_s: float) -> bool:
         return any(u.devrede_mi(t_s) for u in self.uyeler)
 
+    def sahte_cerceveler(self, dugum: int, dugum_konum: Nokta3, t_s: float
+                         ) -> tuple[tuple[float, float, int], ...]:
+        return tuple(c for u in self.uyeler
+                     for c in u.sahte_cerceveler(dugum, dugum_konum, t_s))
+
+    @property
+    def hareketli(self) -> bool:
+        return any(u.hareketli for u in self.uyeler)
+
     def acik_mi(self, t_s: float) -> bool:
         return any(u.acik_mi(t_s) for u in self.uyeler)
 
@@ -641,8 +723,8 @@ _SINIFLAR = {
 
 def karistirici_kur(konfig: Konfig, yayilim: Yayilim, topoloji: Topoloji,
                     ortam: Ortam,
-                    tanimlar: tuple[KaristiriciTanimi, ...] | None = None
-                    ) -> Karistirici | None:
+                    tanimlar: tuple[KaristiriciTanimi, ...] | None = None,
+                    sonumleme=None) -> Karistirici | None:
     """Senaryodan karıştırıcı. `yok` için `None` — sarmalayıcı DEĞİL.
 
     Boş bir "hiçbir şey yapmayan karıştırıcı" nesnesi döndürmek, her girişim
@@ -660,12 +742,18 @@ def karistirici_kur(konfig: Konfig, yayilim: Yayilim, topoloji: Topoloji,
         tip = _SINIFLAR.get(sinif)
         if tip is None:
             asla(f"karıştırıcı sınıfı tanımlı ama kurucusu yok: {sinif!r}")
-        return tip(konfig, yayilim, topoloji, ortam)
-    dogrula(len(tanimlar) >= 1, "tanım listesi boş olamaz")
-    uyeler = []
-    for indeks, tanim in enumerate(tanimlar):
-        uye_sinifi = tanim.sinif or sinif
-        tip = _SINIFLAR.get(uye_sinifi)
-        dogrula(tip is not None, f"bilinmeyen karıştırıcı sınıfı: {uye_sinifi!r}")
-        uyeler.append(tip(konfig, yayilim, topoloji, ortam, tanim, indeks))
+        uyeler = [tip(konfig, yayilim, topoloji, ortam)]
+    else:
+        dogrula(len(tanimlar) >= 1, "tanım listesi boş olamaz")
+        uyeler = []
+        for indeks, tanim in enumerate(tanimlar):
+            uye_sinifi = tanim.sinif or sinif
+            tip = _SINIFLAR.get(uye_sinifi)
+            dogrula(tip is not None,
+                    f"bilinmeyen karıştırıcı sınıfı: {uye_sinifi!r}")
+            uyeler.append(tip(konfig, yayilim, topoloji, ortam, tanim, indeks))
+    # 🔒 A6 (K-176): karıştırıcı bağlarına sönümleme — yalnız gerçekçide.
+    if konfig.karistirici_gercekci:
+        for u in uyeler:
+            u._sonumleme = sonumleme
     return uyeler[0] if len(uyeler) == 1 else KaristiriciKumesi(uyeler)

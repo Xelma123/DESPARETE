@@ -163,6 +163,9 @@ TANIMLAR: tuple[SayacTanimi | Turev, ...] = (
                 "onay gelmedi ve veri çerçevesi alıcıya ULAŞMADI — "
                 "çarpışma, gövde hatası, alıcı meşgul ya da yarı çift yönlü",
                 kume="iletim_sonucu"),
+    SayacTanimi("mac_kayip_askida", "sayim",
+                "onay beklenirken gönderen öldü — deneme sonuçsuz kaldı "
+                "(`v2/15` C1, K-180)", kume="iletim_sonucu"),
     SayacTanimi("mac_onaysiz_onay", "sayim",
                 "onay gelmedi ama veri ULAŞMIŞTI — kaybolan şey ONAYDI. "
                 "Gönderen bunu bilemez ve yeniden dener; 802.11'in temel "
@@ -200,6 +203,9 @@ TANIMLAR: tuple[SayacTanimi | Turev, ...] = (
     # 🔒 Y1 · K-151 — her unicast sonucunun protokole bildirimi.
     SayacTanimi("sonuc_bildirimi", "sayim",
                 "protokole bildirilen unicast sonucu (veri ve kontrol)"),
+    # 🔒 `v2/15` B1 — çözülen her çerçevenin protokole bildirimi.
+    SayacTanimi("duyma_bildirimi", "sayim",
+                "protokole bildirilen çözülmüş çerçeve (`cerceve_duyuldu`)"),
     SayacTanimi("beacon_gonderilen", "sayim", "yayınlanan beacon"),
     SayacTanimi("beacon_alinan", "sayim", "başarıyla alınan beacon"),
 
@@ -257,6 +263,13 @@ TANIMLAR: tuple[SayacTanimi | Turev, ...] = (
     SayacTanimi("kuyruk_tasmasi", "sayim", "kuyruk dolu, paket atıldı"),
     SayacTanimi("ttl_olumu", "sayim", "TTL tükendi"),
     SayacTanimi("hedef_yok", "sayim", "protokol sonraki atlamayı seçemedi"),
+    # 🔒 Adı düşme sebebiyle aynı DEĞİL — `tampon_dusen`in geleneği (aşağıda).
+    SayacTanimi("dugum_kaybi_dusen", "sayim",
+                "düğüm öldü, paketi düştü — düşme sebebi `dugum_kaybi` "
+                "(K-180)"),
+    SayacTanimi("politika_dusen", "sayim",
+                "protokol paketi politikası gereği taşımadı — düşme sebebi "
+                "`politika` (K-171)"),
     SayacTanimi("en_yuksek_doluluk", "tepe", "kuyruktaki en yüksek paket sayısı"),
 
     # -------------------------------------- rota bekleme tamponu (K-131 · B1)

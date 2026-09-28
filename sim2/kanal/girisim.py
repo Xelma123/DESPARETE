@@ -84,6 +84,15 @@ class Ortam:
     def aktif(self, t_s: float) -> tuple[Iletim, ...]:
         return tuple(i for i in self._iletimler if i.aktif_mi(t_s))
 
+    def varista(self, t_s: float, maks_gecikme_s: float
+                ) -> tuple[Iletim, ...]:
+        """`t`de bir alıcıya hâlâ ULAŞIYOR olabilecek iletimler — A5 (K-175).
+
+        Başlamış (`baslangic ≤ t`) ve sonu en uzak gecikmeyle birlikte
+        geçmemiş olanlar. Gecikme 0 iken `aktif` ile aynı küme."""
+        return tuple(i for i in self._iletimler
+                     if i.baslangic_s <= t_s < i.bitis_s + maks_gecikme_s)
+
     def pencerede(self, bas_s: float, bitis_s: float) -> tuple[Iletim, ...]:
         return tuple(i for i in self._iletimler
                      if i.kesisiyor_mu(bas_s, bitis_s))

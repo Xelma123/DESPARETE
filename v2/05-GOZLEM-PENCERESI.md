@@ -1,213 +1,92 @@
 # 05 · GÖZLEM PENCERESİ — protokolün görebildiği her şey
 
-> **Güncel:** 16 Eylül 2026 (K-131) · **Türü:** sözleşme. Öğrenci kararı:
-> genişletilmez; gerekçeli bir değişikliğin yolu §7'de.
-> Kod karşılığı: `sim2/gozlem/pencere.py` ve yüzey taraması testleri.
-> Protokolün **yapabilecekleri** ayrı bir sözleşmededir: `13-KONTROL-DUZLEMI.md`.
-> Önceki sürüm: `arsiv/05-GOZLEM-PENCERESI-2026-09-10.md`.
+> **Güncel:** 26 Eylül 2026 (öz sürüm; son içerik değişikliği K-180) · **Türü:** sözleşme — öğrenci kararı: genişletilmez, gerekçeli değişikliğin yolu §7. Kod `sim2/gozlem/pencere.py` · yüzey testi `tests2/test_kontrol_duzlemi.py` (P6). Protokolün **yapabilecekleri** `13`te. Önceki sürümler `v2/arsiv/05-GOZLEM-PENCERESI-*.md`. Bölüm numaraları kodda atıflı, korunur (10 Eylül öncesinin A1–A4'ü = §3.1–3.5).
 
 ## 1 · Neden var
 
-Bir jüri üyesi şunu sorabilir: *"Protokolünüz karıştırıcının nerede olduğunu
-nereden biliyordu?"* Cevap *"bilmiyordu"* olmalı ve kanıtı bir cümle değil, bir
-test olmalı. Önceki simülatörde bir rakibin tazelik bilgisini kendi
-paketlerinden mi aldığı yoksa simülatörden mi okuduğu cevapsız kalmıştı; bu
-sözleşme o belirsizliği yapısal olarak kapatır.
+Jüri sorusu: *"Protokolünüz karıştırıcının nerede olduğunu nereden biliyordu?"* Cevap "bilmiyordu" olmalı ve kanıtı bir test olmalı (önceki simülatörde bir rakibin tazelik bilgisini nereden aldığı cevapsız kalmıştı).
 
 ## 2 · Temel ilke
 
-> Bir protokolün bildiği her şey ya **aldığı bir paketten** ya da **kendi
-> donanımının fiziksel olarak yapabileceği bir ölçümden** gelir. Simülatörden
-> bedava okuma yoktur.
-
-Emin olunamayan durumda sorulacak soru: *"Gerçek bir İHA'nın üstündeki gerçek
-bir telsiz bunu ölçebilir mi?"*
-
----
+> 🔒 Protokolün bildiği her şey ya **aldığı bir paketten** ya da **kendi donanımının fiziksel olarak yapabileceği bir ölçümden** gelir. Simülatörden bedava okuma yok. Şüphede: *"Gerçek bir İHA'daki gerçek bir telsiz bunu ölçebilir mi?"*
 
 ## 3 · Görebilecekleri
 
-### 3.1 Kendi donanımından
+**3.1 Kendi donanımından** — her alanın gerçek karşılığı (K-180):
 
 | alan | gerçek karşılığı |
 |---|---|
-| anteninde ölçülen toplam gürültü + girişim gücü | gürültü tabanı ölçümü |
-| kanalın meşgul olup olmadığı | taşıyıcı dinleme |
-| kuyruğundaki paket sayısı | kendi belleği |
-| kendi saati | düğümler arası senkron değil (§3.2) |
-| son iletiminin sonucu | onay geldi · zaman aşımı |
-| gönderdiği ve aldığı bayt | kendi sayaçları |
+| `dugum` | kendi adresi (802.11 MAC adresi) |
+| `saat_s` | kendi saati — ofset ve sapmalı (§3.2) |
+| `olculen_gurultu_w` | anteninde ölçülen gürültü + girişim gücü (sürücünün gürültü tabanı raporu). Mutlak değeri serbest bir ölçek (K-110 EK-4): sezim oranla ya da değişimle yapılır, mutlak eşikle değil |
+| `kanal_mesgul_mu` | CCA göstergesi (G2: mod 1/2/3; güç kipinde önbelge kilidi ya da ED, K-174) |
+| `kuyruk_uzunlugu` · `kuyruk_kapasitesi` | kendi arayüz kuyruğu |
+| `son_iletim_sonucu` · `son_iletim_hedefi` | MAC'in gönderim durumu raporu: onay · zaman aşımı. "Cevap gelmedi" bir gözlemdir, bayta mal olmaz |
+| `gonderilen_bayt` · `alinan_bayt` | arayüz bayt sayaçları |
+| `komsular` | yalnız alınan beacon'lardan (§3.5) |
+| `paket` | karar verilen paketin başlığı (§3.3) |
 
-"Cevap gelmedi" bir bilgi yokluğu değil, bir gözlemdir ve bayta mal olmaz.
+Yeni beş alan (GPS/INS ve telsiz sayaçları) §3.3b'de, çerçeve başına RSSI §3.3a'da.
 
-Bu simülatörde gürültünün **mutlak** değeri serbest bir ölçektir (K-110 EK-4):
-karıştırmayı mutlak bir eşikle sezen protokol, fizikte karşılığı olmayan bir
-sayıya dayanır. Sezim oranla ya da değişimle yapılır.
+**3.2 Saat senkronu yok:** saatler ofset ve sapmayla ayrışır (taktik ağda GPS senkronu varsayılamaz). Tek yönlü gecikme ölçülemez; **gidiş-dönüş süresi** ve kendi kuyruğundaki bekleme ölçülür. Gecikme terimli maliyet gidiş-dönüşü kullanır. `dogum_s` bu yüzden pencerede yok — olsaydı iki düğüm saat farkını bedavaya öğrenirdi.
 
-### 3.2 Saat senkronu yok
+**3.3 Aldığı paketlerden:** başlıktaki her şey, üç koşulla — (1) her alan **bayt olarak ödenir** ve çerçeveyi uzatır, bedel kanalda da ödenir (K-111; kontrol mesajlarında `13` §02.1) · (2) bilgi gönderildiği anındır (bayat) · (3) paket kaybolabilir. Komşunun girişimi, kuyruğu, konumu ve hareketi ancak başlığa konup ödenirse gelir.
+- `bildirdigi_konum` **kaldırıldı** (K-131): koşucu hiç doldurmuyordu (110 605 komşu kaydının %100'ü `None`); doldurmak "konum beacon'da taşınır" kararını protokol adına vermek olurdu.
+- `kaynak_sira` **eklendi** (K-157, öğrenci): paketin kaynağın kendi ürettikleri arasındaki sırası; kimlik `(kaynak, kaynak_sira)`. Gerçek karşılığı IPv4 kimlik alanı ve DESPARETE'nin Data Sequence'i (`19` §4), başlıkla ödenir (`veri_baslik_bayt`). Gerekçe: onarım tamponundaki paketi tanımak (`21` §2.4 kotası, K-156). Küresel paket kimliği bilerek açılmadı — iki kimlik farkı bütün ağın ürettiğini söylerdi.
+- **Bilgi yokluğu sıfır değildir** (K-131): beacon'a konmayan alan komşu kaydında `None` döner, `0` değil.
 
-Düğüm saatleri ofset ve sapmayla ayrışır; gerçek taktik ağlarda da GPS
-senkronu varsayılamaz. Sonuç:
+**3.3a Çözdüğü her çerçeveden (K-172):** isteğe bağlı `cerceve_duyuldu` kancası — bana ya da başkasına adresli her çözülen çerçevenin gönderen komşusu (802.11 başlığındaki verici adresi), türü, adreslendiği düğüm, veri çerçevesinde paket başlığı ve RSSI (kilitlenilen güç + σ 2 dB hata, tamsayı dBm; σ SINANMAMIŞ, kaynak aranıyor). Gerçek karşılığı: telsizin izleme kipi ve sürücünün çerçeve başına RSSI raporu. Niyet döndürmez; karıştırıcı çerçevesi gelmez. "Bu paket bana hangi komşudan geldi" bilgisi buradan gelir.
 
-| | |
-|---|---|
-| ölçülemez | tek yönlü gecikme (iki farklı saat gerekir) |
-| ölçülebilir | **gidiş-dönüş süresi** (gönderim → onay, tek saatle) · kendi kuyruğunda bekleme süresi |
+**3.3b Kendi GPS/INS'i ve telsiz sayaçları (K-179):**
 
-Gecikme terimi kullanan bir maliyet fonksiyonu gidiş-dönüş süresini kullanır.
+| alan | gerçek karşılığı | model |
+|---|---|---|
+| `kendi_konum` · `kendi_hiz` | otopilotun GPS/INS çözümü | gerçek + hata: yatay 1,5 m CEP (G7), dikey σ 2 m, hız σ 0,1 m/s (ikisi SINANMAMIŞ), 1 Hz dilimde sabit |
+| `mesgul_sure_s` | sürücünün "channel busy time" sayacı (802.11k kanal yükü) | CCA'nın meşgul kaldığı toplam süre, olay güdümlü tam integral; yalnız `kanal_dolulugu_ister` diyen protokole, ötekinde `None` |
+| `phy_hata` | CRC hatalı çerçeve sayacı | kilitlenip gövdesi çözülemeyen çerçeve. Önbelgesi hiç kilitlenmeyen uzak zayıf çerçeveler sayılmaz — gerçek telsiz onları sezmez |
+| `alinan_cerceve` | alınan çerçeve sayacı | başarıyla çözülen her çerçeve |
 
-### 3.3 Aldığı paketlerden
+Komşunun konumu ve hareketi hâlâ YOK — yalnız bedeli ödenmiş mesajla (§3.3). Sızıntı sınavı korunur: beş alanın hiçbiri karıştırıcının yerini, gücünü ya da açık/kapalı durumunu doğrudan taşımaz. `mesgul_sure_s` karıştırıcının **enerjisini** içerir; bunu gerçek telsiz de ölçer.
 
-Başlıkta yazan her şey okunabilir, üç koşulla:
+**3.4 Kendi geçmişinden:** yukarıdakilerin her türlü işlenmiş hâli (ortalama, sayaç, tahmin, tablo).
 
-1. Başlıktaki her alan **bayt olarak ödenir** ve çerçeveyi uzatır — bedel
-   yalnız sayaçta değil **kanalda da** ödenir (K-111; kontrol mesajlarında
-   `13` §02.1).
-2. Bilgi **bayattır**: gönderildiği andaki hâline aittir.
-3. Paket **kaybolabilir**.
-
-Komşusunun girişim seviyesini ya da kuyruk durumunu kullanmak isteyen
-protokol, o alanları başlığa koyar ve bedelini öder. Konum ve hareket
-bilgisi de böyledir: pencereye bedava gelmez.
-
-🔴 **`bildirdigi_konum` alanı 16 Eylül 2026'da KALDIRILDI (K-131).** Sözleşme
-onu *"3B, bedeli otomatik faturalanır"* diye anlatıyordu ama koşucu onu hiç
-doldurmuyordu: ölçüldü, 110 605 komşu kaydının **%100'ünde** `None`. Belge bir
-yetenek anlatıyor, kod vermiyordu. Doldurmak yerine kaldırıldı — çünkü
-doldurmak, *"konum beacon'da taşınır"* kararını protokol adına simülatörün
-vermesi olurdu. Konum isteyen protokol onu yukarıdaki yoldan taşır ve öder.
-
-🟢 **`kaynak_sira` alanı 23 Eylül 2026'da EKLENDİ (K-157, öğrenci kararı).**
-Paketin, kaynağın KENDİ ürettiği paketler arasındaki sırası (0'dan). Paketin
-kimliği böylece `(kaynak, kaynak_sira)` olur. *Gerçek bir telsiz bunu bilir
-mi?* Evet: IPv4 başlığının kimlik alanı ve DESPARETE'nin DATA başlığındaki
-Data Sequence (`19` §4) tam olarak budur ve başlıkla birlikte ÖDENİR
-(DESPARETE'de 36 baytın içinde, `veri_baslik_bayt`). Neden gerekti: DESPARETE
-onarım tamponundaki paketi yeniden sorulduğunda tanımalı — alan başına kota
-(`21` §2.4) ancak böyle sayılır (K-156 §3).
-🔒 Simülatörün KÜRESEL paket kimliği bilerek AÇILMADI: iki paketin küresel
-kimlik farkı, aradaki sürede BÜTÜN AĞDA kaç paket üretildiğini söylerdi —
-hiçbir telsizin bilemeyeceği bir kâhin bilgisi. Kaynak başına sıra yalnız
-kaynağın kendi trafiğini söyler.
-
-🔴 **Bilgi yokluğu sıfır değildir (K-131).** Bir protokol bir alanı beacon'a
-koymazsa komşu kaydında o alan **`None`** döner, `0` değil. Önceden `0`
-dönüyordu ve *"ölçtü, sıfır buldu"* ile *"hiç koymadı"* ayrışmıyordu; bu,
-projenin her yerinde uygulanan `None ≠ 0` kuralının tek istisnasıydı.
-
-### 3.4 Kendi geçmişinden
-
-Yukarıdakilerin her türlü işlenmiş hâli: ortalamalar, sayaçlar, tahminler,
-tablolar.
-
-### 3.5 Komşu listesi — en kolay kaçırılan kâhin
-
-Komşu, **yalnız yakın geçmişte beacon'ı alınmış** düğümdür. Menzil
-hesabından ya da konumlardan türetilmiş hazır bir liste verilmez. Sonuçları:
-
-1. Beacon bayta sayılır — komşu bilmek bedava değildir.
-2. Karıştırma altında beacon da kaybolur ve komşu görünmez olur; gerçek bir
-   telsizde de böyledir.
-3. t = 0'da hiçbir düğüm hiçbir komşusunu bilmez.
-
-Komşu listesi bedava verilseydi protokol karıştırma altında *"o düğüm hâlâ
-orada"* bilgisini ücretsiz alırdı; bu, karıştırmanın en temel etkisini iptal
-ederdi.
-
----
+**3.5 Komşu listesi — en kolay kaçırılan kâhin:** komşu yalnız **yakın geçmişte beacon'ı alınmış** düğümdür; menzilden ya da konumdan hazır liste verilmez. Beacon bayta sayılır · karıştırmada beacon da kaybolur, komşu görünmez olur · t = 0'da kimse kimseyi bilmez. Bedava liste, karıştırmanın en temel etkisini ("o düğüm hâlâ orada") iptal ederdi.
 
 ## 4 · Göremeyecekleri
 
 | görmez | neden |
 |---|---|
-| karıştırıcının konumu, gücü, açık olup olmadığı | hiçbir telsiz bunu bilmez; gürültüyü hisseder, kaynağını görmez |
-| diğer düğümlerin konumu | ancak bir pakette geldiyse ve bedeli ödendiyse |
-| ağın gerçek topolojisi | hiçbir düğümde bütünsel görüntü yoktur |
-| bir bağın gerçek kalitesi | yalnız kendi denemelerinden çıkardığı tahmin kullanılır |
-| gerçek en kısa yol | simülatörün bilgisidir |
+| karıştırıcının konumu, gücü, açık olup olmadığı | telsiz gürültüyü hisseder, kaynağını görmez |
+| diğer düğümlerin konumu · başka düğümün tablosu/durumu | ancak ödenmiş bir paketle |
+| gerçek topoloji · gerçek en kısa yol · bir bağın gerçek kalitesi | simülatörün bilgisi; protokol kendi tahminini kullanır |
 | bir paketin ileride teslim edilip edilmeyeceği | geleceğe bakmak |
-| başka bir düğümün tablosu ya da durumu | ancak paketle geldiyse |
-| simülatörün olay kuyruğu, tohumu, iç durumu | hiçbir koşulda |
-| menzil içindeki düğümlerin listesi | komşuluk ölçülür, verilmez (§3.5) |
-| bir komşunun hâlâ hayatta olduğu | beacon gelmiyorsa komşu yoktur |
-
-Simülatörün belleğindeki "gerçek ETX" gibi değerlere protokol dokunamaz;
-yalnız teşhis ve analiz kodu okur ve okuduğu şey rapora girer, karara değil.
-
----
+| olay kuyruğu, tohum, simülatör iç durumu | hiçbir koşulda |
+| menzil içindeki düğümler · komşunun hâlâ hayatta olduğu | komşuluk ölçülür; beacon gelmiyorsa komşu yoktur |
+| bir komşunun düştüğü (vurulma, arıza — K-180) | haber verilmez; protokol onu sessizliğinden anlar (K-180) |
 
 ## 5 · Nasıl zorlanıyor
 
-- **Yapısal ayrım:** protokol simülatör nesnesini görmez; donmuş bir görünüm
-  alır. `protokoller/` paketi yalnız `gozlem/`i içe aktarabilir.
-- **Otomatik test:** görünümün yüzeyi taranır; izin listesinin dışındaki bir
-  alan testi kırar. Bugünkü yüzey **12 gözlem + 6 komşu + 6 paket = 24
-  alan**dır (`13` §04). *(24 → 23: `bildirdigi_konum` kaldırıldı, K-131 ·
-  23 → 24: `kaynak_sira` eklendi, K-157.)*
-- **Pencere artık HER KANCADA sunuluyor (K-131).** Gözlem 16 Eylül 2026'ya
-  kadar TEK bir yerde üretiliyordu: veri gönderme kararı. Kontrol düzleminin
-  beş kancası, `beacon_yuku` ve `beacon_alindi` gözlem almıyordu. Yüzey
-  BÜYÜMEDİ — değişen tek şey, pencerenin ne zaman sunulduğudur.
-- **Geri referans yok:** kontrol düzleminin niyet tipleri de dahil hiçbir
-  görünüm simülatöre ulaşan bir nesne taşımaz (`13` P6).
+- **Yapısal ayrım:** protokol donmuş bir görünüm alır; `protokoller/` yalnız `gozlem/`i içe aktarabilir (kaçamaklar dâhil taranır — `tests2/test_kosum.py`).
+- **Yüzey testi:** izin listesi dışındaki alan testi kırar. Bugün **17 gözlem + 6 komşu + 6 paket = 29 alan** (K-131'de 23, K-157'de 24, K-179'da 29: B3'ün beş alanı).
+- **Pencere her kancada sunulur** (K-131): önceden yalnız veri gönderme kararında üretiliyordu. Yüzey büyümedi; değişen sunulma anı.
+- **Geri referans yok:** niyet tipleri dâhil hiçbir görünüm simülatöre ulaşan nesne taşımaz (`13` P6).
 
----
+## 6 · Karıştırma sezimi ve taban protokoller
 
-## 6 · Bugünkü kullanım ve Aşama 2'de dikkat edilecekler
+Sezim için gereken alanlar: ölçülen gürültü · son iletim sonucu · kanal meşguliyeti · duyulan beacon · son duyulma anı · kuyruk uzunluğu. K-111'de (koşum aletleri ve kâhinler) hiçbiri okunmuyordu. İkisi 16 Eylül'e kadar kullanılamazdı (K-131): `kanal_mesgul_mu` karar anlarının yalnız %2,17'sinde `True` idi (gözlem kanalın boş bulunduğu anda üretiliyordu) ve protokol ölçtüğü gürültüyü beacon'a koyamıyordu — kancalara gözlem verilmesi ikisini açtı.
 
-Depodaki koşum aletleri ve kâhinler — sayıldığı tarihte (K-111), yüzey henüz
-23 alanken — yalnız **5** alan okuyordu.
-Karıştırma sezimi için gereken alanların (ölçülen gürültü, son iletim sonucu,
-kanal meşguliyeti, duyulan beacon, son duyulma anı, kuyruk uzunluğu) hiçbiri
-henüz okunmuyor.
-
-🔴 **İkisi 16 Eylül 2026'ya kadar kullanılamaz durumdaydı (K-131).**
-`kanal_mesgul_mu` yapısal olarak neredeyse sabitti — ölçüldü, 24 558 karar
-anının yalnız **%2,17**'sinde `True` — çünkü gözlem tam da düğümün kanalı
-BOŞ BULDUĞU anda üretiliyordu. Ve protokol kendi ölçtüğü gürültüyü beacon'a
-koyamıyordu, çünkü koyarken ölçemiyordu. Kancalara gözlem verilmesi ikisini
-de açtı; Aşama 3'ün tasarım uzayı farkında olmadan daraltılmış durumdaydı. *(K-111 §5; yöntem: `protokoller/` ve kâhin modülünde AST
-nitelik adı taraması — okunan sayı için üst sınırdır; çalıştırılabilir bir
-komut olarak kaydedilmedi.)* Bu bir kusur değil, protokollerin henüz
-yazılmadığının göstergesidir.
-
-Taban protokoller bu sözleşmeye şu yerlerde basacak:
-
-| protokol | riskli yer | ilgili madde |
-|---|---|---|
-| AODV · AOMDV | RREQ/RREP ağ çapında dolaşır; ara düğüm paketin taşıdığından fazlasını çıkarmamalı | §3.3 — başlıktaki her alan ödenir |
-| OLSR | MPR seçimi iki atlamalık komşuluk ister; bu bilgi yalnız HELLO'lardan gelmeli | §3.5 — komşuluk ölçülür |
-| hepsi | rota tablosu kendi geçmişinden kurulur | §3.4 |
-
----
+Taban protokollerin sözleşmeye bastığı yerler: AODV/AOMDV RREQ/RREP'te ara düğüm paketin taşıdığından fazlasını çıkarmaz (§3.3) · OLSR MPR seçimi iki atlamalık komşuluğu yalnız HELLO'dan alır (§3.5) · hepsi rota tablosunu kendi geçmişinden kurar (§3.4).
 
 ## 7 · Değişiklik yolu
 
-Bir protokol yeni bir alana ihtiyaç duyarsa:
+Yeni alan gerekirse: (1) önce bu belgeye gerekçesiyle ("gerçek telsiz ölçebilir mi?") · (2) `04`e karar kaydı · (3) önceki sonuçların geçerliliği ölçülür. Daraltma o güne kadarki ölçümleri, genişletme eski-yeni karşılaştırılabilirliğini etkiler; ikisi de kayıtla.
 
-1. Alan önce bu belgeye gerekçesiyle yazılır: gerçek bir telsiz bunu
-   ölçebilir mi?
-2. `04`e karar kaydı düşülür.
-3. Önceki sonuçların hâlâ geçerli olup olmadığı ölçülür.
+## 8 · Teşhis kanalı — ayrı
 
-Daraltma o güne kadarki ölçümleri, genişletme ise eski ve yeni sonuçların
-karşılaştırılabilirliğini etkiler; ikisi de bu yüzden kayıtla yapılır.
+Simülatörün her şeyi bilen tarafı gerçek değerleri (gerçek bağ kalitesi, fiziksel kopma, kararın bilgi yaşı…) yalnız teşhis ve rapor için okur.
 
----
-
-## 8 · Teşhis sayaçları — ayrı kanal
-
-Simülatörün her şeyi bilen tarafı gerçek değerleri (gerçek bağ kalitesi,
-fiziksel kopma, karar anındaki bilginin yaşı…) teşhis ve rapor için okur;
-bunlar karara girmez.
-
-> Aynı büyüklüğün **gerçek değeri** yalnız rapora, **protokolün tahmini**
-> yalnız karara gider. Kod incelemesinde ilk bakılacak yer burasıdır.
-
----
+> Aynı büyüklüğün **gerçek değeri** yalnız rapora, **protokolün tahmini** yalnız karara gider. Kod incelemesinde ilk bakılacak yer burasıdır.
 
 ## 9 · Sonuç satırı
 
-Her koşu tam konfigürasyonunu, tohumunu, kod özetini, korunum sonucunu ve
-ölçüm penceresini taşır; satır anında diske yazılır. Korunumu tutmayan satır
-geçersiz işaretlenir.
+Her koşu tam konfigürasyonunu, tohumunu, kod özetini, korunum sonucunu ve ölçüm penceresini taşır; anında diske yazılır. Korunumu tutmayan satır geçersiz işaretlenir.

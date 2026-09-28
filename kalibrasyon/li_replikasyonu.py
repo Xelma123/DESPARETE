@@ -24,6 +24,11 @@ verimsizliğidir.
 `senaryolar.py` büyümez, ön-kayıtta bir aile değildir. Kendi dünyasını
 burada kurar.
 
+🔒 FAZ 4 (K-183) — `--dunya referans_2026`: aynı düzenek referans dünyanın
+telsiziyle (1:1, işlem kazancı, güç kipi taşıyıcı dinleme, ARF, yayılım
+gecikmesi). Aralık yine `iletim_menzili_m` (referansta 10 dB paylı nominal
+bağ, 1664 m); duyma kümesi kurulumla TEK türetimden (`duyma_turetimi`).
+
 🔴 KANALDA HİÇBİR ŞEY DEĞİŞMEZ. Aynı yayılım, aynı MAC, aynı girişim, aynı
 gölgeleme ve sönümleme. Zincir için ayarlanmış bir kanal hiçbir şey
 doğrulamaz — sınanan şey, deneyde kullanılan aletin ta kendisidir.
@@ -57,12 +62,14 @@ from sim2.gozlem.karar import Karar  # noqa: E402
 from sim2.kanal.cerceve import cerceve_kur  # noqa: E402
 from sim2.kanal.kanal import Kanal  # noqa: E402
 from sim2.kosum.kosu import Kosu  # noqa: E402
-from sim2.kosum.kurulum import Kurulum  # noqa: E402
+from sim2.kosum.kayip import olum_anlari  # noqa: E402
+from sim2.kosum.kurulum import Kurulum, duyma_turetimi  # noqa: E402
 from sim2.mac.dcf import DcfZamanlari  # noqa: E402
 from sim2.olcum.kayip_yeri import KayipYeri  # noqa: E402
 from sim2.olcum.paket_defteri import PaketDefteri  # noqa: E402
 from sim2.olcum.rota_olaylari import RotaDefteri  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402
 
 # 🔒 ÖN-KAYITLI BAND — `09-LI-REPLIKASYONU.md` §04, ölçümden ÖNCE ilan
 # edildi ve sonradan genişletilmeyecek.
@@ -161,7 +168,7 @@ def zincir_kurulumu(n: int, aralik_m: float, tohum: int, yuk_hz: float,
                     bitis_s: float, duyma_m: float | None = None,
                     **ek) -> Kurulum:
     """N düğümlü düz zincir; tek doygun akış `0 → N−1`."""
-    kfg = Konfig(kol="li", senaryo="statik-yok", tohum=tohum,
+    kfg = DS.konfig(kol="li", senaryo="statik-yok", tohum=tohum,
                  dugum_sayisi=n, akis_sayisi=1,
                  # 🔒 Mufreze sayisi dugum sayisini asamaz (Konfig kapisi).
                  # Statik zincirde mobilite yok, deger davranisa girmiyor —
@@ -209,8 +216,14 @@ def zincir_kurulumu(n: int, aralik_m: float, tohum: int, yuk_hz: float,
         # 🔴 KİM KİMİ DUYAR — varsayılan `girisim_menzili_m`dir ve BU BİR
         # TASARIM KARARIDIR, fizik değil: taşıyıcı dinleme eşiği GÜRÜLTÜ
         # TABANI seçilmiş. `duyma_m` bunu taramak için var (bölüm D).
-        duyanlar_menzili_m=(kfg.girisim_menzili_m if duyma_m is None
-                            else duyma_m),
+        # 🔴 26 Eylül 2026 (K-183) — AYNI KUSUR İKİNCİ KEZ: A5/C1'in alanları
+        # eksikti, zincir yine KURULAMIYORDU. Aşağıdaki "ifade aynı tutulur"
+        # notu yetmedi, çünkü formül KOPYAYDI. Artık türetim kurulumla TEK
+        # (`duyma_turetimi`) ve bir duman testi aracı her takımda kurar.
+        **dict(zip(("duyanlar_menzili_m", "maks_gecikme_s"),
+                   duyma_turetimi(kfg, beacon, duyma_m))),
+        yayilim_gecikmeli=kfg.yayilim_gecikmesi,
+        olum_anlari=olum_anlari(kfg),
         # 🔴 15 Eylül 2026'da EKLENDİ — bu alet bunsuz ÇÖKÜYORDU.
         # `Kurulum`a `kayip_yeri` bir yapı adımında eklendi; bu dosya
         # zincir topolojisini KENDİ kurduğu için imza değişikliğini
@@ -275,7 +288,7 @@ def a_aralik(isci: int = 8) -> float:
     from sim2.kanal.cerceve import cerceve_kur as _cer
     _baslik("A - DUGUM ARALIGI  (turetilmis: guc capasi; kapi: her bag >= 0,99)")
     n = 11
-    aralik = Konfig(kol="li").iletim_menzili_m
+    aralik = DS.konfig(kol="li").iletim_menzili_m
     print(f"  aralik = iletim_menzili_m = {aralik:.0f} m  (turetilmis capa)")
     print()
     print(f"  {'kanal':<28} {'en kotu bag':>12} {'ortalama':>10} {'kapi':>8}")
@@ -436,7 +449,7 @@ def d_duyma_menzili(aralik_m: float, isci: int = 8) -> None:
     print("     ters orantili → UZAMSAL YENIDEN KULLANIM YOK.")
     print("  🔴 Supheli: duyma menzili / iletim menzili = 6,3 (Li ~2 varsayar)")
     print()
-    kfg = Konfig(kol="li")
+    kfg = DS.konfig(kol="li")
     catlar = (1.0, 1.5, 2.0, 3.0, 4.5, 6.31)
     gorevler = []
     for c in catlar:
@@ -470,6 +483,8 @@ def d_duyma_menzili(aralik_m: float, isci: int = 8) -> None:
 
 if __name__ == "__main__":
     # 🔒 Windows `spawn` korumasi — calisma kurali 11.
+    DS.secimi_oku()                         # Faz 4 (K-183): --dunya
+    print(f"  DUNYA: {DS.secili()}")
     aralik = a_aralik()
     if aralik is None:
         raise SystemExit(1)

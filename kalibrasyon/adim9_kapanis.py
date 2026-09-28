@@ -55,6 +55,7 @@ from sim2.kosum.kosu import Kosu  # noqa: E402
 from sim2.kosum.kurulum import kurulum_yap  # noqa: E402
 from sim2.kosum.sonuc import SatirYazici, sonuc_satiri  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 from sim2.yapilandirma.senaryolar import KARISTIRICI_SINIFLARI  # noqa: E402
 
 CIKTI = KOK / "ciktilar2" / "adim9_kapanis.jsonl"
@@ -70,7 +71,7 @@ def _kos(senaryo, protokol, tohum, bitis=None, **ek):
     if bitis is not None:
         ek.update(isinma_s=0.2 * bitis, olcum_bitis_s=0.8 * bitis,
                   kosu_bitis_s=bitis)
-    konfig = Konfig(kol="adim9", senaryo=senaryo, tohum=tohum, **ek)
+    konfig = DS.konfig(kol="adim9", senaryo=senaryo, tohum=tohum, **ek)
     # 🔴 KAPI: karıştırıcı devreye girmeden biten bir koşu, karıştırıcıyı
     # ÖLÇMÜŞ SAYILMAZ. Bu betiğin iki bölümü tam olarak bu yüzden sessizce
     # boşalmıştı; kapı olmasa üçüncüsü de aynı yoldan geçerdi.

@@ -47,6 +47,7 @@ from dataclasses import dataclass
 from sim2.cekirdek.degismezler import asla, dogrula
 from sim2.cekirdek.rng import hash_cekimi
 from sim2.cekirdek.sayaclar import kume_uyeleri
+from sim2.kanal.cerceve import cerceve_kur
 from sim2.kanal.girisim import Iletim
 from sim2.kanal.kanal import Kanal
 from sim2.yapilandirma.konfig import Konfig
@@ -74,6 +75,9 @@ class AlimSonucu:
     iletim: Iletim
     t_s: float
     yakalama: bool = False
+    # Başarılı alımda alıcının kilitlendiği güç (W) — RSSI'ın kaynağı
+    # (`v2/15` B2). Başarısız sonuçta 0; alım kararına girmez.
+    guc_w: float = 0.0
 
     @property
     def basarili(self) -> bool:
@@ -88,7 +92,8 @@ class AliciZinciri:
     """
 
     __slots__ = ("dugum", "konfig", "kanal", "_kilitli", "_kilit_ani_s",
-                 "_kilit_gucu_w", "_gonderiyor")
+                 "_kilit_gucu_w", "_gonderiyor", "_bos_bas_s", "_sahte",
+                 "_kilitli_s")
 
     def __init__(self, dugum: int, konfig: Konfig, kanal: Kanal) -> None:
         dogrula(0 <= dugum, "düğüm numarası negatif olamaz")
@@ -99,8 +104,20 @@ class AliciZinciri:
         self._kilit_ani_s = 0.0
         self._kilit_gucu_w = 0.0
         self._gonderiyor = False
+        # 🔒 A6 (K-176) — alıcının boşa çıktığı son an ve aldatıcının sahte
+        # çerçevesinin biçimi (kilit PER'i için; yalnız gerçekçide).
+        self._bos_bas_s = 0.0
+        # C3 (K-180): kilitli geçen toplam süre.
+        self._kilitli_s = 0.0
+        self._sahte = (cerceve_kur(konfig, "veri")
+                       if konfig.karistirici_gercekci else None)
 
     # ------------------------------------------------------------- durum
+    @property
+    def kilitli_iletim(self) -> Iletim | None:
+        """Alıcının kilitlendiği çerçeve — A3 önbelge sezmesi (K-174)."""
+        return self._kilitli
+
     @property
     def durum(self) -> str:
         if self._kilitli is None:
@@ -109,10 +126,6 @@ class AliciZinciri:
             self._kilitli.baslangic_s)[1]
         return "onbelge_kilidi" if self._kilit_ani_s < bitis_onbelge \
             else "govde_aliyor"
-
-    @property
-    def kilitli_iletim(self) -> Iletim | None:
-        return self._kilitli
 
     @property
     def gonderiyor(self) -> bool:
@@ -132,12 +145,17 @@ class AliciZinciri:
         """
         dusen = None if self._kilitli is None else AlimSonucu(
             "alim_red_yari_cift", self._kilitli, t_s)
+        if self._kilitli is not None:
+            self._kilitli_s += t_s - self._kilit_ani_s          # C3
         self._gonderiyor = True
         self._kilitli = None
         return dusen
 
-    def gonderim_bitti(self) -> None:
+    def gonderim_bitti(self, t_s: float | None = None) -> None:
         self._gonderiyor = False
+        # A6: yayın sırasında başlayan sahte çerçevenin başı kaçırılmıştır.
+        if t_s is not None:
+            self._bos_bas_s = t_s
 
     # ------------------------------------------------- rastgelelik (durumsuz)
     def _cekim(self, etiket: str, gonderen: int, t_s: float) -> float:
@@ -188,6 +206,9 @@ class AliciZinciri:
 
         # ---------------------------------------------------------- boşta
         if self._kilitli is None:
+            # 🔒 A6: aldatıcının sahte çerçevesine kilitliyse alınamaz.
+            if self.sahte_kilitli_mi(t_s, yeni_guc):
+                return AlimSonucu("alim_red_mesgul", iletim, t_s), None
             if not kilitlenebilir:
                 return AlimSonucu("alim_red_onbelge", iletim, t_s), None
             self._kilitle(iletim, t_s, yeni_guc)
@@ -209,17 +230,68 @@ class AliciZinciri:
         """
         if self._kilitli is None or self._kilitli is not iletim:
             return None
+        self._kilitli_s += t_s - self._kilit_ani_s              # C3
         self._kilitli = None
+        self._bos_bas_s = t_s
         govde_hata = self.kanal.alim_per(
             iletim.gonderen, self.dugum, iletim.cerceve, iletim.baslangic_s,
             verici_w=iletim.guc_w)
         if self._cekim("govde", iletim.gonderen,
                        iletim.baslangic_s) < govde_hata:
             return AlimSonucu("alim_red_per", iletim, t_s)
-        return AlimSonucu("alim_basarili", iletim, t_s)
+        return AlimSonucu("alim_basarili", iletim, t_s,
+                          guc_w=self._kilit_gucu_w)
+
+    # ---------------------------------------- C1 · C3 (K-180)
+    def kapat(self, t_s: float) -> None:
+        """Düğüm öldü: telsiz kapanır; açık kilit o anda biter."""
+        if self._kilitli is not None:
+            self._kilitli_s += t_s - self._kilit_ani_s
+        self._kilitli = None
+
+    def kilitli_sure_s(self, t_s: float) -> float:
+        """Kilitli geçen toplam süre — `t_s`e kadar açık kilit dâhil."""
+        acik = 0.0 if self._kilitli is None else t_s - self._kilit_ani_s
+        return self._kilitli_s + acik
+
+    # ---------------------------------------- A6 · aldatıcı kilidi (K-176)
+    def sahte_kilitli_mi(self, t_s: float,
+                         yeni_guc_w: float | None = None) -> bool:
+        """Alıcı şu an aldatıcının sahte çerçevesine KİLİTLİ mi — tembel model.
+
+        Her sahte çerçeve için olay üretmek (saniyede ~400 çerçeve × düğüm)
+        yerine sorulduğu anda hesaplanır: çerçevenin BAŞINDA alıcı boştaydı
+        (`_bos_bas_s` ≤ başlangıç, yayında değil) ve önbelgesi o anki SNR ile
+        önbelge PER'ini geçti (hash, `kanal_karar` alanı `sahte` anahtarı).
+        Gerçek çerçeve yakalama koşulunu sağlarsa sahteyi ezer.
+        ⚠️ Beyan: sahte önbelgenin PER'inde öteki girişim ihmal edilir; sahte
+        çerçevenin gerçek çerçeveyi ORTASINDAN yakalaması modellenmez (o
+        durumda sahte zaten SINR'da girişimdir).
+        """
+        k = self.kanal.karistirici
+        if (self._sahte is None or k is None or not k.csma_gorunur
+                or self._kilitli is not None or self._gonderiyor):
+            return False
+        konum = self.kanal.topoloji.konum(self.dugum, t_s)
+        for bas, guc_w, kimlik in k.sahte_cerceveler(self.dugum, konum, t_s):
+            if bas < self._bos_bas_s or guc_w <= 0.0:
+                continue
+            if (yeni_guc_w is not None and self.konfig.yakalama_etkisi_acik
+                    and yeni_guc_w >= 10.0 ** (self.konfig.yakalama_esigi_db
+                                               / 10.0) * guc_w
+                    and t_s - bas <= self.konfig.yakalama_penceresi_s):
+                continue
+            per = self.kanal.sahte_onbelge_per(self._sahte, guc_w)
+            if hash_cekimi("kanal_karar", self.konfig.tohum, kimlik,
+                           self.dugum, int(bas / self.konfig.kanal_dilimi_s),
+                           "sahte") >= per:
+                return True
+        return False
 
     # ------------------------------------------------------------- içsel
     def _kilitle(self, iletim: Iletim, t_s: float, guc_w: float) -> None:
+        if self._kilitli is not None:                           # C3: yakalama
+            self._kilitli_s += t_s - self._kilit_ani_s
         self._kilitli = iletim
         self._kilit_ani_s = t_s
         self._kilit_gucu_w = guc_w

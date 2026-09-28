@@ -40,6 +40,7 @@ from sim2.kanal.sonumleme import (BAGIL_HIZ_TABANI_MS,  # noqa: E402
                                   FIR_EN_COK_KATSAYI, Sonumleme)
 from sim2.kanal.yayilim import ISIK_HIZI  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 
 TOHUMLAR = range(1, 11)
 
@@ -86,7 +87,7 @@ def _tc_formul(v_ms: float, lam: float) -> float:
 
 
 def bolum_a_b():
-    k = Konfig(kol="kalib")
+    k = DS.konfig(kol="kalib")
     lam = ISIK_HIZI / k.frekans_hz
     cerceve = cerceve_kur(k, "veri")
     print("=" * 76)
@@ -120,7 +121,7 @@ def bolum_a_b():
     print(f"  OLCUT (ilan): parca suresi = T_c(p99) / 4")
     print(f"    T_c(p99) = {tc99*1e6:.0f} us -> parca = {tc99/4*1e6:.0f} us")
     print(f"    KONFIGDEKI deger : {k.sonumleme_parca_suresi_s*1e6:.0f} us")
-    son = Sonumleme(k, topoloji_kur(Konfig(kol="k", senaryo="bagimsiz-yok"),
+    son = Sonumleme(k, topoloji_kur(DS.konfig(kol="k", senaryo="bagimsiz-yok"),
                                     Akislar(1)))
     for tip in ("veri", "onay", "beacon"):
         c = cerceve_kur(k, tip)
@@ -135,7 +136,7 @@ def bolum_c():
     print("=" * 76)
     print("C - SONUMLEMENIN OLCULEN ISTATISTIGI")
     print("=" * 76)
-    k = Konfig(kol="kalib")
+    k = DS.konfig(kol="kalib")
     lam = ISIK_HIZI / k.frekans_hz
     k_lin = 10.0 ** (k.rician_k_db / 10.0)
     beklenen_var = (1.0 + 2.0 * k_lin) / (1.0 + k_lin) ** 2
@@ -169,7 +170,7 @@ def bolum_d():
     print("=" * 76)
     print("D - MALIYET  (risk 1: pay %15'i asarsa memo zorunlu)")
     print("=" * 76)
-    k = Konfig(kol="kalib", senaryo="bagimsiz-yok")
+    k = DS.konfig(kol="kalib", senaryo="bagimsiz-yok")
     top = topoloji_kur(k, Akislar(1))
     cerceve = cerceve_kur(k, "veri")
     son = Sonumleme(k, top)

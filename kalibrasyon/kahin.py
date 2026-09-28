@@ -99,6 +99,8 @@ from sim2.dunya.geometri import mesafe  # noqa: E402
 from sim2.gozlem.karar import Karar  # noqa: E402
 from sim2.kanal.cerceve import cerceve_kur  # noqa: E402
 from sim2.kanal.tehdit import en_buyuk_hiz_ms  # noqa: E402
+from sim2.kanal.yayilim import dbm_to_w  # noqa: E402
+from sim2.yapilandirma.konfig import HIZLAR_BPS  # noqa: E402
 
 __all__ = ["KanalGrafigi", "EnKisaYolKahin", "EnGuvenilirKahin",
            "ATLAMA_ESIGI", "dilim_suresi_s", "SONUMLEME_ORNEGI",
@@ -165,21 +167,40 @@ class KanalGrafigi:
     """
 
     __slots__ = ("kur", "dilim_s", "_dilim", "_komsu", "_etx", "_donuk",
-                 "_veri", "_onay", "_kesme_m", "_ornek")
+                 "_veri", "_onay", "_kesme_m", "_ornek", "_ed_w", "_imza")
 
     def __init__(self, kur, dilim_s: float | None = None) -> None:
         self.kur = kur
         self.dilim_s = (dilim_suresi_s(kur.konfig)
                         if dilim_s is None else dilim_s)
         self._dilim = -1
+        self._imza: tuple | None = None
         self._komsu: list[list[int]] = []
         self._etx: list[dict[int, float]] = []
         self._donuk = not kur.topoloji.hareketli
-        self._veri = cerceve_kur(kur.konfig, "veri")
-        self._onay = cerceve_kur(kur.konfig, "onay")
+        k = kur.konfig
+        # 🔒 Faz 4.0 (K-183) · HIZ UYARLAMASI: bağ ARF'nin TABANINDA (en
+        # düşük hız) ölçülür — zayıf bağ gerçekte oraya iner ve ayakta kalır
+        # (K-181 ayrıştırması: MAC vazgeçmesi 135 → 0). Kâhin "her şeyi
+        # bilir"; bağın taşıyabileceği en güvenilir hızı da bilir.
+        self._veri = cerceve_kur(k, "veri", hiz_bps=(
+            min(HIZLAR_BPS) if k.hiz_uyarlamasi else None))
+        self._onay = cerceve_kur(k, "onay")
+        # 🔒 Faz 4.0 (K-183) · ED SUSTURMASI (güç kipi, A3): karıştırıcıdan
+        # aldığı enerji ED eşiğini aşan verici kanalı ALAMAZ — i→j bağı yok.
+        # Onay kanal dinlemeden SIFS sonra gider; yalnız verici kilitlenir,
+        # grafik YÖNLÜ olur. Geometrik kipte `None` ve grafik birebir eski.
+        # ⚠️ Beyan: eski dünyada (geometrik kip) aldatıcının CSMA susturması
+        # da kâhinde yoktu; o dünya artık deneyde kullanılmıyor, değişmedi.
+        self._ed_w = (dbm_to_w(k.ed_esigi_dbm)
+                      if k.tasiyici_dinleme == "guc" else None)
         # Bu mesafenin ötesinde SINR gürültü tabanının altında; bağ olamaz.
         # Girişim menzili tam olarak o sınırdır ve konfigden TÜRETİLİR.
-        self._kesme_m = kur.konfig.girisim_menzili_m
+        # 🔒 K-183: simülatörün DUYMA KÜMESİYLE aynı sınır — işlem kazancıyla
+        # ×çarpan^(1/α) genişler (referansta ~28 km; 1 Mb/s bağı ~7,4 km'ye
+        # uzanır, girişim menzili 5,97 km'de kesseydi kâhin onları atardı).
+        # Kazanç kapalıyken çarpan 1 → birebir eski sınır.
+        self._kesme_m = kur.duyanlar_menzili_m
         self._ornek = SONUMLEME_ORNEGI
 
     # ------------------------------------------------------------ bağ kalitesi
@@ -219,6 +240,8 @@ class KanalGrafigi:
         for adim in range(ornek):
             t = t_s + adim * SONUMLEME_ADIMI_S
             t2 = t + self._veri.sure_s
+            if self._susturulmus_mu(i, t):
+                continue                    # K-183: verici kanalı alamaz
             # 🔴 KARIŞTIRICI PAYDAYA GİRER — 8 Eylül 2026.
             # Eskiden girmiyordu ve kâhin karıştırılan bölgeyi GÖRMÜYORDU:
             # etrafından dolaşmıyor, içinden geçiyordu. Bir TAVAN aleti için
@@ -234,6 +257,22 @@ class KanalGrafigi:
                        * (1.0 - kanal.kahin_per(self._onay, sinr_onay)))
         return toplam / ornek
 
+    def _susturulmus_mu(self, i: int, t_s: float) -> bool:
+        """K-183 · Güç kipinde verici `i` karıştırıcı yüzünden kanalı
+        alamıyor mu — `Dugum._guc_mesgul_mu`nun karıştırıcı dalıyla aynı
+        kural: ED eşiği ya da görünür (aldatıcı) önbelge gürültünün üstünde.
+        Öteki iletimler sayılmaz (girişim kasten dışarıda, yukarıda)."""
+        if self._ed_w is None:
+            return False
+        kar = self.kur.kanal.karistirici
+        if kar is None:
+            return False
+        konum = self.kur.topoloji.konum(i, t_s)
+        if (kar.csma_guc_w(i, konum, t_s)
+                > self.kur.kanal.yayilim.gurultu_w):
+            return True
+        return kar.alinan_guc_w(i, konum, t_s) >= self._ed_w
+
     def _kur(self, t_s: float) -> None:
         n = self.kur.dugum_sayisi
         top = self.kur.topoloji
@@ -245,6 +284,13 @@ class KanalGrafigi:
             for j in range(i + 1, n):
                 if mesafe(konum[i], konum[j]) > self._kesme_m:
                     continue
+                if self._ed_w is not None:
+                    # K-183: YÖNLÜ — iki yön ayrı ölçülür (susturma asimetrik)
+                    self._yon_ekle(i, j, self._tek_deneme_basarisi(i, j, t_s),
+                                   deneme)
+                    self._yon_ekle(j, i, self._tek_deneme_basarisi(j, i, t_s),
+                                   deneme)
+                    continue
                 p = self._tek_deneme_basarisi(i, j, t_s)
                 if p <= 0.0:
                     continue
@@ -254,6 +300,14 @@ class KanalGrafigi:
                 if 1.0 - (1.0 - p) ** deneme >= ATLAMA_ESIGI:
                     self._komsu[i].append(j)
                     self._komsu[j].append(i)
+
+    def _yon_ekle(self, i: int, j: int, p: float, deneme: int) -> None:
+        """K-183: tek yönlü bağ i→j (veri i'den, onay j'den)."""
+        if p <= 0.0:
+            return
+        self._etx[i][j] = min(1.0 / p, ETX_TAVANI)
+        if 1.0 - (1.0 - p) ** deneme >= ATLAMA_ESIGI:
+            self._komsu[i].append(j)
 
     def _tazele(self, t_s: float) -> None:
         # 🔴 "DONUK" KISAYOLU YALNIZ KARIŞTIRICISIZ KOLDA GEÇERLİ.
@@ -268,10 +322,34 @@ class KanalGrafigi:
             self._kur(t_s)
             return
         dilim = int(t_s / self.dilim_s)
-        if dilim == self._dilim:
+        imza = self._devrede_imzasi(t_s)
+        if dilim == self._dilim and imza == self._imza:
             return
         self._dilim = dilim
+        self._imza = imza
         self._kur(t_s)
+
+    def _devrede_imzasi(self, t_s: float) -> tuple:
+        """🔴 K-195 · KARIŞTIRICININ ÇİZELGESİ GRAFİĞİ YENİLER.
+
+        Dilim yalnız HAREKETTEN türüyordu (`dilim_suresi_s`); referans
+        dünyada 10 s'ye kırpılır. Karıştırıcının açılma anı ve yayın
+        çizelgesi (`derin_sizma`: 15 s açık · 15 s sessiz) dilimden bağımsız
+        değişir — kâhin geçişten sonra 10 s'ye kadar ESKİ karıştırma durumunu
+        görüyor, açık karıştırıcının içinden geçiyordu (birincil hücre
+        dumanında kâhin PDR 0,63; başarısız bağlarının %39'u o anda kötü).
+        Karıştırıcının `gecis_anlari`ı yalnız SINIF zamanlamasını (darbe,
+        tarama) verir, açılmayı ve çizelgeyi vermez; bu yüzden her üyenin
+        `devrede_mi` durumu okunur ve değişince grafik yeniden kurulur.
+        Karıştırıcısız kolda imza boştur — davranış birebir.
+        ⚠️ Sınıf içi hızlı zamanlama (darbe 2,7 s, tarama 0,1 s) bu imzaya
+        GİRMEZ; kâhin onları dilim anındaki anlık durumla görür (bugünkü
+        davranış, beyanlı)."""
+        kar = self.kur.kanal.karistirici
+        if kar is None:
+            return ()
+        return tuple(u.devrede_mi(t_s)
+                     for u in getattr(kar, "uyeler", (kar,)))
 
     # ------------------------------------------------------------- sorgular
     def en_kisa_yol_sonraki(self, kaynak: int, hedef: int) -> int | None:
@@ -344,6 +422,7 @@ class KanalGrafigi:
         ulasilan = 0
         bilinen: set[int] = set()
         bilesenler: list[int] = []
+        erisim: list[set[int]] = []
         for kaynak in range(n):
             gorulen = {kaynak}
             kuyruk = deque([kaynak])
@@ -354,6 +433,7 @@ class KanalGrafigi:
                         gorulen.add(v)
                         kuyruk.append(v)
             ulasilan += len(gorulen)
+            erisim.append(gorulen)
             if kaynak not in bilinen:
                 bilinen |= gorulen
                 bilesenler.append(len(gorulen))
@@ -363,10 +443,31 @@ class KanalGrafigi:
         # bilimsel olarak taban tabana zıttır: birincisi incelenen olgunun
         # kendisi, ikincisi ölçümü geçersiz kılan bir confound.
         cok_uyeli = sum(1 for b in bilesenler if b > 1)
+        # 🔴 K-186 — YÖNLÜ GRAFİKTE BFS KÜMELERİ BİLEŞEN DEĞİLDİR. Güç
+        # kipinde (ED susturması) susan düğümün yalnız GELEN bağı var; bir
+        # kaynaktan erişilen küme başkasınınkiyle üst üste biner ve
+        # `bilesenler` hem boyut hem sayı olarak yanıltır (en büyük %97,5
+        # iken "ikinci ≥ %10" okundu). Simetrik (eski dünya) grafikte ikisi
+        # birebir aynıdır. Doğru yapı GÜÇLÜ bağlı bileşenlerdir: iki yönlü
+        # haberleşebilen kümeler; susan düğüm tek başına bir bileşendir
+        # (boğulma).
+        atandi = [False] * n
+        guclu: list[int] = []
+        for u in range(n):
+            if atandi[u]:
+                continue
+            uye = [v for v in erisim[u] if u in erisim[v]]
+            for v in uye:
+                atandi[v] = True
+            guclu.append(len(uye))
+        guclu.sort(reverse=True)
         return {"derece": derece, "ulasilabilirlik": ulasilan / (n * n),
                 "en_buyuk_bilesen": max(bilesenler) / n if bilesenler else 0.0,
                 "cok_uyeli_bilesen": float(cok_uyeli),
-                "yalniz_dugum": float(sum(1 for b in bilesenler if b == 1))}
+                "yalniz_dugum": float(sum(1 for b in bilesenler if b == 1)),
+                # K-186: güçlü bağlı bileşenler — "büyük bölünme" ölçüsü
+                "gb_en_buyuk": guclu[0] / n,
+                "gb_ikinci": guclu[1] / n if len(guclu) > 1 else 0.0}
 
 
 class _KahinTabani:

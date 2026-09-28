@@ -25,6 +25,12 @@ her liste bayatlar. Birincisi de bir gün türetilebilir hâle gelmeli — ama
 "hız uyarlaması YOK" gibi bir cümlenin kodda karşılığı bir alan değil, bir
 YOKLUKTUR ve yokluk türetilemez.
 
+🔴 A8 (K-181) — YOKLUK ARTIK BİR ANAHTAR. Faz 1 (`v2/15` A2–A5) dört
+sınırı anahtarın arkasında modelledi, ama bu liste güncellenmedi: anahtarı
+açık koşular da "hız uyarlaması yok" diye YANLIŞ beyan ediyordu (tam olarak
+yukarıdaki uyarı). Artık `_ANAHTARLI` o sınırı satırın kendi konfiginden
+okur: anahtar açıksa sınır o satırda beyan edilmez.
+
 🔴 BURASI BİR MAZERET LİSTESİ DEĞİL. Her satır, o sınırın sonucu HANGİ YÖNE
 çektiğini söyler — çünkü "yayılma kazancı yok" demek yetmez; okuyucunun
 bilmesi gereken şey, bunun karıştırıcıyı olduğundan GÜÇLÜ gösterdiğidir.
@@ -32,9 +38,10 @@ bilmesi gereken şey, bunun karıştırıcıyı olduğundan GÜÇLÜ gösterdiğ
 
 from __future__ import annotations
 
-from sim2.yapilandirma.senaryolar import MOBILITE_THETA, bolunme_payi
+from sim2.yapilandirma.senaryolar import bolunme_payi, mobilite_theta
 
-__all__ = ["MODELLENMEYEN", "bu_kosumda_kapali", "kapsam_bolumu"]
+__all__ = ["MODELLENMEYEN", "modellenmeyen", "bu_kosumda_kapali",
+           "kapsam_bolumu"]
 
 # ===========================================================================
 # YAPISAL SINIRLAR — şartname §12'nin aynası
@@ -72,6 +79,21 @@ MODELLENMEYEN: tuple[tuple[str, str], ...] = (
      "CBR; gerçek telemetri patlamalıdır"),
 )
 
+# 🔒 A8 (K-181) — anahtarı AÇIK olan sınır o koşuda modellendi.
+_ANAHTARLI = {
+    "hiz_uyarlamasi": lambda k: k.hiz_uyarlamasi,             # A4 · K-177
+    "yayilma_kazanci": lambda k: k.islem_kazanci,             # A2 · K-173
+    "enerji_sezmeli_cca": lambda k: k.tasiyici_dinleme == "guc",  # A3 · K-174
+    "yayilim_gecikmesi": lambda k: k.yayilim_gecikmesi,       # A5 · K-175
+}
+
+
+def modellenmeyen(konfig) -> dict[str, str]:
+    """Bu satırın yapısal sınırları: `MODELLENMEYEN` eksi anahtarı açık
+    olanlar. Varsayılan konfigde (`olcek_1_50`) liste tam."""
+    return {ad: yon for ad, yon in MODELLENMEYEN
+            if not (ad in _ANAHTARLI and _ANAHTARLI[ad](konfig))}
+
 
 def bu_kosumda_kapali(konfig) -> tuple[str, ...]:
     """🔒 KONFİGDEN TÜRER — bayatlayamaz.
@@ -98,19 +120,22 @@ def bu_kosumda_kapali(konfig) -> tuple[str, ...]:
 def kapsam_bolumu(konfig) -> dict[str, object]:
     """Sonuç satırının `kapsam` bölümü."""
     return {
-        "modellenmeyen": {ad: yon for ad, yon in MODELLENMEYEN},
+        "modellenmeyen": modellenmeyen(konfig),
         "bu_kosumda_kapali": bu_kosumda_kapali(konfig),
         # 🔴 Karıştırıcının açılma anı BURAYA DA yazılır ve bilerek:
         # evre metriklerinin tamamı ona bağlı, ve bir satır okunurken
         # "hangi ana göre şok" sorusunun cevabı satırın içinde olmalı.
         "karistirici_baslangic_s": konfig.karistirici_baslangic_s,
+        # 🔒 A7 (K-178) — satır hangi dünyadan: sayılar dünyalar arasında
+        # karşılaştırılamaz (birimler, güç, menzil farklı).
+        "dunya": konfig.dunya,
         "olcum_penceresi_s": konfig.olcum_penceresi,
         # 🔒 Y7 — Θ her taban protokol için AYRI (`v2/07` §03.3). Üçüncü
         # sayı, Θ'nın kolu ne kadar TEMSİL ettiğini söyler: hiç kopmayan
         # çift oranı yüksekse Θ yalnız eşiğin kıyısındaki çiftlerden
         # hesaplanmıştır ve aşağı yanlıdır (formasyon kolu, K-122).
         **dict(zip(("theta_olsr", "theta_aodv", "theta_kopmayan_oran"),
-                   MOBILITE_THETA[konfig.mobilite_kolu])),
+                   mobilite_theta(konfig.mobilite_kolu, konfig.dunya))),
         # 🔴 B6 (K-132) — BU TOHUMDA AĞ BÖLÜNMÜŞ MÜYDÜ.
         # Çalışma noktası kopukluk uçurumunun kenarında (K-125) ve ölçüldü:
         # ana deney tohumlarının 15 (kol, tohum) çiftinde ağ ölçüm penceresi
@@ -119,7 +144,8 @@ def kapsam_bolumu(konfig) -> dict[str, object]:
         # protokole yazar.
         # 🔒 `None` = ÖLÇÜLMEDİ (kalibrasyon tohumu), `0.0` = ölçüldü ve
         # bölünme yok. Tablo ve sınırları `senaryolar.py`de.
-        "bolunme_payi": bolunme_payi(konfig.mobilite_kolu, konfig.tohum),
+        "bolunme_payi": bolunme_payi(konfig.mobilite_kolu, konfig.tohum,
+                                     konfig.dunya),
         "trafik_deseni": konfig.trafik_deseni,
         # 🔒 K-131 — rota bekleme tamponu SİMÜLATÖRÜN sağladığı bir imkândır,
         # protokolün değil: bütün kollarda aynıdır ve iki tavanı da satırda

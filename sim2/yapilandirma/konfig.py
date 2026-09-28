@@ -56,6 +56,19 @@ __all__ = ["Konfig", "HENUZ_OKUNMAYAN"]
 # Üçüncü bir hâl yok: "bildirilmiş ama kimse okumuyor" durumu sonuç satırına
 # yazılan ama hiçbir şeyi etkilemeyen bir parametre demektir ve satırı yalancı
 # yapar. Liste, modüller indikçe KISALIR; testi iki yönlü çalışır.
+# 🔒 802.11b DSSS kanalının gürültü bandı — işlem kazancının paydası
+# (`v2/15` A2; G1 · G2: 11 Mchip/s Barker, 22 MHz kanal).
+DSSS_KANAL_BANDI_HZ: float = 22e6
+# 🔒 802.11b hızları — `v2/15` A4 (G1 · G2): DBPSK · DQPSK · CCK · CCK.
+HIZLAR_BPS: tuple[float, ...] = (1e6, 2e6, 5.5e6, 11e6)
+# 🔒 Taşıyıcı dinleme kipleri — `v2/15` A3 (K-174). Kapalı küme.
+TASIYICI_DINLEME_KIPLERI: tuple[str, ...] = ("geometrik", "guc")
+# 🔒 Dünyalar — `v2/15` A7 (K-178). Kapalı küme.
+DUNYALAR: tuple[str, ...] = ("olcek_1_50", "referans_2026")
+# 🔒 Yer–hava ortamları — `kanal/yer_hava.py::A2G_ORTAMLARI` ile AYNI KÜME
+# (bir test bağlar); yapılandırma kanal katmanını içe aktarmaz.
+A2G_ORTAM_ADLARI: tuple[str, ...] = ("banliyo", "kentsel", "yogun", "yuksek")
+
 HENUZ_OKUNMAYAN: frozenset[str] = frozenset({
     # 🔒 Adım 9 (`kosum/`) yazıldıktan sonra listeden ÇIKANLAR — 5 Eylül 2026:
     #   saat_senkron · saat_ofset_araligi_s · saat_sapma_ppm  → `kurulum.py`
@@ -71,6 +84,9 @@ HENUZ_OKUNMAYAN: frozenset[str] = frozenset({
     # kontrol düzlemi — `komsu_omru_katsayisi` de yalnız kendi türetilmiş
     # özelliği (`komsu_omru_s`) üzerinden okunuyor.
     "komsu_omru_katsayisi",
+    # A7 (K-178) — `karistirici_taban_dbm` yalnız `Konfig`in kendi
+    # türetilmiş özelliğince (`karistirici_guc_dbm`) okunuyor.
+    "karistirici_taban_dbm",
     # karıştırıcı — `karistirici_guc_override_dbm` ve `karistirici_konum`
     # yalnız `Konfig`in kendi türetilmiş özelliklerince okunuyor.
     "karistirici_guc_override_dbm", "karistirici_konum",
@@ -168,6 +184,20 @@ class Konfig:
 
     # Menzil, verici gücünün TÜRETİLDİĞİ tanımdır (bkz. `girisim_orani`).
     iletim_menzili_m: float = 280.0
+    # 🔒 DÜNYA — `v2/15` A7 (K-178). "olcek_1_50" (bugün) | "referans_2026"
+    # (`v2/14`, `kanal/dunya.py::referans_2026` kurar). Referansta verici
+    # gücü GİRDİDİR (`verici_eirp_dbm`) ve `iletim_menzili_m` o güçle
+    # ortalama SNR'ın `menzil_snr_db` olduğu mesafedir (türetilmiş, yayılım
+    # tutarlılığı denetler). Bugünkü dünyada ikisi de `None`: güç menzilden
+    # türer ve menzilde SNR = β.
+    dunya: str = "olcek_1_50"
+    verici_eirp_dbm: float | None = None
+    menzil_snr_db: float | None = None
+    # 🔒 Alıcı anteninin EN BÜYÜK kazancı (dBi). Desen (`anten_kaybi_db`) en
+    # büyük kazanca göre normalize (kayıp ≥ 0): EIRP vericinin kazancını
+    # içerir, alıcınınki buradan gelir (`bag_butcesi.py`: "alıcıda dipol
+    # 2,15 dBi"). Bugünkü dünyada 0 — güç türetildiği için sadeleşir.
+    alici_anten_kazanci_dbi: float = 0.0
 
     # ------------------------------------------------------- 3B Gauss-Markov
     # Literatürün FANET için standart saydığı model. Random Waypoint elendi:
@@ -405,6 +435,25 @@ class Konfig:
     # Öğrenci kararı (4 Eylül 2026): kapalı formu yazılacak ve yayınlanmış
     # BER eğrileriyle analitik olarak doğrulanacak.
     modulasyon: str = "dqpsk"
+    # 🔒 DSSS İŞLEM KAZANCI — `v2/15` A2 (K-173). Açıkken BER'in girdisi
+    # Eb/N0 = SINR · (B / bit hızı): gürültü ve girişim işaretin kapladığı
+    # 22 MHz'de ölçülür, alıcı 11 çiplik Barker dizisini toplayarak her biti
+    # o banttan toplar (G1 Pei & Henderson · G2 Boer; ns-3
+    # `DsssErrorRateModel`: 1 Mb/s ×22, 2 Mb/s ×11). Kapalıyken bugünkü
+    # model: SINR doğrudan Eb/N0 sayılır (2 MHz'lik "birim" bandında ısıl
+    # gürültüye karşı eşdeğer, girişime karşı ~10,4 dB fazla zarar — `02` G1).
+    # Açmak `bant_genisligi_hz` = 22 MHz ister: çarpan ancak GERÇEK kanal
+    # bandında fiziksel anlam taşır (aşağıda doğrulanır).
+    islem_kazanci: bool = False
+    # 🔒 HIZ UYARLAMASI — `v2/15` A4 (K-177). Açıkken tek yönlü (unicast) veri
+    # ve kontrol çerçeveleri komşu başına ARF hızıyla gider (G14 — ns-3
+    # `ArfWifiManager`: 10 art arda başarı ya da 15 iletim → bir hız yukarı;
+    # kurtarmada ilk, normalde art arda 2 başarısızlık → bir hız aşağı);
+    # yayınlar ve onaylar temel hızda (1 Mb/s). Hızlar `HIZLAR_BPS`; CCK'nın
+    # hata modeli G1/G12. İşlem kazancı ister (Eb/N0 eşlemesi gerçek bantta).
+    hiz_uyarlamasi: bool = False
+    arf_basari_esigi: int = 10
+    arf_zamanlayici_esigi: int = 15
 
     # Kanal rastgeleliği sıralı akıştan DEĞİL, hash'ten gelir.
     kanal_dilimi_s: float = 1e-4
@@ -446,6 +495,14 @@ class Konfig:
     # hesaplıyordu (K-102'yi kaçırmış) ve 9 666 µs veriyordu. Onarıldı;
     # bugün üretici 193 µs diyor, yani DEĞER AYAKTA — bayat olan gerekçeydi.
     sonumleme_parca_suresi_s: float = 190e-6
+    # 🔒 YENİLİK ÜRETECİ — K-198 (performans, öğrenci onayı). Aynı model
+    # (bağımsız N(0, 1) yenilikler, aynı ρ · M · normalizasyon); değişen
+    # yalnız sayıların kaynağı: `"tekil"` her yenilik için bir blake2b özeti
+    # (eski dünya, birebir), `"blok"` bağ başına bir özet + SplitMix64
+    # sayacı ve numpy'de süzgeç (`sim2/cekirdek/rng.py::normal_dizisi`).
+    # Referans dünyada `"blok"`. İki üreteç AYNI dağılımdan çeker, aynı
+    # sayıları değil: bir tohumun kanal izi değişir, istatistiği değişmez.
+    sonumleme_uretec: str = "tekil"
 
     # ------------------------------------------------------- anten deseni
     # 🔴 İlk yargı "izotropik bırak" idi, ÖLÇÜMLE ÇEVRİLDİ. 1000×1000×300 m'de
@@ -467,6 +524,18 @@ class Konfig:
     # ⚠️ Sayı BEYAN EDİLİR, `onbelge_s`ten türetilmez: türetilseydi önbelge
     # aritmetiği `cerceve.py` dışına çıkardı (kusur 1'in kuralı).
     yakalama_penceresi_s: float = 192e-6
+    # 🔒 RSSI ÖLÇÜM HATASI — `v2/15` B2 (K-170 onayı). Telsizin çerçeve başına
+    # raporladığı alınan güç = alıcının kilitlendiği güç + N(0, σ²), tamsayı
+    # dBm. Yalnız `cerceve_duyuldu` kancasını taşıyan protokole gider; alım
+    # kararına GİRMEZ.
+    rssi_olcum_sigma_db: float = 2.0
+    # 🔒 KENDİ GPS/INS'İ — `v2/15` B3 (K-179), öğrenci kararı 25 Eylül:
+    # her düğüm kendi konumunu küçük bir hatayla bilir (GPS karıştırması
+    # kapsam dışı). Hata hash'ten, `gps_tazeleme_s` dilimi boyunca sabit.
+    gps_yatay_cep_m: float = 1.5
+    gps_dikey_sigma_m: float = 2.0
+    gps_hiz_sigma_ms: float = 0.1
+    gps_tazeleme_s: float = 1.0
 
     # ==================================================================
     # MAC — CSMA/CA, 802.11b değerleri
@@ -476,6 +545,40 @@ class Konfig:
     # CCA gecikmesi SIFIR OLAMAZ: sıfır olsaydı geri sayımı aynı slotta biten
     # iki düğüm asla çarpışmazdı ve 802.11'in temel çakışma kaynağı silinirdi.
     cca_s: float = 4e-6
+    # 🔒 TAŞIYICI DİNLEME KİPİ — `v2/15` A3 (K-174).
+    # "geometrik" (bugün): girişim menzilindeki her iletim ve CSMA'ya görünen
+    # karıştırıcı kanalı meşgul eder. "guc": 802.11b CCA (G2 — CCA mod 3):
+    # (1) önbelge sezme = alıcı bir çerçeveye KİLİTLİ (kilit önbelge
+    # PER'iyle kurulur, eşik oradan türer) · (2) enerji sezme = düğümdeki
+    # toplam alınan güç (bütün iletimler + HER sınıf karıştırıcı)
+    # `ed_esigi_dbm`i aşıyor. Sezme `cca_s` sürer.
+    tasiyici_dinleme: str = "geometrik"
+    ed_esigi_dbm: float = -76.0
+    # Hareketli karıştırıcı yüzünden donmuş düğümün yeniden denetimi —
+    # yalnız "guc" kipinde ve yalnız hareketli karıştırıcıda.
+    karistirici_denetim_araligi_s: float = 0.010
+    # 🔒 YAYILIM GECİKMESİ — `v2/15` A5 (K-175). Açıkken çerçeve alıcıya d/c
+    # sonra ulaşır (alım, donma, taşıyıcı dinleme varış penceresiyle); onay
+    # bekleme en uzak duyma mesafesinin gidiş-dönüşünü kapsar (802.11
+    # kapsama sınıfının karşılığı). Girişim hesabı gönderim anlarıyla kalır
+    # (beyanlı hata: ≤ d/c, 8 km'de 27 µs / 2,5 ms'lik çerçeve).
+    yayilim_gecikmesi: bool = False
+    # 🔒 KARIŞTIRICI GERÇEKÇİLİĞİ — `v2/15` A6 (K-176). Açıkken:
+    # (1) karıştırıcı bağlarında hızlı sönümleme (düğüm bağlarıyla aynı
+    #     Rician model, bağıl hız karıştırıcının yörüngesinden);
+    # (2) yer platformları (`sabit_yer`, `arac`) `yer_karistirici_yukseklik_m`
+    #     yükseklikte ve bağları Al-Hourani yer–hava kanalıyla (G6; görüş
+    #     hattı olasılığı yükseklik açısından, durum hash'ten, dilimli);
+    # (3) reaktif karıştırıcı iletimi ancak aldığı güç `reaktif_esik_dbm`i
+    #     aşarsa sezer (sezme olasılığı her kipte `reaktif_sezme_olasiligi`);
+    # (4) aldatıcının sahte çerçevesi, başını yakalayan boştaki alıcıyı
+    #     önbelge PER'iyle KİLİTLER; çerçeve boyunca gerçek çerçeve alınamaz.
+    karistirici_gercekci: bool = False
+    yer_karistirici_yukseklik_m: float = 3.0
+    a2g_ortam: str = "banliyo"
+    a2g_durum_dilimi_s: float = 1.0
+    reaktif_esik_dbm: float = -90.0
+    reaktif_sezme_olasiligi: float = 0.95
     cw_min: int = 31
     cw_max: int = 1023
     yeniden_deneme_siniri: int = 4
@@ -516,6 +619,17 @@ class Konfig:
     telemetri_paket_hizi_hz: float = 1.0
     komut_akis_sayisi: int = 4
     komut_paket_hizi_hz: float = 0.25
+    # 🔒 DÜĞÜM KAYBI — `v2/15` C1 (K-180), TEDAVİ ekseni. Pencere içinde bu
+    # kadar İHA düşer (vurulma, arıza); hangileri ve anları hash'ten, geçit
+    # düşmez. Telsiz kapanır; protokole haber verilmez (`kosum/kayip.py`).
+    kayip_dugum_sayisi: int = 0
+    kayip_bas_s: float = 0.0
+    kayip_bitis_s: float = 0.0
+    # 🔒 ENERJİ — `v2/15` C3 (K-180). Telsiz gücü (G7, taktik mesh telsizi):
+    # gönderimde / alımda ve dinlemede. Raporlanır, tasarım ölçütü değildir
+    # (İHA'da itki enerjisinin yanında küçük).
+    enerji_gonderim_w: float = 10.6
+    enerji_alim_w: float = 2.0
 
     # ==================================================================
     # KUYRUK ve TTL
@@ -557,6 +671,10 @@ class Konfig:
     # Sınıf elle ayarlanabilseydi aynı etiketli iki koşu farklı karıştırıcı
     # taşıyabilir ve sonuç satırındaki etiket yalan söylerdi.
     karistirici_guc_override_dbm: float | None = None  # yalnız güç taraması
+    # 🔒 A7 (K-178): referans dünyanın karıştırıcı TABAN gücü — ölçülmüş
+    # tablonun (`KARISTIRICI_GUCU_DBM`, eski dünyanın birimleri) yerine;
+    # darbeli sınıfta tepe telafisi yine uygulanır. Bugünkü dünyada `None`.
+    karistirici_taban_dbm: float | None = None
     karistirici_konum: tuple[float, float] | None = None  # None → alan merkezi
 
     # 🔴 AÇILMA ANI — projenin asıl iddiasını ÖLÇÜLEBİLİR yapan parametre.
@@ -631,10 +749,52 @@ class Konfig:
                 "SINR eşiği ve yol kaybı üsteli pozitif olmalı")
         dogrula(self.bit_hizi_bps > 0 and self.bant_genisligi_hz > 0,
                 "bit hızı ve bant genişliği pozitif olmalı")
+        dogrula(not self.hiz_uyarlamasi or self.islem_kazanci,
+                "hız uyarlaması işlem kazancı ister — CCK'nın Eb/N0 eşlemesi "
+                "ancak gerçek kanal bandında anlamlı")
+        dogrula(self.arf_basari_esigi >= 1 and self.arf_zamanlayici_esigi >= 1,
+                "ARF eşikleri pozitif olmalı")
+        dogrula(not self.islem_kazanci
+                or self.bant_genisligi_hz == DSSS_KANAL_BANDI_HZ,
+                "işlem kazancı açıkken gürültü bandı 802.11b DSSS kanalının "
+                "bandı (22 MHz) olmalı — 2 MHz eski dünyanın birim seçimidir")
         dogrula(self.golgeleme_sigma_db >= 0.0, "gölgeleme σ negatif olamaz")
         dogrula(self.golgeleme_hucre_m > 0.0, "gölgeleme hücresi pozitif olmalı")
         dogrula(self.sonumleme_parca_suresi_s > 0.0, "parça süresi pozitif olmalı")
+        dogrula(self.sonumleme_uretec in ("tekil", "blok"),
+                f"bilinmeyen sönümleme üreteci: {self.sonumleme_uretec!r} — "
+                f"'tekil' ya da 'blok'")
         dogrula(self.kanal_dilimi_s > 0.0, "kanal dilimi pozitif olmalı")
+        dogrula(self.dunya in DUNYALAR,
+                f"bilinmeyen dünya: {self.dunya!r} — seçenekler: {DUNYALAR}")
+        dogrula((self.verici_eirp_dbm is None) == (self.menzil_snr_db is None),
+                "verici EIRP'si ve menzildeki SNR birlikte verilir")
+        dogrula(self.dunya != "referans_2026"
+                or (self.olcek == 1.0 and self.verici_eirp_dbm is not None
+                    and self.islem_kazanci),
+                "referans dünya: ölçek 1, verici gücü girdi, işlem kazancı "
+                "açık — `kanal/dunya.py::referans_2026` kurar")
+        dogrula(self.tasiyici_dinleme in TASIYICI_DINLEME_KIPLERI,
+                f"bilinmeyen taşıyıcı dinleme kipi: {self.tasiyici_dinleme!r} "
+                f"— seçenekler: {TASIYICI_DINLEME_KIPLERI}")
+        dogrula(self.karistirici_denetim_araligi_s > 0.0,
+                "karıştırıcı denetim aralığı pozitif olmalı")
+        dogrula(0 <= self.kayip_dugum_sayisi < self.dugum_sayisi
+                and 0.0 <= self.kayip_bas_s <= self.kayip_bitis_s,
+                "düğüm kaybı: sayı [0, N) ve pencere sıralı olmalı")
+        dogrula(self.enerji_gonderim_w >= 0.0 and self.enerji_alim_w >= 0.0,
+                "telsiz güçleri negatif olamaz")
+        dogrula(min(self.gps_yatay_cep_m, self.gps_dikey_sigma_m,
+                    self.gps_hiz_sigma_ms) >= 0.0
+                and self.gps_tazeleme_s > 0.0,
+                "GPS hataları negatif olamaz, tazeleme pozitif olmalı")
+        dogrula(self.a2g_ortam in A2G_ORTAM_ADLARI,
+                f"bilinmeyen yer–hava ortamı: {self.a2g_ortam!r}")
+        dogrula(self.yer_karistirici_yukseklik_m > 0.0
+                and self.a2g_durum_dilimi_s > 0.0,
+                "yer karıştırıcı yüksekliği ve durum dilimi pozitif olmalı")
+        dogrula(0.0 < self.reaktif_sezme_olasiligi <= 1.0,
+                "reaktif sezme olasılığı (0, 1] aralığında olmalı")
         dogrula(self.cca_s > 0.0,
                 "CCA gecikmesi sıfır olamaz — aynı-slot çarpışması silinir")
         dogrula(1 <= self.cw_min <= self.cw_max, "çekişme penceresi tutarsız")
@@ -785,7 +945,11 @@ class Konfig:
         için 2,154 · β = 16 dB, α = 3 için 3,415. Elle yazılmış bir sabit,
         β ya da α değiştiğinde sessizce yanlış olurdu.
         """
-        return (10.0 ** (self.sinr_esigi_db / 10.0)) ** (1.0 / self.yol_kaybi_usteli)
+        # 🔒 A7 (K-178): referans dünyada menzildeki SNR β değil,
+        # `menzil_snr_db`dir (nominal bağ, 10 dB paylı); bugünkü dünyada β.
+        snr_db = (self.sinr_esigi_db if self.menzil_snr_db is None
+                  else self.menzil_snr_db)
+        return (10.0 ** (snr_db / 10.0)) ** (1.0 / self.yol_kaybi_usteli)
 
     @property
     def girisim_menzili_m(self) -> float:
@@ -830,7 +994,9 @@ class Konfig:
         """Karıştırıcının TEPE gücü. `None` = ölçülmedi (0,0 DEĞİL)."""
         if self.karistirici_guc_override_dbm is not None:
             return self.karistirici_guc_override_dbm
-        taban = KARISTIRICI_GUCU_DBM[self.karistirici_sinifi]
+        taban = (KARISTIRICI_GUCU_DBM[self.karistirici_sinifi]
+                 if self.karistirici_taban_dbm is None
+                 else self.karistirici_taban_dbm)
         if taban is None:
             return None
         return taban + self.tepe_telafisi_db if self.karistirici_darbeli else taban

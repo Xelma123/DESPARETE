@@ -89,6 +89,7 @@ from sim2.kosum.kurulum import kurulum_yap  # noqa: E402
 from sim2.kosum.sonuc import SatirYazici, korunum_bolumu  # noqa: E402
 from sim2.olcum.metrikler import metrik_sozlugu  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 from kalibrasyon.kahin import (ETX_TAVANI, EnGuvenilirKahin,  # noqa: E402
                                EnKisaYolKahin, KanalGrafigi, _KahinTabani)
 from kalibrasyon.onay_semantigi import COZUNURLUK_R  # noqa: E402
@@ -190,7 +191,7 @@ def _kisa_pencere() -> dict:
 
 def _kos(senaryo: str, tohum: int, kahin: str, grafik_turu: str) -> dict:
     """Tek koşu. `grafik_turu`: `eski` (bugünkü grafik) · `yeni` (alt sınıf)."""
-    kfg = Konfig(kol="ust_referans", senaryo=senaryo, tohum=tohum,
+    kfg = DS.konfig(kol="ust_referans", senaryo=senaryo, tohum=tohum,
                  **_kisa_pencere())
     kur = kurulum_yap(kfg)
     grafik = TeslimGrafigi(kur) if grafik_turu == "yeni" else KanalGrafigi(kur)
@@ -377,7 +378,7 @@ def _teshis_is(gorev):
     ölçülür ve şişer; kâhinler arası oranlar yine karşılaştırılabilir.
     """
     kahin, profilli = gorev
-    kfg = Konfig(kol="ust_referans_teshis", senaryo="bagimsiz-surekli",
+    kfg = DS.konfig(kol="ust_referans_teshis", senaryo="bagimsiz-surekli",
                  tohum=1000, **_kisa_pencere())
     kur = kurulum_yap(kfg)
     grafik = (TeslimGrafigi(kur) if kahin == EnOlasiTeslimKahin.ad

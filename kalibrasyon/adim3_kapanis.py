@@ -52,13 +52,14 @@ if str(KOK) not in sys.path:
 from sim2.cekirdek.rng import Akislar  # noqa: E402
 from sim2.dunya.topoloji import Topoloji, topoloji_kur  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 
 TOHUM_AZ = range(1, 31)     # derece için yeter
 TOHUM_COK = range(1, 501)   # bağlı oran için gerekir
 
 
 def _konfig(senaryo: str, tohum: int, **ek) -> Konfig:
-    return Konfig(kol="kalibrasyon", senaryo=senaryo, tohum=tohum, **ek)
+    return DS.konfig(kol="kalibrasyon", senaryo=senaryo, tohum=tohum, **ek)
 
 
 def _topoloji(senaryo: str, tohum: int, **ek) -> Topoloji:

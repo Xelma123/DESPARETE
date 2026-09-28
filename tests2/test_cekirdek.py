@@ -23,7 +23,8 @@ if str(KOK) not in sys.path:
 from sim2.cekirdek.degismezler import (  # noqa: E402
     DegismezHatasi, asla, dogrula, dogrula_ayrintili)
 from sim2.cekirdek.kimlik import (  # noqa: E402
-    arac_hash, calisma_kimligi, evren_hash, kosu_kimligi, kurulum_hash)
+    arac_hash, calisma_kimligi, dosya_hash, evren_hash, kosu_kimligi,
+    kurulum_hash, protokol_hash, tedavi_hash)
 from sim2.cekirdek.korunum import (  # noqa: E402
     DUSME_SEBEPLERI, KorunumDefteri, KorunumHatasi)
 from sim2.cekirdek.olaylar import GecmisZamanHatasi, OlayKuyrugu  # noqa: E402
@@ -571,16 +572,60 @@ def test_kosu_kimligi_BELIRLENIMCI_ve_ayirt_edici():
     ortak = dict(arac="A", kurulum="K",
                  sayac_semasi=sayac_semasi_hash(),
                  akis_listesi=akis_listesi_hash())
-    a = kosu_kimligi(kol="aodv", tohum=5, **ortak)
-    assert a == kosu_kimligi(kol="aodv", tohum=5, **ortak)
-    assert a != kosu_kimligi(kol="olsr", tohum=5, **ortak)
-    assert a != kosu_kimligi(kol="aodv", tohum=6, **ortak)
+    a = kosu_kimligi(kol="aodv", tohum=5, tedavi="T", protokol="P", **ortak)
+    assert a == kosu_kimligi(kol="aodv", tohum=5, tedavi="T", protokol="P",
+                             **ortak)
+    assert a != kosu_kimligi(kol="olsr", tohum=5, tedavi="T", protokol="P",
+                             **ortak)
+    assert a != kosu_kimligi(kol="aodv", tohum=6, tedavi="T", protokol="P",
+                             **ortak)
+    # 🔒 K-171: tedavi ve protokol de kimliği AYIRIR.
+    assert a != kosu_kimligi(kol="aodv", tohum=5, tedavi="T2", protokol="P",
+                             **ortak)
+    assert a != kosu_kimligi(kol="aodv", tohum=5, tedavi="T", protokol="P2",
+                             **ortak)
+
+
+def test_tedavi_hash_YALNIZ_tedavi_alanlarini_kapsiyor():
+    """🔴 K-171: kurulum + tedavi konfigürasyonun TAMAMINI kapsar."""
+    temel = {"alan_m": 1000.0, "kol": "A", "senaryo": "S0"}
+    tedavi = ("kol", "senaryo")
+    a = tedavi_hash(temel, tedavi)
+    assert a == tedavi_hash({**temel, "alan_m": 5.0}, tedavi)
+    assert a != tedavi_hash({**temel, "senaryo": "S2"}, tedavi)
+    with pytest.raises(KeyError):
+        tedavi_hash(temel, ("kol", "yok_boyle_alan"))
+
+
+def test_protokol_hash_SIRADAN_bagimsiz_ve_ayirt_edici():
+    a = protokol_hash(ad="d", kod=("k1", "k2"), parametreler=("p1", "p2"))
+    assert a == protokol_hash(ad="d", kod=("k2", "k1", "k1"),
+                              parametreler=("p2", "p1"))
+    assert a != protokol_hash(ad="d", kod=("k1", "k2"), parametreler=("p1",))
+    assert a != protokol_hash(ad="d", kod=("k1", "k3"),
+                              parametreler=("p1", "p2"))
+    # kod ile parametre birbirine karışamaz
+    assert protokol_hash(ad="d", kod=("x",), parametreler=()) != \
+        protokol_hash(ad="d", kod=(), parametreler=("x",))
+
+
+def test_arac_hash_SATIR_SONUNA_duyarsiz(tmp_path):
+    """🔒 K-171: aynı kod CRLF ya da LF çıkarıldığında aynı özet."""
+    (tmp_path / "a").mkdir()
+    (tmp_path / "b").mkdir()
+    (tmp_path / "a" / "m.py").write_bytes(b"x = 1\r\ny = 2\r\n")
+    (tmp_path / "b" / "m.py").write_bytes(b"x = 1\ny = 2\n")
+    assert arac_hash(tmp_path / "a") == arac_hash(tmp_path / "b")
+    assert dosya_hash(tmp_path / "a" / "m.py") == \
+        dosya_hash(tmp_path / "b" / "m.py")
+    (tmp_path / "b" / "m.py").write_bytes(b"x = 1\ny = 3\n")
+    assert arac_hash(tmp_path / "a") != arac_hash(tmp_path / "b")
 
 
 def test_calisma_kimligi_kosu_kimligine_GIRMIYOR():
     """🔴 Girseydi her çalıştırma yeni kimlik üretir, kopya tespiti ölürdü."""
-    ortak = dict(arac="A", kurulum="K", kol="x", tohum=1,
-                 sayac_semasi="s", akis_listesi="a")
+    ortak = dict(arac="A", kurulum="K", kol="x", tohum=1, tedavi="T",
+                 protokol="P", sayac_semasi="s", akis_listesi="a")
     assert kosu_kimligi(**ortak) == kosu_kimligi(**ortak)
     assert calisma_kimligi() == calisma_kimligi()   # süreç içinde sabit
 

@@ -143,6 +143,19 @@ class Gozlem:
     # --- taşınan paket -----------------------------------------------
     paket: PaketGorunumu | None = None
 
+    # --- kendi GPS/INS'i ve telsiz sayaçları — `v2/15` B3 (K-179) ----
+    # 🔒 Gerçek bir otopilotun ve telsizin verdiği şeyler (`v2/05` §3.1a):
+    # kendi konumu ve hızı (GPS/INS, hatalı) · CCA'nın meşgul kaldığı toplam
+    # süre (sürücülerin "channel busy time" sayacı; protokol oranı kendi
+    # penceresinde hesaplar — yalnız `kanal_dolulugu_ister` diyen protokole,
+    # ötekinde `None` = ölçülmedi) · kilitlenip gövdesi çözülemeyen çerçeve
+    # sayısı · başarıyla çözülen çerçeve sayısı. Komşunun hareketi YOK.
+    kendi_konum: tuple[float, float, float] | None = None
+    kendi_hiz: tuple[float, float, float] | None = None
+    mesgul_sure_s: float | None = None
+    phy_hata: int = 0
+    alinan_cerceve: int = 0
+
     def komsu(self, dugum: int) -> KomsuKaydi | None:
         for k in self.komsular:
             if k.dugum == dugum:
@@ -167,6 +180,8 @@ IZINLI_GOZLEM_ALANLARI: frozenset[str] = frozenset({
     "son_iletim_sonucu", "son_iletim_hedefi",
     "gonderilen_bayt", "alinan_bayt",
     "komsular", "paket",
+    # `v2/15` B3 (K-179) — kendi GPS/INS'i ve telsiz sayaçları
+    "kendi_konum", "kendi_hiz", "mesgul_sure_s", "phy_hata", "alinan_cerceve",
 })
 
 IZINLI_KOMSU_ALANLARI: frozenset[str] = frozenset({

@@ -79,6 +79,7 @@ from sim2.cekirdek.rng import Akislar  # noqa: E402
 from sim2.dunya.geometri import mesafe  # noqa: E402
 from sim2.dunya.topoloji import topoloji_kur  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 
 # 🔒 OLSR RFC 3626 varsayılanı. Θ'nın paydası budur ve ELLE SEÇİLMEDİ:
 # en yavaş taban çizgisinin kendi zaman sabitidir.
@@ -129,7 +130,7 @@ def olc(hiz_min: float, hiz_maks: float, senaryo: str = "bagimsiz-yok",
     """Bir hız ayarında bağıl hız, bağ ömrü ve ROTA ÖMRÜ."""
     bagil, rota_omurleri, atlamalar = [], [], []
     for tohum in TOHUMLAR:
-        kfg = Konfig(kol="calkanti", senaryo=senaryo, tohum=tohum,
+        kfg = DS.konfig(kol="calkanti", senaryo=senaryo, tohum=tohum,
                      gm_hiz_min_ms=hiz_min, gm_hiz_maks_ms=hiz_maks,
                      gm_hiz_sigma_ms=max(hiz_maks / 10.0, 1e-4),
                      gorev_jitter_hiz_ms=max(hiz_maks / 15.0, 1e-4), **ek)
@@ -190,7 +191,7 @@ def _bolum(baslik: str) -> None:
 
 def tarama() -> None:
     _bolum("1 - HIZ TARAMASI  (Θ = rota omru / OLSR TOP_HOLD_TIME)")
-    kfg = Konfig(kol="calkanti")
+    kfg = DS.konfig(kol="calkanti")
     print(f"  alan {kfg.alan_en_m:.0f} m · etkin yaricap {ETKIN_YARICAP_M:.0f} m"
           f" · {len(list(TOHUMLAR))} tohum · {BITIS_S:.0f} s")
     print(f"  OLSR TOP_HOLD_TIME = {OLSR_TOP_HOLD_S:.0f} s  (RFC 3626)\n")

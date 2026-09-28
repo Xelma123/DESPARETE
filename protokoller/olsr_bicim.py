@@ -43,14 +43,17 @@ geri çözülür — ek bir alan, dolayısıyla ek bir bayt YOKTUR.
 ==================================================================
 Kural öğrencinin (19 Eylül 2026): **SHOULD uygulanır, MAY beyan edilir.**
 
-🔴 **TEK İSTİSNA — §13 bağ katmanı bildirimi UYGULANIYOR** (öğrenci, 22 Eylül
-2026, `04` K-147). Beyanlı sapmayken ÖLÇÜLDÜ (K-146): statik kolun iki
-hücresini eşiğin altına itiyordu (0,859 · 0,866; §13 ile 0,926 · 0,908).
-AODV bu bilgiyi RFC 3561'in çekirdeği olarak kullanıyor; §13'süz OLSR bilgi
-yüzeyi daha dar tek taban olurdu (`03` kural 4).
+🔴 **§13 bağ katmanı bildirimi — istisna KALDIRILDI (K-196, 28 Eylül 2026).**
+Eski dünyada istisnaydı (öğrenci, 22 Eylül, K-147): beyanlı sapmayken statik
+kolun iki hücresini eşiğin altına itiyordu (0,859 · 0,866; §13 ile 0,926 ·
+0,908). Referans dünyada ölçüm TERSİNE döndü (K-193): §13'süz PDR +0,031 ·
++0,028 · +0,105 — bildirim §14.3 ile ~0,5 s'de geri alınıyor ama o arada
+§8.5 komşu kaybı 2-atlama kayıtlarını silip geçide rotayı boşaltıyor. Kural
+yerine döndü; `OLSR(i, s13=True)` eski `OLSR-b`yi birebir üretir.
 
 | özellik | RFC | sözü | neden yok | OLSR'ı zayıflatır mı |
 |---|---|---|---|---|
+| bağ katmanı bildirimi | §13 | MAY | kural (K-196; `s13=True` ile açılır) | referans dünyada HAYIR — ölçüldü, §13 zarar veriyordu (K-193); eski dünyanın statik kolunda evet (K-146) |
 | mesaj birleştirme (piggyback) | §3.4 · §3.5 | MAY | kural; her mesaj kendi paketinde | hayır — yön: her mesaj kendi 4 baytlık paket başlığını öder, OLSR'ı olduğundan **PAHALI** gösterir |
 | MPR buluşsalının 5. adımı (fazla MPR'yi ele) | §8.3.1 | MAY | kural | iki yönlü: MPR kümesi en küçükten biraz büyük kalır → TC'yi daha çok düğüm iletir (pahalı) ama taşma daha sağlam |
 | MPR kümesi değişince ek HELLO | §8.5 | MAY | kural | küçük: yeni MPR seçimi bir sonraki HELLO'ya (≤ 2 s) kalır |

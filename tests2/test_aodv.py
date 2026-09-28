@@ -608,3 +608,82 @@ def test_RERR_ONCULU_OLMAYAN_hedef_icin_GONDERILMEZ():
     assert [b.komsu for b in _beyanlar(cikti) if b.tip == "kopma"] == [1]
     assert p._sayac["rerr_onculsuz"] == 1
     assert not p._rota[9].gecerli, "rota yine de geçersizleşmeli"
+
+
+def _rreq_yuku(kimlik: int, kaynak: int = 0, hedef: int = 9) -> tuple:
+    return tuple({"tip": TIP_RREQ, "bayraklar": 1, "ayrilmis": 0,
+                  "atlama": 0, "rreq_kimlik": kimlik, "hedef": hedef,
+                  "hedef_sira": 0, "kaynak": kaynak, "kaynak_sira": 3,
+                  "ttl": 10}.items())
+
+
+def test_K194_RREP_basarisizsa_KARA_LISTE_ve_RREQ_YOK_SAYILIR():
+    """🔒 RFC 3561 §6.8 (K-194): RREP'i bağ katmanında onaylanmayan komşu
+    kara listeye girer; ondan gelen RREQ `BLACKLIST_TIMEOUT` boyunca YOK
+    SAYILIR (ters rota da iletme de yok), süre dolunca yine işlenir.
+    Veri çerçevesinin başarısızlığı kara listeye SOKMAZ."""
+    from protokoller.aodv_bicim import BLACKLIST_TIMEOUT_S
+    assert BLACKLIST_TIMEOUT_S == pytest.approx(6 * NET_TRAVERSAL_TIME_S)
+    p = AODV(5)
+    p.iletim_basarisiz(_gozlem(5, 1.0), hedef=3, tur="kontrol")
+    assert p._sayac["kara_liste_eklenen"] == 1
+    cikti = p.kontrol_alindi(_gozlem(5, 1.5), 3, "RREQ", _rreq_yuku(1), True)
+    assert not _istekler(cikti), "kara listedeki komşunun RREQ'i iletildi"
+    assert 0 not in p._rota, "kara listedeki RREQ ters rota kurdu"
+    assert 3 not in p._komsu, "yok sayılan RREQ komşu kanıtı sayıldı"
+    assert p._sayac["rreq_kara_listeden"] == 1
+    # Başka bir komşudan gelen aynı RREQ normal işlenir.
+    cikti = p.kontrol_alindi(_gozlem(5, 1.6), 4, "RREQ", _rreq_yuku(1), True)
+    assert _istekler(cikti) and p._rota[0].sonraki == 4
+    # Süre dolunca 3 yeniden kabul edilir (yeni bir keşif).
+    t = 1.0 + BLACKLIST_TIMEOUT_S
+    cikti = p.kontrol_alindi(_gozlem(5, t), 3, "RREQ", _rreq_yuku(2), True)
+    assert _istekler(cikti), "süre dolduktan sonra RREQ işlenmedi"
+    assert 3 not in p._kara_liste
+    # Veri başarısızlığı kara listeye sokmaz.
+    q = AODV(5)
+    q.iletim_basarisiz(_gozlem(5, 1.0), hedef=3, tur="veri")
+    assert not q._kara_liste and q._sayac["kara_liste_eklenen"] == 0
+
+
+def test_K194_AOMDV_kara_listeyi_MIRAS_alir():
+    """AOMDV, AODV'nin kanca ve kara listesini miras alır (§6.8, K-194)."""
+    from protokoller.aomdv import AOMDV
+    p = AOMDV(5)
+    p.iletim_basarisiz(_gozlem(5, 1.0), hedef=3, tur="kontrol")
+    cikti = p.kontrol_alindi(_gozlem(5, 1.5), 3, "RREQ", _rreq_yuku(1), True)
+    assert not _istekler(cikti) and p._sayac["rreq_kara_listeden"] == 1
+
+
+
+def test_K189_uygunluk_DESEN_secimi_ve_KAYIT_adi(monkeypatch):
+    """Faz 4.3: `--desen` U1 koşularına deseni işçilere de taşır; kayıt
+    dosyası desenin adını taşır (desenler birbirini ezmez)."""
+    import kalibrasyon.aodv_uygunluk as U
+    monkeypatch.delenv(U.DESEN_ORTAM, raising=False)
+    monkeypatch.delenv("DESPARETE_DUNYA", raising=False)
+    assert U._desen("aodv") == {}
+    assert U._desen("desparete") == {"trafik_deseni": "yere_toplama"}
+    assert U._kayit_adi("aodv") == "aodv"
+    monkeypatch.setenv(U.DESEN_ORTAM, "yere_toplama")
+    assert U._desen("aodv") == {"trafik_deseni": "yere_toplama"}
+    monkeypatch.setenv("DESPARETE_DUNYA", "referans_2026")
+    assert U._kayit_adi("olsr") == "olsr_referans_2026_yere_toplama"
+
+
+def test_K191_hukum_DUNYA_uyusmazligini_reddeder(monkeypatch, tmp_path):
+    """Referans dünyanın U1 kaydı `--dunya` verilmeden hükme sokulursa eski
+    dünyanın açıklanmış hücreleri uygulanırdı — araç reddeder (K-191)."""
+    import pytest
+    import kalibrasyon.aodv_uygunluk as U
+    kayit = tmp_path / "aomdv_referans_2026_yere_toplama_son.json"
+    kayit.write_text('{"protokol": "aomdv", "hucreler": []}', encoding="utf-8")
+    monkeypatch.delenv("DESPARETE_DUNYA", raising=False)
+    with pytest.raises(SystemExit, match="referans"):
+        U.hukum(kayit)
+    eski = tmp_path / "aomdv_son.json"
+    eski.write_text('{"protokol": "aomdv", "hucreler": []}', encoding="utf-8")
+    monkeypatch.setenv("DESPARETE_DUNYA", "referans_2026")
+    with pytest.raises(SystemExit, match="eski"):
+        U.hukum(eski)
+

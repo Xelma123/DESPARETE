@@ -82,22 +82,40 @@ def lin_to_db(lin: float) -> float:
 
 # Köşe önbelleğinin üst sınırı (~2^19 giriş). Aşılınca boşaltılır.
 KOSE_ONBELLEK_SINIRI = 1 << 19
+# 🔒 K-190: yavaş kayıp önbelleğinin tavanı. Değer SONUCU DEĞİŞTİREMEZ —
+# anahtar tam girdidir (kimlikler + iki konum), dolunca boşaltılır ve
+# değer yeniden AYNI işlemle hesaplanır; yalnız süreyi belirler.
+YAVAS_ONBELLEK_SINIRI = 1 << 18
 
 class Yayilim:
     """Yavaş kanal. Saf: aynı girdi her zaman aynı çıktıyı verir."""
 
     __slots__ = ("konfig", "gurultu_w", "verici_gucu_w", "_pl_referans_db",
-                 "_hucre_m", "_sigma_db", "_golge_onbellek")
+                 "_hucre_m", "_sigma_db", "_golge_onbellek",
+                 "_yavas_onbellek")
 
     def __init__(self, konfig: Konfig) -> None:
         self.konfig = konfig
         self.gurultu_w = self.gurultu_tabani_w(konfig)
         self._pl_referans_db = 20.0 * math.log10(
             4.0 * math.pi * REFERANS_MESAFE_M * konfig.frekans_hz / ISIK_HIZI)
-        # Pt, MENZİL TANIMINDAN türetilir — bağımsız bir parametre değil.
-        hedef_alinan_w = self.gurultu_w * db_to_lin(konfig.sinr_esigi_db)
-        self.verici_gucu_w = hedef_alinan_w * db_to_lin(
-            self.yol_kaybi_db(konfig.iletim_menzili_m))
+        if konfig.verici_eirp_dbm is None:
+            # Pt, MENZİL TANIMINDAN türetilir — bağımsız bir parametre değil.
+            hedef_alinan_w = self.gurultu_w * db_to_lin(konfig.sinr_esigi_db)
+            self.verici_gucu_w = hedef_alinan_w * db_to_lin(
+                self.yol_kaybi_db(konfig.iletim_menzili_m))
+        else:
+            # 🔒 A7 (K-178): güç GİRDİ (EIRP; anten deseni en büyük kazanca
+            # göre normalize — kayıp ≥ 0). Menzil ondan türemiş olmalı:
+            # menzilde ortalama SNR `menzil_snr_db` — tutarlılık kapısı.
+            self.verici_gucu_w = dbm_to_w(konfig.verici_eirp_dbm)
+            snr = lin_to_db(self.verici_gucu_w / db_to_lin(
+                self.yol_kaybi_db(konfig.iletim_menzili_m)
+                - konfig.alici_anten_kazanci_dbi) / self.gurultu_w)
+            dogrula(abs(snr - konfig.menzil_snr_db) < 0.05,
+                    f"menzil verici gücüyle tutarsız: menzilde SNR {snr:.3f} "
+                    f"dB ≠ {konfig.menzil_snr_db:.3f} dB — "
+                    "`kanal/dunya.py::referans_2026` kullanın")
         self._hucre_m = konfig.golgeleme_hucre_m
         self._sigma_db = konfig.golgeleme_sigma_db if konfig.golgeleme_acik else 0.0
         # 🔒 KÖŞE ÖNBELLEĞİ — SONUCU DEĞİŞTİRMEZ, yalnız hızlandırır.
@@ -109,6 +127,7 @@ class Yayilim:
         # erişim dizisi → aynı boşaltma anları) ve değerler yeniden
         # üretilebilir olduğu için hiçbir bilgi kaybolmaz.
         self._golge_onbellek: dict[tuple[int, int, int, int, int], float] = {}
+        self._yavas_onbellek: dict[tuple, float] = {}
 
     # ------------------------------------------------------------- gürültü
     @staticmethod
@@ -212,10 +231,26 @@ class Yayilim:
 
     # ------------------------------------------------------- alınan güç
     def yavas_kayip_db(self, i: int, j: int, a: Nokta3, b: Nokta3) -> float:
-        """Yol kaybı + anten + gölgeleme. Hızlı sönümleme DÂHİL DEĞİL."""
-        return (self.yol_kaybi_db(mesafe(a, b))
-                + self.bag_anten_kaybi_db(a, b)
-                + self.golgeleme_db(i, j, a, b))
+        """Yol kaybı + anten + gölgeleme. Hızlı sönümleme DÂHİL DEĞİL.
+
+        🔒 K-190 — ÖNBELLEKLİ, SONUÇ BİT BİT AYNI: saf bir fonksiyondur
+        (kimlikler ve iki konum); anahtar TAM girdidir, değer aynı işlemle
+        hesaplanır. Referans dünyada koşu süresinin ~%45'i buradaydı
+        (`arsiv/teshis/faz4_2026-09-26/j_profil.txt`); statik kolda her çift
+        tek kez hesaplanır, hareketli kolda aynı anda tekrarlanan çağrılar.
+        """
+        anahtar = (i, j, a, b)
+        onbellek = self._yavas_onbellek
+        deger = onbellek.get(anahtar)
+        if deger is None:
+            deger = (self.yol_kaybi_db(mesafe(a, b))
+                     + self.bag_anten_kaybi_db(a, b)
+                     + self.golgeleme_db(i, j, a, b)
+                     - self.konfig.alici_anten_kazanci_dbi)  # A7 (K-178)
+            if len(onbellek) >= YAVAS_ONBELLEK_SINIRI:
+                onbellek.clear()
+            onbellek[anahtar] = deger
+        return deger
 
     def yavas_alinan_w(self, i: int, j: int, a: Nokta3, b: Nokta3,
                        verici_w: float | None = None) -> float:
@@ -244,7 +279,8 @@ class Yayilim:
         kapalı devre kontrol.
         """
         pr = self.verici_gucu_w / db_to_lin(
-            self.yol_kaybi_db(self.konfig.iletim_menzili_m))
+            self.yol_kaybi_db(self.konfig.iletim_menzili_m)
+            - self.konfig.alici_anten_kazanci_dbi)
         return lin_to_db(pr / self.gurultu_w)
 
 

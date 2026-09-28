@@ -35,7 +35,7 @@ from __future__ import annotations
 
 import math
 import statistics as ist
-from typing import Sequence
+from typing import Mapping, Sequence
 
 from sim2.cekirdek.degismezler import dogrula
 from sim2.olcum.evre import evre_sozlugu
@@ -90,7 +90,10 @@ def ozet_istatistik(ornekler: Sequence[float], onek: str
 def metrik_sozlugu(sayaclar: dict[str, float | None],
                    paket_defteri: PaketDefteri,
                    rota_defteri: RotaDefteri,
-                   acilma_s: float | None = None) -> dict[str, object]:
+                   acilma_s: float | None = None,
+                   akis_siniflari: Mapping[int, str] | None = None,
+                   enerji_j: Sequence[float] | None = None
+                   ) -> dict[str, object]:
     """Sonuç satırının `metrikler` bölümü.
 
     🔒 `sayaclar` OLDUĞU GİBİ geçer: `pdr`, `psr`, `nrl_*`, `cor`,
@@ -104,6 +107,10 @@ def metrik_sozlugu(sayaclar: dict[str, float | None],
 
     ⚠️ Verilmezse evre metrikleri YOKTUR — `None` DEĞİL, hiç yok. İkisi ayrı
     şeydir: *"ölçülmedi"* ile *"ölçüldü ve tanımsız çıktı"*.
+
+    🔒 `akis_siniflari` (K-171) aynı gerekçeyle bir HARİTA alır, geçidi
+    değil: verilirse sınıf başına `pdr_<sınıf>` ve pencere ikizi eklenir,
+    verilmezse bu alanlar hiç yoktur.
     """
     cikti: dict[str, object] = dict(sayaclar)
 
@@ -118,6 +125,31 @@ def metrik_sozlugu(sayaclar: dict[str, float | None],
     cikti["pdr_pencere"] = (
         paket_defteri.pencerede_teslim / paket_defteri.pencerede_uretilen
         if paket_defteri.pencerede_uretilen else None)
+    # --- görev teslim oranı (KR-E, K-182): payda PLANLANAN talep -------
+    # 🔒 Birincil metrik PDR'dir ve kohortu doğumda iki ucu yaşayan
+    # paketlerdir; bu İKİNCİL oran düğüm kaybının göreve bedelini okur
+    # (ölü kaynağın üretemediği ve ölü hedefe doğan paketler paydada).
+    # Kayıp yokken PDR'ye birebir eşittir.
+    for yalniz_pencere, sonek in ((False, ""), (True, "_pencere")):
+        plan = paket_defteri.planlanan(yalniz_pencere)
+        teslim = (paket_defteri.pencerede_teslim if yalniz_pencere
+                  else paket_defteri.teslim)
+        cikti[f"gorev_teslim_orani{sonek}"] = teslim / plan if plan else None
+    # --- PDR yön ayrımı: aynı tanım, sınıf başına (K-171) --------------
+    if akis_siniflari is not None:
+        for yalniz_pencere, sonek in ((False, ""), (True, "_pencere")):
+            sayim = paket_defteri.sinif_sayimi(akis_siniflari, yalniz_pencere)
+            for sinif in sorted(sayim):
+                uretilen, teslim = sayim[sinif]
+                cikti[f"pdr_{sinif}{sonek}"] = (teslim / uretilen
+                                                if uretilen else None)
+
+    # --- enerji (`v2/15` C3, K-180): ağ toplamı ve düğüm başına dağılım --
+    if enerji_j is not None:
+        cikti["enerji_toplam_j"] = math.fsum(enerji_j)
+        cikti["enerji_dugum_p50_j"] = yuzdelik(enerji_j, 50)
+        cikti["enerji_dugum_p95_j"] = yuzdelik(enerji_j, 95)
+        cikti["enerji_dugum_maks_j"] = max(enerji_j) if enerji_j else None
 
     # --- gecikme ve IPDV: tam koşu ve pencere ikizi -------------------
     for yalniz_pencere, sonek in ((False, ""), (True, "_pencere")):

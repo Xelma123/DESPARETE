@@ -100,6 +100,15 @@ class Cerceve:
     hataya_acik_bit: int
     onbelge_s: float
     onbelge_bit: int
+    # 🔒 Eb/N0 = SINR · çarpan — `v2/15` A2 (K-173). İşlem kazancı kapalıyken
+    # TAM 1,0 (bugünkü model, çarpma birebir). Açıkken B / bit hızı: gövde
+    # 22/2 = 11, önbelge 22/1 = 22. Bit hızıyla aritmetik bu dosyada kalır.
+    govde_ebn0_carpani: float = 1.0
+    onbelge_ebn0_carpani: float = 1.0
+    # 🔒 A4 (K-177) — gövdenin hızı ve modülasyonu. Hız uyarlaması kapalıyken
+    # `Konfig.bit_hizi_bps` ve `Konfig.modulasyon` (bugünkü model).
+    hiz_bps: float = 0.0
+    govde_modulasyonu: str = "dqpsk"
 
     @property
     def veri_duzlemi_mi(self) -> bool:
@@ -128,8 +137,14 @@ class Cerceve:
         return (bas_s + self.onbelge_s, bas_s + self.sure_s)
 
 
+# 🔒 A4 (K-177) — hız → gövde modülasyonu (G1 · G2).
+HIZ_MODULASYONU: dict[float, str] = {1e6: "dbpsk", 2e6: "dqpsk",
+                                     5.5e6: "cck", 11e6: "cck"}
+
+
 def cerceve_kur(konfig: Konfig, tip: str, bayt: int | None = None,
-                mesaj_bayt: int | None = None) -> Cerceve:
+                mesaj_bayt: int | None = None,
+                hiz_bps: float | None = None) -> Cerceve:
     """🔒 Çerçeve süresinin ve hataya açık bit sayısının TEK tanımı.
 
     `bayt` verilmezse tipin `Konfig`teki boyutu kullanılır — çağrı yerinde
@@ -156,14 +171,33 @@ def cerceve_kur(konfig: Konfig, tip: str, bayt: int | None = None,
 
     # ⬇⬇⬇ BU İKİ SATIR PROJEDE TEKTİR. Başka hiçbir yerde `bit_hizi_bps` ya da
     # `onbelge_s` ile aritmetik yapılmaz; bir test bunu AST ile denetler.
-    sure_s = konfig.onbelge_s + (bayt * 8) / konfig.bit_hizi_bps
+    # A4: hız verilmezse — onay ve beacon temel hızda (hız uyarlaması
+    # açıkken), geri kalan `bit_hizi_bps`te (bugünkü model).
+    if hiz_bps is None:
+        hiz_bps = (konfig.temel_bit_hizi_bps
+                   if konfig.hiz_uyarlamasi and tip in ("onay", "beacon")
+                   else konfig.bit_hizi_bps)
+    sure_s = konfig.onbelge_s + (bayt * 8) / hiz_bps
     hataya_acik_bit = bayt * 8
     # Önbelge TEMEL hızda gönderilir; bit sayısı oradan türer (192 µs × 1 Mb/s
     # = 192 bit). Elle yazılsaydı süreyle ikinci bir doğru kaynağı olurdu.
     onbelge_bit = round(konfig.onbelge_s * konfig.temel_bit_hizi_bps)
+    # İşlem kazancı (A2): bit başına enerji, işaretin bandındaki gürültüye.
+    govde_carpan = onbelge_carpan = 1.0
+    if konfig.islem_kazanci:
+        govde_carpan = konfig.bant_genisligi_hz / hiz_bps
+        onbelge_carpan = konfig.bant_genisligi_hz / konfig.temel_bit_hizi_bps
+    modulasyon = konfig.modulasyon
+    if konfig.hiz_uyarlamasi:
+        dogrula(hiz_bps in HIZ_MODULASYONU,
+                f"802.11b hızı değil: {hiz_bps}")
+        modulasyon = HIZ_MODULASYONU[hiz_bps]
     # ⬆⬆⬆
     dogrula(onbelge_bit > 0, "önbelge bit sayısı pozitif olmalı")
 
     return Cerceve(tip=tip, bayt=int(bayt), sure_s=sure_s,
                    hataya_acik_bit=int(hataya_acik_bit),
-                   onbelge_s=konfig.onbelge_s, onbelge_bit=int(onbelge_bit))
+                   onbelge_s=konfig.onbelge_s, onbelge_bit=int(onbelge_bit),
+                   govde_ebn0_carpani=govde_carpan,
+                   onbelge_ebn0_carpani=onbelge_carpan,
+                   hiz_bps=hiz_bps, govde_modulasyonu=modulasyon)

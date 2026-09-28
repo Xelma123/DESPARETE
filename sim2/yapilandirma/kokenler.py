@@ -243,7 +243,12 @@ KOKENLER: dict[str, tuple[str, str]] = {
     "irtifa_min_m": ("DUYARSIZ",
                      "Üretici: `python kalibrasyon/duyarlilik.py` + `python kalibrasyon/cozunurluk.py` (8 Eylül 2026). OLCULEN ETKI |Δ| = 0,017 — deneyin cozunurlugu R = 0,0316'nin ALTINDA ve kendi hata payi icinde. ⚠️ Iddia SINIRLI: tek basina oynatildiginda (OAT) ve YALNIZ calisma noktasi ciktilarina duyarsiz; protokol SIRALAMASINA duyarliligi Faz 3'te olculur. ESKI GEREKCE: ölçüm var ama ESKİ çalışma noktasında (1000 m, α=3)"),
     "irtifa_maks_m": ("SINANMAMIS",
-                      "ölçüm var ama ESKİ çalışma noktasında (1000 m, α=3)"),
+                      "REFERANS DÜNYADA 300 m (bant 50–300 m AGL, `v2/14` §3 "
+                      "öğrenci onaylı) — `02` G9'un zarfı içinde (NATO Sınıf "
+                      "I ≤ 5 000 ft ≈ 1 524 m AGL) ama 300 SAYISI kaynakta "
+                      "yok; referans dünyada duyarlılığı ölçülmedi (eski "
+                      "ölçüm eski çalışma noktasında: 1000 m, α = 3). Faz 4.4 "
+                      "duyarlılık listesinde"),
     "iletim_menzili_m": ("TURETILMIS",
                          "280 m — BAGIMSIZ BIR SAYI DEGIL, MODELIN UZUNLUK "
                          "BIRIMI. Uretici: `python -u kalibrasyon/bag_kumesi.py i` "
@@ -328,9 +333,10 @@ KOKENLER: dict[str, tuple[str, str]] = {
                               "oynatılmadan duyarlılık borcu kapanmaz"),
 
     # ------------------------------------------------- fiziksel katman
-    "bit_hizi_bps": ("SINANMAMIS",
-                     "802.11b DQPSK 2 Mb/s — standart değer ama `02`de "
-                     "DOĞRULANMADI. Bianchi ±%15 dolaylı kısıtlıyor"),
+    "bit_hizi_bps": ("KAYNAK",
+                     "802.11b DQPSK 2 Mb/s — `02` G1 (Pei & Henderson: 1/2 "
+                     "Mb/s DBPSK/DQPSK) ve G2 (Boer, DSSS PHY). K-189'da "
+                     "kapandı; referans dünyada ARF bu hızdan başlar"),
     "temel_bit_hizi_bps": ("DUYARSIZ",
                  "Uretici: `python kalibrasyon/duyarlilik.py` + `python kalibrasyon/cozunurluk.py` (8 Eylul 2026). OLCULEN ETKI |D| = 0,004 — deneyin cozunurlugu R = 0,0316'nin ALTINDA ve kendi hata payi icinde. Iddia SINIRLI: tek basina (OAT) ve yalniz calisma noktasi ciktilarina. ESKI GEREKCE: 802.11b DBPSK 1 Mb/s — `02`de yok"),
     "onbelge_s": ("DUYARSIZ",
@@ -339,6 +345,103 @@ KOKENLER: dict[str, tuple[str, str]] = {
                           "2 MHz. Üretici: `python -u kalibrasyon/bag_kumesi.py i` (9 Eylül 2026). 🔒 CEBİR + ÖLÇÜM: bu sayı `sim2/` içinde YALNIZ gürültü tabanında geçiyor (AST ile tarandı), ve verici gücü gürültü tabanından TÜRETİLİYOR: Pt = N·β·PL(R) ⟹ SINR = β·PL(R)/PL(d), yani N SADELEŞİR. Düğümler arası girişim de ∝ N olduğu için o da sadeleşir; taşıyıcı dinleme eşiği N'dir ve karşılaştırdığı güçler ∝ N. Geriye TEK kalıntı karıştırıcının MUTLAK gücü, yani J/N — ve o ρ ile KALİBRE EDİLİYOR. ÖLÇÜLDÜ: gürültü tabanı X dB yükseltilip karıştırıcı X dB yükseltildiğinde kenar kümesi 133/133 BİREBİR aynı, derece farkı 0,000e+00. 🔒 Yani bu bir FİZİK PARAMETRESİ değil, bir BİRİM SEÇİMİDİR: değeri yalnız *−15 dBm ne demek* sorusunu tanımlar. ⚠️ Duyarlılık denetiminin ölçtüğü −0,112 bununla ÇELİŞMEZ: orada N oynatılırken karıştırıcı yeniden türetilmemişti. Değiştiren biri ρ kalibrasyonunu yeniden koşmak zorundadır. ⚠️ MODEL SINIRI BEYAN EDİLİR: bu modelde bant genişliği ile bit hızı BAĞIMSIZ parametrelerdir; gerçekte bağlıdırlar. Sadeleşme model içinde tamdır."),
     "frekans_hz": ("TURETILMIS",
                    "2,4 GHz — 802.11b bağlılığından TÜRER (standart o bantta çalışır); bit hızı, modülasyon ve MAC sabitleriyle aynı karardan gelir. Üretici: `python -u kalibrasyon/bag_kumesi.py i`. 🔒 İKİ KANALI VAR ve ayrıldı: YOL KAYBI yarısı yukarıdaki cebirle SADELEŞİR (statik kolda ×2 oynatma + karıştırıcı telafisi → kenar kümesi BİREBİR aynı, Jaccard 1,0000). DOPPLER yarısı sadeleşmez ve tek gerçek kanaldır: hareketli kolda aynı oynatma derece farkı 0,10 ve Jaccard 0,9254 veriyor — ilan edilmiş derece toleransının (0,3) ALTINDA. ⚠️ Duyarlılık denetiminin −0,234'ü ağırlıklı olarak yol kaybı kanalıydı, yani karıştırıcı ölçeği artefaktı."),
+    "tasiyici_dinleme": ("KAYNAK",
+                         "anahtar (`v2/15` A3, K-174): 'guc' = 802.11b CCA — "
+                         "önbelge sezme (alıcı kilidi) ya da enerji sezme — "
+                         "`02` G2 (Boer 1996, CCA mod 1/2/3). Varsayılan "
+                         "'geometrik' = eski dünya; dünya değişimi A8'de"),
+    "ed_esigi_dbm": ("KAYNAK",
+                     "−76 dBm — `02` G2 (Boer 1996): ED eşiği iletilen "
+                     ">100 mW → −80 · >50 mW → −76 · ≤50 mW → −70 dBm; "
+                     "referans telsiz 61 mW (`v2/14`)"),
+    "karistirici_denetim_araligi_s": ("TURETILMIS",
+                                      "10 ms — 200 km/h'de 0,55 m; yalnız "
+                                      "hareketli karıştırıcıyla donmuş "
+                                      "düğümde (`v2/15` A3, öğrenci onayı "
+                                      "K-170)"),
+    "dunya": ("TURETILMIS",
+              "anahtar (`v2/15` A7, K-178): 'referans_2026' = `v2/14`ün "
+              "onaylı 1:1 dünyası (K-169), `kanal/dunya.py` kurar; "
+              "varsayılan 'olcek_1_50' = eski dünya; değişim A8'de"),
+    "verici_eirp_dbm": ("KAYNAK",
+                        "20 dBm referansta — AB/TR 2,4 GHz EIRP sınırı, "
+                        "`02` G2 · G7 (`v2/14` §1); eski dünyada None (güç "
+                        "menzilden türer)"),
+    "alici_anten_kazanci_dbi": ("TURETILMIS",
+                                "referansta 2,15 dBi — yarım dalga dipolün "
+                                "en büyük kazancı (`v2/14` §1, onaylı; "
+                                "`bag_butcesi.py` ile aynı); eski dünyada 0 "
+                                "(verici gücü türetildiği için sadeleşir)"),
+    "menzil_snr_db": ("TURETILMIS",
+                      "referansta SNR(PER %10, 2 Mb/s) + 10 dB pay — "
+                      "`bag_butcesi.py` ile aynı tanım (`kanal/dunya.py`); "
+                      "eski dünyada None (menzilde SNR = β)"),
+    "karistirici_taban_dbm": ("SINANMAMIS",
+                              "referansta 40 dBm (10 W toplam ortalama) — "
+                              "öğrenci kararı K-186: birincil hücre "
+                              "`derin_sizma` 10 W; `v2/14` §4 taşınabilir/araç "
+                              "bandının alt ucu, kaynağı S3 (kanıt gücü düşük) "
+                              "→ SINANMAMIŞ kalır. Rejim ölçüldü: "
+                              "`b_aile_guc.txt`. Eski dünyada None"),
+    "kayip_dugum_sayisi": ("TEDAVI",
+                           "TEDAVİ ekseni — düğüm kaybı (`v2/15` C1, K-180); "
+                           "varsayılan 0"),
+    "kayip_bas_s": ("TEDAVI",
+                    "düğüm kaybı penceresinin başı (`v2/15` C1, K-180)"),
+    "kayip_bitis_s": ("TEDAVI",
+                      "düğüm kaybı penceresinin sonu (`v2/15` C1, K-180)"),
+    "enerji_gonderim_w": ("KAYNAK",
+                          "10,6 W — `02` G7 (Doodle Labs, gönderimde en çok); "
+                          "`v2/14` §8"),
+    "enerji_alim_w": ("KAYNAK",
+                      "2 W — `02` G7 (alım/dinleme); `v2/14` §8"),
+    "karistirici_gercekci": ("KAYNAK",
+                             "anahtar (`v2/15` A6, K-176): karıştırıcı "
+                             "bağında sönümleme (düğüm bağıyla aynı model) · "
+                             "yer–hava kanalı `02` G6 (Al-Hourani 2014) · "
+                             "reaktif sezme eşiği · aldatıcının sahte "
+                             "çerçevesi alıcıyı kilitler (`02` G5). "
+                             "Varsayılan kapalı = eski dünya"),
+    "yer_karistirici_yukseklik_m": ("TURETILMIS",
+                                    "3 m — `v2/14` onaylı aralığın "
+                                    "(1,5–5 m) ortası"),
+    "a2g_ortam": ("KAYNAK",
+                  "banliyö — `02` G6'da açık kırsal yok, en yakını banliyö "
+                  "(`v2/14`, onaylı); S-eğrisi a = 4,880, b = 0,429 "
+                  "makalenin Tablo I–II'sinden hesaplanır (`kanal/yer_hava.py`)"),
+    "a2g_durum_dilimi_s": ("TURETILMIS",
+                           "1 s — banliyöde bina aralığı 1/√β ≈ 37 m "
+                           "(β = 750/km², G6); 100 km/h'de ≈ 1,3 s"),
+    "reaktif_esik_dbm": ("SINANMAMIS",
+                         "−90 dBm — öneri: 802.11b alıcı duyarlılığı "
+                         "mertebesi (K-173: −92,5 dBm). Reaktif "
+                         "karıştırıcının sezme eşiği için kaynak aranacak"),
+    "reaktif_sezme_olasiligi": ("SINANMAMIS",
+                                "0,95 — eskiden kodda sabitti (`kanal/"
+                                "karistirici.py`), `v2/15` A6 ile köken "
+                                "defterine alındı; kaynak aranacak"),
+    "yayilim_gecikmesi": ("TURETILMIS",
+                          "anahtar (`v2/15` A5, K-175): açıkken varış "
+                          "gecikmesi d/c (ışık hızı — fizik); onay bekleme "
+                          "en uzak duyma mesafesinin gidiş-dönüşünü kapsar. "
+                          "Varsayılan kapalı = eski dünya (1:50'de ihmal "
+                          "edilebilirdi, gerçek ölçekte slottan uzun)"),
+    "hiz_uyarlamasi": ("KAYNAK",
+                       "anahtar (`v2/15` A4, K-177): ARF `02` G14 (ns-3 "
+                       "`ArfWifiManager`); hızlar 1/2/5,5/11 Mb/s ve CCK hata "
+                       "modeli G1 · G12; yayın ve onay temel hızda 1 Mb/s. "
+                       "Varsayılan kapalı = eski dünya (sabit 2 Mb/s)"),
+    "arf_basari_esigi": ("KAYNAK",
+                         "10 — `02` G14 (ns-3 `SuccessThreshold` varsayılanı)"),
+    "arf_zamanlayici_esigi": ("KAYNAK",
+                              "15 — `02` G14 (ns-3 `TimerThreshold` "
+                              "varsayılanı; özgün ARF'nin zaman sayacının "
+                              "paket sayaçlı karşılığı)"),
+    "islem_kazanci": ("KAYNAK",
+                      "anahtar (`v2/15` A2, K-173): açıkken Eb/N0 = SINR · "
+                      "B/R_b, B = 22 MHz — `02` G1 (Pei & Henderson 2009; "
+                      "ns-3 `DsssErrorRateModel`) · G2 (Boer 1996). "
+                      "Varsayılan kapalı = eski dünya; dünya değişimi A8'de"),
     "modulasyon": ("DUYARSIZ",
                     "Uretici: `python kalibrasyon/duyarlilik.py statik modulasyon` (9 Eylul 2026). OLCULEN ETKI |D| = 0,007 — deneyin cozunurlugu R = 0,0316 altinda. 🔴 ILK TARAMADA HIC OYNATILMAMISTI (str tipi hicbir dala girmiyordu) ve yanlislikla OLCULEMEDI diye raporlanmisti. ESKI GEREKCE: DQPSK — `02`de yok"),
     "yol_kaybi_usteli": ("TURETILMIS",
@@ -378,6 +481,15 @@ KOKENLER: dict[str, tuple[str, str]] = {
 
     # ---------------------------------------------------------- sönümleme
     "sonumleme_acik": ("TURETILMIS", "açık; ablasyon için False"),
+    "sonumleme_uretec": ("TURETILMIS",
+                         "uygulama seçimi, fiziksel parametre değil (K-198): "
+                         "aynı yenilik dağılımı (bağımsız N(0, 1)), aynı süzgeç; "
+                         "'blok' = bağ başına blake2b anahtarı + SplitMix64 "
+                         "sayacı (Steele ve ark. 2014), birincil hücrede "
+                         "sönümleme maliyetini düşürmek için. Varsayılan "
+                         "'tekil' = eski dünya birebir; referans dünyada "
+                         "'blok'. İstatistiksel denkliği testlerde (ortalama, "
+                         "varyans, otokorelasyon, basıklık) sınanır"),
     "rician_k_db": ("SINANMAMIS",
                     "6 dB — 🔒 ARTIK KEYFI DEGIL, SINANABILIR BIR FIZIK "
                     "IDDIASI; ama HENUZ DOGRULANMADI. Uretici: `python -u "
@@ -419,19 +531,42 @@ KOKENLER: dict[str, tuple[str, str]] = {
     "anten_deseni_acik": ("TURETILMIS", "açık; ablasyon için False"),
     "yakalama_etkisi_acik": ("TURETILMIS", "açık; ablasyon için False"),
     "yakalama_esigi_db": ("SINANMAMIS", "10 dB capture eşiği; kaynak yok"),
-    "yakalama_penceresi_s": ("SINANMAMIS",
-                             "🔴 `onbelge_s` ile AYNI değer, ama ayrı bir "
-                             "sabit olarak yazılmış — ikisi bağımsız "
-                             "değişebilir. Türetilmeli"),
+    "gps_yatay_cep_m": ("KAYNAK",
+                        "1,5 m CEP — `02` G7 (Doodle Labs veri sayfası, "
+                        "yerleşik GPS); `v2/14` §3"),
+    "gps_dikey_sigma_m": ("SINANMAMIS",
+                          "2 m — `v2/15` B3 önerisi, öğrenci onayı K-170; "
+                          "kaynak aranacak"),
+    "gps_hiz_sigma_ms": ("SINANMAMIS",
+                         "0,1 m/s — öneri (GPS hız doğruluğu mertebesi); "
+                         "`v2/15` B3 hız hatası belirtmiyordu; kaynak aranacak"),
+    "gps_tazeleme_s": ("TURETILMIS",
+                       "1 s — `v2/15` B3 (1 Hz tazeleme), onaylı K-170"),
+    "rssi_olcum_sigma_db": ("SINANMAMIS",
+                            "σ 2 dB — `v2/15` B2 önerisi, öğrenci onayı "
+                            "K-170; kaynağı aranacak (telsiz veri sayfası ya "
+                            "da RSSI doğruluk ölçümü)"),
+    "yakalama_penceresi_s": ("TURETILMIS",
+                             "192 µs = önbelge süresi (`onbelge_s`: uzun PLCP "
+                             "önbelgesi 144 µs + başlık 48 µs, ns-3 "
+                             "`dsss-phy.cc`) — TANIM gereği: alıcı PLCP "
+                             "başlığını çözene kadar daha güçlü bir çerçeveye "
+                             "geçebilir, gövdede kilidi bırakmaz (`konfig.py` "
+                             "gerekçesi). Ayrı sabit kasıtlı (önbelge "
+                             "aritmetiği `cerceve.py`de kalsın); SESSİZ "
+                             "ayrışmayı `test_K198_yakalama_penceresi_ONBELGEYE_"
+                             "esit` yakalar (K-198; eski borç: 'ikisi bağımsız "
+                             "değişebilir')"),
 
     # --------------------------------------------------------------- MAC
     "slot_s": ("DUYARSIZ",
                  "Uretici: `python kalibrasyon/duyarlilik.py` + `python kalibrasyon/cozunurluk.py` (8 Eylul 2026). OLCULEN ETKI |D| = 0,005 — deneyin cozunurlugu R = 0,0316'nin ALTINDA ve kendi hata payi icinde. Iddia SINIRLI: tek basina (OAT) ve yalniz calisma noktasi ciktilarina. ESKI GEREKCE: 802.11b 20 µs — `02`de yok, Bianchi dolaylı"),
     "sifs_s": ("DUYARSIZ",
                  "Uretici: `python kalibrasyon/duyarlilik.py` + `python kalibrasyon/cozunurluk.py` (8 Eylul 2026). OLCULEN ETKI |D| = 0,004 — deneyin cozunurlugu R = 0,0316'nin ALTINDA ve kendi hata payi icinde. Iddia SINIRLI: tek basina (OAT) ve yalniz calisma noktasi ciktilarina. ESKI GEREKCE: 802.11b 10 µs — `02`de yok, Bianchi dolaylı"),
-    "cca_s": ("SINANMAMIS",
-              "4 µs; sıfır olmaması gerekçeli (çarpışma kaynağı) ama DEĞER "
-              "gerekçesiz"),
+    "cca_s": ("KAYNAK",
+              "REFERANS DÜNYADA 15 µs — `02` G2 (Boer: enerji sezme 15 µs); "
+              "`kanal/dunya.py` yazar. Eski dünyanın varsayılanı 4 µs "
+              "tarihseldir (gerekçesiz), deneyler referansta koşar (K-189)"),
     "cw_min": ("DUYARSIZ",
                  "Uretici: `python kalibrasyon/duyarlilik.py` + `python kalibrasyon/cozunurluk.py` (8 Eylul 2026). OLCULEN ETKI |D| = 0,005 — deneyin cozunurlugu R = 0,0316'nin ALTINDA ve kendi hata payi icinde. Iddia SINIRLI: tek basina (OAT) ve yalniz calisma noktasi ciktilarina. ESKI GEREKCE: 802.11b 31 — `02`de yok, Bianchi dolaylı"),
     "cw_max": ("TURETILMIS",
@@ -446,10 +581,13 @@ KOKENLER: dict[str, tuple[str, str]] = {
                "Uretici: `python -u kalibrasyon/bag_kumesi.py l`. "
                "🔴 KOSULLU BIR ATALETTIR: `yeniden_deneme_siniri` 5'in ustune "
                "cikarsa cw_max CANLI hale gelir ve bu kayit gecersizlesir"),
-    "yeniden_deneme_siniri": ("SINANMAMIS",
-                              "🔴 4 = UZUN çerçeve sınırı; bizim 512 baytlık "
-                              "çerçevemiz RTS eşiğinin altında, yani KISA "
-                              "sınır (7) geçerli. Ölçüldü: etkisi yok"),
+    "yeniden_deneme_siniri": ("KAYNAK",
+                              "REFERANS DÜNYADA 7 — kısa yeniden deneme "
+                              "sınırı, `02` G12 (ns-3) ve G13 (Linux "
+                              "cfg80211) bağımsız iki uygulama; 512 B'lık "
+                              "çerçeve RTS eşiğinin altında. Eski dünyanın "
+                              "4'ü (uzun sınır) tarihsel; etkisi ölçülmüştü: "
+                              "yok (K-189)"),
     # 🔴 `DUYARSIZ` KOVASINDAN ÇIKTI — 16 Eylül 2026 (K-132):
     # 20 tohumlu yeniden ölçüm aklamayı ÇÜRÜTTÜ.
     "onay_bayt": ("SINANMAMIS",
@@ -480,8 +618,9 @@ KOKENLER: dict[str, tuple[str, str]] = {
                     "katında 0,9967. Ölçüm DEĞERİ seçmedi, güvenli tarafta "
                     "olduğunu gösterdi; bayat duyarlılık borcu DEVAM EDİYOR "
                     "(K-126)"),
-    "akis_paket_hizi_hz": ("SINANMAMIS",
-                           "4,0 — `akis_sayisi` ile AYNI kayıt; ikisi tek "
+    "akis_paket_hizi_hz": ("TEDAVI",
+                           "TEDAVİ ekseni — trafik yoğunluğu (`v2/15` C2, "
+                           "K-180). Varsayılan 4,0 — `akis_sayisi` ile AYNI kayıt; ikisi tek "
                            "yükü (10 × 4,0 = 40 pkt/s) birlikte tanımlar "
                            "(K-126)"),
     "cbr_titresim_s": ("DUYARSIZ",
@@ -516,8 +655,9 @@ KOKENLER: dict[str, tuple[str, str]] = {
     "gecit_konumu": ("KOL_TANIMI",
                      "`kenar` — derinliği artırır, yer istasyonları cephe "
                      "gerisinde durur (`v2/07` §06.2); `merkez` keşifsel eksen"),
-    "telemetri_paket_hizi_hz": ("OLCULMUS",
-                                "1,0 pkt/s. 🟢 C3 KOSTU (15 Eylul 2026, K-126). Uretici: `python -u kalibrasyon/yere_toplama_yuku.py`. "
+    "telemetri_paket_hizi_hz": ("TEDAVI",
+                                "TEDAVİ ekseni — trafik yoğunluğu (`v2/15` C2, "
+                                "K-180). Varsayılan 1,0 pkt/s. 🟢 C3 KOSTU (15 Eylul 2026, K-126). Uretici: `python -u kalibrasyon/yere_toplama_yuku.py`. "
                                 "Olcut TARAMADAN ONCE ilan edildi (K-124): karistiricisiz kolda kahin PDR >= 0,95 "
                                 "tutan EN BUYUK telemetri hizi. Olcut harfiyen 2,0 seciyordu (PDR 0,9841) ama "
                                 "eksen dengesini BOZUYORDU: 39x1,0 + 4x0,25 = 40,0 pkt/s ve `esler_arasi` da "
@@ -533,8 +673,9 @@ KOKENLER: dict[str, tuple[str, str]] = {
                           "4×0,25 = 40,0 ve `esler_arasi` da 10×4,0 = 40,0 "
                           "sunar. Ayrı bir seçim değil, o eşitliğin parçası "
                           "(K-126)"),
-    "komut_paket_hizi_hz": ("TURETILMIS",
-                            "0,25 — telemetriye ORANLA gider (telemetri × "
+    "komut_paket_hizi_hz": ("TEDAVI",
+                            "TEDAVİ ekseni — trafik yoğunluğu (`v2/15` C2, "
+                            "K-180). Varsayılan 0,25 — telemetriye ORANLA gider (telemetri × "
                             "0,25) ve C3 taramasında o oranla birlikte "
                             "oynadı; ayrı bir eksen açmak taramayı iki "
                             "boyutlu yapardı ve komut akışı yükün küçük "
@@ -556,24 +697,27 @@ KOKENLER: dict[str, tuple[str, str]] = {
     # yani tampon hic devreye girmiyor ve bir olcum SIFIR uretirdi — kuyruk
     # kapasitesinin 9 Eylul'de coken gerekcesinin ta kendisi. Verdikt Asama
     # 2'de, gercek bir AODV ile verilir.
-    "rota_tamponu_kapasitesi": ("SINANMAMIS",
-                                "64 paket; RFC 3561 §6.3 tamponlamayi SART "
-                                "kosar ama bir SAYI vermez. 64, NS-2'nin "
-                                "`aodv_rqueue` gelenegidir (RQUEUE_MAX_LEN). "
-                                "Sonlu olmasi gerekceli: tavansiz bir tampon "
-                                "sonsuz kuyruktur ve gecikme metrigini "
-                                "anlamsizlastirir (`ag/kuyruk.py` ayni "
-                                "gerekce). DEGERI gerekcesiz — Asama 2'de "
-                                "gercek AODV ile olculecek"),
-    "rota_tamponu_omru_s": ("SINANMAMIS",
-                            "30,0 s; NS-2'nin `RQUEUE_TIMEOUT` gelenegi. "
-                            "Sure tavani AYRI bir tavandir ve gereklidir: "
-                            "paket sayisi tavani, az sayida paketin SONSUZA "
-                            "kadar beklemesini engellemez. DEGERI gerekcesiz. "
-                            "⚠️ Olcum penceresi 270 s oldugu icin 30 s ONEMLI "
-                            "bir sure — bu parametre PDR'yi ve gecikmeyi "
-                            "dogrudan oynatabilir ve Asama 2'de once o "
-                            "olculecek"),
+    "rota_tamponu_kapasitesi": ("KAYNAK",
+                                "64 paket — uygulama kaynağı (K-198): ns-3 "
+                                "`aodv-routing-protocol.cc` `MaxQueueLen` "
+                                "varsayılanı 64; kuyruk dolunca EN ESKİ paket "
+                                "düşer (`aodv-rqueue.cc`) — buradaki kuralla "
+                                "aynı. ns-3 AODV'si NS-2'nin CMU/MONARCH "
+                                "modeline dayanır (Das ve Marina ayarlı). RFC "
+                                "3561 §6.3 tamponlamayı şart koşar, sayı vermez. "
+                                "Sonlu olması gerekçeli: tavansız tampon sonsuz "
+                                "kuyruktur ve gecikme metriğini anlamsızlaştırır. "
+                                "Değerin SONUCA etkisi ayrıca ölçülecek "
+                                "(birincil hücrede 64 ↔ 256, `v2/12` İ-8c)"),
+    "rota_tamponu_omru_s": ("KAYNAK",
+                            "30,0 s — uygulama kaynağı (K-198): ns-3 "
+                            "`MaxQueueTime` varsayılanı `Seconds(30)`; süresi "
+                            "dolan paket `Purge`da düşer. Süre tavanı AYRI bir "
+                            "tavandır ve gereklidir: sayı tavanı az sayıda "
+                            "paketin sonsuza kadar beklemesini engellemez. "
+                            "⚠️ Ölçüm penceresine göre 30 s ÖNEMLİ bir süre — "
+                            "PDR'yi ve gecikmeyi doğrudan oynatabilir; etkisi "
+                            "birincil hücrede 30 ↔ 60 s ölçülecek (İ-8c)"),
 
     "kuyruk_kapasitesi": ("SINANMAMIS",
                           "50; sonlu olmasi gerekceli, DEGERI degil. "
@@ -700,6 +844,62 @@ KOKENLER: dict[str, tuple[str, str]] = {
 # şey içe aktarmaz. Tek bir köken kaydı olması, ikinci bir kayıt defterinin
 # doğmasından iyidir.
 MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
+    # ------------------------------------------ Faz 1 (`v2/15` A2–A7)
+    # 🔴 K-180'de mimari denetimi (D12) yakaladı: A2–A7 bu sekiz sabiti
+    # köken defterine yazmadan ekledi (ajan). Üçü geçici değerdir ve
+    # SINANMAMIŞ borcuna girer — borç vardı, yalnız görünmüyordu.
+    "sim2/yapilandirma/konfig.py::DSSS_KANAL_BANDI_HZ": (
+        "KAYNAK",
+        "22 MHz — `02` G1 (Pei & Henderson 2009): 802.11b gürültüsü 22 "
+        "MHz'lik kanalda; işlem kazancı Eb/N0 = SINR·B/R_b bu banttan "
+        "(A2, K-173)"),
+    "sim2/yapilandirma/konfig.py::HIZLAR_BPS": (
+        "KAYNAK",
+        "1 · 2 · 5,5 · 11 Mb/s — `02` G1 (DBPSK, DQPSK, CCK 5,5/11) ve G2 "
+        "(DSSS 1/2 Mb/s); ARF'nin basamakları (A4, K-177)"),
+    "sim2/kanal/cerceve.py::HIZ_MODULASYONU": (
+        "KAYNAK",
+        "1 Mb/s DBPSK · 2 Mb/s DQPSK · 5,5/11 Mb/s CCK — `02` G1; önbelge "
+        "her hızda 1 Mb/s DBPSK (G2). Çerçeve düzeyinde kip (A4, K-177)"),
+    "sim2/kanal/yer_hava.py::A2G_ORTAMLARI": (
+        "KAYNAK",
+        "`02` G6 (Al-Hourani 2014): ortam parametreleri (α, β, γ) Şekil 2 "
+        "metninden, ek kayıp (η_LoS, η_NLoS) §III'ten — banliyö (0,1; 21) · "
+        "kentsel (1,0; 20) · yoğun (1,6; 23) · yüksek (2,3; 34) dB (A6, "
+        "K-176)"),
+    "sim2/kanal/dunya.py::REFERANS_EIRP_DBM": (
+        "KAYNAK",
+        "20 dBm — `02` G7: Avrupa EIRP sınırı 100 mW (2,4 GHz); `v2/14` §1 "
+        "(A7, K-178)"),
+    "sim2/kanal/dunya.py::REFERANS_GOREV_YARICAPI_M": (
+        "OLCULMUS",
+        "16 km — Üretici: `python kalibrasyon/calisma_noktasi.py --dunya "
+        "referans_2026 --bolum gorev_kolu` (8 tohum × 3 an; 33 km). Görev "
+        "derecesi 8,10 ↔ bağımsız 8,16 (fark 0,06, oran 0,993); ızgara 6–16 "
+        "km, 2r < alan sınırı 16,5 km (K-188)"),
+    "sim2/kanal/dunya.py::REFERANS_PAY_DB": (
+        "SINANMAMIS",
+        "10 dB — nominal bağın PER %10 duyarlılığının üstündeki payı "
+        "(`kalibrasyon/bag_butcesi.py`); menzil ve yerleşim kuralları bundan "
+        "türer. Mühendislik payı, kaynak yok; Faz 4.1'de çalışma noktasıyla "
+        "sınanır (A7, K-178)"),
+    "sim2/kanal/dunya.py::REFERANS_ALAN_M": (
+        "OLCULMUS",
+        "33 km — Üretici: `python kalibrasyon/calisma_noktasi.py --dunya "
+        "referans_2026 --bolum alan_taramasi 25000 30000 33000 35000 37000 "
+        "40000 45000` (30 tohum; K-188, gölgeleme birimi düzeltilmiş). "
+        "Altındaki HER alanın kopmadığı en büyük alan: derece 9,67, derin "
+        "çift %26,9. 35 ve 37 km kopar; 40 km'nin geçmesi örnekleme şansı. "
+        "(K-185'teki 35 km hatalı gölgeleme birimiyle ölçülmüştü.) "
+        "`v2/14` §3'ün ~6–8 km'si 10 dB paylı nominal bağa dayanıyordu; "
+        "simülatörün kanalında bağ ~9–10 km. Öğrenci gerçekçiliği öne koydu, "
+        "karar ajanın (K-185). ⚠️ Gövde gölgelemesi ve anten yönelimi "
+        "modellenmiyor — bağ üst sınır, alan da öyle"),
+    "sim2/kanal/dunya.py::REFERANS_KARISTIRICI_DBM": (
+        "SINANMAMIS",
+        "40 dBm (10 W) — öğrenci kararı K-186 (birincil hücre derin_sizma); "
+        "`karistirici_taban_dbm` kaydıyla AYNI borç (referans dünya bu "
+        "sabiti o alana yazar; kaynak S3 doğrulanmadı)"),
     # ------------------------------------------ kontrol düzlemi (K-112)
     "sim2/kanal/cerceve.py::KONTROL_KAPSULLEME": (
         "SINANMAMIS",
@@ -735,6 +935,26 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "kalibrasyon/sonumleme_onbellegi.py — 1 000 000 · 250 000 · 100 000 "
         "sınırlarının ÜÇÜ de sınırsız hâlle BİREBİR aynı sonucu verdi; "
         "ıskalama artışı sırasıyla %0,09 · %0,36 · %0,88"),
+    "sim2/kanal/sonumleme.py::AGIRLIK_ONBELLEK_SINIRI": (
+        "TURETILMIS",
+        "20 000 — FIR ağırlık önbelleğinin tavanı (performans, 28 Eylül "
+        "2026). Sonucu DEĞİŞTİREMEZ: ağırlıklar aynı işlemle aynı sırada "
+        "üretilir, dolunca boşaltılır ve yeniden hesaplanır; yalnız süreyi "
+        "ve belleği belirler. Birebirlik tam sonuç satırı karşılaştırmasıyla "
+        "ve regresyonla gösterilir"),
+    "sim2/kanal/sonumleme.py::PENCERE_ONBELLEK_SINIRI": (
+        "TURETILMIS",
+        "20 000 — blok üretecinin (K-198) pencere önbelleği tavanı. Sonucu "
+        "DEĞİŞTİREMEZ: pencere indeksin saf fonksiyonu, dolunca boşaltılır "
+        "ve aynı değerle yeniden üretilir (`test_K198_blok_IZLER_…` tavanı 3 "
+        "yapıp tahliye altında izi karşılaştırır). Girdi ~2,3 KB → tavanda "
+        "~46 MB; birincil hücrenin 4 s'lik koşusunda 4 tahliye"),
+    "sim2/kanal/yayilim.py::YAVAS_ONBELLEK_SINIRI": (
+        "TURETILMIS",
+        "1<<18 — yavaş kayıp önbelleğinin tavanı (K-190). Sonucu "
+        "DEĞİŞTİREMEZ: anahtar tam girdidir, dolunca boşaltılır ve değer "
+        "aynı işlemle yeniden hesaplanır; yalnız süreyi ve belleği "
+        "belirler. Birebirlik regresyonla gösterilir"),
     "sim2/kanal/yayilim.py::KOSE_ONBELLEK_SINIRI": (
         "OLCULMUS",
         "1<<19 gölgeleme köşe önbelleği. 🟢 18 Eylül 2026'da ÖLÇÜLDÜ "
@@ -767,6 +987,17 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "`bolunme_payi` `None` döner — *'bölünme yok'* ile *'bakılmadı'* "
         "ayrı (`None ≠ 0`). Duyarlılık borcu YOK: bir ölçümün kapsamıdır, "
         "sonucu belirleyen bir değer değildir."),
+    "sim2/yapilandirma/senaryolar.py::MOBILITE_THETA_REFERANS": (
+        "OLCULMUS",
+        "Üretici: `python -u kalibrasyon/theta_kollari.py --dunya "
+        "referans_2026` (27 Eylül 2026, K-188; 33 km, gölgeleme 2,5 km, "
+        "6 tohum). Bağımsız 5,15 · görev 2,79 · formasyon tanımsız "
+        "(%99,6 kopmuyor, tek ömür) · statik tanımsız"),
+    "sim2/yapilandirma/senaryolar.py::MOBILITE_BOLUNME_REFERANS": (
+        "OLCULMUS",
+        "Üretici: `python -u kalibrasyon/dugum_sayisi.py --dunya "
+        "referans_2026 --bolunme` (27 Eylül 2026, K-188; 33 km). 8/160 "
+        "bölünmüş (kol, tohum); çoğu tek kenar düğümü"),
     "sim2/yapilandirma/senaryolar.py::MOBILITE_THETA": (
         "OLCULMUS",
         "Üretici: `python -u kalibrasyon/theta_kollari.py` (14 Eylül 2026; "
@@ -916,6 +1147,13 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "1e9 — p = 0 olan bağlar için sonsuz yerine büyük bir sayı; "
         "Dijkstra'yı basitleştirir ve bu bağlar zaten hiç seçilmez. Bir DEĞER "
         "seçimi değil, sonsuzun sonlu karşılığı"),
+    "kalibrasyon/kayip_anatomisi.py::BAG_DILIMI_S": (
+        "TURETILMIS",
+        "5 s — yalnız TEŞHİS (K-193): hareketli ya da karıştırıcılı kolda "
+        "protokolün karar bağlarının kâhin kalitesinin okunduğu dilim. "
+        "`derin_sizma`nın 15 s açık · 15 s kapalı çizelgesinin üçte biri — "
+        "her evre en az iki dilimle örneklenir. Başarısız bağlar dilimsiz, "
+        "düşüş anında okunur. Simülasyona ve protokol kararına girmez"),
 
     # ------------------------------------------------- çalışma noktası
     "kalibrasyon/calisma_noktasi.py::BASARI_ESIGI": (
@@ -934,6 +1172,19 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "TEDAVI",
         "(1000…2000 m) — alan büyüklüğü TARAMASININ ekseni. Bir değer değil, "
         "aranan aralık; çalışma noktası (1800 m) bu taramanın SONUCU"),
+    # Faz 4 (K-183) — referans dünyanın tarama eksenleri
+    "kalibrasyon/calisma_noktasi.py::ALANLAR_REFERANS": (
+        "TEDAVI",
+        "(5…30 km) — referans dünyada alan taramasının ekseni; seçilen 35 km "
+        "komut satırından genişletilmiş taramanın SONUCU (K-185)"),
+    "kalibrasyon/calisma_noktasi.py::YARICAPLAR": (
+        "TEDAVI",
+        "(250…750 m) — görev kolu yarıçap taramasının ekseni (eski dünya; "
+        "K-183'e kadar satır içindeydi)"),
+    "kalibrasyon/calisma_noktasi.py::YARICAPLAR_REFERANS": (
+        "TEDAVI",
+        "(6…16 km) — aynı eksen referansta; alan 35 km (K-185) → alan "
+        "oranıyla ~12,6 km, ızgara onu kuşatır (K-187)"),
 
     # ------------------------------------------------- çalkantı (Θ)
     "kalibrasyon/calkanti.py::OLSR_TOP_HOLD_S": (
@@ -977,6 +1228,24 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "SINANMAMIS",
         "40 çift — tohum başına izlenen kaynak-hedef çifti. Örnekleme "
         "büyüklüğü; Θ'nın hata payını belirliyor ama seçilmedi"),
+    "kalibrasyon/karistirici_gucu.py::GUCLER_REFERANS": (
+        "TEDAVI",
+        "(20…47 dBm) — referans dünyada güç taramasının ekseni; `v2/14` §4'ün "
+        "kaynak bandı: İHA taşıyıcılı 1–5 W · taşınabilir 10 W · araç 50 W "
+        "(K-183)"),
+    "kalibrasyon/karistirici_gucu.py::MESAFE_ORANLARI": (
+        "TEDAVI",
+        "(0…1,5 × yarım kenar) — karıştırıcı mesafe taramasının ekseni: "
+        "merkez, kenar ve alan dışı (K-183)"),
+    "kalibrasyon/karistirici_gucu.py::BUYUK_BOLUNME_ORANI": (
+        "TURETILMIS",
+        "0,10 — ikinci bileşen ≥ bir MÜFREZE (N/10 = 4 İHA; `gorev_grup_"
+        "sayisi` 10 × 4 üye). Sert kısıtın gerekçesi \"ağın İKİ BÜYÜK "
+        "parçaya ayrılması\"; daha küçük kopuk grup boğulmadır (K-186)"),
+    "kalibrasyon/karistirici_gucu.py::ISCI": (
+        "TURETILMIS",
+        "8 — havuz işçisi (çalışma kuralı). Sonucu DEĞİŞTİRMEZ: tohum "
+        "sonuçları `map` ile tohum sırasıyla toplanır; yalnız süreyi belirler"),
     "kalibrasyon/karistirici_gucu.py::TESHIS_X": (
         "TURETILMIS",
         "0,60 — teşhis varyantının batıya kaydırılmış x'i (depodaki 0,75 "
@@ -1131,6 +1400,12 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "3 tohum — evre metriklerinin doğrulama kapıları için. Kapı verdikti "
         "KOL ORTALAMASINDA veriliyor, ama 3 tohum az; kapılar bir gün "
         "sınırda kalırsa ilk artırılacak sayı budur"),
+    "kalibrasyon/evre_metrikleri_kapilari.py::G1P_TOHUMLAR": (
+        "TURETILMIS",
+        "2 tohum × 4 protokol = 8 koşu = havuzun 8 işçisi: referans dünyada "
+        "tam pencere bir koşu ~16 dk, yani kapı TEK turda ~20 dk'da biter "
+        "(30 dk sınırının altında). Ölçüt koşu SAYISINA göre yazıldı (≤ 1/8; "
+        "`arsiv/teshis/evre_g1p_2026-09-28/beklenti.md`), K-196"),
     "kalibrasyon/iki_cift.py::TOHUMLAR": (
         "TURETILMIS",
         "3 tohum — iki çift probu DETERMİNİSTİK bir soru soruyor ('iki uzak "

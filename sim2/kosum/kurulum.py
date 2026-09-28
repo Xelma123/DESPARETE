@@ -39,13 +39,37 @@ from sim2.cekirdek.sayaclar import Sayaclar
 from sim2.dunya.topoloji import Topoloji, topoloji_kur
 from sim2.kanal.cerceve import Cerceve, cerceve_kur
 from sim2.kanal.kanal import Kanal
+from sim2.kanal.yayilim import ISIK_HIZI
+from sim2.kosum.kayip import olum_anlari
 from sim2.mac.dcf import DcfZamanlari
 from sim2.olcum.kayip_yeri import KayipYeri
 from sim2.olcum.paket_defteri import PaketDefteri
 from sim2.olcum.rota_olaylari import RotaDefteri
 from sim2.yapilandirma.konfig import Konfig
 
-__all__ = ["Kurulum", "kurulum_yap"]
+__all__ = ["Kurulum", "kurulum_yap", "duyma_turetimi"]
+
+
+def duyma_turetimi(konfig: Konfig, beacon: Cerceve,
+                   menzil_m: float | None = None) -> tuple[float, float]:
+    """`(duyanlar_menzili_m, maks_gecikme_s)` — TEK türetim (K-183).
+
+    🔴 NEDEN AYRI BİR İŞLEV: `Kurulum`u elle kuran iki kalibrasyon aracı (Li
+    zinciri, iki çift) bu alanları KENDİLERİ hesaplıyordu ve A2/A5/C1'in
+    eklediklerini almamıştı — ikisi de kurulamaz hâldeydi (Faz 4.0'da
+    bulundu). Formül kopyalanırsa ayrışır; araçlar bunu çağırır.
+
+    Duyma menzili girişim menzilinden türer; işlem kazancı açıkken önbelge
+    Eb/N0 çarpanıyla `çarpan^(1/α)` genişler (kapalıyken çarpan 1 → birebir).
+    `menzil_m` verilirse (araçların deneysel geçersiz kılması) o kullanılır.
+    En uzak tek yön gecikmesi yalnız yayılım gecikmesi açıkken sıfırdan
+    büyüktür.
+    """
+    if menzil_m is None:
+        menzil_m = konfig.girisim_menzili_m * (
+            beacon.onbelge_ebn0_carpani ** (1.0 / konfig.yol_kaybi_usteli))
+    return menzil_m, (menzil_m / ISIK_HIZI if konfig.yayilim_gecikmesi
+                      else 0.0)
 
 
 @dataclass(frozen=True, slots=True)
@@ -72,6 +96,12 @@ class Kurulum:
     zamanlar: DcfZamanlari
     # 🔒 Kimin kimi DUYDUĞU — geometrik girişim menzilinden.
     duyanlar_menzili_m: float
+    # 🔒 A5 (K-175) — yayılım gecikmesi açık mı; en uzak duyma mesafesinin
+    # tek yön gecikmesi (kapalıyken 0,0 — her toplama birebir).
+    yayilim_gecikmeli: bool
+    maks_gecikme_s: float
+    # 🔒 C1 (K-180) — düğüm başına ölüm anı (`None` = ölmez).
+    olum_anlari: tuple
     # Yere toplamada düşüşlerin geçide mesafesi (`v2/07` §18 Y4); eşler arası
     # desende `None` ve hiçbir yerde okunmaz.
     kayip_yeri: KayipYeri | None
@@ -110,6 +140,7 @@ def kurulum_yap(konfig: Konfig, tohum: int | None = None) -> Kurulum:
     veri = cerceve_kur(konfig, "veri")
     onay = cerceve_kur(konfig, "onay")
     beacon = cerceve_kur(konfig, "beacon")
+    duyanlar_menzili_m, maks_gecikme_s = duyma_turetimi(konfig, beacon)
 
     return Kurulum(
         konfig=konfig, akislar=akislar, topoloji=topoloji, saatler=saatler,
@@ -130,7 +161,14 @@ def kurulum_yap(konfig: Konfig, tohum: int | None = None) -> Kurulum:
         # bulanıklaştırır (mesafede ±%26) ve bu KAPSAM BELGESİNE yazılır:
         # taşıyıcı dinleme ve alım denemesi kümesi geometrik seçilir, yavaş
         # kayıpla değil. Yönü belirsizdir, sistematik değil.
-        duyanlar_menzili_m=konfig.girisim_menzili_m,
+        # 🔒 İŞLEM KAZANCI (A2, K-173): önbelge Eb/N0 = SNR · çarpan (×22);
+        # sınırdaki Eb/N0 eski dünyadakiyle aynı kalsın diye menzil
+        # çarpan^(1/α) kadar genişler (α = 2'de ×4,69). Kazanç kapalıyken
+        # çarpan tam 1 → menzil birebir.
+        duyanlar_menzili_m=duyanlar_menzili_m,
+        yayilim_gecikmeli=konfig.yayilim_gecikmesi,
+        olum_anlari=olum_anlari(konfig),
+        maks_gecikme_s=maks_gecikme_s,
         kayip_yeri=(KayipYeri(konfig.iletim_menzili_m)
                     if konfig.yere_toplama else None),
     )

@@ -46,6 +46,7 @@ from sim2.kosum.kosu import Kosu  # noqa: E402
 from sim2.kosum.kurulum import kurulum_yap  # noqa: E402
 from sim2.kosum.sonuc import sonuc_satiri  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 from kalibrasyon.kahin import EnKisaYolKahin, KanalGrafigi  # noqa: E402
 
 # Sonuç satırının koşudan koşuya MEŞRU olarak değişen alanları.
@@ -102,7 +103,7 @@ def kos(senaryo: str, tohum: int, bitis: float, sinir: int | None = None):
     ek: dict[str, object] = {}
     if not senaryo.endswith("-yok"):
         ek["karistirici_guc_override_dbm"] = 0.0
-    konfig = Konfig(kol="onbellek", senaryo=senaryo, tohum=tohum,
+    konfig = DS.konfig(kol="onbellek", senaryo=senaryo, tohum=tohum,
                     isinma_s=0.1 * bitis, olcum_bitis_s=0.85 * bitis,
                     kosu_bitis_s=bitis, **ek)
     kur = kurulum_yap(konfig)

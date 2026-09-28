@@ -106,6 +106,7 @@ sayısıyla yönlendirir ve **bağ kalitesi eşiği yoktur**.
 from __future__ import annotations
 
 import json
+import os
 import statistics as ist
 import sys
 import time
@@ -122,11 +123,12 @@ from protokoller.aodv import AODV  # noqa: E402
 from protokoller.olsr import OLSR  # noqa: E402
 from protokoller.aomdv import AOMDV  # noqa: E402
 from protokoller.desparete import DESPARETE  # noqa: E402
-from protokoller.desparete_bayrak import PROFIL_V02, SECENEK_V03  # noqa: E402
+from protokoller.desparete_bayrak import PROFIL_V02, SECENEK_V041  # noqa: E402
 from sim2.kosum.kosu import Kosu  # noqa: E402
 from sim2.kosum.kurulum import kurulum_yap  # noqa: E402
 from sim2.kosum.sonuc import sonuc_satiri  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 
 __all__ = ["U1_ESIK_STATIK", "U1_ESIK_HAREKETLI", "KOLLAR", "TOHUMLAR", "u1",
            "hukum", "PROTOKOLLER"]
@@ -140,18 +142,38 @@ PROTOKOLLER = {"aodv": AODV, "olsr": OLSR, "aomdv": AOMDV,
 TRAFIK_DESENI: dict[str, str] = {"desparete": "yere_toplama"}
 
 
+# 🔒 Faz 4.3 (K-189) — `--desen esler_arasi|yere_toplama`: planın "U1 hem
+# eşler arası hem yere toplama desenlerinde" maddesi. Ortam değişkeniyle
+# taşınır ki havuz işçileri (Windows `spawn`) de görsün; kayıt dosyası
+# desenin adını taşır, desenler birbirini ezmez.
+DESEN_ORTAM = "DESPARETE_U1_DESEN"
+DESENLER = ("esler_arasi", "yere_toplama")
+
+
 def _desen(protokol: str) -> dict[str, str]:
-    """Protokolün U1 deseni — taban protokollerde `Konfig` varsayılanı."""
+    """Protokolün U1 deseni — `--desen` verildiyse o, yoksa taban
+    protokollerde `Konfig` varsayılanı (DESPARETE'de yere toplama)."""
+    desen = os.environ.get(DESEN_ORTAM)
+    if desen:
+        return {"trafik_deseni": desen}
     return ({"trafik_deseni": TRAFIK_DESENI[protokol]}
             if protokol in TRAFIK_DESENI else {})
 
 
+def _kayit_adi(protokol: str) -> str:
+    """Kayıt dosyasının adı — dünya soneki (K-183) ve verildiyse desen."""
+    desen = os.environ.get(DESEN_ORTAM)
+    ad = DS.etiket(protokol)
+    return f"{ad}_{desen}" if desen else ad
+
+
 def _fabrika(protokol: str, kfg: Konfig):
     """DESPARETE geçidi (SinkID) kurucudan alır — yapılandırma (`36` §2).
-    Profil AÇIKÇA verilir: v0.3 (K-164, öğrenci kararı)."""
+    Profil AÇIKÇA verilir: v0.4.1 (K-172; v0.4 K-167, v0.3 K-164). ⚠️
+    `ciktilar2/aodv_uygunluk/desparete_*` v0.4 ve öncesiyle üretildi."""
     if protokol == "desparete":
         return lambda i: DESPARETE(i, kfg.gecit, bayraklar=PROFIL_V02,
-                                   secenekler=SECENEK_V03)
+                                   secenekler=SECENEK_V041)
     return PROTOKOLLER[protokol]
 
 # 🔒 Tam koşumun ölçtüğü hücreler buraya yazılır (`regresyon_satirlari.py`
@@ -263,7 +285,7 @@ def _is(gorev):
     try:
         t0 = time.perf_counter()
         pdr, gecerli, tampon = _pdr(
-            Konfig(kol="u1", senaryo=kol, tohum=tohum, **_desen(protokol),
+            DS.konfig(kol="u1", senaryo=kol, tohum=tohum, **_desen(protokol),
                    **dict(pencere)), kahin, protokol)
         return {"pdr": pdr, "gecerli": gecerli, "tampon": tampon,
                 "sure": time.perf_counter() - t0}, None
@@ -285,7 +307,7 @@ def u1(kollar=KOLLAR, tohumlar=TOHUMLAR, isci: int = 8,
     if pencere:
         print("  ⚠️ DUMAN KESITI — KISA PENCERE. Bastigi oran KAPININ")
         print("     orani DEGILDIR; yalniz aletin kostugunu gosterir.")
-    ornek = Konfig(kol="u1", senaryo=kollar[0], tohum=tohumlar[0],
+    ornek = DS.konfig(kol="u1", senaryo=kollar[0], tohum=tohumlar[0],
                    **_desen(protokol), **dict(pencere or {}))
     print(f"  N = {ornek.dugum_sayisi} · pencere "
           f"({ornek.isinma_s:.0f}; {ornek.olcum_bitis_s:.0f}) s · "
@@ -378,8 +400,10 @@ def _kaydet(sonuc: dict, protokol: str) -> None:
     metin = json.dumps({"kaynak": "tam kosum", "protokol": protokol,
                         "hucreler": satirlar}, ensure_ascii=False, indent=1)
     damga = time.strftime("%Y%m%d_%H%M%S", time.gmtime())
-    (DIZIN / f"{protokol}_{damga}.json").write_text(metin, encoding="utf-8")
-    (DIZIN / f"{protokol}_son.json").write_text(metin, encoding="utf-8")
+    # K-183: referans dünyanın kaydı eskisini EZMEZ (`_referans_2026` soneki)
+    ad = _kayit_adi(protokol)
+    (DIZIN / f"{ad}_{damga}.json").write_text(metin, encoding="utf-8")
+    (DIZIN / f"{ad}_son.json").write_text(metin, encoding="utf-8")
 
 
 def hukum(yol: Path | None = None, protokol: str = "aodv") -> int:
@@ -390,7 +414,15 @@ def hukum(yol: Path | None = None, protokol: str = "aodv") -> int:
     başlıkta basılır: tam koşumun kendi kaydı mı, yoksa yazdırılmış bir
     tablodan mı kuruldu.
     """
-    yol = yol or DIZIN / f"{protokol}_son.json"
+    yol = yol or DIZIN / f"{_kayit_adi(protokol)}_son.json"
+    # 🔒 K-191: kayıt dünyasını SÖYLEMEZ, adı söyler (`_kayit_adi`). Referans
+    # kaydı `--dunya` verilmeden okunursa eski dünyanın açıklanmış hücreleri
+    # uygulanır ve "ölü açıklama" yanlış alarmı çıkar — dünya uyuşmalı.
+    kayit_referans = "_referans_2026" in Path(yol).name
+    if kayit_referans != DS.referans_mi():
+        raise SystemExit(
+            f"kayıt {'referans' if kayit_referans else 'eski'} dünyanın, "
+            f"seçili dünya {DS.secili()} — `--dunya` ile aynı dünyayı ver")
     veri = json.loads(Path(yol).read_text(encoding="utf-8"))
     # Kayıt kendi protokolünü söyler; eski kayıtlar (alan yok) AODV'dir.
     protokol = veri.get("protokol", "aodv")
@@ -419,7 +451,11 @@ def hukum(yol: Path | None = None, protokol: str = "aodv") -> int:
 def _degerlendir(sonuc: dict, kollar, tohumlar, sabit, sure_s: float,
                  n_gorev: int, protokol: str = "aodv") -> int:
     """🔒 Hükmün TEK gerçeklemesi — tam koşum da `hukum` kipi de buradan geçer."""
-    aciklanmis = ACIKLANMIS_DUSUK[protokol]
+    # 🔴 K-188: açıklamalar ESKİ DÜNYANIN hücreleridir (K-137, K-149) — başka
+    # bir dünyada o (kol, tohum) çiftinin ne olduğu bilinmez. Referans
+    # dünyada açıklanmış hücre YOKTUR; her düşük hücre yeniden ölçülerek
+    # açıklanır.
+    aciklanmis = {} if DS.referans_mi() else ACIKLANMIS_DUSUK[protokol]
     print(f"  {'kol':<16}{'tohum':>6}{protokol.upper():>9}{'ETX kahin':>11}"
           f"{'oran':>8}{'esik':>7}{'karar':>18}")
     uygunluk = True            # U1-U — kalirsa protokol KABUL EDILMEZ
@@ -524,6 +560,8 @@ def _degerlendir(sonuc: dict, kollar, tohumlar, sabit, sure_s: float,
 
 
 if __name__ == "__main__":
+    DS.secimi_oku()                         # Faz 4 (K-183): --dunya
+    print(f"  DUNYA: {DS.secili()}")
     # 🔒 Windows `spawn` korumasi — Pool bu blok disinda acilmaz.
     arg = sys.argv[1:]
     protokol = "aodv"
@@ -533,6 +571,13 @@ if __name__ == "__main__":
         del arg[i:i + 2]
     if protokol not in PROTOKOLLER:
         raise SystemExit(f"bilinmeyen protokol: {protokol} — {sorted(PROTOKOLLER)}")
+    if "--desen" in arg:
+        i = arg.index("--desen")
+        if arg[i + 1] not in DESENLER:
+            raise SystemExit(f"bilinmeyen desen: {arg[i + 1]} — {DESENLER}")
+        os.environ[DESEN_ORTAM] = arg[i + 1]
+        del arg[i:i + 2]
+        print(f"  DESEN: {os.environ[DESEN_ORTAM]}")
     if arg and arg[0] == "u3":
         raise SystemExit(u3())
     if arg and arg[0] == "hukum":

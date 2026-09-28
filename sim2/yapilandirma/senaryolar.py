@@ -85,6 +85,7 @@ from sim2.cekirdek.degismezler import dogrula
 __all__ = [
     "MOBILITE_KOLLARI", "MOBILITE_THETA", "TRAFIK_DESENLERI",
     "MOBILITE_BOLUNME", "BOLUNME_OLCULEN_ARALIK", "bolunme_payi",
+    "MOBILITE_THETA_REFERANS", "MOBILITE_BOLUNME_REFERANS", "mobilite_theta",
     "TEHDIT_SENARYOLARI", "KARISTIRICI_SINIFLARI",
     "SenaryoTanimi",
     "SENARYOLAR", "UYGULANMAMIS_KARISTIRICI", "KARISTIRICI_GUCU_DBM",
@@ -245,17 +246,56 @@ MOBILITE_BOLUNME: dict[str, dict[int, float]] = {
 }
 
 
-def bolunme_payi(mobilite_kolu: str, tohum: int) -> float | None:
+# ==========================================================================
+# 🔒 REFERANS DÜNYANIN TABLOLARI — K-188 (27 Eylül 2026)
+# ==========================================================================
+# 🔴 Tablolar DÜNYAYA AİTTİR. K-188'e kadar referans dünyanın satırları da
+# yukarıdaki (eski dünyanın) Θ'sını ve bölünme payını beyan ediyordu — yanlış
+# beyan. Satır artık kendi dünyasının tablosunu okur (`kapsam.py`).
+#
+# Θ — Üretici: `python -u kalibrasyon/theta_kollari.py --dunya referans_2026`
+# (33 km, gölgeleme 2,5 km; 6 tohum). Formasyonda çiftlerin %99,6'sı hiç
+# kopmuyor ve tek bir ömür gözlendi → statik kolun kuralıyla TANIMSIZ.
+MOBILITE_THETA_REFERANS: dict[str, tuple[float | None, float | None, float]] = {
+    "statik": (None, None, 1.000),
+    "bagimsiz": (5.15, 25.74, 0.883),
+    "gorev": (2.79, 13.94, 0.838),
+    "formasyon": (None, None, 0.996),
+}
+# Bölünme — Üretici: `python -u kalibrasyon/dugum_sayisi.py --dunya
+# referans_2026 --bolunme` (33 km; 4 kol × 40 ana deney tohumu × 9 an,
+# kâhin grafiği). Bölünmüş (kol, tohum) 8/160; çoğu TEK bir kenar düğümünün
+# kopması (39 ulaşılamaz çift). Aynı ölçülen aralık (`BOLUNME_OLCULEN_ARALIK`).
+MOBILITE_BOLUNME_REFERANS: dict[str, dict[int, float]] = {
+    "statik": {2029: 1.0},
+    "bagimsiz": {2007: 0.2222, 2029: 0.3333},
+    "gorev": {2002: 0.1111, 2019: 0.1111, 2028: 0.1111},
+    "formasyon": {2008: 0.1111, 2029: 0.8889},
+}
+
+
+def mobilite_theta(mobilite_kolu: str, dunya: str = "olcek_1_50"
+                   ) -> tuple[float | None, float | None, float]:
+    """Kolun `(Θ_OLSR, Θ_AODV, kopmayan oran)`ı — SEÇİLİ DÜNYADAN (K-188)."""
+    tablo = (MOBILITE_THETA_REFERANS if dunya == "referans_2026"
+             else MOBILITE_THETA)
+    return tablo[mobilite_kolu]
+
+
+def bolunme_payi(mobilite_kolu: str, tohum: int,
+                 dunya: str = "olcek_1_50") -> float | None:
     """Bu (kol, tohum) çiftinde ağın bölünmüş olduğu an payı.
 
     `None` = ÖLÇÜLMEDİ (tohum ana deney kümesinde değil). `0.0` = ölçüldü ve
     bölünme görülmedi. İkisi ayrı şeydir ve karıştırılırsa kalibrasyon
-    tohumları sessizce "temiz" diye okunur.
+    tohumları sessizce "temiz" diye okunur. Tablo seçili dünyanındır (K-188).
     """
     bas, son = BOLUNME_OLCULEN_ARALIK
     if not bas <= tohum < son:
         return None
-    return MOBILITE_BOLUNME.get(mobilite_kolu, {}).get(tohum, 0.0)
+    tablo = (MOBILITE_BOLUNME_REFERANS if dunya == "referans_2026"
+             else MOBILITE_BOLUNME)
+    return tablo.get(mobilite_kolu, {}).get(tohum, 0.0)
 
 # 🔒 TRAFİK DESENLERİ — `v2/07` §06.2 · §18 Y4. Mobilite × karıştırıcıdan ayrı
 # bir TEDAVİ eksenidir ve senaryo adına girmez: girseydi senaryo matrisi
@@ -395,5 +435,7 @@ dogrula(len(SENARYOLAR) == len(MOBILITE_KOLLARI) * len(KARISTIRICI_SINIFLARI),
 dogrula(set(KARISTIRICI_GUCU_DBM) == set(KARISTIRICI_SINIFLARI),
         "güç tablosu ile sınıf listesi ayrışmış — ikinci bir doğru kaynağı")
 dogrula("statik-yok" in SENARYOLAR, "U1 sanity kolu (statik-yok) yok")
+dogrula(set(MOBILITE_THETA_REFERANS) == set(MOBILITE_KOLLARI),
+        "referans Θ tablosu mobilite kollarıyla ayrışmış")
 dogrula(set(MOBILITE_THETA) == set(MOBILITE_KOLLARI),
         "Θ tablosu mobilite kollarıyla ayrışmış — bir kol Θ'sız kalırdı")

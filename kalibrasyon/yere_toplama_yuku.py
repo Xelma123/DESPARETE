@@ -51,6 +51,7 @@ from sim2.kosum.kosu import Kosu  # noqa: E402
 from sim2.kosum.kurulum import kurulum_yap  # noqa: E402
 from sim2.kosum.sonuc import sonuc_satiri  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 
 # Telemetri hızı TARAMASININ ekseni (pkt/s). Bugünkü değer (1,0) içeride.
 ADAYLAR_HZ: tuple[float, ...] = (0.5, 1.0, 1.5, 2.0, 3.0)
@@ -87,7 +88,7 @@ def _is(gorev):
     """
     senaryo, hiz, tohum, pencere = gorev
     try:
-        kfg = Konfig(kol="yere_toplama_yuku", senaryo=senaryo, tohum=tohum,
+        kfg = DS.konfig(kol="yere_toplama_yuku", senaryo=senaryo, tohum=tohum,
                      trafik_deseni="yere_toplama",
                      telemetri_paket_hizi_hz=hiz,
                      komut_paket_hizi_hz=hiz * KOMUT_ORANI, **pencere)
@@ -108,7 +109,7 @@ def _is_esler(gorev):
     """`esler_arasi` deseninde bir (hız, tohum) — kâhin yönlendirmeli koşu."""
     hiz, tohum = gorev
     try:
-        kfg = Konfig(kol="esler_arasi_yuku", senaryo=OLCUT_KOLU, tohum=tohum,
+        kfg = DS.konfig(kol="esler_arasi_yuku", senaryo=OLCUT_KOLU, tohum=tohum,
                      trafik_deseni="esler_arasi", akis_paket_hizi_hz=hiz)
         kur = kurulum_yap(kfg)
         grafik = KanalGrafigi(kur)
@@ -269,6 +270,8 @@ def main(isci: int = 6) -> int:
 
 
 if __name__ == "__main__":
+    DS.secimi_oku()                         # Faz 4 (K-183): --dunya
+    print(f"  DUNYA: {DS.secili()}")
     # 🔒 Windows `spawn` korumasi — Pool bu blok disinda acilmaz.
     BOLUMLER = {"tarama": main, "marj": marj, "esler": esler,
                 "duman": duman}

@@ -28,12 +28,13 @@ from sim2.kanal.girisim import Iletim  # noqa: E402
 from sim2.kanal.kanal import Kanal  # noqa: E402
 from sim2.mac.alici import ALIM_SONUCLARI, AliciZinciri, sonuc_dogrula  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 
 
 def kosum(senaryo="bagimsiz-yok", adim_sayisi=600, es_zamanli=3,
           tohum=1, **ek):
     """Rastgele eş zamanlı iletimler; her alıcı için sonuçları sayar."""
-    k = Konfig(kol="kalib", senaryo=senaryo, tohum=tohum, **ek)
+    k = DS.konfig(kol="kalib", senaryo=senaryo, tohum=tohum, **ek)
     kanal = Kanal(k, topoloji_kur(k, Akislar(tohum)))
     r = random.Random(90604 + tohum)
     zincirler = {n: AliciZinciri(n, k, kanal) for n in range(k.dugum_sayisi)}
@@ -96,7 +97,7 @@ def bolum_b():
     print("B - CAKISMA  (iki cerceve ayni alicida, kac kez IKISI DE alindi)")
     print("=" * 76)
     for yakalama_acik in (False, True):
-        k = Konfig(kol="kalib", senaryo="statik-yok",
+        k = DS.konfig(kol="kalib", senaryo="statik-yok",
                    golgeleme_acik=False, sonumleme_acik=False,
                    yakalama_etkisi_acik=yakalama_acik)
         kanal = Kanal(k, topoloji_kur(k, Akislar(1)))
@@ -153,7 +154,7 @@ def bolum_c():
     print("=" * 76)
     print("C - CAPTURE EFFECT  (once: ne siklikta MUMKUN)")
     print("=" * 76)
-    k0 = Konfig(kol="kalib", senaryo="statik-yok", golgeleme_acik=False,
+    k0 = DS.konfig(kol="kalib", senaryo="statik-yok", golgeleme_acik=False,
                 sonumleme_acik=False)
     kanal0 = Kanal(k0, topoloji_kur(k0, Akislar(1)))
     cerceve_s = cerceve_kur(k0, "veri").sure_s
@@ -163,9 +164,9 @@ def bolum_c():
     farklar = []
     guclu_ucluler = []
     for tohum in range(1, 11):
-        kn = Kanal(Konfig(kol="k", senaryo="statik-yok", tohum=tohum,
+        kn = Kanal(DS.konfig(kol="k", senaryo="statik-yok", tohum=tohum,
                           golgeleme_acik=False, sonumleme_acik=False),
-                   topoloji_kur(Konfig(kol="k", senaryo="statik-yok",
+                   topoloji_kur(DS.konfig(kol="k", senaryo="statik-yok",
                                        tohum=tohum), Akislar(tohum)))
         a = kn.topoloji.anlik(0.0)
         for j in range(kn.konfig.dugum_sayisi):
@@ -198,7 +199,7 @@ def bolum_c():
     print(f"{'yakalama':>10s} {'deneme':>8s} {'YAKALAMA':>10s} "
           f"{'basarili':>10s} {'ikisi de':>10s}")
     for acik in (False, True):
-        k = Konfig(kol="kalib", senaryo="statik-yok", golgeleme_acik=False,
+        k = DS.konfig(kol="kalib", senaryo="statik-yok", golgeleme_acik=False,
                    sonumleme_acik=False, yakalama_etkisi_acik=acik)
         kanal = Kanal(k, topoloji_kur(k, Akislar(1)))
         r = random.Random(6060)

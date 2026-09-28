@@ -498,7 +498,9 @@ def _desparete_kos_denetimli(senaryo: str, bitis: float, bayraklar=None,
     İki şey sayılır: (1) geçide giden alanda ardıl grafiğinde döngü;
     (2) bir düğümün uygulanabilirlik mesafesinin AYNI turda artması.
     Denetim yalnız GÖZLER; protokolün davranışını değiştirmez.
-    `bayraklar=None`: varsayılan (hepsi açık, K-159).
+    `bayraklar=None` · `secenekler=None`: DESPARETE'nin varsayılanı — v0.4
+    (`PROFIL_V02` + `SECENEK_V04`, K-167) — K-172'den beri v0.4.1
+    (`SECENEK_V041`). Hepsi açık = v0.1 = `PROFIL_V01`.
     """
     sys.path.insert(0, str(KOK / "tests2"))
     from test_kosum import _konfig
@@ -1552,15 +1554,20 @@ def test_U4_WITHDRAWALdan_sonra_ESKI_SONLU_ilan_ARDIL_OLAMAZ():
 # --------------------------------------------------------------------------
 # K-160 §10 · C — v0.1 yalnız geçit alanıyla çalışır (`23` §7)
 # --------------------------------------------------------------------------
-def test_C_GECIT_DISI_veri_POLITIKA_HATASI_beyansiz_duser_edinim_YOK():
-    """Geçitte kendi komut paketi de, rölede başka bir paket de: düşer, beyan
-    yok (→ `hedef_yok`), edinim başlamaz, hiçbir kontrol çerçevesi doğmaz."""
+def test_C_GECIT_DISI_veri_POLITIKA_HATASI_politika_beyaniyla_duser():
+    """Geçitte kendi komut paketi de, rölede başka bir paket de: düşer, tek
+    beyan `politika` (→ düşme sebebi `politika`, K-171; eskiden beyansızdı
+    ve `hedef_yok`a yazılıyordu), edinim başlamaz, kontrol çerçevesi doğmaz."""
     from protokoller.desparete import DESPARETE
+    from protokoller.desparete_bayrak import SECENEK_V04
+    from sim2.gozlem.karar import Beyan
     for kimlik, kaynak in ((0, 0), (4, 7)):
-        r = DESPARETE(kimlik, sink=0)
+        # 🔒 v0.4'e sabit: v0.4.1'de (K-172) komut geri izle taşınır.
+        r = DESPARETE(kimlik, sink=0, secenekler=SECENEK_V04)
         assert r.komut_alanlari is False
         k = _veri(r, 1.0, kaynak, 0, hedef=9)
-        assert k.sonraki is None and not k.beklet and k.beyan == ()
+        assert k.sonraki is None and not k.beklet
+        assert k.beyan == (Beyan("politika"),)
         assert r._sayac["veri_sink_disi"] == 1
         assert r.edinim.sayac["baslatilan"] == 0
         assert _istekler_of(k.niyetler, "FIELD_SOLICIT") == []
@@ -1577,11 +1584,14 @@ def test_C_HEDEF_istekte_ALAN_ACMAZ():
     assert h.teshis(9)["komut_alanlari"] is False
 
 
-def test_SIM_C_yalniz_GECIT_ALANI_komutlar_HEDEF_YOK_ile_duser():
+def test_SIM_C_yalniz_GECIT_ALANI_komutlar_POLITIKA_ile_duser():
     """Simülatörde (küçük dünya, yere toplama): hiçbir düğümde geçit dışı alan
     yok; geçidin komut paketleri politika hatasıyla düşüyor ve defterde
-    `hedef_yok`a yazılıyor; döngü 0."""
-    kfg, kosu, satir, ihlal = _desparete_kos("statik-yok", 12.0)
+    TAM OLARAK `politika`ya yazılıyor (K-171); döngü 0. v0.4'e sabit —
+    v0.4.1'de komut geri izle taşınır (K-172)."""
+    from protokoller.desparete_bayrak import SECENEK_V04
+    kfg, kosu, satir, ihlal = _desparete_kos("statik-yok", 12.0,
+                                             secenekler=SECENEK_V04)
     assert ihlal["dongu"] == 0 and ihlal["fd_artti"] == 0, ihlal
     p = [d.protokol for d in kosu.dugumler]
     assert all(set(q.alanlar.alanlar) <= {kfg.gecit} for q in p)
@@ -1589,33 +1599,46 @@ def test_SIM_C_yalniz_GECIT_ALANI_komutlar_HEDEF_YOK_ile_duser():
     assert sink_disi > 0, "sınav boş geçti: hiç komut paketi sorulmadı"
     assert p[kfg.gecit]._sayac["veri_sink_disi"] == sink_disi, (
         "komut paketi geçitten çıkmamalı")
-    assert satir["korunum"]["dusen"]["hedef_yok"] >= sink_disi
+    assert satir["korunum"]["dusen"]["politika"] == sink_disi
+    assert satir["metrikler"]["politika_dusen"] == sink_disi
+    assert satir["metrikler"]["pdr_komut"] == 0.0, (
+        "v0.1 komut taşımaz — yön ayrımı bunu görünür kılmalı")
 
 
 # --------------------------------------------------------------------------
 # K-163 · aday iyileştirmeler V1 · V5 — varsayılan KAPALI
 # --------------------------------------------------------------------------
-def test_SECENEKLER_varsayilan_V03_ve_TESHISTE():
-    """K-164: DESPARETE'nin varsayılanı v0.3 = V1 + V5 + V7."""
+def test_SECENEKLER_varsayilan_V04_ve_TESHISTE():
+    """K-167: DESPARETE'nin varsayılanı v0.4 = v0.3 (V1 + V5 + V7, K-164)
+    + V8 + V10."""
     from protokoller.desparete import DESPARETE
-    from protokoller.desparete_bayrak import (SECENEK_V03, SECENEK_YOK,
+    from protokoller.desparete_bayrak import (SECENEK_V03, SECENEK_V04,
+                                              SECENEK_V041, SECENEK_YOK,
                                               Secenekler)
     assert Secenekler.adlar() == ("yanit_yalniz_onaysiz", "ihtiyac_nitelik",
                                   "nitelik_olcumu", "ilan_sakla",
-                                  "hedefli_canlilik")
+                                  "hedefli_canlilik", "istek_tanidik",
+                                  "soru_nitelik", "aclik_nitelik",
+                                  "komut_ters_yol")
     assert not any(SECENEK_YOK.degerler())
-    assert SECENEK_V03.degerler() == (True, True, True, False, False)
+    # K-172: V11 (`komut_ters_yol`) eklendi — v0.3 ve v0.4'te KAPALI.
+    v03 = (True, True, True, False, False, False, False, False, False)
+    v04 = (True, True, True, False, False, True, False, True, False)
+    assert SECENEK_V03.degerler() == v03
+    assert SECENEK_V04.degerler() == v04
+    v041 = v04[:-1] + (True,)                  # K-172: v0.4.1 = v0.4 + V11
+    assert SECENEK_V041.degerler() == v041
     r = DESPARETE(4, sink=0)
-    assert r.secenekler == SECENEK_V03
-    assert r.teshis(4)["secenekler"] == (True, True, True, False, False)
+    assert r.secenekler == SECENEK_V041
+    assert r.teshis(4)["secenekler"] == v041
     assert DESPARETE(4, sink=0, secenekler=SECENEK_YOK).teshis(4)[
-        "secenekler"] == (False,) * 5
+        "secenekler"] == (False,) * 9
 
 
 def test_SIM_V03_GECIT_kimseyi_NITELENDIRMEZ_dugumler_GECIDI_nitelendirir():
-    """v0.3'te V5: geçidin kendi alanı var, hiçbir ilan onun için
-    uygulanabilir değil → komşu nitelendirmez; düğümler geçidi nitelendirir
-    ve veri geçide ulaşır."""
+    """v0.3 ve v0.4'te (varsayılan) V5: geçidin kendi alanı var, hiçbir ilan
+    onun için uygulanabilir değil → komşu nitelendirmez (V10 kendi alanına
+    uygulanmaz); düğümler geçidi nitelendirir ve veri geçide ulaşır."""
     from protokoller.desparete_komsu import ACTIVE
     kfg, kosu, satir, _ihlal = _desparete_kos("statik-yok", 12.0)
     p = [d.protokol for d in kosu.dugumler]
@@ -1770,7 +1793,8 @@ def test_SIM_SECENEKLER_V1_V5_V7_ISLIYOR_dongu_YOK():
     assert sum(q._sayac["veri_iletilen"] for q in p) > 0
     assert sum(q.komsular.sayac["probe_olcum"] for q in p) > 0
     for te in satir["teshis"]["dugum"]:
-        assert tuple(te["secenekler"]) == (True, True, True, False, False)
+        assert tuple(te["secenekler"]) == (True, True, True, False, False,
+                                           False, False, False, False)
 
 
 def test_V2p_FILTRE_bosta_PROBEu_yalniz_GEREKLI_komsuya():
@@ -1813,3 +1837,273 @@ def test_SIM_V2p_ISLIYOR_dongu_YOK():
     assert sum(q.komsular.sayac["probe_bosta"] for q in p) > 0
     assert sum(q.komsular.sayac["bosta_atlandi"] for q in p) > 0
     assert satir["metrikler"]["pdr"] > 0
+
+
+# --------------------------------------------------------------------------
+# K-166 · denetim K-1 — edinim yolu UÇTAN UCA: ön koşulu (gönderen ACTIVE)
+# protokol KENDİSİ kurar. Yukarıdaki istek ve solicit testleri onu elle
+# kuruyordu (`komsular.kanit`) ve V5'in yolu kapattığını göremedi.
+# --------------------------------------------------------------------------
+def _edinim_sayaclari(kosu) -> dict:
+    p = [d.protokol for d in kosu.dugumler]
+    return {ad: sum(q._sayac[ad] for q in p)
+            for ad in ("solicit_gonderilen", "solicit_yanitlanan",
+                       "istek_gonderilen", "istek_iletilen", "hedefte_istek",
+                       "istek_aktif_disi")}
+
+
+def test_SIM_v02_ALAN_SORUSU_komsularca_YANITLANIR():
+    """Başlangıçta alanı olmayan düğüm FIELD_SOLICIT gönderir (`23` §5.2);
+    alanı olan komşu, soranı ACTIVE görüyorsa yanıtlar. Ölçüldü (K-166):
+    statik 12 s, v0.2 — 9 soru, 5 yanıt."""
+    from protokoller.desparete_bayrak import SECENEK_YOK
+    _kfg, kosu, _satir, _ihlal = _desparete_kos("statik-yok", 12.0,
+                                                secenekler=SECENEK_YOK)
+    s = _edinim_sayaclari(kosu)
+    assert s["solicit_gonderilen"] > 0, "sınav boş geçti: soru yok"
+    assert s["solicit_yanitlanan"] > 0, s
+
+
+def test_SIM_v03_K1_BULGUSU_soru_ve_istek_yolu_KAPALI():
+    """🔎 TESPİT testi — K-166'nın K-1 bulgusu v0.3'te yeniden üretilir.
+    v0.3 yalnız yeniden üretilebilirlik için kodda (varsayılan v0.4, K-167).
+    Ölçüldü: statik 12 s — 25 soru → 0 yanıt; 14 istek → 0 iletim, 50
+    ACTIVE-dışı ret. (K-166'da bu test v0.3 varsayılanken katı xfail'di.)"""
+    from protokoller.desparete_bayrak import SECENEK_V03
+    _kfg, kosu, _satir, _ihlal = _desparete_kos("statik-yok", 12.0,
+                                                secenekler=SECENEK_V03)
+    s = _edinim_sayaclari(kosu)
+    assert s["solicit_gonderilen"] > 0 and s["istek_gonderilen"] > 0, s
+    assert s["solicit_yanitlanan"] == 0, s
+    assert s["istek_iletilen"] + s["hedefte_istek"] == 0, s
+
+
+def test_SIM_VARSAYILAN_v04_ISTEK_yolu_ACIK():
+    """v0.4 (varsayılan, K-167): V8 ile istek, gönderenin PROBE'uyla tanıdık
+    olan komşuda kabul edilir ve geçide ulaşır. Ölçüldü: statik 12 s — 10
+    istek, 38 iletim, 54 tanıdık kabulü, geçitte 5.
+    🔎 Soru (FIELD_SOLICIT) yanıtı v0.4'te de ~0: `23` §5.2 ACTIVE ister ve
+    V5 aşağıdakini nitelendirmez; V9 bunu açıyordu ama zararlı çıktı
+    (K-167 §5). Edinim, isteğe rölelerin verdiği tek alıcılı yanıtla sürer."""
+    kfg, kosu, _satir, _ihlal = _desparete_kos("statik-yok", 12.0)
+    s = _edinim_sayaclari(kosu)
+    p = [d.protokol for d in kosu.dugumler]
+    assert s["istek_gonderilen"] > 0 and s["istek_iletilen"] > 0, s
+    assert sum(q._sayac["istek_tanidik_kabul"] for q in p) > 0
+    assert p[kfg.gecit]._sayac["hedefte_istek"] > 0, s
+
+
+def test_SIM_UCTAN_UCA_ACLIK_istegi_HEDEFTE_TUR_ARTIRIR_dongu_YOK():
+    """`23` §5.4'ün uçtan uca yolu, v0.2: hareketli ağda uygulanabilirlik
+    açlığı → DFSN_REQUEST → röleler iletir → geçit turu BİR artırır → FD'ler
+    yeni turda sıfırlanır; her kancadan sonra döngü ve aynı turda FD artışı
+    YOK. Senaryo ölçülerek seçildi (K-166): formasyon, tohum 1000, 60 s —
+    geçit 50,9 s'de bir açlık isteği işliyor ve turu artırıyor (bağımsız
+    ve görev kollarında 60 s içinde tur artışı yok)."""
+    from protokoller.desparete_bayrak import SECENEK_YOK
+    kfg, kosu, satir, ihlal = _desparete_kos("formasyon-yok", 60.0,
+                                             secenekler=SECENEK_YOK)
+    assert satir["korunum"]["gecerli"]
+    assert ihlal["dongu"] == 0 and ihlal["fd_artti"] == 0, ihlal
+    s = _edinim_sayaclari(kosu)
+    assert s["istek_iletilen"] > 0, s
+    g = kosu.dugumler[kfg.gecit].protokol
+    assert g._sayac["hedefte_istek"] >= 1, s
+    assert g.alanlar.sayac["tur_artirildi"] >= 1
+    assert g.alanlar.alanlar[kfg.gecit].dfsn >= 2, "tur 1'den başlar"
+
+
+# --------------------------------------------------------------------------
+# K-167 · K-1'in düzeltme adayı — V8 (istek: `23` §2'nin ilk kabul kuralı) ·
+# V9 (soru nitelik açar). Seçenek; varsayılan DEĞİL (ölçülüyor).
+# --------------------------------------------------------------------------
+def test_V8_ISTEK_TANIDIKTAN_kabul_ACTIVE_olmasa_da():
+    """`23` §2: bana hedefli PROBE göndermiş komşunun isteği ACTIVE olmasa
+    da kabul edilir ve iletilir. PROBE gelmeden ve seçenek kapalıyken
+    (v0.3) reddedilir."""
+    sys.path.insert(0, str(KOK / "tests2"))
+    from protokoller.desparete import DESPARETE
+    from protokoller.desparete_bayrak import SECENEK_V03, SECENEK_V03_EDINIM
+    from protokoller.desparete_komsu import ACTIVE, ProbeIstegi
+    for sec, beklenen in ((SECENEK_V03, 0), (SECENEK_V03_EDINIM, 1)):
+        q = DESPARETE(2, sink=0, secenekler=sec)
+        r = DESPARETE(4, sink=0, secenekler=sec)
+        assert _istekler_of(_kontrol(r, 0.1, 2, q._istek(0, 1, 0.0)),
+                            "DFSN_REQUEST") == [], "PROBE yok → ret"
+        _kontrol(r, 0.2, 2, q._probe(ProbeIstegi(4, 1, 0.0, "nitelik")))
+        assert r.komsular.durum(2) != ACTIVE, "V5: PROBE nitelik açmaz"
+        ilet = _istekler_of(_kontrol(r, 0.3, 2, q._istek(0, 2, 0.3)),
+                            "DFSN_REQUEST")
+        assert len(ilet) == beklenen
+        assert r._sayac["istek_tanidik_kabul"] == beklenen
+        assert r._sayac["istek_aktif_disi"] == 2 - beklenen
+
+
+def test_V9_SORU_NITELIK_acar_YANIT_yalniz_ACTIVE_olunca():
+    """Alanı iletilebilir düğüm, ACTIVE olmayan komşunun sorusuyla onu
+    nitelendirir; yanıt ancak ACTIVE olunca (`23` §5.2). Alanı olmayan
+    düğüm ve seçenek kapalıyken (v0.3) nitelik açılmaz."""
+    sys.path.insert(0, str(KOK / "tests2"))
+    from protokoller.desparete import DESPARETE
+    from protokoller.desparete_bayrak import SECENEK_V03, SECENEK_V03_EDINIM
+    for sec, nitelik in ((SECENEK_V03, 0), (SECENEK_V03_EDINIM, 1)):
+        q = DESPARETE(2, sink=0, secenekler=sec)
+        g = DESPARETE(0, sink=0, secenekler=sec)     # geçit: kendi alanı
+        r = DESPARETE(4, sink=0, secenekler=sec)     # alanı yok
+        niyet = _kontrol(g, 0.1, 2, q._solicit(0))
+        assert _istekler_of(niyet, "FIELD_UPDATE") == [], "ACTIVE değil"
+        assert g._sayac["soru_nitelik"] == nitelik
+        assert (g.komsular.kayit(2) is not None) == bool(nitelik)
+        _kontrol(r, 0.1, 2, q._solicit(0))
+        assert r._sayac["soru_nitelik"] == 0 and r.komsular.kayit(2) is None
+        g.komsular.kanit(2, 0.2)
+        yanit = _istekler_of(_kontrol(g, 0.3, 2, q._solicit(0)),
+                             "FIELD_UPDATE")
+        assert len(yanit) == 1 and yanit[0].hedef == 2
+
+
+def test_V10_ALAN_ILETILEMEZKEN_AYNI_TURUN_SONLU_ilani_NITELIK_acar():
+    """V5 yalnız uygulanabilir ilanın sahibini nitelendirir. V10: alan
+    onarımdayken aynı turdan uygulanabilir OLMAYAN sonlu ilanın sahibi de —
+    yeni turdan sonra ardıl adayıdır ve açlık (`23` §5.4) ancak ACTIVE bir
+    komşuyla görünür. Alan iletilebilirken ve eski turda açılmaz."""
+    from protokoller.desparete import DESPARETE
+    from protokoller.desparete_alan import REPAIRING
+    from protokoller.desparete_bayrak import SECENEK_V03, SECENEK_V04
+    for sec, beklenen in ((SECENEK_V03, False), (SECENEK_V04, True)):
+        r = DESPARETE(4, sink=0, secenekler=sec)
+        r.komsular.kanit(5, 0.0)
+        r.komsular.sonuc(5, 0.1, True, 0)
+        r.komsular.epoch(0.5)
+        r.alanlar.ilan_al(5, 0, 1, 1, _R, 16, 30, 0.6)
+        a = r.alanlar.alanlar[0]
+        uzak = {"durum": _R, "potansiyel": a.fd[1] + 50, "hedef": 1, "dfsn": 1}
+        assert not r._nitelige_deger("FIELD_UPDATE", uzak), "iletilebilir"
+        a.durum = REPAIRING
+        assert r._nitelige_deger("FIELD_UPDATE", uzak) is beklenen
+        assert not r._nitelige_deger("FIELD_UPDATE", dict(uzak, dfsn=0)), \
+            "eski tur aday değil"
+        assert not r._nitelige_deger(
+            "FIELD_UPDATE", dict(uzak, potansiyel=SONSUZ)), "sonsuz aday değil"
+
+
+def test_SIM_v04_UCTAN_UCA_ACLIK_TUR_ARTISI_dongu_YOK():
+    """`23` §5.4 uçtan uca, v0.4 (varsayılan): V10 açlığı görünür kılar →
+    açlık nedenli istek → V8 ile geçide ulaşır → tur BİR artar; her
+    kancadan sonra döngü ve aynı turda FD artışı YOK. Senaryo ölçülerek
+    seçildi (`v04_senaryo.py`): bağımsız, tohum 1000 — ilk artış 41,6 s.
+    🔒 v0.4'e SABİT (K-172): senaryo bu profil için ölçülerek seçildi. V11
+    alan ve edinim mantığına dokunmaz ama komut trafiğini açar; MAC
+    zamanlaması değişince bu tohumdaki açlık olayı doğmuyor (yörünge farkı)."""
+    from protokoller.desparete_bayrak import SECENEK_V04
+    kfg, kosu, satir, ihlal = _desparete_kos("bagimsiz-yok", 50.0,
+                                             secenekler=SECENEK_V04)
+    assert satir["korunum"]["gecerli"]
+    assert ihlal["dongu"] == 0 and ihlal["fd_artti"] == 0, ihlal
+    p = [d.protokol for d in kosu.dugumler]
+    g = p[kfg.gecit]
+    assert sum(q._sayac["istek_aclik"] for q in p) >= 1
+    assert g._sayac["hedefte_aclik"] >= 1
+    assert g.alanlar.sayac["tur_artirildi"] >= 1
+    assert g.alanlar.alanlar[kfg.gecit].dfsn >= 2
+
+
+def test_SIM_V03_EDINIM_SORU_ve_ISTEK_yolu_ACIK_dongu_YOK():
+    """K-167: v0.3 + V8 · V9 — K-166'nın katı xfail'indeki kapı bu profilde
+    geçer; her kancadan sonra döngü ve aynı turda FD artışı yok."""
+    from protokoller.desparete_bayrak import SECENEK_V03_EDINIM
+    _kfg, kosu, satir, ihlal = _desparete_kos("statik-yok", 12.0,
+                                              secenekler=SECENEK_V03_EDINIM)
+    assert satir["korunum"]["gecerli"]
+    assert ihlal["dongu"] == 0 and ihlal["fd_artti"] == 0, ihlal
+    s = _edinim_sayaclari(kosu)
+    assert s["solicit_gonderilen"] > 0 and s["istek_gonderilen"] > 0, s
+    assert s["solicit_yanitlanan"] > 0, s
+    assert s["istek_iletilen"] + s["hedefte_istek"] > 0, s
+    assert satir["metrikler"]["pdr"] > 0
+
+
+# --------------------------------------------------------------------------
+# K-172 · V11 — komut GERİ İZİ (telemetriden öğrenilir, ek kontrol mesajı yok)
+# --------------------------------------------------------------------------
+def _v11():
+    from dataclasses import replace
+    from protokoller.desparete_bayrak import SECENEK_V04
+    return replace(SECENEK_V04, komut_ters_yol=True)
+
+
+def _duy(p, t, gonderen, kaynak, sira, hedef=None, paket_hedefi=0,
+         tur="veri"):
+    sys.path.insert(0, str(KOK / "tests2"))
+    from test_aodv import _gozlem
+    from sim2.gozlem.pencere import PaketGorunumu
+    paket = PaketGorunumu(hedef=paket_hedefi, kaynak=kaynak, ttl=30,
+                          atlama_sayisi=1, bayt=512, kaynak_sira=sira)
+    return p.cerceve_duyuldu(_gozlem(p.kimlik, t), gonderen, tur,
+                             p.kimlik if hedef is None else hedef, -60, paket)
+
+
+def test_V11_KAPALIYKEN_kanca_YOK_komut_POLITIKA():
+    from protokoller.desparete import DESPARETE
+    from protokoller.desparete_bayrak import SECENEK_V04
+    r = DESPARETE(4, sink=0, secenekler=SECENEK_V04)
+    assert getattr(r, "cerceve_duyuldu", None) is None, (
+        "kapalıyken kanca sunulursa her çerçevede çağrılır, v0.4 birebir kalmaz")
+    assert _veri(r, 1.0, 0, 1, hedef=9).beyanlar("politika")
+
+
+def test_V11_iz_YALNIZ_DAHA_YENI_sirayla_ve_YALNIZ_uygun_cerceveden():
+    from protokoller.desparete import DESPARETE
+    r = DESPARETE(4, sink=0, secenekler=_v11())
+    _duy(r, 1.0, 7, kaynak=9, sira=5)
+    assert r._geri_iz[9] == (7, 5, 1.0)
+    _duy(r, 1.1, 8, kaynak=9, sira=4)            # eski sıra
+    _duy(r, 1.2, 8, kaynak=9, sira=5)            # aynı sıra (tekrar)
+    assert r._geri_iz[9][0] == 7
+    _duy(r, 1.3, 8, kaynak=9, sira=6, hedef=3)   # başkasına adresli
+    _duy(r, 1.4, 8, kaynak=9, sira=6, paket_hedefi=5)   # geçide gitmiyor
+    _duy(r, 1.5, 8, kaynak=9, sira=6, tur="beacon")
+    _duy(r, 1.6, 8, kaynak=4, sira=9)            # kendi paketim
+    assert r._geri_iz == {9: (7, 5, 1.0)}
+    _duy(r, 2.0, 8, kaynak=9, sira=6)
+    assert r._geri_iz[9] == (8, 6, 2.0)
+    assert r._sayac["geri_iz_ogrenilen"] == 2
+
+
+def test_V11_komut_IZI_izler_BAYAT_iz_ve_MAC_hatasi_DUSURUR():
+    from protokoller.desparete import DESPARETE
+    from protokoller.desparete_bicim import T_GERI_IZ_S
+    sys.path.insert(0, str(KOK / "tests2"))
+    from test_aodv import _gozlem
+    r = DESPARETE(4, sink=0, secenekler=_v11())
+    _duy(r, 1.0, 7, kaynak=9, sira=1)
+    k = _veri(r, 1.5, 0, 1, hedef=9)
+    assert k.sonraki == 7 and not k.beyan
+    k = _veri(r, 1.0 + T_GERI_IZ_S + 0.01, 0, 2, hedef=9)
+    assert k.sonraki is None and not k.beyan, "bayat iz → hedef_yok"
+    _duy(r, 10.0, 7, kaynak=9, sira=2)
+    r.iletim_basarisiz(_gozlem(4, 10.1), 7, "veri")
+    assert 9 not in r._geri_iz and r._sayac["geri_iz_silinen"] == 1
+    assert _veri(r, 10.2, 0, 3, hedef=9).sonraki is None
+    assert _veri(r, 10.3, 0, 4, hedef=11).sonraki is None   # hiç iz yok
+    s = r._sayac
+    assert (s["komut_iz_iletilen"], s["komut_izsiz"],
+            s["veri_sink_disi"]) == (1, 3, 0)
+
+
+def test_SIM_V11_komutlar_TESLIM_dongu_YOK_politika_YOK():
+    """Küçük dünya, yere toplama: komutlar geri izle teslim ediliyor; komut
+    Hop Limit'e takılmıyor (izde döngü yok); politika düşüşü kalmadı."""
+    kfg, kosu, satir, ihlal = _desparete_kos("statik-yok", 12.0,
+                                             secenekler=_v11())
+    assert satir["korunum"]["gecerli"]
+    assert ihlal["dongu"] == 0 and ihlal["fd_artti"] == 0, ihlal
+    p = [d.protokol for d in kosu.dugumler]
+    s = {a: sum(q._sayac[a] for q in p) for a in
+         ("komut_iz_iletilen", "geri_iz_ogrenilen", "veri_hop_siniri")}
+    assert s["geri_iz_ogrenilen"] > 0 and s["komut_iz_iletilen"] > 0, s
+    assert s["veri_hop_siniri"] == 0, s
+    m, d = satir["metrikler"], satir["korunum"]["dusen"]
+    assert d["politika"] == 0 and d["ttl"] == 0
+    assert m["pdr_komut"] > 0.5, m["pdr_komut"]
+    assert m["duyma_bildirimi"] > 0

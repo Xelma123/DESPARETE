@@ -50,7 +50,8 @@ from __future__ import annotations
 from dataclasses import dataclass, fields
 
 __all__ = ["Bayraklar", "TUMU_ACIK", "TUMU_KAPALI", "PROFIL_V01",
-           "PROFIL_V02", "Secenekler", "SECENEK_YOK", "SECENEK_V03"]
+           "PROFIL_V02", "Secenekler", "SECENEK_YOK", "SECENEK_V03",
+           "SECENEK_V03_EDINIM", "SECENEK_V04", "SECENEK_V041"]
 
 
 @dataclass(frozen=True, slots=True)
@@ -93,8 +94,10 @@ class Secenekler:
 
     Ablasyon bayraklarından AYRI: bayrakların "hepsi açık = v0.1"
     sözleşmesi bozulmasın. Hepsi kapalıyken davranış v0.2 ile BİREBİR
-    (K-163'ün ölçümü). Benimsenen seçenek öğrenci kararıyla bir profile
-    girer: v0.3 = V1 + V5 + V7 (`SECENEK_V03`, DESPARETE'nin varsayılanı).
+    (K-163'ün ölçümü). Benimsenen seçenek bir profile girer: v0.3 = V1 + V5
+    + V7 (`SECENEK_V03`, öğrenci, K-164) · v0.4 = v0.3 + V8 + V10
+    (`SECENEK_V04`; ajan, öğrencinin devriyle, K-167) · **v0.4.1 = v0.4 +
+    V11** (`SECENEK_V041`, DESPARETE'nin varsayılanı; K-172).
 
       yanit_yalniz_onaysiz  V1 — PROBE_REPLY yalnız sondalayan isterse:
                             oturumun 2. ve sonraki denemelerinde (ilki
@@ -124,6 +127,41 @@ class Secenekler:
                             ardılı ya da en iyi `K_YEDEK_CANLI` uygulanabilir
                             yedeği (K-165). Öteki komşu sondalanmaz, T_fresh
                             dolunca STALE olur.
+      istek_tanidik         V8 — DFSN_REQUEST'i gönderen ACTIVE DEĞİLSE de
+                            bana hedefli bir PROBE göndermişse ("tanıdık")
+                            kabul edilir: `23` §2 AcceptPacket'in ilk kabul
+                            kuralı (ACTIVE ya da bu düğüme hedefli PROBE).
+                            K-150'nin tek yayını kapıyı ALICIYA koymuştu
+                            ("gönderen benim için ACTIVE mi") — tasarımda
+                            gönderen isteği KENDİ ACTIVE komşularına yollar;
+                            ACTIVE simetrikken ikisi aynıydı, V5 simetriyi
+                            bozunca istek yolu kapandı (K-166, denetim K-1).
+      soru_nitelik          V9 — V5 açıkken, iletilebilir bir alanımız varsa
+                            ACTIVE olmayan komşunun FIELD_SOLICIT'i nitelik
+                            açar (V5'in "ihtiyaç"ı: komşu bir alan istiyor).
+                            Yanıt yine yalnız ACTIVE'e (`23` §5.2) — soranın
+                            tekrarında (`N_solicit = 2`). K-167: V8'in üstüne
+                            6/6 koşuda zararlı — benimsenmedi.
+      aclik_nitelik         V10 — V5 açıkken, alanım iletilebilir DEĞİLSE
+                            (onarımda ya da ulaşılamaz) aynı turdan sonlu
+                            ilan yapan komşu da nitelendirilir: yeni turdan
+                            sonra ardıl adayıdır. Açlığın tanımı (`23` §5.4
+                            FEASIBLE_STARVATION: ACTIVE, sonlu, aynı turda ama
+                            uygulanabilir olmayan ilan) ACTIVE komşu ister;
+                            V5 o komşuları hiç nitelendirmediği için açlık
+                            GÖRÜNMEZ oluyor, istek "edinim" gidiyor ve hedef
+                            tur artırmıyordu (K-167 §5).
+      komut_ters_yol        V11 — geçitten çıkan komut, telemetrinin
+                            bıraktığı GERİ İZLE taşınır (K-172). Her düğüm
+                            kendisine adreslenen, geçide giden DATA'dan
+                            "kaynak S'nin paketi bana j'den geldi" öğrenir
+                            (`cerceve_duyuldu`, `v2/15` B1); iz yalnız DAHA
+                            YENİ `kaynak_sira` ile güncellenir ve
+                            `T_GERI_IZ_S` sonra bayatlar. Komut, hedefin
+                            izini izler; iz yoksa düşer (`hedef_yok`). Ek
+                            kontrol mesajı YOK — K-160'ta komut alanları
+                            (A) kontrol yükünden çökmüştü. Kapalıyken v0.1
+                            C kararı: komut `politika` ile düşer.
     """
 
     yanit_yalniz_onaysiz: bool = False
@@ -131,6 +169,10 @@ class Secenekler:
     nitelik_olcumu: bool = False
     ilan_sakla: bool = False
     hedefli_canlilik: bool = False
+    istek_tanidik: bool = False
+    soru_nitelik: bool = False
+    aclik_nitelik: bool = False
+    komut_ters_yol: bool = False
 
     @classmethod
     def adlar(cls) -> tuple[str, ...]:
@@ -144,3 +186,19 @@ SECENEK_YOK = Secenekler()
 # 🔒 v0.3 (K-164, öğrenci: "üçlüyü benimse"): v0.2 bayrakları + V1 · V5 · V7.
 SECENEK_V03 = Secenekler(yanit_yalniz_onaysiz=True, ihtiyac_nitelik=True,
                          nitelik_olcumu=True)
+# K-167'nin İLK adayı: v0.3 + V8 · V9 — V9 zararlı çıktı (K-167 §5).
+SECENEK_V03_EDINIM = Secenekler(yanit_yalniz_onaysiz=True, ihtiyac_nitelik=True,
+                                nitelik_olcumu=True, istek_tanidik=True,
+                                soru_nitelik=True)
+# 🔒 v0.4 (K-167 §7, ajan — öğrencinin devriyle): v0.3 + V8 · V10 — K-1'in
+# düzeltmesi. DESPARETE'nin VARSAYILANI.
+SECENEK_V04 = Secenekler(yanit_yalniz_onaysiz=True, ihtiyac_nitelik=True,
+                         nitelik_olcumu=True, istek_tanidik=True,
+                         aclik_nitelik=True)
+# 🔒 v0.4.1 (K-172, ajan — öğrencinin "bulguyu düzelteceksin" talebiyle):
+# v0.4 + V11 komut geri izi. DESPARETE'nin VARSAYILANI. Yukarı yön (alan,
+# ardıl, postür) v0.4 ile aynı; eklenen tek şey geçitten çıkan komutun
+# taşınması. Eski v0.4 = `SECENEK_V04` (komut `politika` ile düşer).
+SECENEK_V041 = Secenekler(yanit_yalniz_onaysiz=True, ihtiyac_nitelik=True,
+                          nitelik_olcumu=True, istek_tanidik=True,
+                          aclik_nitelik=True, komut_ters_yol=True)

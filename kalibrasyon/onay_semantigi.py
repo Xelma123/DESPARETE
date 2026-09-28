@@ -112,6 +112,7 @@ from sim2.kosum.sonuc import SatirYazici, korunum_bolumu  # noqa: E402
 from sim2.kosum.teslim import onay_alindi  # noqa: E402
 from sim2.olcum.metrikler import metrik_sozlugu  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 from kalibrasyon.kahin import (EnGuvenilirKahin,  # noqa: E402
                                EnKisaYolKahin, KanalGrafigi)
 
@@ -206,7 +207,7 @@ class OlcenKosu(Kosu):
 def _kos(senaryo: str, tohum: int, kahin: str, kip: str,
          pencere: dict) -> dict:
     """Tek koşu. `kip`: `duz` (saf `Kosu`) · `mevcut` · `duzeltilmis`."""
-    kfg = Konfig(kol="onay_semantigi", senaryo=senaryo, tohum=tohum,
+    kfg = DS.konfig(kol="onay_semantigi", senaryo=senaryo, tohum=tohum,
                  **pencere)
     kur = kurulum_yap(kfg)
     grafik = KanalGrafigi(kur)

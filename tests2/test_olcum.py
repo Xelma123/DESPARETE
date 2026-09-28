@@ -499,3 +499,27 @@ def test_beyan_isle_DONGU_ETIKETI_donduruyor():
     assert r.beyan_isle(1, Beyan("kopma", 2), 1.5) is None     # zaten açık
     assert r.beyan_isle(1, Beyan("rota_kuruldu", 2), 2.0) == "kapandi"
     assert r.beyan_isle(1, Beyan("rota_kuruldu", 2), 2.5) is None  # kapanmıştı
+
+
+def test_KRE_PDR_kohortu_YASAYAN_uclar_gorev_orani_PLANLANAN():
+    """🔒 KR-E (K-182): ölü hedefe doğan paket PDR'ye girmez, ölü kaynağın
+    doğuramadığı paket de; ikisi görev teslim oranının paydasında."""
+    from sim2.olcum.metrikler import metrik_sozlugu
+    from sim2.olcum.rota_olaylari import RotaDefteri
+    d = PaketDefteri(pencere_bas_s=0.0, pencere_bitis_s=100.0)
+    d.dogdu(1, 0, 10.0, hedef=5)
+    d.dogdu(2, 0, 20.0, hedef=5)
+    d.teslim_edildi(1, 11.0)
+    d.olu_dugumler.add(5)
+    d.dogdu(3, 0, 30.0, hedef=5)          # hedef ölü → kohort dışı
+    d.uretilmedi(40.0)                    # kaynak ölü → doğmadı
+    d.uretilmedi(200.0)                   # pencere dışı
+    assert d.uretilen == 2 and d.teslim == 1
+    assert d.planlanan() == 5 and d.planlanan(True) == 4
+    m = metrik_sozlugu({}, d, RotaDefteri())
+    assert m["pdr"] == pytest.approx(0.5)
+    assert m["gorev_teslim_orani"] == pytest.approx(1 / 5)
+    assert m["gorev_teslim_orani_pencere"] == pytest.approx(1 / 4)
+    ham = d.ham_sozluk()
+    assert ham["olu_hedefe_dogum_s"] == (30.0,)
+    assert ham["uretilmeyen_dogum_s"] == (40.0, 200.0)

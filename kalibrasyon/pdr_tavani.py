@@ -83,6 +83,7 @@ from sim2.kosum.kurulum import kurulum_yap  # noqa: E402
 from sim2.kosum.sonuc import korunum_bolumu  # noqa: E402
 from sim2.olcum.metrikler import metrik_sozlugu  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 from kalibrasyon.kahin import (EnGuvenilirKahin,  # noqa: E402
                                EnKisaYolKahin, KanalGrafigi)
 
@@ -106,7 +107,7 @@ def kos(senaryo="statik-yok", tohum=1000, bitis=120.0,
     pencere = {"isinma_s": 0.1 * bitis, "olcum_bitis_s": 0.85 * bitis,
                "kosu_bitis_s": bitis}
     pencere.update({ad: ek.pop(ad) for ad in list(ek) if ad in pencere})
-    konfig = Konfig(kol="tavan", senaryo=senaryo, tohum=tohum,
+    konfig = DS.konfig(kol="tavan", senaryo=senaryo, tohum=tohum,
                     **pencere, **ek)
     kur = kurulum_yap(konfig)
     grafik = KanalGrafigi(kur)
@@ -234,6 +235,8 @@ def karistirilmis_tavan(tohum_sayisi: int = 3) -> None:
 
 
 if __name__ == "__main__":
+    DS.secimi_oku()                         # Faz 4 (K-183): --dunya
+    print(f"  DUNYA: {DS.secili()}")
     BOLUMLER = {"1": tavan, "2": olcut_bedeli, "3": yuk_taramasi,
                 "4": karistirilmis_tavan}
     secim = sys.argv[1:] or list(BOLUMLER)

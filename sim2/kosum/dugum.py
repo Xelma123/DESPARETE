@@ -41,11 +41,15 @@ from sim2.gozlem.karar import Karar
 from sim2.gozlem.pencere import Gozlem, KomsuKaydi, PaketGorunumu
 from sim2.gozlem.teshis import teshis_dogrula
 from sim2.gozlem.yuk import yuk_bayt, yuku_dondur
+from sim2.cekirdek.rng import normal_cekimi
 from sim2.kanal.girisim import Iletim
+from sim2.kanal.yayilim import ISIK_HIZI, dbm_to_w
 from sim2.kosum.kontrol_durum import KontrolDurumu
 from sim2.kosum.kurulum import Kurulum
 from sim2.mac.alici import AliciZinciri
 from sim2.mac.dcf import Dcf
+from sim2.mac.hiz import Arf
+from sim2.yapilandirma.konfig import HIZLAR_BPS
 
 __all__ = ["Dugum"]
 
@@ -59,7 +63,12 @@ class Dugum:
                  "_bitis_ani_s",
                  "_ucustaki", "_ucus_hedefi", "_ucus_no", "_onay_bekleniyor",
                  "_devredildi", "_son_ucus", "kontrol",
-                 "bekleyenler", "_tampon_son_tarih", "sonuc_kancasi")
+                 "bekleyenler", "_tampon_son_tarih", "sonuc_kancasi",
+                 "duyma_kancasi", "guc_kipi", "_ed_esigi_w",
+                 "hiz_denetcisi", "_alinan_cerceve", "_phy_hata",
+                 "_doluluk", "_mesgul_toplam_s", "_mesgul_son_s",
+                 "_gps_dilim", "_gps_hata", "olu", "olum_s",
+                 "_gonderim_s", "son_gonderim_bitis_s")
 
     def __init__(self, kimlik: int, kur: Kurulum, protokol) -> None:
         self.kimlik = kimlik
@@ -108,6 +117,33 @@ class Dugum:
         # 🔒 Y1 · K-151 — her unicast sonucunu isteyen protokol. Kurulumda
         # BİR KEZ okunur: taşımayan protokolde iletim başına maliyet yok.
         self.sonuc_kancasi = callable(getattr(protokol, "iletim_sonucu", None))
+        # 🔒 `v2/15` B1 — çözülen her çerçeveyi isteyen protokol. Aynı
+        # gerekçe: taşımayan protokolde çerçeve başına maliyet yok.
+        self.duyma_kancasi = callable(
+            getattr(protokol, "cerceve_duyuldu", None))
+        # 🔒 `v2/15` A3 (K-174) — taşıyıcı dinleme kipi; kurulumda bir kez.
+        self.guc_kipi = kur.konfig.tasiyici_dinleme == "guc"
+        self._ed_esigi_w = dbm_to_w(kur.konfig.ed_esigi_dbm)
+        # 🔒 `v2/15` A4 (K-177) — komşu başına ARF; kapalıyken yok.
+        k = kur.konfig
+        self.hiz_denetcisi = (Arf(HIZLAR_BPS, k.arf_basari_esigi,
+                                  k.arf_zamanlayici_esigi)
+                              if k.hiz_uyarlamasi else None)
+        # 🔒 `v2/15` B3 (K-179) — telsiz sayaçları · kanal doluluğu (yalnız
+        # isteyen protokole: sınıf özniteliği `kanal_dolulugu_ister`) ·
+        # kendi GPS/INS hatası (dilim başına önbellek).
+        self._alinan_cerceve = 0
+        self._phy_hata = 0
+        self._doluluk = bool(getattr(protokol, "kanal_dolulugu_ister", False))
+        self._mesgul_toplam_s = 0.0
+        self._mesgul_son_s = 0.0
+        self._gps_dilim = -1
+        self._gps_hata = (0.0,) * 6
+        # 🔒 `v2/15` C1 · C3 (K-180) — düğüm kaybı ve enerji muhasebesi.
+        self.olu = False
+        self.olum_s: float | None = None
+        self._gonderim_s = 0.0
+        self.son_gonderim_bitis_s = -math.inf
         # 🔒 ROTA BEKLEME TAMPONU — `Karar.beklet` (K-131, denetim B1).
         # Rota beklerken tutulan paketler. Defterde hâlâ "KUYRUKTA"dırlar:
         # arayüz kuyruğu ile bu tampon arasında paket yer değiştirir, DURUM
@@ -127,12 +163,7 @@ class Dugum:
     # ==================================================================
     def gozlem(self, t_s: float, paket: Paket | None) -> Gozlem:
         saat = self.kur.saatler.yerel(self.kimlik, t_s)
-        gorunum = None
-        if paket is not None:
-            gorunum = PaketGorunumu(
-                hedef=paket.hedef, kaynak=paket.kaynak, ttl=paket.ttl_kalan,
-                atlama_sayisi=self.kur.konfig.ttl_baslangic - paket.ttl_kalan,
-                bayt=paket.boyut_bayt, kaynak_sira=paket.kaynak_sira)
+        gorunum = None if paket is None else self.paket_gorunumu(paket)
         return Gozlem(
             dugum=self.kimlik, saat_s=saat,
             olculen_gurultu_w=self.kur.kanal.girisim.girisim_w(
@@ -145,7 +176,97 @@ class Dugum:
             gonderilen_bayt=self._gonderilen_bayt,
             alinan_bayt=self._alinan_bayt,
             komsular=tuple(self._komsular.values()),
-            paket=gorunum)
+            paket=gorunum,
+            **self._b3_alanlari(t_s))
+
+    # ---------------------------------------- B3 · gözlem v2 (K-179)
+    def _b3_alanlari(self, t_s: float) -> dict:
+        konum, hiz = self._gps(t_s)
+        mesgul = None
+        if self._doluluk:
+            self.mesgul_guncelle(t_s)
+            mesgul = self._mesgul_toplam_s
+        return dict(kendi_konum=konum, kendi_hiz=hiz, mesgul_sure_s=mesgul,
+                    phy_hata=self._phy_hata,
+                    alinan_cerceve=self._alinan_cerceve)
+
+    def _gps(self, t_s: float) -> tuple[tuple, tuple]:
+        """Kendi GPS/INS'i: gerçek konum ve hız + hata. Hata `gps_tazeleme_s`
+        dilimi boyunca sabit, hash'ten (`kanal_karar`, `gps` anahtarı).
+        Yatay σ = CEP / √(2·ln 2) (dairesel Gauss)."""
+        k = self.kur.konfig
+        dilim = int(t_s / k.gps_tazeleme_s)
+        if dilim != self._gps_dilim:
+            sy = k.gps_yatay_cep_m / math.sqrt(2.0 * math.log(2.0))
+            olcek = (sy, sy, k.gps_dikey_sigma_m, k.gps_hiz_sigma_ms,
+                     k.gps_hiz_sigma_ms, k.gps_hiz_sigma_ms)
+            self._gps_hata = tuple(
+                s * normal_cekimi("kanal_karar", k.tohum, "gps", self.kimlik,
+                                  dilim, i) for i, s in enumerate(olcek))
+            self._gps_dilim = dilim
+        p0 = self.kur.topoloji.konum(self.kimlik, t_s)
+        p1 = self.kur.topoloji.konum(self.kimlik, t_s + 1e-3)
+        e = self._gps_hata
+        return ((p0.x + e[0], p0.y + e[1], p0.z + e[2]),
+                ((p1.x - p0.x) / 1e-3 + e[3], (p1.y - p0.y) / 1e-3 + e[4],
+                 (p1.z - p0.z) / 1e-3 + e[5]))
+
+    def mesgul_guncelle(self, t_s: float) -> None:
+        """CCA meşgul süresi — olay güdümlü TAM integral (yalnız isteyende).
+
+        🔒 Çağrı anları: bu düğümün her çerçeve olayının ve kendi yayınının
+        başı/sonu, DURUM DEĞİŞMEDEN ÖNCE. Meşguliyetin çerçeve kaynaklı kısmı
+        yalnız bu anlarda değişir; aralık karıştırıcı geçişleriyle (hareketli
+        karıştırıcıda denetim adımıyla) bölünür, her parçanın durumu ortasında
+        `kanal_mesgul_mu` ile okunur. ⚠️ Beyan: budama menzili dışındaki
+        iletimlerin enerjisi (güç kipinde) aralık ortasında okunur.
+        """
+        if not self._doluluk:
+            return
+        bas = self._mesgul_son_s
+        if t_s <= bas:
+            return
+        self._mesgul_son_s = t_s
+        sinirlar = {bas, t_s}
+        k = self.kur.kanal.karistirici
+        if k is not None:
+            sinirlar.update(k.gecis_anlari(bas, t_s))
+            if k.hareketli:
+                adim = self.kur.konfig.karistirici_denetim_araligi_s
+                sinirlar.update(bas + i * adim
+                                for i in range(1, int((t_s - bas) / adim) + 1))
+        s = sorted(a for a in sinirlar if bas <= a <= t_s)
+        for a, b in zip(s, s[1:]):
+            if b > a and self.kanal_mesgul_mu(0.5 * (a + b)):
+                self._mesgul_toplam_s += b - a
+
+    def gonderim_ekle(self, t_s: float, sure_s: float) -> None:
+        """C3 (K-180): kendi iletiminin havada kaldığı süre. Bitiş anı C1'in
+        ölüm ertelemesi için tutulur (`kosum/kayip.py`)."""
+        self._gonderim_s += sure_s
+        self.son_gonderim_bitis_s = t_s + sure_s
+
+    def enerji(self, bitis_s: float) -> tuple[float, float, float, float]:
+        """C3 (K-180): `(enerji_J, gönderim_s, alım_s, dinleme_s)` — ölü
+        düğümde süre ölüm anında biter (telsiz kapalı)."""
+        k = self.kur.konfig
+        sure = bitis_s if self.olum_s is None else self.olum_s
+        alim = self.alici.kilitli_sure_s(sure)
+        dinleme = sure - self._gonderim_s - alim
+        return (k.enerji_gonderim_w * self._gonderim_s
+                + k.enerji_alim_w * (alim + dinleme),
+                self._gonderim_s, alim, dinleme)
+
+    def phy_hata_say(self) -> None:
+        """B3: kilitlenen ama gövdesi çözülemeyen çerçeve (CRC hatası)."""
+        self._phy_hata += 1
+
+    def paket_gorunumu(self, paket: Paket) -> PaketGorunumu:
+        """Paketin başlığında YAZANLAR — gözlem ve `cerceve_duyuldu` ortak."""
+        return PaketGorunumu(
+            hedef=paket.hedef, kaynak=paket.kaynak, ttl=paket.ttl_kalan,
+            atlama_sayisi=self.kur.konfig.ttl_baslangic - paket.ttl_kalan,
+            bayt=paket.boyut_bayt, kaynak_sira=paket.kaynak_sira)
 
     def kanal_mesgul_mu(self, t_s: float,
                         ayni_an_haric: bool = False) -> bool:
@@ -173,10 +294,45 @@ class Dugum:
         aynı anlamı taşıması gerekir. Aksi hâlde doğrulanan model ile
         koşturulan model iki farklı şey olurdu.
         """
+        if self.guc_kipi:
+            return self._guc_mesgul_mu(t_s, ayni_an_haric)
+        if self.kur.yayilim_gecikmeli:
+            return self._gecikmeli_mesgul_mu(t_s, ayni_an_haric)
         for iletim in self.kur.kanal.ortam.aktif(t_s):
             if iletim.gonderen == self.kimlik:
                 continue
             if ayni_an_haric and iletim.baslangic_s >= t_s:
+                continue
+            if self.duyar_mi(iletim.gonderen, t_s):
+                return True
+        return self.karistirici_mesgul_mu(t_s)
+
+    # ---------------------------------------- A5 · yayılım gecikmesi (K-175)
+    def gecikme_s(self, gonderen: int, t_s: float) -> float:
+        """Çerçevenin bu düğüme varış gecikmesi d/c; anahtar kapalıyken 0,0."""
+        if not self.kur.yayilim_gecikmeli:
+            return 0.0
+        return self.kur.topoloji.mesafe(gonderen, self.kimlik, t_s) / ISIK_HIZI
+
+    def varis_penceresi(self, iletim: Iletim) -> tuple[float, float]:
+        """İletimin BU düğümdeki `(varış, son)` anları."""
+        g = self.gecikme_s(iletim.gonderen, iletim.baslangic_s)
+        return iletim.baslangic_s + g, iletim.bitis_s + g
+
+    def _ulasanlar(self, t_s: float):
+        """`t`de bu düğüme ulaşmakta olan iletimler ve varış pencereleri."""
+        for iletim in self.kur.kanal.ortam.varista(t_s,
+                                                   self.kur.maks_gecikme_s):
+            if iletim.gonderen == self.kimlik:
+                continue
+            varis, son = self.varis_penceresi(iletim)
+            if varis <= t_s < son:
+                yield iletim, varis, son
+
+    def _gecikmeli_mesgul_mu(self, t_s: float, ayni_an_haric: bool) -> bool:
+        """Geometrik taşıyıcı dinleme — iletimler VARIŞ penceresinde."""
+        for iletim, varis, _ in self._ulasanlar(t_s):
+            if ayni_an_haric and varis >= t_s:
                 continue
             if self.duyar_mi(iletim.gonderen, t_s):
                 return True
@@ -204,12 +360,97 @@ class Dugum:
         cevabı olurdu.
         """
         k = self.kur.kanal.karistirici
-        if k is None or not k.csma_ya_gorunur(t_s):
+        if k is None:
+            return False
+        if self.guc_kipi:
+            return self._karistirici_guc_mesgul_mu(k, t_s)
+        if not k.csma_ya_gorunur(t_s):
             return False
         konum = self.kur.topoloji.konum(self.kimlik, t_s)
         # 🔒 Y5: yalnız CSMA'ya görünen üyelerin gücü; tek karıştırıcıda aynı.
         return k.csma_guc_w(self.kimlik, konum,
                             t_s) > self.kur.kanal.yayilim.gurultu_w
+
+    # ---------------------------------------- A3 · güç kipi (K-174)
+    def _guc_mesgul_mu(self, t_s: float, ayni_an_haric: bool) -> bool:
+        """802.11b CCA — ÖNBELGE SEZME ya da ENERJİ SEZME (`v2/15` A3).
+
+        Önbelge sezme: alıcı bir çerçeveye KİLİTLİ; kilit önbelge PER'iyle
+        kurulduğu için eşik oradan türer, ayrı parametre yok. Enerji sezme:
+        düğümdeki toplam alınan güç — bütün iletimler ve HER sınıf
+        karıştırıcı — `ed_esigi_dbm`i aşıyor. Aldatıcının sahte önbelgesi
+        bugünkü kuralla sayılır (A6'da alıcı kilidine bağlanacak).
+        🔒 `ayni_an_haric`: sezme `cca_s` sürer; o kadar yakın zamanda
+        başlamış iletim henüz görünmez (geometrik kipte yalnız aynı an).
+        """
+        sinir = t_s - self.kur.zamanlar.cca_s if ayni_an_haric else None
+        kilit = self.alici.kilitli_iletim
+        if kilit is not None and (sinir is None
+                                  or self.varis_penceresi(kilit)[0] <= sinir):
+            return True
+        g = self.kur.kanal.girisim
+        enerji = 0.0
+        for iletim, varis, _ in self._ulasanlar(t_s):
+            if sinir is not None and varis > sinir:
+                continue
+            enerji += g.sinyal_w(iletim.gonderen, self.kimlik, t_s,
+                                 verici_w=iletim.guc_w)
+        k = self.kur.kanal.karistirici
+        if k is not None:
+            konum = self.kur.topoloji.konum(self.kimlik, t_s)
+            if self._aldatici_onbelgesi(k, konum, t_s):
+                return True
+            enerji += k.alinan_guc_w(self.kimlik, konum, t_s)
+        return enerji >= self._ed_esigi_w
+
+    def _aldatici_onbelgesi(self, k, konum, t_s: float) -> bool:
+        """Aldatıcının sahte önbelgesi. Gerçekçide (A6) alıcının sahte
+        çerçeveye KİLİDİ; değilse bugünkü kural (gürültünün üstünde)."""
+        if self.kur.konfig.karistirici_gercekci:
+            return self.alici.sahte_kilitli_mi(t_s)
+        return (k.csma_ya_gorunur(t_s) and k.csma_guc_w(
+            self.kimlik, konum, t_s) > self.kur.kanal.yayilim.gurultu_w)
+
+    def _karistirici_guc_mesgul_mu(self, k, t_s: float) -> bool:
+        """Yalnız karıştırıcı: enerjisi ED eşiğini aşıyor ya da aldatıcı."""
+        konum = self.kur.topoloji.konum(self.kimlik, t_s)
+        return (k.alinan_guc_w(self.kimlik, konum, t_s) >= self._ed_esigi_w
+                or self._aldatici_onbelgesi(k, konum, t_s))
+
+    def _guc_mesgul_bitisi_s(self, t_s: float) -> float:
+        """Güç kipinde kanalın boşalabileceği EN ERKEN an.
+
+        Kilit varsa kilitli çerçevenin sonu; enerji için iletimler bitiş
+        sırasıyla düşülür, toplam eşiğin altına indiği an. Karıştırıcı tek
+        başına meşgul tutuyorsa bir sonraki geçişi — hareketliyse en geç
+        `karistirici_denetim_araligi_s` sonra yeniden bakılır.
+        """
+        en_gec = t_s
+        kilit = self.alici.kilitli_iletim
+        if kilit is not None:
+            en_gec = max(en_gec, self.varis_penceresi(kilit)[1])
+        g = self.kur.kanal.girisim
+        k = self.kur.kanal.karistirici
+        konum = self.kur.topoloji.konum(self.kimlik, t_s)
+        enerji = 0.0 if k is None else k.alinan_guc_w(self.kimlik, konum, t_s)
+        parcalar = sorted(
+            (son, g.sinyal_w(i.gonderen, self.kimlik, t_s, verici_w=i.guc_w))
+            for i, _, son in self._ulasanlar(t_s))
+        enerji += sum(p for _, p in parcalar)
+        for bitis, p in parcalar:
+            if enerji < self._ed_esigi_w:
+                break
+            enerji -= p
+            en_gec = max(en_gec, bitis)
+        if k is not None and self._karistirici_guc_mesgul_mu(k, t_s):
+            ufuk = t_s + self.kur.konfig.beacon_araligi_s
+            gecisler = k.gecis_anlari(t_s, ufuk)
+            sonraki = gecisler[0] if gecisler else ufuk
+            if k.hareketli:
+                sonraki = min(sonraki, t_s
+                              + self.kur.konfig.karistirici_denetim_araligi_s)
+            en_gec = max(en_gec, sonraki)
+        return en_gec
 
     def duyar_mi(self, gonderen: int, t_s: float) -> bool:
         return (self.kur.topoloji.mesafe(gonderen, self.kimlik, t_s)
@@ -224,8 +465,15 @@ class Dugum:
         DOĞRUDAN hesaplanır: duyulan iletimlerin en geç bitişi ve —
         CSMA'ya görünen bir karıştırıcı varsa — onun bir sonraki geçiş anı.
         """
+        if self.guc_kipi:
+            return self._guc_mesgul_bitisi_s(t_s)
         en_gec = t_s
-        for iletim in self.kur.kanal.ortam.aktif(t_s):
+        if self.kur.yayilim_gecikmeli:
+            for iletim, _, son in self._ulasanlar(t_s):
+                if self.duyar_mi(iletim.gonderen, t_s):
+                    en_gec = max(en_gec, son)
+        for iletim in (() if self.kur.yayilim_gecikmeli
+                       else self.kur.kanal.ortam.aktif(t_s)):
             if iletim.gonderen == self.kimlik:
                 continue
             if self.duyar_mi(iletim.gonderen, t_s):
@@ -326,9 +574,19 @@ class Dugum:
         """
         toplam = bitis_s - bas_s
         k = self.kur.kanal.karistirici
-        if toplam <= 0.0 or k is None or not k.csma_gorunur:
+        # 🔒 A3 (K-174): güç kipinde HER sınıf karıştırıcı enerjisiyle meşgul
+        # edebilir; hareketli karıştırıcıda aralık denetim adımıyla bölünür.
+        if toplam <= 0.0 or k is None \
+                or not (k.csma_gorunur or self.guc_kipi):
             return max(0.0, toplam)
-        sinirlar = (bas_s,) + tuple(k.gecis_anlari(bas_s, bitis_s)) + (bitis_s,)
+        gecis = tuple(k.gecis_anlari(bas_s, bitis_s))
+        if self.guc_kipi and k.hareketli:
+            adim = self.kur.konfig.karistirici_denetim_araligi_s
+            izgara = (bas_s + i * adim
+                      for i in range(1, int(toplam / adim) + 1))
+            gecis = tuple(sorted(set(gecis) | {a for a in izgara
+                                               if a < bitis_s}))
+        sinirlar = (bas_s,) + gecis + (bitis_s,)
         return sum(b - a for a, b in zip(sinirlar, sinirlar[1:])
                    if not self.karistirici_mesgul_mu(0.5 * (a + b)))
 
@@ -349,7 +607,7 @@ class Dugum:
             self.kur.korunum.uret()
             self.kur.sayaclar.artir("uretilen_paket")
             self.kur.paket_defteri.dogdu(paket.kimlik, paket.akis_kimligi,
-                                         paket.dogum_s)
+                                         paket.dogum_s, paket.hedef)
         if self.kuyruk.ekle(paket):
             self.kur.sayaclar.tepe_guncelle("en_yuksek_doluluk",
                                             len(self.kuyruk))
@@ -363,11 +621,14 @@ class Dugum:
     def dus(self, sebep: str, nereden: str) -> None:
         self.kur.korunum.dus(sebep, nereden=nereden)
         self._kayip_yeri(sebep)
-        if sebep in ("ttl", "hedef_yok", "iletim_basarisiz", "tampon_asimi"):
+        if sebep in ("ttl", "hedef_yok", "iletim_basarisiz", "tampon_asimi",
+                     "politika", "dugum_kaybi"):
             self.kur.sayaclar.artir(
                 {"ttl": "ttl_olumu", "hedef_yok": "hedef_yok",
                  "iletim_basarisiz": "mac_vazgecme",
-                 "tampon_asimi": "tampon_dusen"}[sebep])
+                 "tampon_asimi": "tampon_dusen",
+                 "politika": "politika_dusen",
+                 "dugum_kaybi": "dugum_kaybi_dusen"}[sebep])
 
     # ==================================================================
     # ROTA BEKLEME TAMPONU — K-131 (denetim B1)
@@ -494,6 +755,11 @@ class Dugum:
         kümeyi `gozlem/kontrol.py::niyetleri_dogrula` ve `Beyan.__post_init__`
         bağlar.
         """
+        # 🔒 `politika` bir ROTA olayı değildir (K-171): rota defterine ve kopma
+        # sayaçlarına girmez; ölçüsü düşme sebebinin kendisidir
+        # (`politika_dusen`). Yalnız `Karar`da, düşürülen paketle gelir.
+        if beyan.tip == "politika":
+            return
         sonuc = self.kur.rota_defteri.beyan_isle(self.kimlik, beyan, t_s)
         # 🔴 COR'UN SAYAÇ İKİZİ DEFTERDEN BESLENİR (19 Eylül 2026, K-141).
         # `rota_etkilendi` sayacı tanımlıydı ama HİÇBİR YERDE artırılmıyordu;
@@ -550,8 +816,23 @@ class Dugum:
         self._gonderilen_bayt += iletim.cerceve.bayt
 
     def iletim_sonucu(self, sonuc: str) -> None:
-        """Son iletimin sonucu — gözlem penceresinin SIFIR BAYTLIK bilgisi."""
+        """Son iletimin sonucu — gözlem penceresinin SIFIR BAYTLIK bilgisi.
+
+        A4: veri denemesinin zaman aşımı ARF'ye buradan gider (paket henüz
+        uçuştan inmemiştir); başarısı `teslim.onay_alindi`dan.
+        """
         self._son_sonuc = sonuc
+        if sonuc == "zaman_asimi":
+            self.arf_bildir(self._ucus_hedefi, False)
+
+    def arf_bildir(self, komsu: int | None, basarili: bool) -> None:
+        """A4 (K-177): bir unicast DENEMESİNİN sonucu hız denetçisine."""
+        if self.hiz_denetcisi is None or komsu is None:
+            return
+        if basarili:
+            self.hiz_denetcisi.basarili(komsu)
+        else:
+            self.hiz_denetcisi.basarisiz(komsu)
 
     def tekrar_mi(self, gonderen: int, ucus_no: int) -> bool:
         """Bu atlamayı bu komşudan daha önce aldık mı?"""
@@ -562,6 +843,7 @@ class Dugum:
 
     def alim_kaydet(self, bayt: int) -> None:
         self._alinan_bayt += bayt
+        self._alinan_cerceve += 1               # B3 (K-179)
 
     # ------------------------------------------------------- uçuş durumu
     @property

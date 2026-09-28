@@ -419,3 +419,24 @@ def test_durum_listesi_KAPALI():
     d.onay_bekle()
     gorulen.add(d.durum)
     assert gorulen == set(DCF_DURUMLARI)
+
+
+# ==========================================================================
+# 🔒 FAZ 4.2 (K-183) — BIANCHI REFERANS DÜNYANIN ZAMANLAMALARIYLA
+# ==========================================================================
+@pytest.mark.parametrize("n", [5, 20, 40])
+def test_DOYGUNLUK_VERIMI_REFERANS_DUNYADA_Bianchi_ile_yuzde_15(n):
+    """Aynı kapanış ölçütü (±%15) `referans_2026`nın zamanlamalarıyla:
+    CCA 15 µs, 1:1 çerçeve süreleri. Bianchi sabit hız varsayar; düzenek
+    varsayılan veri hızında koşar (ARF bu sınavın dışında, beyan)."""
+    from sim2.kanal.dunya import referans_2026
+    k = referans_2026(kol="t", yeniden_deneme_siniri=1000)
+    z = _zamanlar(k)
+    yuk_s = cerceve_kur(k, "veri").govde_suresi_s
+    analitik = bianchi_verim(n, k.cw_min + 1, 5, z.slot_s,
+                             z.basari_turu_s, z.carpisma_turu_s, yuk_s)
+    olculen = doygunluk_kosumu(n, k)
+    bagil = abs(olculen - analitik) / analitik
+    assert bagil < 0.15, (
+        f"n={n}: ölçülen {olculen:.4f}, Bianchi {analitik:.4f}, "
+        f"bağıl fark %{100*bagil:.1f}")

@@ -57,10 +57,10 @@ from __future__ import annotations
 from typing import Protocol, runtime_checkable
 
 from sim2.gozlem.karar import Karar
-from sim2.gozlem.pencere import Gozlem
+from sim2.gozlem.pencere import Gozlem, PaketGorunumu
 
 __all__ = ["Protokol", "KontrolluProtokol", "SonucBildirimliProtokol",
-           "KANCALAR"]
+           "DuyanProtokol", "DUYULAN_TURLER", "KANCALAR"]
 
 KANCALAR: tuple[str, ...] = (
     "sonraki_atlama", "beacon_yuku", "beacon_alindi", "teshis",
@@ -203,6 +203,52 @@ class SonucBildirimliProtokol(Protokol, Protocol):
         """
         ...
 
+
+# 🔒 DUYULAN ÇERÇEVE TÜRLERİ — `cerceve_duyuldu`nun `tur` argümanı. Kapalı
+# küme: `konay` kontrol çerçevesinin onayıdır, `onay` veri çerçevesininki.
+DUYULAN_TURLER: tuple[str, ...] = ("veri", "onay", "beacon", "kontrol",
+                                   "konay")
+
+
+@runtime_checkable
+class DuyanProtokol(Protokol, Protocol):
+    """Çözülen HER çerçeveyi isteyen protokol — `v2/15` B1 (K-170 onayı).
+
+    🔴 NEDEN: protokol yalnız kendisine teslim edilen kontrol mesajını ve
+    elindeki paketi görüyordu. Gerçek bir telsiz ise çözdüğü her çerçevenin
+    başlığını (gönderen adresi dâhil) ve alınan gücünü (RSSI) sürücüye
+    raporlar; kulak misafiri dinleme ve "bu paket bana hangi komşudan geldi"
+    bilgisi buradan gelir. Paketin geldiği komşuyu bilmeden bir kaynağa geri
+    yol öğrenilemez — geçitten çıkan komut bu yüzden taşınamıyordu (K-171
+    bulgusu).
+
+    🔒 İSTEĞE BAĞLIDIR ve hepsi-ya-hiç kuralına girmez: taşımayan protokol
+    hiç çağrılmaz ve satırı birebir aynı kalır.
+    """
+
+    def cerceve_duyuldu(self, gozlem: Gozlem, gonderen: int, tur: str,
+                        hedef: int | None, rssi_dbm: int,
+                        paket: PaketGorunumu | None) -> None:
+        """Bu düğüm bir çerçeveyi BAŞARIYLA çözdü — bana ya da başkasına.
+
+        `gonderen` çerçeveyi gönderen komşu (802.11 başlığındaki verici
+        adresi) · `tur` `DUYULAN_TURLER`den · `hedef` çerçevenin adreslendiği
+        düğüm (yayında `None`; onayda onaylanan göndericidir) · `rssi_dbm`
+        telsizin raporladığı alınan güç, ölçüm hatasıyla, tamsayı dBm ·
+        `paket` yalnız veri çerçevesinde başlık görünümü.
+
+        🔒 NİYET DÖNDÜRMEZ. Çerçevenin işlenmesinden (teslim, onay, kontrol
+        kancası) ÖNCE çağrılır: sürücü çerçeveyi raporlar, sonra üst katman
+        işler. `gozlem.paket` `None`dur — duyulan paket elde taşınan paket
+        değildir. Karıştırıcı çerçeveleri bu kancaya GELMEZ; yalnız
+        düğümlerin çözülen çerçeveleri gelir (sızıntı yok).
+        """
+        ...
+
+
+# 🔒 KANAL DOLULUĞU — `v2/15` B3 (K-179). Protokol sınıfı isteğe bağlı
+# `kanal_dolulugu_ister: bool` özniteliğiyle `Gozlem.mesgul_sure_s`i ister
+# (yoksa `None` — ölçülmedi). Olay başına maliyeti yalnız isteyen öder.
 
 # 🔒 VERİ BAŞLIĞI — Y2, 22 Eylül 2026 (K-151). Protokol sınıfı isteğe bağlı
 # `veri_baslik_bayt: int` özniteliğiyle her veri paketine eklediği yönlendirme

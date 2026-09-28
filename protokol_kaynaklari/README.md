@@ -93,8 +93,9 @@ k = 3 kullandık"*.
 biter. Rota bakımı (bir yol kopunca ne yapılır, RERR), verinin hangi yoldan
 gönderileceği ve yol başına zaman aşımları ayrı bir bölüm olarak YOK —
 büyük olasılıkla dergi sürümünde (ücretli). ns-2.35'teki AOMDV kodu yazarların DEĞİL (Marcello Caleffi, 2008) —
-boşlukların nasıl doldurulacağı öğrenci kararıdır; seçenekler
-`v2/02-DOGRULANMIS-KAYNAKLAR.md` §R4.1'de.
+boşluklar öğrenci kararıyla (22 Eylül) makale + RFC 3561'den doldurulur,
+belirtilmemiş seçimler `protokoller/aomdv.py` başlığında beyanlı
+(`v2/02-DOGRULANMIS-KAYNAKLAR.md` §R4.1).
 
 ⚠️ **Dağıtım:** yazarın kendi sayfasında yayımladığı kopyadır ve bu depoda
 özel araştırma kullanımı içindir. Depo herkese açık yapılacaksa yeniden
@@ -136,3 +137,67 @@ kalıp taramasından geçti. Kaynak RFC Editor'ün kendisi olduğu için risk
 çok düşük; yine de "tamamı okundu" demek doğru olmazdı.
 
 🔒 RFC metinleri IETF Trust'ın lisansıyla serbestçe dağıtılabilir.
+
+---
+
+## Gerçekçilik kaynakları — 25 Eylül 2026 (öğrenci izniyle, her biri ayrı; K-168, `v2/12` Faz 0)
+
+Hepsi önce geçici alana indirildi, denetlendi, sonra buraya alındı. **Ortak denetim** (`pdftotext` ile metin + ham PDF taraması):
+- etkin içerik (`/JavaScript`, `/Launch`, `/EmbeddedFile`, `/AA`, `/XFA` …) yok. İki arXiv dosyasında birer `/OpenAction` var; ikisi de yalnız `/GoTo … /Fit` (ilk sayfayı sığdırarak aç).
+- yapay zekâya yönelik talimat kalıbı yok. Tek eşleşme RFC 8966'da, protokol metni: *"receiver MUST ignore any TLV"*.
+
+| dosya | künye | alındığı yer | boyut · SHA-256 | okunan |
+|---|---|---|---|---|
+| `pei_henderson_2009_ns3_80211b_dogrulama.pdf` | G. Pei, T. Henderson, *"Validation of ns-3 802.11b PHY model"*, Boeing Research & Technology, Mayıs 2009 (21 s.) | `https://www.nsnam.org/~pei/80211b.pdf` (ns-3 projesi) | 148 982 B · `74d87ea8c318a7b9e9de2315866b2a316977aeb5a2d00ff1231c593cdf288e80` | **tamamı** |
+| `boer_1996_ieee80211_dsss_phy.pdf` | J. Boer, *"Direct Sequence Spread Spectrum Physical Layer Specification IEEE 802.11"*, doc. IEEE P802.11-96/49E, Mart 1996 (taslaktan parçalar içerir) | `https://grouper.ieee.org/groups/802/11/Tutorial/ds.pdf` (IEEE 802.11 çalışma grubu) | 56 148 B · `49d8af18f445144fb0152c52e6ceda642008bd2baed000b9f06f8c4624f7ff61` | **tamamı** |
+| `rfc8966_babel.txt` | J. Chroboczek, D. Schinazi, *"The Babel Routing Protocol"*, RFC 8966, Ocak 2021, Standards Track | `https://www.rfc-editor.org/rfc/rfc8966.txt` | 141 512 B · `592fe69e208f6c3f1ac5d8e673eb309a9f6323a4c471de9284385c0005db1f2f` | §1–§2 (kavramsal, uygulanabilirlik ve sıra numarası) tamamı; kalanı kalıp taramasında |
+| `koubaa_2019_mavlink_survey.pdf` | A. Koubâa vd., *"Micro Air Vehicle Link (MAVLink) in a Nutshell: A Survey"*, arXiv:1906.10641v1, 2019 (9 s.) | `https://arxiv.org/pdf/1906.10641` | 856 711 B · `f0ffa9f95675e29280b6c87b2d07d82349c4646562d9cace6bcd85fa2cc0e41e` | başlık yapısı, mesaj boyları, yaşam sinyali, telemetri telsizleri tablosu; kalanı taramada |
+| `pirayesh_zeng_2021_jamming_survey.pdf` | H. Pirayesh, H. Zeng, *"Jamming Attacks and Anti-Jamming Strategies in Wireless Networks: A Comprehensive Survey"*, arXiv:2101.00292v1, 2021 (16 s.) | `https://arxiv.org/pdf/2101.00292` | 1 827 418 B · `a1c943d03e52d7781d432e1d678894f2feda6e0b620e956bf2cf2fb5cfa193c9` | WLAN karıştırma saldırıları, hız uyarlaması/güç kontrolü ve karıştırma tespiti bölümleri; kalanı taramada |
+
+**Projeye taşıdıkları** (ayrıntı `v2/02` · `v2/14`):
+- **802.11b hata modeli** (Pei & Henderson): gürültü 22 MHz'de; Eb/N0 = SINR · 22/1 (1 Mb/s DBPSK) · SINR · 22/1/2 (2 Mb/s DQPSK) · CCK 5,5 ve 11 Mb/s için ·4 ve ·2. CMU ölçümleriyle (Prism 2.5) karşılaştırılmış.
+- **Barker kodu:** kodlama kazancı 10,4 dB, *"girişime ve gürültüye karşı ~10 dB bastırma"* (Boer).
+- **CCA:** modlar 1–3; ED eşiği verici gücüne bağlı (>100 mW −80 dBm · >50 mW −76 dBm · ≤50 mW −70 dBm); enerji sezme 15 µs.
+- **Zamanlama ve alıcı:** slot 20 µs · Tx→Rx dönüşü 10 µs, Rx→Tx 5 µs · duyarlılık −80 dBm (FER 0,08, 1024 B) (Boer).
+- **Babel:** uygulanabilirlik mesafesi (§2.4) ve sıra numaralı rotalar (§2.5–2.6) — DESPARETE'nin döngüsüzlük ailesi; README'deki atıf doğrulandı (`02` S6).
+- **MAVLink:** mesaj 8–263 B (v1), yaşam sinyali ~1 Hz.
+- **Karıştırma tespiti:** gürültü gücü, kanal meşgul oranı, çerçeveler arası süre, sinyal gücü ve teslim oranı birlikte kullanılıyor (Puñal vd., taramanın [83]'ü). Hız uyarlaması düşük güçlü girişimde etkili, yüksek güçlü sürekli karıştırmada etkisiz (Pelechrinis vd., [79]–[80]).
+
+⚠️ **Dağıtım:** arXiv ve ns-3 belgeleri yazarların herkese açık kopyalarıdır; depo herkese açık yapılacaksa yeniden dağıtım hakkı ayrıca denetlenmelidir. IEEE 802.11-2016'nın kendisi burada yok — yalnız IEEE GET programından, IEEE hesabıyla (öğrenci) alınabilir.
+
+### Öğrencinin indirdikleri — 25 Eylül 2026 akşamı (ajan denetledi)
+
+Aynı ortak denetim; geçici kopyalar üzerinde. Etkin içerik yok. İki yanlış alarm çözüldü: Goddemeier dosyasındaki `/JS` bir DOI'nin parçası (`…/JSAC.2012.120610`); NATO belgesindeki `/AA` sıkıştırılmış akışta rastgele bayt. Gömülü tek dosya IEEE'nin PDF üretim ayarı (`CMW_Acr8_V1.joboptions`). Talimat kalıbı yok; Al-Hourani'deki "disregard" teknik cümle (*"we can disregard hRX"*).
+
+| dosya | künye | boyut · SHA-256 | okunan | not |
+|---|---|---|---|---|
+| `al_hourani_2014_optimal_lap_altitude.pdf` | A. Al-Hourani, S. Kandeepan, S. Lardner, *"Optimal LAP Altitude for Maximum Coverage"*, IEEE Wireless Communications Letters, 2014 (4 s.) | 667 334 B · `657c893e7840749967599974f4c19bd54d61323a8d2c14f2bacf49bb2bee40ee` | **tamamı** | yer–hava modeli: PL = FSPL + η; P(LoS, θ) = 1 / (1 + a·exp(−b[θ − a])); (η_LoS, η_NLoS) banliyö (0,1; 21) · kentsel (1,0; 20) · yoğun kentsel (1,6; 23) · yüksek yapılı (2,3; 34) dB; a, b Tablo I–II polinomlarından |
+| `doodlelabs_rm2450_veri_sayfasi_2021.pdf` | Doodle Labs, *Smart Radio RM-2450 Datasheet* (2×2 MIMO Mesh Rider, 2 400–2 482 MHz), 20 Aralık 2021 (10 s.) | 354 100 B · `1c4a76b492e1eccf955f602a5bc5c6ab0c63b14f5fa45af665a826e8f47b178c` | **tamamı** | çıkış Pro 27 dBm · Xtreme 33 dBm (MCS 0) · ABD 4 W EIRP, **Avrupa 100 mW EIRP** · DC güç Tx ≤ 10,6 W (Pro) / 14 W (Xtreme), Rx 2 W, uyku 1,2 W · tümleşik GPS **1,5 m CEP** · duyarlılık OFDM MCS 0: 3 MHz −100, 5 MHz −98 dBm · 802.11b/g/n uyumlu |
+| `goddemeier_daniel_wietfeld_2012_jsac_a2g.pdf` | N. Goddemeier, K. Daniel, C. Wietfeld, *"Role-Based Connectivity Management with Realistic Air-to-Ground Channels for Cooperative UAVs"*, IEEE JSAC 30(5):951–963, Haziran 2012 (13 s.) | 1 648 920 B · `1d80f6c8ae0dc45fe6335743d6a1e06cf3cd87ed70a4b432bf51485582c034a3` | kanal bölümü (V) | ⚠️ **istenen makale değil** (istenen: Goddemeier & Wietfeld, GLOBECOM Wi-UAV 2015, hava–hava Rice modeli). Hava–hava için "basit serbest uzay" varsayar; yer–hava için yüksekliğe bağlı yol kaybı üsteli. ⚠️ Kopyada *"Authorized licensed use limited to: Universitaetsbibliothek der RWTH Aachen"* damgası var — yalnız araştırma kopyası, yeniden dağıtılmaz |
+
+**Depoya alınmayanlar:**
+- **NATO SPCoE kitabı:** Yzb. (TUR GEND) Yüksel Kütük, *"UAS (Unmanned Aircraft Systems): The Force Multiplier for Law Enforcement Agencies and the Potential Contributor to Stability Policing"*, NATO SPCoE, 2025, ISBN 979-12-5539-066-4. Kaynak: `https://nllp.jallc.nato.int/iks/sharing%20public/uas-unmanned-aircraft-systems.pdf`. 3 639 808 B · `160b3e547ccddb228f6a24b1f87c94b97ed386291428e6a55bfca0f7bd6404e3` (63 s.). Yalnız §1.4.3 okundu: NATO sınıflandırması, NATO ATP-3.3.8.1 Ed. B v1, 2019'dan — **Sınıf I "küçük" (>15 kg): taktik birlik, ≤ 5 000 ft AGL, görev yarıçapı 50 km (görüş hattı), ör. ScanEagle**. Web okumasında araç tarafından kendiliğinden kaydedildi, öğrencinin izniyle kullanıldı. Yayıncının izinsiz elektronik saklama yasağı nedeniyle kopyası depoya alınmadı.
+### Ücretli iki kaynağın açık alternatifleri — 25 Eylül 2026 gecesi (öğrenci seçimi ajana bıraktı: *"hangilerinin kaliteli ve güvenilir olduğunu düşünüyorsan onları indir"*)
+
+Ortak denetim; etkin içerik yok (1801.01656'daki `/JS` sıkıştırılmış akışta rastgele bayt, `/OpenAction` yalnız `/GoTo … /Fit`), talimat kalıbı yok.
+
+| dosya | künye | alındığı yer | boyut · SHA-256 | okunan · sağladığı |
+|---|---|---|---|---|
+| `khuwaja_2018_uav_kanal_taramasi.pdf` | A. A. Khuwaja, Y. Chen, N. Zhao, M.-S. Alouini, P. Dobbins, *"A Survey of Channel Modeling for UAV Communications"*, arXiv:1801.07359v1, 2018 (IEEE COMST 2018'in açık sürümü; 35 s.) | `https://arxiv.org/pdf/1801.07359` | 354 043 B · `20640418d222600b0e8aa453fbafea86ca745940e6eef81255ca48a0dc1279f3` | hava–hava bölümü, Tablo I–II, küçük ölçekli sönümleme · **hava–hava yol kaybı üsteli 1,92 · 0,93 · 2,05 (802.15.4), 2,6 (Goddemeier & Wietfeld 2015, 802.11, 2,4 GHz, Pt 20 dBm, 5 dBi), 2,03 (802.11a)**; hava–hava Rician K "yüksekliğe bağlı", sayı vermiyor |
+| `khawaja_2019_uav_yer_hava_kanal_taramasi.pdf` | W. Khawaja, I. Guvenc, D. W. Matolak, U.-C. Fiebig, N. Schneckenburger, *"A Survey of Air-to-Ground Propagation Channel Modeling for Unmanned Aerial Vehicles"*, arXiv:1801.01656v1, 2018 (IEEE COMST 2019'un açık sürümü; 25 s.) | `https://arxiv.org/pdf/1801.01656` | 2 997 614 B · `be0292197ac77cd80655aae84f5eb0ba589a172aa59fc0ac2f126a4a0fc23fb3` | §C "Ricean K-factor" ve özet tablosu · **K: alçak irtifa yer–hava 2–5 dB, (−5)–10 dB, ağaçlıkta 2–10 dB; güçlü görüş hattında ortalama L bandı ~12 dB, C bandı 27,4–31,3 dB** |
+
+**Uygulama kaynakları** (`uygulama_kaynaklari/`, GPL-2.0-only — dosya başlarındaki lisans korunur): standardı uygulayan açık kodlar. Standardın kendisi değil; kayıtta **"uygulama kaynağı"** diye işaretlenir. İkisi bağımsızdır, aynı değerlerde birleşir. `gitlab.com/nsnam/ns-3-dev` (master, 25 Eylül 2026) ve `github.com/torvalds/linux` (master, 25 Eylül 2026):
+
+| dosya | sağladığı (dosyadaki standart atfıyla) | SHA-256 |
+|---|---|---|
+| `ns-3/wifi-standard-constants.h` | DSSS SIFS **10 µs**, slot **20 µs** (*"Table 16-4 HR/DSSS PHY characteristics of 802.11-2020"*) · RTS eşiği varsayılanı en büyük değer (*"C.3 MIB detail in IEEE Std 802.11-2020"*) | `87c6e3c6391fa0c7cbe849e2d2d36f73f8637465208a15abc9c0a97a639baf18` |
+| `ns-3/wifi-remote-station-manager.cc` | kısa yeniden deneme sınırı (MaxSsrc) **7**, uzun (MaxSlrc) **4** | `858fae5df7f0fe04c662cf1311403ea50af73e584d37c02e7f09ee8c412ad705` |
+| `ns-3/wifi-mac.cc` | 802.11b CWmin **31**, CWmax **1023** | `4c42711c92e315e549f8c4c488b1ea73e0433beea284750284320949ac1dbff9` |
+| `ns-3/wifi-phy.cc` | 802.11b yapılandırması (SIFS, slot, PIFS = SIFS + slot) | `27425b912e3dd322ea35b8d24082548c91683f6282492ae8ef6ee8a773b5c924` |
+| `ns-3/dsss-phy.cc` | 1 / 2 / 5,5 / 11 Mb/s · uzun önbelge 144 µs + başlık 48 µs (kısa: 72 + 24 µs) | `d5239ede9c5793808db4541beebf62602dc1d2227bf2cb2355b89bc6053f196d` |
+| `ns-3/dsss-error-rate-model.cc` | G1'in (Pei & Henderson) BER formüllerinin güncel kodu · CCK 5,5/11 Mb/s: Pursley–Royster sembol hatası (GSL sürümü) — A4'ün hata modeli | `e7274c4a98eb7be8e5732f4b4ce51cbadcf8a9ea3f777777a903dca86659f66f` |
+| `ns-3/arf-wifi-manager.cc` · `.h` | ARF hız uyarlaması (Kamerman & Monteban 1997'ye atıflı; zaman sayacı yerine paket sayacı): en düşük hızdan başla · **10** art arda başarı ya da **15** iletimlik sayaç → bir hız yukarı ve kurtarma kipi · kurtarmada ilk başarısızlık, normalde art arda **2** başarısızlık → bir hız aşağı. 26 Eylül 2026 indirildi (öğrenci izniyle, 8 353 B + 2 621 B), tamamı okundu | `723572f3502109ca4cf8d17950ddae78a1f74c6f297d60af7e7c614704fa86c0` · `d52e373873f0b29676f37621c0d85d2c18605b1cb98ea85ee687c9eb6e811d78` |
+| `ns-3/aodv-routing-protocol.cc` · `aodv-rqueue.cc` · `.h` | AODV rota tamponu: `MaxQueueLen` **64**, `MaxQueueTime` **30 s**; kuyruk dolunca *"Drop the most aged packet"*, süresi dolan `Purge`da düşer. Başlık: *"Based on NS-2 AODV model developed by the CMU/MONARCH group and optimized and tuned by Samir Das and Mahesh Marina"*. 28 Eylül 2026 indirildi (öğrenci izniyle, 86 436 B · 3 405 B · 6 649 B), ilgili kısımlar okundu — `rota_tamponu_*` köken kaydı (K-198) | `104dbf6352b70949a114f4db3d3e21c6deb176082cc0b3138ff8025848eeb6b0` · `c66643b64d8131f9194f26b8192752f6c1923399a3f534a3ed7beec45a3aa678` · `d9651df51f082472bab64752617d2939d24cc3b09d8945e81f7e764e80a7eb1e` |
+| `linux/net_wireless_core.c` | *"Initialize wiphy parameters to IEEE 802.11 MIB default values"*: `retry_short = 7`, `retry_long = 4`, RTS kapalı | `a1e6ebc52f7634585e5c7e8cb29b2e106de5af12da68cf9e5ed0794ad94fcb9a` |
+
+- **`arsiv/kaynak_elenen/ieee_80211_2016_kesit_madde21_IPR2023-01414.pdf`:** IEEE Std 802.11-2016'nın yalnız 9 sayfası, madde 21 (VHT/802.11ac, s. 2538–2580). Bir ABD patent davasının delil dosyası (*"IPR2023-01414 · Patent Owner · EX 2003"*), üçüncü kişinin lisans damgasıyla. İhtiyaç duyulan 802.11b maddeleri (15–16) ve MAC zamanlaması (madde 10) yok → kaynak olarak kullanılmadı, arşive taşındı.

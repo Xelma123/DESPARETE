@@ -32,8 +32,10 @@ from pathlib import Path
 from typing import Iterable, Mapping, Sequence
 
 __all__ = [
-    "PAKET_KOKU", "arac_hash", "calisma_kimligi", "zaman_damgasi_utc",
-    "kosu_kimligi", "kurulum_hash", "evren_hash", "ortam_ozeti",
+    "PAKET_KOKU", "arac_hash", "dosya_hash", "calisma_kimligi",
+    "zaman_damgasi_utc",
+    "kosu_kimligi", "kurulum_hash", "tedavi_hash", "protokol_hash",
+    "evren_hash", "ortam_ozeti",
 ]
 
 PAKET_KOKU = Path(__file__).resolve().parent.parent   # .../sim2
@@ -60,6 +62,12 @@ def arac_hash(kok: Path | None = None) -> str:
     🔒 Eski simülatörün aksine `protokoller/` ve `analiz/` bu özete GİRMEZ —
     onlar ayrı paketlerdir ve kendi özetlerini taşırlar; bir analiz aracını
     değiştirmek simülatör sonuçlarını bayatlatmamalı.
+
+    🔒 SATIR SONU NORMALLEŞTİRİLİR — 25 Eylül 2026 (`v2/15` A1, K-171).
+    Depoda CRLF ve LF dosyalar yan yana; git'in `autocrlf` ayarı başka bir
+    makinede aynı kodu öbür biçimde çıkarır. Normalleştirilmeseydi kod
+    değişmeden özet değişir ve iki makinenin aynı koşusu "farklı araç"
+    sayılırdı.
     """
     kok = kok or PAKET_KOKU
     h = hashlib.blake2b(digest_size=16)
@@ -68,9 +76,14 @@ def arac_hash(kok: Path | None = None) -> str:
             continue
         h.update(yol.relative_to(kok).as_posix().encode())
         h.update(_AYIRICI)
-        h.update(yol.read_bytes())
+        h.update(yol.read_bytes().replace(b"\r\n", b"\n"))
         h.update(_AYIRICI)
     return h.hexdigest()
+
+
+def dosya_hash(yol: Path) -> str:
+    """Tek bir kaynak dosyanın özeti — `arac_hash`la aynı normalleştirme."""
+    return _ozet(yol.read_bytes().replace(b"\r\n", b"\n"))
 
 
 def calisma_kimligi() -> str:
@@ -124,6 +137,40 @@ def kurulum_hash(konfig_sozlugu: Mapping[str, object],
     return _ozet(*parcalar)
 
 
+def tedavi_hash(konfig_sozlugu: Mapping[str, object],
+                tedavi_alanlari: Iterable[str]) -> str:
+    """`kurulum_hash`ın TÜMLEYENİ — yalnız tedavi alanları.
+
+    🔴 25 Eylül 2026 (`v2/15` A1, K-171): kimliğe tedavi alanlarından yalnız
+    `kol` ve `tohum` giriyordu. Senaryosu, tehdidi ya da trafik deseni farklı
+    iki koşu — kurulumları da aynıysa — AYNI kimliği taşıyor ve analiz
+    birini "kopya" diye dışlayabilirdi. Kurulum ile tedavi birlikte
+    konfigürasyonun TAMAMINI kapsar.
+    """
+    parcalar: list[bytes] = []
+    for ad in sorted(set(tedavi_alanlari)):
+        if ad not in konfig_sozlugu:
+            raise KeyError(f"tedavi alanı konfigde yok: {ad}")
+        parcalar.append(f"{ad}={konfig_sozlugu[ad]!r}".encode())
+    return _ozet(*parcalar)
+
+
+def protokol_hash(*, ad: str, kod: Iterable[str],
+                  parametreler: Iterable[str]) -> str:
+    """Protokolün PARMAK İZİ — ad + kod özeti + bildirdiği parametreler.
+
+    🔴 25 Eylül 2026 (`v2/15` A1, K-171): `arac_hash` bilerek yalnız
+    `sim2/`yi kapsar, protokol kodu ise hiçbir özete girmiyordu. DESPARETE'nin
+    bir bayrağını ya da kodunu değiştirip aynı tohumla koşmak AYNI kimliği
+    üretiyordu. `kod`: protokol sınıflarının paketlerinin özetleri (çağıran
+    `arac_hash(paket_kökü)` ile üretir). `parametreler`: protokolün kurucuya
+    aldığı ve davranışı değiştiren değerlerin `repr`leri — hepsi sıralanır,
+    yani düğümlerin sırası özeti değiştirmez.
+    """
+    return _ozet(ad.encode(), *(k.encode() for k in sorted(set(kod))),
+                 b"--", *(p.encode() for p in sorted(set(parametreler))))
+
+
 def evren_hash(paketler: Sequence[tuple[int, float, int, int]]) -> str:
     """Ölçüm penceresindeki PAKET EVRENİNİN parmak izi.
 
@@ -141,17 +188,23 @@ def evren_hash(paketler: Sequence[tuple[int, float, int, int]]) -> str:
     return h.hexdigest()
 
 
-def kosu_kimligi(*, arac: str, kurulum: str, kol: str, tohum: int,
-                 sayac_semasi: str, akis_listesi: str) -> str:
+def kosu_kimligi(*, arac: str, kurulum: str, tedavi: str, protokol: str,
+                 kol: str, tohum: int, sayac_semasi: str,
+                 akis_listesi: str) -> str:
     """Bu koşunun BELİRLENİMCİ kimliği.
 
-    Aynı araç + aynı kurulum + aynı kol + aynı tohum → **aynı kimlik**.
-    İki sonuç satırı aynı kimliği taşıyorsa ikisi de aynı koşudur; biri
-    kopyadır ve analiz onu **dışlamak zorundadır**.
+    Aynı araç + aynı kurulum + aynı tedavi + aynı protokol (kod ve
+    parametreleriyle) → **aynı kimlik**. İki sonuç satırı aynı kimliği
+    taşıyorsa ikisi de aynı koşudur; biri kopyadır ve analiz onu
+    **dışlamak zorundadır**.
+
+    🔒 `kol` ve `tohum` tedavi özetinin içinde de var; ayrıca geçilmeleri
+    kimliğin okunur girdilerini imzada görünür tutar.
 
     🔴 `calisma_kimligi` ve zaman damgası buraya GİRMEZ — girseydi her
     çalıştırma yeni bir kimlik üretir ve kopya tespiti imkânsızlaşırdı.
     """
-    return _ozet(arac.encode(), kurulum.encode(), kol.encode(),
+    return _ozet(arac.encode(), kurulum.encode(), tedavi.encode(),
+                 protokol.encode(), kol.encode(),
                  struct.pack("<q", int(tohum)),
                  sayac_semasi.encode(), akis_listesi.encode(), bayt=12)

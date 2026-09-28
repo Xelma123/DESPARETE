@@ -60,6 +60,7 @@ class Karar:
     =========================================================
         sonraki=None                              → `hedef_yok`
         sonraki=None + Beyan("rota_gecersiz")     → `rota_gecersiz`
+        sonraki=None + Beyan("politika")          → `politika` (K-171)
 
     🔴 İkinci satır 16 Eylül'e kadar BELGEDE VARDI ama KODDA YOKTU. Ölçüldü:
     her kararda `rota_gecersiz` beyan eden bir sınav protokolünde sayaç 320
@@ -109,6 +110,16 @@ class Karar:
         dogrula(not (self.beklet and self.sonraki is not None),
                 "`beklet` ve `sonraki` birlikte verilemez — bekleyen paket "
                 "gönderilmez")
+        # 🔒 `politika` bir DÜŞME beyanıdır (K-171): gönderilen ya da
+        # bekletilen pakette anlamsızdır, `rota_gecersiz` ile birlikte
+        # verilirse düşme sebebi belirsiz kalırdı.
+        if any(b.tip == "politika" for b in self.beyan):
+            dogrula(self.sonraki is None and not self.beklet,
+                    "`Beyan('politika')` yalnız `sonraki=None` ve "
+                    "`beklet=False` ile verilir — paket düşer")
+            dogrula(not any(b.tip == "rota_gecersiz" for b in self.beyan),
+                    "`politika` ve `rota_gecersiz` aynı kararda verilemez — "
+                    "düşme sebebi tek olmalı")
 
     @property
     def beyan_var_mi(self) -> bool:

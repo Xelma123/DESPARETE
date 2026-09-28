@@ -11,15 +11,15 @@ protokolleri ayırt etmek için kullanılacak; kullanılmadan ÖNCE kendilerinin
 doğru şeyi ölçtüğü gösterilmelidir.
 
     G1 · BOŞ KOL      karıştırıcısız kolda metrikler SUSUYOR mu
+    G1-P              aynısı GERÇEK protokollerle (`1p`, K-196)
     G2 · TEKDÜZELİK   şok derinliği ŞİDDETLE artıyor mu
     G3 · IZGARA FAZI  sonuç örnekleme fazına bağlı mı
     G4 · BULANIKLIK   doğum-anına-göre kovalama geçerli mi
 
-⚠️ G1'in üç maddesi burada koşuyor, DÖRDÜNCÜSÜ KOŞAMIYOR ve bu beyan edilir:
-tespit gecikmesi bir protokolün KOPMA BEYANINI gerektiriyor ve depodaki iki
-koşum aletinin ikisi de hiç beyan etmiyor (`beyan_etmiyor = True`). Yani
-M4'ün boş kol kapısı Faz 2'ye ERTELENMİŞTİR; bugünkü kapsamı
-`tests2/test_evre.py`in sentetik testleridir.
+⚠️ G1'in tespit maddesi kâhinle KOŞAMAZ: kâhin hiç kopma beyan etmiyor.
+M4'ün boş kol kapısı G1-P'dedir — gerçek protokol kayıpları ve beyanları
+zamanda kümelendiği için K-193'te orada ilk kez KALDI ve hata payı
+kümelenmeye dayanıklı yapıldı (K-196). G1-P ~20 dk (8 koşu, 8 işçi).
 
 🔒 KÂHİN KULLANILIYOR, koşum aleti değil. Sebep: kâhin karıştırıcısız statik
 kolda PDR 1,000 veriyor, yani "şok derinliği sıfır olmalı" iddiası ORADA
@@ -43,13 +43,14 @@ from sim2.kosum.kurulum import kurulum_yap  # noqa: E402
 from sim2.olcum.evre import IZGARA_ADIMI_S, Evreler, evre_sozlugu  # noqa: E402
 from sim2.olcum.metrikler import yuzdelik  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 from kalibrasyon.kahin import EnGuvenilirKahin, KanalGrafigi  # noqa: E402
 
 TOHUMLAR = (1000, 1001, 1002)
 
 
 def _kos(senaryo: str, tohum: int, **ek):
-    kfg = Konfig(kol="evre_kapi", senaryo=senaryo, tohum=tohum, **ek)
+    kfg = DS.konfig(kol="evre_kapi", senaryo=senaryo, tohum=tohum, **ek)
     kur = kurulum_yap(kfg)
     grafik = KanalGrafigi(kur)
     t0 = time.perf_counter()
@@ -117,9 +118,119 @@ def g1_bos_kol() -> bool:
     print(f"  zaman metrikleri (her tohumda) : "
           f"{'TAMAM' if zaman_ok else '🔴 KIRIK'}")
     print(f"\n  G1 : {'GECTI' if hepsi else 'KALDI'}")
-    print("  ⚠️ TESPIT SUTUNU BOS YERE GECIYOR: depodaki iki kosum aleti de")
-    print("     hic kopma BEYAN ETMIYOR, dolayisiyla metrik tanim geregi")
-    print("     None doner. M4'un bos kol kapisi FAZ 2'YE ERTELENMISTIR.")
+    print("  ⚠️ TESPIT SUTUNU BOS YERE GECIYOR: kahin hic kopma BEYAN")
+    print("     ETMIYOR, metrik tanim geregi None doner. M4'un bos kol kapisi")
+    print("     gercek protokollerle G1-P'de (`1p`).")
+    return hepsi
+
+
+# ==========================================================================
+# G1-P · BOŞ KOL, GERÇEK PROTOKOLLER (K-196)
+# ==========================================================================
+G1P_PROTOKOLLER: tuple[str, ...] = ("aodv", "olsr", "aomdv", "desparete")
+G1P_TOHUMLAR: tuple[int, ...] = (1000, 1001)
+
+
+class _EskiEvreler(Evreler):
+    """🔒 YALNIZ KARŞILAŞTIRMA: K-196 öncesi kural — SE yalnız
+    Agresti–Caffo, M4 boş hipotezi Poisson. Tam kovalı temiz evrede eski
+    modülle birebir (ortalama aynı, varyans = ortalama → Poisson)."""
+
+    def _kume_se(self):
+        return None
+
+    def _kova_momentleri(self, sirali):
+        ort, _ = super()._kova_momentleri(sirali)
+        return ort, ort
+
+
+def _g1p_is(is_) -> dict:
+    """Havuz işçisi — bir (protokol, tohum) koşusu; aynı defterlerden hem
+    bugünkü hem eski kural."""
+    from kalibrasyon.aodv_uygunluk import _fabrika
+
+    protokol, tohum = is_
+    kfg = DS.konfig(kol="evre_kapi_p", senaryo="statik-yok", tohum=tohum,
+                    trafik_deseni="yere_toplama")
+    kur = kurulum_yap(kfg)
+    t0 = time.perf_counter()
+    Kosu(kur, _fabrika(protokol, kfg)).kostur()
+    sure = time.perf_counter() - t0
+    bas, bitis = kfg.olcum_penceresi
+    acilma = kfg.karistirici_baslangic_s
+    s = _evre(kur, kfg)
+    e = Evreler(kur.paket_defteri, bas, acilma, bitis)
+    eski = _EskiEvreler(kur.paket_defteri, bas, acilma, bitis)
+    rd = kur.rota_defteri
+    ort, var = e._kova_momentleri(sorted(rd.beyan_anlari("kopma")))
+    return {"protokol": protokol, "tohum": tohum, "sure_s": round(sure, 1),
+            "pdr_temiz": s["pdr_temiz"], "sok": s["sok_derinligi"],
+            "sok_se": s["sok_derinligi_se"],
+            "sok_se_eski": eski.sok_derinligi()[1],
+            "kume_se": e._kume_se(),
+            "top_sure": s["toparlanma_suresi_s"],
+            "top_sure_eski": eski.toparlanma_suresi(),
+            "tespit": s["tespit_gecikmesi_s"],
+            "tespit_eski": eski.tespit_gecikmesi(rd),
+            "beyan_etmiyor": rd.beyan_etmiyor,
+            "kova_ort": ort, "kova_var": var}
+
+
+def g1p_bos_kol_protokoller(isci: int = 8) -> bool:
+    """Karıştırıcısız kolda metrikler GERÇEK protokollerle de susuyor mu?
+
+    🔴 K-193'ün yan bulgusu: G1 kâhinle geçmişti (kayıplar bağımsız), ama
+    OLSR'da M4 3/3 tohumda "tespit" etti. Ölçüt koşudan ÖNCE yazıldı
+    (`arsiv/teshis/evre_g1p_2026-09-28/beklenti.md`):
+        M4  yanlış tespit (sansürsüz)            ≤ 1 / 8 koşu
+        M3  toparlanma_suresi ≠ 0                ≤ 1 / 8 koşu
+        M1  kol ortalaması 2 SE dışında          ≤ 1 / 4 protokol
+    Aynı defterlerden K-196 öncesi kural da basılır (yalnız karşılaştırma).
+    """
+    from multiprocessing import Pool
+
+    _baslik("G1-P - BOS KOL, GERCEK PROTOKOLLER  (statik-yok, yere toplama)")
+    isler = [(p, t) for p in G1P_PROTOKOLLER for t in G1P_TOHUMLAR]
+    with Pool(min(isci, len(isler))) as havuz:
+        sonuc = havuz.map(_g1p_is, isler, chunksize=1)
+    print(f"  {'protokol':>10} {'tohum':>6} {'pdr_t':>6} {'sok':>8} "
+          f"{'2SE':>7} {'2SE_es':>7} {'top':>5} {'top_es':>6} "
+          f"{'tespit':>6} {'tsp_es':>6} {'kova m/v':>11} {'sure':>6}")
+    for r in sonuc:
+        print(f"  {r['protokol']:>10} {r['tohum']:>6} {r['pdr_temiz']:>6.3f} "
+              f"{r['sok']:>+8.4f} {2 * r['sok_se']:>7.4f} "
+              f"{2 * r['sok_se_eski']:>7.4f} {r['top_sure']!s:>5} "
+              f"{r['top_sure_eski']!s:>6} {r['tespit']!s:>6} "
+              f"{r['tespit_eski']!s:>6} "
+              f"{r['kova_ort']:>5.2f}/{r['kova_var']:<5.1f} "
+              f"{r['sure_s']:>6.0f}")
+    tespit = sum(r["tespit"] is not None for r in sonuc)
+    tespit_eski = sum(r["tespit_eski"] is not None for r in sonuc)
+    top = sum(r["top_sure"] != 0.0 for r in sonuc)
+    top_eski = sum(r["top_sure_eski"] != 0.0 for r in sonuc)
+    susan = [f"{r['protokol']}/{r['tohum']}" for r in sonuc
+             if r["beyan_etmiyor"]]
+    disinda = disinda_eski = 0
+    for p in G1P_PROTOKOLLER:
+        rr = [r for r in sonuc if r["protokol"] == p]
+        ort = ist.mean(r["sok"] for r in rr)
+        n = len(rr) ** 0.5
+        se = ist.mean(r["sok_se"] for r in rr) / n
+        se_eski = ist.mean(r["sok_se_eski"] for r in rr) / n
+        disinda += abs(ort) > 2.0 * se
+        disinda_eski += abs(ort) > 2.0 * se_eski
+        print(f"  KOL {p:>10}: sok ort {ort:+.4f} · 2 SE {2 * se:.4f} "
+              f"(eski {2 * se_eski:.4f})")
+    n = len(sonuc)
+    print(f"\n  M4 yanlis tespit : {tespit}/{n}   (eski kural {tespit_eski}/{n})"
+          f"{'  · beyan etmeyen: ' + ', '.join(susan) if susan else ''}")
+    print(f"  M3 toparlanma≠0  : {top}/{n}   (eski kural {top_eski}/{n})")
+    print(f"  M1 2 SE disinda  : {disinda}/{len(G1P_PROTOKOLLER)}   "
+          f"(eski kural {disinda_eski}/{len(G1P_PROTOKOLLER)})")
+    hepsi = tespit <= 1 and top <= 1 and disinda <= 1
+    print(f"\n  G1-P : {'GECTI' if hepsi else 'KALDI'}")
+    import json
+    print("  KAYIT " + json.dumps(sonuc, ensure_ascii=False))
     return hepsi
 
 
@@ -238,8 +349,8 @@ def g4_bulaniklik() -> bool:
 
 
 if __name__ == "__main__":
-    KAPILAR = {"1": g1_bos_kol, "2": g2_tekduzelik,
-               "3": g3_izgara_fazi, "4": g4_bulaniklik}
+    KAPILAR = {"1": g1_bos_kol, "1p": g1p_bos_kol_protokoller,
+               "2": g2_tekduzelik, "3": g3_izgara_fazi, "4": g4_bulaniklik}
     secim = sys.argv[1:] or list(KAPILAR)
     bilinmeyen = [s for s in secim if s not in KAPILAR]
     if bilinmeyen:

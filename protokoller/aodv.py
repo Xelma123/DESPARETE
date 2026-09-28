@@ -56,7 +56,8 @@ from sim2.gozlem.karar import Beyan, Karar
 from sim2.gozlem.kontrol import KontrolIstegi, Uyandirma
 from sim2.gozlem.pencere import Gozlem
 from protokoller.aodv_bicim import (
-    ACTIVE_ROUTE_TIMEOUT_S, ALLOWED_HELLO_LOSS, DELETE_PERIOD_S,
+    ACTIVE_ROUTE_TIMEOUT_S, ALLOWED_HELLO_LOSS, BLACKLIST_TIMEOUT_S,
+    DELETE_PERIOD_S,
     HELLO_INTERVAL_S, MY_ROUTE_TIMEOUT_S, NET_DIAMETER, NET_TRAVERSAL_TIME_S,
     NODE_TRAVERSAL_TIME_S,
     PATH_DISCOVERY_TIME_S, RERR, RERR_RATELIMIT, RREP, RREQ, RREQ_RATELIMIT,
@@ -109,7 +110,8 @@ class AODV:
 
     __slots__ = ("kimlik", "_sira", "_rreq_kimlik", "_rota", "_komsu",
                  "_gorulen_rreq", "_kesif", "_son_yayin_s", "_rreq_pencere",
-                 "_rerr_pencere", "_sayac", "_kopuk", "_bekleyen_beyan")
+                 "_rerr_pencere", "_sayac", "_kopuk", "_bekleyen_beyan",
+                 "_kara_liste")
 
     def __init__(self, kimlik: int) -> None:
         self.kimlik = kimlik
@@ -135,12 +137,18 @@ class AODV:
         # Rota kuran yardımcılar kanca değil; beyanlarını burada biriktirir,
         # `kontrol_alindi` boşaltır.
         self._bekleyen_beyan: list = []
+        # 🔒 §6.8 KARA LİSTE (K-194): RREP'i bağ katmanında onaylanmayan
+        # komşu → listeden çıkış anı. Listedeki komşunun RREQ'leri YOK
+        # SAYILIR — tek yönlü bir bağ üzerinden gelen ilk RREQ, çift yönlü
+        # bir yoldan gelecek sonrakini bastırmasın diye.
+        self._kara_liste: dict[int, float] = {}
         self._sayac: dict[str, int] = {
             "rreq_uretilen": 0, "rreq_iletilen": 0, "rreq_bastirilan": 0,
             "rrep_uretilen": 0, "rrep_iletilen": 0, "rerr_uretilen": 0,
             "kesif_basarili": 0, "kesif_basarisiz": 0,
             "komsu_zaman_asimi": 0, "rota_gecersizlestirilen": 0,
             "hiz_siniri_engelledi": 0, "rerr_onculsuz": 0,
+            "kara_liste_eklenen": 0, "rreq_kara_listeden": 0,
         }
 
     # ==================================================================
@@ -484,6 +492,12 @@ class AODV:
                        yuk, yayin: bool) -> tuple:
         simdi = float(gozlem.saat_s)
         y = dict(yuk)
+        # 🔒 §6.8 (K-194): *"A node ignores all RREQs received from any node
+        # in its blacklist set."* Yok sayılan RREQ alınmamış gibidir — komşu
+        # kanıtı, ters rota ve iletme de doğmaz (o bağın bu yönü çalışmıyor).
+        if bicim == "RREQ" and self._kara_listede(gonderen, simdi):
+            self._sayac["rreq_kara_listeden"] += 1
+            return self._beyan_bosalt()
         # 🔒 Her alınan kontrol mesajı komşuluğun KANITIDIR (§6.9): mesaj
         # geldiyse bağ o an çalışıyordu. Komşu tablosu buradan dolar —
         # `gozlem.komsular` boştur, çünkü koşum beacon'ı kapalı.
@@ -670,8 +684,25 @@ class AODV:
         if hedef is None:
             return ()
         simdi = float(gozlem.saat_s)
+        if tur == "kontrol":
+            # 🔒 §6.8 (K-194): bu gerçeklemede tek yönlü giden TEK kontrol
+            # mesajı RREP'tir (RREQ ve RERR yayın) — yani bu, *"its
+            # transmission of a RREP message has failed"* durumudur ve bağ
+            # katmanı onayının gelmemesiyle sezilir (RFC'nin izin verdiği yol).
+            self._kara_liste[hedef] = simdi + BLACKLIST_TIMEOUT_S
+            self._sayac["kara_liste_eklenen"] += 1
         self._komsu.pop(hedef, None)
         return self._bag_koptu(hedef, simdi)
+
+    def _kara_listede(self, komsu: int, simdi_s: float) -> bool:
+        """§6.8 — `BLACKLIST_TIMEOUT` dolmadıysa listede; dolmuşsa çıkarılır."""
+        bitis = self._kara_liste.get(komsu)
+        if bitis is None:
+            return False
+        if simdi_s >= bitis:
+            del self._kara_liste[komsu]
+            return False
+        return True
 
     # ==================================================================
     # KANCA · teşhis

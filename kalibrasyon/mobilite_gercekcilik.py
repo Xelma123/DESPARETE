@@ -34,6 +34,7 @@ from sim2.cekirdek.rng import Akislar  # noqa: E402
 from sim2.dunya.geometri import Kutu, Nokta3, mesafe  # noqa: E402
 from sim2.dunya.topoloji import topoloji_kur  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 
 N, R = 40, 280.0
 BITIS_S, ADIM_S = 350.0, 0.5
@@ -204,7 +205,7 @@ def ozet(ad, izler):
 # projenin kaçındığı hata sınıfıdır.
 def izler(senaryo: str, tohum: int, **ek):
     top = topoloji_kur(
-        Konfig(kol="olcum", senaryo=senaryo, tohum=tohum, **ek), Akislar(tohum))
+        DS.konfig(kol="olcum", senaryo=senaryo, tohum=tohum, **ek), Akislar(tohum))
     adet = int(BITIS_S / ADIM_S) + 1
     return [[top.konum(i, k * ADIM_S) for k in range(adet)] for i in range(N)]
 
@@ -241,7 +242,7 @@ def main() -> None:
     print("=" * 78)
     print("KIYAS NOKTALARI  (protokolun zaman olcekleri)")
     print("=" * 78)
-    k = Konfig(kol="olcum")
+    k = DS.konfig(kol="olcum")
     print(f"   beacon araligi          : {k.beacon_araligi_s:.1f} s")
     print(f"   komsu kaydi omru        : "
           f"{k.beacon_araligi_s * k.komsu_omru_katsayisi:.1f} s")

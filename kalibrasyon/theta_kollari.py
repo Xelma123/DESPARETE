@@ -40,6 +40,7 @@ from kalibrasyon.bag_kumesi import _is_theta_hiz, _km_ortalama  # noqa: E402
 from kalibrasyon.calkanti import (ADIM_S, BITIS_S, CIFT_SAYISI,  # noqa: E402
                                   OLSR_TOP_HOLD_S, TOHUMLAR)
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 from sim2.yapilandirma.senaryolar import MOBILITE_KOLLARI  # noqa: E402
 
 # 🔒 RFC 3561 §10 · AODV `ACTIVE_ROUTE_TIMEOUT` = 3 000 ms. Birincil belge
@@ -49,7 +50,7 @@ AODV_ACTIVE_ROUTE_S: float = 3.0
 
 def kol_olcumu(isci: int = 6) -> dict[str, dict[str, float | None]]:
     """Her mobilite kolunda rota ömrü; Θ iki paydayla birlikte."""
-    k0 = Konfig(kol="theta_kollari")
+    k0 = DS.konfig(kol="theta_kollari")
     tohumlar = list(TOHUMLAR)
     kollar = [f"{m}-yok" for m in MOBILITE_KOLLARI]
     print("Θ KOLLARI — mobilite kolu basina rota omru (Y7 · C4)")
@@ -143,5 +144,7 @@ def kol_olcumu(isci: int = 6) -> dict[str, dict[str, float | None]]:
 
 
 if __name__ == "__main__":
+    DS.secimi_oku()                         # Faz 4 (K-183): --dunya
+    print(f"  DUNYA: {DS.secili()}")
     # 🔒 Windows `spawn` korumasi — Pool bu blok disinda acilmaz.
     kol_olcumu()

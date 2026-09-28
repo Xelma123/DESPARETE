@@ -2,8 +2,7 @@
 DESPARETE — öğrencinin protokolü, simülatöre bağlanan sınıf. Aşama 3.
 
 Tasarım: `protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/` (v0.1, tek okuma
-`36`). Kararlar: `v2/04` K-150 · K-152 · K-153 · K-154 · K-155 · K-156 ·
-K-157 · K-158 · K-159.
+`36`). Kararlar: `v2/04` K-150 · K-152 … K-166.
 Parça parça yazılıyor (`v2/12` §5); her parça kendi testiyle.
 
     3.1 biçimler 🟢 (`desparete_bicim.py`) · 3.2 M0.1 🟢 (`desparete_metrik.py`)
@@ -16,9 +15,20 @@ Parça parça yazılıyor (`v2/12` §5); her parça kendi testiyle.
     🔴 v0.2 (K-161, öğrenci): bayrak profili `PROFIL_V02` — boşta
         sondalama, onarım edinimi ve ilan koruması KAPALI (yalın profil).
         v0.1 = `bayraklar=PROFIL_V01`.
-    🔴 v0.3 (K-164, öğrenci): VARSAYILAN = `PROFIL_V02` + `SECENEK_V03`
-        (V1 yanıt yalnız onaysız · V5 ihtiyaca bağlı nitelik · V7 nitelik
-        sonrası ölçüm PROBE'u). v0.2 = `secenekler=SECENEK_YOK`.
+    🔴 v0.3 (K-164, öğrenci): `PROFIL_V02` + `SECENEK_V03` (V1 yanıt
+        yalnız onaysız · V5 ihtiyaca bağlı nitelik · V7 nitelik sonrası
+        ölçüm PROBE'u). v0.2 = `secenekler=SECENEK_YOK`.
+    🔴 K-166 (bağımsız denetim K-1): v0.3'te V5 edinim yolunu kapatıyor —
+        DFSN_REQUEST kabul kapısında (gönderen ACTIVE) düşer ve açlık
+        görünmez (uygulanabilir olmayan komşu hiç ACTIVE değil) → tur artmaz.
+    🟢 v0.4 (K-167, ajan — öğrencinin devriyle): `PROFIL_V02`
+        + `SECENEK_V04` = v0.3 + V8 (istek: `23` §2'nin ilk kabul kuralı) +
+        V10 (alan iletilemezken aynı turun sonlu ilanı nitelik açar).
+        Küçük dünyada uzun pencerede v0.2'nin teslimi, yükünün ~yarısıyla.
+    🟢 v0.4.1 (K-172): VARSAYILAN = `PROFIL_V02` + `SECENEK_V041` = v0.4 +
+        V11 — geçitten çıkan komut telemetrinin geri iziyle taşınır (v0.1'in
+        C kararı komutu `politika` ile düşürüyordu). Tam ölçekte kısa
+        pencerede komut PDR 0 → 0,87 (statik) · 0,57 (hareketli).
 
 🔒 POSTÜR — `22` §7 · K-150 §4 · K-158
 ======================================
@@ -98,15 +108,15 @@ from sim2.gozlem.kontrol import KontrolIstegi, Uyandirma
 from sim2.gozlem.pencere import Gozlem
 from protokoller.desparete_alan import (ESIT, FORWARDABLE, REPAIRING, YENI,
                                         AlanTablosu, seri_karsilastir)
-from protokoller.desparete_bayrak import (PROFIL_V02, SECENEK_V03, Bayraklar,
-                                         Secenekler)
+from protokoller.desparete_bayrak import (PROFIL_V02, SECENEK_V041,
+                                         Bayraklar, Secenekler)
 from protokoller.desparete_bicim import (
     BAYRAK_BAGLAM, DFSN_REQUEST, DURUM_REACHABLE, FIELD_SOLICIT, FIELD_UPDATE,
     H_DATA, H_REQ, J_ADV_S, J_CONTROL_S, K_YEDEK_CANLI, L_ADV_MAX_S,
     L_ADV_SENT_KUANTA,
     OMUR_KUANTA_S, PROBE, PROBE_REPLY, PROBE_YANIT_ISTE, SEBEP_ACLIK,
     SEBEP_EDINIM, SURUM, T_ADV_REFRESH_S,
-    T_REQ_DUPLICATE_S, TAMPON_KOTASI, TIP_DFSN_REQUEST, TIP_FIELD_SOLICIT,
+    T_GERI_IZ_S, T_REQ_DUPLICATE_S, TAMPON_KOTASI, TIP_DFSN_REQUEST, TIP_FIELD_SOLICIT,
     TIP_FIELD_UPDATE, TIP_PROBE, TIP_PROBE_REPLY, VERI_BASLIK_BAYT,
     tel_kimligi)
 from protokoller.desparete_edinim import EdinimDenetcisi, EdinimEylemi
@@ -125,7 +135,9 @@ _TAMPON = "tampon"
 
 
 class DESPARETE:
-    """DESPARETE v0.1 — komşu, alan, edinim ve onarım."""
+    """DESPARETE — komşu, alan, edinim ve onarım. Profil kurucudan
+    (varsayılan v0.4.1 = `PROFIL_V02` + `SECENEK_V041`, K-172;
+    v0.1 = `PROFIL_V01` + `SECENEK_YOK`)."""
 
     ad = "desparete"
     kosum_beaconi = False
@@ -134,22 +146,35 @@ class DESPARETE:
     __slots__ = ("kimlik", "sink", "bayraklar", "secenekler", "komut_alanlari",
                  "komsular", "alanlar", "edinim", "politika", "_sira",
                  "_kopuk", "_beyanlar", "_planli", "_istek_gorulen", "_sayac",
-                 "_kota", "_tutulan", "_olcum_bekleyen", "_saklanan")
+                 "_kota", "_tutulan", "_olcum_bekleyen", "_saklanan",
+                 "_tanidik", "_geri_iz", "cerceve_duyuldu")
 
     def __init__(self, kimlik: int, sink: int,
                  tampon_kotasi: int = TAMPON_KOTASI,
                  bayraklar: Bayraklar = PROFIL_V02,
                  komut_alanlari: bool = False,
-                 secenekler: Secenekler = SECENEK_V03) -> None:
+                 secenekler: Secenekler = SECENEK_V041) -> None:
         self.kimlik = kimlik
         self.sink = sink
         # K-159 ablasyon · varsayılan v0.2 yalın profil (K-161, öğrenci).
         self.bayraklar = bayraklar
-        # K-163 iyileştirmeler · varsayılan v0.3 = V1 + V5 + V7 (K-164).
+        # K-163 iyileştirmeler · varsayılan v0.4 = v0.3 + V8 + V10 (K-167).
         self.secenekler = secenekler
         self._olcum_bekleyen: list[int] = []    # V7: ölçüm PROBE'u bekleyen
         # V5a: ACTIVE olmayan komşu → son uygulanabilir ilanı ve varış anı
         self._saklanan: dict[int, tuple] = {}
+        # V8 (K-167): bana hedefli PROBE gönderen komşu → son varış anı —
+        # `23` §2'nin ilk kabul durumu (`AR_i` tanımlı). Süresiz: tasarımda
+        # da örnek değişmedikçe düşmez; çerçevenin varışı bağı kanıtlar.
+        self._tanidik: dict[int, float] = {}
+        # V11 (K-172): kaynak → (komşu, kaynak_sira, varış anı) — geçide giden
+        # DATA'nın bana geldiği komşu; komut bu izi tersinden izler.
+        self._geri_iz: dict[int, tuple[int, int, float]] = {}
+        # 🔒 Kanca YALNIZ V11 açıkken sunulur (`__slots__`ta bir yuva; boş
+        # kalırsa simülatör kancayı "yok" görür). Kapalıyken çerçeve başına
+        # hiçbir çağrı doğmaz ve satır v0.4 ile birebir kalır.
+        if secenekler.komut_ters_yol:
+            self.cerceve_duyuldu = self._cerceve_duyuldu
         # K-160 §10 C: v0.1 yalnız geçit alanıyla çalışır. `True` = K-150
         # §4 A (komut hedefleri için isteğe bağlı alanlar) — tam ölçekte
         # çöktüğü ölçüldü; yalnız o bulguyu yeniden üretmek ve v0.2 için.
@@ -198,6 +223,13 @@ class DESPARETE:
             "nitelik_ertelendi": 0,       # K-163 V5: yararsız komşu sondalanmadı
             "ilan_saklandi": 0, "saklanan_uygulandi": 0,   # K-164 V5a
             "saklanan_eskidi": 0,
+            "istek_tanidik_kabul": 0,     # K-167 V8: ACTIVE değil, tanıdık
+            "soru_nitelik": 0,            # K-167 V9: soru nitelik açtı
+            "istek_aclik": 0, "hedefte_aclik": 0,   # K-167: açlık nedenli
+            # K-172 V11: geri iz öğrenildi · silindi · komut izle iletildi ·
+            # iz yok/bayat
+            "geri_iz_ogrenilen": 0, "geri_iz_silinen": 0,
+            "komut_iz_iletilen": 0, "komut_izsiz": 0,
         }
 
     # ==================================================================
@@ -398,10 +430,14 @@ class DESPARETE:
         niyet = tuple(n for n in niyet if not isinstance(n, Beyan))
         if p is None:
             return Karar(beyan=beyan, niyetler=niyet)
+        if sink_disi and self.secenekler.komut_ters_yol:
+            return self._komut_ilet(p, t, beyan, niyet)
         if sink_disi:
-            # Rota HİÇ yok: beyansız düşüş → `hedef_yok` (K-160 §10 C).
+            # v0.1 geçit dışı hedefi BİLEREK taşımaz (K-160 §10 C): düşme
+            # sebebi `politika`, `hedef_yok` değil (K-171 — eskiden beyansız
+            # düşüştü ve "rota bulunamadı" ile aynı sayıya karışıyordu).
             self._sayac["veri_sink_disi"] += 1
-            return Karar(beyan=beyan, niyetler=niyet)
+            return Karar(beyan=beyan + (Beyan("politika"),), niyetler=niyet)
         # `23` §7: Hop Limit 16'dan başlar ve her atlamada azalır; ≤ 1 → bırak.
         if H_DATA - p.atlama_sayisi <= 1:
             self._sayac["veri_hop_siniri"] += 1
@@ -420,6 +456,51 @@ class DESPARETE:
         if self.alanlar.durum(p.hedef) is not None:
             beyan += (Beyan("rota_gecersiz", komsu=p.hedef),)
         return Karar(beyan=beyan, niyetler=niyet)
+
+    # ==================================================================
+    # V11 — KOMUT GERİ İZİ (K-172)
+    # ==================================================================
+    def _cerceve_duyuldu(self, gozlem: Gozlem, gonderen: int, tur: str,
+                         hedef: int | None, rssi_dbm: int, paket) -> None:
+        """`v2/15` B1 kancası — yalnız bana adreslenen, geçide giden DATA.
+
+        🔒 İz yalnız DAHA YENİ `kaynak_sira` ile güncellenir. Böylece izden
+        izle ilerleyen her adımda sıra azalmaz; bir döngü ancak AYNI paketin
+        yolunda olabilir, o yol da ardıl alanında döngüsüzdür (`36` §3.3).
+        Sırasız güncelleme, çapraz iki paketle iki düğümü birbirine
+        gösterebilirdi.
+        """
+        if tur != "veri" or hedef != self.kimlik or paket is None                 or paket.hedef != self.sink or paket.kaynak == self.kimlik:
+            return None
+        eski = self._geri_iz.get(paket.kaynak)
+        if eski is not None and paket.kaynak_sira <= eski[1]:
+            return None
+        self._geri_iz[paket.kaynak] = (gonderen, paket.kaynak_sira,
+                                       float(gozlem.saat_s))
+        self._sayac["geri_iz_ogrenilen"] += 1
+        return None
+
+    def _komut_ilet(self, p, t: float, beyan: tuple, niyet: tuple) -> Karar:
+        """Geçit dışı hedef (komut): hedefin geri izinin komşusuna.
+
+        İz yoksa ya da `T_GERI_IZ_S`den eskiyse düşer — beyansız, yani
+        `hedef_yok`: rota bilinmiyor. Hop Limit veri yolundakiyle aynı.
+        """
+        if H_DATA - p.atlama_sayisi <= 1:
+            self._sayac["veri_hop_siniri"] += 1
+            return Karar(beyan=beyan, niyetler=niyet)
+        iz = self._geri_iz.get(p.hedef)
+        if iz is None or t - iz[2] > T_GERI_IZ_S:
+            self._sayac["komut_izsiz"] += 1
+            return Karar(beyan=beyan, niyetler=niyet)
+        self._sayac["komut_iz_iletilen"] += 1
+        return Karar(sonraki=iz[0], beyan=beyan, niyetler=niyet)
+
+    def _geri_izi_sil(self, komsu: int) -> None:
+        """MAC `komsu`dan vazgeçti: o komşuya giden bütün izler bayat."""
+        for kaynak in [k for k, v in self._geri_iz.items() if v[0] == komsu]:
+            del self._geri_iz[kaynak]
+            self._sayac["geri_iz_silinen"] += 1
 
     def _tampona_al(self, h: int, veri_kimligi: tuple[int, int]) -> bool:
         """`21` §2.4 alan kotası. Kümede olan paket yeniden sorulmuştur: yine
@@ -515,6 +596,9 @@ class DESPARETE:
         # uygulanabilir bir ilanın sahibi nitelendirilir.
         if not self.secenekler.ihtiyac_nitelik or self._nitelige_deger(bicim, y):
             probelar = self.komsular.aday(gonderen, t)
+            if probelar and bicim == FIELD_SOLICIT.ad \
+                    and self.secenekler.ihtiyac_nitelik:
+                self._sayac["soru_nitelik"] += 1         # V9 (K-167)
         else:
             probelar = []
             if self.komsular.kayit(gonderen) is None:
@@ -525,6 +609,7 @@ class DESPARETE:
             return self._niyetler(probelar, t)       # biçim ↔ bağ çelişkisi
         if bicim == PROBE.ad and y["hedef_komsu"] == ben:
             self._sayac["probe_alinan"] += 1
+            self._tanidik[gonderen] = t                  # V8: `23` §2
             if (not self.secenekler.yanit_yalniz_onaysiz
                     or y["probe_bayraklar"] & PROBE_YANIT_ISTE):
                 ek = [self._probe_yaniti(gonderen, y)]
@@ -556,7 +641,14 @@ class DESPARETE:
     def _nitelige_deger(self, bicim: str, y: dict) -> bool:
         """K-163 V5: bu çerçevenin sahibi bizim için UYGULANABİLİR bir aday mı?
         Yalnız sonlu bir FIELD_UPDATE: alan ya da FD yoksa, ilan daha yeni bir
-        turdansa, ya da aynı turda potansiyeli FD'nin altındaysa (`23` §4.2)."""
+        turdansa, ya da aynı turda potansiyeli FD'nin altındaysa (`23` §4.2).
+        V9 (K-167): iletilebilir alanımız varken gelen tek atlamalı
+        FIELD_SOLICIT de — soran bir alan istiyor, yanıt ACTIVE ister.
+        V10 (K-167): alanımız iletilebilir değilken aynı turdan her sonlu
+        ilan — yeni turdan sonra ardıl adayı; açlık onsuz görünmez."""
+        if bicim == FIELD_SOLICIT.ad:
+            return (self.secenekler.soru_nitelik and y.get("hop_siniri") == 1
+                    and self.alanlar.durum(y["hedef"] - 1) == FORWARDABLE)
         if bicim != FIELD_UPDATE.ad or y.get("durum") != DURUM_REACHABLE \
                 or y.get("potansiyel", SONSUZ) >= SONSUZ:
             return False
@@ -568,11 +660,17 @@ class DESPARETE:
         if a.fd is None or a.dfsn is None \
                 or seri_karsilastir(y["dfsn"], a.dfsn) == YENI:
             return True
-        return y["dfsn"] == a.dfsn and y["potansiyel"] < a.fd[1]
+        if y["dfsn"] != a.dfsn:
+            return False
+        if self.secenekler.aclik_nitelik and a.durum != FORWARDABLE:
+            return True      # V10 (K-167): yeni turdan sonra ardıl adayı
+        return y["potansiyel"] < a.fd[1]
 
     def iletim_basarisiz(self, gozlem: Gozlem, hedef: int | None,
                          tur: str) -> tuple:
         t = float(gozlem.saat_s)
+        if hedef is not None and self._geri_iz:
+            self._geri_izi_sil(hedef)
         probelar = [] if hedef is None else self.komsular.bag_hatasi(hedef, t)
         return self._niyetler(probelar, t)
 
@@ -632,6 +730,8 @@ class DESPARETE:
         self._istek_gorulen[(istek["isteyen"], _ORNEK, sira)] = (
             t + T_REQ_DUPLICATE_S)
         self._sayac["istek_gonderilen"] += 1
+        if sebep == SEBEP_ACLIK:
+            self._sayac["istek_aclik"] += 1              # K-167 teşhis
         return self._istek_cercevesi(istek, H_REQ)
 
     def _istek_cercevesi(self, istek: dict, hop: int) -> KontrolIstegi:
@@ -655,8 +755,11 @@ class DESPARETE:
     def _istek_al(self, gonderen: int, y: dict, t: float) -> list:
         """`23` §5.3 — tekrar bastırma, hedefte işleme, yanıt ve iletme."""
         if not self._aktif_mi(gonderen):
-            self._sayac["istek_aktif_disi"] += 1     # K-150 §4: kabul kapısı
-            return []
+            if not (self.secenekler.istek_tanidik
+                    and gonderen in self._tanidik):
+                self._sayac["istek_aktif_disi"] += 1  # K-150 §4: kabul kapısı
+                return []
+            self._sayac["istek_tanidik_kabul"] += 1   # V8 (K-167): `23` §2
         rid = (y["isteyen"], y["isteyen_ornek"], y["istek_sira"])
         if self._istek_gorulen.get(rid, float("-inf")) > t:
             self._sayac["istek_tekrar"] += 1
@@ -685,6 +788,8 @@ class DESPARETE:
     def _hedefte(self, y: dict, t: float) -> None:
         """`23` §5.4 `HandleAtTarget` — öğrencinin onaylı dar yetkisi."""
         self._sayac["hedefte_istek"] += 1
+        if y["sebep"] == SEBEP_ACLIK:
+            self._sayac["hedefte_aclik"] += 1            # K-167 teşhis
         h = self.kimlik
         if h not in self.alanlar.alanlar:
             if not self.komut_alanlari:
@@ -760,6 +865,19 @@ class DESPARETE:
         if icerik is None:
             return None
         return self._field_update(h, icerik, j, 0.0)
+
+    # ==================================================================
+    # KİMLİK — koşu kimliğine giren parametreler (K-171, `v2/15` A1)
+    # ==================================================================
+    def kimlik_parametreleri(self) -> dict:
+        """Davranışı değiştiren kurucu değerleri — düğümden bağımsız olanlar.
+
+        🔒 Bayrak ya da seçenek demeti farklı iki koşu artık aynı kimliği
+        taşımaz; eskiden yalnız `teshis`te görünüyordu, kimliğe girmiyordu.
+        """
+        return {"sink": self.sink, "tampon_kotasi": self._kota,
+                "bayraklar": self.bayraklar, "secenekler": self.secenekler,
+                "komut_alanlari": self.komut_alanlari}
 
     # ==================================================================
     # TEŞHİS — yalnız sonuç satırına (en çok 32 alan; gruplar ad + değer)

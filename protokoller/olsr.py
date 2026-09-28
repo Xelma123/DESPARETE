@@ -149,10 +149,17 @@ class OLSR:
                  "_iki", "_mpr", "_secici", "_topoloji", "_tekrar", "_rota",
                  "_kirli", "_yenile_s", "_sym_onceki", "_kopuk", "_bilinen",
                  "_ilan", "_bos_tc_bitis", "_erken_tc_verildi", "_basladi",
-                 "_sayac")
+                 "_sayac", "_s13")
 
-    def __init__(self, kimlik: int) -> None:
+    def __init__(self, kimlik: int, s13: bool = False) -> None:
+        """`s13` — RFC 3626 §13 bağ katmanı bildirimi (MAY). 🔒 Varsayılan
+        KAPALI (`OLSR-c`, K-196): öğrencinin kuralı "MAY beyan edilir";
+        K-147'nin istisnası (`OLSR-b`, `s13=True`) eski dünyada ölçülmüş bir
+        kazanca dayanıyordu, referans dünyada §13 OLSR'a zarar veriyor
+        (K-193: §13'süz +0,031 · +0,028 · +0,105). `s13=True` eski hâli
+        birebir üretir."""
         self.kimlik = kimlik
+        self._s13 = bool(s13)
         self._psn = 0                   # §3.3.1 · paket sıra numarası
         self._msn = 0                   # §3.3.2 · mesaj sıra numarası
         self._ansn = 0                  # §9.2 · ilan edilen komşu sırası
@@ -696,10 +703,11 @@ class OLSR:
     # ==================================================================
     def iletim_basarisiz(self, gozlem: Gozlem, hedef: int | None,
                          tur: str) -> tuple:
-        """§13 bağ katmanı bildirimi — MAY, ama UYGULANIYOR (`04` K-147).
+        """§13 bağ katmanı bildirimi — MAY; varsayılan KAPALI (K-196),
+        `s13=True` ile açılır (`OLSR-b`, `04` K-147).
 
-        🔴 *"MAY beyan edilir"* kuralının ölçülmüş gerekçeli TEK istisnası
-        (öğrenci, 22 Eylül 2026). Beyanlı sapma olarak dururken statik kolun
+        Eski dünyada *"MAY beyan edilir"* kuralının ölçülmüş gerekçeli TEK
+        istisnasıydı (öğrenci, 22 Eylül 2026). Beyanlı sapma olarak dururken statik kolun
         iki hücresini eşiğin altına itiyordu: histerezis zayıf bir bağı
         zamanın yarısından fazlasında açık sayıyor, OLSR veri başarısızlığına
         tepki vermediği için o bağda ısrar ediyordu (K-146 §3–§4). AODV bu
@@ -711,7 +719,17 @@ class OLSR:
         `_simetrik_mi` bunu §14 için zaten yapıyor; (2) aşağıda; (3) §8.5
         kaybı `_guncelle`de. ⚠️ §13 histerezisle BİRLİKTE yaşar: kalite
         eşiği aşan bir sonraki paket `L_LOST_LINK_time`ı geri alır (§14.3).
+
+        🔒 K-196 (28 Eylül 2026, öğrenci onayı): §13 artık VARSAYILAN KAPALI
+        (`OLSR-c`). Referans dünyada ölçüldü (K-193): bildirimlerin %99,7'si
+        §14.3 ile medyan 0,3–0,6 s'de geri alınıyor, ama o arada §8.5 komşu
+        kaybı 2-atlama kayıtlarını siliyor ve geçide rota boşalıyor —
+        §13'süz PDR +0,031 · +0,028 · +0,105. İstisnanın ölçülmüş gerekçesi
+        tersine döndüğü için kuralın kendisine ("MAY beyan edilir") dönüldü.
+        `s13=True` eski `OLSR-b`yi birebir üretir.
         """
+        if not self._s13:
+            return ()
         simdi = float(gozlem.saat_s)
         b = self._bag.get(hedef) if hedef is not None else None
         if b is None:
@@ -731,6 +749,10 @@ class OLSR:
     # ==================================================================
     # KANCA · teşhis
     # ==================================================================
+    def kimlik_parametreleri(self) -> dict:
+        """Koşu kimliğine giren seçim (K-171 kancası): §13 açık mı (K-196)."""
+        return {"s13": self._s13}
+
     def teshis(self, dugum: int) -> dict:
         """🔴 Yalnız sonuç satırına; karara GİRMEZ."""
         # 🔒 Teşhis saat almaz; protokolün SON HESAPLADIĞI simetrik küme

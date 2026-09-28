@@ -22,6 +22,7 @@ from sim2.cekirdek.degismezler import dogrula
 from sim2.kanal.cerceve import cerceve_kur
 from sim2.kanal.girisim import Iletim
 from sim2.kosum.dugum import Dugum
+from sim2.yapilandirma.konfig import HIZLAR_BPS
 
 __all__ = ["alim_say", "beacon_cercevesi", "beacon_gonder", "gonder",
            "veri_gonder", "veri_cercevesi_kur", "iletime_basla", "vazgec"]
@@ -42,11 +43,33 @@ def veri_cercevesi_kur(kur, dugumler) -> tuple:
     dogrula(len(basliklar) == 1, "düğümlerin veri başlığı farklı")
     baslik = basliklar.pop()
     dogrula(baslik >= 0, "veri başlığı negatif olamaz")
+    k = kur.konfig
+    if k.hiz_uyarlamasi:
+        # A4 (K-177): koşunun EN UZUN veri çerçevesi (en düşük hız) — iletim
+        # defterinin budaması bunu kapsamalı; asıl çerçeve gönderimde seçilir.
+        yuk = cerceve_kur(k, "veri", hiz_bps=HIZLAR_BPS[0])
+        cerceve = (cerceve_kur(k, "veri", bayt=k.paket_bayt + baslik,
+                               hiz_bps=HIZLAR_BPS[0]) if baslik else yuk)
+        return cerceve, baslik, cerceve.sure_s - yuk.sure_s
     if not baslik:
         return kur.veri_cercevesi, 0, 0.0
-    k = kur.konfig
     cerceve = cerceve_kur(k, "veri", bayt=k.paket_bayt + baslik)
     return cerceve, baslik, cerceve.sure_s - kur.veri_cercevesi.sure_s
+
+
+def _hizda_veri_cerceveleri(kosu, hiz: float) -> tuple:
+    """A4 (K-177): verilen hızda `(başlıklı çerçeve, yük çerçevesi)` —
+    önbellekli (saf memo)."""
+    anahtar = ("veri", hiz)
+    c = kosu._cerceve_onbellegi.get(anahtar)
+    if c is None:
+        k = kosu.kur.konfig
+        yuk = cerceve_kur(k, "veri", hiz_bps=hiz)
+        baslikli = (cerceve_kur(k, "veri", bayt=k.paket_bayt
+                                + kosu.veri_baslik_bayt, hiz_bps=hiz)
+                    if kosu.veri_baslik_bayt else yuk)
+        c = kosu._cerceve_onbellegi[anahtar] = (baslikli, yuk)
+    return c
 
 
 def alim_say(kosu, sonuc) -> None:
@@ -86,11 +109,11 @@ def beacon_cercevesi(kosu, ek_bayt: int):
     """
     if ek_bayt == 0:
         return kosu.kur.beacon_cercevesi
-    cerceve = kosu._beacon_onbellegi.get(ek_bayt)
+    cerceve = kosu._cerceve_onbellegi.get(ek_bayt)
     if cerceve is None:
         cerceve = cerceve_kur(kosu.kur.konfig, "beacon",
                               bayt=kosu.kur.konfig.beacon_bayt + ek_bayt)
-        kosu._beacon_onbellegi[ek_bayt] = cerceve
+        kosu._cerceve_onbellegi[ek_bayt] = cerceve
     return cerceve
 
 
@@ -124,16 +147,28 @@ def gonder(kosu, n: int, iletim: Iletim, yuk) -> None:
     ya da duyduğu bir çerçeveye rağmen sayaç işletebilirdi.
     """
     t = kosu.olaylar.simdi
+    if kosu.dugumler[n].olu:
+        return                  # C1: ölümden önce zamanlanmış onay vb. — susar
+    kosu.dugumler[n].mesgul_guncelle(t)          # B3: durum değişmeden önce
+    kosu.dugumler[n].gonderim_ekle(t, iletim.cerceve.sure_s)    # C3
     kosu.kur.kanal.ortam.ekle(iletim)
     alim_say(kosu, kosu.dugumler[n].alici.gonderime_basla(t))
     bitis = t + iletim.cerceve.sure_s
     for m in range(kosu.kur.dugum_sayisi):
         d = kosu.dugumler[m]
-        if m == n or not d.duyar_mi(n, t):
+        if m == n or d.olu or not d.duyar_mi(n, t):      # C1: ölü duymaz
             continue
-        kosu.olaylar.ekle(t, kosu._cerceve_geldi, m, iletim, yuk)
-        kosu.olaylar.ekle(bitis, kosu._cerceve_bitti, m, iletim, yuk)
-        kosu.dondur(d, t)
+        # 🔒 A5 (K-175): varış d/c sonra; anahtar kapalıyken gecikme 0,0.
+        g = d.gecikme_s(n, t)
+        kosu.olaylar.ekle(t + g, kosu._cerceve_geldi, m, iletim, yuk)
+        kosu.olaylar.ekle(bitis + g, kosu._cerceve_bitti, m, iletim, yuk)
+        # 🔒 A3 güç kipi (K-174): donma alım kararından SONRA, `_cerceve_geldi`de
+        # — önbelge kilitlendiyse ya da enerji ED eşiğini aştıysa.
+        if not d.guc_kipi:
+            if g > 0.0:                 # A5: donma VARIŞ anında
+                kosu.olaylar.ekle(t + g, kosu.dondur, d, t + g)
+            else:
+                kosu.dondur(d, t)
     kosu.olaylar.ekle(bitis, kosu._iletim_bitti, n, iletim, yuk)
 
 
@@ -144,18 +179,24 @@ def veri_gonder(kosu, d: Dugum, paket, hedef: int) -> None:
     bastırır ve gönderen onayı bununla eşler. Paket kimliğiyle eşlenseydi bir
     döngüde aynı paketin meşru ikinci ziyareti tekrar sanılırdı.
     """
-    iletim = Iletim(d.kimlik, kosu.veri_cercevesi, kosu.olaylar.simdi,
+    cerceve, yuk = kosu.veri_cercevesi, kosu.kur.veri_cercevesi
+    baslik_s = kosu.veri_baslik_sure_s
+    if d.hiz_denetcisi is not None:                      # A4 (K-177)
+        cerceve, yuk = _hizda_veri_cerceveleri(kosu,
+                                               d.hiz_denetcisi.hiz(hedef))
+        baslik_s = cerceve.sure_s - yuk.sure_s
+    iletim = Iletim(d.kimlik, cerceve, kosu.olaylar.simdi,
                     kosu.kur.kanal.yayilim.verici_gucu_w)
     s = kosu.kur.sayaclar
     s.artir("mac_deneme")
     # 🔒 Y2 · K-151 — veri düzlemi yalnız YÜKÜ sayar; protokolün başlığı
     # yönlendirme ek yüküdür ve ayrı sayılır. Başlıksız protokolde çerçeve
     # ve sayılan değerler eskisiyle BİREBİR aynıdır.
-    s.ekle("veri_bayt", kosu.kur.veri_cercevesi.bayt)
-    s.ekle("veri_airtime_s", kosu.kur.veri_cercevesi.sure_s)
+    s.ekle("veri_bayt", yuk.bayt)
+    s.ekle("veri_airtime_s", yuk.sure_s)
     if kosu.veri_baslik_bayt:
         s.ekle("veri_baslik_bayt", kosu.veri_baslik_bayt)
-        s.ekle("veri_baslik_airtime_s", kosu.veri_baslik_sure_s)
+        s.ekle("veri_baslik_airtime_s", baslik_s)
     d.dcf.gonderime_basladi()
     d.dcf.onay_bekle()
     d.onay_bekle(True)
@@ -201,7 +242,10 @@ def iletime_basla(kosu, d: Dugum) -> None:
             # 🔒 AODV'de ayrım gerçektir: rota HİÇ bulunamadı (keşif
             # başarısız) ile rota VARDI ve koptu (RFC 3561 §6.11 — ara düğüm
             # RERR gönderir ve paketi DÜŞÜRÜR) ayrı şeylerdir.
-            sebep = ("rota_gecersiz" if karar.beyanlar("rota_gecersiz")
+            # 🔒 `politika` — protokol paketi BİLEREK taşımıyor (K-171);
+            # `Karar` ikisinin birlikte verilmesine izin vermez.
+            sebep = ("politika" if karar.beyanlar("politika")
+                     else "rota_gecersiz" if karar.beyanlar("rota_gecersiz")
                      else "hedef_yok")
             d.dus(sebep, nereden="kuyruk")
             d.dcf.vazgec()

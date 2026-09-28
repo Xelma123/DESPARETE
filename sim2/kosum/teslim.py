@@ -119,6 +119,7 @@ def onay_alindi(kosu, n: int, bilgi) -> None:
                           "alım ile onayın modeli ayrışmış")
     komsu = d.ucus_hedefi             # 🔒 Y1 · K-151 — uçuştan indirmeden
     deneme = d.dcf.deneme             # ve DCF sayacı sıfırlanmadan önce
+    d.arf_bildir(komsu, True)         # A4 (K-177)
     d.onay_bekle(False)
     d.ucustan_indir()
     d.dcf.onay_geldi()

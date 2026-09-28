@@ -44,11 +44,13 @@ from sim2.gozlem.karar import Karar  # noqa: E402
 from sim2.kanal.cerceve import cerceve_kur  # noqa: E402
 from sim2.kanal.kanal import Kanal  # noqa: E402
 from sim2.kosum.kosu import Kosu  # noqa: E402
-from sim2.kosum.kurulum import Kurulum  # noqa: E402
+from sim2.kosum.kayip import olum_anlari  # noqa: E402
+from sim2.kosum.kurulum import Kurulum, duyma_turetimi  # noqa: E402
 from sim2.mac.dcf import DcfZamanlari  # noqa: E402
 from sim2.olcum.paket_defteri import PaketDefteri  # noqa: E402
 from sim2.olcum.rota_olaylari import RotaDefteri  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 
 __all__ = ["TOHUMLAR", "kos"]
 
@@ -127,7 +129,7 @@ def kos(cift: int, tohum: int, ayrim_m: float, bag_m: float = 280.0,
     temiz = dict(golgeleme_acik=False, sonumleme_acik=False,
                  yol_kaybi_usteli=alfa)
     n = 2 * cift
-    kfg = Konfig(kol="yeniden_kullanim", senaryo="statik-yok", tohum=tohum,
+    kfg = DS.konfig(kol="yeniden_kullanim", senaryo="statik-yok", tohum=tohum,
                  dugum_sayisi=n, akis_sayisi=max(1, cift),
                  gorev_grup_sayisi=min(10, n),
                  isinma_s=0.2 * bitis_s, olcum_bitis_s=0.8 * bitis_s,
@@ -171,7 +173,13 @@ def kos(cift: int, tohum: int, ayrim_m: float, bag_m: float = 280.0,
                              for _ in range(n)),
         veri_cercevesi=veri, onay_cercevesi=onay, beacon_cercevesi=beacon,
         zamanlar=DcfZamanlari.kur(kfg, veri, onay),
-        duyanlar_menzili_m=kfg.girisim_menzili_m)
+        # 🔴 K-183: yere toplama (kayıp yeri), A5 ve C1'in alanları eksikti;
+        # araç KURULAMIYORDU. Türetim kurulumla TEK (`duyma_turetimi`).
+        **dict(zip(("duyanlar_menzili_m", "maks_gecikme_s"),
+                   duyma_turetimi(kfg, beacon))),
+        yayilim_gecikmeli=kfg.yayilim_gecikmesi,
+        olum_anlari=olum_anlari(kfg),
+        kayip_yeri=None)
     Kosu(kur, TekAtlama).kostur()
     bas, bitis = kfg.olcum_penceresi
     return kur.paket_defteri.pencerede_teslim / (bitis - bas)

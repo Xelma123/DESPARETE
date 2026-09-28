@@ -16,6 +16,12 @@ AYRIŞTI ve Adım 3, kimsenin kullanmadığı bir grafiği kalibre etmiş oldu
 Bu dosya dört yarıçapı ayrı ayrı ölçer ve alan büyüklüğünü **ilan edilmiş
 bir ölçütle** seçer.
 
+🔒 FAZ 4 (K-183) — `--dunya referans_2026`: ölçüt AYNEN korunur; değişen
+dünya (1:1, `kanal/dunya.py`), alan ızgarası (km), uzak kesme (referansta
+yok) ve bağ çerçevesi — hız uyarlaması açıksa bağ ARF'nin
+TABANINDA (1 Mb/s) ölçülür, çünkü zayıf bağ gerçekte oraya iner (K-181).
+Argümansız koşu eski dünyada birebir eskisidir.
+
 🔴 İLK İLAN EDİLEN ÖLÇÜT INFEASIBLE ÇIKTI — ve nedeni öğreticidir
 =================================================================
 5 Eylül 2026'da, tarama koşulmadan önce şu ölçüt ilan edilmişti:
@@ -74,6 +80,7 @@ taşıyabileceği bağ kümesidir, yükün altındaki hâli değil.
 
 from __future__ import annotations
 
+import math
 import statistics as ist
 import sys
 from collections import Counter, deque
@@ -88,7 +95,8 @@ from sim2.dunya.geometri import mesafe  # noqa: E402
 from sim2.dunya.topoloji import topoloji_kur  # noqa: E402
 from sim2.kanal.cerceve import cerceve_kur  # noqa: E402
 from sim2.kanal.kanal import Kanal  # noqa: E402
-from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from sim2.yapilandirma.konfig import HIZLAR_BPS, Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402
 
 BASARI_ESIGI = 0.90      # bir bağ "kullanılabilir" sayılır mı
 SONUMLEME_ORNEGI = 6     # sönümleme üzerinden ortalama için zaman örneği
@@ -114,6 +122,16 @@ UZAK_KESME_M = 1200.0    # bunun ötesinde PER zaten 1; hesap israfı
 # ⚠️ Bedeli: tam ızgara 30 tohumla BANT 10–15 dk (6 tohumla ~3 dk).
 TOHUMLAR = range(1000, 1030)   # --tohum N ile degistirilebilir
 ALANLAR = (1000.0, 1200.0, 1400.0, 1600.0, 1800.0, 2000.0)
+# Faz 4 (K-183): referans dünyanın ızgarası. `v2/14` §3'ün ~6–8 km'si 10 dB
+# paylı nominal bağa (2 Mb/s, 1,65 km) dayanıyordu; simülatörün kanalında
+# bağ 1 Mb/s'te ~7 km'ye uzanır (K-181: 7 km'de tek atlama PDR 0,99). Izgara
+# bu yüzden 30 km'ye kadar — seçilen nokta ızgaranın içinde kalmalı.
+ALANLAR_REFERANS = (5000.0, 7000.0, 10000.0, 13000.0, 16000.0, 20000.0,
+                    25000.0, 30000.0)
+# Görev kolu yarıçap ızgarası; referansta alan oranıyla (~×3,9) ölçeklenir.
+YARICAPLAR = (250.0, 350.0, 450.0, 550.0, 650.0, 750.0)
+# K-187: alan 35 km (K-185) → alan oranıyla ~12,6 km; ızgara onu kuşatır.
+YARICAPLAR_REFERANS = (6000.0, 8000.0, 10000.0, 12000.0, 14000.0, 16000.0)
 # Komut satirindan alan listesi verilebilir (ince izgara icin):
 #   python kalibrasyon/calisma_noktasi.py 1850 1900 1950
 OLCUT = ("sert kisit: statik kolda kopukluk %0 (30 tohum) · "
@@ -153,8 +171,24 @@ def _tarama_yaricapi_m(alan_m: float) -> float:
     0,45 katsayısı bir ayar düğmesi değil, `2r < alan` değişmezinin altında
     kalan en yakın yuvarlak paydır ve bu kollarda **etkisizdir**.
     """
-    varsayilan = Konfig.__dataclass_fields__["gorev_grup_yaricapi_m"].default
+    varsayilan = (DS.konfig(kol="kalib").gorev_grup_yaricapi_m
+                  if DS.referans_mi() else
+                  Konfig.__dataclass_fields__["gorev_grup_yaricapi_m"].default)
     return min(varsayilan, 0.45 * alan_m)
+
+
+def _uzak_kesme_m(kfg) -> float:
+    """Eski dünyada 1200 m (PER zaten 1); referansta KESME YOK (K-183) —
+    1 Mb/s bağı girişim menzilinin (5,97 km) ötesine, ~7,4 km'ye uzanır;
+    40 düğümde bütün çiftleri hesaplamak ucuz, elle km yazılmaz."""
+    return math.inf if DS.referans_mi() else UZAK_KESME_M
+
+
+def _veri_cercevesi(kfg):
+    """Bağın ölçüldüğü veri çerçevesi — hız uyarlaması açıksa ARF'nin
+    tabanında (K-183); kapalıysa bugünkü çerçeve (birebir)."""
+    return cerceve_kur(kfg, "veri", hiz_bps=(
+        min(HIZLAR_BPS) if kfg.hiz_uyarlamasi else None))
 
 
 def _atlama_basarisi(kanal, kfg, veri, onay, i, j, t0) -> float:
@@ -170,7 +204,8 @@ def _atlama_basarisi(kanal, kfg, veri, onay, i, j, t0) -> float:
 def _yaricap(kanal, kfg, cerceve, hedef: float) -> float:
     """Alım hatasının `hedef`e eşit olduğu mesafe — ikili arama."""
     def hata(d: float) -> float:
-        kayip = kanal.yayilim.yol_kaybi_db(d)
+        # K-183: alıcı anten kazancı (referansta dipol 2,15 dBi; eskide 0)
+        kayip = kanal.yayilim.yol_kaybi_db(d) - kfg.alici_anten_kazanci_dbi
         pr = kanal.yayilim.verici_gucu_w / (10.0 ** (kayip / 10.0))
         s = pr / kanal.yayilim.gurultu_w
         onb = kanal.onbelge_per(cerceve, ((float(cerceve.onbelge_bit), s),))
@@ -189,9 +224,9 @@ def yaricaplar() -> None:
     print("=" * 78)
     print("1 - DORT YARICAP  (saf yol kaybi, golgelemesiz)")
     print("=" * 78)
-    kfg = Konfig(kol="kalib")
+    kfg = DS.konfig(kol="kalib")
     kanal = Kanal(kfg, topoloji_kur(kfg, Akislar(kfg.tohum)))
-    veri = cerceve_kur(kfg, "veri")
+    veri = _veri_cercevesi(kfg)
     beacon = cerceve_kur(kfg, "beacon")
     print(f"  capa (SINR = esik = {kfg.sinr_esigi_db:.0f} dB)   : "
           f"{kfg.iletim_menzili_m:7.1f} m")
@@ -212,7 +247,7 @@ def _graf(kanal, kfg, veri, onay, konumlar, t0):
     kom: list[list[int]] = [[] for _ in range(n)]
     for i in range(n):
         for j in range(i + 1, n):
-            if mesafe(konumlar[i], konumlar[j]) > UZAK_KESME_M:
+            if mesafe(konumlar[i], konumlar[j]) > _uzak_kesme_m(kfg):
                 continue
             if _atlama_basarisi(kanal, kfg, veri, onay, i, j, t0) >= BASARI_ESIGI:
                 kom[i].append(j)
@@ -235,12 +270,12 @@ def alan_taramasi() -> None:
         kopuk = toplam = 0
         dereceler, duyanlar = [], []
         for tohum in TOHUMLAR:
-            kfg = Konfig(kol="kalib", tohum=tohum, alan_en_m=en,
+            kfg = DS.konfig(kol="kalib", tohum=tohum, alan_en_m=en,
                          alan_boy_m=en,
                          gorev_grup_yaricapi_m=_tarama_yaricapi_m(en))
             top = topoloji_kur(kfg, Akislar(tohum))
             kanal = Kanal(kfg, top)
-            veri = cerceve_kur(kfg, "veri")
+            veri = _veri_cercevesi(kfg)
             onay = cerceve_kur(kfg, "onay")
             n = kfg.dugum_sayisi
             konumlar = [top.konum(i, 100.0) for i in range(n)]
@@ -331,12 +366,12 @@ def zaman_ve_kol() -> None:
             derin_pay = derin_toplam = 0
             kotu_tohum = set()
             for tohum in tohumlar:
-                kfg = Konfig(kol="kalib", senaryo=senaryo, tohum=tohum,
+                kfg = DS.konfig(kol="kalib", senaryo=senaryo, tohum=tohum,
                              alan_en_m=en, alan_boy_m=en,
                              gorev_grup_yaricapi_m=_tarama_yaricapi_m(en))
                 top = topoloji_kur(kfg, Akislar(tohum))
                 kanal = Kanal(kfg, top)
-                veri = cerceve_kur(kfg, "veri")
+                veri = _veri_cercevesi(kfg)
                 onay = cerceve_kur(kfg, "onay")
                 n = kfg.dugum_sayisi
                 for t in zamanlar:
@@ -402,10 +437,10 @@ def gorev_kolu_kalibrasyonu() -> None:
     def derece(senaryo: str, **ek) -> float:
         toplam = []
         for tohum in tohumlar:
-            kfg = Konfig(kol="kalib", senaryo=senaryo, tohum=tohum, **ek)
+            kfg = DS.konfig(kol="kalib", senaryo=senaryo, tohum=tohum, **ek)
             top = topoloji_kur(kfg, Akislar(tohum))
             kanal = Kanal(kfg, top)
-            veri = cerceve_kur(kfg, "veri")
+            veri = _veri_cercevesi(kfg)
             onay = cerceve_kur(kfg, "onay")
             n = kfg.dugum_sayisi
             for t in zamanlar:
@@ -419,7 +454,7 @@ def gorev_kolu_kalibrasyonu() -> None:
     print(f"  {len(tohumlar)} tohum × {len(zamanlar)} zaman noktasi\n")
     print(f"  {'yaricap_m':>10} {'gorev_derece':>13} {'fark':>8} {'oran':>7}")
     en_iyi = None
-    for r in (250.0, 350.0, 450.0, 550.0, 650.0, 750.0):
+    for r in (YARICAPLAR_REFERANS if DS.referans_mi() else YARICAPLAR):
         d = derece("gorev-yok", gorev_grup_yaricapi_m=r)
         fark = abs(d - taban)
         if en_iyi is None or fark < en_iyi[2]:
@@ -434,6 +469,10 @@ def gorev_kolu_kalibrasyonu() -> None:
 
 
 if __name__ == "__main__":
+    DS.secimi_oku()                         # Faz 4 (K-183): --dunya
+    print(f"  DUNYA: {DS.secili()}")
+    if DS.referans_mi():
+        ALANLAR = ALANLAR_REFERANS
     argv = sys.argv[1:]
     if "--tohum" in argv:
         i = argv.index("--tohum")

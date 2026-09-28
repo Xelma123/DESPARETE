@@ -191,6 +191,10 @@ SEBEP_ACLIK = 1             # FEASIBLE_STARVATION
 SEBEP_BELIRSIZLIK = 2       # freshness ambiguity
 # §2.4 — veri
 H_DATA = 16                 # DATA başlangıç Hop Limit
+# V11 (K-172) — komut geri izinin ömrü. Telemetri 1 Hz: iz her paketle
+# tazelenir; üç periyot = iki ardışık kayıp tolere edilir. `T_FRESH_S` ile
+# aynı ölçek (komşu kanıtının ömrü). Tasarım değeri, ölçülmedi.
+T_GERI_IZ_S = 3.0
 # `Q_buffer[field, class 0]`: yerel onarım tamponunun en çok %10'u ve en çok
 # 32 paket; küçüğü uygulanır. Yerel tampon = simülatörün bütün protokollere
 # ortak rota tamponu kapasitesi (K-152 §3; test `Konfig`le bağlar) → 6.

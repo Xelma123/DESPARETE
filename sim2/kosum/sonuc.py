@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -78,27 +79,85 @@ BOLUMLER: tuple[str, ...] = (
 # dışarıda bırakır: başka bir alan farklıysa o ikisi aynı deneyin iki kolu
 # değildir ve karşılaştırılamazlar.
 TEDAVI_ALANLARI: tuple[str, ...] = ("kol", "senaryo", "tohum", "not_",
-                                    "trafik_deseni", "tehdit_senaryosu")
+                                    "trafik_deseni", "tehdit_senaryosu",
+                                    # `v2/15` C1 · C2 (K-180) — eksenler
+                                    "kayip_dugum_sayisi", "kayip_bas_s",
+                                    "kayip_bitis_s", "telemetri_paket_hizi_hz",
+                                    "komut_paket_hizi_hz", "akis_paket_hizi_hz")
 
 
-def _kimlik_bolumu(kur: Kurulum, protokol_adi: str) -> dict[str, Any]:
+def _kimlik_bolumu(kur: Kurulum, dugumler: tuple[Any, ...],
+                   protokol_adi: str) -> dict[str, Any]:
     konfig = kur.konfig
     sozluk = konfig.sozluk()
     arac = K.arac_hash()
     kurulum = K.kurulum_hash(sozluk, TEDAVI_ALANLARI)
+    tedavi = K.tedavi_hash(sozluk, TEDAVI_ALANLARI)
+    protokol = _protokol_parmak_izi(dugumler, protokol_adi)
     evren = K.evren_hash(_evren(kur))
     sayac_sema = sayac_semasi_hash()
     akis_listesi = akis_listesi_hash()
     return dict(zip(
         ("kosu_kimligi", "calisma_kimligi", "zaman_damgasi_utc", "arac_hash",
-         "kurulum_hash", "evren_hash", "sayac_semasi_hash",
-         "akis_listesi_hash", "kol", "protokol", "senaryo", "tohum", "not_"),
-        (K.kosu_kimligi(arac=arac, kurulum=kurulum, kol=konfig.kol,
+         "kurulum_hash", "tedavi_hash", "protokol_hash", "evren_hash",
+         "sayac_semasi_hash", "akis_listesi_hash", "kol", "protokol",
+         "senaryo", "tohum", "not_"),
+        (K.kosu_kimligi(arac=arac, kurulum=kurulum, tedavi=tedavi,
+                        protokol=protokol, kol=konfig.kol,
                         tohum=konfig.tohum, sayac_semasi=sayac_sema,
                         akis_listesi=akis_listesi),
-         K.calisma_kimligi(), K.zaman_damgasi_utc(), arac, kurulum, evren,
-         sayac_sema, akis_listesi, konfig.kol, protokol_adi, konfig.senaryo,
-         konfig.tohum, konfig.not_)))
+         K.calisma_kimligi(), K.zaman_damgasi_utc(), arac, kurulum, tedavi,
+         protokol, evren, sayac_sema, akis_listesi, konfig.kol, protokol_adi,
+         konfig.senaryo, konfig.tohum, konfig.not_)))
+
+
+def _protokol_parmak_izi(dugumler: tuple[Any, ...], protokol_adi: str) -> str:
+    """Protokolün kodu + bildirdiği parametreler → `protokol_hash` (K-171).
+
+    🔒 KOD: sınıfın modülü bir paketteyse PAKETİN tamamı özetlenir —
+    DESPARETE'nin davranışı `protokoller/` altındaki yardımcı modüllerde de
+    yaşar. Tek dosyalık modülde (sınav protokolleri, betikler) o dosya.
+    Modül ADI değil dosya adı kullanılır: havuz işçisinde betiğin modülü
+    `__mp_main__` olur ve kimlik havuzla havuzsuz koşu arasında
+    ayrışmamalı.
+
+    🔒 PARAMETRE: protokol `kimlik_parametreleri()` tanımlarsa onun
+    `repr`leri. Tanımlamayan protokol (bugünkü taban protokoller) parametresiz
+    kurulur; imzası yalnız kodudur.
+    """
+    kod: set[str] = set()
+    parametre: set[str] = set()
+    for d in dugumler:
+        sinif = type(d.protokol)
+        ad = sinif.__module__.split(".")[0]
+        yollar = getattr(sys.modules.get(ad), "__path__", None)
+        if yollar:
+            kod.add(f"{ad}:{sinif.__qualname__}:"
+                    f"{K.arac_hash(Path(next(iter(yollar))))}")
+        else:
+            dosya = Path(sys.modules[sinif.__module__].__file__)
+            kod.add(f"{dosya.name}:{sinif.__qualname__}:"
+                    f"{K.dosya_hash(dosya)}")
+        bildiren = getattr(d.protokol, "kimlik_parametreleri", None)
+        if bildiren is not None:
+            parametre.add(sinif.__qualname__ + ":" + ";".join(
+                f"{k}={v!r}" for k, v in sorted(bildiren().items())))
+    return K.protokol_hash(ad=protokol_adi, kod=kod, parametreler=parametre)
+
+
+def _akis_siniflari(kur: Kurulum) -> dict[int, str] | None:
+    """Yere toplamada akış → `telemetri` (geçide) | `komut` (geçitten).
+
+    🔒 K-171 (`v2/15` A1): iki yönün teslimi TEK `pdr`de toplanıyordu. Komut
+    akışı az (`komut_akis_sayisi`) ama görevin kendisidir; telemetri
+    kalabalığı içinde kaybı görünmez kalırdı. Eşler arası desende sınıf
+    yok → `None`, ve satır birebir eskisi gibi.
+    """
+    gecit = kur.konfig.gecit
+    if gecit is None:
+        return None
+    return {a.kimlik: ("telemetri" if a.hedef == gecit else "komut")
+            for a in kur.trafik.akislar}
 
 
 def _evren(kur: Kurulum) -> tuple[tuple[int, float, int, int], ...]:
@@ -166,9 +225,18 @@ def korunum_bolumu(kur: Kurulum, dugumler: Iterable[Any]) -> dict[str, Any]:
     rapor["iletim_sonucu_askida"] = askida
     rapor["mac_deneme"] = deneme
     rapor["iletim_sonucu_tamam"] = toplam + askida == deneme
+    # 🔒 C3 (K-180) — ENERJİ SÜRE DEĞİŞMEZİ: gönderim + alım + dinleme =
+    # telsizin açık kaldığı süre, üçü de negatif değil (gönderirken kilit
+    # düşer, yani ikisi örtüşemez).
+    sureler = [d.enerji(kur.konfig.kosu_bitis_s)[1:] for d in dugumler]
+    rapor["enerji_sure_tamam"] = all(min(s) >= -1e-9 for s in sureler)
+    rapor["enerji_gonderim_s"] = sum(s[0] for s in sureler)
+    rapor["enerji_alim_s"] = sum(s[1] for s in sureler)
+    rapor["enerji_dinleme_s"] = sum(s[2] for s in sureler)
     rapor["gecerli"] = bool(rapor["korunum_tamam"]
                             and rapor["mutabakat_tamam"]
-                            and rapor["iletim_sonucu_tamam"])
+                            and rapor["iletim_sonucu_tamam"]
+                            and rapor["enerji_sure_tamam"])
     # 🔒 DÖRDÜNCÜ KAPI — KONTROL DEFTERİ (K-112). Yalnız kontrol düzlemi
     # KULLANILDIYSA satıra girer; kullanmayan protokolde bölüm birebir aynı.
     kk = kontrol_korunumu(dugumler)
@@ -214,15 +282,20 @@ def sonuc_satiri(kur: Kurulum, dugumler: Iterable[Any],
     """Bir koşunun sonuç satırı. Bölümler `BOLUMLER`den, içerik defterlerden."""
     dugumler = tuple(dugumler)
     uretici = (
-        lambda: _kimlik_bolumu(kur, protokol_adi),
+        lambda: _kimlik_bolumu(kur, dugumler, protokol_adi),
         K.ortam_ozeti,
         kur.konfig.sozluk,
         lambda: kapsam_bolumu(kur.konfig),
         # 🔒 Açılma anı SATIRA konfigden taşınır, `olcum/` onu aramaz:
-        # ölçüm defterleri konfigürasyona bağımlı olmamalı.
+        # ölçüm defterleri konfigürasyona bağımlı olmamalı. Akış sınıfları
+        # da öyle — `olcum/` geçidi bilmez, sınıf haritasını alır.
         lambda: metrik_sozlugu(kur.sayaclar.disa_ver(), kur.paket_defteri,
                                kur.rota_defteri,
-                               acilma_s=kur.konfig.karistirici_baslangic_s),
+                               acilma_s=kur.konfig.karistirici_baslangic_s,
+                               akis_siniflari=_akis_siniflari(kur),
+                               enerji_j=tuple(
+                                   d.enerji(kur.konfig.kosu_bitis_s)[0]
+                                   for d in dugumler)),
         lambda: korunum_bolumu(kur, dugumler),
         kur.paket_defteri.ham_sozluk,
         lambda: _teshis_bolumu(kur, dugumler),

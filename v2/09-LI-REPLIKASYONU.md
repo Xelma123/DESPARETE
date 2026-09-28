@@ -1,404 +1,125 @@
 # 09 · Lİ vd. REPLİKASYONU — aletin TEK dış çapası
 
-> **Durum: 🟢 TAMAMLANDI** — ön-kayıt 8 Eylül 2026'da ölçümden önce yazıldı,
-> sonuç 9 Eylül'de altına eklendi, **10 Eylül 2026'da yeniden ölçüldü (K-113)**.
-> Şartname karşılığı: `07-SIMULATOR-TASARIMI.md` §10, seviye 3.
-> Kaynak: `02-DOGRULANMIS-KAYNAKLAR.md` **A5b** ✅
->
-> **10 Eylül yeniden ölçümü** (`python -u kalibrasyon/li_replikasyonu.py`):
-> eğrinin on noktası ve duyma menzili taraması 9 Eylül kaydıyla **birebir
-> aynı**. H1 = **0,0861** (band [0,10; 0,20] → tutmadı) · H2 ve H3 tuttu ·
-> B bölümünün koşum süresi 1,8 dk.
->
-> ⚠️ **H1'in sayısı 0,0861'dir.** Betikteki ön-kayıtlı tanım: "uzun zincir =
-> 8–11 düğümlü zincirlerin oranlarının ortalaması". **0,0739** yalnız 11
-> düğümün değeridir ve §SONUÇ'taki mekanizma öngörüsüyle (0,0714)
-> karşılaştırılan sayıdır; bazı eski belgeler onu H1 değeri diye yazmıştı.
->
-> ⚠️ §03.1b'deki açık kanal ortalaması (0,94–0,98) 200 m'lik ilk denemenin
-> bağlamında verilmiştir. 280 m aralıkta açık kanalın ortalaması **0,8800**,
-> en kötü bağı **0,0000** (aynı komutun A bölümü, 10 Eylül).
-
-> 🔴 **BU BELGE ÖLÇÜMDEN ÖNCE YAZILDI VE ÖYLE KALACAK.** Replikasyonun bütün
-> değeri, beklentinin ölçümden **önce** ilan edilmiş olmasındadır. Sonuç
-> tutmazsa bu belge değiştirilmez; altına *"tutmadı ve sebebi şu"* yazılır.
+> **Durum: 🟢 tamamlandı** — eski dünyada H1 tutmadı, H2 ve H3 tuttu; mekanizma üç α'da doğrulandı. **Referans dünyada sabit hızda H1 = 0,127 TUTTU** (K-187, belgenin sonu). Ön-kayıt (§03–§06) 8 Eylül'de ölçümden önce yazıldı ve değiştirilmez; özgün metin birebir `v2/arsiv/09-LI-REPLIKASYONU-2026-09-25.md`, bu öz sürüm ön-kaydın içeriğini değiştirmez. Bölüm numaraları kodda atıflı, korunur. Şartname `07` §10 seviye 3 · kaynak `02` A5b ✅.
+> Üretici: `python -u kalibrasyon/li_replikasyonu.py` (~2 dk; son koşum **25 Eylül 2026**, çıktı `arsiv/teshis/belge_guncelleme_2026-09-25/li_replikasyonu_cikti.txt`) · iki çift probu `kalibrasyon/iki_cift.py` · α taraması `python -u kalibrasyon/yeniden_kullanim.py` (9 Eylül).
+> Sayılar Y2 (veri onayı düzeltmesi, 11 Eylül, K-115) sonrası; 9–10 Eylül tablosu (H1 0,0861, 11 düğüm 0,0739) arşivde.
 
 ---
 
-## 00 · NEDEN BU ÖLÇÜM HER ŞEYDEN ÖNEMLİ
+## 00 · Neden
 
-Şartname §01.2'nin üç sınavı:
+Üç sınavın ikisi geçmişti — iç tutarlılık (korunum, mutabakat) ve analitik (Bianchi, sönümleme varyansı, yol kaybı). Üçüncüsü, **yayımlanmış bir sonucu yeniden üretmek**, yoktu; onsuz alet kendi içinde tutarlı ve tamamen yanlış olabilir. Bianchi tek çarpışma alanını sınar; bu projenin ölçtüğü şey **çok atlamalı** teslim (uzamsal yeniden kullanım, zincir boyu çarpışma).
 
-| sınav | durum |
-|---|---|
-| iç tutarlılık — sayaçlar birbirini tutuyor mu | ✅ korunum + mutabakat |
-| analitik — bilinen formüllerle uyuşuyor mu | ✅ Bianchi · sönümleme varyansı · yol kaybı |
-| **dış çapa — yayımlanmış bir sonucu yeniden üretiyor mu** | 🔴 **HİÇ YAPILMADI** |
-
-🔒 **Üçüncüsü olmadan alet, kendi içinde tutarlı ve tamamen yanlış olabilir.**
-Bianchi doğrulaması MAC'in *tek çarpışma alanındaki* davranışını sınıyor;
-bu projenin ölçtüğü şey ise **çok atlamalı** teslim. İkisinin arasındaki
-boşluk — uzamsal yeniden kullanım, kendi kendine girişim, zincir boyunca
-çarpışma — bugüne kadar **hiç sınanmadı**.
-
----
-
-## 01 · REPLİKE EDİLEN SONUÇ
-
-**Li, Blake, De Couto, Lee, Morris — *"Capacity of Ad Hoc Wireless
-Networks"*, §3.2** *(`02` A5b, ✅ doğrulanmış)*
-
-Üç sayı veriyor ve üçü de ayrı şeyler söylüyor:
+## 01 · Replike edilen sonuç — Li, Blake, De Couto, Lee, Morris, *"Capacity of Ad Hoc Wireless Networks"* §3.2
 
 | # | ne | değer |
 |---|---|---|
-| L1 | **ideal MAC** ile zincir kullanımı | **1/3** |
-| L2 | **ideal** zincirin uçtan uca verimi, tek atlamanın kaçta kaçı | **1/4** |
-| L3 | **802.11**'in gerçekte verdiği | **1/7** |
+| L1 | ideal MAC ile zincir kullanımı | 1/3 |
+| L2 | ideal zincirin uçtan uca verimi / tek atlama | **1/4** |
+| L3 | 802.11'in gerçekte verdiği | **1/7** |
 
-🔒 **Mekanizma — ve replikasyonun sınadığı şey budur.** Bir zincirde düğüm
-*i* iletirken *i±1*, *i±2* ve *i±3* susmak zorundadır: *i±1* alıcı ya da
-verici, *i±2* taşıyıcı dinlemeyle duyar, *i±3* alıcıyı bozar. Dolayısıyla
-zincirin ancak dörtte biri aynı anda konuşabilir → **L2 = 1/4**. 802.11'in
-geri çekilmesi, çarpışmaları ve onay yükü bunu **1/7**'ye indirir.
+Mekanizma: *i* iletirken *i±1* (alıcı/verici), *i±2* (taşıyıcı dinleme) ve *i±3* (alıcıyı bozar) susar → zincirin dörtte biri aynı anda konuşur (L2); 802.11'in geri çekilmesi, çarpışmaları ve onay yükü bunu 1/7'ye indirir. **L3/L2 ≈ 0,571 = 802.11'in kendi verimsizliği.**
 
-⭐ Yani **L3/L2 ≈ 0,57 = 802.11'in kendi verimsizliği**, ve L2 = 1/4 saf
-uzamsal yeniden kullanım. İkisini ayrı ayrı ölçmek, tek bir sayıya bakmaktan
-çok daha güçlü bir sınavdır.
+## 02 · Kurulum
 
----
+Zincir bir **ölçüm aletidir**, deney kolu değil: deney matrisine ve ön-kayda girmez, `kalibrasyon/` altında kendi dünyasını kurar. `Sabit` mobilite, tek eksende eşit aralık · sabit zincir yönlendiricisi · tek doygun akış `0 → N−1` · 🔒 **kanal değişmez** (aynı yayılım, MAC, girişim — replikasyon deneydeki aleti sınamalı).
 
-## 02 · KURULUM — ve neden `kalibrasyon/` altında
+## 03 · Ölçümden önce bağlanan üç sayı
 
-🔒 Zincir bir **deney kolu değil, bir ÖLÇÜM ALETİDİR** — kâhinlerle aynı
-gerekçe. Deney matrisine girmez, ön-kayıtta bir aile değildir, `senaryolar.py`
-büyümez. `kalibrasyon/` altında kendi dünyasını kurar.
+**03.1 · Aralık = `iletim_menzili_m` = 280 m** (güç çapası; girişimsiz SINR tam eşikte → "bir atlama = bir iletim menzili" yapı gereği). İlk hâli "atlama PDR ≥ 0,99 olan en büyük aralık"tı; ilk ölçümden sonra 8 Eylül'de değişti çünkü gerekçesi yanlıştı — *i±2/i±3* girişimi artefakt değil Li'nin ölçtüğü mekanizmanın kendisi; aralığı büyütmek oranı yapay yükseltirdi. Eski ölçüt kapı olarak kaldı (her bağ ≥ 0,99).
 
-| parça | nasıl |
-|---|---|
-| yerleşim | `Sabit` mobilite, düğümler tek eksende eşit aralıklı |
-| yönlendirme | zincir yönlendiricisi: sonraki atlama = hedefe doğru komşu |
-| trafik | **tek** akış, `0 → N−1`, **doygun** |
-| kanal | 🔒 **hiçbir şey değişmez** — aynı yayılım, aynı MAC, aynı girişim |
+**03.1b · Kapı bir kurulum kusurunu yakaladı.** 200 m'lik ilk denemede N ≥ 3'te teslim sıfırdı. Bağları öldüren sönümleme: statik kolda donmuş tek Rician çekimi, PER uçurumunda derin çekim bağı öldürür (ölü bağ %2–6; K-096'nın istenen özelliği). Li'nin kurulumunda gölgeleme/sönümleme yok → 🔒 **replikasyon ikisi KAPALI koşar** (ön-kayıtlı kapının kendi işi, gevşetme değil). 280 m'de açık kanal: en kötü bağ 0,0000, ortalama 0,8800 · temiz kanal 1,0000 / 1,0000 (kapı geçer). Bedeli beyanlı: kanalın tamamını değil MAC + girişim + uzamsal yeniden kullanımı doğrular; gölgeleme ve sönümleme ayrıca doğrulandı (σ kaynaktan, K-096).
 
-🔴 **Kanalın değişmemesi şart.** Replikasyon, deneyde kullanılan aletin
-kendisini sınamalıdır; zincir için ayarlanmış bir kanal hiçbir şey
-doğrulamaz.
+**03.2 · Zincir uzunluğu N = 1…10 atlama taranır** — tek nokta tesadüfen tutabilir; Li'nin iddiası bir şekil.
 
----
+**03.3 · Doygunluk ölçülür:** sunulan yük, N = 1'de ölçülen tek atlama kapasitesinin 2 katı; kuyruk boş kalmamalı.
 
-## 03 · ÖLÇÜMDEN ÖNCE KARARA BAĞLANAN ÜÇ SAYI
+## 04 · 🔴 Ön-kayıt (8 Eylül, değiştirilmez)
 
-### 03.1 · Düğüm aralığı — GÜÇ ÇAPASI, ve iki ölçüt de onu gösteriyor
-
-> 🔴 **BU BÖLÜM 8 EYLÜL 2026'DA, İLK ÖLÇÜMDEN SONRA DEĞİŞTİ.** Değişikliğin
-> kendisi ve sebebi burada duruyor; ilk hâli silinmedi.
-
-**İlk hâli şuydu:** *"aralık, tek atlama PDR'si ≥ 0,99 olan EN BÜYÜK
-aralıktır — en büyük seçilir çünkü aralık küçüldükçe i±2 ve i±3 girişimi
-artar ve zincir YAPAY olarak kötüleşir."*
-
-🔴 **Gerekçenin fiziği yanlıştı.** i±2 ve i±3 girişimi bir artefakt DEĞİL,
-Li'nin ölçtüğü **mekanizmanın ta kendisidir**: 1/4 oranı, taşıyıcı dinlemenin
-iletim menzilinin ~2 katına ulaşmasından doğar. Aralığı büyütmek o girişimi
-zayıflatır ve oranı **yapay olarak yükseltir** — yani ilk ölçüt, replikasyonu
-tutturmaya değil, kaçırmaya ayarlıydı.
-
-🔒 **YENİ ÇAPA — TÜRETİLMİŞ, SEÇİLMEMİŞ:** aralık = `iletim_menzili_m`
-(280 m), yani **verici gücünün çapası**. Bu mesafede girişimsiz SINR tam
-olarak eşiğe eşittir. Böylece *"bir atlama = bir iletim menzili"* **yapı
-gereği** doğrudur ve zincir geometrisi Li'nin varsayımıyla örtüşür.
-
-🔒 Eski ölçüt bir KAPI olarak KALIR: seçilen aralık, her bağda atlama başarısı
-≥ 0,99 sınavını geçmek zorundadır. Ölçüldü — geçiyor (§03.1b).
-
-### 03.1b · 🔴 ÖLÇÜM BİR SETUP KUSURU ORTAYA ÇIKARDI — ve ön-kayıtlı kapı onu yakaladı
-İlk deneme 200 m aralıkla koşuldu ve **N ≥ 3 zincirlerde teslim SIFIR** çıktı.
-Sebep contention değildi: tek paketli koşuda bile sıfırdı. Ölçüldü —
-11 düğümlük zincirin **her bağı**, 5 tohum, atlama başarısı:
-
-| kurulum | en kötü bağ | ortalama |
-|---|---|---|
-| gölgeleme + sönümleme AÇIK | **0,0000** | 0,94–0,98 |
-| yalnız gölgeleme kapalı | **0,0000** | 0,94–0,98 |
-| ikisi de kapalı | **1,0000** | 1,0000 |
-
-⭐ **Bağları öldüren şey gölgeleme değil, SÖNÜMLEME.** Statik kolda sönümleme
-dondurulmuştur: her bağ **tek bir** Rician çekimi alır ve bağ PER uçurumunun
-kenarında olduğu için derin bir çekim onu tamamen öldürür. Ölçülen ölü bağ
-oranı **%2–6**.
-
-🔒 **BU BİR KUSUR DEĞİL, ALETİN BİLİNEN VE İSTENEN ÖZELLİĞİDİR** (K-096:
-sönümleme kâhin grafiğine tam da "hayalet bağ" üretmesin diye eklendi). Ama
-Li'nin kurulumunda **ne gölgeleme ne sönümleme vardır**; onları açık
-bırakmak, replikasyonu MAC verimliliği yerine **bağ kesintisi** ölçmeye
-çevirirdi — zincirin beşte biri tek bir ölü bağ yüzünden sıfır teslim eder.
-
-🔒 **KARAR: replikasyon gölgeleme ve sönümleme KAPALI koşar.** Bu bir
-gevşetme değil, ön-kayıtlı ≥ 0,99 kapısının **kendi işini yapmasıdır**: kapı,
-ilan edilen kurulumun sorulan soruya uygun olmadığını söyledi. Verdikt temiz
-kurulumda verilir.
-
-⚠️ Bedeli beyan edilir: replikasyon, deneyde kullanılan **kanalın tamamını**
-doğrulamaz — MAC + girişim + uzamsal yeniden kullanımı doğrular. Gölgeleme ve
-sönümleme ayrı ayrı doğrulanmıştır (σ kaynaktan, K-096 ölçümleri).
-
-### 03.2 · Zincir uzunluğu — TEK SAYI DEĞİL, EĞRİ
-🔴 Tek bir N'de tek bir oran ölçmek zayıf bir sınavdır: bir sayı tesadüfen
-tutabilir. Li'nin asıl iddiası bir **şekildir** — kullanım N ile düşer ve
-düzleşir.
-
-🔒 **N = 1 … 10 taranır ve eğri raporlanır.** Replikasyon eğrinin şeklini de
-sınar: düşüş olmalı ve N ≳ 7'de düzleşmeli.
-
-### 03.3 · Doygunluk — ölçülerek kurulur
-Kaynak her zaman gönderecek paketi bulmalı. 🔒 Sunulan yük, **tek atlama
-kapasitesinin iki katı** seçilir; tek atlama kapasitesi N = 1 koşumundan
-**ölçülür**. Doygunluğun kanıtı raporlanır: kuyruk boş kalmamalı.
-
----
-
-## 04 · 🔴 ÖN-KAYIT: NE BEKLİYORUZ, NE ÇÜRÜTÜR
-
-| # | hipotez | beklenen | **başarısızlık** |
+| # | hipotez | beklenen | başarısızlık |
 |---|---|---|---|
 | **H1** | uzun zincir verimi / tek atlama verimi | **1/7 ≈ 0,143**, band **[0,10; 0,20]** | band dışı |
 | **H2** | eğrinin şekli | N arttıkça düşer, N ≳ 7'de düzleşir | monoton düşmüyor ya da düzleşmiyor |
-| **H3** | ideal-MAC tavanı ile ilişki | ölçülen oran, 1/4'ün **altında** | 1/4'ün ÜSTÜNE çıkarsa uzamsal yeniden kullanım fazla iyimser |
+| **H3** | ideal-MAC tavanı ile ilişki | ölçülen oran 1/4'ün **altında** | 1/4'ün üstü → uzamsal yeniden kullanım fazla iyimser |
 
-🔒 **Band [0,10; 0,20] ölçümden ÖNCE ilan edildi** ve şuradan geliyor: L3 =
-1/7 = 0,143, ve Li'nin kendi ölçümü de bir noktadır — ±%40'lık bir band, iki
-farklı 802.11 uygulaması arasında beklenen ayrımın mertebesidir. Band
-sonradan genişletilmeyecek.
+Band ±%40: iki 802.11 uygulaması arasında beklenen ayrımın mertebesi; sonradan genişletilmez. Betikteki tanım: **uzun zincir = 8–11 düğümlü zincirlerin oranlarının ortalaması.**
 
-### 04.1 · ⚠️ ÖNCEDEN İLAN EDİLEN MODEL FARKLARI
-Bunlar **sapmayı mazur göstermek için sonradan bulunan sebepler değildir** —
-ölçümden önce yazıldılar. Sonuç bandın dışına düşerse, önce bunların
-büyüklüğü ölçülür; hiçbiri açıklamıyorsa **kusur aletindedir**.
+**04.1 · Önceden ilan edilen model farkları** — sapma bandı aşarsa önce bunların büyüklüğü ölçülür; hiçbiri açıklamıyorsa kusur alettedir. "Herhalde X yüzündendir" açıklama değildir, X'i kapatıp ölçmek açıklamadır.
 
 | fark | yönü |
 |---|---|
-| **Taşıyıcı dinleme menzili sert değil.** Li'nin 1/4'ü *"duyma menzili ≈ 2 × iletim menzili"* varsayar; burada duyma bir GÜÇ eşiğidir ve mesafeyle sürekli değişir. | Uzamsal yeniden kullanım Li'ninkinden **farklı** çıkabilir — iki yöne de |
-| **RTS/CTS yok.** Li'nin 1/7'si temel erişim içindir. | ✅ aynı — fark yok |
-| **Hız uyarlaması yok.** | ✅ aynı |
-| ~~**Gölgeleme ve sönümleme AÇIK.**~~ → **KAPALI koşulacak**, gerekçesi §03.1b | Ölçüldü: açık bırakmak zincirin beşte birini tek bir ölü bağ yüzünden sıfırlıyordu |
-| **Yayılma kazancı yok** (Barker ~10 dB). | Girişim olduğundan **güçlü** → oran **düşük** tarafa çeker |
+| taşıyıcı dinleme menzili sert değil (Li "duyma ≈ 2 × iletim" varsayar; burada güç eşiği) | uzamsal yeniden kullanım farklı çıkabilir — iki yöne de |
+| RTS/CTS yok · hız uyarlaması yok | aynı |
+| gölgeleme ve sönümleme → KAPALI koşulur (§03.1b) | açık bırakmak zincirin beşte birini sıfırlıyordu |
+| yayılma kazancı yok (Barker ~10 dB) | girişim güçlü → oran düşük tarafa |
 
-🔴 **Sapmanın kabul edilebilir açıklaması, ölçülen bir büyüklük olmak
-zorundadır.** *"Herhalde gölgeleme yüzündendir"* bir açıklama değildir;
-gölgelemeyi kapatıp yeniden ölçmek bir açıklamadır.
+## 05 · Neyi sınamaz
 
----
+Yönlendirme (rota sabit) · karıştırma · mobilite. **Sınadığı tek şey:** MAC + girişim + uzamsal yeniden kullanımın birlikte davranışı — bütün çok atlamalı sonuçların altındaki katman.
 
-## 05 · BU ÖLÇÜM NEYİ SINAMAZ
-- Yönlendirme protokollerini — zincirde yönlendirme **yoktur**, rota sabittir.
-- Karıştırmayı — zincir **karıştırıcısız** koşar.
-- Mobiliteyi — zincir **durgundur**.
+## 06 · Çürütülürse
 
-🔒 Sınadığı tek şey: **MAC + girişim + uzamsal yeniden kullanımın birlikte
-davranışı**, yani bu projenin bütün çok atlamalı sonuçlarının altındaki
-katman.
+Şartname §10: *"Tutmazsa MAC ya da girişim modelinde bir şey yanlıştır ve **bulmadan devam edilmez**."* Mühürden önceki bir engeldir: Aşama 1'in bütün kalibrasyonu (çalışma noktası, ρ, evre metrikleri) çok atlamalı teslimin doğru modellendiğine dayanır.
 
 ---
 
-## 06 · ÇÜRÜTÜLÜRSE NE OLUR
-Şartname §10: *"Tutmazsa MAC ya da girişim modelinde bir şey yanlıştır ve
-**bulmadan devam edilmez**."*
+## SONUÇ — H1 TUTMADI, H2 ve H3 TUTTU; mekanizma bulundu
 
-🔴 Bu, ön-kayıt mührünün önündeki bir **engeldir**, bir not değil. Faz 0'ın
-bütün kalibrasyonu — çalışma noktası, ρ, evre metrikleri — çok atlamalı
-teslimin doğru modellendiği varsayımına dayanıyor. O varsayım burada sınanır.
+Eğri (280 m · temiz kanal · 5 tohum · doygun · tek atlama 356,1 pkt/s · 25 Eylül):
 
----
+| düğüm | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| verim (pkt/s) | 356,07 | 101,23 | 72,98 | 60,87 | 50,59 | 44,46 | 35,16 | 32,19 | 29,62 | 27,02 |
+| tek atlamaya oran | 1,0000 | 0,2843 | 0,2050 | 0,1709 | 0,1421 | 0,1249 | 0,0987 | 0,0904 | 0,0832 | 0,0759 |
 
-# 🔴 SONUÇ — 9 Eylül 2026: **H1 TUTMADI**, H2 ve H3 TUTTU
+**H1 = 0,0871** (8–11 düğüm ortalaması) → 🔴 band dışı · **H2** 🟢 düşüyor ve düzleşiyor · **H3** 🟢 1/4'ün altında.
 
-> Yukarıdaki ön-kayıt **değiştirilmedi**. Sonuç buraya, altına yazılıyor.
-> Üretici: `python -u kalibrasyon/li_replikasyonu.py`
+**Sebep arandı** — `oran × atlama ≈ 0,7` ve N ≥ 5'ten sonra sabit, yani verim atlamayla ters orantılı gibi. İki hipotez çürüdü:
+- *Taşıyıcı dinleme çok geniş* (duyma/iletim = 6,31; Li ~2): duyma menzili tarandı — 1,0 → 0,0277 · 1,5 → 0,0277 · 2,0 → 0,0664 · 3,0 → 0,0858 · 4,5 → 0,0816 · 6,31 → 0,0759. Daraltmak kötüleştiriyor (gizli terminal); hiçbir değer banda girmiyor.
+- *280 m'de bağ marjı sıfır*: aralık 100 → 280 m tarandı, oran 0,074–0,081, `oran × atlama` ≈ 0,74–0,81 her aralıkta (9 Eylül).
 
-## Ölçülen eğri (aralık 280 m · temiz kanal · 5 tohum · doygun)
+**Mekanizma doğrudan ölçüldü** (iki çift probu, 9 Eylül):
+- Uzamsal yeniden kullanım **var**: birbirinden uzak 1 · 2 · 4 bağımsız çift → toplam verim 356,1 · 711,9 · 1 423,9 (K × tek, birebir). Alet serileştirmiyor.
+- Yeniden kullanım **mesafesi**: iki çift arası 2–6 atlamada oran 1,05–1,07, **8 atlamada 2,00**. Li'nin modelinde 4.
+- Türetme: girişim menzili / iletim menzili `= 10^(SINR_eşiği / (10·α)) = 10^(16/20) = 6,31` (α = 2,0; ölçülen birebir). Li: yeniden kullanım 4 atlama → ideal 1/4 → 802.11 çarpanı 0,571. Bizde 8 atlama → **0,571 / 8 = 0,0714**; ölçülen 11 düğüm **0,0759**, uyum **%6** (Y2 öncesi 0,0739, %4).
 
-| düğüm | atlama | verim (pkt/s) | tek atlamaya oran | **oran × atlama** |
-|---|---|---|---|---|
-| 2 | 1 | 356,07 | 1,0000 | 1,000 |
-| 3 | 2 | 101,23 | 0,2843 | 0,569 |
-| 4 | 3 | 72,98 | 0,2050 | 0,615 |
-| 5 | 4 | 61,08 | 0,1715 | 0,686 |
-| 6 | 5 | 50,59 | **0,1421** | 0,711 |
-| 7 | 6 | 44,46 | 0,1249 | 0,749 |
-| 8 | 7 | 35,07 | 0,0985 | 0,690 |
-| 9 | 8 | 31,97 | 0,0898 | 0,718 |
-| 10 | 9 | 29,34 | 0,0824 | 0,742 |
-| 11 | 10 | 26,32 | 0,0739 | 0,739 |
+**α taraması — öngörü sınandı** (`yeniden_kullanim.py`, 9 Eylül; 2,00 = tam paralel, 1,00 = tam serileşmiş):
 
-| hipotez | sonuç |
-|---|---|
-| **H1** — uzun zincir / tek atlama ∈ [0,10; 0,20] | 🔴 **TUTMADI** — ölçülen **0,086** |
-| **H2** — eğri düşüyor ve düzleşiyor | 🟢 TUTTU |
-| **H3** — ideal MAC tavanının (1/4) altında | 🟢 TUTTU |
-
----
-
-## 🔍 SEBEP ARANDI — iki hipotez kuruldu, **ikisi de ÇÜRÜTÜLDÜ**
-
-Şartname §10: *"Tutmazsa MAC ya da girişim modelinde bir şey yanlıştır ve
-**bulmadan devam edilmez**."* §04.1'in kuralı da netti: sapmanın kabul
-edilebilir açıklaması **ölçülen bir büyüklük** olmak zorunda.
-
-**Eğrinin şekli soruyu daralttı:** `oran × atlama ≈ 0,74` ve N ≥ 5'ten sonra
-**sabit**. Yani verim atlama sayısıyla ters orantılı — **uzamsal yeniden
-kullanım yok gibi davranıyor.**
-
-### ❌ Hipotez 1: taşıyıcı dinleme menzili çok geniş
-Duyma menzili / iletim menzili = **6,31**; Li ~2 varsayar. Sınandı — duyma
-menzili taranarak:
-
-| duyma/iletim | 280 | 420 | 560 | 840 | 1260 | 1767 |
-|---|---|---|---|---|---|---|
-| oran | 0,031 | 0,031 | 0,073 | **0,091** | 0,079 | 0,074 |
-
-🔴 **ÇÜRÜDÜ.** Menzili daraltmak düzeltmiyor, **kötüleştiriyor** (gizli
-terminal çarpışmaları). Hiçbir değerde band'a girmiyor.
-
-### ❌ Hipotez 2: 280 m'de bağ marjı sıfır
-Güç çapası tanımı gereği o mesafede SINR **tam eşikte**; en küçük girişim
-bile bağı kırar. Sınandı — aralık taranarak (100 → 280 m): oran **0,074 –
-0,081** arasında, `oran × atlama` her aralıkta ≈ 0,74–0,81.
-🔴 **ÇÜRÜDÜ.**
-
----
-
-## 🟢 MEKANİZMA BULUNDU — ve sayısal olarak KAPANIYOR
-
-Tahmin etmeyi bırakıp mekanizma doğrudan ölçüldü.
-
-### Ölçüm 1 — uzamsal yeniden kullanım VAR
-Birbirinden çok uzak K bağımsız çift, her biri kendi doygun akışıyla:
-
-| çift | toplam verim | K × tek? |
-|---|---|---|
-| 1 | 356,1 | 1,000 |
-| 2 | 711,9 | **1,000** |
-| 4 | 1 423,9 | **1,000** |
-
-🔒 Alet **serileştirmiyor**. Dört uzak çift tam dört katı veriyor.
-
-### Ölçüm 2 — yeniden kullanım MESAFESİ
-İki çift, aralarındaki mesafe taranarak (bağ uzunluğu 280 m):
-
-| ayrım | 560 | 840 | 1120 | 1680 | **2240** | 3360 | 5000 |
-|---|---|---|---|---|---|---|---|
-| atlama | 2 | 3 | 4 | 6 | **8** | 12 | 18 |
-| tek çifte oran | 1,05 | 1,05 | 1,05 | 1,07 | **2,00** | 2,00 | 2,00 |
-
-🔒 **Yeniden kullanım mesafesi ≈ 8 atlama.** Li'nin modelinde 4.
-
-### Türetme — ve tam sayısal kapanış
-Girişim menzili, alınan gücün gürültü tabanına eşit olduğu mesafedir; iletim
-menzili ise SINR'in eşiğe eşit olduğu mesafe. İkisinin oranı **kapalı formda**:
-
-    girişim menzili / iletim menzili = 10^(SINR_eşiği / (10·α))
-                                     = 10^(16 / 20) = **6,31**   (α = 2,0)
-
-Ölçülen oran: **6,31** — birebir. Yeniden kullanım, girişimcinin alıcının
-girişim menzilinin dışında olmasını gerektirdiği için ≈ 6,3 + 1 ≈ **7–8
-atlama** — ölçülen 8.
-
-**Zincir oranının öngörüsü:**
-
-    Li:    yeniden kullanım 4 atlama → ideal 1/4 → 802.11 ile 1/7
-           ⇒ 802.11 verimlilik çarpanı = (1/7)/(1/4) = 0,571
-    Bizde: yeniden kullanım 8 atlama → 0,571 / 8 = **0,0714**
-
-**Ölçülen: 0,0739.** Öngörüyle uyum **%4**.
-
----
-
-## 🔒 KARAR: SAYI TUTMADI, **MEKANİZMA TUTTU** — ve sebep BEYAN EDİLMİŞ BİR TASARIM KARARI
-
-Fark tek bir parametreden geliyor: **yol kaybı üsteli α**.
-
-| | Li (yer tabanlı, ns-2) | bu proje |
-|---|---|---|
-| α | ~4 *(iki-ışın)* | **2,0** *(hava-hava serbest uzay)* |
-| girişim/iletim oranı | 10^(16/40) = 2,5 | 10^(16/20) = **6,31** |
-| yeniden kullanım | ~4 atlama | **8 atlama** |
-| zincir oranı | 1/7 = 0,143 | **0,074** |
-
-🔒 **α = 2,0 bu projede GEREKÇELİ bir karardır** (`07` §04: hava-hava serbest
-uzay; iki-ışın kırılma mesafesi bağ mesafesinin çok üstünde) ve §04.1'de
-*"taşıyıcı dinleme menzili sert değil"* diye **ölçümden önce** ilan edilen
-farkın nicel hâlidir.
-
-⭐ **Replikasyonun asıl sınadığı şey — MAC + girişim + uzamsal yeniden
-kullanımın birlikte davranışı — DOĞRU ÇIKTI:** eğri Li'nin öngördüğü şekilde
-düşüyor ve düzleşiyor (H2 ✅), ideal tavanın altında kalıyor (H3 ✅), ve
-mutlak değer **yeniden kullanım mesafesinden %4 hatayla türetilebiliyor**.
-Alet Li'nin fiziğini yeniden üretiyor; farklı bir yayılım rejiminde.
-
-## 🔴 BU SONUCUN PROJEYE ETKİSİ — ve devredilen iş
-
-1. **Çok atlamalı sonuçlar bu projede Li'ninkinden DAHA KÖTÜ olacak** ve
-   sebebi bilinen bir fizik: α = 2'de girişim iletimden 6,3 kat uzağa
-   gidiyor. Bu, sonuç bölümünde **beyan edilmesi gereken** bir bağlamdır.
-2. 🔴 **AÇIK SINAV — öngörü henüz doğrulanmadı.** α = 3 ve α = 4 ile zincir
-   koşusu denendi; α ≠ 2'de bağlar bozulup yeniden deneme fırtınası çıktığı
-   için koşumlar bitmedi. Öngörü şu ve **sınanmayı bekliyor**:
-
-       α = 3 → oran 3,41 → yeniden kullanım ~4–5 atlama
-       α = 4 → oran 2,51 → yeniden kullanım ~3–4 atlama → zincir oranı BAND İÇİNDE
-
-   🔒 Daha ucuz ve daha temiz yol: zincir yerine **iki çift probunu** α ile
-   koşturmak — yeniden kullanım mesafesi doğrudan ölçülür.
-3. **Ön-kayıtlı band GENİŞLETİLMEDİ** ve genişletilmeyecek. H1 tutmadı
-   yazıyor ve öyle kalıyor.
-
----
-
-# 🟢 EK — 9 Eylül 2026: **AÇIK SINAV KAPANDI**, mekanizma üç α'da doğrulandı
-
-> Üretici: `python -u kalibrasyon/yeniden_kullanim.py`
-
-Yukarıdaki açıklama tek bir α değerinde (2,0) kuruldu ve *"tesadüf olabilir"*
-diye açık bırakılmıştı. Üç α değerinde ölçüldü.
-
-## Yeniden kullanım mesafesi — iki çift probu, 280 m bağ
-
-| ayrım / atlama | 2 | 3 | 4 | 6 | 8 | 12 | 16 |
-|---|---|---|---|---|---|---|---|
-| **α = 2,0** | 1,05 | 1,05 | 1,05 | 1,07 | **2,00** | 2,00 | 2,00 |
-| **α = 3,0** | 1,05 | 1,07 | **1,96** | 2,00 | 2,00 | 2,00 | 2,00 |
-| **α = 4,0** | 1,07 | 1,56 | **2,00** | 2,00 | 2,00 | 2,00 | 2,00 |
-
-*(2,00 = iki çift tam paralel · 1,00 = tamamen serileştirilmiş)*
-
-| α | girişim/iletim | **ölçülen mesafe** | ölçülen / oran |
+| α | girişim/iletim | ölçülen mesafe | mesafe / oran |
 |---|---|---|---|
 | 2,0 | 6,31 | 8 atlama | 1,268 |
 | 3,0 | 3,41 | 4 atlama | 1,171 |
 | 4,0 | 2,51 | 3 atlama | 1,194 |
-| | | ortalama | **1,211** · saçılma **%8** |
 
-## 🔴 BİR ÖLÇÜT HATASI DAHA — ve kayda geçer
-İlk yazdığım sınav *"mesafe ≈ oran **+ 1** atlama"* sezgisini kullanıyordu ve
-α = 2'de tuttuğu için doğru sanılmıştı. Üç α'da ölçülünce **toplamsal sabitin
-tutmadığı, ORANTININ tuttuğu** görüldü. Sınav, çarpanın DEĞERİNİ değil —
-o ölçülüyor — **α'dan BAĞIMSIZLIĞINI** sınayacak biçimde yeniden yazıldı.
+`yeniden kullanım mesafesi ≈ 1,21 × 10^(SINR_eşiği / (10·α))` — çarpan 2,5 katlık oran aralığında %8 saçılmayla sabit (1'den büyük çünkü PER eğrisi sert basamak değil). Kayda geçmiş öngörü (K-108: α = 3 → ~4–5, α = 4 → ~3–4 atlama) tuttu. Betikteki ilk kapı "oran + 1 atlama" diyordu ve α = 2'de tesadüfen tutuyordu; üç α'da toplamsal değil **orantısal** ilişki çıktı — düzeltilen kapıydı, öngörü değil.
 
-⚠️ Bu bir eşik gevşetmesi değil: kayda geçmiş öngörü (K-108 ve bu belgenin §SONUÇ 2. maddesi)
-zaten *"α = 3 → ~4–5 atlama, α = 4 → ~3–4 atlama"* diyordu ve ölçülen 4 ile 3
-**o bandların içinde**. Betikteki kapı, kayda geçmiş öngörüden daha katıydı;
-düzeltilen şey kapıydı, öngörü değil.
+**Karar — sayı tutmadı, mekanizma tuttu.** Fark tek parametreden: yol kaybı üsteli α.
 
-## 🔒 SONUÇ
-`yeniden kullanım mesafesi ≈ 1,21 × 10^(SINR_eşiği / (10·α))` — çarpan
-2,5 katlık bir oran aralığında **%8 saçılmayla sabit**. Çarpanın 1'den büyük
-olmasının sebebi de açık: PER eğrisi sert bir basamak değil, eşiğin biraz
-altında da teslim var.
+| | Li (yer tabanlı, ns-2) | bu proje |
+|---|---|---|
+| α | ~4 (iki-ışın) | **2,0** (hava-hava serbest uzay, `07` §04) |
+| girişim/iletim | 2,5 | 6,31 |
+| yeniden kullanım | ~4 atlama | 8 atlama |
+| zincir oranı | 1/7 = 0,143 | ~0,076 |
 
-⭐ **Li ile aradaki fark bir kusur DEĞİL, yayılım rejimi farkıdır** — ve artık
-üç ayrı α'da ölçülmüş, kapalı formda türetilmiş bir açıklamaya dayanıyor.
-Aletin MAC + girişim + uzamsal yeniden kullanım katmanı **doğrulanmıştır**.
+α = 2,0 gerekçeli bir tasarım kararıdır (iki-ışın kırılma mesafesi bağ mesafesinin çok üstünde) ve §04.1'deki "taşıyıcı dinleme sert değil" farkının nicel hâlidir. Alet Li'nin fiziğini farklı bir yayılım rejiminde yeniden üretiyor; MAC + girişim + uzamsal yeniden kullanım katmanı **doğrulanmıştır**.
 
-🔒 **H1 hâlâ "tutmadı" yazıyor ve öyle kalıyor.** Doğrulanan şey sayı değil,
-sayının nereden geldiğidir.
+- Çok atlamalı sonuçlar bu projede Li'ninkinden **kötü** olacak — sebebi bilinen fizik (girişim iletimin 6,3 katı uzağa gider); sonuç bölümünde beyan edilir.
+- Ön-kayıtlı band genişletilmedi; **H1 "tutmadı" yazıyor ve öyle kalır.** Doğrulanan sayı değil, sayının nereden geldiğidir.
+
+---
+
+## REFERANS DÜNYADA (27 Eylül 2026, K-187) — sabit hızda H1 TUTTU
+
+Aynı ön-kayıt, aynı zincir aleti, referans dünyanın (`14`, K-181) bütün anahtarları açık. Üretici: `python -u kalibrasyon/li_replikasyonu.py --dunya referans_2026` · ayrıştırma `python arsiv/teshis/faz4_2026-09-26/b_li_ayristirma.py` (5 kol × 2 zincir × 5 tohum; çıktı `…/b_li_ayristirma.txt`).
+
+| kol | tek atlama (pkt/s) | 11 düğüm (pkt/s) | H1 |
+|---|---|---|---|
+| referans, bütün anahtarlar | 832,8 | 33,88 | 0,0407 ✗ |
+| **ARF kapalı — sabit 2 Mb/s (Li'nin kurulumu)** | 354,6 | 45,04 | **0,1270 ✓ bantta** |
+| güç kipi taşıyıcı dinleme kapalı | 832,8 | 21,39 | 0,0257 |
+| yayılım gecikmesi kapalı | 840,9 | 34,22 | 0,0407 |
+| ARF ve güç kipi kapalı | 354,6 | 32,69 | 0,0922 |
+
+- Li'nin koşulunda (sabit hız) oran bandın içinde: işlem kazancı ve güce dayalı taşıyıcı dinleme girişim/iletim oranını düşürdü (`14` §9 öngörü 1 ✓). Aletin tek dış çapası ilk kez **sayıyla** geçti.
+- Bütün anahtarlar açıkken H1'i bozan **ARF**: çok atlamalı çekişmede çarpışmayı kanal hatası sanıp hızı düşürüyor (literatürde bilinen ARF zaafı; ns-3 ARF'nin kendisi, `02` G14). Referans dünyada ARF açık kalır — gerçek telsiz böyle davranır ve bütün protokollere aynı MAC'le eşit etki eder.

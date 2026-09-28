@@ -40,6 +40,7 @@ if str(KOK) not in sys.path:
 
 from sim2.kosum.kurulum import kurulum_yap  # noqa: E402
 from sim2.yapilandirma.konfig import Konfig  # noqa: E402
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 from sim2.yapilandirma.senaryolar import KARISTIRICI_SINIFLARI  # noqa: E402
 from kalibrasyon.kahin import KanalGrafigi  # noqa: E402
 from kalibrasyon.karistirici_gucu import ORNEK_ANLARI, TOHUMLAR  # noqa: E402
@@ -48,7 +49,7 @@ SINIFLAR = tuple(s for s in KARISTIRICI_SINIFLARI if s != "yok")
 
 
 def _graf(senaryo: str, tohum: int, t_s: float) -> KanalGrafigi:
-    kfg = Konfig(kol="rho", senaryo=senaryo, tohum=tohum)
+    kfg = DS.konfig(kol="rho", senaryo=senaryo, tohum=tohum)
     g = KanalGrafigi(kurulum_yap(kfg))
     g.ozet(t_s)                       # `_tazele` bu an için kurar
     return g
@@ -60,7 +61,7 @@ def _kenarlar(g: KanalGrafigi) -> frozenset[tuple[int, int]]:
 
 
 def _ozet_ve_kenar(senaryo: str, tohum: int, t_s: float):
-    kfg = Konfig(kol="rho", senaryo=senaryo, tohum=tohum)
+    kfg = DS.konfig(kol="rho", senaryo=senaryo, tohum=tohum)
     g = KanalGrafigi(kurulum_yap(kfg))
     return g.ozet(t_s), _kenarlar(g)
 
@@ -162,7 +163,7 @@ def c_aldatici_acik_mi() -> bool:
     print("     'sinif ne kadar acik' ile 'orneklendigi anda acik miydi'.\n")
     print(f"  {'sinif':>17} {'ornek anlarinda ACIK':>22} {'desen':>12}")
     for sinif in SINIFLAR:
-        kfg = Konfig(kol="rho", senaryo=f"statik-{sinif}", tohum=1000)
+        kfg = DS.konfig(kol="rho", senaryo=f"statik-{sinif}", tohum=1000)
         kar = kurulum_yap(kfg).kanal.karistirici
         durum = [bool(kar.acik_mi(t)) for t in ORNEK_ANLARI]
         desen = "".join("1" if d else "0" for d in durum)
@@ -223,7 +224,7 @@ def e_darbe_fazi() -> None:
     print("=" * 78)
     print("E · DARBE FAZININ ORTULMESI")
     print("=" * 78)
-    kfg = Konfig(kol="rho", senaryo="statik-surekli_darbeli", tohum=1000)
+    kfg = DS.konfig(kol="rho", senaryo="statik-surekli_darbeli", tohum=1000)
     periyot = kfg.darbe_periyodu_s
     cevrim = kfg.darbe_gorev_cevrimi
     fazlar = sorted((t % periyot) / periyot for t in ORNEK_ANLARI)
@@ -270,7 +271,7 @@ def f_aldatici_artik_farki() -> None:
 
     kan = {}
     for s in ("yok", "surekli", "aldatici"):
-        k = Konfig(kol="denetim", senaryo=f"statik-{s}", tohum=1000)
+        k = DS.konfig(kol="denetim", senaryo=f"statik-{s}", tohum=1000)
         kan[s] = Kanal(k, topoloji_kur(k, Akislar(1)))
     kfg = kan["yok"].konfig
     cerceve = cerceve_kur(kfg, "veri")
@@ -335,7 +336,7 @@ def g_darbe_kapali_evre() -> bool:
     print("=" * 78)
     print("G · DARBELININ KAPALI EVRESI — cikarimi kanita cevirmek")
     print("=" * 78)
-    kfg = Konfig(kol="denetim", senaryo="statik-surekli_darbeli", tohum=1000)
+    kfg = DS.konfig(kol="denetim", senaryo="statik-surekli_darbeli", tohum=1000)
     kar = kurulum_yap(kfg).kanal.karistirici
     periyot = kfg.darbe_periyodu_s
     acik_sure = periyot * kfg.darbe_gorev_cevrimi

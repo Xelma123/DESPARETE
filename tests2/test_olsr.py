@@ -266,10 +266,26 @@ def test_U2_bag_kopunca_tablo_guncellenir_ve_KOPMA_KURTARMA_ayni_anahtarda():
 
 
 # ==========================================================================
-# §13 · BAĞ KATMANI BİLDİRİMİ — MAY, ama UYGULANIYOR (`04` K-147)
+# §13 · BAĞ KATMANI BİLDİRİMİ — MAY; `OLSR-b`de açık (K-147), `OLSR-c`de
+# varsayılan KAPALI (K-196)
 # ==========================================================================
+def test_K196_S13_VARSAYILAN_KAPALI_ve_KIMLIGE_girer():
+    """K-196: varsayılan OLSR MAC vazgeçmesine §13 ile tepki VERMEZ — bağ ve
+    rota yerinde, kopma beyanı yok; seçim koşu kimliğine girer."""
+    p = OLSR(0)
+    _simetrik_yap(p, 1)
+    p._iki[(1, 5)] = 100.0
+    p._guncelle(1.0)
+    assert p.iletim_basarisiz(_gozlem(0, 2.0), 1, "veri") == ()
+    assert p._simetrik_mi(1, 2.0) and p._rota[5] == (1, 2)
+    assert p.teshis(0)["bag_katmani_kopma"] == 0
+    assert p.kimlik_parametreleri() == {"s13": False}
+    assert OLSR(0, s13=True).kimlik_parametreleri() == {"s13": True}
+
+
 def test_S13_bag_katmani_KOPTU_deyince_LOST_LINK_ve_KOPMA_histerezis_geri_acar():
-    """🔴 §13'ün üç maddesi + §14.3 ile birlikte yaşaması.
+    """🔴 §13'ün üç maddesi + §14.3 ile birlikte yaşaması (`s13=True`,
+    `OLSR-b`).
 
     (2) `L_LOST_LINK_time = L_time = şimdi + NEIGHB_HOLD_TIME` · (1) bağ
     simetrik sayılmaz ve HELLO'da LOST_LINK ilan edilir · (3) §8.5 kaybı:
@@ -277,7 +293,7 @@ def test_S13_bag_katmani_KOPTU_deyince_LOST_LINK_ve_KOPMA_histerezis_geri_acar()
     kapı yanar. Son iddia RFC'nin bileşimini belgeler: kalitesi eşiği aşan
     bir sonraki paket `L_LOST_LINK_time`ı geri alır.
     """
-    p = OLSR(0)
+    p = OLSR(0, s13=True)
     _simetrik_yap(p, 1)
     _simetrik_yap(p, 2)
     p._iki[(1, 5)] = 100.0
