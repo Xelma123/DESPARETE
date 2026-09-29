@@ -633,7 +633,10 @@ def test_HER_Konfig_alaninin_KOKENI_yazili():
 
 
 def test_KOVA_kumesi_KAPALI():
-    """Sekizinci bir kova yoktur. Yeni kova, ölçütü gevşetmenin en kolay yolu.
+    """Dokuzuncu bir kova yoktur. Yeni kova, ölçütü gevşetmenin en kolay yolu.
+
+    🔒 30 Eylül 2026 (K-203): `DUNYA_TANIMI` öğrencinin kararıyla eklendi —
+    onaylı referans dünya tanımları projenin kapsamıdır, ayar değildir.
 
     ⚠️ Küme 8 Eylül 2026'da BÜYÜDÜ (K-104) ve iki eklemenin de sebebi var:
     `DUYARSIZ` şartnamede (§11.1) vardı ama kodda YOKTU — Faz 1 duyarlılık
@@ -641,7 +644,8 @@ def test_KOVA_kumesi_KAPALI():
     içindeki ikinci anlamı ayırdı; gerekçesi `kokenler.py` başlığında.
     """
     assert set(KOVALAR) == {"TURETILMIS", "OLCULMUS", "KAYNAK", "DUYARSIZ",
-                            "TEDAVI", "KOL_TANIMI", "SINANMAMIS"}
+                            "TEDAVI", "KOL_TANIMI", "DUNYA_TANIMI",
+                            "SINANMAMIS"}
     for kova, _ in KOKENLER.values():
         assert kova in KOVALAR
     for kova, _ in MODUL_KOKENLERI.values():

@@ -1,0 +1,13 @@
+veri çerçevesi: gövde 4096 bit (DQPSK 2 Mb/s) · önbelge 192 bit (DBPSK 1 Mb/s) · çarpan gövde ×11 · önbelge ×22
+gürültü tabanı (22 MHz, NF 7, 290 K): -93.55 dBm
+
+PER hedefi → SINR eşiği (dB):  bizim (açık) · ns-3 · fark · bizim (KAPALI)
+  gövde   PER 0.9    -0.767 ·  -0.717 · -0.050 ·   9.647
+  gövde   PER 0.5     0.049 ·   0.085 · -0.036 ·  10.463
+  gövde   PER 0.1     1.095 ·   1.118 · -0.023 ·  11.509
+  gövde   PER 0.01    2.133 ·   2.148 · -0.015 ·  12.547
+  önbelge PER 0.5    -6.493 ·  -6.493 · -0.000
+  önbelge PER 0.1    -5.090 ·  -5.090 · +0.000
+  önbelge PER 0.01   -3.803 ·  -3.803 · -0.000
+
+2 Mb/s duyarlılığı (PER %10, 512 B): -92.5 dBm

@@ -1,0 +1,19 @@
+REGRESYON KARSILASTIRMASI — k178 (64 satir) ↔ k179 (65 satir)
+  (yeni vaka) yalniz k179: s-statik-surekli-doluluk_sinav-tasiyici_guc · gecerli=True
+
+  bulgusuz vaka : 64/64
+  (beklenen) kimlik.arac_hash                                 64 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           64 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              64 vakada farkli
+  (beklenen) kimlik.protokol_hash                             16 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         64 vakada farkli
+  (izinli)   kimlik.kurulum_hash                              64 vakada farkli
+  (izinli)   konfig.gps_dikey_sigma_m                         64 vakada farkli
+  (izinli)   konfig.gps_hiz_sigma_ms                          64 vakada farkli
+  (izinli)   konfig.gps_tazeleme_s                            64 vakada farkli
+  (izinli)   konfig.gps_yatay_cep_m                           64 vakada farkli
+  (izinli)   teshis.koken_kovalari.KAYNAK                     64 vakada farkli
+  (izinli)   teshis.koken_kovalari.SINANMAMIS                 64 vakada farkli
+  (izinli)   teshis.koken_kovalari.TURETILMIS                 64 vakada farkli
+
+  🟢 BIREBIR (izinli farklar disinda)

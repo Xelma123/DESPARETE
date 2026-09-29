@@ -1,0 +1,11 @@
+kod: C:/Users/Xelma123/AppData/Local/Temp/claude/C--Users-Xelma123-Desktop-desparete-pls/5cdbe106-8289-49e7-a318-3bb30615ea86/scratchpad/kopya_41d
+         aile   guc    rho   ulas  AYRILAN  BUYUK enbuyuk_min
+ tekli_merkez    20  0.257  0.987     4/30   4/30       0.975
+ tekli_merkez    25  0.448  0.919    19/30  17/30       0.900
+ tekli_merkez    30  0.666  0.472    30/30  29/30       0.325
+ tekli_merkez    33  0.778  0.199    30/30  30/30       0.175
+ tekli_merkez    37  0.881  0.080    30/30  28/30       0.100
+
+real	0m54.374s
+user	0m0.000s
+sys	0m0.000s

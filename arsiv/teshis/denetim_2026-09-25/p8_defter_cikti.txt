@@ -1,0 +1,2 @@
+# PYTHONIOENCODING=utf-8 PYTHONDONTWRITEBYTECODE=1 python -u arsiv/teshis/denetim_2026-09-25/p8_defter.py  (25 Eylül 2026)
+{'istenen': 550, 'kuyruk_tasmasi': 0, 'yayin_gonderilen': 420, 'unicast_onaylanan': 108, 'unicast_vazgecilen': 22, 'iletim': 675, 'teslim_yayin': 261, 'teslim_unicast': 108, 'tekrar_bastirilan': 1, 'baskasina_adresli': 562, 'periyodik_ates': 588, 'dinamik_istenen': 76, 'dinamik_ates': 76, 'basarisiz_bildirim': 185, 'jitter_istenen': 0, 'jitter_ates': 0}

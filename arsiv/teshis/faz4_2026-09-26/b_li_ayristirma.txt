@@ -1,0 +1,10 @@
+kol           tek atlama   11 dugum  H1 orani
+A8                 832.8      33.88    0.0407
+A8-arf             354.6      45.04    0.1270
+A8-guc             832.8      21.39    0.0257
+A8-gecikme         840.9      34.22    0.0407
+A8-arf-guc         354.6      32.69    0.0922
+
+real	3m58.806s
+user	0m0.015s
+sys	0m0.016s

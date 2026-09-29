@@ -146,7 +146,7 @@ Tasarım öğrencinin (`protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/`, tek okum
 ## 9 · Mühürden önce kapanması gerekenler
 
 - [ ] Taban protokoller donar: birincil hücrede OLSR §13 açık/kapalı ve rota tamponu (koşuyor) · U1 yeni kod hâlleriyle (yere toplama + eşler arası). U2–U4 AODV ve OLSR'da 🟢 · AOMDV'nin U1–U4 karşılıkları 🟢 (K-194)
-- [ ] SINANMAMIŞ = 0 ve duyarlılık borcu = 0 — ya da borçlular eksen olarak ilan edilir (bugün 41)
+- [ ] SINANMAMIŞ = 0 ve duyarlılık borcu = 0 — ya da borçlular eksen olarak ilan edilir (bugün 25 · borç 10 — referans dünyaya göre sayım, K-203)
 - [x] §0.3'ün eşik formülü, güç yöntemi, aday birincil hücre (K-153)
 - [x] düğüm kaybında birincil metrik (K-182) · referans dünyanın alanı ve birincil hücrenin sabitleri (K-185…K-188)
 - [x] kâhin aşımı prosedürü (K-192) · U1 tüm koşu PDR'siyle, ana deney pencereyle · taban protokoller yere toplamada da sınanır

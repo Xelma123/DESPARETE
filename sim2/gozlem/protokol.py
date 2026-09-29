@@ -15,29 +15,14 @@ sızmasının yapısal panzehiri budur — disiplin değil, grafik.
     beacon_alindi(...)                   komşudan gelen yükün işlenmesi
     teshis(dugum)          -> dict       yalnız sonuç satırına, karara GİRMEZ
 
-🔴 KANCALAR ARTIK GÖZLEM ALIYOR — 16 Eylül 2026 (denetim B4, `04` K-131)
-========================================================================
-Gözlem penceresi TEK BİR YERDE üretiliyordu: veri gönderme kararı. Kontrol
-düzleminin beş kancasının hiçbiri ve `beacon_yuku` gözlem almıyordu. Üç
-sonucu vardı ve üçü de Aşama 3'ün tasarım uzayını farkında olmadan
-daraltıyordu:
-
-  · Protokol KENDİ ÖLÇTÜĞÜ gürültüyü beacon'a koyamıyordu — koyarken
-    ölçemiyordu.
-  · Zamanlayıcıyla gürültü örnekleyemiyordu.
-  · `kanal_mesgul_mu` yapısal olarak neredeyse SABİTTİ: ölçüldü, 24 558 karar
-    anının yalnız **%2,17**'sinde `True`. Çünkü gözlem tam da düğümün geri
-    çekilmesi bitip kanalı BOŞ BULDUĞU anda üretiliyordu; alan protokole hep
-    *"kanal boş"* diyordu.
-
-`05` §6 karıştırma sezimi için gereken alanları sayıyor: ölçülen gürültü, son
-iletim sonucu, kanal meşguliyeti, duyulan beacon, son duyulma anı, kuyruk
-uzunluğu. İkisi bu yüzden kullanılamaz durumdaydı.
-
-🔒 YÜZEY BÜYÜMEDİ, yalnız NE ZAMAN sunulduğu değişti. `Gozlem` zaten düğüm
-kimliğini ve yerel saati taşıyor, yani kancalardan hiçbir bilgi EKSİLMEDİ —
-donanım ölçümleri eklendi. Bu çağrılarda `Gozlem.paket` `None`dur: elde
-taşınan bir paket yoktur.
+🔒 HER KANCA GÖZLEM ALIR (K-131, denetim B4)
+============================================
+Gözlem yalnız veri gönderme kararında üretilseydi protokol kendi ölçtüğü
+gürültüyü beacon'a koyamaz, zamanlayıcıyla örnekleyemez ve
+`kanal_mesgul_mu`yu hep "boş" görürdü (gözlem, kanal boş bulunduğu anda
+üretiliyordu). `05` §6'nın karıştırma sezimi için saydığı alanlar bu
+yüzden her kancada sunulur. Yüzey büyümedi, yalnız sunulma anı değişti;
+bu çağrılarda `Gozlem.paket` `None`dur.
 
 `beacon_yuku` ve `teshis` ikisi de sözleşme denetiminden geçer (`yuk.py` ve
 `teshis.py`): tip, boyut ve NaN reddi. Eski depoda `teshis`in sözleşmesi
@@ -88,8 +73,7 @@ class Protokol(Protocol):
         protokol, o alanları buraya koymak ve bedelini ödemek zorundadır.
 
         🔒 `gozlem.paket` `None`dur. Gözlem burada verilir ki protokol KENDİ
-        ölçtüğü gürültüyü ya da kuyruk doluluğunu beacon'a koyabilsin —
-        16 Eylül 2026'ya kadar koyarken ölçemiyordu.
+        ölçtüğü gürültüyü ya da kuyruk doluluğunu beacon'a koyabilsin.
         """
         ...
 
@@ -101,11 +85,8 @@ class Protokol(Protocol):
         gönderen onu `beacon_yuku`na koyup bedelini ödediyse gelir — ve o
         zaman da ofsetle sapmayı içerir.
 
-        🔒 GÖZLEM ALIR — 16 Eylül 2026 (öğrenci kararı, K-131). Bu, protokolün
-        gördüğü EN SIK dış olaydır ve `05` §6 karıştırma sezimi için gereken
-        alanlar arasında *"duyulan beacon"* ile *"ölçülen gürültü"*yü BİRLİKTE
-        sayar. Eski imzayla protokol beacon'ı alırken kendi gürültüsünü
-        ölçemiyordu; ikisini yan yana koymak tam da sezimin istediği şeydi.
+        🔒 GÖZLEM ALIR (K-131): protokolün en sık dış olayı; "duyulan
+        beacon" ile "ölçülen gürültü" sezim için yan yana gelir (`05` §6).
 
         ⚠️ Bu kanca bir şey DÖNDÜREMEZ (niyet üretmez, yalnız kaydeder) —
         yani gözlem burada EYLEME değil, yalnız protokolün kendi geçmişine
@@ -138,8 +119,7 @@ class KontrolluProtokol(Protokol, Protocol):
     def zamanlayici_doldu(self, gozlem: Gozlem, etiket: str) -> tuple:
         """İlan edilmiş periyodik zamanlayıcı doldu.
 
-        🔒 `gozlem.saat_s` düğümün KENDİ saatidir ve `gozlem.dugum` kimliğidir;
-        eski imzanın verdiği her şey duruyor (16 Eylül 2026, K-131).
+        🔒 `gozlem.saat_s` düğümün KENDİ saatidir ve `gozlem.dugum` kimliğidir.
         """
         ...
 

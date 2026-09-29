@@ -1,0 +1,52 @@
+  DUNYA: referans_2026
+  DESEN: yere_toplama
+==============================================================================
+U1 — AOMDV / ETX KAHINI ORANI  (`06` §4.3 · tam olcek)
+==============================================================================
+  N = 40 · pencere (50; 320) s · kosu 350 s · desen yere_toplama
+  kollar: ['statik-yok', 'bagimsiz-yok', 'gorev-yok', 'formasyon-yok']
+  tohumlar: [1000, 1001, 1002]  (GELISTIRME — ana deney tohumu YOK)
+  🔒 OLCUT: statik oran >= 0.90 · hareketli oran >= 0.60
+
+  kol              tohum    AOMDV  ETX kahin    oran   esik             karar
+  statik-yok        1000   0.7775     0.9818   0.792   0.90    🔴 ACIKLANMAMIS
+  statik-yok        1001   0.9538     0.9977   0.956   0.90             GECTI
+  statik-yok        1002   0.8836     0.9868   0.895   0.90    🔴 ACIKLANMAMIS
+  bagimsiz-yok      1000   0.4811     0.8111   0.593   0.60    🔴 ACIKLANMAMIS
+  bagimsiz-yok      1001   0.6662     0.8717   0.764   0.60             GECTI
+  bagimsiz-yok      1002   0.5567     0.8023   0.694   0.60             GECTI
+  gorev-yok         1000   0.6328     0.8873   0.713   0.60             GECTI
+  gorev-yok         1001   0.6058     0.8431   0.718   0.60             GECTI
+  gorev-yok         1002   0.6339     0.8892   0.713   0.60             GECTI
+  formasyon-yok     1000   0.7436     0.9187   0.809   0.60             GECTI
+  formasyon-yok     1001   0.8275     0.9362   0.884   0.60             GECTI
+  formasyon-yok     1002   0.7272     0.9217   0.789   0.60             GECTI
+
+  kol               oran ort  en dusuk
+  statik-yok           0.881     0.792
+  bagimsiz-yok         0.684     0.593
+  gorev-yok            0.715     0.713
+  formasyon-yok        0.827     0.789
+
+  ROTA TAMPONU  (kapasite 64 · omur 30 s — ikisi de SINANMAMIS)
+  kol              tohum    giris   dusen   tepe
+  statik-yok        1000     4257       3      4
+  statik-yok        1001     1225       0      2
+  statik-yok        1002     2836       0      3
+  bagimsiz-yok      1000     7193       0      4
+  bagimsiz-yok      1001     4617       0      3
+  bagimsiz-yok      1002     6350       0      3
+  gorev-yok         1000     5583       0      6
+  gorev-yok         1001     5811       0      3
+  gorev-yok         1002     7058       0     11
+  formasyon-yok     1000     4183       0      3
+  formasyon-yok     1001     2816       0      2
+  formasyon-yok     1002     4337       0      3
+  → en yuksek doluluk 11/64 · toplam sure tavanindan dusen 3
+
+  toplam 24 kosum · 31684 s
+
+==============================================================================
+  U1-U uygunluk : GECTI 🟢   (kalirsa protokol KABUL EDILMEZ)
+  U1-B basarim  : KALDI 🔴   (aciklanmamis dusuk / olu aciklama yok mu)
+==============================================================================

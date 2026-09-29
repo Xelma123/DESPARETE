@@ -1,0 +1,91 @@
+   a-statik-surekli-en_yakin_kimlik                               N=40 T=  50 s · toplam     4157 J (taban   4000) · p50  101.0 J · gönderim  18.24 s
+   a-statik-surekli_darbeli-en_yakin_kimlik                       N=40 T=  50 s · toplam     4262 J (taban   4000) · p50  101.7 J · gönderim  30.44 s
+❌ a-statik-yok-en_yakin_kimlik                                   N=40 T=  50 s · toplam     4407 J (taban   4000) · p50  105.8 J · gönderim  47.32 s
+   b-statik-aldatici-dogrudan_komsu                               N=40 T=  50 s · toplam     4012 J (taban   4000) · p50  100.1 J · gönderim   1.43 s
+   b-statik-reaktif-dogrudan_komsu                                N=40 T=  50 s · toplam     4020 J (taban   4000) · p50  100.1 J · gönderim   2.32 s
+   b-statik-surekli-dogrudan_komsu                                N=40 T=  50 s · toplam     4021 J (taban   4000) · p50  100.1 J · gönderim   2.41 s
+   b-statik-surekli_darbeli-dogrudan_komsu                        N=40 T=  50 s · toplam     4022 J (taban   4000) · p50  100.1 J · gönderim   2.50 s
+   b-statik-taramali-dogrudan_komsu                               N=40 T=  50 s · toplam     4019 J (taban   4000) · p50  100.1 J · gönderim   2.25 s
+   b-statik-yok-dogrudan_komsu                                    N=40 T=  50 s · toplam     4016 J (taban   4000) · p50  100.1 J · gönderim   1.91 s
+   c-bagimsiz-surekli-en_guvenilir_kahin                          N=40 T=  50 s · toplam     4205 J (taban   4000) · p50  104.2 J · gönderim  23.79 s
+   c-bagimsiz-surekli-en_kisa_yol_kahin                           N=40 T=  50 s · toplam     4216 J (taban   4000) · p50  104.6 J · gönderim  25.12 s
+   c-gorev-surekli-en_guvenilir_kahin                             N=40 T=  50 s · toplam     4191 J (taban   4000) · p50  102.8 J · gönderim  22.22 s
+   c-gorev-surekli-en_kisa_yol_kahin                              N=40 T=  50 s · toplam     4193 J (taban   4000) · p50  103.6 J · gönderim  22.43 s
+   c-statik-surekli-en_guvenilir_kahin                            N=40 T=  50 s · toplam     4147 J (taban   4000) · p50  102.7 J · gönderim  17.12 s
+   c-statik-surekli-en_kisa_yol_kahin                             N=40 T=  50 s · toplam     4152 J (taban   4000) · p50  103.1 J · gönderim  17.66 s
+❌ d-bagimsiz-surekli-yuklu                                       N=40 T=  50 s · toplam     4486 J (taban   4000) · p50  110.1 J · gönderim  56.54 s
+❌ d-statik-surekli-yuklu                                         N=40 T=  50 s · toplam     4446 J (taban   4000) · p50  108.7 J · gönderim  51.82 s
+❌ e-bagimsiz-surekli-kontrol_sinav                               N=40 T=  50 s · toplam     4421 J (taban   4000) · p50  108.5 J · gönderim  48.96 s
+   e-statik-surekli-kontrol_sinav                                 N=40 T=  50 s · toplam     4370 J (taban   4000) · p50  105.5 J · gönderim  43.07 s
+   f-bagimsiz-surekli-dogrudan_komsu-tam                          N=40 T= 350 s · toplam    28434 J (taban  28000) · p50  700.9 J · gönderim  50.50 s
+   f-gorev-surekli_darbeli-dogrudan_komsu-tam                     N=40 T= 350 s · toplam    28430 J (taban  28000) · p50  700.9 J · gönderim  50.04 s
+   f-statik-surekli-en_guvenilir_kahin-tam                        N=40 T= 350 s · toplam    28689 J (taban  28000) · p50  703.5 J · gönderim  80.10 s
+   f-statik-yok-dogrudan_komsu-tam                                N=40 T= 350 s · toplam    28253 J (taban  28000) · p50  700.9 J · gönderim  29.44 s
+   g-bagimsiz-surekli-dogrudan_komsu-yere_toplama                 N=40 T=  50 s · toplam     4030 J (taban   4000) · p50  100.1 J · gönderim   3.52 s
+   g-statik-surekli-en_guvenilir_kahin-yere_toplama               N=40 T=  50 s · toplam     4142 J (taban   4000) · p50  101.5 J · gönderim  16.47 s
+   h-formasyon-surekli-dogrudan_komsu                             N=40 T=  50 s · toplam     4040 J (taban   4000) · p50  100.1 J · gönderim   4.65 s
+   h-formasyon-surekli-en_guvenilir_kahin                         N=40 T=  50 s · toplam     4151 J (taban   4000) · p50  103.2 J · gönderim  17.57 s
+   i-statik-surekli-dogrudan_komsu-cephe_hatti                    N=40 T=  50 s · toplam     4073 J (taban   4000) · p50  100.1 J · gönderim   8.43 s
+   i-statik-surekli-dogrudan_komsu-derin_sizma                    N=40 T=  50 s · toplam     4076 J (taban   4000) · p50  100.1 J · gönderim   8.88 s
+   i-statik-surekli-dogrudan_komsu-hava_eslik                     N=40 T=  50 s · toplam     4073 J (taban   4000) · p50  100.1 J · gönderim   8.44 s
+   i-statik-surekli-dogrudan_komsu-hedef_koruma                   N=40 T=  50 s · toplam     4082 J (taban   4000) · p50  100.1 J · gönderim   9.51 s
+   i-statik-surekli-en_guvenilir_kahin-hava_eslik                 N=40 T=  50 s · toplam     4109 J (taban   4000) · p50  101.3 J · gönderim  12.71 s
+   j-statik-surekli-baslikli_sonuc                                N=40 T=  50 s · toplam     4034 J (taban   4000) · p50  100.1 J · gönderim   4.01 s
+   k-statik-surekli-aodv                                          N=40 T=  50 s · toplam     4203 J (taban   4000) · p50  104.2 J · gönderim  23.56 s
+   k-statik-surekli-aomdv                                         N=40 T=  50 s · toplam     4167 J (taban   4000) · p50  103.6 J · gönderim  19.44 s
+   k-statik-surekli-desparete-yere_toplama                        N=40 T=  50 s · toplam     4188 J (taban   4000) · p50  103.6 J · gönderim  21.91 s
+   k-statik-surekli-olsr                                          N=40 T=  50 s · toplam     4225 J (taban   4000) · p50  103.8 J · gönderim  26.11 s
+   l-statik-surekli-dogrudan_komsu-islem_kazanci                  N=40 T=  50 s · toplam     4036 J (taban   4000) · p50  100.1 J · gönderim   4.16 s
+   m-bagimsiz-aldatici-dogrudan_komsu                             N=40 T=  50 s · toplam     4043 J (taban   4000) · p50  100.1 J · gönderim   5.04 s
+   m-bagimsiz-reaktif-dogrudan_komsu                              N=40 T=  50 s · toplam     4043 J (taban   4000) · p50  100.1 J · gönderim   5.04 s
+   m-bagimsiz-surekli-dogrudan_komsu                              N=40 T=  50 s · toplam     4044 J (taban   4000) · p50  100.1 J · gönderim   5.06 s
+   m-bagimsiz-surekli_darbeli-dogrudan_komsu                      N=40 T=  50 s · toplam     4038 J (taban   4000) · p50  100.1 J · gönderim   4.37 s
+   m-bagimsiz-taramali-dogrudan_komsu                             N=40 T=  50 s · toplam     4042 J (taban   4000) · p50  100.1 J · gönderim   4.90 s
+   m-bagimsiz-yok-dogrudan_komsu                                  N=40 T=  50 s · toplam     4042 J (taban   4000) · p50  100.1 J · gönderim   4.89 s
+   m-gorev-aldatici-dogrudan_komsu                                N=40 T=  50 s · toplam     4050 J (taban   4000) · p50  100.1 J · gönderim   5.83 s
+   m-gorev-reaktif-dogrudan_komsu                                 N=40 T=  50 s · toplam     4060 J (taban   4000) · p50  100.1 J · gönderim   6.96 s
+   m-gorev-surekli-dogrudan_komsu                                 N=40 T=  50 s · toplam     4060 J (taban   4000) · p50  100.1 J · gönderim   6.94 s
+   m-gorev-surekli_darbeli-dogrudan_komsu                         N=40 T=  50 s · toplam     4055 J (taban   4000) · p50  100.1 J · gönderim   6.34 s
+   m-gorev-taramali-dogrudan_komsu                                N=40 T=  50 s · toplam     4057 J (taban   4000) · p50  100.1 J · gönderim   6.60 s
+   m-gorev-yok-dogrudan_komsu                                     N=40 T=  50 s · toplam     4053 J (taban   4000) · p50  100.1 J · gönderim   6.21 s
+   n-statik-surekli-dogrudan_komsu-tasiyici_guc                   N=40 T=  50 s · toplam     4049 J (taban   4000) · p50  100.1 J · gönderim   5.69 s
+   n-statik-surekli-dogrudan_komsu-tasiyici_guc-hava_eslik        N=40 T=  50 s · toplam     4053 J (taban   4000) · p50  100.1 J · gönderim   6.14 s
+   o-statik-surekli-dogrudan_komsu-tasiyici_guc-yayilim_gecikmesi N=40 T=  50 s · toplam     4049 J (taban   4000) · p50  100.1 J · gönderim   5.68 s
+   o-statik-surekli-dogrudan_komsu-yayilim_gecikmesi              N=40 T=  50 s · toplam     4047 J (taban   4000) · p50  100.1 J · gönderim   5.51 s
+   p-bagimsiz-surekli-dogrudan_komsu-karistirici_gercekci         N=40 T=  50 s · toplam     4076 J (taban   4000) · p50  100.1 J · gönderim   8.81 s
+   p-statik-aldatici-dogrudan_komsu-karistirici_gercekci          N=40 T=  50 s · toplam     4060 J (taban   4000) · p50  100.1 J · gönderim   7.00 s
+   p-statik-aldatici-dogrudan_komsu-tasiyici_guc-karistirici_gercekci N=40 T=  50 s · toplam     4063 J (taban   4000) · p50  100.1 J · gönderim   7.27 s
+   p-statik-reaktif-dogrudan_komsu-karistirici_gercekci           N=40 T=  50 s · toplam     4059 J (taban   4000) · p50  100.1 J · gönderim   6.81 s
+   p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti N=40 T=  50 s · toplam     4058 J (taban   4000) · p50  100.1 J · gönderim   6.79 s
+❌ q-bagimsiz-surekli-kontrol_sinav-islem_kazanci-hiz_uyarlamasi  N=40 T=  50 s · toplam     4451 J (taban   4000) · p50  113.1 J · gönderim  52.43 s
+   q-statik-surekli-dogrudan_komsu-islem_kazanci-hiz_uyarlamasi   N=40 T=  50 s · toplam     4040 J (taban   4000) · p50  100.2 J · gönderim   4.62 s
+   r-referans-bagimsiz-surekli-dogrudan_komsu                     N=40 T=  50 s · toplam     4085 J (taban   4000) · p50  100.1 J · gönderim   9.87 s
+   r-referans-statik-surekli-aodv                                 N=40 T=  50 s · toplam     4042 J (taban   4000) · p50  100.4 J · gönderim   4.93 s
+   r-referans-statik-yok-dogrudan_komsu                           N=40 T=  50 s · toplam     4056 J (taban   4000) · p50  100.1 J · gönderim   6.49 s
+   s-statik-surekli-doluluk_sinav-tasiyici_guc                    N=40 T=  50 s · toplam     4049 J (taban   4000) · p50  100.1 J · gönderim   5.69 s
+❌ t-bagimsiz-surekli-dogrudan_komsu-dugum_kaybi                  N=40 T=  50 s · toplam     3761 J (taban   4000) · p50  100.1 J · gönderim   4.40 s
+❌ t-statik-surekli-aodv-dugum_kaybi                              N=40 T=  50 s · toplam     3889 J (taban   4000) · p50  102.2 J · gönderim  18.53 s
+
+aralık dışı / işaretli: ['a-statik-yok-en_yakin_kimlik', 'd-bagimsiz-surekli-yuklu', 'd-statik-surekli-yuklu', 'e-bagimsiz-surekli-kontrol_sinav', 'q-bagimsiz-surekli-kontrol_sinav-islem_kazanci-hiz_uyarlamasi', 't-bagimsiz-surekli-dogrudan_komsu-dugum_kaybi', 't-statik-surekli-aodv-dugum_kaybi']
+
+t-bagimsiz-surekli-dogrudan_komsu-dugum_kaybi  ↔  m-bagimsiz-surekli-dogrudan_komsu
+  gecerli              True                                                         ikiz True
+  uretilen             1446                                                         ikiz 1598
+  pdr                  0.47579529737206083                                          ikiz 0.4593241551939925
+  dusen.dugum_kaybi    0                                                            ikiz 0
+  dugum_kaybi_dusen    0.0                                                          ikiz 0.0
+  mac_kayip_askida     0.0                                                          ikiz 0.0
+  dusen (tümü)         {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 126, 'hedef_yok': 632, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0} ikiz {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 156, 'hedef_yok': 708, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0}
+  enerji_toplam_j      3760.7075933977144                                           ikiz 4043.5168944
+  üretim düşüşü %9.5 · enerji farkı 283 J
+
+t-statik-surekli-aodv-dugum_kaybi  ↔  k-statik-surekli-aodv
+  gecerli              True                                                         ikiz True
+  uretilen             1577                                                         ikiz 1600
+  pdr                  0.6062143310082435                                           ikiz 0.69375
+  dusen.dugum_kaybi    1                                                            ikiz 0
+  dugum_kaybi_dusen    1.0                                                          ikiz 0.0
+  mac_kayip_askida     1.0                                                          ikiz 0.0
+  dusen (tümü)         {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 232, 'hedef_yok': 0, 'rota_gecersiz': 56, 'tampon_asimi': 103, 'politika': 0, 'dugum_kaybi': 1} ikiz {'kuyruk_tasmasi': 3, 'ttl': 0, 'iletim_basarisiz': 344, 'hedef_yok': 0, 'rota_gecersiz': 129, 'tampon_asimi': 14, 'politika': 0, 'dugum_kaybi': 0}
+  enerji_toplam_j      3889.0972948429785                                           ikiz 4202.594362400001
+  üretim düşüşü %1.4 · enerji farkı 313 J

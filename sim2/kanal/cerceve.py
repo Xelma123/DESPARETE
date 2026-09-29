@@ -1,47 +1,26 @@
 """
 Çerçeve — süre ve hataya açık bit **TEK YERDE**.
 
-🔴 KUSUR 1'İN YAPISAL ÇÖZÜMÜ
-============================
-Eski simülatörde iki farklı PER tanımı vardı ve ikisi de "doğru" görünüyordu:
+🔒 NEDEN TEK YER
+================
+Eski simülatörde iki PER tanımı vardı (yalnız yük ↔ süre × bit hızı) ve kâhin
+ile gerçek alım sistematik olarak ayrışıyordu (512 B @ 2 Mb/s'te %9,38).
+`sure_s` ve `hataya_acik_bit` yalnız burada hesaplanır; `Kanal.per()` tek
+gövdedir ve kâhin ile gerçek alım **aynı fonksiyonu** çağırır. Bir test
+(`test_kanal.py`) `sim2/` altında `bit_hizi_bps` veya `onbelge_s` ile yapılan
+her aritmetiği AST ile tarar ve buradan başkasını reddeder.
 
-    radio.paket_hata_olasiligi : 8 × bayt                  (yalnız yük)
-    mac.alim_per               : süre × bit_hızı           (yük + önbelge)
-
-Kâhin PER ile gerçek alım PER'i sistematik olarak ayrışıyordu. Ölçüldü:
-
-    1024 B @ 1 Mb/s : 8192 ↔ 8384 bit  =  %2,34 fark
-    512 B  @ 2 Mb/s : 4096 ↔ 4480 bit  =  %9,38 fark      🔴 4 KAT BÜYÜYOR
-
-Yeni parametrelerde kusur **büyüyordu**: önbelge 192 µs'de sabit kalırken yük
-yarıya indi. Üretici: `python kalibrasyon/adim3_oncesi.py`
-
-🔒 ÇÖZÜM: bu dosya. `sure_s` ve `hataya_acik_bit` yalnız burada hesaplanır;
-`Kanal.per()` tek gövdedir ve kâhin ile gerçek alım **aynı fonksiyonu**
-çağırır. İkinci bir bit sayımı yazmak için bu dosyayı değiştirmek gerekir.
-Bir test (`test_kanal.py`) `sim2/` altında `bit_hizi_bps` veya `onbelge_s`
-ile yapılan her aritmetiği AST ile tarar ve buradan başkasını reddeder.
-
-🔴 ÖNBELGE GÖVDE HATASINA KATILMAZ — ve bu bir fizik kararıdır
-==============================================================
-802.11b'de PLCP önbelgesi ve başlığı **1 Mb/s DBPSK** ile gönderilir; gövde
-ise 2 Mb/s DQPSK ile. Süreyi gövde bit hızıyla çarpmak, 192 µs'lik dayanıklı
-önbelgeyi 384 tane kırılgan gövde biti gibi saymak olurdu — yani eski kodun
-"süre × bit_hızı" tanımı yalnızca tutarsız değil, **fiziksel olarak yanlıştı**.
-
-Önbelge alıcı zincirinin **kilit aşamasına** aittir (`mac/alici.py`, Adım 6a):
-önbelge yakalanamazsa çerçeve hiç alınmaz ve bu `alim_red_onbelge` olarak
-sayılır — gövde PER'iyle karıştırılmaz.
-
-🔒 ÖNBELGENİN KENDİ BİT SAYISI VAR ve gövdeninkinden ayrıdır: 192 µs × 1 Mb/s
-= **192 bit**, DBPSK ile. Gövde ise 4096 bit, DQPSK ile. Ölçülen fark büyük —
-SINR 10 dB'de önbelge %99,6 kilitlenirken gövde %75 hata
-alıyor. Yani "kilitlenemedi" ile "kilitlendi ama gövde bozuldu" gerçekten iki
-ayrı başarısızlık kipi; tek bir PER'e indirgemek ikisini de yanlış sayardı.
+🔴 ÖNBELGE GÖVDE HATASINA KATILMAZ — bir fizik kararı
+====================================================
+802.11b'de PLCP önbelgesi ve başlığı **1 Mb/s DBPSK** ile gönderilir, gövde
+veri hızında. Önbelge alıcı zincirinin **kilit aşamasına** aittir
+(`mac/alici.py`): yakalanamazsa çerçeve hiç alınmaz (`alim_red_onbelge`),
+gövde PER'iyle karıştırılmaz. Önbelgenin kendi bit sayısı 192 µs × 1 Mb/s =
+192 bit, DBPSK ile; "kilitlenemedi" ile "kilitlendi ama gövde bozuldu" iki
+ayrı başarısızlık kipidir.
 
 ⚠️ `sure_s` yine de önbelgeyi İÇERİR: kanalı o kadar süre meşgul eder, MAC ve
-girişim hesabı onu görmek zorundadır. İki büyüklük ayrı olduğu için ikisi de
-doğru olabiliyor.
+girişim hesabı onu görmek zorundadır.
 """
 
 from __future__ import annotations

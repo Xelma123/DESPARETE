@@ -1,0 +1,26 @@
+REGRESYON KARSILASTIRMASI — k157 (45 satir) ↔ k171 (49 satir)
+  (yeni vaka) yalniz k171: k-statik-surekli-aodv · gecerli=True
+  (yeni vaka) yalniz k171: k-statik-surekli-aomdv · gecerli=True
+  (yeni vaka) yalniz k171: k-statik-surekli-desparete-yere_toplama · gecerli=True
+  (yeni vaka) yalniz k171: k-statik-surekli-olsr · gecerli=True
+
+  bulgusuz vaka : 45/45
+  (beklenen) kimlik.arac_hash                                 45 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           45 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              45 vakada farkli
+  (beklenen) kimlik.protokol_hash                             45 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         45 vakada farkli
+  (izinli)   kimlik.sayac_semasi_hash                         45 vakada farkli
+  (izinli)   kimlik.tedavi_hash                               45 vakada farkli
+  (izinli)   korunum.dusen.politika                           45 vakada farkli
+  (izinli)   metrikler.pdr_komut                              2 vakada farkli
+  (izinli)   metrikler.pdr_komut_pencere                      2 vakada farkli
+  (izinli)   metrikler.pdr_telemetri                          2 vakada farkli
+  (izinli)   metrikler.pdr_telemetri_pencere                  2 vakada farkli
+  (izinli)   metrikler.politika_dusen                         45 vakada farkli
+  (izinli)   metrikler.politika_dusen_pencere                 45 vakada farkli
+  (sifir)    korunum.dusen.politika                           45/45 vakada 0
+  (sifir)    metrikler.politika_dusen                         45/45 vakada 0
+  (sifir)    metrikler.politika_dusen_pencere                 45/45 vakada 0
+
+  🟢 BIREBIR (izinli farklar disinda)

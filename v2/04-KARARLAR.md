@@ -69,7 +69,7 @@
 
 - **Rastgelelik:** durum tutan kaynaklar ayrı sıralı akışlarda; kanal rastgeleliği protokolden bağımsız hash alanlarında → aynı tohumda her protokol aynı dünyayı görür (eşleştirme yapısal).
 - **Korunum:** `üretilen = teslim + düşen + kuyrukta + uçuşta`, her koşuda; düşme sebepleri kapalı kümedir.
-- **Köken defteri:** her parametre yedi kovadan birinde (TÜRETİLMİŞ · ÖLÇÜLMÜŞ · KAYNAK · DUYARSIZ · TEDAVİ · KOL TANIMI · SINANMAMIŞ); mühürden önce SINANMAMIŞ = 0 ya da borçlular eksen ilan edilir. Bugün SINANMAMIŞ 41.
+- **Köken defteri** (K-203): gerekçeler REFERANS dünyanın değerini anlatır; her parametre sekiz kovadan birinde (TÜRETİLMİŞ · ÖLÇÜLMÜŞ · KAYNAK · DUYARSIZ · TEDAVİ · KOL TANIMI · DÜNYA TANIMI · SINANMAMIŞ). **DÜNYA TANIMI** = öğrencinin onayladığı referans dünya tanımları ve birincil hücre (33 km, N 40, 40–120 km/h, 10 W …) — projenin kapsamı, duyarlılık borcu taşımaz. Mühürden önce SINANMAMIŞ = 0 ve duyarlılık borcu boş (ya da eksen/kapsam ilanı). Bugün SINANMAMIŞ 25 · borç 10 (keşifsel kol tanımları).
 - **Sonuç satırı** kendi konfigini, kimliğini (kod özetleri dâhil), kapsam sınırlarını ve metrikleri yeniden üretecek ham veriyi taşır.
 - **Regresyon** (`kalibrasyon/regresyon_satirlari.py`, taban `k198`) ve **mimari denetimi** davranış değiştiren her simülatör değişikliğinden sonra.
 
@@ -80,4 +80,4 @@
 | KR-2 · birincil metrikte komutlar (öneri: birincil telemetri, bütün trafik ikincil) | öğrenci | Faz 6 |
 | KR-D · Faz 5 mekanizmalarının tasarım paketine yansıması | öğrenci | Faz 5 |
 | çizelgeli (periyodik) karıştırıcıda evre metriklerinin tanımı | ajan önerir, öğrenci onaylar | Faz 6 |
-| SINANMAMIŞ 41 parametre: kaynağa bağla, duyarlılıkla ölç ya da eksen ilan et | ajan, öğrenciye eksen listesi | Faz 4.4 |
+| SINANMAMIŞ 25 + borç 10: referans dünyada duyarlılıkla ölç ya da eksen ilan et (liste defterde, gerekçelerinde) | ajan, öğrenciye eksen listesi | Faz 4.4 (kapanış) |

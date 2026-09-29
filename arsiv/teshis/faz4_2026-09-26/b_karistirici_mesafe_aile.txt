@@ -1,0 +1,39 @@
+==============================================================================
+MESAFE TARAMASI — sinif 'surekli' · 30.0 dBm · dunya referans_2026 · alan 35000 m
+==============================================================================
+   mesafe_m     rho    ulas  bogulan   AYRILAN tohum    olcut
+          0   0.666   0.472     2.97         30/30    kalir
+       4375   0.646   0.515     3.47         29/30    kalir
+       8750   0.610   0.582     3.57         29/30    kalir
+      13125   0.544   0.682     3.23         27/30    kalir
+      17500   0.470   0.804     1.97         21/30    kalir
+      21875   0.384   0.911     0.77         18/30    kalir
+      26250   0.322   0.950     0.20         13/30    kalir
+
+  🔴 HICBIR MESAFE OLCUTU SAGLAMADI — izgara uzaga genisletilmeli.
+==============================================================================
+AILE RAPORU — bes tehdit ailesi, hepsi -15.0 dBm TABAN toplam gucunde
+==============================================================================
+  🔒 SERT KISIT: 30 tohumun hicbirinde BIRDEN FAZLA COK UYELI
+     bilesen YOK. Ailelerde bolunme 3 s'den (RFC 3561) uzun
+     surer, cunku acik evre 15 s ya da sureklidir.
+  🔒 rho bir SONUCTUR, hedef degil: aileler YAYILAN ORTALAMA GUC
+     uzerinden esitlenir. Asagidaki 'pay' sutunu bunu DOGRULAR.
+  30 tohum x 9 an
+
+            aile   K  toplam pay     rho    ulas  bogulan   AYRILAN    olcut
+    tekli_merkez   1       1.000   0.666   0.472     2.97     30/30  🔴 KALIR
+     cephe_hatti   3       1.000   0.060   0.978     0.37     19/30  🔴 KALIR
+     derin_sizma   1       1.000   0.055   0.990     0.15     15/30  🔴 KALIR
+    hedef_koruma   2       1.000   0.101   0.969     0.51     18/30  🔴 KALIR
+      hava_eslik   1       1.000   0.661   0.460     2.85     30/30  🔴 KALIR
+
+  'toplam pay' her ailede 1,000 olmali — esitleme dogrulamasi.
+  🔴 SERT KISITI CIGNEYEN AILE(LER): tekli_merkez, cephe_hatti, derin_sizma, hedef_koruma, hava_eslik
+     Bu bir BULGUDUR: o ailede ag boluniyor ve olculen sey
+     yonlendirme degil bolunme olur. Karar ogrenciye gider.
+🔴 KAPI KALDI — yukarıdaki sert kısıt ihlali okunmalı
+
+real	2m48.318s
+user	0m0.015s
+sys	0m0.030s

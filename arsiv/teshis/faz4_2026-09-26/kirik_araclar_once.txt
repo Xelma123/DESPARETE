@@ -1,0 +1,2 @@
+li_replikasyonu  KURULAMADI · TypeError: Kurulum.__init__() missing 3 required positional arguments: 'yayilim_gecikmeli', 'maks_gecikme_s', and 'olum_anlari'
+iki_cift         KURULAMADI · TypeError: Kurulum.__init__() missing 4 required positional arguments: 'yayilim_gecikmeli', 'maks_gecikme_s', 'olum_anlari', and 'kayip_yeri'

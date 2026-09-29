@@ -1,0 +1,127 @@
+[
+ {
+  "ad": "olsr",
+  "tohum": 1000,
+  "pdr": 0.9256973201031331,
+  "dusen": {
+   "kuyruk_tasmasi": 0,
+   "ttl": 10,
+   "iletim_basarisiz": 661,
+   "hedef_yok": 280,
+   "rota_gecersiz": 0,
+   "tampon_asimi": 0
+  },
+  "kontrol_cerceve": 109935.0,
+  "iz": {
+   "karar": 20630,
+   "veri_basarisiz": 714,
+   "rotasiz_isinma": 280
+  },
+  "sure_s": 917.2969679000016
+ },
+ {
+  "ad": "olsr",
+  "tohum": 1001,
+  "pdr": 0.8588952261895461,
+  "dusen": {
+   "kuyruk_tasmasi": 0,
+   "ttl": 3,
+   "iletim_basarisiz": 1432,
+   "hedef_yok": 311,
+   "rota_gecersiz": 60,
+   "tampon_asimi": 0
+  },
+  "kontrol_cerceve": 120845.0,
+  "iz": {
+   "karar": 22738,
+   "veri_basarisiz": 1594,
+   "rotasiz_isinma": 311,
+   "rotasiz_pencere": 60
+  },
+  "sure_s": 1024.8438532
+ },
+ {
+  "ad": "olsr",
+  "tohum": 1002,
+  "pdr": 0.862958043597156,
+  "dusen": {
+   "kuyruk_tasmasi": 0,
+   "ttl": 12,
+   "iletim_basarisiz": 1421,
+   "hedef_yok": 321,
+   "rota_gecersiz": 0,
+   "tampon_asimi": 0
+  },
+  "kontrol_cerceve": 121760.0,
+  "iz": {
+   "karar": 28204,
+   "veri_basarisiz": 1518,
+   "rotasiz_isinma": 321
+  },
+  "sure_s": 1026.1695818000007
+ },
+ {
+  "ad": "olsr_s13",
+  "tohum": 1000,
+  "pdr": 0.9434330807094304,
+  "dusen": {
+   "kuyruk_tasmasi": 0,
+   "ttl": 47,
+   "iletim_basarisiz": 396,
+   "hedef_yok": 280,
+   "rota_gecersiz": 1,
+   "tampon_asimi": 0
+  },
+  "kontrol_cerceve": 113331.0,
+  "iz": {
+   "karar": 23203,
+   "veri_basarisiz": 435,
+   "s13_bildirim": 435,
+   "rotasiz_isinma": 281
+  },
+  "sure_s": 940.2947810999976
+ },
+ {
+  "ad": "olsr_s13",
+  "tohum": 1001,
+  "pdr": 0.926322368935073,
+  "dusen": {
+   "kuyruk_tasmasi": 0,
+   "ttl": 8,
+   "iletim_basarisiz": 590,
+   "hedef_yok": 311,
+   "rota_gecersiz": 34,
+   "tampon_asimi": 0
+  },
+  "kontrol_cerceve": 125212.0,
+  "iz": {
+   "karar": 24935,
+   "veri_basarisiz": 664,
+   "s13_bildirim": 664,
+   "rotasiz_isinma": 314,
+   "rotasiz_pencere": 31
+  },
+  "sure_s": 1031.362620699998
+ },
+ {
+  "ad": "olsr_s13",
+  "tohum": 1002,
+  "pdr": 0.9047581842331432,
+  "dusen": {
+   "kuyruk_tasmasi": 0,
+   "ttl": 32,
+   "iletim_basarisiz": 860,
+   "hedef_yok": 322,
+   "rota_gecersiz": 5,
+   "tampon_asimi": 0
+  },
+  "kontrol_cerceve": 126522.0,
+  "iz": {
+   "karar": 30828,
+   "veri_basarisiz": 943,
+   "s13_bildirim": 943,
+   "rotasiz_isinma": 327
+  },
+  "sure_s": 1050.240022799997
+ }
+]

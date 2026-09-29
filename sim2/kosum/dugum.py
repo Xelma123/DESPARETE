@@ -347,13 +347,8 @@ class Dugum:
              — gürültü karıştırıcısı basmaz, aldatıcı basar.
           2. O çerçeve BU DÜĞÜMDE gürültü tabanının üstünde mi alınıyor.
 
-        🔴 KUSUR — 5 Eylül 2026'da bulundu ve düzeltildi. Eskiden yalnız (1)
-        soruluyordu: `csma_ya_gorunur(t_s)` bir alıcı argümanı almıyor, yani
-        karıştırıcı 1 km uzakta bile olsa ALANDAKİ HER DÜĞÜM erteliyordu.
-        Ölçüldü: `aldatici` kolunda 320 pakete karşı **0 iletim denemesi,
-        0 teslim** — bütün ağ, gücü ne olursa olsun kilitleniyordu. Bu
-        fiziksel olarak imkânsızdır: taşıyıcı dinleme bir GÜÇ eşiğidir,
-        küresel bir anahtar değil.
+        🔒 Taşıyıcı dinleme bir GÜÇ eşiğidir, küresel bir anahtar değil:
+        yalnız (1) sorulsaydı uzaktaki bir aldatıcı bütün ağı kilitlerdi.
 
         Eşik gürültü tabanıdır — `girisim.kanal_mesgul_mu`nun varsayılanıyla
         aynı; iki yerde iki farklı eşik olsaydı "kanal meşgul" sorusunun iki
@@ -422,8 +417,9 @@ class Dugum:
 
         Kilit varsa kilitli çerçevenin sonu; enerji için iletimler bitiş
         sırasıyla düşülür, toplam eşiğin altına indiği an. Karıştırıcı tek
-        başına meşgul tutuyorsa bir sonraki geçişi — hareketliyse en geç
-        `karistirici_denetim_araligi_s` sonra yeniden bakılır.
+        başına meşgul tutuyorsa bir sonraki geçişi — gerçekçi ya da hareketli
+        karıştırıcıda en geç `karistirici_denetim_araligi_s` sonra yeniden
+        bakılır.
         """
         en_gec = t_s
         kilit = self.alici.kilitli_iletim
@@ -443,7 +439,13 @@ class Dugum:
             enerji -= p
             en_gec = max(en_gec, bitis)
         if k is not None and self._karistirici_guc_mesgul_mu(k, t_s):
-            ufuk = t_s + self.kur.konfig.beacon_araligi_s
+            # 🔒 Faz 4 kapanışı (denetim B4): gerçekçi karıştırıcıda (referans
+            # dünya) karıştırıcı bağının sönümlemesi ve düğümün hareketi gücü
+            # sürekli değiştirir → her zaman `karistirici_denetim_araligi_s`
+            # sonra yeniden bakılır. Eski dünyada birebir: beacon aralığı.
+            kfg = self.kur.konfig
+            ufuk = t_s + (kfg.karistirici_denetim_araligi_s
+                          if kfg.karistirici_gercekci else kfg.beacon_araligi_s)
             gecisler = k.gecis_anlari(t_s, ufuk)
             sonraki = gecisler[0] if gecisler else ufuk
             if k.hareketli:
@@ -493,10 +495,8 @@ class Dugum:
         saat = self.kur.saatler.yerel(self.kimlik, t_s)
         onceki = self._komsular.get(komsu)
         sozluk = dict(yuk)
-        # 🔴 `None ≠ 0` — 16 Eylül 2026 (denetim B4). Burada `sozluk.get(ad, 0)`
-        # vardı ve alanı beacon'a KOYMAYAN bir protokolde `0` dönüyordu; yani
-        # *"bilgi yok"* ile *"ölçülen değer sıfır"* ayrışmıyordu. Kuralın
-        # projedeki tek istisnası burasıydı.
+        # `None ≠ 0`: beacon'a konmayan alan `None` döner — "bilgi yok" ile
+        # "ölçülen değer sıfır" ayrı (denetim B4).
         gurultu = sozluk.get("gurultu_w")
         kuyruk = sozluk.get("kuyruk")
         self._komsular[komsu] = KomsuKaydi(
@@ -692,12 +692,9 @@ class Dugum:
         gelince tamponu normal arayüz kuyruğuna basar; başa koymak, rota
         beklerken doğmuş DAHA YENİ paketleri geciktirirdi.
 
-        🔴 KUYRUK DOLARSA DÖKME DURUR, kalanlar tamponda BEKLEMEYE DEVAM EDER.
-        İlk yazımda döngü dolu kuyrukta da sürüyordu ve kalan her paket
-        `kuyruk_tasmasi` ile düşüyordu: GEÇİCİ bir doluluk tamponun tamamını
-        yok ederdi — tamponun var olma sebebinin tam tersi. Bekleyen paketin
-        süre tavanı zaten işliyor; onu bir kuyruk doluluğu yüzünden erken
-        öldürmenin gerekçesi yok.
+        🔴 KUYRUK DOLARSA DÖKME DURUR, kalanlar tamponda beklemeye devam
+        eder: geçici bir doluluk tamponun tamamını yok etmemeli; bekleyen
+        paketin süre tavanı zaten işliyor.
 
         ⚠️ Kalanlar bir sonraki yeniden sormada tekrar denenir. Yeniden sorma
         yalnız dışarıdan olay geldiğinde olur (`kosum/kontrol.py`), yani bu
@@ -781,18 +778,10 @@ class Dugum:
                     ) -> tuple[tuple[tuple[str, object], ...], int]:
         """Protokolün beacon'a koyduğu alanlar **ve** bayt bedeli.
 
-        🔴 SAYAÇ ARTIK BURADA ARTMIYOR — 9 Eylül 2026, K-111 EK-2.
-        Eskiden bu metot `kontrol_bayt`a yükü ekliyor, `kosu.py` de ayrıca
-        çerçeveyi ekliyordu. Bedel çerçevenin BOYUTUNA girdiği için ikisi
-        birden sayılsaydı yük **çift faturalanırdı**. Tek kaynak: çerçeve.
-
-        🔒 Ve asıl kusur buydu: yük yalnız SAYAÇTA ödeniyordu. Çerçeve
-        kurulumda bir kez kurulmuş, SABİT boyutluydu — yani 250 baytlık bir
-        yük çerçeveyi 4,12 kat uzatması gerekirken hiç uzatmıyordu. Yükü
-        şişiren bir protokol fizikte BEDAVA taze komşu bilgisi alıyordu:
-        fazladan hava süresi yok, fazladan çarpışma riski yok, fazladan
-        gövde hatası yok. Gözlem sözleşmesinin *"koymak ve BEDELİNİ
-        ÖDEMEK zorundadır"* maddesi yarım uygulanmıştı.
+        🔒 Bedel ÇERÇEVEDE ödenir (K-111): yük beacon çerçevesini uzatır —
+        fazladan hava süresi, çarpışma riski ve gövde hatası; sayaç ayrıca
+        artırılmaz (çift fatura olurdu). Yükü şişiren bir protokol taze
+        komşu bilgisini bedava alamaz (`v2/05` §3.3).
 
         ⚠️ `yuk_bayt` ÖNCE çağrılır: sözleşme ihlallerinde hangi hatanın
         önce fırlayacağı değişmesin diye (`yuku_dondur` da doğruluyor).

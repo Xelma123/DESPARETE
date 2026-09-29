@@ -57,6 +57,18 @@ Açık evrede `ed` alanındaki PDR ile sessiz evredeki aynı alanın PDR'si,
 karıştırıcının o alandaki etkisini ve protokolün sessizlikte toparlanmasını
 birlikte gösterir.
 
+🔒 29 Eylül · DESPARETE ONARIM BÖLÜMLERİ (Faz 5.0): iletilebilir bir alan
+ardılını yitirip onarıma girdiği her an bir BÖLÜM açar; alan yeniden
+iletilebilir olunca kapanır. Girişte sorulan: aynı turdan geçerli, sonlu
+ilanı olan ACTIVE bir komşu VAR mı? Varsa ama seçilmediyse uygulanabilirlik
+koşulu (P < FD) onu dışlamıştır — "açlık"; yoksa hiçbir aday yoktur —
+"adaysız". Bölümün sonu: aynı turda kurtuldu · yeni turla (DFSN arttı)
+kurtuldu · koşu sonuna kadar kurtulmadı; arada ulaşılamaz olduysa `+U`.
+Karıştırıcının evresi bölümün başladığı an. Ayrıca her `rota_gecersiz`
+düşüşünde alanın durumu (onarımda: tampon kotası dolu · ulaşılamaz) × evre
+sayılır — kaybın bölümün UZUNLUĞUNDAN mı kotadan mı geldiğini ayırır.
+Yalnız sayar, davranış aynı.
+
 🔒 K-193 · TOHUM BAŞINA: sonuçlar tohum başına da basılır; tohumlar tek
 çağrıda paralel koşar (eskiden ayrı ayrı koşuluyordu çünkü toplanıyordu).
 
@@ -234,6 +246,103 @@ def _olsr_s13_sar(kayit: dict):
     return geri
 
 
+def _desparete_onarim_sar(kur, bolumler: list, rg: Counter | None = None,
+                          evre_adi=None, pencere=(0.0, float("inf"))):
+    """DESPARETE alanlarının onarım bölümlerini `bolumler`e, verildiyse
+    `rota_gecersiz` düşüşlerini `rg`ye (`evre|alan durumu`) yazar.
+
+    Döner: geri alma fonksiyonu. Zaman simülatörün saatidir (düğüm saati
+    ofsetli). Düğüm kimliği tablonun `_aktif_mi` bağlı yönteminden.
+    """
+    from protokoller.desparete_alan import (FORWARDABLE, REPAIRING,
+                                            UNREACHABLE, AlanTablosu)
+    from protokoller.desparete_bicim import DURUM_REACHABLE
+
+    asil_gir = AlanTablosu._onarima_gir
+    asil_ulas = AlanTablosu._ulasilamaz
+    asil_hesap = AlanTablosu.yeniden_hesapla
+    acik: dict[tuple[int, int], dict] = {}
+
+    def _dugum(tablo) -> int:
+        return tablo._aktif_mi.__self__.kimlik
+
+    def _onarima_gir(self, a, t):
+        sonlu = [j for j, i in a.ilanlar.items()
+                 if j != a.ardil and self._aktif_mi(j)
+                 and i.durum == DURUM_REACHABLE and i.bitis > t
+                 and i.dfsn == a.dfsn]
+        b = {"dugum": _dugum(self), "hedef": a.hedef,
+             "bas": kur.olaylar.simdi, "dfsn": a.dfsn,
+             "aclik": bool(sonlu), "sonlu": len(sonlu), "ulasilamaz": False}
+        acik[(b["dugum"], a.hedef)] = b
+        bolumler.append(b)
+        return asil_gir(self, a, t)
+
+    def _ulasilamaz(self, a):
+        b = acik.get((_dugum(self), a.hedef))
+        if b is not None:
+            b["ulasilamaz"] = True
+        return asil_ulas(self, a)
+
+    def yeniden_hesapla(self, hedef, t):
+        a = self.alanlar.get(hedef)
+        once = None if a is None else a.durum
+        sonuc = asil_hesap(self, hedef, t)
+        if (a is not None and once in (REPAIRING, UNREACHABLE)
+                and a.durum == FORWARDABLE):
+            b = acik.pop((_dugum(self), hedef), None)
+            if b is not None:
+                b["son"] = "ayni_tur" if a.dfsn == b["dfsn"] else "yeni_tur"
+                b["t_son"] = kur.olaylar.simdi
+        return sonuc
+
+    from protokoller.desparete import DESPARETE
+    asil_karar = DESPARETE.sonraki_atlama
+
+    def sonraki_atlama(self, gozlem):
+        karar = asil_karar(self, gozlem)
+        p = gozlem.paket
+        if (rg is not None and p is not None and karar.sonraki is None
+                and pencere[0] <= kur.olaylar.simdi < pencere[1]
+                and not karar.beklet
+                and any(b.tip == "rota_gecersiz" for b in karar.beyan)):
+            rg[f"{evre_adi(kur.olaylar.simdi)}|"
+               f"{self.alanlar.durum(p.hedef)}"] += 1
+        return karar
+
+    AlanTablosu._onarima_gir = _onarima_gir
+    AlanTablosu._ulasilamaz = _ulasilamaz
+    AlanTablosu.yeniden_hesapla = yeniden_hesapla
+    DESPARETE.sonraki_atlama = sonraki_atlama
+
+    def geri():
+        AlanTablosu._onarima_gir = asil_gir
+        AlanTablosu._ulasilamaz = asil_ulas
+        AlanTablosu.yeniden_hesapla = asil_hesap
+        DESPARETE.sonraki_atlama = asil_karar
+    return geri
+
+
+def _onarim_ozeti(bolumler: list, bas: float, bitis: float, kosu_sonu: float,
+                  evre_adi) -> dict:
+    """Ölçüm penceresinde BAŞLAYAN bölümler: `evre|giriş|son` sayımı ve
+    `evre|son` süreleri (p50 · p90 · toplam düğüm-saniye)."""
+    sayim: Counter = Counter()
+    sure: dict[str, list[float]] = {}
+    for b in bolumler:
+        if not bas <= b["bas"] < bitis:
+            continue
+        son = b.get("son", "kosu_sonu") + ("+U" if b["ulasilamaz"] else "")
+        e = evre_adi(b["bas"])
+        sayim[f"{e}|{'aclik' if b['aclik'] else 'adaysiz'}|{son}"] += 1
+        sure.setdefault(f"{e}|{son}", []).append(
+            b.get("t_son", kosu_sonu) - b["bas"])
+    return {"sayim": dict(sayim),
+            "sure": {k: [round(ist.median(v), 2),
+                         round(sorted(v)[int(0.9 * (len(v) - 1))], 2),
+                         round(sum(v), 1)] for k, v in sure.items()}}
+
+
 def _olsr_s13():
     """🔒 YALNIZ TEŞHİS KOLU (K-196): §13 AÇIK OLSR — `OLSR-b`, K-147'nin
     istisnası. K-196'dan beri taban OLSR §13'süz; bu kol K-193'ün
@@ -384,6 +493,11 @@ def _is(is_) -> dict:
            "rg_duz_yol_atlama": []}
     geri_olsr = (_olsr_s13_sar(s13) if protokol in (
         "olsr", "olsr_s13", "olsr_s13siz", "olsr_2atlama_lsym") else None)
+    onarim_bolumleri: list = []
+    rg_durum: Counter = Counter()
+    geri_desparete = (_desparete_onarim_sar(kur, onarim_bolumleri, rg_durum,
+                                            evre_adi, kfg.olcum_penceresi)
+                      if protokol == "desparete" else None)
     Dugum._kayip_yeri = izle
     Dugum.ucustan_indir = indir
     Dugum.sonraki_atlama = karar_izle
@@ -407,6 +521,8 @@ def _is(is_) -> dict:
         Dugum.sonraki_atlama = asil_karar
         if geri_olsr is not None:
             geri_olsr()
+        if geri_desparete is not None:
+            geri_desparete()
     satir = sonuc_satiri(kur, kosu.dugumler, protokol)
     kr = satir["korunum"]
     dogrula(len(kayit) == kr["dusen_toplam"],
@@ -560,6 +676,10 @@ def _is(is_) -> dict:
                                 for a in alan_dogan},
             "evre_alan_karar": dict(karar_alan),
             "evre_alan_dusen": dict(evre_alan_dusen),
+            "desparete_onarim": (dict(_onarim_ozeti(
+                onarim_bolumleri, bas, bitis, kfg.kosu_bitis_s, evre_adi),
+                rota_gecersiz_durum=dict(rg_durum))
+                if geri_desparete is not None else None),
             "sure_s": round(time.perf_counter() - t0, 1)}
 
 
@@ -763,6 +883,17 @@ def main() -> int:
                   f"{_oranlar(r['basarisiz_bant'])} · mesafe km "
                   f"{r['basarisiz_mesafe_km']} · {r['basarisiz_bag_sayisi']}"
                   f" ayrı bağ, en çok {r['basarisiz_en_cok_5_bag']}")
+            if r.get("desparete_onarim"):
+                o = r["desparete_onarim"]
+                print("      onarım bölümleri (evre|giriş|son: adet): " + " · ".join(
+                    f"{k} {v}" for k, v in sorted(o["sayim"].items())))
+                print("      onarım süresi s (evre|son: p50/p90/toplam): "
+                      + " · ".join(f"{k} {v[0]}/{v[1]}/{v[2]}"
+                                   for k, v in sorted(o["sure"].items())))
+                print("      rota_gecersiz anında alan (evre|durum: adet, "
+                      "pencerede): " + " · ".join(
+                          f"{k} {v}" for k, v in sorted(
+                              o["rota_gecersiz_durum"].items())))
             if r["olsr_s13"] is not None:
                 s = r["olsr_s13"]
                 sure = s["geri_sure_s"]

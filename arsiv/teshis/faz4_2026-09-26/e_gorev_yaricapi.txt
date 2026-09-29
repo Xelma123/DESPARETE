@@ -1,0 +1,24 @@
+  DUNYA: referans_2026
+
+==============================================================================
+4 - GOREV KOLU KALIBRASYONU  (kullanilabilir bag grafiginde)
+==============================================================================
+  bagimsiz-yok referans derecesi : 7.412
+  8 tohum × 3 zaman noktasi
+
+   yaricap_m  gorev_derece     fark    oran
+        6000         9.133    1.721   1.232
+        8000         8.752    1.340   1.181
+       10000         8.542    1.129   1.152
+       12000         8.229    0.817   1.110
+       14000         7.900    0.488   1.066
+       16000         7.542    0.129   1.017
+
+  🟢 SECILEN YARICAP: 16000 m  (derece 7.542 ↔ 7.412, fark 0.129)
+     ⚠️ Bu sayi elle secilmedi: farki en kucuk yapan izgara noktasi.
+     Izgara adimi 100 m; daha ince arama ancak fark tohum
+     gurultusunun altina inerse anlamli olur.
+
+real	13m4.681s
+user	0m0.015s
+sys	0m0.015s

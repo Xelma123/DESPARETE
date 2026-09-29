@@ -1,0 +1,2 @@
+li_replikasyonu  KURULDU · {'verim_hz': 49.99999999999999, 'pdr': 1.0, 'uretilen': 30, 'kuyruk_tasmasi': 0}
+iki_cift         KURULDU · 49.99999999999999

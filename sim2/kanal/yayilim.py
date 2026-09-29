@@ -1,50 +1,33 @@
 """
 Yayılım — kanalın YAVAŞ bileşenleri: yol kaybı · gölgeleme · anten deseni.
 
-Hızlı sönümleme burada DEĞİL (`kanal/sonumleme.py`). Ayrımın sebebi teknik
-değil, ölçüsel: `kopma_fiziksel` sayacı *"SINR eşiği altına inen bağ"* diye
-tanımlı ve o tanım **yavaş** SINR üzerinden yapılmalı. Hızlı sönümleme
-saniyede yüzlerce kez eşiği geçer; onu kopma saymak, sayacı gürültüye çevirir.
+Hızlı sönümleme burada DEĞİL (`kanal/sonumleme.py`): `kopma_fiziksel` yavaş
+SINR üzerinden tanımlıdır; hızlı sönümleme saniyede yüzlerce kez eşiği geçer
+ve onu kopma saymak sayacı gürültüye çevirirdi.
 
-🔒 VERİCİ GÜCÜ TÜRETİLİR, YAZILMAZ
-==================================
-Menzil tanımı şudur: *"girişimsiz SINR'in tam olarak eşiğe (β) eşit olduğu
-mesafe"*. Verici gücü bundan çıkar. Elle yazılsaydı menzil ile radyo fiziği
-çelişebilirdi ve hangisinin doğru olduğu belirsiz kalırdı.
+🔒 VERİCİ GÜCÜ
+==============
+Referans dünyada verici gücü GİRDİDİR: EIRP 20 dBm (`v2/14` §1). Eski
+dünyada menzilden türetilir — menzil *"girişimsiz SINR'in tam olarak eşiğe
+(β) eşit olduğu mesafe"*dir ve güç ondan çıkar:
 
     N  = k·T·B·F                          (gürültü tabanı)
     Pr(R) = N·β                           (menzilde alınan güç)
     Pt = Pr(R) · 10^(PL(R)/10)
 
-Ölçüldü — bant 1 MHz'den 2 MHz'e çıkınca:
-    gürültü tabanı  −107,98 → −104,96 dBm
-    türetilen Pt     +15,49 → +18,50 dBm
-Yani eski karıştırıcı gücü (+2 dBm) yeni fizikte düğüme göre 3 dB daha zayıf
-bir karıştırıcıya karşılık gelir. Üretici: `python kalibrasyon/adim3_oncesi.py`
-
-🔴 ANTEN DESENİ — ilk karar ÖLÇÜMLE ÇEVRİLDİ
-============================================
-İlk yargı *"izotropik bırak, beyan et"* idi. 3B'de ölçüldü:
-
-    hacim                    yükseliş açısı p95    dipol kaybı p95
-    1000×1000×300 m                66,4°               9,70 dB
-    1000×1000×120 m (seçilen)      40,6°               3,27 dB
-
-9,70 dB, gölgeleme σ'sının (3 dB) çok üstünde. İzotropik varsaymak modeli tam
-da **yakın komşularda** iyimser yapardı. Yarım dalga dipol, düz uçuş
-varsayımıyla — Gauss-Markov'un ortalama pitch = 0 değeriyle tutarlı. Uçuş
-yatıklığı (attitude) modellenmez ve **beyan edilir**.
+🔒 ANTEN DESENİ
+===============
+Yarım dalga dipol, düz uçuş varsayımıyla (Gauss-Markov'un ortalama pitch =
+0 değeriyle tutarlı). İzotropik varsaymak modeli tam da yakın komşularda
+iyimser yapardı. Uçuş yatıklığı (attitude) modellenmez ve beyan edilir.
 
 🔒 GÖLGELEME — bağ-simetrik ve KONUMA BAĞLI
 ===========================================
 Hash bağın kimliğine VE bağ ortasının hücresine bakar; hücre köşeleri
 arasında trilineer yumuşatma yapılır. Böylece hareket eden düğüm gölgeleme
 alanında **sürekli** ilerler, ışınlanmaz. Bağ-simetriklik `min(i,j), max(i,j)`
-ile sağlanır: A→B ile B→A aynı gölgelemeyi görür.
-
-⚠️ Neden gölgeleme şart: ölçüldü, PER'in 0,01'den 0,99'a düştüğü SINR bandı
-yalnızca **3,02 dB** — yani geçiş bandı tek bir σ'dan dar. Gölgelemesiz bir
-modelde bağlar gerçeğe göre keskin açılıp kapanır.
+ile sağlanır: A→B ile B→A aynı gölgelemeyi görür. Gölgelemesiz bir modelde
+bağlar gerçeğe göre keskin açılıp kapanır (PER'in geçiş bandı ~3 dB).
 """
 
 from __future__ import annotations

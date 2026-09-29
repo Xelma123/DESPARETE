@@ -1,0 +1,43 @@
+REGRESYON KARSILASTIRMASI — k179 (65 satir) ↔ k180 (67 satir)
+  (yeni vaka) yalniz k180: t-bagimsiz-surekli-dogrudan_komsu-dugum_kaybi · gecerli=True
+  (yeni vaka) yalniz k180: t-statik-surekli-aodv-dugum_kaybi · gecerli=True
+
+  bulgusuz vaka : 0/65
+  (beklenen) kimlik.arac_hash                                 65 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           65 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              65 vakada farkli
+  (beklenen) kimlik.protokol_hash                             14 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         65 vakada farkli
+  (izinli)   kimlik.kurulum_hash                              65 vakada farkli
+  (izinli)   kimlik.tedavi_hash                               65 vakada farkli
+  (izinli)   konfig.enerji_alim_w                             65 vakada farkli
+  (izinli)   konfig.enerji_gonderim_w                         65 vakada farkli
+  (izinli)   konfig.kayip_bas_s                               65 vakada farkli
+  (izinli)   konfig.kayip_bitis_s                             65 vakada farkli
+  (izinli)   konfig.kayip_dugum_sayisi                        65 vakada farkli
+  (izinli)   korunum.enerji_alim_s                            65 vakada farkli
+  (izinli)   korunum.enerji_dinleme_s                         65 vakada farkli
+  (izinli)   korunum.enerji_gonderim_s                        65 vakada farkli
+  (izinli)   korunum.enerji_sure_tamam                        65 vakada farkli
+  (izinli)   metrikler.enerji_dugum_maks_j                    65 vakada farkli
+  (izinli)   metrikler.enerji_dugum_p50_j                     65 vakada farkli
+  (izinli)   metrikler.enerji_dugum_p95_j                     65 vakada farkli
+  (izinli)   metrikler.enerji_toplam_j                        65 vakada farkli
+  (izinli)   teshis.koken_kovalari.KAYNAK                     65 vakada farkli
+  (izinli)   teshis.koken_kovalari.OLCULMUS                   65 vakada farkli
+  (izinli)   teshis.koken_kovalari.SINANMAMIS                 65 vakada farkli
+  (izinli)   teshis.koken_kovalari.TEDAVI                     65 vakada farkli
+  (izinli)   teshis.koken_kovalari.TURETILMIS                 65 vakada farkli
+  🔴 BULGU   kimlik.sayac_semasi_hash                         65 vakada farkli · ilk: a-statik-surekli-en_yakin_kimlik
+  🔴 BULGU   korunum.dusen.dugum_kaybi                        65 vakada farkli · ilk: a-statik-surekli-en_yakin_kimlik
+  🔴 BULGU   metrikler.dugum_kaybi_dusen                      65 vakada farkli · ilk: a-statik-surekli-en_yakin_kimlik
+  🔴 BULGU   metrikler.dugum_kaybi_dusen_pencere              65 vakada farkli · ilk: a-statik-surekli-en_yakin_kimlik
+  🔴 BULGU   metrikler.mac_kayip_askida                       65 vakada farkli · ilk: a-statik-surekli-en_yakin_kimlik
+  🔴 BULGU   metrikler.mac_kayip_askida_pencere               65 vakada farkli · ilk: a-statik-surekli-en_yakin_kimlik
+  (sifir)    korunum.dusen.dugum_kaybi                        65/65 vakada 0
+  (sifir)    metrikler.dugum_kaybi_dusen                      65/65 vakada 0
+  (sifir)    metrikler.dugum_kaybi_dusen_pencere              65/65 vakada 0
+  (sifir)    metrikler.mac_kayip_askida                       65/65 vakada 0
+  (sifir)    metrikler.mac_kayip_askida_pencere               65/65 vakada 0
+
+  🔴 FARK VAR

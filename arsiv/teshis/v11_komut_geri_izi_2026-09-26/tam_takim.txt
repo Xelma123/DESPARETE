@@ -1,0 +1,61 @@
+........................................................................ [  8%]
+........................................................................ [ 17%]
+........................................................................ [ 25%]
+........................................................................ [ 34%]
+......................F.......F......................................... [ 42%]
+........................................................................ [ 51%]
+........................................................................ [ 60%]
+........................................................................ [ 68%]
+........................................................................ [ 77%]
+........................................................................ [ 85%]
+........................................................................ [ 94%]
+...............................................                          [100%]
+================================== FAILURES ===================================
+_________________ test_SECENEKLER_varsayilan_V04_ve_TESHISTE __________________
+
+    def test_SECENEKLER_varsayilan_V04_ve_TESHISTE():
+        """K-167: DESPARETE'nin varsayılanı v0.4 = v0.3 (V1 + V5 + V7, K-164)
+        + V8 + V10."""
+        from protokoller.desparete import DESPARETE
+        from protokoller.desparete_bayrak import (SECENEK_V03, SECENEK_V04,
+                                                  SECENEK_YOK, Secenekler)
+>       assert Secenekler.adlar() == ("yanit_yalniz_onaysiz", "ihtiyac_nitelik",
+                                      "nitelik_olcumu", "ilan_sakla",
+                                      "hedefli_canlilik", "istek_tanidik",
+                                      "soru_nitelik", "aclik_nitelik")
+E       AssertionError: assert ('yanit_yalni...tanidik', ...) == ('yanit_yalni...tanidik', ...)
+E         
+E         Left contains one more item: 'komut_ters_yol'
+E         Use -v to get more diff
+
+tests2\test_desparete.py:1611: AssertionError
+_______________ test_SIM_SECENEKLER_V1_V5_V7_ISLIYOR_dongu_YOK ________________
+
+    def test_SIM_SECENEKLER_V1_V5_V7_ISLIYOR_dongu_YOK():
+        """Üçü birlikte (V1 · V5 yalnız V7'yle işler, K-163 §2)."""
+        from protokoller.desparete_bayrak import Secenekler
+        s = Secenekler(yanit_yalniz_onaysiz=True, ihtiyac_nitelik=True,
+                       nitelik_olcumu=True)
+        _kfg, kosu, satir, ihlal = _desparete_kos("statik-yok", 12.0,
+                                                  secenekler=s)
+        assert satir["korunum"]["gecerli"]
+        assert ihlal["denetim"] > 1000
+        assert ihlal["dongu"] == 0 and ihlal["fd_artti"] == 0, ihlal
+        p = [d.protokol for d in kosu.dugumler]
+        assert sum(q._sayac["probe_yanitsiz"] for q in p) > 0
+        assert sum(q._sayac["nitelik_ertelendi"] for q in p) > 0
+        assert sum(q._sayac["veri_iletilen"] for q in p) > 0
+        assert sum(q.komsular.sayac["probe_olcum"] for q in p) > 0
+        for te in satir["teshis"]["dugum"]:
+>           assert tuple(te["secenekler"]) == (True, True, True, False, False,
+                                               False, False, False)
+E           assert (True, True, ...e, False, ...) == (True, True, ...e, False, ...)
+E             
+E             Left contains one more item: False
+E             Use -v to get more diff
+
+tests2\test_desparete.py:1785: AssertionError
+=========================== short test summary info ===========================
+FAILED tests2/test_desparete.py::test_SECENEKLER_varsayilan_V04_ve_TESHISTE
+FAILED tests2/test_desparete.py::test_SIM_SECENEKLER_V1_V5_V7_ISLIYOR_dongu_YOK
+2 failed, 837 passed in 751.72s (0:12:31)

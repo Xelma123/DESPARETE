@@ -9,11 +9,8 @@ kurmadan sınayabiliyor ve bir sabitin nereden geldiği tek yerde okunuyor.
 
 🔒 BİRİNCİL BELGE — ham metinden, özetten DEĞİL
 ===============================================
-19 Eylül 2026'da RFC 3626'nın ham metni tarayıcıda okundu (`02` §R2.1). Önce
-bir web getirme aracının özeti denendi ve **üç hata** taşıyordu (paket başlığı
-"16 bayt", HELLO'nun Reserved alanı "13 bit", MAXJITTER "0,04 s"); üçü de ham
-metinle karşılaştırılınca yakalandı. Aşağıdaki her genişlik ve her sabit ham
-metinden.
+Aşağıdaki her genişlik ve her sabit RFC 3626'nın ham metninden (`02` §R2.1;
+bir özet kaynağın üç hatası ham metinle yakalandı).
 
 🔴 BOYUT RFC ALANLARINDAN TÜRER — PROTOKOL BİR BAYT YAZAMAZ
 ============================================================
@@ -43,13 +40,9 @@ geri çözülür — ek bir alan, dolayısıyla ek bir bayt YOKTUR.
 ==================================================================
 Kural öğrencinin (19 Eylül 2026): **SHOULD uygulanır, MAY beyan edilir.**
 
-🔴 **§13 bağ katmanı bildirimi — istisna KALDIRILDI (K-196, 28 Eylül 2026).**
-Eski dünyada istisnaydı (öğrenci, 22 Eylül, K-147): beyanlı sapmayken statik
-kolun iki hücresini eşiğin altına itiyordu (0,859 · 0,866; §13 ile 0,926 ·
-0,908). Referans dünyada ölçüm TERSİNE döndü (K-193): §13'süz PDR +0,031 ·
-+0,028 · +0,105 — bildirim §14.3 ile ~0,5 s'de geri alınıyor ama o arada
-§8.5 komşu kaybı 2-atlama kayıtlarını silip geçide rotayı boşaltıyor. Kural
-yerine döndü; `OLSR(i, s13=True)` eski `OLSR-b`yi birebir üretir.
+🔒 **§13 bağ katmanı bildirimi — kurala uyar, KAPALI (K-196).** Referans
+dünyada zarar verdiği ölçüldü (K-193, birincil hücrede K-200); `OLSR(i,
+s13=True)` eski `OLSR-b`yi birebir üretir.
 
 | özellik | RFC | sözü | neden yok | OLSR'ı zayıflatır mı |
 |---|---|---|---|---|

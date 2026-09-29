@@ -1,0 +1,37 @@
+  DUNYA: referans_2026
+  DESEN: yere_toplama
+==============================================================================
+U1 — AODV, OLSR, AOMDV, DESPARETE / ETX KAHINI ORANI  (`06` §4.3 · tam olcek)
+==============================================================================
+  N = 40 · pencere (50; 320) s · kosu 350 s · desen yere_toplama
+  kollar: ['statik-yok', 'bagimsiz-yok', 'gorev-yok', 'formasyon-yok']
+  tohumlar: [1000, 1001, 1002]  (GELISTIRME — ana deney tohumu YOK)
+  🔒 OLCUT: statik oran >= 0.90 · hareketli oran >= 0.60
+
+  60 kosu (60 kaldi) · 8 isci
+    1/60 aodv      formasyon-yok   1001  PDR 0.8062 · 66 dk
+    2/60 aodv      gorev-yok       1002  PDR 0.6373 · 82 dk
+    3/60 aodv      formasyon-yok   1000  PDR 0.7407 · 85 dk
+    4/60 aodv      gorev-yok       1000  PDR 0.6447 · 94 dk
+    5/60 aodv      gorev-yok       1001  PDR 0.5793 · 94 dk
+    6/60 aodv      bagimsiz-yok    1001  PDR 0.6233 · 95 dk
+    7/60 aodv      bagimsiz-yok    1002  PDR 0.5508 · 98 dk
+    8/60 aodv      bagimsiz-yok    1000  PDR 0.4789 · 110 dk
+    9/60 olsr      bagimsiz-yok    1000  PDR 0.3258 · 64 dk
+   10/60 aodv      formasyon-yok   1002  PDR 0.7152 · 82 dk
+   11/60 olsr      bagimsiz-yok    1001  PDR 0.5411 · 74 dk
+   12/60 olsr      gorev-yok       1000  PDR 0.4078 · 68 dk
+   13/60 olsr      bagimsiz-yok    1002  PDR 0.4877 · 68 dk
+   14/60 olsr      gorev-yok       1002  PDR 0.4950 · 65 dk
+   15/60 olsr      gorev-yok       1001  PDR 0.5279 · 72 dk
+   16/60 olsr      formasyon-yok   1000  PDR 0.4803 · 78 dk
+   17/60 olsr      formasyon-yok   1001  PDR 0.6541 · 82 dk
+   18/60 olsr      formasyon-yok   1002  PDR 0.5296 · 81 dk
+   19/60 aomdv     bagimsiz-yok    1001  PDR 0.6779 · 85 dk
+   20/60 aomdv     gorev-yok       1000  PDR 0.6518 · 90 dk
+   21/60 aomdv     gorev-yok       1001  PDR 0.6381 · 85 dk
+   22/60 aomdv     bagimsiz-yok    1002  PDR 0.5886 · 94 dk
+   23/60 aomdv     gorev-yok       1002  PDR 0.6819 · 78 dk
+   24/60 aomdv     bagimsiz-yok    1000  PDR 0.4830 · 109 dk
+   25/60 aomdv     formasyon-yok   1001  PDR 0.8302 · 59 dk
+   26/60 aomdv     formasyon-yok   1000  PDR 0.7788 · 77 dk

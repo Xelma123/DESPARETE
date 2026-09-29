@@ -1,0 +1,10 @@
+tam   statik-yok     1000  pdr 0.9887  gecerli True  ihlal 0  {'yedek_yola_gecis': 76, 'rreq_yeni_yol': 652, 'rrep_iletilen': 93, 'cok_yollu_girdi': 27}  39 s
+      dusen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 15, 'hedef_yok': 0, 'rota_gecersiz': 3, 'tampon_asimi': 0}
+tam   bagimsiz-yok   1000  pdr 0.8079  gecerli True  ihlal 0  {'yedek_yola_gecis': 381, 'rreq_yeni_yol': 5661, 'rrep_iletilen': 585, 'cok_yollu_girdi': 30}  218 s
+      dusen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 247, 'hedef_yok': 0, 'rota_gecersiz': 60, 'tampon_asimi': 0}
+tam   gorev-yok      1000  pdr 0.7553  gecerli True  ihlal 0  {'yedek_yola_gecis': 440, 'rreq_yeni_yol': 6765, 'rrep_iletilen': 846, 'cok_yollu_girdi': 26}  261 s
+      dusen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 311, 'hedef_yok': 0, 'rota_gecersiz': 80, 'tampon_asimi': 0}
+tam   formasyon-yok  1000  pdr 0.8523  gecerli True  ihlal 0  {'yedek_yola_gecis': 425, 'rreq_yeni_yol': 5459, 'rrep_iletilen': 539, 'cok_yollu_girdi': 35}  310 s
+      dusen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 180, 'hedef_yok': 0, 'rota_gecersiz': 56, 'tampon_asimi': 0}
+TOPLAM IHLAL: 0
+CIKIS=0

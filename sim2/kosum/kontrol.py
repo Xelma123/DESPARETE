@@ -21,9 +21,8 @@ kez teslim edilmez (`tekrar_bastirilan`).
 
 🔴 ONAY, YALNIZ GÖNDERENİN KENDİSİ ÇÖZDÜĞÜNDE SAYILIR
 ====================================================
-Kontrol onayı `n == gönderen` şartıyla işlenir. Veri yolunun onayı
-(`teslim.onay_alindi`) K-112'de bu şartı aramıyordu. Etkisi K-114 §4.2'de
-ölçüldü ve öğrenci kararıyla 11 Eylül 2026'da aynı kurala getirildi (Y2).
+Kontrol ve veri onayı `n == gönderen` şartıyla işlenir (Y2, K-115):
+onayı başka bir düğüm çözdüyse gönderen onu duymamıştır.
 
 🔒 BELİRLENİMCİLİK
 ==================
@@ -126,21 +125,10 @@ def _uygula(kosu, d, niyetler) -> None:
 def _tamponu_yeniden_sor(kosu, d) -> None:
     """Rota bekleyen paketleri yeniden sorulmak üzere kuyruğa döker (K-131).
 
-    🔒 YALNIZ `uyandi`DAN SONRA — ve bu bir ÖLÇÜMLE daraltıldı (16 Eylül
-    2026, `04` K-135).
-    ======================================================================
-    İlk kural *"`kontrol_alindi` · `uyandi` · `iletim_basarisiz` sonrası"*
-    idi: üçü de dışarıdan bir olay taşıyor, yani rota bilgisi değişmiş
-    olabilir. Gerekçe makuldü ve YANLIŞTI — ilk gerçek AODV koşumunda
-    ölçüldü:
-
-        1 598 paket  →  **146 678 tampon girişi**
-
-    Sebep: AODV her RREQ selini duyar. Her alınan kontrol mesajı tamponun
-    tamamını kuyruğa döküyor, her paket yeniden soruluyor, rota hâlâ yok ve
-    hepsi tampona geri giriyordu. Yani kural, tamponu **kontrol trafiği
-    hızında dönen bir yoklama döngüsüne** çevirmişti. Bedeli yalnız sayaç
-    değildi: her tur DCF'yi yeniden çekişmeye sokup vazgeçiriyordu.
+    🔒 YALNIZ `uyandi`DAN SONRA (K-135). Her dış olayda (kontrol alımı,
+    iletim başarısızlığı) dökmek, RREQ selini duyan AODV'de tamponu kontrol
+    trafiği hızında dönen bir yoklama döngüsüne çevirmişti (1 598 paket →
+    146 678 tampon girişi) ve her tur DCF'yi yeniden çekişmeye sokuyordu.
 
     🔒 Yeni kural tektir ve protokole aittir: **yeniden sorulmak isteyen
     protokol bir `Uyandirma` döndürür.** Sözleşmenin zaten istediği disiplin

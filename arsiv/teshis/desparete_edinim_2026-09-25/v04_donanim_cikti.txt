@@ -1,0 +1,4 @@
+('formasyon-yok', 60.0, 'v04', 68, {'dongu': 0, 'fd_artti': 0, 'denetim': 18062, 'hedef': 1}, 0.772, {'gecit_hedefte': 7, 'gecit_aclik': 0, 'gecit_tur': 0, 'gecit_aday': 0, 'istek_gonderilen': 14, 'istek_iletilen': 51, 'istek_aktif_disi': 150, 'istek_tanidik_kabul': 59, 'solicit_gonderilen': 25, 'solicit_yanitlanan': 0})
+('statik-yok', 12.0, 'v04', 9, {'dongu': 0, 'fd_artti': 0, 'denetim': 3734, 'hedef': 1}, 0.6397, {'gecit_hedefte': 5, 'gecit_aclik': 0, 'gecit_tur': 0, 'gecit_aday': 0, 'istek_gonderilen': 10, 'istek_iletilen': 38, 'istek_aktif_disi': 68, 'istek_tanidik_kabul': 54, 'solicit_gonderilen': 24, 'solicit_yanitlanan': 0})
+('statik-yok', 12.0, 'v03', 9, {'dongu': 0, 'fd_artti': 0, 'denetim': 3319, 'hedef': 1}, 0.6618, {'gecit_hedefte': 0, 'gecit_aclik': 0, 'gecit_tur': 0, 'gecit_aday': 0, 'istek_gonderilen': 14, 'istek_iletilen': 0, 'istek_aktif_disi': 50, 'istek_tanidik_kabul': 0, 'solicit_gonderilen': 25, 'solicit_yanitlanan': 0})
+duvar 68 s

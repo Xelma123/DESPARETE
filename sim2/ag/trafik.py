@@ -1,43 +1,32 @@
 """
-Trafik — sabit bit hızlı (CBR) akışlar.
+Trafik — sabit bit hızlı (CBR) akışlar: yere toplama (birincil) ve eşler arası.
 
-🔒 LİTERATÜR HİZALAMASI
-=======================
-10 akış × 4 pkt/s × 512 B. Öğrenci kararı, 4 Eylül 2026 — ölçülerek verildi:
-
-    10 akış → tek çarpışma alanının %36,9'u    (SEÇİLEN)
-    15 akış → %54,0
-    eski kurulum (10 çift × 1 pkt/s × 1024 B @ 1 Mb/s) → %27,1
-
-Gerekçe: karıştırıcı devreye girdiğinde ağın **çökmeden bozulmasına** yer
-bırakır. %54'te tüm protokoller birlikte çöker ve fark bastırılır.
-Üretici: `python kalibrasyon/adim3_oncesi.py`
+Yere toplamada her düğümden geçide telemetri (1 pkt/s × 512 B) ve geçitten
+birkaç düğüme komut (0,25 pkt/s); eşler arasında 10 akış × 4 pkt/s. İkisi de
+40 pkt/s sunar (K-126).
 
 🔒 DOĞUM ÇİZELGESİ KURULUMDA HESAPLANIR
 =======================================
 Bütün doğum anları kurulumda üretilir ve `trafik_*` akışları orada tükenir.
-Sebebi mobilitedekiyle aynı: koşu sırasında çekim yapılsaydı, çekim sayısı
-protokole göre değişir ve iki kol FARKLI TRAFİK görürdü. Aynı tohumda her
-protokol **birebir aynı** paketleri, aynı anlarda görür.
+Koşu sırasında çekim yapılsaydı çekim sayısı protokole göre değişir ve iki
+kol FARKLI TRAFİK görürdü. Aynı tohumda her protokol **birebir aynı**
+paketleri, aynı anlarda görür.
 
 🔴 ÇİFTLER BAĞLANTIYA GÖRE SEÇİLMEZ
 ===================================
 Kaynak–hedef çiftleri düzgün rastgele seçilir; "ulaşılabilir olsun" diye
-koşullanmaz. Koşullansaydı seçim topolojiye bağlanır ve mobil kolda zamanla
-değişen bir şeye göre yapılmış olurdu — üstelik kollar arasında farklı
-çiftler seçilirdi ve eşleştirme kırılırdı.
+koşullanmaz. Koşullansaydı seçim zamanla değişen topolojiye bağlanır ve
+kollar arasında farklı çiftler seçilirdi — eşleştirme kırılırdı.
 
-⚠️ HER DÜĞÜM EN ÇOK BİR AKIŞTA
-==============================
-`2 × akış_sayısı ≤ düğüm_sayısı` `Konfig`te denetlenir. Aynı düğüm iki akışın
-kaynağı olsaydı, o düğümün kuyruğu iki akışın toplam yükünü taşır ve ölçülen
-şey protokolün değil, o düğümün darboğazının farkı olurdu.
+⚠️ HER DÜĞÜM EN ÇOK BİR AKIŞTA (eşler arası)
+============================================
+`2 × akış_sayısı ≤ düğüm_sayısı` `Konfig`te denetlenir; aynı düğüm iki
+akışın kaynağı olsaydı ölçülen şey o düğümün darboğazı olurdu.
 
 🔒 TİTREŞİM NEDEN VAR
 =====================
-Saf periyodik doğumlar kilitlenir: 10 akış aynı anda paket üretirse her
-periyotta bir çarpışma fırtınası olur ve ölçülen şey trafiğin fazının
-yapaylığıdır. Faz akış başına rastgele, doğum anı ± `cbr_titresim_s`.
+Saf periyodik doğumlar kilitlenir ve her periyotta bir çarpışma fırtınası
+olurdu. Faz akış başına rastgele, doğum anı ± `cbr_titresim_s`.
 """
 
 from __future__ import annotations

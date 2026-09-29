@@ -1,0 +1,19 @@
+REGRESYON KARSILASTIRMASI — k171 (49 satir) ↔ k172 (49 satir)
+
+  bulgusuz vaka : 49/49
+  (beklenen) kimlik.arac_hash                                 49 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           49 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              49 vakada farkli
+  (beklenen) kimlik.protokol_hash                             38 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         49 vakada farkli
+  (izinli)   kimlik.kurulum_hash                              49 vakada farkli
+  (izinli)   kimlik.sayac_semasi_hash                         49 vakada farkli
+  (izinli)   konfig.rssi_olcum_sigma_db                       49 vakada farkli
+  (izinli)   metrikler.duyma_bildirimi                        49 vakada farkli
+  (izinli)   metrikler.duyma_bildirimi_pencere                49 vakada farkli
+  (izinli)   teshis.dugum                                     1 vakada farkli
+  (izinli)   teshis.koken_kovalari.SINANMAMIS                 49 vakada farkli
+  (sifir)    metrikler.duyma_bildirimi                        49/49 vakada 0
+  (sifir)    metrikler.duyma_bildirimi_pencere                49/49 vakada 0
+
+  🟢 BIREBIR (izinli farklar disinda)

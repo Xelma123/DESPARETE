@@ -3,67 +3,48 @@ Karıştırıcı — beş sınıf. İkisi mimariyi değiştiriyor.
 
 🔴 KARIŞTIRICI ZAMANIN SAF FONKSİYONU DEĞİL
 ===========================================
-Eski simülatörde karıştırıcı `guc(t)` idi: zamanın saf bir fonksiyonu.
-İki sınıf bunu kırıyor ve tasarım buna göre yapıldı:
-
   · **reaktif** — kanalı dinler; enerji sürdükçe sezer (16 µs) ve patlar
-    (144 µs), sonra yeniden sezer. Yani ORTAMA bağlıdır, saatine değil.
-  · **aldatıcı** — geçerli görünümlü önbelge basar. Taşıyıcı dinleme onu
-    MEŞGUL görmek zorundadır; eski *"karıştırıcı CSMA'yı tetiklemez"* beyanı
-    bu sınıf için kalkar.
+    (144 µs), sonra yeniden sezer. ORTAMA bağlıdır, saatine değil.
+  · **aldatıcı** — geçerli görünümlü önbelge basar; taşıyıcı dinleme onu
+    MEŞGUL görmek zorundadır.
 
 🔒 REAKTİF KARIŞTIRICININ RASTGELELİĞİ HASH'TEN
 ===============================================
-Sezme başarısı `reaktif_sezme` HASH alanından çekilir, sıralı akıştan değil.
-Sebebi ölçülebilir: bir koşuda kaç iletim olduğu PROTOKOLE göre değişir.
-Sıralı bir akış olsaydı, çok iletim yapan protokol akışı ileri kaydırır ve
-karıştırıcı kollar arasında farklı davranırdı — karşılaştırma yapısal olarak
-kırılırdı.
+Sezme başarısı `reaktif_sezme` HASH alanından çekilir, sıralı akıştan değil:
+bir koşudaki iletim sayısı protokole göre değişir; sıralı akış kolları
+desenkronize eder ve karşılaştırmayı yapısal olarak kırardı.
 
 🔒 GÜÇ EŞİTLEMESİ — hangi sınıf neyi eşitliyor, AÇIKÇA
 ======================================================
   · `surekli_darbeli` **ortalama gücü** `surekli` ile eşitler (tepe telafisi
-    `Konfig.tepe_telafisi_db`den türetilir). Sorduğu soru: *aynı ortalama
-    güçte darbeli olmak fark eder mi?*
-  · `taramali` **tepe gücü** eşit tutar; ortalaması konak sayısına bölünür.
-    Sorduğu soru farklıdır: *aynı vericiyle kanallar arasında gezinen bir
-    karıştırıcı ne yapar?* Ortalamayı da eşitlemek onu darbelinin kopyası
-    yapardı ve sınıf gereksizleşirdi.
-Bu ayrım BEYAN EDİLİR; ön-kayıtta hipotezler buna göre yazılır.
+    `Konfig.tepe_telafisi_db`). Soru: *aynı ortalama güçte darbeli olmak fark
+    eder mi?*
+  · `taramali` **tepe gücü** eşit tutar; ortalaması konak sayısına bölünür
+    (−4,77 dB, `06` H1.3'te beyanlı). Ortalamayı da eşitlemek onu darbelinin
+    kopyası yapardı.
+Sınıflara ayrı güç verilmez: her sınıfa aynı etkiyi verdirmek, aranan
+mekanizma farkını kalibrasyonla silmek olurdu. Taban güç referans dünyada
+`Konfig.karistirici_taban_dbm` (10 W, K-186), eski dünyada
+`senaryolar.KARISTIRICI_GUCU_DBM`. Güç ölçülmemişse (`None`) koşum durur.
 
-🟢 GÜÇLER ÖLÇÜLDÜ — 8 Eylül 2026
-================================
-`senaryolar.KARISTIRICI_GUCU_DBM` beş sınıfta da **−15,0 dBm** taban
-gücündedir. Nokta REFERANS sınıfta (`surekli`) seçildi — zaman yapısı
-olmayan tek sınıf odur — ve ölçüt şuydu: 30 tohumun hiçbirinde birden fazla
-çok üyeli bileşen yokken ρ (engellenen bağ oranı) en büyük. ρ = 0,258.
-Üretici: `python kalibrasyon/karistirici_gucu.py`
-
-🔴 Sınıflara AYRI güç verilmedi: her sınıfa aynı ρ'yu verdirmek, ρ bağımlı
-değişken olduğu için aradığımız mekanizma farkını kalibrasyonla SİLMEK
-olurdu. Eşitleme yukarıdaki gibi yayılan ORTALAMA güç üzerindendir ve
-ölçülerek doğrulandı: sürekli −15,00 · darbeli −15,00 · aldatıcı −15,10 ·
-taramalı −19,88 dBm (son satır beyan edilmiş asimetri).
-
-🔒 Kapı KALKMADI: tablo yeni bir sınıf için `None` kalırsa koşum yine durur.
-Sessizce bir varsayılan güç kullanmak, çalışma noktasını ölçmeden seçmektir.
-
-🔒 Y5a · ÇOKLU VE HAREKETLİ KARIŞTIRICI MEKANİZMASI — 11 Eylül 2026
-====================================================================
-Şartname: `v2/07-SIMULATOR-TASARIMI.md` §05.3 · §18 Y5. Bir karıştırıcı artık
-bir `KaristiriciTanimi`dan da kurulabilir: platform × yörünge × yayın düzeni ×
-sınıf × güç payı. Birden çok tanım `KaristiriciKumesi` olur ve tek
-karıştırıcının arayüzünü AYNEN sunar. Aileler (Y5b) `kanal/tehdit.py`de
-tanımlıdır (öğrenci kararları 11 Eylül 2026, `v2/04` K-119); tanım
-verilmediğinde `karistirici_kur` bugünkü tek merkez karıştırıcıyı birebir
-kurar.
+🔒 ÇOKLU VE HAREKETLİ KARIŞTIRICI (Y5a, K-119)
+==============================================
+Bir karıştırıcı bir `KaristiriciTanimi`dan kurulabilir: platform × yörünge ×
+yayın düzeni × sınıf × güç payı. Birden çok tanım `KaristiriciKumesi` olur ve
+tek karıştırıcının arayüzünü AYNEN sunar; aileler `kanal/tehdit.py`de.
+Tanım verilmediğinde `karistirici_kur` tek merkez karıştırıcıyı kurar.
 
   · Konum ve yayın çizelgesi zamanın SAF fonksiyonudur; rastgelelik yok.
-  · Gölgeleme kimliği üye başına `-(indeks + 1)`; ilk üye bugünkü `-1`.
-  · Aynı sınıftan birden çok üyenin hash çekimleri bağımsızdır: indeks > 0
-    ise anahtara eklenir, ilk üyenin anahtarı bugünküyle aynı kalır.
+  · Gölgeleme kimliği üye başına `-(indeks + 1)`; ilk üye `-1`.
+  · Aynı sınıftan birden çok üyenin hash çekimleri bağımsızdır (indeks > 0
+    anahtara eklenir).
   · Taşıyıcı dinleme yalnız CSMA'ya görünen üyelerin gücüne bakar
-    (`csma_guc_w`); tek karıştırıcıda eski iki adımlı denetimle aynıdır.
+    (`csma_guc_w`).
+
+🔒 ÇERÇEVE: alan yere göre sabit bir görev alanıdır; sürü onun üzerinde kalır
+(ortak transiti modellenmez — `v2/12` §5 gelecek çalışma). Karıştırıcılar
+yer ya da hava platformudur ve bu çerçevede sabit durur ya da kendi
+yörüngesini izler (birincil hücrenin aracı yalnız sessizken 60 km/h).
 """
 
 from __future__ import annotations
@@ -132,7 +113,7 @@ class Yorunge:
     `baslangic` alan oranıdır ([0, 1]²); irtifa bandın ortasıdır, bugünkü
     karıştırıcıyla aynı. `dogrusal`da hız ölçekli çerçevededir (m/s) ve hareket
     koşunun başından başlar: karıştırıcı yayın yapmadan önce de oradadır.
-    Alanın dışına çıkabilir; kutu bir gözlem çerçevesidir, duvar değil.
+    Alanın dışına çıkabilir (alan bir duvar değildir).
 
     `sessizde` (Y5b, `v2/04` K-119): hız YALNIZ yayın çizelgesinin sessiz
     dönemlerinde işler — yay–sus–taşın. Açılmadan önce ve açık dönemlerde
@@ -205,52 +186,25 @@ def _tanim_dogrula(t: KaristiriciTanimi) -> None:
 
 # ==========================================================================
 class KaristiriciTabani:
-    """Ortak yayılım: konum sabittir, güç oradan alıcıya taşınır.
+    """Ortak yayılım: güç karıştırıcının konumundan alıcıya taşınır.
 
-    🔒 KONUM SABİT ve alanın merkezinde. Rastgele bir konum, tohumlar arası
+    🔒 VARSAYILAN KONUM ALANIN MERKEZİ — rastgele bir konum tohumlar arası
     varyansa *karıştırıcının nereye düştüğünü* de katardı ve protokol farkını
-    gizlerdi. Sabit merkez tohumlar arasında KARŞILAŞTIRILABİLİRDİR.
+    gizlerdi. Tanım verilirse konum `Yorunge`den gelir (sabit ya da hareketli;
+    çerçeve modül başlığında).
 
-    ⚠️ "SABİT KONUM" HAREKETLİ ÇERÇEVEDE NE DEMEK — 8 Eylül 2026
-    ============================================================
-    Kutu, sürüyle birlikte hareket eden bir gözlem çerçevesidir. Orada
-    çakılı duran bir karıştırıcı, ilk bakışta *"sürüyle formasyonda uçan
-    karıştırıcı"* gibi görünür ve savunulamaz.
-
-    Aritmetik bunun bu zaman ölçeğinde ÖNEMSİZ olduğunu söylüyor: sürünün
-    gerçek transit hızı ~150 km/h, 1:50 ölçekte 0,83 m/s. Ölçüm penceresi
-    270 s boyunca yer referanslı bir karıştırıcı çerçevede yalnızca **225 m**
-    yol alır — kutunun %12,5'i ve kendi engelleme yarıçapının yarısından az.
-
-    🔒 Yani "sabit konum", bir koşu boyunca yer referanslı bir karıştırıcının
-    İYİ BİR YAKLAŞIMIDIR. Geçişi gerçekten modellemek ~2 000 s'lik koşular
-    ister (altı kat maliyet) ve bu bir KEŞİFSEL eksendir, çekirdek deneyin
-    parçası değil.
-
-    🔴 AÇILMA ANI — projenin asıl iddiasını ÖLÇÜLEBİLİR yapan şey
-    ============================================================
-    Karıştırıcı eskiden koşunun başından sonuna açıktı. Ölçüm penceresi
-    tamamen karıştırılmış dönemin içinde kalıyordu ve **geçici tepki diye
-    bir şey yoktu**: ölçülen tek şey kararlı hâldeki bozulmaydı.
-
-    Oysa projenin beyan edilmiş beklentisi *"ilk şokta %50'nin altına düşer,
-    mesh tepki verince %70–80'e çıkar"* bir GEÇİCİ TEPKİ tarifidir. Ve bir
-    anti-jamming yönlendirme protokolünün asıl iddiası *"ne kadar bozuluyor"*
-    değil, **"ne kadar hızlı toparlanıyor"**dur.
-
-    Açılma bir ANAHTARLAMA olayıdır — karıştırıcılar açılır. Ölçüm penceresi
-    böylece iki evreye ayrılır ve toparlanma metriği mümkün olur:
-
-        TEMİZ         [ölçüm_başı, karistirici_baslangic_s)
-        KARIŞTIRILMIŞ [karistirici_baslangic_s, ölçüm_sonu)
-
-    ⚠️ Açılma anı `gecis_anlari`na EKLENMEZ: parça sınırına düşmediğinde
-    açılma en çok bir parça süresi (190 µs) kadar geç çözülür. 270 s'lik bir
-    pencerede bu 10⁻⁶ mertebesindedir ve beyan edilir.
+    🔴 AÇILMA ANI — geçici tepkiyi ölçülebilir yapan şey
+    ===================================================
+    Karıştırıcı `karistirici_baslangic_s`de açılır; ölçüm penceresi TEMİZ ve
+    KARIŞTIRILMIŞ evrelere ayrılır ve şok/toparlanma ölçülebilir olur (bir
+    anti-jamming protokolünün iddiası "ne kadar hızlı toparlanıyor"dur).
+    Tanımlı üyede ayrıca `Yayin` çizelgesi uygulanır (birincil hücre: 15 s açık
+    · 15 s sessiz). Açılma anı `gecis_anlari`na eklenmez: en çok bir parça
+    süresi (190 µs) geç çözülür, beyanlı.
 
     🔒 Y5a: `tanim` verilirse konum `Yorunge`den, devrede olma `Yayin`dan, güç
     `guc_payi`ndan gelir; `indeks` gölgeleme kimliğini ve hash anahtarını
-    ayırır. Tanım verilmezse yukarıdaki davranış BİREBİR aynıdır.
+    ayırır.
     """
 
     sinif = "taban"
@@ -483,28 +437,15 @@ class Darbeli(KaristiriciTabani):
 class Reaktif(KaristiriciTabani):
     """🔴 ORTAMA tepki verir — zamanın saf fonksiyonu DEĞİL.
 
-    Bir iletim başladıktan `reaktif_sezme_s` sonra sezer ve
-    `reaktif_patlama_s` boyunca patlar. Sezme başarısı `reaktif_sezme` HASH
-    alanından çekilir: bir koşudaki iletim sayısı protokole göre değiştiği
-    için sıralı bir akış kolları desenkronize ederdi.
+    Bir iletim başladıktan `reaktif_sezme_s` sonra sezer, `reaktif_patlama_s`
+    boyunca patlar ve enerji sürdükçe yeniden sezer (YENİDEN SİLAHLANIR).
+    Çevrim sezme + patlama = 160 µs, görev çevrimi %90: gövdenin ~%91'i
+    kapsanır. Tek atışlık bir reaktif (iletim başına bir patlama) 192 µs'lik
+    önbelge bitmeden susar ve gövdeye hiç değmezdi.
 
-    🔴 YENİDEN SİLAHLANIR — tek atışlık DEĞİL, ve bu ölçümle düzeltildi.
-    İlk yazımda karıştırıcı iletim başına BİR kez patlıyordu. Zamanlama
-    hesaplandı ve tasarım kırık çıktı:
-
-        iletim başlar     t =    0 µs
-        sezme biter       t =   16 µs
-        patlama biter     t =  160 µs
-        ÖNBELGE biter     t =  192 µs   ← gövde ancak burada başlıyor
-
-    Yani tepki verdiği çerçevenin **gövdesine hiç değmiyordu**: kapsadığı
-    gövde payı %0,0. Tek atışlık bir reaktif karıştırıcı, 2240 µs'lik bir
-    çerçeveye karşı yalnız önbelgeyi tırmalayan bir şeydir.
-
-    Gerçek bir reaktif karıştırıcı kanalı SÜREKLİ dinler: enerji durdukça
-    sezer, patlar, yeniden sezer. Çevrim `sezme + patlama` = 160 µs ve görev
-    çevrimi %90; gövdenin kapsanan payı **%90,6**. Sezme süresi tek seferlik
-    bir gecikme değil, her çevrimin bedelidir.
+    Sezme başarısı `reaktif_sezme` HASH alanından çekilir: bir koşudaki iletim
+    sayısı protokole göre değiştiği için sıralı bir akış kolları desenkronize
+    ederdi.
     """
 
     sinif = "reaktif"

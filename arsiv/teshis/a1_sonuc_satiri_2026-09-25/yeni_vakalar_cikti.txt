@@ -1,0 +1,17 @@
+k-statik-surekli-aodv
+  gecerli=True · pdr=0.6937 · pdr_pencere=0.7050
+  dusen: kuyruk_tasmasi=3 · iletim_basarisiz=344 · rota_gecersiz=129 · tampon_asimi=14
+  politika_dusen=0.0 · beyan_etmiyor=False
+k-statik-surekli-aomdv
+  gecerli=True · pdr=0.8775 · pdr_pencere=0.8992
+  dusen: iletim_basarisiz=165 · rota_gecersiz=31
+  politika_dusen=0.0 · beyan_etmiyor=False
+k-statik-surekli-olsr
+  gecerli=True · pdr=0.6713 · pdr_pencere=0.8733
+  dusen: ttl=24 · iletim_basarisiz=140 · hedef_yok=355 · rota_gecersiz=7
+  politika_dusen=0.0 · beyan_etmiyor=False
+k-statik-surekli-desparete-yere_toplama
+  gecerli=True · pdr=0.8086 · pdr_pencere=0.8574
+  pdr_telemetri=0.8294 · pdr_komut=0.0 · pdr_komut_pencere=0.0
+  dusen: iletim_basarisiz=145 · hedef_yok=60 · rota_gecersiz=61 · politika=40
+  politika_dusen=40.0 · beyan_etmiyor=False

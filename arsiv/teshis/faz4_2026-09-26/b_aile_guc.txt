@@ -1,0 +1,46 @@
+kod: C:/Users/Xelma123/AppData/Local/Temp/claude/C--Users-Xelma123-Desktop-desparete-pls/5cdbe106-8289-49e7-a318-3bb30615ea86/scratchpad/kopya_41e
+         aile   guc    rho   ulas  AYRILAN  BUYUK enbuyuk_min
+ tekli_merkez    20  0.257  0.987     4/30   0/30       0.950
+ tekli_merkez    25  0.448  0.919    19/30   3/30       0.775
+ tekli_merkez    30  0.666  0.472    30/30  26/30       0.175
+ tekli_merkez    33  0.778  0.199    30/30  26/30       0.150
+ tekli_merkez    37  0.881  0.080    30/30  13/30       0.075
+ tekli_merkez    40  0.931  0.049    30/30   7/30       0.050
+ tekli_merkez    44  0.973  0.032    27/30   0/30       0.025
+ tekli_merkez    47  0.991  0.027    17/30   0/30       0.025
+   hava_eslik    20  0.251  0.982    22/30   1/30       0.825
+   hava_eslik    25  0.446  0.914    30/30  10/30       0.450
+   hava_eslik    30  0.661  0.460    30/30  30/30       0.200
+   hava_eslik    33  0.772  0.203    30/30  30/30       0.100
+   hava_eslik    37  0.879  0.084    30/30  27/30       0.050
+   hava_eslik    40  0.931  0.050    30/30  16/30       0.025
+   hava_eslik    44  0.974  0.032    30/30   0/30       0.025
+   hava_eslik    47  0.991  0.027    28/30   0/30       0.025
+  cephe_hatti    20  0.017  0.991     3/30   0/30       0.950
+  cephe_hatti    25  0.031  0.989     7/30   0/30       0.950
+  cephe_hatti    30  0.060  0.978    19/30   0/30       0.925
+  cephe_hatti    33  0.087  0.968    22/30   0/30       0.900
+  cephe_hatti    37  0.143  0.952    26/30   0/30       0.875
+  cephe_hatti    40  0.204  0.927    28/30   1/30       0.850
+  cephe_hatti    44  0.316  0.877    30/30   3/30       0.725
+  cephe_hatti    47  0.413  0.812    30/30   5/30       0.450
+ hedef_koruma    20  0.035  0.994     6/30   0/30       0.950
+ hedef_koruma    25  0.060  0.983    13/30   0/30       0.900
+ hedef_koruma    30  0.101  0.969    18/30   0/30       0.900
+ hedef_koruma    33  0.139  0.960    23/30   0/30       0.875
+ hedef_koruma    37  0.214  0.940    28/30   0/30       0.875
+ hedef_koruma    40  0.294  0.908    28/30   5/30       0.500
+ hedef_koruma    44  0.427  0.839    30/30   7/30       0.500
+ hedef_koruma    47  0.542  0.687    30/30  22/30       0.350
+  derin_sizma    20  0.016  0.998     5/30   0/30       0.925
+  derin_sizma    25  0.030  0.996    13/30   0/30       0.925
+  derin_sizma    30  0.055  0.990    15/30   0/30       0.900
+  derin_sizma    33  0.076  0.985    21/30   0/30       0.900
+  derin_sizma    37  0.120  0.974    24/30   1/30       0.800
+  derin_sizma    40  0.164  0.960    25/30   2/30       0.475
+  derin_sizma    44  0.234  0.909    29/30  15/30       0.300
+  derin_sizma    47  0.287  0.793    30/30  28/30       0.225
+
+real	7m26.581s
+user	0m0.000s
+sys	0m0.030s

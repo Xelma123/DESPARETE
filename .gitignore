@@ -1,8 +1,21 @@
-.pytest_cache/
-arsiv/
-ciktilar2
-DEVIR.md
-DEVIR-PROMPT.md
-v2/arsiv
+# Python ve araç önbellekleri
 __pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Simülatör çıktıları: yeniden üretilebilir (her yerde, dondurulmuş kopyalar dâhil)
+ciktilar2/
+
+# Öğrencinin yerel devir belgeleri
+DEVIR-PROMPT.md
 DENETIM-PROMPT.md
+
+# Arşiv: notlar, beklenti (ön-kayıt) dosyaları, günlükler ve araçlar İZLENİR,
+# çünkü commit zamanı ölçütün ölçümden önce yazıldığının kanıtıdır.
+# İzlenmeyenler: kod kopyaları (kod zaten git geçmişinde) ve eski dünyanın
+# büyük çıktıları (kodla yeniden üretilir; biri GitHub'ın 100 MB sınırını aşar).
+kopya/
+yorum_tabani/
+arsiv/ciktilar/
+arsiv/regresyon_tabanlari/

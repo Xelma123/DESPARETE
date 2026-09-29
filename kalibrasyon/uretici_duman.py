@@ -69,8 +69,9 @@ __all__ = ["DUMAN_KESITI", "anilan_ureticiler", "kos"]
 # kapı değildir — bu dosyanın 4 numaralı bulgusu tam olarak budur).
 DUMAN_KESITI: dict[str, tuple[list[str], str, str]] = {
     #  betik                    argüman            kesit           tam koşum
-    "adim4_kapanis.py":       ([],                "tamamı",       "BANT 2–6 dk"),
-    "adim4_sonumleme.py":     ([],                "tamamı",       "BANT 2–6 dk"),
+    # 30 Eylül 2026 (K-203): `adim4_*` arşive taşındı, defter artık onları
+    # anmıyor; referans dünyanın bağıl hız tabanı ölçümü eklendi.
+    "bagil_hiz_tabani.py":    ([],                "tamamı",       "BANT < 1 dk"),
     "bag_kumesi.py":          (["a"],             "yalnız kapılar (a)",
                                                                   "BANT saatler"),
     # 🔴 15 Eylul 2026: kesit DARALTILDI. Onceki hali dort bolumu de

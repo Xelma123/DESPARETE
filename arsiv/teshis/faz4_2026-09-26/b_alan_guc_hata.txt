@@ -1,0 +1,53 @@
+kod: C:/Users/Xelma123/AppData/Local/Temp/claude/C--Users-Xelma123-Desktop-desparete-pls/5cdbe106-8289-49e7-a318-3bb30615ea86/scratchpad/kopya_41c
+ alan_km    guc     rho    ulas  bogulan   AYRILAN
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Users\Xelma123\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Xelma123\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users/Xelma123/AppData/Local/Temp/claude/C--Users-Xelma123-Desktop-desparete-pls/5cdbe106-8289-49e7-a318-3bb30615ea86/scratchpad/kopya_41c\kalibrasyon\karistirici_gucu.py", line 295, in _tohum_olcusu
+    temiz = _graf_ozeti("statik-yok", tohum, None, anlar[0])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users/Xelma123/AppData/Local/Temp/claude/C--Users-Xelma123-Desktop-desparete-pls/5cdbe106-8289-49e7-a318-3bb30615ea86/scratchpad/kopya_41c\kalibrasyon\karistirici_gucu.py", line 285, in _graf_ozeti
+    kfg = DS.konfig(kol="rho", senaryo=senaryo, tohum=tohum, **ek)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users/Xelma123/AppData/Local/Temp/claude/C--Users-Xelma123-Desktop-desparete-pls/5cdbe106-8289-49e7-a318-3bb30615ea86/scratchpad/kopya_41c\kalibrasyon\dunya_secimi.py", line 68, in konfig
+    return referans_2026(**ek)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users/Xelma123/AppData/Local/Temp/claude/C--Users-Xelma123-Desktop-desparete-pls/5cdbe106-8289-49e7-a318-3bb30615ea86/scratchpad/kopya_41c\sim2\kanal\dunya.py", line 99, in referans_2026
+    gecici = Konfig(**{**temel, "dunya": "olcek_1_50",
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 119, in __init__
+  File "C:\Users/Xelma123/AppData/Local/Temp/claude/C--Users-Xelma123-Desktop-desparete-pls/5cdbe106-8289-49e7-a318-3bb30615ea86/scratchpad/kopya_41c\sim2\yapilandirma\konfig.py", line 818, in __post_init__
+    dogrula(self.gorev_grup_yaricapi_m > 0.0
+  File "C:\Users/Xelma123/AppData/Local/Temp/claude/C--Users-Xelma123-Desktop-desparete-pls/5cdbe106-8289-49e7-a318-3bb30615ea86/scratchpad/kopya_41c\sim2\cekirdek\degismezler.py", line 56, in dogrula
+    raise DegismezHatasi(mesaj)
+sim2.cekirdek.degismezler.DegismezHatasi: grup capi alandan buyuk olamaz
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz4_2026-09-26\b_alan_guc.py", line 33, in <module>
+    s = KG.olc("surekli", guc)
+        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users/Xelma123/AppData/Local/Temp/claude/C--Users-Xelma123-Desktop-desparete-pls/5cdbe106-8289-49e7-a318-3bb30615ea86/scratchpad/kopya_41c\kalibrasyon\karistirici_gucu.py", line 331, in olc
+    return _olc_tohumlar(f"statik-{sinif}", guc_dbm, None, konum)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users/Xelma123/AppData/Local/Temp/claude/C--Users-Xelma123-Desktop-desparete-pls/5cdbe106-8289-49e7-a318-3bb30615ea86/scratchpad/kopya_41c\kalibrasyon\karistirici_gucu.py", line 319, in _olc_tohumlar
+    sonuc = havuz.map(_tohum_olcusu, isler, chunksize=1)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Xelma123\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Xelma123\AppData\Local\Programs\Python\Python311\Lib\multiprocessing\pool.py", line 774, in get
+    raise self._value
+sim2.cekirdek.degismezler.DegismezHatasi: grup capi alandan buyuk olamaz
+
+real	0m5.896s
+user	0m0.030s
+sys	0m0.031s

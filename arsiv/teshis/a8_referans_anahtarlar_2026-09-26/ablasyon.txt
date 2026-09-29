@@ -1,0 +1,39 @@
+
+r-referans-statik-yok-dogrudan_komsu
+  kol          gecerli     pdr   pdr_p  deneme   tx_s kuyruk  düşenler
+  A7           True     0.8836  0.8998    2492   6.49      0  {'iletim_basarisiz': 135, 'hedef_yok': 51}
+  A7+guc       True     0.8836  0.8998    2502   6.52      0  {'iletim_basarisiz': 135, 'hedef_yok': 51}
+  A7+arf       True     0.9862  1.0000    1696   3.66      0  {'hedef_yok': 22}
+  A7+gecikme   True     0.8836  0.8998    2495   6.50      0  {'iletim_basarisiz': 135, 'hedef_yok': 51}
+  A7+kar       True     0.8836  0.8998    2492   6.49      0  {'iletim_basarisiz': 135, 'hedef_yok': 51}
+  A8           True     0.9862  1.0000    1698   3.70      0  {'hedef_yok': 22}
+  A8-guc       True     0.9862  1.0000    1699   3.69      0  {'hedef_yok': 22}
+  A8-arf       True     0.8836  0.8998    2506   6.53      0  {'iletim_basarisiz': 135, 'hedef_yok': 51}
+  A8-gecikme   True     0.9862  1.0000    1696   3.66      0  {'hedef_yok': 22}
+  A8-kar       True     0.9862  1.0000    1698   3.70      0  {'hedef_yok': 22}
+
+r-referans-bagimsiz-surekli-dogrudan_komsu
+  kol          gecerli     pdr   pdr_p  deneme   tx_s kuyruk  düşenler
+  A7           True     0.1877  0.0893    4127   9.87      0  {'iletim_basarisiz': 435, 'hedef_yok': 863}
+  A7+guc       True     0.2103  0.1194    2501   6.03    100  {'kuyruk_tasmasi': 182, 'iletim_basarisiz': 238, 'hedef_yok': 742}
+  A7+arf       True     0.2297  0.1311    4479  19.07      0  {'iletim_basarisiz': 467, 'hedef_yok': 764}
+  A7+gecikme   True     0.1877  0.0860    4107   9.82      0  {'iletim_basarisiz': 435, 'hedef_yok': 863}
+  A7+kar       True     0.1915  0.0943    4825  11.41      0  {'iletim_basarisiz': 513, 'hedef_yok': 779}
+  A8           True     0.2196  0.1127    2472  10.14    100  {'kuyruk_tasmasi': 214, 'iletim_basarisiz': 248, 'hedef_yok': 684}
+  A8-guc       True     0.2384  0.1411    4125  17.55      0  {'iletim_basarisiz': 420, 'hedef_yok': 797}
+  A8-arf       True     0.2034  0.1068    2438   5.89    100  {'kuyruk_tasmasi': 163, 'iletim_basarisiz': 240, 'hedef_yok': 769}
+  A8-gecikme   True     0.2196  0.1127    2554  10.45    100  {'kuyruk_tasmasi': 221, 'iletim_basarisiz': 257, 'hedef_yok': 668}
+  A8-kar       True     0.2284  0.1402    2193   8.80    100  {'kuyruk_tasmasi': 182, 'iletim_basarisiz': 211, 'hedef_yok': 740}
+
+r-referans-statik-surekli-aodv
+  kol          gecerli     pdr   pdr_p  deneme   tx_s kuyruk  düşenler
+  A7           True     0.2128  0.1002    1322   4.93    456  {'kuyruk_tasmasi': 1, 'iletim_basarisiz': 90, 'rota_gecersiz': 57, 'tampon_asimi': 654}
+  A7+guc       True     0.2121  0.1002     416   1.66    490  {'kuyruk_tasmasi': 361, 'iletim_basarisiz': 5, 'tampon_asimi': 403}
+  A7+arf       True     0.4143  0.3447    3781  18.10    268  {'kuyruk_tasmasi': 17, 'iletim_basarisiz': 150, 'rota_gecersiz': 79, 'tampon_asimi': 422}
+  A7+gecikme   True     0.2128  0.1002    1189   4.53    457  {'kuyruk_tasmasi': 1, 'iletim_basarisiz': 73, 'rota_gecersiz': 73, 'tampon_asimi': 654}
+  A7+kar       True     0.2121  0.1002    1017   4.42    452  {'kuyruk_tasmasi': 1, 'iletim_basarisiz': 65, 'rota_gecersiz': 82, 'tampon_asimi': 659}
+  A8           True     0.2121  0.1002    1503   5.11    424  {'kuyruk_tasmasi': 451, 'iletim_basarisiz': 143, 'tampon_asimi': 241}
+  A8-guc       True     0.4906  0.4324    4483  20.78    179  {'kuyruk_tasmasi': 1, 'iletim_basarisiz': 228, 'rota_gecersiz': 112, 'tampon_asimi': 294}
+  A8-arf       True     0.2121  0.1002     402   1.56    482  {'kuyruk_tasmasi': 451, 'iletim_basarisiz': 4, 'tampon_asimi': 322}
+  A8-gecikme   True     0.2121  0.1002    1500   5.12    424  {'kuyruk_tasmasi': 450, 'iletim_basarisiz': 143, 'tampon_asimi': 242}
+  A8-kar       True     0.2121  0.1002     564   2.84    478  {'kuyruk_tasmasi': 361, 'iletim_basarisiz': 24, 'tampon_asimi': 396}

@@ -1,0 +1,18 @@
+REGRESYON KARSILASTIRMASI — k173 (50 satir) ↔ k174 (52 satir)
+  (yeni vaka) yalniz k174: n-statik-surekli-dogrudan_komsu-tasiyici_guc · gecerli=True
+  (yeni vaka) yalniz k174: n-statik-surekli-dogrudan_komsu-tasiyici_guc-hava_eslik · gecerli=True
+
+  bulgusuz vaka : 50/50
+  (beklenen) kimlik.arac_hash                                 50 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           50 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              50 vakada farkli
+  (beklenen) kimlik.protokol_hash                             13 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         50 vakada farkli
+  (izinli)   kimlik.kurulum_hash                              50 vakada farkli
+  (izinli)   konfig.ed_esigi_dbm                              50 vakada farkli
+  (izinli)   konfig.karistirici_denetim_araligi_s             50 vakada farkli
+  (izinli)   konfig.tasiyici_dinleme                          50 vakada farkli
+  (izinli)   teshis.koken_kovalari.KAYNAK                     50 vakada farkli
+  (izinli)   teshis.koken_kovalari.TURETILMIS                 50 vakada farkli
+
+  🟢 BIREBIR (izinli farklar disinda)

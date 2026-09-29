@@ -1,0 +1,6 @@
+# PYTHONIOENCODING=utf-8 PYTHONDONTWRITEBYTECODE=1 python -u arsiv/teshis/denetim_2026-09-25/uctan_uca_donanim.py  (25 Eylül 2026, 4 işçi)
+('formasyon-yok', 60.0, 'v02', 86, {'dongu': 0, 'fd_artti': 0, 'denetim': 23879, 'hedef': 1}, {'gecit_hedefte': 1, 'gecit_tur': 1, 'istek_gonderilen': 1, 'istek_iletilen': 11, 'istek_aktif_disi': 29, 'solicit_gonderilen': 21, 'solicit_yanitlanan': 20})
+('formasyon-yok', 60.0, 'v03', 56, {'dongu': 0, 'fd_artti': 0, 'denetim': 16581, 'hedef': 1}, {'gecit_hedefte': 0, 'gecit_tur': 0, 'istek_gonderilen': 18, 'istek_iletilen': 0, 'istek_aktif_disi': 62, 'solicit_gonderilen': 32, 'solicit_yanitlanan': 0})
+('statik-yok', 12.0, 'v02', 6, {'dongu': 0, 'fd_artti': 0, 'denetim': 4342, 'hedef': 1}, {'gecit_hedefte': 0, 'gecit_tur': 0, 'istek_gonderilen': 0, 'istek_iletilen': 0, 'istek_aktif_disi': 0, 'solicit_gonderilen': 9, 'solicit_yanitlanan': 5})
+('statik-yok', 12.0, 'v03', 4, {'dongu': 0, 'fd_artti': 0, 'denetim': 3319, 'hedef': 1}, {'gecit_hedefte': 0, 'gecit_tur': 0, 'istek_gonderilen': 14, 'istek_iletilen': 0, 'istek_aktif_disi': 50, 'solicit_gonderilen': 25, 'solicit_yanitlanan': 0})
+duvar 86 s

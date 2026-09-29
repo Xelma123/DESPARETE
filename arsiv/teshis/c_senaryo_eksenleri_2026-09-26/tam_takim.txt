@@ -1,0 +1,30 @@
+........................................................................ [  8%]
+........................................................................ [ 16%]
+........................................................................ [ 24%]
+........................................................................ [ 32%]
+........................................................................ [ 40%]
+........................................................................ [ 48%]
+........................................................................ [ 56%]
+........................................................................ [ 64%]
+........................................................................ [ 73%]
+........................................................................ [ 81%]
+........................................................................ [ 89%]
+........................................................................ [ 97%]
+.......................                                                  [100%]
+============================ slowest 15 durations =============================
+149.78s call     tests2/test_kosum.py::test_OTUZ_tohumda_defter_tutuyor
+83.28s call     tests2/test_desparete.py::test_SIM_UCTAN_UCA_ACLIK_istegi_HEDEFTE_TUR_ARTIRIR_dongu_YOK
+72.07s call     tests2/test_kosum.py::test_PYTHONHASHSEED_sonucu_DEGISTIRMIYOR
+51.09s call     tests2/test_kosum.py::test_A7_referans_dunyada_KISA_KOSU_defter_KAPANIR
+36.11s call     tests2/test_desparete.py::test_SIM_v04_UCTAN_UCA_ACLIK_TUR_ARTISI_dongu_YOK
+33.85s call     tests2/test_olsr.py::test_U3_kontrol_yuku_PERIYODIK_ve_sure_ile_DOGRUSAL
+22.76s call     tests2/test_kosum.py::test_korunum_ve_mutabakat_GERCEK_trafikte[gorev-aldatici-enyakin]
+21.46s call     tests2/test_kosum.py::test_korunum_ve_mutabakat_GERCEK_trafikte[gorev-yok-enyakin]
+20.89s call     tests2/test_aomdv.py::test_korunum_ve_mutabakat_hareketli_kolda_kapaniyor
+20.48s call     tests2/test_olsr.py::test_U1_YAPI_kapisi_teslim_COK_ATLAMALI_defter_kapali_kahin_asilmiyor
+19.19s call     tests2/test_aodv.py::test_korunum_ve_mutabakat_AODV_ile_kapaniyor
+15.00s call     tests2/test_kosum.py::test_Y1_SONUC_BILDIRIMI_simulatorun_KENDI_SAYACLARIYLA_birebir
+14.85s call     tests2/test_aomdv.py::test_U1_YAPI_teslim_COK_ATLAMALI_defter_kapali_kahin_asilmiyor_COK_YOL
+13.28s call     tests2/test_kosum.py::test_YARIM_CIFT_dali_atesleniyor
+10.96s call     tests2/test_kontrol_duzlemi.py::test_P11_titresim_AYNI_TOHUMDA_BIREBIR
+887 passed in 912.61s (0:15:12)

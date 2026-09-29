@@ -1,0 +1,7 @@
+# PYTHONIOENCODING=utf-8 PYTHONDONTWRITEBYTECODE=1 python -u arsiv/teshis/denetim_2026-09-25/k1_dogrula.py  (25 Eylül 2026, 4 işçi)
+{'is': ('bagimsiz-yok', 1000, 'v02'), 'sure': 149.77384539996274, 'pdr_pencere': 0.753968253968254, 'gecit_hedefte_istek': 6, 'gecit_tur_artis': 2, 'gecit_aday': 179, 'istek_gonderilen': 7, 'istek_iletilen': 61, 'istek_aktif_disi': 89, 'solicit_gonderilen': 21, 'solicit_yanitlanan': 8}
+{'is': ('bagimsiz-yok', 1000, 'v03'), 'sure': 101.81490909995046, 'pdr_pencere': 0.7674603174603175, 'gecit_hedefte_istek': 0, 'gecit_tur_artis': 0, 'gecit_aday': 0, 'istek_gonderilen': 18, 'istek_iletilen': 0, 'istek_aktif_disi': 62, 'solicit_gonderilen': 30, 'solicit_yanitlanan': 0}
+{'is': ('formasyon-yok', 1000, 'v02'), 'sure': 198.87547069997527, 'pdr_pencere': 0.7944444444444444, 'gecit_hedefte_istek': 2, 'gecit_tur_artis': 0, 'gecit_aday': 164, 'istek_gonderilen': 2, 'istek_iletilen': 24, 'istek_aktif_disi': 12, 'solicit_gonderilen': 18, 'solicit_yanitlanan': 12}
+{'is': ('formasyon-yok', 1000, 'v03'), 'sure': 135.13805750000756, 'pdr_pencere': 0.7396825396825397, 'gecit_hedefte_istek': 0, 'gecit_tur_artis': 0, 'gecit_aday': 0, 'istek_gonderilen': 30, 'istek_iletilen': 0, 'istek_aktif_disi': 122, 'solicit_gonderilen': 39, 'solicit_yanitlanan': 0}
+duvar 206 s
+

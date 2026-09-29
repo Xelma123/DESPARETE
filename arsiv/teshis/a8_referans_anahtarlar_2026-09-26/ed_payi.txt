@@ -1,0 +1,12 @@
+statik-surekli    A7 (bugün)  t=  10 s · ED üstü 18/40 · ortanca  -76.1 dBm · en yüksek  -55.2 dBm
+statik-surekli    A7 (bugün)  t=  25 s · ED üstü 18/40 · ortanca  -76.1 dBm · en yüksek  -55.2 dBm
+statik-surekli    A7 (bugün)  t=  40 s · ED üstü 18/40 · ortanca  -76.1 dBm · en yüksek  -55.2 dBm
+statik-surekli    A8          t=  10 s · ED üstü 16/40 · ortanca  -76.9 dBm · en yüksek  -54.3 dBm
+statik-surekli    A8          t=  25 s · ED üstü 16/40 · ortanca  -76.9 dBm · en yüksek  -54.3 dBm
+statik-surekli    A8          t=  40 s · ED üstü 16/40 · ortanca  -76.9 dBm · en yüksek  -54.3 dBm
+bagimsiz-surekli  A7 (bugün)  t=  10 s · ED üstü 13/40 · ortanca  -77.9 dBm · en yüksek  -68.9 dBm
+bagimsiz-surekli  A7 (bugün)  t=  25 s · ED üstü 15/40 · ortanca  -77.5 dBm · en yüksek  -66.9 dBm
+bagimsiz-surekli  A7 (bugün)  t=  40 s · ED üstü 13/40 · ortanca  -78.4 dBm · en yüksek  -69.8 dBm
+bagimsiz-surekli  A8          t=  10 s · ED üstü 15/40 · ortanca  -77.8 dBm · en yüksek  -70.3 dBm
+bagimsiz-surekli  A8          t=  25 s · ED üstü 15/40 · ortanca  -78.1 dBm · en yüksek  -64.4 dBm
+bagimsiz-surekli  A8          t=  40 s · ED üstü  6/40 · ortanca  -78.9 dBm · en yüksek  -69.8 dBm

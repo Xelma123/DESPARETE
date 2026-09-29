@@ -1,0 +1,14 @@
+  DUNYA: referans_2026
+YERE TOPLAMA YUKU — C3 (olcut taramadan ONCE ilan edildi, K-124)
+  OLCUT: karistiricisiz kolda kahin PDR >= 0.95 tutan EN BUYUK telemetri hizi
+  olcut kolu statik-yok (kahin tavani ~1,000) · 3 tohum · komut = telemetri x 0.25
+  yan gozlem bagimsiz-yok (tavan 0,917) — KAPI DEGIL
+
+   telemetri   komut  sunulan pkt/s     PDR     2SE  gecerli   olcut
+        0.50    0.12           20.0  0.9969  0.0006     EVET   GECER
+        1.00    0.25           40.0  0.9927  0.0031     EVET   GECER
+        1.50    0.38           60.0  0.9544  0.0281     EVET   GECER
+        2.00    0.50           80.0  0.8717  0.0923     EVET   kalir
+        3.00    0.75          120.0  0.6394  0.1308     EVET   kalir
+
+  🟢 SECILEN: telemetri 1.50 pkt/s · komut 0.38 pkt/s — olcutu gecen EN BUYUK hiz.

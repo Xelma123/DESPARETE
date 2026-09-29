@@ -1,0 +1,10 @@
+# PYTHONIOENCODING=utf-8 PYTHONDONTWRITEBYTECODE=1 python -u arsiv/teshis/denetim_2026-09-25/uctan_uca_senaryo.py  (25 Eylül 2026, 8 işçi)
+('bagimsiz-yok', 'v02', 86, {'hedefte': [0.72], 'tur': []}, {'istek_gonderilen': 1, 'istek_iletilen': 12, 'istek_aktif_disi': 9, 'solicit_gonderilen': 19, 'solicit_yanitlanan': 12})
+('bagimsiz-yok', 'v03', 56, {'hedefte': [], 'tur': []}, {'istek_gonderilen': 17, 'istek_iletilen': 0, 'istek_aktif_disi': 58, 'solicit_gonderilen': 30, 'solicit_yanitlanan': 0})
+('gorev-yok', 'v02', 119, {'hedefte': [], 'tur': []}, {'istek_gonderilen': 0, 'istek_iletilen': 0, 'istek_aktif_disi': 0, 'solicit_gonderilen': 19, 'solicit_yanitlanan': 36})
+('gorev-yok', 'v03', 81, {'hedefte': [], 'tur': []}, {'istek_gonderilen': 14, 'istek_iletilen': 0, 'istek_aktif_disi': 123, 'solicit_gonderilen': 27, 'solicit_yanitlanan': 0})
+('formasyon-yok', 'v02', 111, {'hedefte': [50.9], 'tur': [50.9]}, {'istek_gonderilen': 1, 'istek_iletilen': 11, 'istek_aktif_disi': 29, 'solicit_gonderilen': 21, 'solicit_yanitlanan': 20})
+('formasyon-yok', 'v03', 78, {'hedefte': [], 'tur': []}, {'istek_gonderilen': 18, 'istek_iletilen': 0, 'istek_aktif_disi': 62, 'solicit_gonderilen': 32, 'solicit_yanitlanan': 0})
+('statik-yok', 'v02', 24, {'hedefte': [], 'tur': []}, {'istek_gonderilen': 0, 'istek_iletilen': 0, 'istek_aktif_disi': 0, 'solicit_gonderilen': 13, 'solicit_yanitlanan': 10})
+('statik-yok', 'v03', 14, {'hedefte': [], 'tur': []}, {'istek_gonderilen': 18, 'istek_iletilen': 0, 'istek_aktif_disi': 63, 'solicit_gonderilen': 30, 'solicit_yanitlanan': 0})
+duvar 122 s

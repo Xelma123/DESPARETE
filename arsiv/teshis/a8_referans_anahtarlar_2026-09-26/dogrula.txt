@@ -1,0 +1,44 @@
+
+r-referans-bagimsiz-surekli-dogrudan_komsu
+  gecerli          k180 True                                                       k181 True
+  pdr              k180 0.1877                                                     k181 0.2196
+  pdr_pencere      k180 0.0893                                                     k181 0.1127
+  uretilen         k180 1598                                                       k181 1598
+  kuyrukta (son)   k180 0                                                          k181 100
+  dusen            k180 {'iletim_basarisiz': 435, 'hedef_yok': 863}                k181 {'kuyruk_tasmasi': 214, 'iletim_basarisiz': 248, 'hedef_yok': 684}
+  gonderim_s       k180 9.87                                                       k181 10.14
+  mac_deneme       k180 4127.0                                                     k181 2472.0
+  modellenmeyen    k180 ['arazi_engel', 'coklu_kanal', 'enerji_sezmeli_cca', 'hareketli_karistirici', 'havadan_karistirici', 'hiz_uyarlamasi', 'patlamali_trafik', 'rts_cts', 'yayilim_gecikmesi', 'yayilma_kazanci'] k181 ['arazi_engel', 'coklu_kanal', 'hareketli_karistirici', 'havadan_karistirici', 'patlamali_trafik', 'rts_cts']
+
+r-referans-statik-surekli-aodv
+  gecerli          k180 True                                                       k181 True
+  pdr              k180 0.2128                                                     k181 0.2121
+  pdr_pencere      k180 0.1002                                                     k181 0.1002
+  uretilen         k180 1598                                                       k181 1598
+  kuyrukta (son)   k180 456                                                        k181 424
+  dusen            k180 {'kuyruk_tasmasi': 1, 'iletim_basarisiz': 90, 'rota_gecersiz': 57, 'tampon_asimi': 654} k181 {'kuyruk_tasmasi': 451, 'iletim_basarisiz': 143, 'tampon_asimi': 241}
+  gonderim_s       k180 4.93                                                       k181 5.11
+  mac_deneme       k180 1322.0                                                     k181 1503.0
+  modellenmeyen    k180 ['arazi_engel', 'coklu_kanal', 'enerji_sezmeli_cca', 'hareketli_karistirici', 'havadan_karistirici', 'hiz_uyarlamasi', 'patlamali_trafik', 'rts_cts', 'yayilim_gecikmesi', 'yayilma_kazanci'] k181 ['arazi_engel', 'coklu_kanal', 'hareketli_karistirici', 'havadan_karistirici', 'patlamali_trafik', 'rts_cts']
+
+r-referans-statik-yok-dogrudan_komsu
+  gecerli          k180 True                                                       k181 True
+  pdr              k180 0.8836                                                     k181 0.9862
+  pdr_pencere      k180 0.8998                                                     k181 1.0
+  uretilen         k180 1598                                                       k181 1598
+  kuyrukta (son)   k180 0                                                          k181 0
+  dusen            k180 {'iletim_basarisiz': 135, 'hedef_yok': 51}                 k181 {'hedef_yok': 22}
+  gonderim_s       k180 6.49                                                       k181 3.7
+  mac_deneme       k180 2492.0                                                     k181 1698.0
+  modellenmeyen    k180 ['arazi_engel', 'coklu_kanal', 'enerji_sezmeli_cca', 'hareketli_karistirici', 'havadan_karistirici', 'hiz_uyarlamasi', 'patlamali_trafik', 'rts_cts', 'yayilim_gecikmesi', 'yayilma_kazanci'] k181 ['arazi_engel', 'coklu_kanal', 'hareketli_karistirici', 'havadan_karistirici', 'patlamali_trafik', 'rts_cts']
+
+kapsam.modellenmeyen farkı (`r-` dışı):
+  l-statik-surekli-dogrudan_komsu-islem_kazanci                    düşen ['yayilma_kazanci'] · eklenen []
+  n-statik-surekli-dogrudan_komsu-tasiyici_guc                     düşen ['enerji_sezmeli_cca'] · eklenen []
+  n-statik-surekli-dogrudan_komsu-tasiyici_guc-hava_eslik          düşen ['enerji_sezmeli_cca'] · eklenen []
+  o-statik-surekli-dogrudan_komsu-tasiyici_guc-yayilim_gecikmesi   düşen ['enerji_sezmeli_cca', 'yayilim_gecikmesi'] · eklenen []
+  o-statik-surekli-dogrudan_komsu-yayilim_gecikmesi                düşen ['yayilim_gecikmesi'] · eklenen []
+  p-statik-aldatici-dogrudan_komsu-tasiyici_guc-karistirici_gercekci düşen ['enerji_sezmeli_cca'] · eklenen []
+  q-bagimsiz-surekli-kontrol_sinav-islem_kazanci-hiz_uyarlamasi    düşen ['hiz_uyarlamasi', 'yayilma_kazanci'] · eklenen []
+  q-statik-surekli-dogrudan_komsu-islem_kazanci-hiz_uyarlamasi     düşen ['hiz_uyarlamasi', 'yayilma_kazanci'] · eklenen []
+  s-statik-surekli-doluluk_sinav-tasiyici_guc                      düşen ['enerji_sezmeli_cca'] · eklenen []

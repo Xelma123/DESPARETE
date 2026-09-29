@@ -1,0 +1,26 @@
+  DUNYA: referans_2026
+
+==============================================================================
+3 - ZAMAN ve MOBILITE KOLU BOYUNCA KOPUKLUK
+==============================================================================
+  10 tohum · t = (50.0, 175.0, 320.0) · kol basina
+
+    alan kol             derece  kopuk_ort  kopuk_maks  >=3atl  kopuk_tohum
+    7000 statik-yok       37.40      0.00%       0.00%    0.0%       0/10
+    7000 bagimsiz-yok     37.77      0.00%       0.00%    0.0%       0/10
+   25000 statik-yok       14.04      0.00%       0.00%    6.0%       0/10
+   25000 bagimsiz-yok     13.04      0.00%       0.00%   11.2%       0/10
+   30000 statik-yok       10.75      0.00%       0.00%   19.0%       0/10
+   30000 bagimsiz-yok      9.82      0.00%       0.00%   27.8%       0/10
+   35000 statik-yok        8.42      0.00%       0.00%   34.0%       0/10
+   35000 bagimsiz-yok      7.66      0.83%       5.00%   42.9%       4/10
+   40000 statik-yok        6.78      0.99%       9.87%   48.1%       1/10
+   40000 bagimsiz-yok      6.05      1.16%       9.87%   55.8%       3/10
+
+  🔴 'kopuk_tohum' = en az bir anda kopmus tohum sayisi. Anlik
+     ortalama kucuk gorunse de, kosunun herhangi bir aninda kopan
+     bir tohum U1 kolundan dislanmak zorundadir.
+
+real	23m27.023s
+user	0m0.030s
+sys	0m0.000s

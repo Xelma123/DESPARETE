@@ -1,0 +1,10 @@
+('bagimsiz-yok', 1000, 146, [41.6])
+('bagimsiz-yok', 1001, 152, [57.5])
+('bagimsiz-yok', 1002, 120, [])
+('gorev-yok', 1000, 197, [])
+('gorev-yok', 1001, 172, [])
+('gorev-yok', 1002, 150, [102.3])
+('formasyon-yok', 1000, 199, [70.0])
+('formasyon-yok', 1001, 207, [])
+('formasyon-yok', 1002, 133, [])
+duvar 256 s

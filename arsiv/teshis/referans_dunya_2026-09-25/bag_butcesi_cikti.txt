@@ -1,0 +1,29 @@
+gürültü tabanı (22 MHz, NF 7 dB): -93.6 dBm
+çerçeve 4608 bit · 'çözülür' = PER ≤ 10%
+
+1 Mb/s DBPSK: gereken SNR -3.4 dB (22 MHz) · Eb/N0 10.0 dB · duyarlılık -97.0 dBm
+2 Mb/s DQPSK: gereken SNR +1.2 dB (22 MHz) · Eb/N0 11.6 dB · duyarlılık -92.4 dBm
+
+(Boer 1996: standardın alt sınırı −80 dBm @ 2 Mb/s, FER 0,08, 1024 B)
+
+serbest uzay menzili, 2 Mb/s (alıcıda dipol 2,15 dBi):
+  verici EIRP                               sönümsüz   10 dB pay   20 dB pay
+  AB/TR sınırı 20 dBm (iletilen 17,85 + dipol)    5.2 km     1.65 km     0.52 km
+  Doodle Labs Pro 27 dBm + dipol                 14.9 km     4.73 km     1.49 km
+  Doodle Labs Xtreme 33 dBm + dipol              29.8 km     9.43 km     2.98 km
+
+ED eşiği (Boer): verici >100 mW → −80 dBm · >50 mW → −76 · ≤50 mW → −70
+
+karıştırıcının bir bağı kestiği mesafe (2 Mb/s, gürültü benzeri karıştırıcı,
+işlem kazancı dâhil: karıştırıcı gürültü gibi SNR'a girer):
+(düğüm EIRP 20 dBm — AB/TR sınırı; karıştırıcı dipolü 2,15 dBi EIRP'e dâhil sayılmaz,
+ alıcı dipolü eklenir)
+  bağ 0.5 km (S -72.0 dBm) · karıştırıcı EIRP 30 dBm (1 W) → 1.8 km'den keser
+  bağ 0.5 km (S -72.0 dBm) · karıştırıcı EIRP 40 dBm (10 W) → 5.8 km'den keser
+  bağ 0.5 km (S -72.0 dBm) · karıştırıcı EIRP 47 dBm (50 W) → 12.9 km'den keser
+  bağ 1.0 km (S -78.0 dBm) · karıştırıcı EIRP 30 dBm (1 W) → 3.7 km'den keser
+  bağ 1.0 km (S -78.0 dBm) · karıştırıcı EIRP 40 dBm (10 W) → 11.7 km'den keser
+  bağ 1.0 km (S -78.0 dBm) · karıştırıcı EIRP 47 dBm (50 W) → 26.1 km'den keser
+  bağ 2.0 km (S -84.1 dBm) · karıştırıcı EIRP 30 dBm (1 W) → 7.8 km'den keser
+  bağ 2.0 km (S -84.1 dBm) · karıştırıcı EIRP 40 dBm (10 W) → 24.8 km'den keser
+  bağ 2.0 km (S -84.1 dBm) · karıştırıcı EIRP 47 dBm (50 W) → 55.5 km'den keser

@@ -1,0 +1,27 @@
+aodv   iş=24 toplam iş-dk=917
+   bagimsiz  prot.  n=3 ort  54.6 dk  en çok  64.8 dk
+   bagimsiz  kahin  n=3 ort  28.1 dk  en çok  30.3 dk
+   formasyon prot.  n=3 ort  71.4 dk  en çok  84.6 dk
+   formasyon kahin  n=3 ort  40.7 dk  en çok  43.7 dk
+   gorev     prot.  n=3 ort  66.7 dk  en çok  84.2 dk
+   gorev     kahin  n=3 ort  31.6 dk  en çok  35.9 dk
+   statik    prot.  n=3 ort   6.7 dk  en çok   8.3 dk
+   statik    kahin  n=3 ort   5.9 dk  en çok   6.8 dk
+olsr   iş=24 toplam iş-dk=1281
+   bagimsiz  prot.  n=3 ort  80.8 dk  en çok  87.3 dk
+   bagimsiz  kahin  n=3 ort  36.2 dk  en çok  39.5 dk
+   formasyon prot.  n=3 ort 118.2 dk  en çok 133.3 dk
+   formasyon kahin  n=3 ort  48.9 dk  en çok  52.5 dk
+   gorev     prot.  n=3 ort  76.2 dk  en çok  81.1 dk
+   gorev     kahin  n=3 ort  39.7 dk  en çok  44.8 dk
+   statik    prot.  n=3 ort  19.7 dk  en çok  20.6 dk
+   statik    kahin  n=3 ort   7.2 dk  en çok   7.5 dk
+aomdv  iş=24 toplam iş-dk=1071
+   bagimsiz  prot.  n=3 ort  59.8 dk  en çok  73.6 dk
+   bagimsiz  kahin  n=3 ort  36.5 dk  en çok  39.8 dk
+   formasyon prot.  n=3 ort  80.2 dk  en çok  95.7 dk
+   formasyon kahin  n=3 ort  47.5 dk  en çok  49.8 dk
+   gorev     prot.  n=3 ort  77.0 dk  en çok  96.9 dk
+   gorev     kahin  n=3 ort  40.2 dk  en çok  45.3 dk
+   statik    prot.  n=3 ort   8.6 dk  en çok  10.6 dk
+   statik    kahin  n=3 ort   7.2 dk  en çok   7.5 dk

@@ -5,8 +5,8 @@ Hızlı sönümleme — Rician, PARÇA başına, zaman-korelasyonlu, **DURUMSUZ*
 =======================
 AR(1) doğal olarak durumludur: `h_k = ρ·h_{k−1} + …`. Durumlu yazılsaydı,
 kanalın gördüğü dizi *hangi protokolün kaç kez çektiğine* bağlı olurdu ve iki
-kol aynı tohumda **farklı kanallar** görürdü. 30 tohum bunu kurtarmaz;
-eşleştirme yapısal olarak kırılır.
+kol aynı tohumda **farklı kanallar** görürdü; eşleştirme yapısal olarak
+kırılırdı.
 
 🔒 ÇÖZÜM: HASH'LENMİŞ YENİLİKLER ÜZERİNDE FIR
 
@@ -17,36 +17,19 @@ eşleştirme yapısal olarak kırılır.
 
 `k` mutlak zamandan türer (`k = ⌊t/Δt⌋`), `w` yalnız `(bağ, indeks)`e bağlıdır.
 Rastgele erişimli, sıra duyarsız, AR(1) ile aynı istatistik. Aynı tohumda iki
-farklı protokol **birebir aynı** sönümleme izini görür — bu bir disiplin değil,
-yapısal bir sonuçtur.
+farklı protokol **birebir aynı** sönümleme izini görür.
 
-⚠️ NEDEN `c` GEREKLİ — kesme varyansı düşürür
-=============================================
-`√(1−ρ²)` ile ölçeklemek yalnız M → ∞ için doğrudur. Sonlu M'de varyans
-`1−ρ^{2M}` olur; yavaş bağlarda (ρ → 1) bu 1'in çok altına iner ve sönümleme
-ilan edilenden **sığ** olurdu. `c` ile marjinal varyans her ρ ve M için tam
-olarak 1'dir. Bedeli: M·Δt'den uzun gecikmelerde otokorelasyon kesilir —
-15,4 ms, yani ~7 çerçeve süresi. Çerçeve İÇİ korelasyon tamdır ve ölçülen
-büyüklük odur.
+⚠️ `c` GEREKLİ: `√(1−ρ²)` ile ölçeklemek yalnız M → ∞ için doğrudur; sonlu
+M'de yavaş bağlar ilan edilenden sığ olurdu. Bedeli: M·Δt'den uzun
+gecikmelerde otokorelasyon kesilir (~12 ms, birkaç çerçeve); çerçeve içi
+korelasyon tamdır.
 
-🔒 PARÇA SÜRESİ ÖLÇÜLEREK SEÇİLDİ — KURAL: T_c(p99) / 4
-=======================================================
-Kural sabittir ve şudur: *en hızlı %1'lik bağda bile tutarlılık süresi DÖRT
-örnekle çözülmeli.* Değer o kuraldan TÜRER, elle seçilmez.
-
-⚠️ 8 Eylül 2026'da YENİDEN ÖLÇÜLDÜ. Hızlar 1/50 ölçeğe çekilince (K-101)
-ve Doppler tam ölçek hızına bağlanınca T_c dağılımı değişti:
-
-    eski ölçüm (26 m/s geometrik, Doppler ayrımı YOK)
-        ortanca T_c 2,10 ms → çerçeve/T_c 1,06 · p99 0,97 ms → dt 240 µs
-    yeni ölçüm (0,64 m/s geometrik → 31,8 m/s Doppler)
-        ortanca T_c 1,663 ms → çerçeve/T_c **1,35**
-        p95     T_c 0,887 ms → çerçeve/T_c **2,52**
-        p99     T_c 0,764 ms → **dt = 191 µs**
-
-Kanal bir çerçeve süresince ortancada ~1,4, p95'te ~2,5 kez değişiyor:
-paket başına tek çekim yanlış olurdu. Çerçeve başına ~11,8 parça.
-Üretici: `python kalibrasyon/adim4_sonumleme.py`
+🔒 PARÇA SÜRESİ — KURAL: T_c / 4
+================================
+En hızlı bağda bile tutarlılık süresi dört örnekle çözülür. Referans
+dünyada en büyük bağıl hız 2 × 120 km/h = 66,7 m/s → T_c = 0,423·λ/v ≈
+0,78 ms → 190 µs (`kokenler.py`). Doppler gerçek hızdan; kanal bir çerçeve
+süresince birkaç kez değişir, paket başına tek çekim yanlış olurdu.
 
 🔒 K-198 · İKİ ÜRETEÇ, TEK MODEL (`Konfig.sonumleme_uretec`)
 ===========================================================
@@ -54,16 +37,14 @@ paket başına tek çekim yanlış olurdu. Çerçeve başına ~11,8 parça.
 birebir. `"blok"`: bağ başına bir blake2b anahtarı, `w_n` SplitMix64'ün
 `n`inci çıktısından (`rng.normal_dizisi`), 64'lük bloklar numpy'de; FIR
 I ve Q için tek matris çarpımı. Formül, ρ, M ve `c` AYNI; iki üreteç aynı
-dağılımdan çeker, aynı sayıları değil. Referans dünyada `"blok"`:
-birincil hücrede sönümleme koşunun ~%70'iydi (K-197).
+dağılımdan çeker, aynı sayıları değil. Referans dünyada `"blok"`.
 
 🔒 STATİK KOLDA SÖNÜMLEME DONDURULUR
 ====================================
-Hareket yoksa Doppler yoktur; hareketsiz bir geometride kanal zamanla
-değişmez. Saçıcıların kendi hareketi modellenmediği için tutarlı olan şey
-sönümlemeyi dondurmaktır. Ek olarak U1 sanity testi (*"statik + bağlı →
-PDR ≈ 1"*) ancak böyle anlamlı kalır: çerçeveden çerçeveye bağımsız derin
-fadingler PDR'yi taban sebepsiz aşağı çekerdi.
+Hareket yoksa Doppler yoktur; saçıcıların hareketi modellenmediği için
+tutarlı olan şey sönümlemeyi dondurmaktır (bağ başına kalıcı tek çekim).
+Bedeli: statik kolun tek tohumu sönümleme gerçekleşmesine çok duyarlıdır
+(K-198); hücre düzeyinde okumalar tohumlar arası varyansla birlikte yapılır.
 """
 
 from __future__ import annotations

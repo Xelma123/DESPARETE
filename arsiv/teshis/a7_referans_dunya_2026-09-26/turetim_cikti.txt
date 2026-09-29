@@ -1,0 +1,6 @@
+EIRP 20.0 dBm · alıcı dipol 2.15 dBi · gürültü -93.55 dBm
+SNR(PER %10) 1.10 dB · SNR(PER %50) 0.05 dB
+menzil_snr_db 11.10 (PER %10 + 10 dB) → nominal bağ iletim_menzili_m 1664 m
+sinr_esigi_db β 6.05 (PER %50 + 2σ) → β mesafesi 2974 m
+duyarlılık menzili (SNR = PER %10) 5261 m · girişim menzili (SNR 0 dB) 5968 m
+alan 7000 m · irtifa 50–300 m · hız 40–120 km/h (σ 3.33 m/s) · görev yarıçapı 2528 m

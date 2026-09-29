@@ -1,0 +1,6 @@
+dosyada 62 vaka · eksik 5: ['d-statik-surekli-yuklu', 'e-statik-surekli-kontrol_sinav', 'd-bagimsiz-surekli-yuklu', 'e-bagimsiz-surekli-kontrol_sinav', 'q-bagimsiz-surekli-kontrol_sinav-islem_kazanci-hiz_uyarlamasi']
+  e-statik-surekli-kontrol_sinav                       gecerli=True · 145 s
+  d-statik-surekli-yuklu                               gecerli=True · 148 s
+  e-bagimsiz-surekli-kontrol_sinav                     gecerli=True · 705 s
+  d-bagimsiz-surekli-yuklu                             gecerli=True · 728 s
+  q-bagimsiz-surekli-kontrol_sinav-islem_kazanci-hiz_uyarlamasi gecerli=True · 882 s

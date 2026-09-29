@@ -1,0 +1,6 @@
+1) tek çarpışma alanı (statik-yok, 6 s): geometrik ↔ güç (ED −200 dBm)
+   geometrik mac_deneme   1045 · alim_red_mesgul   1651 · teslim    23
+   guc       mac_deneme   1045 · alim_red_mesgul   1651 · teslim    23
+2) sürekli karıştırıcı 40 dBm, 1 s'de açılır (5 s; pencere 1–4 s)
+   geometrik pencerede mac_deneme   179 · beacon   36 · tüm koşu mac_deneme   466
+   guc       pencerede mac_deneme     0 · beacon    0 · tüm koşu mac_deneme   179

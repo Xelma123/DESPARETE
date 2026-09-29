@@ -1,0 +1,99 @@
+==============================================================================
+KAYIP ANATOMISI — dunya referans_2026 · statik-yok · aile — · yere toplama · tohum [1000, 1001, 1002]
+==============================================================================
+
+  olsr                 PDR(pencere) ort 0.642 · üretilen 38396 · geçerli True
+    tohum 1000: PDR 0.5912 (pencere 0.5931) · 1344 s
+      düşen/üretilen: rota_gecersiz 29.0% · iletim_basarisiz 5.2% · ttl 3.9% · hedef_yok 2.8% · kuyruk_tasmasi 0.0%
+      ısınmada düşen (adet): hedef_yok 353 · rota_gecersiz 352 · iletim_basarisiz 85 · ttl 45
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[2, 381, 17.2], [17, 194, 18.5], [28, 176, 17.7], [4, 175, 25.6], [11, 171, 24.4]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[2, 48, 17.2], [7, 42, 31.4], [11, 40, 24.4], [4, 33, 25.6], [36, 30, 7.8]]
+      en çok ttl (düğüm, adet, geçide km): [[18, 47, 19.8], [17, 43, 18.5], [2, 42, 17.2], [35, 38, 18.3], [7, 26, 31.4]]
+      evre: şok derinliği -0.08783333333333332 · toparlanma 0.0 s · tespit 16.0 s (boş kolda None olmalı — M4 kapısı)
+      karar bağı kâhin bandı: iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 2.46, 'p50': 6.57, 'p90': 11.97}
+      başarısız bağ bandı:   iyi 97% · orta 2% · kotu 1% · mesafe km {'p10': 5.5, 'p50': 10.33, 'p90': 16.73} · 197 ayrı bağ, en çok [[38, 8, 20], [2, 24, 19], [7, 29, 19], [11, 8, 18], [31, 11, 16]]
+      OLSR §13: bildirim 764 · geri alınan 762 (süpürmede 98 · pakette 664) · geri alma süresi medyan 0.554 s · simetrik olmayan ardıla karar 0/62026
+      rota boşalması: 3716 karar · simetrik komşu yok 311 · geçit bağ kümesinde 515 · KENDİ bilgisinde düz yol VAR 1430 (atlama medyan 3.0)
+      OLSR sayaçları (ağ toplamı): komsu_kaybi 9475 · bag_katmani_kopma 764 · rota_hesap 168182 · hello_uretilen 7954 · tc_uretilen 4426 · tc_iletilen 43735 · tc_simetriksiz 37738 · hist_kayip_psn 283356 · hist_kayip_sessiz 22075 · erken_tc 1714
+    tohum 1001: PDR 0.7953 (pencere 0.8108) · 1214 s
+      düşen/üretilen: rota_gecersiz 9.2% · iletim_basarisiz 5.8% · ttl 2.9% · hedef_yok 2.5%
+      ısınmada düşen (adet): hedef_yok 326 · rota_gecersiz 146 · iletim_basarisiz 89 · ttl 16
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[18, 95, 34.7], [27, 74, 26.2], [8, 67, 26.4], [29, 63, 33.0], [21, 62, 35.6]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[27, 50, 26.2], [30, 47, 8.8], [20, 42, 29.4], [38, 41, 16.3], [22, 38, 30.1]]
+      en çok ttl (düğüm, adet, geçide km): [[8, 56, 26.4], [4, 43, 22.5], [27, 33, 26.2], [13, 29, 29.2], [3, 24, 22.8]]
+      evre: şok derinliği 0.05900000000000005 · toparlanma 4.0 s · tespit 6.0 s (boş kolda None olmalı — M4 kapısı)
+      karar bağı kâhin bandı: iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 2.29, 'p50': 5.73, 'p90': 14.12}
+      başarısız bağ bandı:   iyi 92% · orta 7% · kotu 1% · mesafe km {'p10': 7.07, 'p50': 10.98, 'p90': 16.07} · 173 ayrı bağ, en çok [[32, 0, 27], [10, 0, 26], [38, 6, 24], [30, 12, 23], [22, 16, 23]]
+      OLSR §13: bildirim 862 · geri alınan 860 (süpürmede 89 · pakette 771) · geri alma süresi medyan 0.3215 s · simetrik olmayan ardıla karar 0/45511
+      rota boşalması: 1183 karar · simetrik komşu yok 195 · geçit bağ kümesinde 163 · KENDİ bilgisinde düz yol VAR 475 (atlama medyan 5)
+      OLSR sayaçları (ağ toplamı): komsu_kaybi 11503 · bag_katmani_kopma 862 · rota_hesap 205326 · hello_uretilen 7963 · tc_uretilen 4620 · tc_iletilen 65032 · tc_simetriksiz 44384 · hist_kayip_psn 451458 · hist_kayip_sessiz 21458 · erken_tc 1913
+    tohum 1002: PDR 0.5186 (pencere 0.5229) · 1446 s
+      düşen/üretilen: rota_gecersiz 32.7% · iletim_basarisiz 6.6% · ttl 6.2% · hedef_yok 2.6%
+      ısınmada düşen (adet): rota_gecersiz 483 · hedef_yok 339 · iletim_basarisiz 114 · ttl 72
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[2, 228, 15.8], [10, 216, 14.3], [24, 186, 13.2], [18, 186, 13.5], [6, 177, 13.8]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[13, 46, 25.7], [15, 42, 31.4], [9, 37, 19.0], [3, 35, 27.2], [6, 34, 13.8]]
+      en çok ttl (düğüm, adet, geçide km): [[6, 53, 13.8], [22, 40, 13.0], [17, 38, 24.2], [28, 34, 28.1], [39, 33, 12.6]]
+      evre: şok derinliği -0.07803298537856129 · toparlanma 0.0 s · tespit 9.0 s (boş kolda None olmalı — M4 kapısı)
+      karar bağı kâhin bandı: iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 2.09, 'p50': 5.35, 'p90': 12.0}
+      başarısız bağ bandı:   iyi 98% · orta 1% · kotu 1% · mesafe km {'p10': 4.97, 'p50': 10.22, 'p90': 15.63} · 212 ayrı bağ, en çok [[33, 13, 25], [29, 13, 23], [3, 20, 20], [38, 20, 17], [32, 8, 16]]
+      OLSR §13: bildirim 991 · geri alınan 985 (süpürmede 116 · pakette 869) · geri alma süresi medyan 0.569 s · simetrik olmayan ardıla karar 0/67604
+      rota boşalması: 4189 karar · simetrik komşu yok 688 · geçit bağ kümesinde 438 · KENDİ bilgisinde düz yol VAR 1500 (atlama medyan 4.0)
+      OLSR sayaçları (ağ toplamı): komsu_kaybi 9932 · bag_katmani_kopma 991 · rota_hesap 165232 · hello_uretilen 7977 · tc_uretilen 4616 · tc_iletilen 49279 · tc_simetriksiz 38714 · hist_kayip_psn 315593 · hist_kayip_sessiz 22798 · erken_tc 1821
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    hedef_yok                  0         0      1018      1018      2.7%
+    iletim_basarisiz           0         0      2248      2248      5.9%
+    kuyruk_tasmasi             0         0         4         4      0.0%
+    rota_gecersiz              0         0      9088      9088     23.7%
+    ttl                        0         0      1655      1655      4.3%
+    (koşu sonu kuyrukta)                                       0      0.0%
+
+  olsr_2atlama_lsym    PDR(pencere) ort 0.672 · üretilen 38396 · geçerli True
+    tohum 1000: PDR 0.6003 (pencere 0.6052) · 1365 s
+      düşen/üretilen: rota_gecersiz 28.5% · iletim_basarisiz 5.2% · ttl 3.6% · hedef_yok 2.8% · kuyruk_tasmasi 0.0%
+      ısınmada düşen (adet): hedef_yok 353 · rota_gecersiz 348 · iletim_basarisiz 92 · ttl 59
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[2, 178, 17.2], [12, 171, 11.5], [13, 165, 11.1], [16, 158, 9.5], [17, 157, 18.5]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[4, 47, 25.6], [2, 43, 17.2], [7, 42, 31.4], [13, 39, 11.1], [11, 38, 24.4]]
+      en çok ttl (düğüm, adet, geçide km): [[13, 79, 11.1], [2, 56, 17.2], [7, 28, 31.4], [27, 26, 22.7], [26, 22, 15.8]]
+      evre: şok derinliği -0.2876666666666666 · toparlanma 0.0 s · tespit 62.0 s (boş kolda None olmalı — M4 kapısı)
+      karar bağı kâhin bandı: iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 2.97, 'p50': 6.95, 'p90': 11.97}
+      başarısız bağ bandı:   iyi 97% · orta 2% · kotu 2% · mesafe km {'p10': 5.69, 'p50': 10.33, 'p90': 17.17} · 178 ayrı bağ, en çok [[31, 11, 25], [7, 29, 23], [13, 34, 19], [2, 24, 17], [11, 8, 16]]
+      OLSR §13: bildirim 813 · geri alınan 808 (süpürmede 127 · pakette 681) · geri alma süresi medyan 0.5595 s · simetrik olmayan ardıla karar 0/62458
+      rota boşalması: 3644 karar · simetrik komşu yok 196 · geçit bağ kümesinde 569 · KENDİ bilgisinde düz yol VAR 1519 (atlama medyan 2)
+      OLSR sayaçları (ağ toplamı): komsu_kaybi 9803 · bag_katmani_kopma 813 · rota_hesap 173540 · hello_uretilen 7974 · tc_uretilen 4483 · tc_iletilen 46797 · tc_simetriksiz 39058 · hist_kayip_psn 303260 · hist_kayip_sessiz 21112 · erken_tc 1810
+    tohum 1001: PDR 0.7742 (pencere 0.8114) · 1244 s
+      düşen/üretilen: rota_gecersiz 11.1% · iletim_basarisiz 5.8% · ttl 3.1% · hedef_yok 2.5%
+      ısınmada düşen (adet): rota_gecersiz 368 · hedef_yok 325 · iletim_basarisiz 94 · ttl 66
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[18, 102, 34.7], [17, 82, 23.0], [34, 72, 18.8], [21, 66, 35.6], [29, 65, 33.0]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[30, 47, 8.8], [26, 43, 8.6], [20, 41, 29.4], [38, 36, 16.3], [27, 35, 26.2]]
+      en çok ttl (düğüm, adet, geçide km): [[7, 45, 30.7], [27, 38, 26.2], [13, 37, 29.2], [3, 25, 22.8], [20, 24, 29.4]]
+      evre: şok derinliği 0.07525000000000004 · toparlanma 28.0 s · tespit 1.0 s (boş kolda None olmalı — M4 kapısı)
+      karar bağı kâhin bandı: iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 2.29, 'p50': 6.06, 'p90': 14.04}
+      başarısız bağ bandı:   iyi 92% · orta 7% · kotu 1% · mesafe km {'p10': 7.05, 'p50': 10.82, 'p90': 16.86} · 176 ayrı bağ, en çok [[30, 12, 29], [38, 6, 20], [26, 0, 20], [23, 5, 19], [32, 0, 15]]
+      OLSR §13: bildirim 876 · geri alınan 872 (süpürmede 75 · pakette 797) · geri alma süresi medyan 0.354 s · simetrik olmayan ardıla karar 0/47272
+      rota boşalması: 1426 karar · simetrik komşu yok 220 · geçit bağ kümesinde 156 · KENDİ bilgisinde düz yol VAR 441 (atlama medyan 4)
+      OLSR sayaçları (ağ toplamı): komsu_kaybi 11529 · bag_katmani_kopma 876 · rota_hesap 204178 · hello_uretilen 7965 · tc_uretilen 4615 · tc_iletilen 65724 · tc_simetriksiz 46988 · hist_kayip_psn 446594 · hist_kayip_sessiz 20329 · erken_tc 1912
+    tohum 1002: PDR 0.5641 (pencere 0.5997) · 1425 s
+      düşen/üretilen: rota_gecersiz 28.4% · iletim_basarisiz 7.1% · ttl 5.5% · hedef_yok 2.6%
+      ısınmada düşen (adet): rota_gecersiz 672 · hedef_yok 339 · iletim_basarisiz 127 · ttl 118
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[2, 192, 15.8], [34, 163, 3.9], [30, 155, 16.6], [27, 137, 25.1], [13, 137, 25.7]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[13, 49, 25.7], [16, 44, 17.3], [32, 43, 26.9], [15, 40, 31.4], [37, 40, 28.5]]
+      en çok ttl (düğüm, adet, geçide km): [[4, 54, 34.1], [3, 51, 27.2], [6, 39, 13.8], [28, 32, 28.1], [22, 30, 13.0]]
+      evre: şok derinliği 0.02081099201299541 · toparlanma 0.0 s · tespit 5.0 s (boş kolda None olmalı — M4 kapısı)
+      karar bağı kâhin bandı: iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 2.24, 'p50': 6.32, 'p90': 12.45}
+      başarısız bağ bandı:   iyi 97% · orta 2% · kotu 1% · mesafe km {'p10': 5.23, 'p50': 10.96, 'p90': 15.78} · 231 ayrı bağ, en çok [[38, 20, 29], [32, 8, 23], [33, 13, 22], [3, 20, 21], [29, 13, 20]]
+      OLSR §13: bildirim 1069 · geri alınan 1050 (süpürmede 118 · pakette 932) · geri alma süresi medyan 0.525 s · simetrik olmayan ardıla karar 0/62932
+      rota boşalması: 3635 karar · simetrik komşu yok 604 · geçit bağ kümesinde 463 · KENDİ bilgisinde düz yol VAR 1262 (atlama medyan 3.0)
+      OLSR sayaçları (ağ toplamı): komsu_kaybi 10090 · bag_katmani_kopma 1069 · rota_hesap 177816 · hello_uretilen 7958 · tc_uretilen 4589 · tc_iletilen 56041 · tc_simetriksiz 41683 · hist_kayip_psn 355920 · hist_kayip_sessiz 21517 · erken_tc 1829
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    hedef_yok                  0         0      1017      1017      2.6%
+    iletim_basarisiz           0         0      2313      2313      6.0%
+    kuyruk_tasmasi             0         0         1         1      0.0%
+    rota_gecersiz              0         0      8705      8705     22.7%
+    ttl                        0         0      1548      1548      4.0%
+    (koşu sonu kuyrukta)                                       0      0.0%
+
+  bolge: ed = karistirici >= ED esigi (kanal erisim kilidi) · girisim = gurultunun ustu · uzak = karistiricidan bagimsiz
+  iletim_basarisiz'in bolgesi ALICIDA (denenen sonraki atlama) okunur; digerleri dustugu dugumde (K-193)
+  bag bandi: kahinin tek deneme basarisindan p_atlama — iyi >= 0,90 · orta 0,50-0,90 · kotu < 0,50 (girisim haric)
+  toplam duvar suresi 1448 s
+cikis=0

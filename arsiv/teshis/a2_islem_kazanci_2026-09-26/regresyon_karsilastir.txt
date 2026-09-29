@@ -1,0 +1,15 @@
+REGRESYON KARSILASTIRMASI — k172 (49 satir) ↔ k173 (50 satir)
+  (yeni vaka) yalniz k173: l-statik-surekli-dogrudan_komsu-islem_kazanci · gecerli=True
+  (ilan edilmis degisen vaka) k-statik-surekli-desparete-yere_toplama · 210 alan farkli · gecerli=True
+
+  bulgusuz vaka : 48/48 (+1 ilan edilmis degisen)
+  (beklenen) kimlik.arac_hash                                 48 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           48 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              48 vakada farkli
+  (beklenen) kimlik.protokol_hash                             46 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         48 vakada farkli
+  (izinli)   kimlik.kurulum_hash                              48 vakada farkli
+  (izinli)   konfig.islem_kazanci                             48 vakada farkli
+  (izinli)   teshis.koken_kovalari.KAYNAK                     48 vakada farkli
+
+  🟢 BIREBIR (izinli farklar disinda)

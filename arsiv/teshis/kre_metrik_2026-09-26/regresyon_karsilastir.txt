@@ -1,0 +1,16 @@
+REGRESYON KARSILASTIRMASI — k181 (67 satir) ↔ k182 (67 satir)
+  (ilan edilmis degisen vaka) t-bagimsiz-surekli-dogrudan_komsu-dugum_kaybi · 6 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) t-statik-surekli-aodv-dugum_kaybi · 11 alan farkli · gecerli=True
+
+  bulgusuz vaka : 65/65 (+2 ilan edilmis degisen)
+  (beklenen) kimlik.arac_hash                                 65 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           65 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              65 vakada farkli
+  (beklenen) kimlik.protokol_hash                             14 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         65 vakada farkli
+  (izinli)   ham.olu_hedefe_dogum_s                           65 vakada farkli
+  (izinli)   ham.uretilmeyen_dogum_s                          65 vakada farkli
+  (izinli)   metrikler.gorev_teslim_orani                     65 vakada farkli
+  (izinli)   metrikler.gorev_teslim_orani_pencere             65 vakada farkli
+
+  🟢 BIREBIR (izinli farklar disinda)

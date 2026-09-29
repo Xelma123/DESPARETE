@@ -32,18 +32,10 @@ nokta; bellek önemsiz, belirlenimcilik tam.
 `Sabit` kolu silinmez: literatürün U1 sanity testi (*"statik + bağlı →
 PDR ≈ 1"*) yalnızca orada koşabilir.
 
-🔴 BURADAKİ BAĞLANTILILIK TABLOSU KALDIRILDI — 9 Eylül 2026.
-Eski tablo (*"statik %73,3 · mobil %82,4"*) iki kere çürüdü: üreticisi
-kolun ESKİ adını kullandığı için aylardır **koşmuyordu**, ve ölçtüğü graf
-280 m'lik teşhis diskiydi — K-096 o diskin veri yolunda hiçbir yeri
-kapamadığını zaten ölçmüştü. Bugün aynı disk her iki kolda da %0,0 veriyor;
-veri taşıyan kanal grafiğinde ise statik kol 270/270 anda TEK PARÇA.
-Tam kayıt ve bugünkü sayılar `yapilandirma/senaryolar.py` başlığında.
-
-🔒 Bu modülün kararlarından hiçbiri o tabloya dayanmıyordu: `Sabit` kolu
-U1 için, `GaussMarkov3B` literatürün standardı olduğu için, `GorevTabanli3B`
-ise ölçülen bir bağıl hız farkı için var. `Formasyon3B` (Y6, 11 Eylül 2026)
-öğrenci onayıyla eklendi: yerleşim noktasında istasyon tutan sürü.
+Kollar: `Sabit` U1 için · `GaussMarkov3B` literatürün standardı ·
+`GorevTabanli3B` koordineli sürü · `Formasyon3B` (Y6) birincil hücrenin
+kolu. Bağlantılılık ve bölünme `yapilandirma/senaryolar.py`nin
+tablolarında.
 """
 
 from __future__ import annotations
@@ -60,38 +52,14 @@ __all__ = ["Mobilite", "Sabit", "GaussMarkov3B", "GorevTabanli3B",
 
 
 # ==========================================================================
-# 🔴 SINIR DAVRANIŞI — 4 Eylül 2026'da ÖLÇÜMLE DÜZELTİLDİ
+# SINIR DAVRANIŞI — yansımada ORTALAMA YÖN DE AYNALANIR
 # ==========================================================================
-# Yansıma tek başına YETMİYORDU ve bu ölçüldü. Yansıma ANLIK azimutu
-# çeviriyordu ama Gauss-Markov özyinelemesi düğümü kendi sabit ORTALAMA
-# yönüne geri çekiyor; o ortalama hâlâ duvarı gösteriyordu. Sonuç: düğümler
-# duvara yapışıyordu.
-#
-#   30 tohum × 350 s, düzeltmeden ÖNCE
-#     kenardan ortalama uzaklık   180 m  →   21 m   (düzgün dağılımda 166,7 m)
-#     kenardan ortanca uzaklık    170 m  →    5 m
-#     ortalama derece            7,2    → 11,2     (duvarda yığılma)
-#     tam bağlı zaman oranı              %11,1     (en kötü tohum %0,9)
-#     t = 350'de ortalama irtifa         117,0 m   (kutu tavanı 120 m)
-#
-# Ölçülecek olan şey karıştırma değil, **duvara yapışmış bir sürü** olurdu.
-# Derecenin ARTIP bağlantılılığın DÜŞMESİ imzasıydı: yığılma yerel dereceyi
-# büyütür, ağı ise kopuk kümelere böler.
-#
-# 🔒 ÇÖZÜM: yansımada ORTALAMA YÖN DE AYNALANIR.
-# Anlık yön ile ortalama yön aynı dönüşümü görür; süreç duvara göre bakışımlı
-# kalır ve hiçbir bölge ayrıcalıklı olmaz.
-#
-# ⚠️ ELENEN ALTERNATİF — "sınır marjı" (Camp–Boleng–Davies'in tarif ettiği
-# ele alış: düğüm marja girince ortalama yön içeri çevrilir). İki biçimi de
-# denendi ve ikisi de ÖLÇÜMLE elendi:
-#   · geçici itme  → marj çizgisi bir ÇEKİM YÜZEYİ oluyor. Kenardan ortanca
-#     uzaklık tam olarak marja oturdu (50→50,6 · 100→100,4 · 150→150,2 ·
-#     200→200,0) ve derece 6,76'dan 11,93'e tırmandı.
-#   · kalıcı çevirme → bu kez MERKEZE topluyor: kenardan ortalama uzaklık
-#     192–218 m (düzgün 166,7) ve derece 8,39–10,20 (düzgün 7,27).
-# Aynalama iki yapaylığın da dışında: ayarlanacak bir marj parametresi bile
-# yok, dolayısıyla "marjı seçerek sonucu seçme" imkânı da yok.
+# Yalnız anlık azimutu çevirmek düğümleri duvara yapıştırıyordu (Gauss-Markov
+# ortalama yöne geri çeker; derece artıp bağlantılılık düşüyordu). Bir
+# "sınır marjı" (Camp–Boleng–Davies) ise marj çizgisini bir çekim yüzeyine
+# ya da sürüyü merkeze toplayan bir kuvvete çeviriyordu; ikisi de ölçümle
+# elendi. Aynalamanın ayarlanacak parametresi yok — marjı seçerek sonucu
+# seçme imkânı da yok.
 
 
 # 🔒 İSTASYON TUTMA ZAMAN SABİTİ — türetilmiş bir seçim, ayar düğmesi değil.
@@ -213,33 +181,14 @@ class Sabit:
 
 # ==========================================================================
 class GaussMarkov3B:
-    """3B Gauss-Markov mobilite.
+    """3B Gauss-Markov mobilite (FANET literatürünün standardı).
 
-    Parametreler literatürün taktik İHA bandından:
-        α = 0,85 · adım 0,5 s · hız U(10, 30) m/s
-        pitch: ortalama **0**, σ = 0,05 rad (≈2,9°)
+    Hız zarfı ve α `Konfig`ten (referansta 40–120 km/h; α 0,983 — araç
+    dinamiği, ~30 s hız korelasyonu); pitch ortalama 0, σ 0,05 rad.
 
-    🔴 ORTALAMA PİTCH 0,05'TEN 0'A ÇEKİLDİ — 4 Eylül 2026.
-    0,05 rad'lık bir ORTALAMA, her düğümün KALICI olarak tırmanması demektir:
-    v·sin(0,05) ≈ 1 m/s düşey hız. Tavanın etkisinden arınmış geniş bir bandda
-    (0–5000 m) ölçüldü — 350 s'de ortalama irtifa sürüklenmesi:
-
-        ortalama pitch 0,00 rad  →   +8 m
-        ortalama pitch 0,05 rad  → +299 m
-
-    Sürüklenme, dipol anten kararının dayandığı *"düz uçuş"* varsayımıyla
-    çelişir. Ortalama 0 · σ = 0,05 ile tipik |pitch| ≈ 0,04 rad (2,3°):
-    varsayım gerçekten sağlanıyor.
-
-    ⚠️ DÜRÜSTLÜK NOTU — bu kusur tek başına ölçülemezdi.
-    Düzeltmeden önceki kodda t = 350 s'de ortalama irtifa **117,0 m** (tavan
-    120 m) çıkıyordu, yani irtifa boyutu çöküyordu. Ama o çöküş, sınır
-    kusuruyla BİRLİKTE oluşuyordu: ortalama yön aynalanmadığı için tavana
-    çarpan düğüm orada kalıyordu. Aynalama düzeltildikten sonra +0,05'lik
-    ortalama pitch tek başına irtifayı çökertmiyor (ölçüldü: 72,6 ± 28,7 m
-    ↔ sıfır ortalamada 68,4 ± 28,9 m) — testereli bir tarama üretiyor.
-    Yani pitch kararı bir ÇÖKÜŞ düzeltmesi değil, bir VARSAYIM tutarlılığı
-    kararıdır ve gerekçesi budur.
+    🔒 ORTALAMA PİTCH 0: sıfırdan farklı bir ortalama kalıcı tırmanış demektir
+    (0,05 rad → 350 s'de +299 m) ve dipol anten kararının dayandığı düz uçuş
+    varsayımıyla çelişirdi; σ 0,05 ile tipik |pitch| ≈ 2,3°.
     """
 
     __slots__ = ("_kutu", "_adim_s", "_iz", "_tik_sayisi", "hareketli", "mobilite_kolu")
@@ -349,47 +298,25 @@ class GaussMarkov3B:
 class GorevTabanli3B:
     """Görev tabanlı grup mobilitesi — koordineli sürü.
 
-    🔴 NEDEN VAR
-    ============
-    Bağımsız Gauss-Markov'da her İHA kendi rastgele yönünü seçer; kimse
-    kimseyle koordine değildir. Ölçüldü — komşular arası bağıl hız **26,0 m/s**
-    (mümkün olan en yüksek değer) ve çok atlamalı bir rotanın ömrü **2,4 s**.
-    Gerçek bir operasyonda 40 İHA 40 ayrı yöne gitmez: bir sektörü tutar, bir
-    tarama yapar, bir hedefi izler — yani **birlikte** hareket eder.
-
-    ÖLÇÜLEN KAZANÇ (kalibre edilmiş parametrelerle, bağımsız kola göre):
-        bağıl hız 0,66× · bağ ömrü 0,78× · rota ömrü **1,24×**
-    Ilımlı, ve sebebi ölçütün kendisi — derece eşitleme kısıtı müfrezeleri
-    gevşek olmaya zorluyor. Ayrıntı `yapilandirma/senaryolar.py`de.
-    Üretici: `python kalibrasyon/mobilite_gercekcilik.py`
+    Bağımsız Gauss-Markov'da her İHA kendi yönünü seçer; gerçek bir operasyonda
+    40 İHA bir sektörü tutar, bir tarama yapar, bir hedefi izler — yani birlikte
+    hareket eder. Bu kol mobilite ekseninin o ucudur.
 
     🔒 YAPI (RPGM — Referans Noktası Grup Mobilitesi ruhunda)
     ========================================================
-      · `grup_sayisi` müfreze. Her müfrezenin bir GÖREV MERKEZİ var ve o
-        merkez, bağımsız kolun kullandığı **aynı Gauss-Markov koduyla**
-        alanda dolaşıyor. Tek fizik, tek kod yolu — ikinci bir hareket
-        modeli yazılmıyor.
+      · `grup_sayisi` müfreze; HER MÜFREZE BİR SEKTÖR TUTAR: alan ızgaraya
+        bölünür ve müfrezenin GÖREV MERKEZİ kendi sektöründe, bağımsız kolun
+        kullandığı **aynı Gauss-Markov koduyla** dolaşır. Tek fizik, tek kod yolu.
       · Üyeler merkezin çevresinde bir İSTASYON tutuyor (küre içinde düzgün,
-        yarıçap `grup_yaricapi_m`).
+        yarıçap `grup_yaricapi_m`; dikey yarıçap yatayın dörtte biri — hava
+        formasyonları yatıktır).
       · Üyeler istasyonlarının çevresinde küçük, kendilerine ait bir titreşim
-        yapıyor — formasyon rijit değil. Rijit olsaydı kol, kayan bir
-        başlangıç noktasıyla STATİK koldan ibaret olurdu.
+        yapıyor — formasyon rijit değil. Rijit olsaydı kol, kayan bir başlangıç
+        noktasıyla STATİK koldan ibaret olurdu.
 
-    🔒 İKİ TÜRETİLMİŞ BÜYÜKLÜK — ayar düğmesi DEĞİL
-    ===============================================
-      · **Dikey yarıçap = yatayın dörtte biri.** Hava formasyonları yatıktır;
-        100 m'lik bir irtifa bandında 400 m yatay yayılımlı bir formasyona
-        400 m dikey vermek fiziksel olarak anlamsız olurdu.
-      · **Merkezler daraltılmış bir kutuda dolaşır** (her kenardan yarıçap
-        kadar içeride). Üyeleri kelepçelemek yerine bu seçildi: kelepçeleme
-        onları duvarda yığar ve bağımsız kolda düzeltilen kusuru geri getirir.
-
-    ⚠️ ÜÇ KOL AYNI t=0 YERLEŞİMİNİ PAYLAŞAMAZ
-    =========================================
-    "Formasyonda" ile "düzgün rastgele" farklı dağılımlardır. Kolları
-    karşılaştırılabilir yapan şey yerleşimin aynılığı değil, YOĞUNLUĞUN
-    eşitliğidir — parametreler bu yüzden ortalama dereceyi eşitleyecek biçimde
-    seçilir. Ölçüt `yapilandirma/senaryolar.py`de, taramadan ÖNCE ilan edildi.
+    ⚠️ KOLLAR AYNI t=0 YERLEŞİMİNİ PAYLAŞAMAZ: kolları karşılaştırılabilir yapan
+    yoğunluğun eşitliğidir; parametreler ortalama dereceyi eşitleyecek biçimde
+    seçilir (ölçüt `yapilandirma/senaryolar.py`de, taramadan önce).
     """
 
     __slots__ = ("_iz", "_adim_s", "_tik_sayisi", "hareketli", "mobilite_kolu",
@@ -426,21 +353,10 @@ class GorevTabanli3B:
                 "grup dikey çapı irtifa bandından büyük olamaz")
 
         # --- müfreze merkezleri: TAM kutuda, aynı GM koduyla ---------------
-        # 🔴 İLK YAZIMDA MERKEZLER DARALTILMIŞ BİR KUTUDA DOLAŞIYORDU
-        # (her kenardan yarıçap kadar içeride), ki üyeler kutunun dışına
-        # taşmasın. Tarama bunu ölçümle çürüttü: daraltma etkin alanı
-        # ρ = 150 m'de %49'a, ρ = 350 m'de **%9'a** indiriyor ve sürüyü
-        # sıkıştırıyordu. Ortalama derece 14,8–20,4 çıktı (hedef 7,45) ve
-        # ilan edilmiş ölçütü HİÇBİR aday geçemedi. Ölçülen şey
-        # koordinasyon değil, alanın küçültülmesiydi — 3B'ye geçerken
-        # yaşanan tuzağın aynısı.
-        # 🔒 HER MÜFREZE BİR SEKTÖR TUTAR — modelin görev yapısı budur.
-        # Serbest dolaşan merkezler de ölçümle elendi: 8 müfreze 1000×1000'de
-        # bağımsız dolaşınca rastgele üst üste biniyor ve ortalama derece
-        # 10–17 arasında geziniyordu (hedef 7,45). Bir gözetleme görevinde
-        # müfrezeler üst üste binmez; harekât alanı bölüşülür. Sektör, "dış
-        # dünyaya göre hareket"in modeldeki karşılığıdır: müfrezenin nereye
-        # gideceğini rastgelelik değil, GÖREVİ belirler.
+        # 🔒 HER MÜFREZE BİR SEKTÖR TUTAR: gözetleme görevinde harekât alanı
+        # bölüşülür. Ölçümle elenen iki alternatif: daraltılmış ortak kutu
+        # (sürüyü sıkıştırıyordu) ve serbest dolaşan merkezler (üst üste binip
+        # dereceyi 10–17 arasında oynatıyordu).
         sutun = math.ceil(math.sqrt(grup_sayisi))
         satir = math.ceil(grup_sayisi / sutun)
         sektor_en = kutu.en_m / sutun
@@ -570,9 +486,8 @@ class Formasyon3B:
     """Formasyon — her düğüm yerleşimdeki noktasını İSTASYON olarak tutar.
 
     Şartname: `v2/07-SIMULATOR-TASARIMI.md` §18 Y6 (öğrenci onayı 11 Eylül
-    2026). Kutu sürüyle birlikte hareket eden gözlem çerçevesi olduğu için
-    (`Konfig.olcek`) sürünün ortak hareketi ağa görünmez; görünen şey düğümün
-    istasyonu çevresindeki manevrasıdır.
+    2026). Birincil hücrenin kolu: sürü görev alanı üzerinde konum tutar;
+    görünen hareket düğümün istasyonu çevresindeki manevrasıdır.
 
     🔒 YENİ SERBEST SAYI YOK
     ========================

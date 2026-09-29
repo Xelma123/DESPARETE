@@ -1,0 +1,37 @@
+  DUNYA: referans_2026
+ANA DENEY TOHUMLARININ BOLUNMESI — B6 (`v2/12` §3)
+  N = 40 · alan = 33000 m · tohumlar 2000–2039 (40 tohum)
+  kollar: ('statik', 'bagimsiz', 'gorev', 'formasyon')
+  pencere boyunca 9 an: 50–299 s
+  bag: KAHIN GRAFIGI · bolunmus an = ulasilamaz cift > 0
+  🔒 HICBIR KOL KOSULMUYOR — yalniz grafik kuruluyor (muhur bozulmaz)
+
+  kol                   bolunmus tohum  bolunmus an payi  derece ort
+  statik                       1/40               2.50%        9.69 🔴
+      🔴 tohum 2029: 9/9 anda bolunmus · en cok 39 ulasilamaz cift
+  bagimsiz                     2/40               1.39%       10.31 🔴
+      🔴 tohum 2007: 2/9 anda bolunmus · en cok 39 ulasilamaz cift
+      🔴 tohum 2029: 3/9 anda bolunmus · en cok 39 ulasilamaz cift
+  gorev                        3/40               0.83%       10.37 🔴
+      🔴 tohum 2002: 1/9 anda bolunmus · en cok 39 ulasilamaz cift
+      🔴 tohum 2019: 1/9 anda bolunmus · en cok 39 ulasilamaz cift
+      🔴 tohum 2028: 1/9 anda bolunmus · en cok 76 ulasilamaz cift
+  formasyon                    2/40               2.50%       10.64 🔴
+      🔴 tohum 2008: 1/9 anda bolunmus · en cok 39 ulasilamaz cift
+      🔴 tohum 2029: 8/9 anda bolunmus · en cok 39 ulasilamaz cift
+
+  bolunmus (kol, tohum) cifti : 8/160
+
+  🔒 Bu sayi bir KAPI DEGIL, bir BEYANDIR: kopuk bir tohum
+     'kotu tohum' degildir ve ATILMAZ — atmak secilim yanliligi
+     olurdu. Bolunmus bir (kol, tohum) ciftinde teslim kaybinin
+     bir kismi YONLENDIRMEDEN BAGIMSIZDIR ve o tohum raporda
+     ISIMLE anilir; betimleyici tablolar ve evre metrikleri
+     orada ayrica okunur.
+  ⚠️ KARISTIRICI BU TANIMIN DISINDA: olculen sey TOPOLOJININ
+     bolunmesidir. Karistirmanin actigi gecici kopukluk evre
+     metrikleriyle olculur.
+
+real	8m53.597s
+user	0m0.015s
+sys	0m0.000s

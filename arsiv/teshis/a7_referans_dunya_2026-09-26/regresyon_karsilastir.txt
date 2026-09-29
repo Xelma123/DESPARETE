@@ -1,0 +1,23 @@
+REGRESYON KARSILASTIRMASI — k177 (61 satir) ↔ k178 (64 satir)
+  (yeni vaka) yalniz k178: r-referans-bagimsiz-surekli-dogrudan_komsu · gecerli=True
+  (yeni vaka) yalniz k178: r-referans-statik-surekli-aodv · gecerli=True
+  (yeni vaka) yalniz k178: r-referans-statik-yok-dogrudan_komsu · gecerli=True
+
+  bulgusuz vaka : 61/61
+  (beklenen) kimlik.arac_hash                                 61 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           61 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              61 vakada farkli
+  (beklenen) kimlik.protokol_hash                             13 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         61 vakada farkli
+  (izinli)   kapsam.dunya                                     61 vakada farkli
+  (izinli)   kimlik.kurulum_hash                              61 vakada farkli
+  (izinli)   konfig.alici_anten_kazanci_dbi                   61 vakada farkli
+  (izinli)   konfig.dunya                                     61 vakada farkli
+  (izinli)   konfig.karistirici_taban_dbm                     61 vakada farkli
+  (izinli)   konfig.menzil_snr_db                             61 vakada farkli
+  (izinli)   konfig.verici_eirp_dbm                           61 vakada farkli
+  (izinli)   teshis.koken_kovalari.KAYNAK                     61 vakada farkli
+  (izinli)   teshis.koken_kovalari.SINANMAMIS                 61 vakada farkli
+  (izinli)   teshis.koken_kovalari.TURETILMIS                 61 vakada farkli
+
+  🟢 BIREBIR (izinli farklar disinda)

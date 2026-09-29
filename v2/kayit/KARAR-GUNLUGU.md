@@ -133,8 +133,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-200 | 🟢 BİRİNCİL HÜCRE PARTİSİ — OLSR §13 kapalı kalır (karıştırma altında da kanıtlı) · rota  | 🟢 geçerli |
 | K-201 | 🟢 DEVİR İSTEMİ: yeni ajan gerekli belgeleri okur, projeyi ve nerede kaldığımızı anlar, p | 🟢 geçerli |
 | K-202 | 🟢 U1 ARACI: kâhin desen başına bir kez, ara kayıt · ANATOMİDE ETKİ ALANI · DESPARETE U1' | 🟢 geçerli |
+| K-203 | 🟢 FAZ 4 KAPANIŞ KAPISI ve DENETİMİN KARARLARI — Faz 5'e paralel iş yok · köken defteri r | 🟢 geçerli |
 
-**113 kayıt · 1 revize · 112 geçerli**
+**114 kayıt · 1 revize · 113 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1447,3 +1448,13 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Ortam:** `python` komutu başka bir proje için kurulan 3.12'yi açıyor, onda numpy/scipy/pytest yok → komutlar `py -3.11` ile (öğrenci).
 - **Doğrulama:** ilgili 5 test geçti · mimari denetimi ihlalsiz, kökeni yazılmamış sabit yok, SINANMAMIŞ 41 · takım 941 → 944 test (tam takım iş kapanışında). Simülatör davranışı değişmedi (yalnız alet) → regresyon gerekmez.
 **Koşan:** U1, dondurulmuş kopya `arsiv/teshis/u1_2026-09-29/kopya` (`arac_hash` 6e784895…), beklenti ve karar kuralları `arsiv/teshis/u1_2026-09-29/beklenti.md` (ölçmeden önce); yere toplama (60 koşu) → eşler arası (48 koşu).
+# K-203 · 🟢 FAZ 4 KAPANIŞ KAPISI ve DENETİMİN KARARLARI — Faz 5'e paralel iş yok · köken defteri referans dünyaya göre · DÜNYA TANIMI kovası · evre metrikleri çizelgeli karıştırıcıda kapanışta · yorum temizliği önce simülatör ve protokoller
+> 29–30 Eylül gece · öğrenci: *"faz 5'e geçmeden önce mevcut durumumuzu garantiye almak ve faz 5'e temiz ve güvenli bir yapıyla girmek istiyorum … faz 5'e paralel başlamak şu anda pek istediğim bir durum değil"*; kararlar: *"benim onayladığım dünya tanımları 33 km vesaire de dahil kaynaklardan alınma metrikler zaten projenin kapsamı sayılır · kod yorumu ve temizliğin kapsamında önce simülatör ve protokoller · diğer dediğin her şeye onay"* · denetim kaydı `arsiv/teshis/faz4_kapanis_2026-09-30/denetim.md`
+
+- **Kapı:** Faz 5'e geride iş kalmadan (U1 → taban protokoller donar · 4.4 · 4.5), yazılım ve yapı denetiminden geçmiş simülatörle, güncel ve arınmış belgelerle geçilir; Faz 5'le paralel iş yok. Kuyruğa konmuş Faz 5.0 ölçümü iptal edildi (aleti ve beklentisi `arsiv/teshis/faz5_0_2026-09-30/`de, koşulmadı).
+- **Köken defteri referans dünyaya göre** (denetim B1): defter bugün `Konfig` varsayılanlarını, yani eski 1:50 dünyayı gerekçelendiriyor — 16 `DUYARSIZ` aklamasının 16'sı ve `OLCULMUS` kayıtlarının çoğu eski dünyanın; bazı gerekçeler referans dünyada yanlışa döndü (`cw_max` "erişilemez": yeniden deneme 7'de 5. denemede erişilir). Defter referans dünyanın değerini gerekçelendirecek, eski dünyanın gerekçesi arşive; mimari denetimi borcu referans dünya için sayacak.
+- **DÜNYA TANIMI kovası:** öğrencinin onayladığı referans dünya tanımları (`14`: 33 km, N 40, 40–120 km/h, irtifa 50–300 m, 10 W, 512 B telemetri, birincil hücre …) ve kaynaklardan alınan değerler projenin KAPSAMIDIR — sonuçlar bu dünyaya koşullu, kapsam beyanıyla; duyarlılık borcu taşımaz. Duyarlılık borcu yalnız gerekçesiz modelleme seçimlerinde kalır.
+- **İndirme izni:** kaynak bağlamak için ns-3 dosyaları (onay çerçevesi boyu, LLC/SNAP, kuyruk varsayılanı, yakalama eşiği) ve RFC 791/768/1042.
+- **Evre metrikleri çizelgeli karıştırıcıda** (denetim B8): birincil hücrenin karıştırıcısı 15 s açık · 15 s sessiz, `08`in metrikleri tek basamak varsayıyor → tanım kapanışta yazılır (Faz 6'ya bırakılmaz).
+- **Yorum temizliği:** önce `sim2/` ve `protokoller/` (tarihçe anlatıları kısalır, davranış aynı, regresyonla kanıtlanır); `kalibrasyon/` ve `tests2/` sonra.
+- **Aynı gece yapılan (alet, simülatör davranışı değişmedi):** regresyona 13 referans dünya vakası (`u-`, denetim B6) · `cozunurluk.py` ve `duyarlilik.py` `--dunya` okur ve basar (B7) · kayıp anatomisine DESPARETE onarım bölümleri ve `rota_gecersiz` anında alan durumu (Faz 5.0 aleti). Testler geçti.

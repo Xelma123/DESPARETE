@@ -1,0 +1,39 @@
+KOL · PDR(pencere) ort [1003 1004 1005 1006] · kahin-prot · doguma gore once/acik/sessiz
+olsr                                  0.418 [0.463 0.402 0.278 0.529]  +0.395  0.477/0.266/0.515
+olsr_s13                              0.366 [0.413 0.342 0.241 0.466]  +0.448  0.399/0.245/0.459
+aodv                                  0.556 [0.506 0.679 0.461 0.577]  +0.257  0.635/0.459/0.567
+aodv@rota_tamponu_kapasitesi=256      0.556 [0.506 0.679 0.461 0.577]  +0.257  0.635/0.459/0.567
+aodv@rota_tamponu_omru_s=60           0.556 [0.506 0.679 0.461 0.577]  +0.257  0.635/0.459/0.567
+aomdv                                 0.569 [0.534 0.700 0.441 0.602]  +0.244  0.624/0.470/0.612
+desparete                             0.700 [0.665 0.725 0.613 0.796]  +0.114  0.782/0.560/0.754
+en_guvenilir_kahin                    0.813 [0.766 0.891 0.780 0.818]  +0.000  0.862/0.729/0.848
+
+ESLI FARKLAR
+  olsr - olsr_s13: +0.049 +0.059 +0.037 +0.064  ort +0.052 · sd 0.012
+  desparete - aodv: +0.158 +0.045 +0.152 +0.219  ort +0.144 · sd 0.072
+  desparete - aomdv: +0.131 +0.025 +0.172 +0.194  ort +0.130 · sd 0.075
+  desparete - olsr: +0.202 +0.323 +0.335 +0.267  ort +0.282 · sd 0.061
+  aomdv - aodv: +0.028 +0.020 -0.021 +0.025  ort +0.013 · sd 0.023
+  aodv@rota_tamponu_kapasitesi=256: temel AODV ile birebir: True
+  aodv@rota_tamponu_omru_s=60: temel AODV ile birebir: True
+
+DUSUS SEBEBI (uretilene oran) · bolge dagilimi (ANLIK — sessizde hep uzak)
+  aodv                 rota_gecersiz 24.3% (ed 0% gir 3% uzak 97%) · iletim_basarisiz 19.1% (ed 1% gir 6% uzak 93%) · ttl 0.3% (ed 0% gir 2% uzak 98%)
+  olsr                 rota_gecersiz 43.8% (ed 0% gir 6% uzak 94%) · iletim_basarisiz 9.0% (ed 6% gir 13% uzak 81%) · hedef_yok 3.1% (ed 0% gir 0% uzak 100%) · ttl 2.2% (ed 0% gir 6% uzak 94%)
+  aomdv                rota_gecersiz 22.2% (ed 0% gir 3% uzak 97%) · iletim_basarisiz 18.7% (ed 1% gir 7% uzak 92%) · ttl 1.2% (ed 0% gir 0% uzak 100%)
+  desparete            iletim_basarisiz 16.9% (ed 2% gir 8% uzak 90%) · rota_gecersiz 11.3% (ed 0% gir 9% uzak 91%) · hedef_yok 1.1% (ed 0% gir 1% uzak 99%)
+  en_guvenilir_kahin   iletim_basarisiz 17.1% (ed 5% gir 8% uzak 87%) · hedef_yok 1.0% (ed 0% gir 33% uzak 67%) · kuyruk_tasmasi 0.0% (ed 0% gir 0% uzak 100%)
+
+KARAR / BASARISIZ BAG BANDI
+  aodv                 karar iyi 93% · basarisiz iyi 55% orta 18% kotu 27%
+  olsr                 karar iyi 98% · basarisiz iyi 82% orta 8% kotu 11%
+  aomdv                karar iyi 94% · basarisiz iyi 57% orta 16% kotu 26%
+  desparete            karar iyi 96% · basarisiz iyi 75% orta 12% kotu 12%
+  en_guvenilir_kahin   karar iyi 92% · basarisiz iyi 61% orta 17% kotu 21%
+
+EVRE METRIKLERI (tohum ortalamasi; None sayilmaz)
+  aodv                 sok 0.155 (n=4) · toparlanma_s 15.250 (n=4) · tespit_s 42.000 (n=3)
+  olsr                 sok 0.260 (n=4) · toparlanma_s 3.500 (n=4) · tespit_s —
+  aomdv                sok 0.138 (n=4) · toparlanma_s 6.500 (n=4) · tespit_s —
+  desparete            sok 0.233 (n=4) · toparlanma_s 21.250 (n=4) · tespit_s 31.000 (n=1)
+  en_guvenilir_kahin   sok 0.147 (n=4) · toparlanma_s 8.500 (n=4) · tespit_s —

@@ -30,42 +30,17 @@ kolaylık değil, geçerlilik şartıdır.
     birikim  float, monoton artan      → pencere ikizi = FARK
     tepe     maksimum                  → 🔴 FARKLA TÜRETİLEMEZ, ayrı izlenir
 
-🔴 İKİZ PENCEREDE BİTER — 16 Eylül 2026'da düzeltildi (denetim B2)
-==================================================================
-İkiz `[pencere başı, pencere SONU)` aralığını sayar. Önceden `pencere_bitir`
-yalnız bir bayrak indiriyordu ve ikiz koşu SONUNDA `değer − pencere_başı`
-olarak türüyordu — yani her ikiz `[pencere başı, KOŞU SONU)` aralığını
-sayıyordu, 30 saniyelik boşalma aralığı DÂHİL.
+🔒 İKİZ PENCEREDE BİTER (denetim B2)
+====================================
+İkiz `[pencere başı, pencere SONU)` aralığını sayar. Boşalma aralığı da
+sayılsaydı periyodik kontrol trafiği (OLSR HELLO/TC) boşalmada akmaya
+devam eder, tepkisel ailenin keşfi susar — NRL iki protokol ailesinde
+sistematik olarak farklı şişerdi (~%10; H1.1'in baktığı yer).
 
-⚠️ Bu bir büyüklük sorunu değil, bir KARŞILAŞTIRMA GEÇERLİLİĞİ sorunuydu ve
-ölçüldü (`statik-yok` · `statik-surekli` · `DogrudanKomsu` · tohum 1000):
-
-    boşalmadan gelen pay:  kontrol %7,6–10,7  ·  veri tarafı %0,0
-    nrl_bayt_pencere       0,0867 ↔ 0,0788   (+%10,0)
-    nrl_cerceve_pencere    3,4688 ↔ 3,2049   (+%8,2)
-    nrl_airtime_pencere    0,2212 ↔ 0,2032   (+%8,9)
-
-Payda (veri) boşalmada HİÇ büyümüyor — trafik çizelgesi `olcum_bitis_s`te
-biter (`ag/trafik.py`) — ama pay (kontrol) büyümeye devam ediyordu. Ve o
-kontrol trafiği PERİYODİKTİR: OLSR'ın HELLO/TC'si boşalmada da akar ve
-NRL'sini şişirir, AODV'nin keşif trafiği susar ve şişme sıfıra yakın kalır.
-Yani üç manşet metrikten biri iki protokol ailesini SİSTEMATİK OLARAK FARKLI
-cezalandırıyordu — tam da H1.1'in mekanizma kontrolünün baktığı yerde.
-
-🔒 Tanım, hiçbir protokol yazılmadan ve hiçbir sonuç görülmeden yazıldı.
-
-🔴 VE BİR TUZAK — `pencere_icinde_olculdu`
-==========================================
-Koşu BİTTİKTEN sonra yazılan ama ölçüm PENCERESİNDE ölçülmüş sayaçlar var:
-`kopma_fiziksel` geometriden, koşu sonunda, `[pencere başı, pencere sonu]`
-aralığı için hesaplanır (`kosum/kosu.py`). Naif bir dondurma onu ikizde
-**0** yapardı — ölçüldü (`bagimsiz-surekli`, tohum 1000): ham 49, ikiz
-49 → **0**, ve `algilama_duyarliligi_pencere` 0,0 yerine `None` dönerdi.
-Yani Risk 3'ün NİCEL YARISI sessizce ölürdü.
-
-Onun yolu `pencere_icinde_olculdu`dur: değeri hem ham sayaca hem pencere
-anlık görüntüsüne yazar. İkinci bir sayaç listesi DEĞİLDİR — tek bir çağrı
-yolu, ve gerekçesi çağrı yerinde.
+🔴 `pencere_icinde_olculdu` — koşu bittikten sonra yazılan ama ölçüm
+PENCERESİNDE ölçülmüş sayaçlar (`kopma_fiziksel`) değeri hem ham sayaca hem
+pencere anlık görüntüsüne yazar; naif bir dondurma ikizde 0 yapardı. İkinci
+bir sayaç listesi değildir — tek bir çağrı yolu.
 """
 
 from __future__ import annotations
@@ -150,15 +125,9 @@ TANIMLAR: tuple[SayacTanimi | Turev, ...] = (
                 "adreslenen alıcının gövdesini hatasız çözdüğü veri iletimi — "
                 "tekrarlar dâhil; PSR'nin payı"),
     SayacTanimi("mac_vazgecme", "sayim", "yeniden deneme hakkı bitti"),
-    # 🔴 "mac_carpisma" KALDIRILDI — 8 Eylül 2026. Adı bir MEKANİZMA iddia
-    # ediyordu ("eşzamanlı iletim çakışması") ama kod bir BELİRTİ sayıyordu:
-    # onay penceresi her boş geçtiğinde artıyordu — gerçek çarpışmada da,
-    # gövde PER'den düştüğünde de, onay çerçevesi kaybolduğunda da.
-    # Pratik sonucu: karıştırma altında artışı yanlışlıkla "tıkanıklık" diye
-    # okunabiliyordu. Bu tam olarak yaşandı ve ancak yük taramasıyla ayrıldı.
-    #
-    # 🔒 Yerine İKİ sayaç: ayrım BEDAVA, çünkü `Dugum.devredildi` zaten
-    # paketin el değiştirip değiştirmediğini biliyor.
+    # Tek bir "çarpışma" sayacı bir mekanizma iddia edip belirti sayardı
+    # (onay penceresi boş geçti); iki sayaç ayırır: veri alıcıya ULAŞMADI ↔
+    # ulaştı ama ONAY kayboldu (`Dugum.devredildi` zaten biliyor).
     SayacTanimi("mac_onaysiz_veri", "sayim",
                 "onay gelmedi ve veri çerçevesi alıcıya ULAŞMADI — "
                 "çarpışma, gövde hatası, alıcı meşgul ya da yarı çift yönlü",
@@ -279,16 +248,8 @@ TANIMLAR: tuple[SayacTanimi | Turev, ...] = (
     # sıfır kalır ve satır birebir aynıdır.
     SayacTanimi("tampon_giris", "sayim",
                 "rota bekleme tamponuna giren paket — yeniden girişler dâhil"),
-    # 🔴 ADI DÜŞME SEBEBİYLE AYNI DEĞİL ve bu, bir testin konuşmasıyla
-    # öğrenildi (16 Eylül 2026). Önce `tampon_asimi` konmuştu — düşme
-    # sebebinin adının aynısı — ve `test_IKINCI_bir_sayac_listesi_YOK`
-    # kırıldı: `korunum.DUSME_SEBEPLERI` demeti böylece ÜÇ sayaç adı taşır
-    # hâle geliyordu ve test bunu *"sayaç adlarının ikinci bir listesi"*
-    # sayıyor. Test sezgiseldir (eşiği üç sabit) ve koruduğu asıl değişmez
-    # fiilen çiğnenmemişti; yine de ÖLÇÜT SONUÇ GÖRÜLDÜKTEN SONRA
-    # GEVŞETİLMEZ (`03` §2 ilke 3) — gevşetilen bir kapı bir daha kapı
-    # olmaz. Ad değiştirildi ve zaten var olan geleneğe uyuyor:
-    # `ttl` → `ttl_olumu` · `iletim_basarisiz` → `mac_vazgecme`.
+    # Adı düşme sebebinden (`tampon_asimi`) ayrı: sayaç adlarının ikinci bir
+    # listesi doğmasın (`test_IKINCI_bir_sayac_listesi_YOK`).
     SayacTanimi("tampon_dusen", "sayim",
                 "tamponun paket ya da süre tavanı aşıldı, paket düştü — "
                 "düşme sebebi `tampon_asimi`"),
@@ -313,31 +274,12 @@ TANIMLAR: tuple[SayacTanimi | Turev, ...] = (
                                 "girmiyor."),
 
     # =================================================================== türev
-    # 🔴 "pdr" BURADAN KALDIRILDI — 8 Eylül 2026. Sayaç ikizleri FARK alarak
-    # türetilir; o yüzden `pdr_pencere` PAYI pencerede TESLİM EDİLENLERİ,
-    # PAYDASI pencerede DOĞANLARI sayıyordu — iki ayrı küme.
-    #
-    # ⚠️ Ölçülen sapma küçüktü (0,0016) ama YÖNÜ tehlikeliydi: gecikmesi
-    # uzun bir protokol pencere kenarından daha çok paket kaçırır ve hem
-    # gecikmede hem PDR'de cezalandırılır. Eşleştirilmiş bir karşılaştırmada
-    # bu doğrudan bir confound'dur.
-    #
-    # 🔒 PDR artık YALNIZ paket defterinden gelir ve kohort DOĞUMA göredir:
-    # pencerede doğan bir paket, ne zaman teslim edilirse edilsin sayılır.
-    # Tanım `olcum/metrikler.py`de ve TEKTİR.
-    # 🔴 PAYDA `mac_deneme`, `mac_gonderim_istegi` DEĞİL — 5 Eylül 2026'da
-    # düzeltildi. İlan edilen tanım şuydu: *"psr = başarıyla alınan veri
-    # çerçevesi / GÖNDERİLEN veri çerçevesi (atlama düzeyi, YENİDEN DENEMELER
-    # DÂHİL)"*. Sayaç kaydı ise paydayı `mac_gonderim_istegi` yapmıştı ve o
-    # sayaç paket-atlama başına BİR kez artıyor — yani yeniden denemeler
-    # paydaya girmiyordu. İkisi çelişiyordu ve fark sessiz olurdu: yeniden
-    # deneme oranı yükseldikçe PSR olduğundan İYİ görünürdü.
-    #
-    # 🔴 PAY ALICI TARAFINA TAŞINDI — 11 Eylül 2026 (`v2/07` §18 Y1, K-115).
-    # Pay `mac_gonderim_basarili` idi, yani GÖNDERENİN onayla saydığı başarı.
-    # Öğrencinin tanımı alıcı tarafıdır (K-113): onayı kaybolan iletimde veri
-    # alınmıştır. Onaya dayalı oran silinmedi, adı `mac_basari_orani` oldu;
-    # ikisinin farkı onay kaybının kendisidir ve karıştırma altında büyür.
+    # PDR burada DEĞİL: yalnız paket defterinden, DOĞUM kohortuyla
+    # (`olcum/metrikler.py`) — ikiz farkı teslimi ve doğumu ayrı kümelerde
+    # sayar, gecikmesi uzun protokolü iki kez cezalandırırdı.
+    # PSR (öğrencinin tanımı, K-115): pay ALICI tarafı (onayı kaybolan
+    # iletimde veri alınmıştır), payda `mac_deneme` (yeniden denemeler
+    # dâhil). Onaya dayalı oran `mac_basari_orani`; farkları onay kaybıdır.
     Turev("psr", "veri_alim_hedefte", "mac_deneme",
           "PSR — alıcının hatasız çözdüğü veri iletimi / deneme, yeniden "
           "denemeler dâhil. PDR ile BİRLİKTE okunur"),

@@ -706,27 +706,17 @@ class OLSR:
         """§13 bağ katmanı bildirimi — MAY; varsayılan KAPALI (K-196),
         `s13=True` ile açılır (`OLSR-b`, `04` K-147).
 
-        Eski dünyada *"MAY beyan edilir"* kuralının ölçülmüş gerekçeli TEK
-        istisnasıydı (öğrenci, 22 Eylül 2026). Beyanlı sapma olarak dururken statik kolun
-        iki hücresini eşiğin altına itiyordu: histerezis zayıf bir bağı
-        zamanın yarısından fazlasında açık sayıyor, OLSR veri başarısızlığına
-        tepki vermediği için o bağda ısrar ediyordu (K-146 §3–§4). AODV bu
-        bilgiyi RFC 3561'in çekirdeği olarak kullanıyor; §13'süz OLSR bilgi
-        yüzeyi daha dar tek taban olurdu.
-
         §13'ün üç maddesi: (1) `L_LOST_LINK_time` dolmamışsa bağ HELLO'da
         LOST_LINK ilan edilir ve simetrik sayılmaz — `_hello_kur` ile
         `_simetrik_mi` bunu §14 için zaten yapıyor; (2) aşağıda; (3) §8.5
         kaybı `_guncelle`de. ⚠️ §13 histerezisle BİRLİKTE yaşar: kalite
         eşiği aşan bir sonraki paket `L_LOST_LINK_time`ı geri alır (§14.3).
 
-        🔒 K-196 (28 Eylül 2026, öğrenci onayı): §13 artık VARSAYILAN KAPALI
-        (`OLSR-c`). Referans dünyada ölçüldü (K-193): bildirimlerin %99,7'si
-        §14.3 ile medyan 0,3–0,6 s'de geri alınıyor, ama o arada §8.5 komşu
-        kaybı 2-atlama kayıtlarını siliyor ve geçide rota boşalıyor —
-        §13'süz PDR +0,031 · +0,028 · +0,105. İstisnanın ölçülmüş gerekçesi
-        tersine döndüğü için kuralın kendisine ("MAY beyan edilir") dönüldü.
-        `s13=True` eski `OLSR-b`yi birebir üretir.
+        🔒 VARSAYILAN KAPALI (`OLSR-c`; K-196, öğrenci onayı): referans
+        dünyada bildirimlerin %99,7'si §14.3 ile ~0,5 s'de geri alınıyor, ama
+        o arada §8.5 komşu kaybı 2-atlama kayıtlarını silip geçide rotayı
+        boşaltıyor (K-193); birincil hücrede de §13'süz sürüm 4/4 tohumda
+        ort. +0,052 iyi (K-200). `s13=True` eski `OLSR-b`yi birebir üretir.
         """
         if not self._s13:
             return ()

@@ -64,6 +64,11 @@ değişikliğinden önce ve sonra koşar.
   · 4 tam uzunluk — evre metrikleri, ham bölüm, tam pencere. Süreye göre
     seçildi: statik kolda ETX kâhini, hareketli kollarda doğrudan komşu
     (ölçülen süreler ve gerekçe `vakalar()` içinde)
+  · 🔒 REFERANS DÜNYA `u-` (30 Eylül 2026, Faz 4 kapanışı): deneylerin
+    dünyasında gerçek protokoller — birincil hücre × dört protokol + ETX
+    kâhini · dört karıştırıcı sınıfı · yer karıştırıcısı ailesi · düğüm kaybı
+    · eşler arası · karıştırıcısız DESPARETE; kısa pencere. Anahtarlar
+    addan değil `REFERANS_VAKALARI` tablosundan (`_kos`)
 
 Vaka başına duvar saati basılır ama satıra yazılmaz; sonraki koşumun bandı
 bu sayılardan verilir.
@@ -115,6 +120,31 @@ KOD_KIMLIGI = ("kimlik.arac_hash", "kimlik.kosu_kimligi",
 # oysa görünmesi gereken tam olarak odur. Doğru kullanım: taban alındığından
 # beri köken defteri değiştiyse, farkı ilan ederken HANGİ kayıtların
 # değiştiği tek tek yazılır ve `--izin teshis.koken_kovalari` ile geçilir.
+
+
+# 🔒 REFERANS DÜNYA VAKALARI — 30 Eylül 2026 (Faz 4 kapanışı, denetim B6).
+# O güne kadar referans dünyada yalnız üç `r-` vakası vardı; dört protokol
+# yalnız ESKİ dünyada (`k-`) sınanıyordu. Kimlik → (senaryo, protokol, tohum,
+# `referans_2026`e ek alanlar). Hepsi kısa pencere; tohum 1003 birincil
+# hücrenin geliştirme tohumu (K-200), öteki vakalarda 1010.
+_BIRINCIL = {"tehdit_senaryosu": "derin_sizma", "trafik_deseni": "yere_toplama"}
+_YT = {"trafik_deseni": "yere_toplama"}
+REFERANS_VAKALARI: dict[str, tuple[str, str, int, dict]] = {
+    **{f"u-birincil-{p}": ("formasyon-surekli", p, 1003, _BIRINCIL)
+       for p in ("aodv", "olsr", "aomdv", "desparete", "en_guvenilir_kahin")},
+    **{f"u-statik-{j}-aodv": (f"statik-{j}", "aodv", 1010, _YT)
+       for j in ("surekli_darbeli", "reaktif", "aldatici", "taramali")},
+    "u-statik-surekli-aodv-cephe_hatti": (
+        "statik-surekli", "aodv", 1010,
+        {"tehdit_senaryosu": "cephe_hatti", **_YT}),
+    "u-bagimsiz-surekli-olsr-dugum_kaybi": (
+        "bagimsiz-surekli", "olsr", 1010,
+        {"kayip_dugum_sayisi": 5, "kayip_bas_s": 15.0, "kayip_bitis_s": 35.0,
+         **_YT}),
+    "u-gorev-surekli-aomdv-esler_arasi": (
+        "gorev-surekli", "aomdv", 1010, {"trafik_deseni": "esler_arasi"}),
+    "u-statik-yok-desparete": ("statik-yok", "desparete", 1010, _YT),
+}
 
 
 # ==========================================================================
@@ -272,6 +302,9 @@ def vakalar() -> tuple[tuple[str, str, str, int, bool], ...]:
                   "bagimsiz-surekli", "dogrudan_komsu", 1000, False))
     cikti.append(("t-statik-surekli-aodv-dugum_kaybi", "statik-surekli",
                   "aodv", 1009, False))
+    cikti += [(kimlik, senaryo, protokol, tohum, False)
+              for kimlik, (senaryo, protokol, tohum, _ek)
+              in REFERANS_VAKALARI.items()]
     return tuple(cikti)
 
 
@@ -351,6 +384,15 @@ def _kos(vaka: tuple[str, str, str, int, bool]) -> dict:
     kimlik, senaryo, protokol, tohum, tam = vaka
     pencere = {} if tam else dict(karistirici_baslangic_s=5.0, isinma_s=10.0,
                                   olcum_bitis_s=40.0, kosu_bitis_s=50.0)
+    if kimlik in REFERANS_VAKALARI:
+        from sim2.kanal.dunya import referans_2026
+        ek = REFERANS_VAKALARI[kimlik][3]
+        kur = kurulum_yap(referans_2026(kol="regresyon", senaryo=senaryo,
+                                        tohum=tohum, not_=kimlik, **pencere,
+                                        **ek))
+        kosu = Kosu(kur, _fabrika(protokol, kur))
+        kosu.kostur()
+        return sonuc_satiri(kur, kosu.dugumler, protokol)
     # Y4: kimliği `-yere_toplama` ile biten vaka o desenle koşar.
     desen = ({"trafik_deseni": "yere_toplama"}
              if kimlik.endswith("-yere_toplama") else {})

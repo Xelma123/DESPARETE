@@ -1,0 +1,4 @@
+tavan 250000: 173.4 s · {'sinir': 250000, 'tahliye': 49, 'girdi': 138860, 'iskalama_tahmini': 12388860}
+tavan 2000000: 179.4 s · {'sinir': 2000000, 'tahliye': 5, 'girdi': 1499230, 'iskalama_tahmini': 11499230}
+tavan 8000000: 180.3 s · {'sinir': 8000000, 'tahliye': 1, 'girdi': 3402498, 'iskalama_tahmini': 11402498}
+cikis 0

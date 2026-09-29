@@ -1,0 +1,16 @@
+==============================================================================
+KAYIP ANATOMISI — dunya referans_2026 · statik-yok · aile — · yere toplama · tohum [1001]
+==============================================================================
+
+  aodv                 PDR(pencere) 0.954 · kâhinle fark +0.044 · üretilen 12799 · geçerli True
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    iletim_basarisiz           0         0       430       430      3.4%
+    rota_gecersiz              0         0       143       143      1.1%
+    (koşu sonu kuyrukta)                                       0      0.0%
+
+  en_guvenilir_kahin   PDR(pencere) 0.998 · üretilen 12799 · geçerli True
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    iletim_basarisiz           0         0        30        30      0.2%
+    (koşu sonu kuyrukta)                                       0      0.0%
+
+  bolge: ed = karistirici >= ED esigi (kanal erisim kilidi) · girisim = gurultunun ustu · uzak = karistiricidan bagimsiz

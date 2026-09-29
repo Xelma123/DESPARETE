@@ -1,0 +1,6 @@
+olsr statik-yok 1000 pdr 0.9257 dusen {'kuyruk_tasmasi': 0, 'ttl': 10, 'iletim_basarisiz': 661, 'hedef_yok': 280, 'rota_gecersiz': 0, 'tampon_asimi': 0} sure 760
+olsr statik-yok 1001 pdr 0.8589 dusen {'kuyruk_tasmasi': 0, 'ttl': 3, 'iletim_basarisiz': 1432, 'hedef_yok': 311, 'rota_gecersiz': 60, 'tampon_asimi': 0} sure 839
+olsr statik-yok 1002 pdr 0.863 dusen {'kuyruk_tasmasi': 0, 'ttl': 12, 'iletim_basarisiz': 1421, 'hedef_yok': 321, 'rota_gecersiz': 0, 'tampon_asimi': 0} sure 842
+aodv statik-yok 1001 pdr 0.9986 dusen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 17, 'hedef_yok': 0, 'rota_gecersiz': 1, 'tampon_asimi': 0} sure 391
+aodv statik-yok 1002 pdr 0.9284 dusen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 802, 'hedef_yok': 0, 'rota_gecersiz': 114, 'tampon_asimi': 0} sure 474
+cikis=0

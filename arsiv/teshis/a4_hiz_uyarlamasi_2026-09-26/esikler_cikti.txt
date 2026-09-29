@@ -1,0 +1,18 @@
+1) PER eşikleri (512 B; gürültü -93.55 dBm)
+    1.0 Mb/s (dbpsk ×22) PER %10:  -3.48 dB → duyarlılık  -97.0 dBm · PER %50:  -4.40 dB
+    2.0 Mb/s (dqpsk ×11) PER %10:   1.10 dB → duyarlılık  -92.5 dBm · PER %50:   0.05 dB
+    5.5 Mb/s (cck   ×4) PER %10:   3.68 dB → duyarlılık  -89.9 dBm · PER %50:   2.74 dB
+   11.0 Mb/s (cck   ×2) PER %10:   6.69 dB → duyarlılık  -86.9 dBm · PER %50:   5.75 dB
+2) SEP₁₆ tablo ↔ doğrudan integral
+   e=0.01  tablo 9.201474e-01 · doğrudan 9.201474e-01
+   e=0.3   tablo 7.983162e-01 · doğrudan 7.983176e-01
+   e=1.0   tablo 6.043462e-01 · doğrudan 6.043462e-01
+   e=3.0   tablo 2.588298e-01 · doğrudan 2.588361e-01
+   e=8.0   tablo 2.399718e-02 · doğrudan 2.399880e-02
+   e=15.0  tablo 6.876979e-04 · doğrudan 6.877597e-04
+3) tek bağ, ARF (3000 deneme)
+   SNR  -2.0 dB → ortalama hız  1.09 Mb/s · 11 Mb/s payı 0.00
+   SNR   2.0 dB → ortalama hız  2.37 Mb/s · 11 Mb/s payı 0.00
+   SNR   6.0 dB → ortalama hız  7.67 Mb/s · 11 Mb/s payı 0.40
+   SNR  10.0 dB → ortalama hız 10.92 Mb/s · 11 Mb/s payı 0.99
+   SNR  14.0 dB → ortalama hız 10.92 Mb/s · 11 Mb/s payı 0.99

@@ -1,0 +1,24 @@
+  DUNYA: referans_2026
+Θ KOLLARI — mobilite kolu basina rota omru (Y7 · C4)
+  bag tanimi: YAVAS SINR >= 6 dB · 6 tohum · adim 1.0 s · bitis 350 s · 40 cift
+  hizlar 11.11111111111111-33.333333333333336 m/s (varsayilan) · paydalar OLSR 15 s · AODV 3 s
+
+          kol  atlama   omur  kopmayan  tau_ham   tau_KM  sansur   Θ_OLSR   Θ_AODV
+       statik    1.86      0   100.0%        —        —       —        —        —   (hic kopma yok)
+     bagimsiz    2.30     12    91.7%     71.9    122.7  50.0%     8.18    40.90
+        gorev    2.51     35    86.7%     44.2     55.2  22.9%     3.68    18.40
+    formasyon    1.75      0    99.6%        —        —       —        —        —   (hic kopma yok)
+
+  🔎 BEYAN EDILEN EKSEN: Θ_OLSR ≥ 3 (K-101). Altina dusen kol
+     protokolu tasarim zarfinin DISINDA kosturur ve BULGU olarak
+     raporlanir. KODDA UYGULANMIYOR — gerekce: C4 acik (`v2/12`).
+  ⚠️ Θ YALNIZ GOZLENEN OMURLERDEN hesaplanir: her ciftin ILK omru
+     atilir (yasi bilinmiyor) ve kosu sonunda yasayan rota
+     sansurludur. 'kopmayan' sutunu yuksekse olcume yalniz esigin
+     kiyisindaki cifler girmistir ve Θ ASAGI YANLIDIR.
+
+  `senaryolar.MOBILITE_THETA` icin:
+    "statik": (None, None, 1.000),
+    "bagimsiz": (8.18, 40.90, 0.917),
+    "gorev": (3.68, 18.40, 0.867),
+    "formasyon": (None, None, 0.996),

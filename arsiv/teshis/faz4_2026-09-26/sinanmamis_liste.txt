@@ -1,0 +1,48 @@
+Konfig  akis_sayisi                                          '10 — paket_bayt ile aynı gerekçe; duyarlılık ölçümü ESKİ çalışma noktasından (1000 m, α = '
+Konfig  beacon_araligi_s                                     "1 s = AODV `HELLO_INTERVAL` (RFC 3561 §10, `02` §R1). Değerin kökeni belli AMA 'hiçbir tab"
+Konfig  beacon_bayt                                          '32 bayt; hiçbir gerekçe yazılmamış'
+Konfig  bit_hizi_bps                                         '802.11b DQPSK 2 Mb/s — standart değer ama `02`de DOĞRULANMADI. Bianchi ±%15 dolaylı kısıtl'
+Konfig  cca_s                                                '4 µs; sıfır olmaması gerekçeli (çarpışma kaynağı) ama DEĞER gerekçesiz'
+Konfig  gm_adim_s                                            'mobilite güncelleme adımı; seçilmedi'
+Konfig  golgeleme_hucre_m                                    '50 m gölgeleme korelasyon hücresi. MEKANİZMASI gerekçeli, DEĞERİ ÖLÇÜLMEDİ. 🔴 8 Eylül 2026'
+Konfig  gorev_grup_sayisi                                    '10 müfreze × 4 üye; müfreze büyüklüğü seçilmedi'
+Konfig  gps_dikey_sigma_m                                    '2 m — `v2/15` B3 önerisi, öğrenci onayı K-170; kaynak aranacak'
+Konfig  gps_hiz_sigma_ms                                     '0,1 m/s — öneri (GPS hız doğruluğu mertebesi); `v2/15` B3 hız hatası belirtmiyordu; kaynak'
+Konfig  irtifa_maks_m                                        'ölçüm var ama ESKİ çalışma noktasında (1000 m, α=3)'
+Konfig  isinma_s                                             "🔴 eski depodan gelen bir devir. `DEVIR §6.2`: 'yeni dünyada ölçülmedi'. {50,100,150,200} t"
+Konfig  kanal_dilimi_s                                       'hash tabanlı kanal kararının zaman dilimi; seçilmedi'
+Konfig  karistirici_taban_dbm                                "referansta 30 dBm (1 W, `v2/14` §4'ün İHA taşıyıcılı alt sınırı) — GEÇİCİ: birincil hücren"
+Konfig  komsu_omru_katsayisi                                 "10× beacon aralığı; 'protokolü kısıtlamasın' gerekçeli ama DEĞER seçilmedi"
+Konfig  kuyruk_kapasitesi                                    "50; sonlu olmasi gerekceli, DEGERI degil. 🔴 ESKI GEREKCE COKTU (9 Eylul 2026): 'mevcut yuk"
+Konfig  olcum_bitis_s                                        'ölçüm penceresinin uzunluğu seçilmedi, devralındı'
+Konfig  onay_bayt                                            "802.11 ACK 14 bayt — kaynak `02`de DOĞRULANMADI. 🔴 8 Eylül 2026'da `DUYARSIZ` diye aklanmı"
+Konfig  reaktif_esik_dbm                                     '−90 dBm — öneri: 802.11b alıcı duyarlılığı mertebesi (K-173: −92,5 dBm). Reaktif karıştırı'
+Konfig  reaktif_sezme_olasiligi                              '0,95 — eskiden kodda sabitti (`kanal/karistirici.py`), `v2/15` A6 ile köken defterine alın'
+Konfig  rician_k_db                                          '6 dB — 🔒 ARTIK KEYFI DEGIL, SINANABILIR BIR FIZIK IDDIASI; ama HENUZ DOGRULANMADI. Uretici'
+Konfig  rota_tamponu_kapasitesi                              "64 paket; RFC 3561 §6.3 tamponlamayi SART kosar ama bir SAYI vermez. 64, NS-2'nin `aodv_rq"
+Konfig  rota_tamponu_omru_s                                  "30,0 s; NS-2'nin `RQUEUE_TIMEOUT` gelenegi. Sure tavani AYRI bir tavandir ve gereklidir: p"
+Konfig  rssi_olcum_sigma_db                                  'σ 2 dB — `v2/15` B2 önerisi, öğrenci onayı K-170; kaynağı aranacak (telsiz veri sayfası ya'
+Konfig  saat_ofset_araligi_s                                 '±0,5 s; kaynak yok'
+Konfig  saat_sapma_ppm                                       '20 ppm kristal sapması; kaynak yok'
+Konfig  tehdit_arac_hiz_kmh                                  '60 km/h — yer aracı; mertebe için varsayım, kaynak yok (`v2/07` §05.3.1). Ölçekte 0,33 m/s'
+Konfig  tehdit_hava_hiz_kmh                                  '200 km/h — hava platformu; mertebe için varsayım, kaynak yok (`v2/07` §05.3.1). Ölçekte 1,'
+Konfig  ttl_baslangic                                        '32 — 🔴 BU KAYIT AYNI GUN ICINDE BIR KEZ `TURETILMIS` YAPILDI VE GERI ALINDI; sebep kayda g'
+Konfig  yakalama_esigi_db                                    '10 dB capture eşiği; kaynak yok'
+Konfig  yakalama_penceresi_s                                 '🔴 `onbelge_s` ile AYNI değer, ama ayrı bir sabit olarak yazılmış — ikisi bağımsız değişebi'
+Konfig  yeniden_deneme_siniri                                '🔴 4 = UZUN çerçeve sınırı; bizim 512 baytlık çerçevemiz RTS eşiğinin altında, yani KISA sı'
+modül   kalibrasyon/calisma_noktasi.py::BASARI_ESIGI         '0,90 — `kahin.py::ATLAMA_ESIGI` ile AYNI sayı ve aynı borç. İkisinin aynı olması bilinçli '
+modül   kalibrasyon/calkanti.py::ADIM_S                      '1 s — rota ömrü örnekleme adımı. Ölçülen ömür (89 s) adımın çok üstünde, yani muhtemelen d'
+modül   kalibrasyon/calkanti.py::CIFT_SAYISI                 "40 çift — tohum başına izlenen kaynak-hedef çifti. Örnekleme büyüklüğü; Θ'nın hata payını "
+modül   kalibrasyon/duyarlilik.py::TOHUMLAR                  '5 tohum — duyarlilik taramasinin orneklem buyuklugu. 🔴 ONCE `OLCULMUS` yazmistim ve YANLIS'
+modül   kalibrasyon/evre_metrikleri_kapilari.py::TOHUMLAR    '3 tohum — evre metriklerinin doğrulama kapıları için. Kapı verdikti KOL ORTALAMASINDA veri'
+modül   kalibrasyon/formasyon_olcumu.py::ORNEK_ADIM_S        '5 s — bağıl hız örnekleme aralığı; mobilite tikinden (0,5 s) büyük, ölçüm penceresinden (2'
+modül   kalibrasyon/formasyon_olcumu.py::YARICAP_M           '530 m — komşu çift süzgeci; kullanılabilir bağ yarıçapının mertebesi (`Konfig.gorev_grup_y'
+modül   kalibrasyon/gorev_kalibrasyonu.py::UYE_TABANI        '4 — müfreze başına en az üye. Müfrezelerin klik olmasını engelleyen alt sınır; değeri seçi'
+modül   sim2/dunya/mobilite.py::ISTASYON_TUTMA_S             "2 s istasyon tutma zaman sabiti; araç dinamiğinden türetilmeli. Y6'dan beri görev VE forma"
+modül   sim2/kanal/cerceve.py::KONTROL_KAPSULLEME            'MAC 24 + FCS 4 + LLC/SNAP 8 + IPv4 20 + UDP 8 = 64 B. IP/UDP/LLC boyutları RFC 791/768/104'
+modül   sim2/kanal/dunya.py::REFERANS_ALAN_M                 "7 km — `v2/14` §3'ün ~6–8 km aralığının ortası; geçici, Faz 4.1'de C1 ölçütleriyle (derece"
+modül   sim2/kanal/dunya.py::REFERANS_KARISTIRICI_DBM        "30 dBm (1 W) — İHA taşıyıcılı karıştırıcının alt sınırı; geçici, Faz 4.1'de ρ ölçütüyle. `"
+modül   sim2/kanal/dunya.py::REFERANS_PAY_DB                 '10 dB — nominal bağın PER %10 duyarlılığının üstündeki payı (`kalibrasyon/bag_butcesi.py`)'
+modül   sim2/kanal/sonumleme.py::BAGIL_HIZ_TABANI_MS         "1 m/s tabanı; sıfır hızın M'i patlatmasını engelliyor ama DEĞER seçilmedi. K-102'den sonra"
+modül   sim2/kosum/kontrol.py::BEKLEYEN_UYANDIRMA_TAVANI     'Düğüm başına bekleyen DİNAMİK uyandırma tavanı. 🔒 Bir güvenlik sınırıdır, fizik değil: aşı'
+modül   sim2/olcum/evre.py::ALFA                             '0,05 — evre metriklerinin TEK anlamlılık sabiti (Y10, K-123). Ön-kayıt (`06` §7) tek bir a'

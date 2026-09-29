@@ -1,0 +1,25 @@
+REGRESYON KARSILASTIRMASI — k175 (54 satir) ↔ k176 (59 satir)
+  (yeni vaka) yalniz k176: p-bagimsiz-surekli-dogrudan_komsu-karistirici_gercekci · gecerli=True
+  (yeni vaka) yalniz k176: p-statik-aldatici-dogrudan_komsu-karistirici_gercekci · gecerli=True
+  (yeni vaka) yalniz k176: p-statik-aldatici-dogrudan_komsu-tasiyici_guc-karistirici_gercekci · gecerli=True
+  (yeni vaka) yalniz k176: p-statik-reaktif-dogrudan_komsu-karistirici_gercekci · gecerli=True
+  (yeni vaka) yalniz k176: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti · gecerli=True
+
+  bulgusuz vaka : 54/54
+  (beklenen) kimlik.arac_hash                                 54 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           54 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              54 vakada farkli
+  (beklenen) kimlik.protokol_hash                             13 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         54 vakada farkli
+  (izinli)   kimlik.kurulum_hash                              54 vakada farkli
+  (izinli)   konfig.a2g_durum_dilimi_s                        54 vakada farkli
+  (izinli)   konfig.a2g_ortam                                 54 vakada farkli
+  (izinli)   konfig.karistirici_gercekci                      54 vakada farkli
+  (izinli)   konfig.reaktif_esik_dbm                          54 vakada farkli
+  (izinli)   konfig.reaktif_sezme_olasiligi                   54 vakada farkli
+  (izinli)   konfig.yer_karistirici_yukseklik_m               54 vakada farkli
+  (izinli)   teshis.koken_kovalari.KAYNAK                     54 vakada farkli
+  (izinli)   teshis.koken_kovalari.SINANMAMIS                 54 vakada farkli
+  (izinli)   teshis.koken_kovalari.TURETILMIS                 54 vakada farkli
+
+  🟢 BIREBIR (izinli farklar disinda)

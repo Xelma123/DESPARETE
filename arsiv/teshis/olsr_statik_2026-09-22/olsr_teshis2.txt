@@ -1,0 +1,7 @@
+olsr 1000 pdr 0.9257 dusen {'kuyruk_tasmasi': 0, 'ttl': 10, 'iletim_basarisiz': 661, 'hedef_yok': 280, 'rota_gecersiz': 0, 'tampon_asimi': 0} kontrol 109935.0 iz {'karar': 20630, 'veri_basarisiz': 714, 'rotasiz_isinma': 280} sure 917
+olsr 1001 pdr 0.8589 dusen {'kuyruk_tasmasi': 0, 'ttl': 3, 'iletim_basarisiz': 1432, 'hedef_yok': 311, 'rota_gecersiz': 60, 'tampon_asimi': 0} kontrol 120845.0 iz {'karar': 22738, 'veri_basarisiz': 1594, 'rotasiz_isinma': 311, 'rotasiz_pencere': 60} sure 1025
+olsr 1002 pdr 0.863 dusen {'kuyruk_tasmasi': 0, 'ttl': 12, 'iletim_basarisiz': 1421, 'hedef_yok': 321, 'rota_gecersiz': 0, 'tampon_asimi': 0} kontrol 121760.0 iz {'karar': 28204, 'veri_basarisiz': 1518, 'rotasiz_isinma': 321} sure 1026
+olsr_s13 1000 pdr 0.9434 dusen {'kuyruk_tasmasi': 0, 'ttl': 47, 'iletim_basarisiz': 396, 'hedef_yok': 280, 'rota_gecersiz': 1, 'tampon_asimi': 0} kontrol 113331.0 iz {'karar': 23203, 'veri_basarisiz': 435, 's13_bildirim': 435, 'rotasiz_isinma': 281} sure 940
+olsr_s13 1001 pdr 0.9263 dusen {'kuyruk_tasmasi': 0, 'ttl': 8, 'iletim_basarisiz': 590, 'hedef_yok': 311, 'rota_gecersiz': 34, 'tampon_asimi': 0} kontrol 125212.0 iz {'karar': 24935, 'veri_basarisiz': 664, 's13_bildirim': 664, 'rotasiz_isinma': 314, 'rotasiz_pencere': 31} sure 1031
+olsr_s13 1002 pdr 0.9048 dusen {'kuyruk_tasmasi': 0, 'ttl': 32, 'iletim_basarisiz': 860, 'hedef_yok': 322, 'rota_gecersiz': 5, 'tampon_asimi': 0} kontrol 126522.0 iz {'karar': 30828, 'veri_basarisiz': 943, 's13_bildirim': 943, 'rotasiz_isinma': 327} sure 1050
+cikis=0

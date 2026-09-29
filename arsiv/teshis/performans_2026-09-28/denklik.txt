@@ -1,0 +1,18 @@
+
+dugum bağı (n = 14400)
+  tekil  ort 1.0107 · var 0.1767 · p1 -6.20 dB · p5 -3.94 · p50 -0.15 · ardışık ilinti 0.9734
+  blok   ort 1.0036 · var 0.1760 · p1 -6.25 dB · p5 -4.03 · p50 -0.17 · ardışık ilinti 0.9747
+  ✅ ortalama farkı ≤ 0,03
+  ✅ varyans oranı 0,90–1,10
+  ✅ yüzdelikler ≤ 0,5 dB
+  ✅ ardışık ilinti farkı ≤ 0,03
+
+karistirici bağı (n = 9600)
+  tekil  ort 1.0044 · var 0.1729 · p1 -6.00 dB · p5 -3.99 · p50 -0.17 · ardışık ilinti 0.9774
+  blok   ort 0.9979 · var 0.1748 · p1 -6.11 dB · p5 -4.06 · p50 -0.22 · ardışık ilinti 0.9778
+  ✅ ortalama farkı ≤ 0,03
+  ✅ varyans oranı 0,90–1,10
+  ✅ yüzdelikler ≤ 0,5 dB
+  ✅ ardışık ilinti farkı ≤ 0,03
+
+DENKLİK: GEÇTİ

@@ -176,6 +176,14 @@ R_ESLESTIRILMIS: float = 0.0230
 PENCERE = dict(karistirici_baslangic_s=5.0, isinma_s=10.0,
                olcum_bitis_s=40.0, kosu_bitis_s=50.0)
 
+# 🔒 Adlandırılmış hücreler — senaryo adının taşımadığı TEDAVİ alanlarıyla
+# (30 Eylül 2026, Faz 4.4): birincil hücre `formasyon · yere_toplama ·
+# derin_sizma · sürekli` (K-186). Taban ve bozuk koşular aynı ekleri alır.
+HUCRE_EKLERI: dict[str, dict] = {
+    "birincil": {"trafik_deseni": "yere_toplama",
+                 "tehdit_senaryosu": "derin_sizma"},
+}
+
 # Kova `TEDAVI` olanlar deneyin EKSENİDİR, taranmaz.
 ADAYLAR: tuple[str, ...] = tuple(sorted(
     ad for ad, (kova, _) in KOKENLER.items()
@@ -315,8 +323,10 @@ def _esli_fark(bozuk: dict, taban: dict) -> dict[str, tuple[float, float]]:
     return cikti
 
 
-def tarama(senaryo: str, isci: int = 8, adaylar=None) -> None:
+def tarama(senaryo: str, isci: int = 8, adaylar=None,
+           taban_ek: dict | None = None) -> None:
     adaylar = tuple(adaylar or ADAYLAR)
+    taban_ek = dict(taban_ek or {})
     aletler = ("en_guvenilir_kahin", "en_kisa_yol_kahin")
     print("=" * 100)
     print(f"DUYARLILIK TARAMASI — senaryo '{senaryo}' · {len(adaylar)} aday "
@@ -332,7 +342,7 @@ def tarama(senaryo: str, isci: int = 8, adaylar=None) -> None:
     gorevler, etiketler = [], []
     for alet in aletler:
         for tohum in TOHUMLAR:
-            gorevler.append((senaryo, tohum, alet, {}))
+            gorevler.append((senaryo, tohum, alet, dict(taban_ek)))
             etiketler.append(("__taban__", 1.0, alet, tohum))
     for ad in adaylar:
         for carpan in CARPANLAR:
@@ -341,7 +351,8 @@ def tarama(senaryo: str, isci: int = 8, adaylar=None) -> None:
                 continue
             for alet in aletler:
                 for tohum in TOHUMLAR:
-                    gorevler.append((senaryo, tohum, alet, {ad: deger}))
+                    gorevler.append((senaryo, tohum, alet,
+                                     {**taban_ek, ad: deger}))
                     etiketler.append((ad, carpan, alet, tohum))
 
     print(f"  toplam kosu: {len(gorevler)}  ·  {isci} isci")
@@ -483,6 +494,10 @@ def tarama(senaryo: str, isci: int = 8, adaylar=None) -> None:
 
 
 if __name__ == "__main__":
+    # 30 Eylül 2026 (Faz 4 kapanışı B7): `--dunya` okunur ve basılır;
+    # `_kos` dünyayı seçimden kurar (K-183), işçilere ortam değişkeniyle.
+    DS.secimi_oku()
+    print(f"  DUNYA: {DS.secili()}")
     # 🔒 Windows `spawn` bu korumasiz havuzu kilitler — calisma kurali 11.
     # 🔒 HER PARAMETRE, CANLI OLDUĞU KOLDA TARANIR. `statik-surekli`de
     # darbeli/taramalı/reaktif sabitleri hesaba hiç girmez ve "OLCULEMEDI"
@@ -492,7 +507,8 @@ if __name__ == "__main__":
                   "taramali": "statik-taramali",
                   "reaktif": "statik-reaktif",
                   "hareketli": "bagimsiz-surekli",
-                  "gorev": "gorev-surekli"}
+                  "gorev": "gorev-surekli",
+                  "birincil": "formasyon-surekli"}
     argv = sys.argv[1:] or ["statik"]
     # 🔒 `--tohum N` — 16 Eylül 2026 (B5). Beş tohum, bir |Δ| KESTİRİMİ verir
     # ve o kestirimin kendi hata payı vardır. Eşik eşleştirilmiş çözünürlüğe
@@ -509,4 +525,5 @@ if __name__ == "__main__":
     secili = argv[1:] or None
     print(f"  tohum sayisi: {len(TOHUMLAR)} "
           f"({TOHUMLAR[0]}–{TOHUMLAR[-1]})")
-    tarama(SENARYOLAR[anahtar], adaylar=secili)
+    tarama(SENARYOLAR[anahtar], adaylar=secili,
+           taban_ek=HUCRE_EKLERI.get(anahtar))

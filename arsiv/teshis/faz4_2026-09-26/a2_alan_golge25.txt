@@ -1,0 +1,25 @@
+  DUNYA: referans_2026
+
+==============================================================================
+2 - ALAN TARAMASI  (kullanilabilir bag grafigi)
+==============================================================================
+  olcut (ONCEDEN ILAN EDILDI): sert kisit: statik kolda kopukluk %0 (30 tohum) · amac: atlama derinligini en buyuk yapmak
+  kullanilabilir bag: atlama basarisi >= 0.90, 6 sonumleme ornegi uzerinden
+
+    alan  derece   1 atl   2 atl   3 atl  4+ atl   kopuk  >=3atl  duyan   olcut
+   25000   14.62   37.5%   57.0%    5.5%    0.0%    0.0%    5.5%    5.4   GECER
+   30000   11.12   28.5%   53.2%   17.6%    0.7%    0.0%   18.3%    3.9   GECER
+   33000    9.67   24.8%   48.3%   24.3%    2.6%    0.0%   26.9%    3.2   GECER
+   35000    8.88   22.8%   45.4%   27.3%    4.0%    0.5%   31.3%    2.9   kalir
+   37000    8.21   21.1%   42.1%   28.9%    7.6%    0.3%   36.5%    2.6   kalir
+   40000    7.17   18.4%   36.7%   31.3%   13.7%    0.0%   44.9%    2.2   GECER
+   45000    5.83   14.9%   28.6%   28.3%   25.8%    2.3%   54.2%    1.8   kalir
+
+  🟢 SECILEN ALAN: 40000 m — kopuklugun sifir kaldigi EN BUYUK.
+     derin cift payi 44.9%  ·  ortalama derece 7.17
+     ⚠️ Bu sayi ELLE KONMADI: sert kisit ile amacin kesistigi
+        noktadir. Tarama araligindaki en buyuk gecen alan.
+
+real	2m35.158s
+user	0m0.000s
+sys	0m0.015s

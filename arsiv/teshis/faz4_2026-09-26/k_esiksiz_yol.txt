@@ -1,0 +1,17 @@
+kol              tohum   esiksiz en kisa yol teslimi  ort. atlama
+statik-yok        1000                        0.3423         1.92
+statik-yok        1001                        0.5893         1.82
+statik-yok        1002                        0.2298         1.82
+bagimsiz-yok      1000                        0.3521         1.55
+bagimsiz-yok      1001                        0.3998         1.56
+bagimsiz-yok      1002                        0.3094         1.62
+gorev-yok         1000                        0.1690         1.59
+gorev-yok         1001                        0.3707         1.59
+gorev-yok         1002                        0.4636         1.56
+formasyon-yok     1000                        0.2740         1.58
+formasyon-yok     1001                        0.4939         1.58
+formasyon-yok     1002                        0.4404         1.78
+
+real	0m48.313s
+user	0m0.000s
+sys	0m0.046s

@@ -1,5 +1,5 @@
 """
-AODV — RFC 3561'e sadık gerçekleme. Aşama 2'nin dikey dilimi.
+AODV — RFC 3561'e sadık gerçekleme (`AODV-f`: kara liste K-194).
 
 🔒 KÂHİN ERİŞİMİ YOK
 ====================
@@ -33,8 +33,7 @@ kurar — RFC'nin zaten söylediği şey.
 ==============================
 RFC 3561 §6.3 rota keşfi sırasında paketlerin tamponlanmasını ŞART koşar.
 `Karar(beklet=True)` tam bunu yapar (K-131); tamponun iki tavanı da
-simülatörde ve satırda beyanlı. Bu yetenek 16 Eylül 2026'dan önce YOKTU ve
-tamponsuz bir AODV, keşif süren her an doğan paketi kaybederdi.
+simülatörde (ns-3 değerleri, K-198) ve satırda beyanlı.
 
 🔒 ÜÇ ZAMANLAYICI, HEPSİ RFC'DEN
 =================================
@@ -588,15 +587,7 @@ class AODV:
     def _rrep_isle(self, gonderen: int, y: dict, simdi_s: float) -> tuple:
         """§6.7 · RREP işleme. HELLO da buraya gelir (§6.9).
 
-        🔴 HELLO AYIRACI `kaynak == hedef`TİR — ve bu bir ÖLÇÜMLE düzeltildi.
-        İlk yazımda ayıraç *"hedef gönderenin kendisi ve atlama 1"* idi. O
-        koşul GERÇEK bir RREP'te de sağlanıyor: hedefin KOMŞUSU olan bir ara
-        düğüm, hedeften gelen RREP'i tam olarak böyle görür. Sonucu ölçüldü —
-        `rrep_uretilen = 95` ama **`rrep_iletilen = 0`**: her RREP ilk
-        iletme adımında HELLO sanılıp yutuluyordu, yani ÇOK ATLAMALI keşif
-        hiç tamamlanmıyordu (PDR 0,40 ve o da yalnız tek atlamalı akışlardı).
-
-        🔒 Doğru ayıraç RFC §6.9'un tanımıdır: HELLO, düğümün KENDİSİ hakkında
+        🔒 HELLO AYIRACI `kaynak == hedef` — RFC §6.9'un tanımı: HELLO, düğümün KENDİSİ hakkında
         yayınladığı bir RREP'tir — yani `kaynak == hedef == gönderen`. Gerçek
         bir RREP'te `kaynak` RREQ'i başlatan düğümdür ve hedeften farklıdır.
         """
@@ -677,9 +668,8 @@ class AODV:
                          tur: str) -> tuple:
         """§6.11 · MAC vazgeçti = bağ koptu. Kopmanın ÖĞRENİLDİĞİ yer.
 
-        🔒 Bu kanca 14 Eylül'de eklendi (Y3 · R3) ve beyan kanalı 16 Eylül'de
-        (K-134) açıldı; ikisi olmadan AODV bir kopmayı ne öğrenebilir ne
-        söyleyebilirdi.
+        🔒 Kanca (`13` R3) ve beyan kanalı (K-134) olmadan AODV bir kopmayı
+        ne öğrenebilir ne söyleyebilirdi.
         """
         if hedef is None:
             return ()

@@ -1,0 +1,72 @@
+  DUNYA: referans_2026
+
+========================================================================================
+A - DUGUM ARALIGI  (turetilmis: guc capasi; kapi: her bag >= 0,99)
+========================================================================================
+  aralik = iletim_menzili_m = 1664 m  (turetilmis capa)
+
+  kanal                         en kotu bag   ortalama     kapi
+  golgeleme+sonumleme ACIK           1.0000     1.0000    GECER
+  TEMIZ (ikisi de kapali)            1.0000     1.0000    GECER
+
+  🟢 Kapi TEMIZ kanalda geciliyor; verdikt orada verilir.
+  ⚠️ Acik kanaldaki en kotu bag ~0 — donmus derin Rician cekimi.
+     Aletin bilinen ozelligi (K-096); Li'nin kurulumunda YOK.
+
+========================================================================================
+B - ZINCIR UZUNLUGU  (aralik 1664 m · 5 tohum)
+========================================================================================
+  tek atlama kapasitesi : 832.8 pkt/s (1200 Hz sunulan yukte)
+  kuyruk tasmasi        : 8808 — DOYGUN
+  zincir taramasinda sunulan yuk: 1666 pkt/s (kapasitenin 2 kati)
+
+  kosum suresi: 3.2 dk
+
+   dugum  atlama   verim_hz      2SE  tek atlamaya oran   doygun
+       2       1     832.79     1.04             1.0000     evet
+       3       2     106.61     6.21             0.1280     evet
+       4       3      80.30     2.22             0.0964     evet
+       5       4      54.96     0.84             0.0660     evet
+       6       5      45.00     1.23             0.0540     evet
+       7       6      39.43     1.58             0.0474     evet
+       8       7      37.30     0.46             0.0448     evet
+       9       8      34.91     1.35             0.0419     evet
+      10       9      35.68     1.34             0.0428     evet
+      11      10      33.88     1.55             0.0407     evet
+
+========================================================================================
+C - ON-KAYITLI HIPOTEZLER  (09-LI-REPLIKASYONU.md §04)
+========================================================================================
+  H1 · uzun zincir / tek atlama : 0.0426   (hedef 0.1429 · band (0.1, 0.2))
+       🔴 TUTMADI
+  H2 · egri dusuyor mu           : 🔴 HAYIR
+       N >= 9'da duzlesiyor mu   : 🟢 EVET  (son uc oran 0.042, 0.043, 0.041)
+  H3 · ideal MAC tavaninin (1/4) altinda mi : 🟢 EVET
+
+  REPLIKASYON : 🔴 TUTMADI
+  🔴 Sartname §10: 'Tutmazsa MAC ya da girisim modelinde bir
+     sey yanlistir ve BULMADAN DEVAM EDILMEZ.' Once
+     `09` §04.1'deki ilan edilmis model farklarinin buyuklugu
+     OLCULUR; hicbiri aciklamiyorsa kusur alettedir.
+
+========================================================================================
+D - DUYMA MENZILI  (H1'in tutmama sebebi sinaniyor)
+========================================================================================
+  🔒 Olculen egri: oran x atlama ~ 0,7 SABIT → verim atlamayla
+     ters orantili → UZAMSAL YENIDEN KULLANIM YOK.
+  🔴 Supheli: duyma menzili / iletim menzili = 6,3 (Li ~2 varsayar)
+
+   duyma/iletim   duyma_m  tek atlama   11 dugum     ORAN   band icinde
+           1.00      1664       833.0       0.00   0.0000         hayir
+           1.50      2495       832.9      57.32   0.0688         hayir
+           2.00      3327       832.9      41.08   0.0493         hayir
+           3.00      4991       832.9      38.01   0.0456         hayir
+           4.50      7486       832.8      35.43   0.0425         hayir
+           6.31     10497       832.8      35.98   0.0432         hayir
+
+  🔒 Li'nin varsayimi ~2,0. Orada oran (0.1, 0.2) bandina giriyorsa
+     supher DOGRULANIR: kusur tasiyici dinleme esiginde.
+
+real	6m26.289s
+user	0m0.000s
+sys	0m0.015s

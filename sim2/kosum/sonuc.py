@@ -52,28 +52,13 @@ BOLUMLER: tuple[str, ...] = (
     "ham", "teshis",
 )
 
-# 🔴 `kapsam` ve `ham` 8 Eylül 2026'da EKLENDİ — ikisi de bir BOŞLUĞU kapatır.
-#
-# `kapsam`: kapsam sınırları yalnız şartnamedeydi. Bir `.jsonl` satırı aylar
-# sonra açıldığında hangi sınırlarla üretildiği SATIRDAN OKUNAMIYORDU; bir
-# sayının yanında kendi sınırı yoksa o sayı olduğundan geniş okunur.
-#
-# `ham`: `PaketDefteri.ham_sozluk()` VARDI ama hiçbir yerden çağrılmıyordu,
-# yani satıra HİÇ yazılmıyordu. `analiz/` katmanı `sim2/`den içe aktarma
-# yapamaz, dolayısıyla yüzdelik ve evre metriklerinin ikinci bir gerçeklemesi
-# orada olacak — ve iki gerçeklemenin sessizce ayrışmasını engelleyen tek şey
-# ham listenin satırda BULUNMASIDIR. `metrikler.py` başlığı bunu bir taahhüt
-# olarak yazıyordu; taahhüt bugüne kadar yerine getirilmemişti.
-#
-# 🔴 BEDELİ ÖLÇÜLDÜ VE BEYAN EDİLİR (8 Eylül 2026, tam uzunluk statik koşu):
-#     satır 0,52 MB · bunun 511 KB'ı (%98) `ham`
-#     çekirdek deney (360 koşu) ≈ 187 MB · tam matris (2 160) ≈ 1,1 GB
-# Üretici: `python kalibrasyon/adim9_kapanis.py 1` → `ciktilar2/*.jsonl`
-#
-# 🔒 `ham`i KAPATILABİLİR YAPMADIM ve bu bilinçli: kapatılabilir olsaydı iki
-# koşum modu doğardı ve birinde metrikler yeniden üretilebilir, diğerinde
-# DEĞİL olurdu. Hangi modda koşulduğu bir gün unutulur. Boyut bir sorun
-# hâline gelirse çözüm sıkıştırmadır, ATLAMA değil.
+# `kapsam`: satır kendi kapsam sınırlarını taşır — aylar sonra açılan bir
+# `.jsonl` satırı hangi sınırlarla üretildiğini kendisi söyler.
+# `ham`: paket defterinin ham listeleri satırdadır; `analiz/` (sim2'yi içe
+# aktaramaz) yüzdelik ve evre metriklerini buradan yeniden üretir ve iki
+# gerçeklemenin sessizce ayrışması böyle engellenir. Bedeli: tam uzunluk
+# satırı ~0,5 MB (%98'i `ham`). Kapatılabilir değil — iki koşum modu doğar
+# ve birinde metrikler yeniden üretilemezdi; çare sıkıştırmadır.
 
 # 🔒 İki kolun MEŞRU olarak ayrılabileceği alanlar. `kurulum_hash` bunları
 # dışarıda bırakır: başka bir alan farklıysa o ikisi aynı deneyin iki kolu

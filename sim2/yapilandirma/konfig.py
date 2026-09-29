@@ -1,37 +1,19 @@
 """
 Konfigürasyon — bir koşuyu TAM olarak belirleyen her şey.
 
-🔒 KURAL
-========
-Bu nesnede olmayan hiçbir şey koşunun davranışını etkilemez. Bir davranış
-buradan okunmuyorsa, o davranış **yeniden üretilemez**. Her deney kolu bir
-bayrak değişikliğidir; kod düzenleyerek üretilen bir kol kaynağından ayırt
-edilemez ve kaybolmuş bir deneydir.
+🔒 Bu nesnede olmayan hiçbir şey koşunun davranışını etkilemez; her deney
+kolu bir alan değişikliğidir (kod düzenlemesiyle üretilen bir kol
+kaynağından ayırt edilemez). Nesne dondurulmuştur.
 
-Nesne dondurulmuştur: koşu başladıktan sonra değişemez. Koşu ortasında değişen
-bir parametre, sonuç satırındaki konfigürasyonu yalancı yapar.
+🔒 İKİ DÜNYA: alanların varsayılanı ESKİ 1:50 dünyadır ve yalnız
+regresyonun eski vakaları için yaşar. Deneyler REFERANS dünyada koşar;
+onu `kanal/dunya.py::referans_2026` kurar (`v2/14`). Her alanın gerekçesi
+— referans dünyadaki değeriyle — `kokenler.py`dedir; buradaki yorumlar
+alanın ne olduğunu söyler.
 
-🔴 BURADA OLMAYAN İKİ ŞEY — kasıtlı
-===================================
-1. **Çerçeve süresi yok.** Eski simülatörde iki farklı PER tanımı vardı ve
-   ölçüldü: 1024 B @ 1 Mb/s'te %2,34 ayrışıyorlardı. Yeni parametrelerde
-   (512 B @ 2 Mb/s) aynı ayrışma **%9,38** olurdu — önbelge sabit kalıp yük
-   yarıya indiği için kusur 4 kat büyüyor. Çerçeve süresi ve hataya açık bit
-   `kanal/cerceve.py`de **tek yerde** tanımlanır; buraya bir kolaylık
-   fonksiyonu koymak ikinci bir bit sayımı doğururdu.
-   Üretici: `python kalibrasyon/adim3_oncesi.py`
-
-2. **Kutu nesnesi yok.** Katman yönü `yapilandirma → dunya`dır; bu modülün
-   `dunya`yı içe aktarması yönü tersine çevirirdi. Kutuyu `dunya` katmanı
-   bu alanlardan kurar.
-
-⚠️ ISINMA SÜRESİ HENÜZ ÖLÇÜLMEDİ
-================================
-`isinma_s = 50` eski depodan gelen bir DEVİRDİR, yeni dünyada ölçülmedi.
-Mobilite yakınsamayı geciktirebilir (mobil kolda ağ zamanın %17,6'sında
-bölünmüş durumda).
-Ön-kayıt mühürlenmeden önce `isinma_s ∈ {50, 100, 150, 200}` taranacak ve
-erken/geç pencere farkının söndüğü nokta yazılacak (risk 5).
+Burada kasıtlı olarak olmayan iki şey: çerçeve süresi (tek tanımı
+`kanal/cerceve.py`de; iki ayrı PER tanımı ayrışıyordu) · kutu nesnesi
+(katman yönü `yapilandirma → dunya`).
 """
 
 from __future__ import annotations
@@ -51,11 +33,6 @@ from sim2.yapilandirma.senaryolar import (
 __all__ = ["Konfig", "HENUZ_OKUNMAYAN"]
 
 
-# 🔒 `rng.HENUZ_KULLANILMAYAN`ın Konfig'deki karşılığı.
-# Bir alan ya fiilen bir `sim2/` modülü tarafından OKUNUR ya BURADA yazılıdır.
-# Üçüncü bir hâl yok: "bildirilmiş ama kimse okumuyor" durumu sonuç satırına
-# yazılan ama hiçbir şeyi etkilemeyen bir parametre demektir ve satırı yalancı
-# yapar. Liste, modüller indikçe KISALIR; testi iki yönlü çalışır.
 # 🔒 802.11b DSSS kanalının gürültü bandı — işlem kazancının paydası
 # (`v2/15` A2; G1 · G2: 11 Mchip/s Barker, 22 MHz kanal).
 DSSS_KANAL_BANDI_HZ: float = 22e6
@@ -69,26 +46,15 @@ DUNYALAR: tuple[str, ...] = ("olcek_1_50", "referans_2026")
 # (bir test bağlar); yapılandırma kanal katmanını içe aktarmaz.
 A2G_ORTAM_ADLARI: tuple[str, ...] = ("banliyo", "kentsel", "yogun", "yuksek")
 
+# 🔒 `rng.HENUZ_KULLANILMAYAN`ın Konfig'deki karşılığı: bir alan ya bir
+# `sim2/` modülünce OKUNUR ya burada yazılıdır — okunmayan bir alan sonuç
+# satırını yalancı yapar. Aşağıdakiler yalnız `Konfig`in kendi türetilmiş
+# özelliklerince okunuyor (bu, davranışı etkilediklerini kanıtlamaz).
+# Liste modüller indikçe kısalır; testi iki yönlü çalışır.
 HENUZ_OKUNMAYAN: frozenset[str] = frozenset({
-    # 🔒 Adım 9 (`kosum/`) yazıldıktan sonra listeden ÇIKANLAR — 5 Eylül 2026:
-    #   saat_senkron · saat_ofset_araligi_s · saat_sapma_ppm  → `kurulum.py`
-    #   kuyruk_kapasitesi                                     → `kurulum.py`
-    #   beacon_araligi_s                                      → `kosu.py`
-    #   kol · not_ · senaryo                                  → `sonuc.py`
-    # Liste, modüller indikçe KISALMAK zorunda ve bir test bunu bağlıyor.
-    #
-    # zaman — `isinma_s` yalnız `olcum_penceresi` özelliği üzerinden okunuyor;
-    # bir alanın kendi türetilmiş özelliğince okunması onun bir DAVRANIŞI
-    # etkilediğini kanıtlamaz, o yüzden listede kalıyor.
     "isinma_s",
-    # kontrol düzlemi — `komsu_omru_katsayisi` de yalnız kendi türetilmiş
-    # özelliği (`komsu_omru_s`) üzerinden okunuyor.
     "komsu_omru_katsayisi",
-    # A7 (K-178) — `karistirici_taban_dbm` yalnız `Konfig`in kendi
-    # türetilmiş özelliğince (`karistirici_guc_dbm`) okunuyor.
     "karistirici_taban_dbm",
-    # karıştırıcı — `karistirici_guc_override_dbm` ve `karistirici_konum`
-    # yalnız `Konfig`in kendi türetilmiş özelliklerince okunuyor.
     "karistirici_guc_override_dbm", "karistirici_konum",
 })
 
@@ -105,8 +71,8 @@ class Konfig:
     # ==================================================================
     # ZAMAN (saniye)
     # ==================================================================
-    # 50 ısınma + 270 ölçüm + 30 boşaltma. ⚠️ Isınma henüz ÖLÇÜLMEDİ
-    # (modül başlığındaki nota bak).
+    # ısınma 50 · ölçüm penceresi 270 · boşalma 30 s (pencere taraması
+    # `06` §8 koşul 1, Faz 6)
     isinma_s: float = 50.0
     olcum_bitis_s: float = 320.0      # trafik üretimi burada durur
     kosu_bitis_s: float = 350.0       # boru bu aralıkta boşalır
@@ -114,326 +80,102 @@ class Konfig:
     # ==================================================================
     # DÜNYA
     # ==================================================================
-    # ⚠️ AŞAĞIDAKİ ÖLÇÜM GEÇERSİZ — 4 Eylül 2026, `kalibrasyon/adim3_oncesi.py`
-    #   eski 2B  1000×1000            : derece 7,412 · bağlı %80,4
-    #   3B       1000×1000×300        : derece 6,101 · bağlı %58,4
-    #   3B  1000×1000, irtifa 20–120  : derece 7,271 · bağlı %78,2
-    # Bu sayılar 280 m'lik GEOMETRİK grafikte hesaplandı. O grafik veri
-    # yolunda kullanılmıyor: kimin duyacağını girişim menzili, alınıp
-    # alınmadığını SINR belirliyor (K-096). Yani kalibrasyon, kimsenin
-    # kullanmadığı bir ağı kalibre etmişti. 3B'ye geçişin ağı seyrelttiği
-    # gözlemi ayakta; sayıları değil.
-    #
-    # 🔒 ÇALIŞMA NOKTASI — YENİDEN ÖLÇÜLDÜ, 5 Eylül 2026.
-    # Üretici: `python kalibrasyon/calisma_noktasi.py`
-    # Ölçüm KULLANILABİLİR BAĞ grafiğinde: gölgeleme ve sönümleme dâhil,
-    # yeniden denemelerle atlama başarısı ≥ 0,90 olan bağlar.
-    #
-    #   1000 m (eski) : derece 18,60 · çiftlerin %0,3'ü 3+ atlama
-    #   1800 m (yeni) : derece  8,67 · çiftlerin %31,0'ı 3+ atlama
-    #
-    # 🔴 ALAN 1000 → 1800 m. Eski alanda çiftlerin %99,7'si bir ya da iki
-    # atlamaydı: yönlendirmenin ifade edebileceği fark yoktu ve tarama
-    # *"protokoller arasında fark yok"* derdi — oysa ölçülemeyen şey farkın
-    # yokluğu değil, başlığın yokluğuydu.
-    #
-    # 🔒 1800 SEÇİLMİŞ DEĞİL, TÜRETİLMİŞTİR: statik kolda 30 tohumun
-    # hiçbirinde ulaşılamaz çift kalmayan EN BÜYÜK alan. 1850'de kopukluk
-    # açılıyor (%0,2). Sert kısıt bağlantılılık, amaç derinlik — ölçütün
-    # sıfır serbest parametresi var. Gerekçesi ve ilk ölçütün neden
-    # infeasible çıktığı `calisma_noktasi.py` başlığında.
-    #
-    # ⚠️ HAREKETLİ kolda kopukluk sıfırlanamaz ve bu bilinen bir şeydir
-    # (`senaryolar.py`): 1700 m'de bile 10 tohumun 3'ü bir anda kopuyor.
-    # Bağlantılılık koşulu statik kola aittir; U1 orada koşar.
+    # Referansta 40 İHA · 33 km kare alan (`kanal/dunya.py`, K-188);
+    # eski dünyada 1 800 m.
     dugum_sayisi: int = 40
     alan_en_m: float = 1800.0
     alan_boy_m: float = 1800.0
 
-    # 🔴 ÖLÇEK — bu simülatör bir 1:N GEOMETRİK ÖLÇEK MODELİDİR.
-    # Kavanoza dünya sığmaz; ölçeği düşürüp yapıyı korursun. Ağın hissettiği
-    # her şey (mesafe, bağıl hız, topoloji değişimi) GÖRELİ büyüklüklere
-    # bağlı olduğu için sürünün ortak hareketi ağa görünmez — kutu, sürüyle
-    # birlikte hareket eden bir GÖZLEM ÇERÇEVESİDİR.
-    #
-    # 🔒 `olcek` FİZİĞİ DEĞİŞTİRMEZ, yalnız gerçek dünya eşlemesini verir.
-    # Değerini iki kısıt birlikte belirledi:
-    #   · seçilen hızlar, ölçeklenince doğrulanmış İHA aralığına düşmeli
-    #     (30–400 km/h, A5a): 0,25–1,5 m/s × 50 → 45–270 km/h ✔
-    #   · türetilen verici gücü var olabilecek bir telsiz vermeli:
-    #     0,03 dBm + 20·log₁₀(50) = 34 dBm = 2,5 W ✔
-    #
-    # ⚠️ ÖLÇEKLENEMEYEN İKİ ŞEY VAR ve ikisi de beyan edilir:
-    #   · DALGA BOYU — o yüzden Doppler tam ölçek hızından hesaplanmalı
-    #   · YERÇEKİMİ — o yüzden dönüş hızı gerçek hızdan türetildi
+    # Ölçek: referansta 1 (1:1). Eski dünya 1:50 geometrik ölçek modeliydi;
+    # `olcek` fiziği değiştirmez, yalnız gerçek dünya eşlemesini verir.
+    # Ölçeklenmeyen iki şey: dalga boyu (Doppler gerçek hızdan) ve
+    # yerçekimi (dönüş hızı gerçek hızdan).
     olcek: float = 50.0
 
-    # 🔒 İRTİFA BANDI 20–120 m — öğrenci kararı, 4 Eylül 2026.
-    # U(0,120) bir İHA'nın 0 m'de, yani yerde olmasına izin veriyordu.
-    # Bedeli ölçüldü ve gürültü içinde: derece 7,210 → 7,271, bağlı
-    # %77,4 → %78,2 (her ikisi de ~1 standart hata).
-    #
-    # 🔴 AYRI BİR `alan_yukseklik_m` YOK — olsaydı `irtifa_maks_m` ile İKİNCİ
-    # bir doğru kaynağı olurdu ve ikisi bağımsız değişebilirdi. Bant, hem
-    # başlangıç yerleşiminin hem de kutunun dikey sınırıdır: düğüm koşu
-    # boyunca da bandın içinde kalır. Aksi hâlde karar yalnız yarım
-    # uygulanırdı — ölçüldü, tabansız kutuda düğümler dakikalar içinde yere
-    # (0 m) iniyordu.
+    # İrtifa bandı (referansta 50–300 m AGL) hem başlangıç yerleşiminin hem
+    # kutunun dikey sınırıdır; ayrı bir yükseklik alanı ikinci bir doğru
+    # kaynağı olurdu.
     irtifa_min_m: float = 20.0
     irtifa_maks_m: float = 120.0
 
-    # Menzil, verici gücünün TÜRETİLDİĞİ tanımdır (bkz. `girisim_orani`).
+    # Referansta verici gücü GİRDİDİR (`verici_eirp_dbm`) ve
+    # `iletim_menzili_m` o güçle ortalama SNR'ın `menzil_snr_db` olduğu
+    # mesafedir (türetilmiş; adı tarihsel, bir güç çapasıdır). Eski dünyada
+    # ikisi `None`: güç menzilden türer ve menzilde SNR = β.
     iletim_menzili_m: float = 280.0
-    # 🔒 DÜNYA — `v2/15` A7 (K-178). "olcek_1_50" (bugün) | "referans_2026"
-    # (`v2/14`, `kanal/dunya.py::referans_2026` kurar). Referansta verici
-    # gücü GİRDİDİR (`verici_eirp_dbm`) ve `iletim_menzili_m` o güçle
-    # ortalama SNR'ın `menzil_snr_db` olduğu mesafedir (türetilmiş, yayılım
-    # tutarlılığı denetler). Bugünkü dünyada ikisi de `None`: güç menzilden
-    # türer ve menzilde SNR = β.
+    # Dünya anahtarı (`v2/15` A7, K-178): 'olcek_1_50' | 'referans_2026'.
     dunya: str = "olcek_1_50"
     verici_eirp_dbm: float | None = None
     menzil_snr_db: float | None = None
-    # 🔒 Alıcı anteninin EN BÜYÜK kazancı (dBi). Desen (`anten_kaybi_db`) en
-    # büyük kazanca göre normalize (kayıp ≥ 0): EIRP vericinin kazancını
-    # içerir, alıcınınki buradan gelir (`bag_butcesi.py`: "alıcıda dipol
-    # 2,15 dBi"). Bugünkü dünyada 0 — güç türetildiği için sadeleşir.
+    # Alıcı anteninin en büyük kazancı (dBi); desen kaybı buna göre
+    # normalize. EIRP vericininkini içerir. Eski dünyada 0 (sadeleşir).
     alici_anten_kazanci_dbi: float = 0.0
 
     # ------------------------------------------------------- 3B Gauss-Markov
-    # Literatürün FANET için standart saydığı model. Random Waypoint elendi:
-    # sonsuz ivme üretiyor ve ortalama hızı durağan bir değere yakınsamıyor.
-    # 🔴 HIZLAR 1/50 ÖLÇEĞE ÇEKİLDİ — 8 Eylül 2026, K-101.
-    # Üretici: `python kalibrasyon/calkanti.py`
-    #
-    # Eski değerler 10–30 m/s idi ve HİÇBİR gerekçesi yoktu. Ölçüldü:
-    # bağıl hız 26,4 m/s · rota ömrü 3,2 s · **Θ = 0,21**.
-    # OLSR'ın TOP_HOLD_TIME'ı 15 s (RFC 3626), yani topoloji bilgisi
-    # kullanılacağı rotadan BEŞ KAT uzun ömürlü — rota öğrenilmeden yok
-    # oluyordu. Bu OLSR'ın tasarımının değil BİZİM KURULUMUMUZUN sonucuydu:
-    # kurulum yüzünden zayıflatılmış bir taban çizgisi, yani straw-man.
-    #
-    # 🔒 Θ BİR HEDEF DEĞİL, BİR KAPIDIR: Θ = rota_ömrü / 15 s ≥ 3.
-    # Altına düşen bir kol protokolü tasarım zarfının DIŞINDA koşturuyor
-    # demektir ve bulgu olarak raporlanır, gizlenmez.
-    #
-    # ⚠️ İlk şartname "çekirdek Θ ≈ 10" diyordu; ULAŞILAMIYOR. Θ = 10 için
-    # 0,12–0,36 m/s gerekiyor, o da 1:50 ölçekte 22–65 km/h — doğrulanmış
-    # İHA aralığının (30–400 km/h, A5a) altında. Kapı + gerçekçilik birlikte
-    # uygulanınca çözüm kendiliğinden çıkıyor:
-    #
-    #   0,25–0,75 m/s → Θ = 3,25 · 1:50'de 45–135 km/h   ← SEÇİLEN
-    #   0,50–1,50 m/s → Θ = 1,78 · 1:50'de 90–270 km/h   🔴 KAPININ ALTINDA
-    #
-    # 🔴 Θ DEĞERLERİ 9 EYLÜL 2026'DA YENİDEN TÜRETİLDİ — hızlar DEĞİŞMEDİ,
-    # gerekçeleri değişti. Üretici: `python -u kalibrasyon/bag_kumesi.py h`
-    # Eski değerler (5,95 ve 3,33) üç ayrı yanlılık taşıyordu:
-    #   1. bağ tanımı 400 m'lik SERT DİSKTİ — gölgelemeyi hiç görmüyor ve
-    #      rota ömrünü İKİ KAT uzun gösteriyor (ölçüldü: 89 s ↔ 43 s)
-    #   2. t = 0'da var olan rotanın yaşı bilinmediği hâlde sayılıyordu
-    #      (soldan kesme) — artık her çiftin ilk ömrü atılıyor
-    #   3. koşu bitince yaşayan rota "ölmüş" sayılıyordu (sağdan sansür) —
-    #      artık Kaplan–Meier ile düzeltiliyor
-    # 🔒 Sansür düzeltmesi TAŞIYICIDIR: ham ortalamayla Θ = 2,59 çıkar ve
-    # çekirdek kol kapıyı GEÇEMEZDİ. Bugünkü bağ tanımı `kopma_fiziksel`in
-    # tanımıyla AYNI (yavaş SINR ≥ eşik) — iki yerde iki tanım yok.
-    #
-    # 🔴 SEÇİM DEĞİŞMEDİ ama MARJ DARALDI: 5,93 yerine 3,25, yani kapının
-    # (Θ ≥ 3) yalnız %8 üstünde. Çalışma noktasını değiştiren her şey —
-    # alan, güç, gölgeleme σ'sı — bu marjı yeniden sınamayı gerektirir.
-    #
-    # 🔴 KEŞİFSEL YÜKSEK ÇALKANTI KOLU ARTIK KAPININ ALTINDA (1,78 < 3).
-    # K-101'in kuralı net: kapının altına düşen bir kol protokolü tasarım
-    # zarfının DIŞINDA koşturur ve **bulgu olarak raporlanır, gizlenmez**.
-    # Bu kol ön-kayıtta ya böyle beyan edilir ya çıkarılır — öğrenci kararı.
-    #
-    # 🔒 `gm_alfa` ve `gm_azimut_sigma_rad` ARAÇ DİNAMİĞİDİR ve ÖLÇEKLENMEZ:
-    #   · hız korelasyon süresi ~30 s → α = exp(−0,5/30) = 0,983.
-    #     Eski 0,85, 3,1 s veriyordu; bir İHA için fazla titrek.
-    #   · koordineli dönüşte ω = g·tan(φ)/v. Yerçekimi ölçeklenmediği için
-    #     GERÇEK hızdan hesaplanır: 90 km/h'de 30° banka → 0,226 rad/s →
-    #     0,5 s adımda 0,11 rad. Eski 0,3, saniyede 34°'lik dönüş demekti.
-    # Ölçüldü: ikisi de Θ'yı DEĞİŞTİRMİYOR (5,95→5,93 · 3,33→3,27).
+    # FANET'te standart model (Random Waypoint sonsuz ivme üretir). Hız zarfı
+    # referansta 40–120 km/h (`v2/14` §3); eski dünyada ölçekli 0,25–0,75
+    # m/s. Θ = rota ömrü / 15 s ≥ 3 bir kapıdır (K-101; kol başına Θ
+    # `senaryolar.MOBILITE_THETA_REFERANS`). `gm_alfa` ve
+    # `gm_azimut_sigma_rad` araç dinamiğidir, ölçeklenmez: hız korelasyonu
+    # ~30 s → α = exp(−0,5/30) = 0,983 · koordineli dönüş ω = g·tan(φ)/v,
+    # 90 km/h'de 30° banka → 0,5 s adımda 0,11 rad.
     gm_alfa: float = 0.983
     gm_adim_s: float = 0.5
     gm_hiz_min_ms: float = 0.25
     gm_hiz_maks_ms: float = 0.75
     gm_hiz_sigma_ms: float = 0.075
     gm_azimut_sigma_rad: float = 0.11
-    # 🔴 ORTALAMA PİTCH 0 — 4 Eylül 2026.
-    # Sıfırdan farklı bir ORTALAMA, KALICI bir tırmanış demektir. Tavan
-    # etkisinden arınmış geniş bandda ölçüldü — 350 s'de irtifa sürüklenmesi
-    # 0,00 rad'da +8 m, 0,05 rad'da +299 m. Sürüklenme, dipol anten kararının
-    # dayandığı "düz uçuş" varsayımıyla çelişir. Ortalama 0 · σ = 0,05 ile
-    # tipik |pitch| ≈ 2,3°: varsayım gerçekten sağlanıyor.
-    # ⚠️ Bir ÇÖKÜŞ düzeltmesi değil: sınır aynalaması geldikten sonra +0,05
-    # tek başına irtifayı çökertmiyor (bkz. `dunya/mobilite.py`).
+    # Ortalama pitch 0: sıfırdan farklı ortalama kalıcı tırmanış demektir
+    # (350 s'de 0,05 rad → +299 m); σ 0,05 ile tipik |pitch| ≈ 2,3°.
     gm_pitch_ort_rad: float = 0.0
     gm_pitch_sigma_rad: float = 0.05
 
-    # ------------------------------------------- gorev tabanli kol (RPGM)
-    # 🔒 Parametreler, `senaryolar.py`de TARAMADAN ONCE ilan edilen olcutle
-    # secilir: ortalama dereceyi bagimsiz kolla esitleyen adaylar arasindan
-    # tam bagli zaman orani en yakin olani. Bagil hiz ve rota omru OLCUT
-    # DEGIL, SONUCTUR — onlara gore ayarlamak cevabi secmek olurdu.
-    # Uretici: `python kalibrasyon/gorev_kalibrasyonu.py`
-    # 🔴 YARICAP 250 → 650 m, 5 Eylul 2026 (K-097). YENIDEN OLCULDU.
-    # Uretici: `python kalibrasyon/calisma_noktasi.py`
-    #
-    # Eski deger 1000 m'lik alanda ve 280 m'lik TESHIS grafiginde kalibre
-    # edilmisti. Alan 1800 m'ye cikinca bagimsiz kol seyreldi, mufrezeler ise
-    # 250 m'de kumelenmis kaldi — derece esitligi bozuldu (2,60 ↔ 3,65).
-    #
-    # 🔒 YENI KALIBRASYON KULLANILABILIR BAG GRAFIGINDE. Kumelenmis bir
-    # yerlesimde iki yaricap AYNI ORANDA olceklenmez: mufreze ici baglar
-    # kucuk yaricapta zaten doygundur. 280 m'de esitlemek 530 m'de
-    # esitledigini garanti etmez.
-    #     yaricap 250 m → derece 8,133 (bagimsiz 7,406'nin 1,098 kati)
-    #     yaricap 450 m → derece 7,704 (1,040 kat)
-    #     yaricap 650 m → derece 7,281 (0,983 kat)  ← SECILEN
-    #     yaricap 750 m → derece 6,998 (0,945 kat)
-    #
-    # ⚠️ 650 m, telsizin ~530 m'lik kullanilabilir yaricapindan GENIS: bir
-    # mufreze artik kendi icinde tam bagli bir klik DEGIL. Bu kolu
-    # anlamsizlastirmiyor, cunku koordinasyon klik olmaktan degil ORTAK
-    # HIZDAN geliyor (bkz. `dunya/mobilite.py` GorevTabanli3B): uyeler gorev
-    # merkeziyle birlikte hareket eder, bagil hizlari dusuktur.
-    # 🔴 Yine de bu bir kapsam sorusudur ve ogrenciye acik durumdadir (6.5):
-    # cok atlamali yonlendirmeye yer birakacak kadar buyuk bir alanda,
-    # 40 dugumle yogunluk-esitlenmis mufrezeler KLIK OLAMAZ.
+    # ------------------------------------------- görev tabanlı kol (RPGM)
+    # Müfreze sayısı ve yarıçap, ortalama dereceyi bağımsız kolla
+    # eşitleyecek biçimde seçilir (bağıl hız ve rota ömrü sonuçtur, ölçüt
+    # değil). Referansta yarıçap 16 km (`kanal/dunya.py`, K-188). Üyeler
+    # görev merkeziyle birlikte hareket eder (`dunya/mobilite.py`).
     gorev_grup_sayisi: int = 10
     gorev_grup_yaricapi_m: float = 650.0
     gorev_jitter_hiz_ms: float = 0.05
 
     # ----------------------------------------------- formasyon kolu (Y6)
-    # 🔒 Öğrenci onayı 11 Eylül 2026 (`v2/07` §18 Y6). İstasyonlar yerleşim
-    # çekimlerinin AYNISIDIR; tutma zaman sabiti `mobilite.ISTASYON_TUTMA_S`,
-    # manevra gürültüsü `gm_alfa` ve `gm_hiz_sigma_ms`ten gelir. Çekirdekte
-    # yeni serbest sayı yok. Bu alan keşifsel eksendir: istasyonların yavaş
-    # yeniden düzenlenmesi — her istasyon düğüm başına çekilen yatay bir yönde
-    # bu hızla kayar ve kutu kenarında geri döner. Çekirdekte 0.
+    # Birincil hücrenin kolu (öğrenci onayı). İstasyonlar yerleşim
+    # çekimleridir; tutma zaman sabiti `mobilite.ISTASYON_TUTMA_S`, manevra
+    # gürültüsü GM alanlarından. `istasyon_kayma_hiz_ms` > 0 keşifsel eksendir
+    # (istasyonların yavaş yeniden düzenlenmesi); çekirdekte 0.
     istasyon_kayma_hiz_ms: float = 0.0
 
-    # 🔴 SINIR KURALININ AYARLANACAK PARAMETRESİ YOK — ve bu kasıtlı.
-    # Yansıma tek başına yetmiyordu: anlık azimutu çeviriyor ama Gauss-Markov
-    # düğümü duvarı gösteren sabit ORTALAMA yönüne geri çekiyordu. Ölçüldü —
-    # kenardan ortanca uzaklık 170 m → 5 m, derece 7,2 → 11,2, tam bağlı
-    # zaman oranı %11,1. Çözüm yansımada ORTALAMA YÖNÜ DE AYNALAMAK.
-    # "Sınır marjı" alternatifi ölçümle elendi (bkz. `dunya/mobilite.py`):
-    # bir marj parametresi olsaydı, onu seçerek ortalama dereceyi 6,8 ile
-    # 11,9 arasında istenen yere koymak mümkün olurdu. O parametre yok.
+    # Sınır kuralının ayarlanacak parametresi yok (kasıtlı): yansımada
+    # ortalama yön de aynalanır; bir sınır marjı ortalama dereceyi
+    # seçilebilir yapardı (`dunya/mobilite.py`).
 
     # ==================================================================
     # FİZİKSEL KATMAN
     # ==================================================================
-    # 🔒 Literatür hizalaması: 512 B · 2 Mb/s · 802.11 DCF.
+    # 802.11b DSSS: veri 2 Mb/s DQPSK (ARF açıkken başlangıç hızı), önbelge +
+    # başlık 192 µs her zaman 1 Mb/s DBPSK. Önbelgenin bit sayısı bu ikisinden
+    # `kanal/cerceve.py`de türer; önbelge gövdeden dayanıklıdır, bu yüzden
+    # `alim_red_onbelge` ile `alim_red_per` ayrı iki başarısızlık kipidir.
+    # Bant ve frekans referansta 22 MHz · 2 437 MHz (kanal 6).
     bit_hizi_bps: float = 2e6
-    # PLCP uzun önbelgesi + başlığı: 192 µs. 🔴 Önbelge 1 Mb/s'te gönderilir,
-    # gövde 2 Mb/s'te. Bu yüzden önbelge GÖVDE HATASINA KATILMAZ — alıcı
-    # zincirinin kilit aşamasına aittir. Süreyi bit hızıyla çarpmak 192 µs'lik
-    # dayanıklı önbelgeyi 384 kırılgan gövde biti gibi saymak olurdu.
     onbelge_s: float = 192e-6
-    # 🔒 Önbelge TEMEL HIZDA gönderilir (802.11b: 1 Mb/s DBPSK), gövde ise
-    # `bit_hizi_bps`te. Önbelgenin bit sayısı bu ikisinden TÜRETİLİR
-    # (`kanal/cerceve.py`), elle yazılmaz: 192 µs × 1 Mb/s = 192 bit.
-    # Bu yüzden önbelge gövdeden DAHA DAYANIKLIDIR ve `alim_red_onbelge` ile
-    # `alim_red_per` gerçekten farklı iki başarısızlık kipidir.
     temel_bit_hizi_bps: float = 1e6
     bant_genisligi_hz: float = 2e6
     frekans_hz: float = 2.4e9
-    # 🔴 α = 2,0 — 3,0'DAN DÜŞÜRÜLDÜ, 5 Eylül 2026. HESAPLANARAK.
-    # Eski değer 3,0 idi ve gerekçesi *"kentsel/engelli ortam"* yazıyordu.
-    # Bu bir YER ağı değeridir; bu proje hava-hava bağları modelliyor.
-    #
-    # 🔒 İKİ BAĞIMSIZ HESAP AYNI YERE DÜŞÜYOR:
-    #
-    # 1) İKİ-IŞIN KIRILMA MESAFESİ  d_b = 4·h₁·h₂/λ
-    #    simülasyonda (h = 70 m)  → d_b ≈ 157 km
-    #    tam ölçekte  (h = 3 km)  → d_b ≈ 288 000 km
-    #    Bağ mesafeleri ikisinde de bunun ÇOK altında. Kırılma mesafesinin
-    #    altında yer yansıması yol kaybını α = 4'e çıkarmaz; rejim serbest
-    #    uzaydır ve serbest uzayda α = 2. Yansımanın getirdiği dalgalanma
-    #    zaten Rician sönümlemeyle modelleniyor.
-    #
-    # 2) ÖLÇEK TUTARLILIĞI. Bu simülatör bir 1:50 geometrik ölçek modelidir
-    #    (bkz. `olcek` alanı). Aynı SINR'ı korumak için
-    #        Pt_gerçek = Pt_sim + 10·α·log₁₀(50)
-    #    α = 2 → 34 dBm = **2,5 W**   (makul bir taktik İHA veri bağı)
-    #    α = 3 → 75,5 dBm = **35 kW** (fiziksel olarak imkânsız)
-    #    Yani α = 3, kavanozun dışına çıkarıldığında VAR OLAMAYAN bir telsiz
-    #    tarif ediyordu. Bağ bütçesi de kapanıyor: 2,5 W · 2,4 GHz · serbest
-    #    uzay · 26,7 km → alınan −94,6 dBm, gürültü tabanı −105 dBm,
-    #    SINR 10,4 dB — tam olarak çözülebilirlik eşiği.
-    #
-    # ⚠️ NE DEĞİŞİR:
-    #    verici gücü        24,50 → 0,03 dBm  (menzilden TÜRETİLİR)
-    #    girişim oranı       3,415 → 6,310    (β^(1/α))
-    #    girişim menzili       956 → 1 767 m
-    #    etkin/çapa yarıçapı  1,54 → 1,91
-    #
-    # 🔴 BEDELİ: girişim menzili alanı aşıyor, yani MEKÂNSAL YENİDEN KULLANIM
-    # YOK. Bu bir kusur değil, gerçeğin kendisi: tam ölçekte girişim menzili
-    # ~88 km ve operasyon kutusundan büyük — tek kanallı bir sürüde bütün ağ
-    # tek bir çarpışma alanıdır. Beyan edilir, düzeltilmez.
-    #
-    # 🔴 BUNU NE GEÇERSİZ KILAR: Adım 4'ün kanal kalibrasyonu ve Adım 3'ün
-    # yoğunluk kalibrasyonu yeniden koşulmalıdır (K-096).
+    # α = 2: hava–hava serbest uzay (ölçümler 1,92–2,6, `02` G10); iki-ışın
+    # kırılma mesafesi bağ mesafelerinin çok üstünde.
     yol_kaybi_usteli: float = 2.0     # α — hava-hava, serbest uzay rejimi
 
-    # 🔴 β = 16 dB — 10 dB'DEN YÜKSELTİLDİ, 5 Eylül 2026. ÖLÇÜLEREK.
-    # Üretici: `python kalibrasyon/bag_kalitesi.py`
-    #          `python kalibrasyon/pdr_tavani.py`
-    #
-    # Eski değer 10 dB, "çözülebilirlik eşiği" idi ve menzil TAM ORADA
-    # tanımlıydı. Ölçüldü: menzil sınırında (280 m) 512 baytlık bir gövdenin
-    # hata olasılığı **%75,5**. Yani topolojinin "bağ" dediği şey, fizik
-    # açısından çoğunlukla GEÇMEYEN bir bağdı. Sonucu uçtan uca ölçüldü —
-    # kâhin (mükemmel) yönlendirme, karıştırıcı YOK, hafif yük:
-    #
-    #     β = 10 dB → PDR 0,499 · PSR 0,298   ← gerçeğe aykırı
-    #     β = 12 dB → PDR 0,603 · PSR 0,380
-    #     β = 14 dB → PDR 0,976 · PSR 0,712
-    #     β = 16 dB → PDR 1,000 · PSR 0,817   ← seçilen
-    #     β = 20 dB → PDR 1,000 · PSR 0,822   (kazanç yok, maliyet var)
-    #
-    # 🔒 SEÇİM KEYFÎ DEĞİL, TÜRETİLMİŞ: 10 dB çözülebilirlik + **2σ**
-    # gölgeleme marjı (σ = 3 dB) = 16 dB. Ölçüm ve türetme aynı yere düşüyor.
-    # Telsiz mühendisliğinde bu standart uygulamadır: menzil, alıcının
-    # duyarlılığında değil, duyarlılık + sönümleme marjında tanımlanır.
-    #
-    # 🔴 BU BLOKTA BİR İDDİA ÇÜRÜTÜLDÜ — 5 Eylül 2026, K-096.
-    # Burada eskiden şu yazıyordu: *"`iletim_menzili_m` sabit kaldığı için
-    # GEOMETRİ ve dolayısıyla Adım 3'ün yoğunluk kalibrasyonu (derece 7,271 ·
-    # bağlı %78,2) aynen geçerli."* **Yanlış.**
-    #
-    # `iletim_menzili_m` veri yolunda hiçbir yeri kapamıyor: kimin duyacağını
-    # girişim menzili, alınıp alınmadığını SINR belirliyor. 280 m yalnızca
-    # verici gücünün türetildiği bir ÇAPA ve kalibrasyon betiklerinin
-    # topoloji anlık görüntüsüdür. β yükselince çapa ile fiilen kullanılabilen
-    # yarıçap AYRIŞTI ve Adım 3 kullanılmayan bir grafiği kalibre etmiş oldu.
-    #
-    # Ölçüldü (gölgeleme + sönümleme dâhil, β = 16 dB, α = 3, 1000 m alan):
-    #     çapada (280 m)  derece 6,5  · ortalama atlama 3,15
-    #     GERÇEKTE         derece 12,9 · ortalama atlama 1,81
-    # Yani ağ tasarlandığından iki kat yoğun ve yarı derinlikte.
-    # Adım 3 kullanılabilir bağ grafiğinde YENİDEN kalibre edilmelidir.
-    #
-    # ⚠️ Girişime karşı marj DEĞİŞMEZ (herkesin gücü aynı oranda arttı), bu
-    # yüzden çarpışma davranışı korunur — o kısım ayakta.
-    #
-    # ⚠️ NE DEĞİŞİR: `girisim_orani` bundan TÜRETİLDİĞİ için 2,154 → 3,42.
-    # Daha güçlü verici daha uzağa girişim yapar; bu fizik, yan etki değil.
-    # Bedeli ölçüldü: koşu süresi ~%40 artıyor.
-    #
-    # 🔴 KARIŞTIRICI GÜCÜ BUNDAN SONRA KALİBRE EDİLMELİ. Karıştırıcının dBm
-    # cinsinden mutlak gücü, artık 6 dB daha güçlü bir sinyale karşı
-    # çalışacak. `senaryolar.KARISTIRICI_GUCU_DBM` zaten boş (ölçülmedi).
+    # β: referansta `kanal/dunya.py` türetir — SNR(PER %50, 2 Mb/s, işlem
+    # kazancıyla) + 2σ gölgeleme payı ≈ 6 dB; eski dünyada 16 dB.
+    # `iletim_menzili_m` veri yolunda hiçbir şeyi kapamaz: kimin duyacağını
+    # alınan güç, alınıp alınmadığını SINR belirler (K-096).
     sinr_esigi_db: float = 16.0       # β — menzil sınırının tanımlandığı SINR
     gurultu_figuru_db: float = 6.0
     sicaklik_k: float = 290.0
 
-    # 🔒 2 Mb/s'te 802.11b DQPSK kullanır — DBPSK 1 Mb/s'in modülasyonudur.
-    # Öğrenci kararı (4 Eylül 2026): kapalı formu yazılacak ve yayınlanmış
-    # BER eğrileriyle analitik olarak doğrulanacak.
+    # 2 Mb/s DQPSK; önbelge ve yayın 1 Mb/s DBPSK.
     modulasyon: str = "dqpsk"
     # 🔒 DSSS İŞLEM KAZANCI — `v2/15` A2 (K-173). Açıkken BER'in girdisi
     # Eb/N0 = SINR · (B / bit hızı): gürültü ve girişim işaretin kapladığı
@@ -459,56 +201,28 @@ class Konfig:
     kanal_dilimi_s: float = 1e-4
 
     # ---------------------------------------------------------- gölgeleme
-    # 🔴 NEDEN EKLENDİ — ölçüldü: PER'in 0,01'den 0,99'a düştüğü SINR bandı
-    # yalnızca **3,02 dB**. Gölgeleme σ'sı 2–4 dB, yani geçiş bandı TEK bir
-    # σ'dan dar. Gölgelemesiz bir modelde bağlar gerçeğe göre keskin açılıp
-    # kapanır. Üretici: `python kalibrasyon/adim3_oncesi.py`
+    # Log-normal, bağ-simetrik ve konuma bağlı (hücrelenmiş hash + trilineer
+    # yumuşatma: hareket eden düğüm gölgeleme alanında sürekli ilerler).
+    # Gölgelemesiz bağlar gerçeğe göre keskin açılıp kapanırdı (PER geçiş
+    # bandı ~3 dB, σ mertebesinde). Referansta σ 3 dB, hücre 2,5 km.
     golgeleme_acik: bool = True
     golgeleme_sigma_db: float = 3.0
-    # Bağ-simetrik ve KONUMA BAĞLI: hücrelenmiş hash + trilineer yumuşatma.
-    # Hareket eden düğüm gölgeleme alanında sürekli ilerler, ışınlanmaz.
     golgeleme_hucre_m: float = 50.0
 
     # ---------------------------------------------------------- sönümleme
-    # Hava-hava bağda güçlü doğrudan görüş → Rayleigh değil **Rician**.
+    # Hava–hava bağda güçlü doğrudan görüş → Rician (referansta K 10 dB).
+    # Parça başına çekilir: 190 µs ≤ T_c/4 (en büyük bağıl hız 66,7 m/s'de
+    # T_c ≈ 0,78 ms); Doppler gerçek hızdan. Üreteç (K-198): `tekil` her
+    # yenilik bir blake2b özeti (eski dünya, birebir) · `blok` bağ başına
+    # özet + SplitMix64 (referans dünya) — aynı dağılım, farklı sayılar.
     sonumleme_acik: bool = True
     rician_k_db: float = 6.0
-    # 🔒 PARÇA BAŞINA çekilir, paket başına DEĞİL — ve süresi ÖLÇÜLEREK
-    # seçildi. Devir belgesi 30 m/s'lik bir VARSAYIMLA çalışıyordu; gerçek
-    # bağıl hız dağılımı ölçülüyor ve Doppler K-102'den beri TAM ÖLÇEK
-    # hızından hesaplanıyor (dalga boyu ölçeklenemez).
-    #
-    # 🔒 TÜRETME: parça süresi = T_c(p99)/4. Ölçüldü — 10 tohum × 350 s,
-    # bağımsız kol. Üretici: `python kalibrasyon/adim4_sonumleme.py` §A/B
-    #     ortanca 0,6 m/s → T_c 1,65 ms → çerçeve/T_c 1,36
-    #     p95     1,2 m/s → T_c 0,90 ms → çerçeve/T_c 2,49
-    #     p99     1,4 m/s → T_c 0,77 ms → parça = 193 µs  →  **190 µs**
-    # Kanal bir çerçeve süresince ortancada ~1,4 kez değişiyor: paket başına
-    # tek çekim yanlış olurdu. Çerçeve başına 12 parça. Eski varsayılan
-    # 80 µs bir ölçüme değil bir varsayıma dayanıyordu (28 parça, 3 kat).
-    #
-    # 🔴 BURADAKİ ESKİ TABLO BAYATTI ve 9 Eylül 2026'da değiştirildi. Şunu
-    # yazıyordu: *"ortanca 25,1 m/s → T_c 2,10 ms … parça = 243 µs → 240 µs,
-    # çerçeve başına ~9,3 parça."* Üç sayı da K-101 ÖNCESİ hız rejiminden
-    # (26 m/s) geliyordu ve türettiği değer (240) koddaki değerle (190)
-    # çelişiyordu. ⚠️ Üreticinin kendisi de bozuktu: T_c'yi ölçekli hızdan
-    # hesaplıyordu (K-102'yi kaçırmış) ve 9 666 µs veriyordu. Onarıldı;
-    # bugün üretici 193 µs diyor, yani DEĞER AYAKTA — bayat olan gerekçeydi.
     sonumleme_parca_suresi_s: float = 190e-6
-    # 🔒 YENİLİK ÜRETECİ — K-198 (performans, öğrenci onayı). Aynı model
-    # (bağımsız N(0, 1) yenilikler, aynı ρ · M · normalizasyon); değişen
-    # yalnız sayıların kaynağı: `"tekil"` her yenilik için bir blake2b özeti
-    # (eski dünya, birebir), `"blok"` bağ başına bir özet + SplitMix64
-    # sayacı ve numpy'de süzgeç (`sim2/cekirdek/rng.py::normal_dizisi`).
-    # Referans dünyada `"blok"`. İki üreteç AYNI dağılımdan çeker, aynı
-    # sayıları değil: bir tohumun kanal izi değişir, istatistiği değişmez.
     sonumleme_uretec: str = "tekil"
 
     # ------------------------------------------------------- anten deseni
-    # 🔴 İlk yargı "izotropik bırak" idi, ÖLÇÜMLE ÇEVRİLDİ. 1000×1000×300 m'de
-    # dipol kaybının p95'i 9,70 dB — gölgeleme σ'sının çok üstünde. Seçilen
-    # 120 m bandında 3,27 dB; yine de ihmal edilemez ve tam da YAKIN
-    # komşularda modeli iyimser yapardı.
+    # Dipol deseni: izotropik bırakmak yakın komşularda modeli iyimser
+    # yapardı.
     anten_deseni_acik: bool = True
 
     # ==================================================================
@@ -521,8 +235,8 @@ class Konfig:
     # çözümüne başladıktan sonra kilidi kolay bırakmaz. Pencere koşulu
     # olmasaydı alıcı neredeyse bitmiş bir gövdeyi bırakıp yeni bir önbelgeye
     # geçer ve gerçekte imkânsız bir davranış üretirdi.
-    # ⚠️ Sayı BEYAN EDİLİR, `onbelge_s`ten türetilmez: türetilseydi önbelge
-    # aritmetiği `cerceve.py` dışına çıkardı (kusur 1'in kuralı).
+    # Sayı beyan edilir, `onbelge_s`ten türetilmez: önbelge aritmetiği
+    # `cerceve.py` dışına çıkmasın.
     yakalama_penceresi_s: float = 192e-6
     # 🔒 RSSI ÖLÇÜM HATASI — `v2/15` B2 (K-170 onayı). Telsizin çerçeve başına
     # raporladığı alınan güç = alıcının kilitlendiği güç + N(0, σ²), tamsayı
@@ -546,7 +260,7 @@ class Konfig:
     # iki düğüm asla çarpışmazdı ve 802.11'in temel çakışma kaynağı silinirdi.
     cca_s: float = 4e-6
     # 🔒 TAŞIYICI DİNLEME KİPİ — `v2/15` A3 (K-174).
-    # "geometrik" (bugün): girişim menzilindeki her iletim ve CSMA'ya görünen
+    # "geometrik" (eski dünya): girişim menzilindeki her iletim ve CSMA'ya görünen
     # karıştırıcı kanalı meşgul eder. "guc": 802.11b CCA (G2 — CCA mod 3):
     # (1) önbelge sezme = alıcı bir çerçeveye KİLİTLİ (kilit önbelge
     # PER'iyle kurulur, eşik oradan türer) · (2) enerji sezme = düğümdeki
@@ -596,24 +310,17 @@ class Konfig:
     # ==================================================================
     # TRAFİK
     # ==================================================================
-    # 🔒 10 akış × 4 pkt/s — öğrenci kararı, 4 Eylül 2026. Ölçüldü:
-    #   10 akış → tek çarpışma alanının %36,9'u   (SEÇİLEN)
-    #   15 akış → %54,0
-    #   eski kurulum (10 çift × 1 pkt/s × 1024 B @ 1 Mb/s) → %27,1
-    # Gerekçe: karıştırıcı devreye girdiğinde ağın çökmeden bozulmasına yer
-    # bırakır. %54'te tüm protokoller birlikte çöker ve fark bastırılır.
+    # Telemetri 512 B (`v2/14` §5). Eşler arası (keşifsel): 10 akış × 4 pkt/s
+    # = 40 pkt/s, yere toplamanın sunumuna eşit (K-126).
     paket_bayt: int = 512
     akis_sayisi: int = 10
     akis_paket_hizi_hz: float = 4.0
     cbr_titresim_s: float = 0.05      # periyodik süreçlerin kilitlenmesini kırar
 
-    # 🔒 TRAFİK DESENİ — `v2/07` §06.2 · §18 Y4 (öğrenci onayı 10–11 Eylül 2026).
-    # `esler_arasi` bugünkü rastgele çiftlerdir ve varsayılandır. `yere_toplama`:
-    # geçit dışındaki her düğümden geçide telemetri, geçitten birkaç düğüme
-    # düşük hızlı komut. Geçit düğüm 0'dır: konum tutan röle İHA.
-    # ⚠️ Hızların kaynağı yok (`v2/02` §S4); C3 ölçütle seçecek. Varsayılanlar
-    # 40 düğümde sunulan yükü bugünkü 40 pkt/s'de tutar: 39 × 1,0 + 4 × 0,25.
-    # ⚠️ İki geçit (keşifsel eksen) henüz uygulanmadı.
+    # Trafik deseni (`v2/07` §6): `yere_toplama` birincil — geçit (düğüm 0,
+    # sabit röle) ← her düğümden telemetri, geçitten birkaç düğüme komut;
+    # 39 × 1,0 + 4 × 0,25 = 40 pkt/s. `esler_arasi` keşifsel ve varsayılan
+    # (ana deney aleti deseni açıkça verir). İki geçit uygulanmadı.
     trafik_deseni: str = "esler_arasi"
     gecit_konumu: str = "kenar"        # kenar · merkez
     telemetri_paket_hizi_hz: float = 1.0
@@ -637,20 +344,11 @@ class Konfig:
     # Sonsuz kuyruk yasak: gecikme metriğini anlamsızlaştırır.
     kuyruk_kapasitesi: int = 50
     # ==================================================================
-    # ROTA BEKLEME TAMPONU — `Karar.beklet` (16 Eylül 2026, K-131)
+    # ROTA BEKLEME TAMPONU — `Karar.beklet` (K-131)
     # ==================================================================
-    # 🔒 İKİ TAVAN, İKİSİ DE İLAN EDİLMİŞ. Protokol rota ararken paketi
-    # bekletebilir ama sonsuza kadar bekletemez: tampon hem PAKET SAYISIYLA
-    # hem SÜREYLE sınırlıdır ve aşım `tampon_asimi` sebebiyle deftere yazılır.
-    # Tavansız bir tampon, sonsuz kuyruğun ta kendisi olurdu — gecikme
-    # metriğini anlamsızlaştırır ve PDR'yi yapay olarak yükseltirdi
-    # (`ag/kuyruk.py`nin aynı gerekçesi).
-    #
-    # ⚠️ İkisi de `SINANMAMIS`: değerler NS-2'nin AODV gerçeklemesinin
-    # geleneğinden alındı (64 paket · 30 s) ve BU PROJEDE ÖLÇÜLMEDİ. Protokol
-    # olmadan kapanamayan parametrelerin (kuyruk kapasitesi, TTL, beacon
-    # aralığı, komşu ömrü) yanına beşinci ve altıncı olarak yazılıyorlar;
-    # Aşama 2'de gerçek taban protokolle kapanacaklar.
+    # Hem paket sayısıyla hem süreyle sınırlı; aşım `tampon_asimi` ile düşer.
+    # Tavansız tampon sonsuz kuyruk olurdu. Değerler ns-3 AODV'sinin
+    # (`MaxQueueLen` 64 · `MaxQueueTime` 30 s, K-198).
     rota_tamponu_kapasitesi: int = 64
     rota_tamponu_omru_s: float = 30.0
     # TTL olmadan döngüye giren paket "uçuşta" olarak sonsuza dek asılı kalır.
@@ -671,28 +369,16 @@ class Konfig:
     # Sınıf elle ayarlanabilseydi aynı etiketli iki koşu farklı karıştırıcı
     # taşıyabilir ve sonuç satırındaki etiket yalan söylerdi.
     karistirici_guc_override_dbm: float | None = None  # yalnız güç taraması
-    # 🔒 A7 (K-178): referans dünyanın karıştırıcı TABAN gücü — ölçülmüş
-    # tablonun (`KARISTIRICI_GUCU_DBM`, eski dünyanın birimleri) yerine;
-    # darbeli sınıfta tepe telafisi yine uygulanır. Bugünkü dünyada `None`.
+    # Referans dünyanın karıştırıcı TABAN gücü (K-186); darbeli sınıfta tepe
+    # telafisi eklenir. Eski dünyada `None` (ρ kalibrasyonu,
+    # `KARISTIRICI_GUCU_DBM`).
     karistirici_taban_dbm: float | None = None
     karistirici_konum: tuple[float, float] | None = None  # None → alan merkezi
 
-    # 🔴 AÇILMA ANI — projenin asıl iddiasını ÖLÇÜLEBİLİR yapan parametre.
-    # Karıştırıcı eskiden koşunun başından sonuna açıktı; ölçüm penceresi
-    # tamamen karıştırılmış dönemin içindeydi ve GEÇİCİ TEPKİ diye bir şey
-    # yoktu. Oysa beyan edilmiş beklenti (*"ilk şokta %50 altı, mesh tepki
-    # verince %70–80"*) bir geçici tepki tarifidir; bir anti-jamming
-    # yönlendirme protokolünün asıl iddiası da *"ne kadar bozuluyor"* değil
-    # **"ne kadar hızlı toparlanıyor"**dur.
-    #
-    # 🔒 DEĞER PENCEREDEN TÜRETİLDİ, elle seçilmedi:
-    #   ölçüm penceresi [50, 320] = 270 s
-    #   temiz evre        [50, 150) = 100 s → 4 000 paket, PDR SE ≈ 0,005
-    #   karıştırılmış     [150, 320) = 170 s → 6 800 paket
-    # Toparlanma rota ömrü (89 s) ve protokol zamanlayıcıları (AODV 3 s,
-    # OLSR 15 s) mertebesinde beklendiği için 170 s bolca yeter.
-    #
-    # ⚠️ Karıştırıcısız kollarda anlamsızdır ve okunmaz.
+    # Açılma anı pencereden türer: temiz evre [50, 150) · karıştırılmış
+    # [150, 320). Geçici tepki (şok ve toparlanma) bu sayede ölçülür;
+    # birincil hücrede açılmadan sonra 15 s açık · 15 s sessiz çizelge.
+    # Karıştırıcısız kolda okunmaz.
     karistirici_baslangic_s: float = 150.0
     darbe_periyodu_s: float = 2.7     # ⚠️ trafik aralığının tam katı DEĞİL
     darbe_gorev_cevrimi: float = 0.5  # 🔒 tepe telafisi bundan TÜRETİLİR
@@ -701,14 +387,10 @@ class Konfig:
     taramali_konak_suresi_s: float = 0.1
     taramali_konak_sayisi: int = 3
 
-    # 🔒 TEHDİT SENARYOSU — Y5b, öğrenci kararları 11 Eylül 2026 (`v2/04`
-    # K-119). Sinyal sınıfı senaryo adından, karıştırıcı kümesinin biçimi bu
-    # eksenden gelir (`kanal/tehdit.py`). `tekli_merkez` bugünkü tek merkez
-    # karıştırıcıyı birebir kurar.
-    # Süreler protokol zaman sabitleri cinsinden ilan edilir; tek bir "gerçek
-    # değer" iddiası yok. Çekirdek 15 s = OLSR TOP_HOLD_TIME. Keşifsel: açık
-    # 3 s · 45 s, sessiz 5 s · 45 s, görev çevrimi periyodu 6 s. Hızlar
-    # kaynaksız varsayımdır; ölçekli hız = km/h ÷ 3,6 ÷ `olcek`.
+    # Tehdit senaryosu (Y5b, K-119): sinyal sınıfı senaryo adından, küme
+    # biçimi bu eksenden (`kanal/tehdit.py`). Birincil hücre `derin_sizma`
+    # (K-186). Süreler protokol zaman sabitleri cinsinden (çekirdek 15 s =
+    # OLSR TOP_HOLD_TIME); hızlar km/h ÷ 3,6 ÷ `olcek`.
     tehdit_senaryosu: str = "tekli_merkez"
     tehdit_acik_s: float = 15.0             # yay–sus–taşın: yayın dönemi
     tehdit_sessiz_s: float = 15.0           # yay–sus–taşın: sessiz, taşınma
@@ -857,24 +539,15 @@ class Konfig:
                 "birleştirilemez: override nihai güçtür, tepe telafisi "
                 "uygulanmaz ve 'aynı ortalama güç' koşulu kırılır.")
 
-        # ⚠️ Burada eskiden "uygulanmamış karıştırıcı sınıfı" kapısı vardı.
-        # Beş sınıfın beşi de uygulanınca o kapı TETİKLENEMEZ hâle geldi ve
-        # kaldırıldı: tetiklenemeyen bir kontrol, koruma sağlamadan koruma
-        # izlenimi verir. Yerini alan kapı `kanal/karistirici.py`de ve farklı
-        # bir şeyi koruyor — ÖLÇÜLMEMİŞ GÜÇLE koşmayı.
 
     # ==================================================================
     # TÜRETİLENLER — elle yazılmış sayı YOK
     # ==================================================================
     @property
     def mobilite_kolu(self) -> str:
-        """🔒 Mobilite bir KONFİGÜRASYON BAYRAĞIDIR, kod düzenlemesi değil.
-
-        Dort kol: `statik` (U1 sanity kolu) · `bagimsiz` (Gauss-Markov,
-        literaturun standardi) · `gorev` (koordineli suru) · `formasyon`
-        (istasyon tutma, Y6). Ucuncusu bir OLCUMUN sonucu olarak eklendi,
-        dorduncusu ogrenci onayiyla — `yapilandirma/senaryolar.py`ye bak.
-        """
+        """Mobilite kolu — bir yapılandırma bayrağı: `statik` · `bagimsiz`
+        (Gauss-Markov) · `gorev` (koordineli sürü) · `formasyon` (istasyon
+        tutma; birincil hücre)."""
         return SENARYOLAR[self.senaryo].mobilite_kolu
 
     @property
@@ -921,32 +594,18 @@ class Konfig:
 
     @property
     def olcek_guc_farki_db(self) -> float:
-        """`Pt_gerçek = Pt_sim + bu`. Aynı SINR'ı korumanın bedeli.
-
-        🔴 Bu bir KAPIDIR: sonuç fiziksel olarak var olabilecek bir verici
-        vermelidir. α = 3 iken 35 kW çıkıyordu ve α'yı bu hesap eledi.
-        """
+        """`Pt_gerçek = Pt_sim + bu` — eski dünyanın ölçek eşlemesi; fiziksel
+        olarak var olabilecek bir verici vermelidir (α = 3'ü eleyen hesap)."""
         return 10.0 * self.yol_kaybi_usteli * math.log10(self.olcek)
 
     @property
     def girisim_orani(self) -> float:
         """Girişim menzilinin iletim menziline oranı — TÜRETİLMİŞ.
 
-        Menzil sınırında girişimsiz SINR tam olarak eşiğe eşittir:
-            P(R)/N = β
-        Bir girişimcinin gücü gürültü tabanına eşit olduğunda hissedilir olur:
-            P(D) = N  →  D = β^(1/α) · R
-
-        Güncel çalışma noktasında (β = 16 dB, α = 2) ≈ 6,310; girişim menzili
-        1 767 m olur ve 1 000 m'lik alanı aşar — yani her düğüm her düğümü
-        duyar. Bu beyan edilmiş bir sonuçtur, yan etki değil.
-
-        ⚠️ Örnek değerler ÜRETİLMİŞTİR, elle yazılmamıştır: β = 10 dB, α = 3
-        için 2,154 · β = 16 dB, α = 3 için 3,415. Elle yazılmış bir sabit,
-        β ya da α değiştiğinde sessizce yanlış olurdu.
+        Menzilde girişimsiz SNR `snr_R` ise, gücü gürültü tabanına eşit
+        girişimcinin mesafesi D = snr_R^(1/α) · R. Referansta snr_R =
+        `menzil_snr_db` (nominal bağ, 10 dB paylı); eski dünyada β.
         """
-        # 🔒 A7 (K-178): referans dünyada menzildeki SNR β değil,
-        # `menzil_snr_db`dir (nominal bağ, 10 dB paylı); bugünkü dünyada β.
         snr_db = (self.sinr_esigi_db if self.menzil_snr_db is None
                   else self.menzil_snr_db)
         return (10.0 ** (snr_db / 10.0)) ** (1.0 / self.yol_kaybi_usteli)
@@ -1051,7 +710,7 @@ if _eksik:
     raise _DegismezHatasi(
         f"kökeni yazılmamış Konfig alanı: {_eksik}. Her parametre "
         f"sim2/yapilandirma/kokenler.py'de bir kovaya yazılmak zorundadır "
-        f"(TURETILMIS · OLCULMUS · KAYNAK · DUYARSIZ · TEDAVI · KOL_TANIMI · SINANMAMIS).")
+        f"(kovalar: `kokenler.KOVALAR`).")
 if _fazla:
     raise _DegismezHatasi(
         f"artık var olmayan alan için köken kaydı: {_fazla}. Kayıt "

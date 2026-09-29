@@ -1,0 +1,7 @@
+- [Çalışma kuralları](iha-mesh-calisma-kurallari.md) — git YALNIZ öğrencide (salt-okur dâhil); Türkçe; 30 dk+ koşuma izin; biçim kuralları gevşek (27 Eylül), sonucu etkileyenler sıkı
+- [Proje durumu ve giriş](iha-mesh-projesi-durum.md) — DEVIR-PROMPT.md ile başla; ilk oturum yalnız oku-kontrol et-planla-raporla
+- [Sorunu çöz, raporlayıp bırakma](sorunu-coz-raporlayip-birakma.md) — kusuru ajan çözer, ölçer, kanıtla getirir; DESPARETE yapım aşamasında
+- [Ölçüm ve bağlam ekonomisi](olcum-ve-baglam-ekonomisi.md) — belgeler öz (tam metin arşivde), koşular en kısa gerekli olan
+- [Gerçekçilik esas](gercekcilik-esas.md) — 1:1 kaynaklı taktik sürü; gözlem = gerçek telsiz; DESPARETE karıştırmayı çözecek; onaylı plan Faz 0–7
+- [Önce yazılım, sonra pahalı koşu](once-yazilim-sonra-pahali-kosu.md) — 28 Eylül: karıştırıcılı/hareketli uzun koşu yazılım bitene kadar yok; fikir sahipliğiyle uğraşma
+- [Devir istemi: önce hâkimiyet](devir-istemi-hakimiyet.md) — istem 'devam et' değil, projeye tam hâkimiyet ister; iş listesi en son

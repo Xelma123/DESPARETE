@@ -1,0 +1,6 @@
+r-referans-statik-yok-dogrudan_komsu
+  menzil 1664 m · β 6.05 dB · pdr 0.884 · pdr_pencere 0.900 · psr 0.5666131621187801 · düşen {'iletim_basarisiz': 135, 'hedef_yok': 51}
+r-referans-statik-surekli-aodv
+  menzil 1664 m · β 6.05 dB · pdr 0.213 · pdr_pencere 0.100 · psr 0.3373676248108926 · düşen {'kuyruk_tasmasi': 1, 'iletim_basarisiz': 90, 'rota_gecersiz': 57, 'tampon_asimi': 654}
+r-referans-bagimsiz-surekli-dogrudan_komsu
+  menzil 1664 m · β 6.05 dB · pdr 0.188 · pdr_pencere 0.089 · psr 0.09716501090380422 · düşen {'iletim_basarisiz': 435, 'hedef_yok': 863}

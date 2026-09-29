@@ -1,0 +1,628 @@
+### ÖĞRENCİNİN HAM KAYNAK DOĞRULAMA NOTLARI — 9 Ağustos 2026
+###
+### Bu dosya ÖĞRENCİYE AİTTİR ve düzenlenmemiştir: her kaynağın PDF'i açılıp
+### ilgili paragraf birebir kopyalanmış, URL ve sayfa numarası yazılmıştır.
+### Düzenlenmiş sonuç `v2/02-DOGRULANMIS-KAYNAKLAR.md`dedir.
+### (21 Ağustos 2026: eski metin `docs/04-kaynak-dogrulama.md` diyordu;
+###  öyle bir dosya hiç olmadı — kırık atıf düzeltildi.)
+###
+### Neden ham hâliyle duruyor: fikrin ve doğrulamanın öğrenciye ait olduğunun
+### kanıtı (R13 sahiplik riski). Temizlenmiş bir özet bu kanıtı taşımaz.
+###
+### ----------------------------------------------------------------------
+
+from meatgrinder "https://static.rusi.org/403-SR-Russian-Tactics-web-final.pdf" 4. sayfa 2. paragraf
+
+"Russian electronic warfare (EW) remains potent, with an approximate distribution of at least one major system covering each 10 km of front. These systems are heavily weighted towards the defeat of UAVs and tend not to try and deconflict their effects. Ukrainian UAV losses remain at approximately 10,000 per month. Russian EW is also apparently achieving real time interception and decryption of Ukrainian Motorola 256-bit encrypted tactical communications systems, which are widely employed by the Armed Forces of Ukraine." 
+
+----------------------------------------------------------------------------------------------
+
+from Col. Vytis Andreika, Lithuanian Armed Forces "https://www.armyupress.army.mil/Portals/7/military-review/Archives/English/so25/Lessons-from-Ukraine/Lessons-from-Ukraine-ua.pdf" 9. sayfa
+
+" To extend the range, the AFRF might use a “mother” agro drone with
+signal retranslation to lift and launch two to three FPV
+drones up to 60–70 km.49 The final and most significant
+FPV drone vulnerability is its susceptibility to radio
+frequency and GNSS signal electromagnetic jamming.
+In 2024, both sides jammed 60–80 percent of all FPVs
+operated."
+
+----------------------------------------------------------------------------------------------
+from “Reinforcement Learning-Based Routing Protocols in Flying Ad Hoc Networks: A Survey”, Mathematics, 2022, 10, 3017
+
+Q-routing ve Q-learning tabanlı yönlendirme yaklaşımı hakkında:
+
+“The broadcast period of these chirp messages is a fixed time interval. As a result, PARRoT is not compatible with the dynamic network topology and may cause a high routing overhead. Chirp message contains location information and a sequel number to prevent routing loops and eliminate repeated messages. After receiving each chirp message, UAV first checks its sequence number to guarantee its freshness. Then, this information is used for updating the Q-table. In the Q-learning-based routing process, UAVs use the local information obtained from chirp messages to achieve a partial view of the network topology. To send a data packet to the destination node, each UAV only evaluates the fitness of its single-hop neighbors for reaching the destination node, and selects a neighbor with the highest Q-value as the next-hop node.”
+
+“The learning rate has a constant amount, but the discount factor is dynamically evaluated based on the link expiry time (LET) and the change degree of neighbors at a specific time interval.”
+
+Kaynak: PARRoT bölümü, 40. sayfa.
+
+Q-routing'in FANET'teki türevleri hakkında:
+
+“Rovira-Sugranes et al. [74] have proposed an improved version of the Q-routing algorithm called fully-echoed q-routing with simulated annealing inference (FEQ-routing-SA) for FANETs.”
+
+“the purpose is to dynamically adjust the learning rate in the Q-learning algorithm to be compatible with the frequent changes in topology in FANETs to reduce energy consumption and packet loss.”
+
+Kaynak: FEQ-Routing-SA bölümü.
+
+Q-learning tabanlı routing algoritmalarının temel yapısı hakkında:
+
+“Most research in FANET such as QTAR, QMR, QGeo, QSRP, QLGR, FEQ-routing-SA, Q-FANET, PPMAC+RLSRP, PARRoT, QFL-MOR, 3DQ, ICRA, and TARRAQ use traditional reinforcement learning algorithms to design their routing process.”
+
+“These methods are easier than DRL-based routing methods and have less computational complexity. Therefore, they are suitable for discovering the best routing path in small FANETs because the size of the state and action spaces are small, and the learning algorithm is converged to the optimal response with acceptable learning speed.”
+
+“However, if the flying ad hoc network is large, these routing methods deal with the curse of the dimensionality problem and cannot present a good performance for finding the best route in the network because their convergence speed decreases sharply.”
+
+Kaynak: RL-based FANET routing methods değerlendirmesi, 49. sayfa.
+
+Q-learning tabanlı routing algoritmalarındaki state, action ve reward yapıları hakkında:
+
+“Scheme | RL Algorithm | Agent | State Set | Action Set | Reward Function”
+
+“QTAR | Q-learning | Each packet | Neighboring nodes towards destination | Selecting the best next-hop node | Related to delay, energy, and velocity”
+
+“QMR | Q-learning | Each packet | UAVs | Decision of the packet (agent) to be forwarded from the current node to a neighboring node | Based on delay and energy”
+
+“QGeo | Q-learning | Each packet | UAVs | Transition from transmitter to neighbor node | Related to packet travel speed”
+
+“QLGR | Q-learning | UAVs | State of UAVs | Sending a packet to a neighboring node | Related to load capacity and link quality”
+
+“FEQ-routing-SA | Q-learning | Each UAV | State of UAVs | Sending a packet to a neighboring node | Related to transmission ...”
+
+Kaynak: Table 26, “Learning parameters in RL-based routing methods”, 49. sayfa.
+----------------------------------------------------------------------------------------------
+
+from B. Mahalakshmi, S. Ranjitha Kumari "https://www.ijrte.org/wp-content/uploads/papers/v8i5/E5782018520.pdf" 1.sayfa introduction bölümü
+
+"FANET applications are extremely assisted by
+multi-hop communications, where UAV speed span from
+about 30-400 km/h in 3D environments. In context, network
+topology alters outcomes in link variation crisis. In addition,
+a frequent topology change also improves packet loss,
+latency and signalling overhead", "Moreover, it is
+deployed in sensitive applications that definite transmission
+in robust and cost-effective. Choosing and designing of
+suitable cluster based routing are necessary to maintain
+services to be active and stable. To design routing solution,
+MANET and VANETs routing protocols are validated. They
+are characterized to topology, position and swarm protocols.
+Topology-based routing approaches exploit IP addresses to
+utilize prevailing link information to forward data packets
+on optimal path." 
+
+-------------------------------------------------------------------------------------------------
+
+from Jinyang Li, Charles Blake, Douglas S. J. De Couto, Hu Imm Lee, Robert Morris, “Capacity of Ad Hoc Wireless Networks”
+3.2 Capacity of a Chain of Nodes, 3. sayfa
+
+“The following analysis shows that an ideal MAC protocol could achieve a chain utilization as high as 1/3. Consider the network shown in Figure 2, where node 1 is the source and 6 is the sink. Assume for the moment that the radios of nodes that are not neighbors do not interfere with each other. Nodes 1 and 2 cannot transmit at the same time because node 2 cannot receive and transmit simultaneously. Nodes 1 and 3 cannot transmit at the same time because node 2 cannot correctly hear 1 if 3 is sending. Nodes 1 and 4 can, with the above assumption, send at the same time. This leads to a channel utilization of 1/3.”
+
+“As the chains get longer, they approach a utilization of 0.25 Mbps for 1500-byte packets, or 1/7 of the maximum of 1.7 Mbps.”
+
+“To summarize, an ideal ad hoc forwarding chain should be able to achieve 1/4 of the throughput that a single-hop transmission can achieve. Simulation shows that the 802.11 MAC protocol manages 1/7 of the single-hop throughput.”
+
+----------------------------------------------------------------------------------------------------
+
+from Sonali Deo, Markus Schuß, Michael Baddeley, Carlo Alberto Boano, “Robust Wi-Fi Mesh Networking with SPIDERMAN”
+“https://www.tugraz.at/fileadmin/Institute/iti/Team/Boano/papers/Deo23spiderman.pdf”
+
+1. sayfa, “Case study: BATMAN-adv” bölümü
+
+“Fig. 2 shows the data rate sustained at B5: BATMAN-adv performs well as long as S moves towards the destination, as it favors routes with fewer hops. Once S moves away from B5, it sticks to the direct route to B5 until connectivity is lost, which results in a disconnection for 10 s. Once S returns to its original position, we artificially introduce jamming using a Raspberry Pi 4 running JamLab-NG in the same channel: as BATMAN-adv does not support frequency agility, connectivity is lost until a configuration with a lower modulation coding scheme (allowing S to reach B5 directly) is found.”
+
+2. sayfa, “Robustness to mobility” ve “Resilience to jamming” bölümleri
+
+“BATMAN-adv (Fig. 2), which sees significant drops in throughput and ‘blackout’ periods due to its preference for routes with the fewest number of hops (i.e., BATMAN-adv does not switch route until no packets have been received within a given period).”
+
+“As in § 1, we artificially introduce jamming using JamLab-NG. Please note that we use a modified version that creates interference in the 5 GHz spectrum by jamming the upper half of a 40 MHz channel: this ensures that the jamming signal is not detected as valid packet. At 3 JamLab-NG interferes with B4 on channel 36, which causes a 30-50% drop in throughput (Fig. 4). However, as SPIDERMAN employs channel hopping, B4 still receives the packets sent by S in the other two channels (i.e., 7 and 44) and can forward them. BATMAN-adv, instead, uses a single channel and suffers a complete loss of connection.”
+
+---------------------------------------------------------------------------------------------------------
+
+from Linzi Hu, Yumeng Shao, Yuwen Qian, Feng Du, Jun Li, Yan Lin, Zhe Wang, “Meta-Reinforcement Learning in Time-Varying UAV Communications: Adaptive Anti-Jamming Channel Selection”
+
+sayfa, “Introduction” bölümü
+
+“However, the aforementioned RL-based approaches tend to optimize the anti-jamming policy against the stationary environment and jamming policy, where the anti-jamming policy needs to be retrained to adapt to the new task when the environment or jamming policy changes.”
+
+“Similarly, reference [11] designed a knowledge-based RL method to deal with the problem of high-dimensional state space in UAVs against intelligent jamming.”
+
+“However, the computer vision used in SDRLA to acquire insights and characteristics about jamming patterns causes an infinite state of spectrum waterfall, which requires significant computational resources.”
+
+------------------------------------------------------------------------------------------------
+
+from Atefeh Termehchi, Tingnan Bao, Aisha Syed, William Sean Kennedy, Melike Erol-Kantarci, “Goal-oriented Reinforcement Learning in THz-enabled UAV-aided Network Using Supervised Learning”
+
+sayfa, “Abstract” ve “Introduction” bölümleri
+
+“DRL agents learn optimal (or sub-optimal) policies by interacting with the environment. However, this process often involves numerous uninformative and repetitive message transmissions between the DRL agent and its environment.”
+
+“We address the problem of reducing interactions between the DRL agent and the environment, called goal-oriented DRL.”
+
+“The constraints include the movement characteristics of IoT devices, the maximum speed limitation of the UAV, the QoS requirements of the served IoT devices, and the limited uplink coverage of the THz-enabled UAV.”
+
+------------------------------------------------------------------------------------------------
+
+from Atefeh Termehchi, Tingnan Bao, Aisha Syed, William Sean Kennedy, Melike Erol-Kantarci, “Goal-oriented Reinforcement Learning in THz-enabled UAV-aided Network Using Supervised Learning”
+
+sayfa, DRL interaction / computational complexity bölümü
+
+“The complex algorithms involved in semantic communication are often computationally expensive, posing challenges for devices with limited storage and computational capacity.”
+
+“In this work, we aim to reduce the interactions between the DRL agent and the environment, thereby reducing energy and bandwidth consumption.”
+
+--------------------------------------------------------------------------------------------------
+
+from Jiao, Y., Fu, W., Cao, X., Su, Q., Wang, Y., Shen, Z., & Yu, L., “Collaborative decision-making for UAV swarm confrontation based on reinforcement learning”
+
+Introduction bölümü
+
+“However, the approach requires substantial computing resources and may not scale well to complex environments.”
+
+“The fuzzy neural network-based approach enhances the stability and robustness of decision-making. However, it also requires substantial computing resources, which limits its applicability in complex and resource-constrained environments.”
+
+----------------------------------------------------------------------------------------------------
+
+from “Reinforcement Learning-Based Routing Protocols in Dynamic UAV Networks” survey
+
+6.8. “FEQ-Routing-SA” bölümü
+
+“Rovira-Sugranes et al. [74] have proposed an improved version of the Q-routing algorithm called fully-echoed q-routing with simulated annealing inference (FEQ-routing-SA) for FANETs. In FEQ-routing-SA, the purpose is to dynamically adjust the learning rate in the Q-learning algorithm to be compatible with the frequent changes in topology in FANETs to reduce energy consumption and packet loss.”
+
+“Furthermore, in this process, the simulated annealing algorithm is used to determine the exploration rate. SA starts at a large exploration rate (high temperature) and learns better decisions by lowering the temperature. In FEQ-routing-SA, the temperature is adjusted according to the speed of the network nodes.”
+
+-----------------------------------------------------------------------------------------------------
+
+from “Reinforcement Learning-Based Routing Protocols in Dynamic UAV Networks” survey
+
+QLGR bölümü / Table 14
+
+“Designing a distributed routing method, adaptive adjustment of hello broadcast interval for reducing routing overhead, creating stable paths, reducing packet loss, considering a multi-agent reinforcement learning technique, improving convergence speed, high scalability, using both local and global rewards, managing Q-table size...”
+
+“High routing overhead... ignoring the energy of nodes in the routing process, the unbalanced distribution of energy consumption and reducing network lifetime, considering constant learning parameters.”
+
+
+
+-------------------------------------------------------------------------------------------------------------
+2. AŞAMA Q-AODV
+-------------------------------------------------------------------------------------------------------------
+
+Q-AODV MAKALESİ – LİTERATÜR REPLİKASYONU VE ALGORİTMA İNCELEMESİ
+
+Yayın:
+Vu Khanh Quy, Nguyen Tien Ban ve Nguyen Dinh Han, “A High-Performance Routing Protocol for Multimedia Applications in MANETs”, Journal of Communications, Vol. 14, No. 4, April 2019.
+
+NOT:
+Bu makaledeki “Q-AODV” ifadesi Q-learning tabanlı bir routing protokolünü ifade etmemektedir. Makale, AODV’yi multimedia uygulamaları için bant genişliği ve gecikme gibi QoS ölçütleriyle genişleten bir protokol sunmaktadır. PDF’de Q-learning, Q-table, reward function veya ε-greedy exploration mekanizmaları bulunmamaktadır. [Kaynak: dosya, ilgili bölümler; Q-AODV route selection algorithm]
+
+--------------------------------------------------
+A) SİMÜLASYON DÜNYASI – REPLİKASYON PARAMETRELERİ
+--------------------------------------------------
+
+1. Düğüm (İHA) sayısı
+
+Simülasyonda 200 mobil düğüm kullanılmıştır.
+
+Kaynak:
+Table I – Simulation Parameters:
+“Number of Nodes: 200”
+
+Ayrıca deney açıklamasında CBR trafiği altında 200 mobil node’un Random Waypoint mobility model ile kullanıldığı belirtilmektedir.
+[Kaynak: turn12file6, satır 432-448; turn12file7, satır 463-478]
+
+2. Alan boyutu
+
+Simülasyon alanı 1500 m × 1500 m olarak belirlenmiştir.
+
+Kaynak:
+Table I:
+“Simulation Area: 1500m×1500m”
+[Kaynak: turn12file7, satır 463-478]
+
+3. Haberleşme menzili
+
+Her mobil düğüm için communication/transmission range 250 m olarak belirlenmiştir.
+
+Kaynak:
+Table I:
+“Communication Range: 250 m”
+[Kaynak: turn12file6, satır 440-445; turn12file7, satır 475-477]
+
+4. Hız aralığı ve mobilite modeli
+
+Mobil düğümlerin hızları 2–20 m/s aralığında test edilmiştir. Makale, hızları [0,Vmax] aralığında rastgele seçmekte ve Vmax değerlerini 2, 4, 6, …, 20 m/s olarak değiştirmektedir.
+
+Makale ayrıca 2–20 m/s aralığını yaklaşık 7.2–72 km/h gerçek araç hızlarıyla ilişkilendirmektedir.
+
+Hareket modeli Random Waypoint’tir.
+
+Kaynak:
+“Velocities of mobile nodes are set randomly in the range [0, Vmax], where, Vmax = [2,4,6,…,20] …”
+“Mobility Model: Random Way Point”
+[Kaynak: turn12file6, satır 439-448; turn12file7, satır 475-478]
+
+5. Trafik yükü
+
+Deneylerde CBR (Constant Bit Rate) trafik kullanılmıştır.
+
+End-to-end connection sayısı 50’dir.
+
+Paket boyutu 1024 byte’tır.
+
+Bant genişliği 1 Mbit/s ve bandwidth request 500 Kbps olarak verilmiştir. Transport layer UDP’dir.
+
+Kaynak:
+Table I:
+“End-to-End Connection Number: 50”
+“Traffic Type: CBR”
+“Bandwidth: 1 Mbit/s”
+“Size of Packets: 1024 byte”
+“Transport Layer: UDP”
+“Bandwidth Request: 500 Kbps”
+[Kaynak: turn12file7, satır 463-478]
+
+NOT:
+Sorudaki “saniyede kaç paket gönderiliyor?” bilgisi Tablo I’de doğrudan paket/s olarak verilmemektedir. Bu nedenle PDF’nin desteklemediği bir packets-per-second değeri çıkarılmamalıdır.
+
+6. Simülasyon süresi
+
+Her simülasyon koşusu 500 saniye olarak belirlenmiştir.
+
+Kaynak:
+Table I:
+“Simulation Time: 500s”
+[Kaynak: turn12file7, satır 463-478]
+
+7. Kullanılan simülasyon ortamı ve protokoller
+
+Simülasyonlar NS-2 software version 2.34 üzerinde gerçekleştirilmiştir.
+
+Q-AODV, AODV ve DSR karşılaştırılmıştır.
+
+Kaynak:
+[Kaynak: turn12file6, satır 432-438; turn12file7, satır 477-478]
+
+
+--------------------------------------------------
+B) Q-AODV’NİN GERÇEK KARAR MEKANİZMASI
+--------------------------------------------------
+
+ÖNEMLİ DÜZELTME:
+
+Bu makaleyi “Q-learning algoritmasının state/reward/exploration tasarımı” olarak incelemek doğru değildir.
+
+Makalenin Q-AODV’sinde klasik reinforcement learning bileşenleri bulunmamaktadır. Makale route selection için throughput/bandwidth ve end-to-end delay bilgilerini kullanmaktadır.
+
+1. Durum Uzayı (State Space)
+
+Klasik Q-learning anlamında bir state space tanımlanmamıştır.
+
+Bunun yerine rota seçiminde aday rotaların throughput/bandwidth ve end-to-end delay bilgileri kullanılmaktadır.
+
+Makale açıkça:
+“The route selection process in both modes will require knowledge of the throughput and delay of candidate routes between a pair of source-destination nodes.”
+
+demektedir.
+
+RREQ paketinin header’ı da şu bilgileri taşıyacak şekilde değiştirilmiştir:
+Model-Flag, Bandwidth Request, Bandwidth, Delay Request, Delay ve AODV RREQ Header.
+
+Ara düğümlerde Quality-Check uygulanarak bandwidth veya end-to-end delay koşullarını karşılamayan rotalar elenmektedir.
+
+Kaynak:
+[Kaynak: turn12file8, satır 552-590]
+
+Sonuç:
+Q-AODV’de RL state space yerine QoS route information kullanılmaktadır.
+
+2. Ödül / Maliyet Fonksiyonu
+
+Q-learning reward function yoktur.
+
+Bunun yerine Q-AODV aday rotalar için Cost_Delay_Bandwidth isimli bir maliyet değeri kullanır.
+
+Route selection algorithm şu mantığı izlemektedir:
+
+routeset = shortest-route(S,D)
+
+Cost = ∞
+
+Her aday rota için:
+Cost_Delay_Bandwidth(i) hesaplanır.
+En düşük maliyetli rota Selectedroute olarak seçilir.
+
+Makalenin denklemindeki ifade:
+“Optimal route = Min (Cost_Set)”
+
+Kaynak:
+[Kaynak: turn14file0, satır 4-15; turn14file4, satır 31-43]
+
+Makalenin QoS yaklaşımında bandwidth ve end-to-end delay özellikle önemlidir. Yazarlar throughput, delay, packet loss rate, reliability, mobility ve energy gibi metrikleri saymakla birlikte multimedia uygulamaları için available bandwidth ve end-to-end delay’in en önemli ölçütler olduğunu belirtmektedir.
+
+Kaynak:
+[Kaynak: turn12file8, satır 543-551]
+
+Q-AODV iki çalışma modu sunmaktadır:
+
+Adaptive Mode:
+En iyi throughput ve delay’i sağlayan rotayı seçmek.
+
+Admission Mode:
+Gereksinimleri karşılayan rotalar arasından en düşük bandwidth ile en iyi delay’i sağlayan rotayı seçmek.
+
+Kaynak:
+[Kaynak: turn12file8, satır 552-560]
+
+3. Karıştırma (Jamming) var mı?
+
+YOK.
+
+Makalenin simülasyon senaryolarında düşman jammer, intentional interference veya anti-jamming senaryosu bulunmamaktadır.
+
+Deneyler Q-AODV, AODV ve DSR’nin farklı mobilite/hız koşullarındaki performansını karşılaştırmaktadır.
+
+Ölçülen metrikler arasında:
+- throughput
+- delay
+- packet delivery ratio
+- routing overhead
+
+bulunmaktadır.
+
+Kaynak:
+[Kaynak: turn12file6, satır 446-452; turn12file7, satır 479-527]
+
+Bu nedenle bu makale “jamming altında AI routing” için doğrudan bir kaynak değildir.
+
+Ancak yüksek mobilite ile topoloji değişimi ve route break arasındaki ilişkiyi desteklemektedir. Makale, mobilite arttıkça ağ yapısının daha hızlı değiştiğini; bunun route break oranını artırdığını ve daha fazla packet retransmission veya route reconfiguration’a neden olduğunu belirtmektedir.
+
+Kaynak:
+[Kaynak: turn12file7, satır 523-532]
+
+4. Keşif (Exploration) / ε-greedy
+
+YOK.
+
+Makalede ε-greedy, epsilon, Q-table, exploration/exploitation veya random action selection mekanizması bulunmamaktadır.
+
+Route discovery AODV’nin on-demand RREQ/RREP mantığı üzerinden gerçekleştirilmektedir.
+
+Kaynak düğüm veri aktarımı gerektiğinde RREQ gönderir. Ara düğümler RREQ paketlerini Quality-Check işleminden geçirir; bandwidth veya delay koşullarını karşılamayan rotalar elenir. Aday rotalar destination’a ulaştığında RREP ile geri bildirilir.
+
+Kaynak:
+[Kaynak: turn12file8, satır 566-590]
+
+Route selection daha sonra Cost_Delay_Bandwidth değerinin minimize edilmesine dayanır.
+
+Kaynak:
+[Kaynak: turn14file0, satır 4-15]
+
+
+--------------------------------------------------
+C) PERFORMANS SONUÇLARI – REPLİKASYONDA KULLANILABİLECEK BULGULAR
+--------------------------------------------------
+
+1. Mobilite arttıkça PDR düşmektedir.
+
+Makale, mobil node’ların hızı arttıkça network structure’ın daha hızlı değiştiğini, route break oranının yükseldiğini ve bunun packet retransmission veya route reconfiguration sayısını artırdığını belirtmektedir.
+
+Kaynak:
+[Kaynak: turn12file7, satır 523-532]
+
+2. Q-AODV yüksek mobilitede PDR açısından daha iyi sonuç vermektedir.
+
+Makalenin sonuçlarına göre Vmax = 18 m/s seviyesinde Q-AODV’nin PDR’si AODV ve DSR’den yaklaşık %8 daha yüksektir.
+
+Vmax = 20 m/s seviyesinde Q-AODV’nin throughput’u AODV ve DSR’ye göre yaklaşık %25’e kadar daha yüksek, end-to-end delay’i ise yaklaşık %20 daha düşüktür.
+
+Kaynak:
+[Kaynak: turn12file4, satır 304-323]
+
+3. Admission mode altında da Q-AODV avantaj sağlamaktadır.
+
+Vmax = 20 m/s seviyesinde Q-AODV’nin PDR’sinin AODV ve DSR’ye göre yaklaşık %15 daha yüksek olduğu raporlanmaktadır.
+
+Kaynak:
+[Kaynak: turn12file2, satır 166-172]
+
+
+--------------------------------------------------
+D) PROJE İÇİN KULLANILABİLECEK NET SONUÇ
+--------------------------------------------------
+
+Bu makale, yüksek mobiliteli MANET ortamında QoS-aware routing yaklaşımının klasik AODV ve DSR’ye göre performans avantajı sağlayabildiğini göstermek için kullanılabilir.
+
+Özellikle şu ilişki doğrudan makaleden desteklenmektedir:
+
+Yüksek mobilite
+→ daha hızlı topoloji değişimi
+→ daha fazla route break
+→ daha fazla retransmission / route reconfiguration
+→ performans düşüşü.
+
+Q-AODV ise available bandwidth ve end-to-end delay’i route selection sürecine dahil ederek bu koşullarda PDR, throughput ve delay açısından AODV ve DSR’ye göre daha iyi sonuçlar vermektedir.
+
+Kaynak:
+[Kaynak: turn12file7, satır 523-532; turn12file4, satır 304-323]
+
+Ancak bu çalışmadan şu iddialar çıkarılmamalıdır:
+
+- Q-AODV bir Q-learning algoritmasıdır → DESTEKLENMİYOR.
+- Q-AODV’de Q-table vardır → DESTEKLENMİYOR.
+- Q-AODV’de reward function vardır → DESTEKLENMİYOR.
+- Q-AODV ε-greedy exploration kullanır → DESTEKLENMİYOR.
+- Q-AODV jammer altında test edilmiştir → DESTEKLENMİYOR.
+- Makalede saniyede gönderilen paket sayısı açıkça verilmiştir → DESTEKLENMİYOR.
+
+Bu nedenle makalenin en doğru literatür konumlandırması:
+“QoS-aware AODV routing under varying mobility”
+olmalıdır; “reinforcement-learning-based anti-jamming routing” değil.
+
+
+-------------------------------------------------------------------------------------------------------------------
+3.Aşama Q-YÖNLENDİRME güncelleme 1. görev
+-------------------------------------------------------------------------------------------------------------------
+
+Standart Formül:
+Qx(d,y)<-(1-alfa)Qx(d,y)+alfa[c(x,y)+gamma(min(z))Qy(d,z)]
+
+Q ifadesi komşuya gitmek için yapılan seçimin maliyeti demek Qx(d,y) ifadesinde x'in d hedefine y komşusu üzerinden gitmek için tahmini maliyetini gösterir bu ifade olmasaydı binevi denklemin sayacı olmazdı denklemin bütün hesaplama süreci anlık maliyet hesaplamaları ve karar verme üzerinden ilerler.
+
+alfa öğrenme oranını ifade eder 0<alfa<1(1 dahil) arası değere sahiptir. (1-alfa)Qx(d,y) ifadesi ise öğrenme oranından kalan pay ile eski tahminin ağırlığının korunmasını sağlar bu blok sistemin sürekli baştan tarama yapıp unutkan bir yapıya sahip olmasına ve sistemin sürekli ölçüm yapan akılsız bir makinaya dönüşmesini engeller. 
+
+c(x,y) ifadesi ise x'ten y'ye giderken ki anlık maliyeti hesaplar kuyrukta bekleme süresi + fiziksel hat iletim süresi olarakta düşünülmeli, bu ifade olmasaydı sistem kendini anlık durumlara karşı uyaramaz ve işlevsiz hale gelirdi.
+
+gamma ise iskonto faktörüdür 0 ve 1(1 dahil) bir değere sahiptir. gelecekteki maliyetlerin şuan ki mekanizmaya etkisini ölçekler. 
+
+(min(z))Qy(d,z) ifadesi ise mevcut bağın komşuları arasındaki en iyi yolu bulur kısaca bir bağın en az gecikme ile komşularından birine paket yollayarak rotanın devamını sağlar
+
+algoritma: en iyi komşunun seçilmesi>anlık maliyetin ölçülmesi>komşudan geri bildirimin alınması>q tablosunun güncellenmesi
+
+
+---------------------------------------------------------------------------------------------------------------------
+2. Görev KFQ KOMPOZİT MALİYET FONKSİYONU açıklama
+---------------------------------------------------------------------------------------------------------------------
+
+c(x, y) = w₁·τ̂(x, y) + w₂·ETX̃(x, y) + w₃·Ĵ(y) + w₄·q̃(y) + w₅
+
+önsezi : aslında bu denklem 5 farklı karşılaşılabilecek tehlikenin veyahut handikapın toplamasını ifade eder buda projemizde bize maliyet hesaplamasına yardım eder.
+
+c(x,y) = tek adımlık geçişte ortaya çıkan anlık maliyet (önceki yazılarda da belirttiğim gibi)
+
+w= ağırlık, denklemdeki tehlikeye ne kadar önem verildiğinin katsayısıdır
+-
+w₁·τ̂(x, y)= gecikme süresidir x'ten y'ye giderkenki gecikmesinin süresi (bunlar bağlar arasında sürekli iletişim sırasında hello paketleri ile ölçülür (hatırladığım ve tahminimce))
+
+milisaniye cinsindedir.
+
+bu blok üreteceğimiz yapay zekanın hangi bağlardan daha geç veri gideceğinin bilgisini vererek en optimal rota sunmasına yardımcı olacak. ödül ceza sistemi ile ne kadar çok handikap ve tehlikenin bulunduğu durumlara göre ödül veya ceza verilerek eğitilerek en optimal yolun seçilmesine zorlanacak
+-
+
+w₂·ETX̃(x, y)= paket kaybı
+
+iki bağ arasındaki bağlantının sağlamlığını ölçen standarttır (ETX) açılımı "expected transmission count" yani beklenilen iletim sayıdır bu direkt olarak bağlantı kalitesini ölçtüğü için önemlidir.
+
+ETX DEĞERLERİ: örneğin etx değeri 1.0 ise her paket tek seferde karşıya ulaşıyor demektir.(kusursuz)
+fakat etx değeri 2.0 ise oaketlerin yarısı ulaşmıyor demektir 
+yani beklenilen iletim sayısı aslında bir paketin/mesajın ortalama kaç denemede ulaştığını gösterir en düşük olarak 1 değerinin olabileceğini  gösterir.
+
+önemi: eğiteceğimiz yapay zeka paketlerin yolda kaybolmasını istemez %50'lik bir paket teslim oranı bile başarısızlık olarak nitelendirilecektir. bu yüzden etx değeri yüksek olan bağdan bağlantı kurulması kaçınılacaktır.
+
+-
+
+w₃·Ĵ(y)= düşman jammerının gürültüsü (girişim)
+
+paket gönderilmek istenen bağın komşu ihanın telsiz anteninin o an maruz kaldığı parazit gücü.
+
+bağ düşman jammerının yerini göremez ama maruz kalınan gürültüyü bu terim sayesinde dolaylı olarak hisseder.
+
+gürültüsü yüksek olan bağa paket yollamak doğrudan paketi çöpe atıp kaynağı boşa harcamaktır. yapay zekamız bu terim sayesinde zehirli bölgeleri anlayabilir.
+
+w₄·q̃(y)= kuyruk doluluğu (ağ trafiği)
+
+paketi alacak olan komşu bağdaki bekleyen paket sayısını ifade eder
+
+eğer komşunun kuyruğu tamamen doluysa veya dolum oranı yüksekse hafızasında yer olmayacağı için o paket çöpe gidebilir yada o paket ulaşana kadar önemi kalmayabilir.
+
+bu terim bize "tıkanıklık uyarısı" verir ve bizi başka bir rota bulmaya odaklar.
+
+-
+
+w₅= atlama cezası(sabit terim)
+
+yapay zekanın paketi bir bağdan diğerine taşırken ödediği sabit ve her zaman geçerki olan cezadır 
+
+neden var?: çünkü eğer bu ceza olmasaydı yapay zeka en iyi rotayı bulmak için en kısa yolu bulmaya uğraşmaz diğer terimlerin en ucuzlarından seçerek 30 tane bağ kullanarak hedefe ulaşabilirdi buda dolaylı olarak bu projenin asıl hedefine ulaşmasına terstir.
+
+-
+
+DİPNOT: denklemdeki terimlerin üzerindeki şapkalar (normalizasyon) neden var?
+ 
+çünkü eğer biz bu terimleri [0,1] arasında değerlere sıkıştırmasaydık denklem matematiksel olarak çökerdi. eğer terimleri ham sayıyla toplasaydık şu tarz durumlarla karşılaşabilirdik.
+
+durum a (normal): gecikme süresi 50 milisaniye (τ=50) bağlantı kalitemiz ise kusursuz olsun (etx= 1.0) bunlar doğrudan toplanırsa maliyetimiz 51 olur.
+
+durum b (problem): gecikme yine 50 ms olsun(τ=50) ama bağlantı kalitemiz çok kötü olsun (etx=5.0) bu durumda toplamımız 55 olur.
+
+sorun şurada: iki durum neredeyse aynıydı tek fark b durumunda bağlantı kalitesi 5 kat daha kötüydü ona rağmen toplamımız 51 den 55 e çıktı (sadece yüzde 7 lik bir artış ) çünkü 50 sayısının büyüklüğü 5.0 sayısını ezdi. bu körlük yüzünden yapay zekamız bu iki ekstrem durum arasındaki farkı tam olarak anlamayabilir çözüm olarak normalizasyon ile sayıları sıkıştırıyoruz bu sayede sayı ezme matematiksel körlük gibi durumlara yakalanmıyoruz.
+
+----------------------------------------------------------------------------------------
+3. GÖREV REJİM KOŞULLANDIRMA (3 VİTES)
+----------------------------------------------------------------------------------------
+tanıtım
+-
+ Klasik yönlendirme algoritmaları örnek olarak Q-Routing sadece tek bir q-tablosu(hafıza matrisi) bulunur ve bu tablo güncellenir ve karıştırma veya aksi durumlarda gidilmesi gereken rotalar bulunur ama farklı rejimlerde örnek olarak karıştırıcının belli bir süreden sonra aniden kapanması sonucunda o tablo artık yoğun rejim yollarının bilgisiyle kirlenmiş durumdadır. yapay zeka ise yolların temizlendiğini ve denetimini yapmak için her şeyi unutup 0 dan tekrar yolları çizmesi gerekir bu öğrenme süreci havada saniyeler sürer ve paket kayıpları nedeniylede havada ani kararlar verilmesi gereken durumlarda kritik bir sorundur.
+
+bu hantal yapıya kıyasla projemiz bu sorunu saniyelerden daha kısa sürede çözüyor.
+
+3 vitesli rejim koşullandırma: bağların hafızasında tek bir tablo yerine parazit oranına göre 3 ayrı Q-tablosu tutuluyor
+
+Rejim0 (sakin, m=0): karıştırıcının olmadığı temiz hava sahası durumu
+
+rejim1 (orta, m=1): hafif veya uzaktan gelen parazitlerin bulunduğu durum(her zaman karıştırıcının varlığına işaret etmez)
+
+rejim2 (yoğun, m=2): ağır karıştırma altındaki durum
+
+-
+--
+bu geçiş matematiksel olarak nasıl yapılıyor?
+--
+EWMA denklemi
+"EWMA(Iₓ) ← β · EWMA(Iₓ) + (1 - β) · Iₓ(t)"
+
+bağımız anteninden okuduğu anlık gürültü değerini(Iₓ) doğrudan kullanmaz çünkü anlık gürültü saniyede binlerce kez dalgalanabilir; bağımız bu dalgalanmalara anlık tepki verseydi sürekli  vites değiştirmek zorunda kalırdı buda sistemi kilitler felaket senaryosunu tetiklerdi bunun literatürdeki adı "salınım/thrashing"
+
+bu salınımı engellemek için EWMA olarak bilinen üstel hareketli ortalaması denklemini kullanacağız.
+
+EWMA denklemindeki beta(β) yani bellek katsayısı gürültünün geçmişine ne kadar güveneceğimizi belirler.
+bu değer basamaklandırılarak(kuantize) rejim indeksimizi(m) buluyoruz.
+
+gürültü düşükse => sakin rejim, orta seviyedeyse m=1, gürültü yüksekse => 2 (yoğun)
+
+bağımız hangi rejim indeksindeyse o rejim tablosu baz alınarak hareket eder yani binevi EWMA denklemi rejim tabloları arasında anahtarlama görevi görür. ve sadece o tabloyu güncelleyip kullanır jammer sustuğu an ise sakin rejime geri dönülür.
+
+
+--
+---
+bellek planlaması:
+---
+bu yapıda 3 ayrı tablo tutulacağı için bir yandan bellek maliyeti soru olarak duruyor fakat iyimser bir senaryoda şu tarz bir hesaplama yapılabilir 
+
+30 Hedef * 5 komşu * 3 rejim tablosu = 450 hücre 
+
+her hücrede 4 byte yer kaplayacak bir float tutulan bir durumda bellek maliyetimiz  toleransları da hesaba katarsak yaklaşık olarak 2 KB ram dir.
+---
+
+----
+Tasarım kararı açıklamaları
+----
+Neden derin öğrenme kullanılmıyor?
+
+Klasik Yapay Zeka Ne İster? Günümüzdeki popüler derin pekiştirmeli öğrenme modelleri (DQN gibi) arkasında devasa yapay sinir ağları taşır. Bu modeller megabaytlarca bellek (RAM) ve saniyede milyarlarca işlem gücü ister
+.
+Bizim Sınırımız (SWaP): Havada uçan küçük taktik İHA'lar kısıtlı bir pile, minik bir işlemciye ve çok dar bir belleğe sahiptir (buna Boyut, Ağırlık ve Güç - SWaP kısıtları denir)
+.
+Bizim Savunmamız: "Biz derin öğrenme kütüphanelerini (PyTorch vb.) bilerek projemize sokmadık. Çünkü bu ağır modeller İHA'nın pilini saniyeler içinde tüketir
+. Bizim geliştirdiğimiz KFQ (JAR-Q) ise sadece 1.8 KB RAM kaplayan minik tablolarla aynı işi yapar
+. Bu bir eksiklik değil, taktik sahadaki mikro İHA'lar için tasarlanmış bir özelliktir"
+.
+----
+Neden Asıl Rakibimiz Klasik AODV Değil de "ETX-Açgözlü" (B4) Protokolüdür? (Straw-Man Reddi)
+Straw-Man (Korkuluk) Tuzağı Nedir? Kendi geliştirdiğimiz sistemi harika göstermek için zayıf ve zaten çökeceği belli olan rakipler seçmektir
+.
+AODV'yi zayıf rakip saymamızın sebebi kanıtlanmış bir çöküş değil, AODV'nin metriğinin atlama sayısı olması — bağlantı kalitesine kör. ETX-açgözlü ise bağlantı kalitesini doğrudan ölçüyor, bu yüzden daha zor rakip. Kanıta değil, mekanizmaya dayanan bir argüman ve daha sağlam.
+.
+Bizim Savunmamız: "Biz jüriyi etkilemek için kolay bir rakibi (klasik AODV) yenip sevinmedik
+. Karşımıza bağlantı kalitesini anlık olarak çok sıkı ölçen, öğrenme yeteneği olmasa da son derece güçlü bir rakip olan ETX-Açgözlü (B4) protokolünü koyduk
+. Bizim ana hipotezimiz (H1), yapay zekamızın bu çok güçlü ETX-Açgözlü protokolünü yenmesi üzerine kuruludur"
+.
+----
+neden omnet++ değil : 
+
+windowsda omnet++ kullanmak araç zincirleri ve sürüm uyumsuzlukları nedeniyle projemiz özelinde bize zaman kaybından başka bir şeye sebep olmaz ve öğrenme zorluğu yüksektir sadece c++ dilini bilmek yetmez üstüne paltformun kendi özel dilleri olan ned ve msg ve inet mimarisini çözmek gerekir bunlar tek başına en az 2-4 ay sürecek bir takvimdir.
+----
+
+
+
+
+

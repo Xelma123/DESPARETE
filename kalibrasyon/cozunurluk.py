@@ -45,6 +45,7 @@ KOK = Path(__file__).resolve().parent.parent
 if str(KOK) not in sys.path:
     sys.path.insert(0, str(KOK))
 
+from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
 from kalibrasyon.duyarlilik import R_ESLESTIRILMIS, _is  # noqa: E402
 
 TOHUMLAR = tuple(range(1000, 1030))
@@ -132,6 +133,11 @@ def main(isci: int = 8) -> None:
 
 
 if __name__ == "__main__":
+    # 30 Eylül 2026 (Faz 4 kapanışı B7): `--dunya` — ölçüm gövdesi
+    # (`duyarlilik._kos`) dünyayı seçimden kurar; seçim havuz işçilerine
+    # ortam değişkeniyle geçer ve başlıkta basılır.
+    DS.secimi_oku()
+    print(f"  DUNYA: {DS.secili()}")
     # `--tohum N`: çözünürlüğü N tohumla ölçer; ilk tohum aynı kalır.
     if "--tohum" in sys.argv:
         _n = int(sys.argv[sys.argv.index("--tohum") + 1])

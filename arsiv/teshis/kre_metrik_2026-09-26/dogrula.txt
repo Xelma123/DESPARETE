@@ -1,0 +1,15 @@
+t- dışı 65 vaka · görev oranı = PDR ve ham diziler boş olmayan: YOK
+
+t-bagimsiz-surekli-dogrudan_komsu-dugum_kaybi
+  korunum k181 ile aynı : True
+  pdr                   : 0.4758 → 0.4758
+  pdr_pencere           : 0.4847 → 0.4847
+  gorev_teslim_orani    : 0.4305 (pencere 0.4232)
+  ölü hedefe doğan 0 · doğamayan 152 · kohort 1446 · korunum üretilen 1446
+
+t-statik-surekli-aodv-dugum_kaybi
+  korunum k181 ile aynı : True
+  pdr                   : 0.6062 → 0.7593
+  pdr_pencere           : 0.5794 → 0.7939
+  gorev_teslim_orani    : 0.5975 (pencere 0.5683)
+  ölü hedefe doğan 318 · doğamayan 23 · kohort 1259 · korunum üretilen 1577

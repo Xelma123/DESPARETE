@@ -1,0 +1,20 @@
+  DUNYA: referans_2026
+
+==============================================================================
+2 - ALAN TARAMASI  (kullanilabilir bag grafigi)
+==============================================================================
+  olcut (ONCEDEN ILAN EDILDI): sert kisit: statik kolda kopukluk %0 (30 tohum) · amac: atlama derinligini en buyuk yapmak
+  kullanilabilir bag: atlama basarisi >= 0.90, 6 sonumleme ornegi uzerinden
+
+    alan  derece   1 atl   2 atl   3 atl  4+ atl   kopuk  >=3atl  duyan   olcut
+   36000    8.37   21.5%   42.6%   28.9%    6.9%    0.2%   35.8%    2.7   kalir
+   37000    8.00   20.5%   40.8%   29.3%    8.9%    0.5%   38.2%    2.6   kalir
+   38000    7.72   19.8%   39.4%   30.5%    9.8%    0.5%   40.3%    2.4   kalir
+   39000    7.46   19.1%   37.7%   30.2%   12.6%    0.3%   42.8%    2.3   kalir
+
+  🔴 HICBIR ALAN SERT KISITI SAGLAMADI (kopukluk %0).
+     Kisit gevsetilmez; tarama araligi KUCUK alanlara genisletilir.
+
+real	4m6.856s
+user	0m0.000s
+sys	0m0.031s

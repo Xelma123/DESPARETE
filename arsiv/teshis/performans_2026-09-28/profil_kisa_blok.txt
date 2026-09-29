@@ -1,0 +1,79 @@
+aodv · 3 s koşu: 125.2 s duvar · islenen olay 215063.0 · mac_deneme 608.0 · alim denemesi 98000.0 · kontrol_cerceve 2373.0
+         208626969 function calls (208618850 primitive calls) in 120.303 seconds
+
+   Ordered by: cumulative time
+   List reduced from 459 to 35 due to restriction <35>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000  125.168  125.168 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kosum\kosu.py:80(kostur)
+        1    0.491    0.491  125.138  125.138 C:\Users\Xelma123\Desktop\desparete_pls\sim2\cekirdek\olaylar.py:73(kostur)
+   109966    1.753    0.000   91.763    0.001 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\kanal.py:287(_iz)
+    97852    0.080    0.000   80.141    0.001 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kosum\kosu.py:184(_cerceve_geldi)
+    97852    0.339    0.000   80.061    0.001 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kosum\alim.py:19(cerceve_geldi)
+   430444    2.128    0.000   65.446    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\girisim.py:138(girisim_w)
+    97852    0.412    0.000   63.857    0.001 C:\Users\Xelma123\Desktop\desparete_pls\sim2\mac\alici.py:183(cerceve_geldi)
+    92561    0.097    0.000   57.212    0.001 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\kanal.py:342(onbelge_alim_per)
+    92561    0.129    0.000   55.899    0.001 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\kanal.py:330(onbelge_izi)
+    97852    0.053    0.000   40.216    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kosum\kosu.py:187(_cerceve_bitti)
+    97852    0.219    0.000   40.164    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kosum\alim.py:34(cerceve_bitti)
+  1571694    5.027    0.000   38.273    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\sonumleme.py:371(guc_kazanci)
+    97852    0.089    0.000   36.943    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\mac\alici.py:225(cerceve_bitti)
+    17405    0.029    0.000   36.563    0.002 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\kanal.py:348(alim_per)
+   734266    1.044    0.000   36.516    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\girisim.py:160(sinyal_w)
+    17405    0.034    0.000   36.064    0.002 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\kanal.py:322(sinr_izi)
+  1965049    4.452    0.000   32.840    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\yayilim.py:233(yavas_kayip_db)
+  1573254    1.086    0.000   27.612    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\yayilim.py:255(yavas_alinan_w)
+   524116    0.495    0.000   27.306    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\karistirici.py:406(alinan_guc_w)
+   391795    0.709    0.000   26.364    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\karistirici.py:339(_yayilim_kaybi_w)
+ 10866428    2.858    0.000   23.201    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\dunya\topoloji.py:102(konum)
+ 10866428    3.452    0.000   20.343    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\dunya\mobilite.py:557(konum)
+  1571694    1.334    0.000   18.360    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\sonumleme.py:230(tutarlilik_suresi_s)
+ 10608282   12.672    0.000   16.891    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\dunya\mobilite.py:641(konum)
+  1571694    2.943    0.000   16.754    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\sonumleme.py:215(bagil_hiz_ms)
+  1963489   11.310    0.000   16.243    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\sonumleme.py:357(_fir_blok)
+   391795    0.544    0.000   15.664    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\karistirici.py:355(_kayip_db)
+   122721    0.080    0.000   14.996    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kosum\dugum.py:271(kanal_mesgul_mu)
+   122721    0.450    0.000   14.916    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kosum\dugum.py:375(_guc_mesgul_mu)
+  1502950   10.062    0.000   13.231    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\yayilim.py:183(golgeleme_db)
+  1502950    0.991    0.000    6.850    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\yayilim.py:177(bag_anten_kaybi_db)
+   391795    0.226    0.000    6.712    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\yer_hava.py:94(ek_kayip_db)
+ 16048450    4.506    0.000    6.620    0.000 {method 'get' of 'dict' objects}
+   501761    1.246    0.000    6.598    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\cekirdek\rng.py:221(hash_cekimi)
+   391795    0.865    0.000    6.486    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\yer_hava.py:86(gorus_hatti_mi)
+
+
+
+         208626969 function calls (208618850 primitive calls) in 120.303 seconds
+
+   Ordered by: internal time
+   List reduced from 459 to 25 due to restriction <25>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+ 10608282   12.672    0.000   16.891    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\dunya\mobilite.py:641(konum)
+  1963489   11.310    0.000   16.243    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\sonumleme.py:357(_fir_blok)
+  1502950   10.062    0.000   13.231    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\yayilim.py:183(golgeleme_db)
+  1571694    5.027    0.000   38.273    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\sonumleme.py:371(guc_kazanci)
+ 16048450    4.506    0.000    6.620    0.000 {method 'get' of 'dict' objects}
+  1965049    4.452    0.000   32.840    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\yayilim.py:233(yavas_kayip_db)
+ 10866428    3.452    0.000   20.343    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\dunya\mobilite.py:557(konum)
+  1571694    2.943    0.000   16.754    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\sonumleme.py:215(bagil_hiz_ms)
+ 10866428    2.858    0.000   23.201    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\dunya\topoloji.py:102(konum)
+    76099    2.686    0.000    3.075    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\cekirdek\rng.py:290(normal_dizisi)
+  1502950    2.290    0.000    3.394    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\yayilim.py:154(anten_kaybi_db)
+   430444    2.128    0.000   65.446    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\girisim.py:138(girisim_w)
+  1175385    2.049    0.000    4.423    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\karistirici.py:316(konum_t)
+  6935998    2.007    0.000    3.001    0.000 <string>:2(__hash__)
+  7315805    1.964    0.000    2.904    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\girisim.py:57(aktif_mi)
+   109966    1.753    0.000   91.763    0.001 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\kanal.py:287(_iz)
+   510685    1.722    0.000    2.619    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\cekirdek\rng.py:146(_anahtar_baytlari)
+   510725    1.619    0.000    2.523    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\cekirdek\rng.py:130(_hash_bit)
+ 11059847    1.492    0.000    1.492    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\girisim.py:53(bitis_s)
+  1699750    1.469    0.000    4.373    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\girisim.py:85(<genexpr>)
+  9371251    1.440    0.000    1.440    0.000 {built-in method builtins.max}
+  1571694    1.334    0.000   18.360    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\sonumleme.py:230(tutarlilik_suresi_s)
+   501761    1.246    0.000    6.598    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\cekirdek\rng.py:221(hash_cekimi)
+  1978304    1.238    0.000    1.469    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\dunya\geometri.py:127(mesafe)
+   391795    1.231    0.000    4.662    0.000 C:\Users\Xelma123\Desktop\desparete_pls\sim2\kanal\sonumleme.py:399(karistirici_kazanci)
+
+
+

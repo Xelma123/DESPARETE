@@ -1,0 +1,11 @@
+gurultu -93.55 dBm (22 MHz, NF 7.0 dB)
+   hiz  bayt  SNR PER8%  duyarlilik  SNR PER10%  duyarlilik
+  1.0M  1024     -3.09dB     -96.6dBm      -3.18dB     -96.7dBm
+  1.0M   512     -3.38dB     -96.9dBm      -3.48dB     -97.0dBm
+  2.0M  1024      1.53dB     -92.0dBm       1.43dB     -92.1dBm
+  2.0M   512      1.21dB     -92.3dBm       1.10dB     -92.5dBm
+  5.5M  1024      4.08dB     -89.5dBm       3.99dB     -89.6dBm
+  5.5M   512      3.79dB     -89.8dBm       3.68dB     -89.9dBm
+ 11.0M  1024      7.09dB     -86.5dBm       7.00dB     -86.6dBm
+ 11.0M   512      6.80dB     -86.8dBm       6.69dB     -86.9dBm
+dis capalar: G2 alt sinir -80 dBm (FER %8, 1024 B) · G1 CMU Prism 2.5 ~ -94 ... -100 dBm

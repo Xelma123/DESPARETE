@@ -1,0 +1,70 @@
+REGRESYON SATIRLARI — 67 vaka → C:\Users\Xelma123\AppData\Local\Temp\claude\C--Users-Xelma123-Desktop-desparete-pls\89581ef7-0dc1-408e-a19d-ee3ba42d01dc\scratchpad\dondur_k196\ciktilar2\regresyon\k196.jsonl
+    1/67 a-statik-surekli-en_yakin_kimlik                     gecerli=True · 78 s
+    2/67 a-statik-surekli_darbeli-en_yakin_kimlik             gecerli=True · 134 s
+    3/67 m-bagimsiz-surekli_darbeli-dogrudan_komsu            gecerli=True · 146 s
+    4/67 m-bagimsiz-taramali-dogrudan_komsu                   gecerli=True · 159 s
+    5/67 m-bagimsiz-surekli-dogrudan_komsu                    gecerli=True · 160 s
+    6/67 m-bagimsiz-aldatici-dogrudan_komsu                   gecerli=True · 166 s
+    7/67 a-statik-yok-en_yakin_kimlik                         gecerli=True · 218 s
+    8/67 m-bagimsiz-yok-dogrudan_komsu                        gecerli=True · 164 s
+    9/67 b-statik-yok-dogrudan_komsu                          gecerli=True · 24 s
+   10/67 m-bagimsiz-reaktif-dogrudan_komsu                    gecerli=True · 268 s
+   11/67 b-statik-surekli-dogrudan_komsu                      gecerli=True · 24 s
+   12/67 b-statik-surekli_darbeli-dogrudan_komsu              gecerli=True · 25 s
+   13/67 b-statik-aldatici-dogrudan_komsu                     gecerli=True · 36 s
+   14/67 b-statik-reaktif-dogrudan_komsu                      gecerli=True · 43 s
+   15/67 m-gorev-aldatici-dogrudan_komsu                      gecerli=True · 214 s
+   16/67 b-statik-taramali-dogrudan_komsu                     gecerli=True · 28 s
+   17/67 m-gorev-surekli_darbeli-dogrudan_komsu               gecerli=True · 228 s
+   18/67 m-gorev-surekli-dogrudan_komsu                       gecerli=True · 248 s
+   19/67 m-gorev-taramali-dogrudan_komsu                      gecerli=True · 245 s
+   20/67 c-statik-surekli-en_guvenilir_kahin                  gecerli=True · 96 s
+   21/67 c-statik-surekli-en_kisa_yol_kahin                   gecerli=True · 97 s
+   22/67 m-gorev-yok-dogrudan_komsu                           gecerli=True · 231 s
+   23/67 i-statik-surekli-dogrudan_komsu-cephe_hatti          gecerli=True · 53 s
+   24/67 i-statik-surekli-dogrudan_komsu-derin_sizma          gecerli=True · 50 s
+   25/67 m-gorev-reaktif-dogrudan_komsu                       gecerli=True · 412 s
+   26/67 i-statik-surekli-dogrudan_komsu-hedef_koruma         gecerli=True · 52 s
+   27/67 i-statik-surekli-dogrudan_komsu-hava_eslik           gecerli=True · 66 s
+  🔴 d-statik-surekli-yuklu: ModuleNotFoundError: No module named 'test_kosum'
+  🔴 e-statik-surekli-kontrol_sinav: ModuleNotFoundError: No module named 'test_kontrol_duzlemi'
+  🔴 d-bagimsiz-surekli-yuklu: ModuleNotFoundError: No module named 'test_kosum'
+  🔴 e-bagimsiz-surekli-kontrol_sinav: ModuleNotFoundError: No module named 'test_kontrol_duzlemi'
+   32/67 h-formasyon-surekli-dogrudan_komsu                   gecerli=True · 274 s
+   33/67 i-statik-surekli-en_guvenilir_kahin-hava_eslik       gecerli=True · 120 s
+   34/67 f-statik-yok-dogrudan_komsu-tam                      gecerli=True · 255 s
+   35/67 c-bagimsiz-surekli-en_guvenilir_kahin                gecerli=True · 605 s
+   36/67 c-bagimsiz-surekli-en_kisa_yol_kahin                 gecerli=True · 641 s
+   37/67 c-gorev-surekli-en_guvenilir_kahin                   gecerli=True · 625 s
+   38/67 c-gorev-surekli-en_kisa_yol_kahin                    gecerli=True · 623 s
+   39/67 g-statik-surekli-en_guvenilir_kahin-yere_toplama     gecerli=True · 86 s
+   40/67 j-statik-surekli-baslikli_sonuc                      gecerli=True · 25 s
+   41/67 g-bagimsiz-surekli-dogrudan_komsu-yere_toplama       gecerli=True · 115 s
+   42/67 k-statik-surekli-aomdv                               gecerli=True · 106 s
+   43/67 k-statik-surekli-aodv                                gecerli=True · 137 s
+   44/67 h-formasyon-surekli-en_guvenilir_kahin               gecerli=True · 744 s
+   45/67 n-statik-surekli-dogrudan_komsu-tasiyici_guc         gecerli=True · 30 s
+   46/67 f-statik-surekli-en_guvenilir_kahin-tam              gecerli=True · 506 s
+   47/67 l-statik-surekli-dogrudan_komsu-islem_kazanci        gecerli=True · 62 s
+   48/67 o-statik-surekli-dogrudan_komsu-yayilim_gecikmesi    gecerli=True · 28 s
+   49/67 k-statik-surekli-olsr                                gecerli=True · 185 s
+   50/67 n-statik-surekli-dogrudan_komsu-tasiyici_guc-hava_eslik gecerli=True · 45 s
+   51/67 o-statik-surekli-dogrudan_komsu-tasiyici_guc-yayilim_gecikmesi gecerli=True · 30 s
+   52/67 p-statik-aldatici-dogrudan_komsu-karistirici_gercekci gecerli=True · 46 s
+   53/67 p-statik-aldatici-dogrudan_komsu-tasiyici_guc-karistirici_gercekci gecerli=True · 45 s
+  🔴 q-bagimsiz-surekli-kontrol_sinav-islem_kazanci-hiz_uyarlamasi: ModuleNotFoundError: No module named 'test_kontrol_duzlemi'
+   55/67 p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti gecerli=True · 71 s
+   56/67 r-referans-statik-yok-dogrudan_komsu                 gecerli=True · 19 s
+   57/67 q-statik-surekli-dogrudan_komsu-islem_kazanci-hiz_uyarlamasi gecerli=True · 32 s
+   58/67 k-statik-surekli-desparete-yere_toplama              gecerli=True · 167 s
+   59/67 r-referans-statik-surekli-aodv                       gecerli=True · 16 s
+   60/67 p-statik-reaktif-dogrudan_komsu-karistirici_gercekci gecerli=True · 81 s
+   61/67 s-statik-surekli-doluluk_sinav-tasiyici_guc          gecerli=True · 32 s
+   62/67 r-referans-bagimsiz-surekli-dogrudan_komsu           gecerli=True · 100 s
+   63/67 t-statik-surekli-aodv-dugum_kaybi                    gecerli=True · 91 s
+   64/67 t-bagimsiz-surekli-dogrudan_komsu-dugum_kaybi        gecerli=True · 108 s
+   65/67 p-bagimsiz-surekli-dogrudan_komsu-karistirici_gercekci gecerli=True · 243 s
+   66/67 f-bagimsiz-surekli-dogrudan_komsu-tam                gecerli=True · 1051 s
+   67/67 f-gorev-surekli_darbeli-dogrudan_komsu-tam           gecerli=True · 973 s
+  sure: 30.9 dk · en uzun vaka: f-bagimsiz-surekli-dogrudan_komsu-tam 1051 s · hata: 5
+cikis 1

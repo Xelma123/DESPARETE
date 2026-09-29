@@ -1,106 +1,40 @@
 """
-Fiziksel kopma — `kopma_fiziksel`in AÇIK TAAHHÜDÜ kapanıyor.
-
-🔴 NEDEN BU MODÜL VAR
-=====================
-`cekirdek/sayaclar.py` `kopma_fiziksel`i *"SINR eşiği altına inen bağ —
-GEOMETRİDEN bilinir"* diye tanımlıyor ve üstüne bir türev kuruyor:
+Fiziksel kopma — `kopma_fiziksel` sayacı ve algılama duyarlılığının paydası.
 
     algilama_duyarliligi = kopma_algilanan / kopma_fiziksel
 
-Bu türev, `gozlem/karar.py`nin **Risk 3** dediği şeyin nicel yarısıdır: hiç
-beyan etmeyen bir protokolün kopma sayacı 0 çıkar ve tabloda *"hiç kopma
-yaşamadı"* gibi görünür — oysa yalnızca susmuştur.
+Hiç beyan etmeyen bir protokolün kopma sayacı 0 çıkar ve "hiç kopma
+yaşamadı" gibi görünür — oysa yalnız susmuştur; bu oran onu ayırır.
 
-🔴 VE O PAYDA HİÇ SAYILMIYORDU. 9 Eylül 2026'da ölçüldü: canlı bir sonuç
-satırında `kopma_fiziksel = 0`, dolayısıyla `algilama_duyarliligi = None`.
-`RotaDefteri.fiziksel_kopma()` yalnız TESTLERDEN çağrılıyordu. `dunya/
-topoloji.py` bunu bir *"AÇIK TAAHHÜT"* olarak yazmıştı; taahhüt burada
-yerine getiriliyor.
-
-🔒 TANIM — sayaç kaydının kendi cümlesi, değiştirilmedi
-=======================================================
+🔒 TANIM — sayaç kaydının kendi cümlesi
+=======================================
 Bir bağ, **yavaş SINR**'i eşiğin altına indiğinde kopar:
 
     yavaş SINR = yol kaybı + anten deseni + gölgeleme
     HIZLI SÖNÜMLEME HARİÇ · GİRİŞİM HARİÇ · KARIŞTIRICI HARİÇ
 
-Hızlı sönümleme dışarıda çünkü saniyede yüzlerce kez eşiği geçer; onu kopma
-saymak sayacı gürültüye çevirirdi (`kanal/yayilim.py`nin ilan ettiği gerekçe).
+Hızlı sönümleme saniyede yüzlerce kez eşiği geçer. Karıştırıcı da dışarıda:
+darbeli ve taramalı karıştırıcının her salınımı 1 s'lik ızgarada bir kopma
+sayılır, payda şişer ve her protokol kör görünürdü. Bedeli beyan edilir:
+`algilama_duyarliligi` bir TOPOLOJİ ÇALKANTISI algılama ölçüsüdür, karıştırma
+algılama ölçüsü değil — karıştırmanın etkisi evre metrikleriyle ölçülür.
 
-🔴 KARIŞTIRICI NEDEN DIŞARIDA — düşünüldü ve ÖLÇÜLEBİLİR bir sebeple elendi
-===========================================================================
-Karıştırıcıyı paydaya katmak düşünüldü; kâhin grafiği tam olarak bunu yapıyor
-(K-104: *"kâhinin tanımı 'her şeyi bilir'dir"*). Burada **elendi** ve sebebi
-zamanlamadır: `surekli_darbeli` 2,7 s periyotla %50 görev çevrimi taşıyor,
-`taramali` 100 ms konak süresiyle geziniyor. 1 s'lik ızgarada bunların her
-salınımı bir "kopma" olarak sayılırdı ve payda şişerdi — sonuçta HER protokol
-körmüş gibi görünürdü. Bir metriği, ölçtüğü şeyi hiçbir protokolün
-izleyemeyeceği bir hızda tanımlamak, onu tanım gereği başarısız yapar.
+🔒 IZGARA — `olcum/evre.py::IZGARA_ADIMI_S` ile AYNI (1 s, AODV
+`HELLO_INTERVAL`): hiçbir taban protokol komşu bilgisini bundan hızlı
+tazeleyemez. Izgaradan kısa süren kopma görünmez; bu sayının özelliğidir.
 
-⚠️ BUNUN BEYAN EDİLEN BEDELİ: `algilama_duyarliligi` bir **TOPOLOJİ ÇALKANTISI
-algılama** ölçüsüdür, bir **karıştırma algılama** ölçüsü DEĞİL. Karıştırmanın
-etkisi evre metrikleriyle (şok derinliği · toparlanma) ölçülür; orası onun
-yeri. Bu ayrım sonuç bölümünde yazılmalıdır.
+🔒 SON İŞLEMDİR — konum ve gölgeleme zamanın saf fonksiyonlarıdır, sayım koşu
+bittikten sonra yapılır ve sıcak yola dokunmaz. İlk ızgara noktası durumu
+kurar, kopma saymaz (`[baş + ızgara, bitiş)`).
 
-🔒 IZGARA — YENİ BİR SAYI GETİRMİYOR
-====================================
-Örnekleme ızgarası `olcum/evre.py::IZGARA_ADIMI_S` ile AYNI: 1 s, RFC 3561'in
-AODV `HELLO_INTERVAL`ı. Gerekçesi de aynı: hiçbir taban çizgisi komşu
-bilgisini bundan hızlı tazeleyemez, dolayısıyla daha ince bir ızgara hiçbir
-protokolün göremeyeceği bir olayı sayardı. İkinci bir ızgara sabiti tanımlamak
-iki sabitin ayrışabilmesi demek olurdu.
+🔒 STATİK KOLDA SONUÇ TAM OLARAK SIFIRDIR — bir kapı: değişebilecek hiçbir
+şey yoktur.
 
-⚠️ IZGARADAN KISA SÜREN KOPMA GÖRÜNMEZ ve bu sayının bir ÖZELLİĞİDİR, hatası
-değil — `dunya/topoloji.py::bag_olaylari`nın aynı beyanı. Izgara adımı sonuç
-satırında `evre_izgara_s` olarak zaten yazılı.
-
-🔒 SON İŞLEMDİR — sıcak yola dokunmaz
-=====================================
-Konum ve gölgeleme zamanın SAF fonksiyonlarıdır, dolayısıyla bu sayım koşu
-bittikten sonra yapılabilir. Ölçüldü: 270 ızgara noktası × 780 çift için
-**1,4 s (statik) – 1,7 s (hareketli)**, yani tam uzunluk bir koşunun %1'i.
-`olcum/`un "ölçümün maliyeti sonuca karışmamalı" kısıtı korunuyor.
-
-🔒 BAŞLANGIÇ KOŞULU AÇIKÇA SORULDU (`03` kural 14)
-==================================================
-İlk ızgara noktası **durumu kurar, kopma saymaz**: öncesi yoktur. Yani sayım
-`[baş + ızgara, bitiş)` aralığındaki geçişleri kapsar.
-
-🔒 STATİK KOLDA SONUÇ TAM OLARAK SIFIR OLMALIDIR — ve bu bir KAPIDIR.
-Konumlar değişmez, gölgeleme konuma bağlıdır, hızlı sönümleme dışarıdadır:
-değişebilecek hiçbir şey yoktur. Ölçüldü — statik 0, hareketli 49.
-Üretici: `python kalibrasyon/adim9_kapanis.py 1`
-
-🔴 AĞ BÖLÜNMESİ BURAYA KONDU, ÖLÇÜLDÜ ve GERİ ALINDI — 16 Eylül 2026 (B6)
-=========================================================================
-Denetim B6 satırın *"bu tohumda ağ bölünmüş müydü"* demesini istiyordu ve en
-ucuz yer burası görünüyordu: tarama zaten her ızgara noktasında bütün bağ
-kümesini kuruyor, bölünmeyi saymak bir BFS ekliyordu.
-
-**Uygulandı, sonra ölçüldü ve GERİ ALINDI.** Bu modülün bağ tanımı YAVAŞ
-SINR'dir ve o grafik, ağın gerçekte erişilebilir grafiğinden çok daha
-seyrektir. Aynı tohumda, aynı anda ölçüldü (`statik-yok`, t = 200 s):
-
-    yavaş SINR grafiği  :  55 bağ · derece 2,75 · TEK PARÇA DEĞİL
-    kâhin grafiği (C1)  : 162 bağ · derece 8,10 · TEK PARÇA
-
-Yani yavaş SINR grafiği **zaten hep bölünmüştür** ve o tanımla bir "bölünme"
-alanı her satıra %100 yazardı — ölçtüğü şey ağın bölünmesi değil, tek
-denemelik bir eşiğin seyrekliği olurdu. Bir metriğin tanım gereği sabit
-çıkması bu projenin kendi tuzak listesinde yazılı (`03` §B3).
-
-🔒 Doğru tanım kâhin grafiğidir (sönümleme dâhil, yeniden denemelerle atlama
-başarısı) ve o `kalibrasyon/kahin.py`de yaşıyor — `sim2` onu içe aktaramaz
-(katman kuralı). İkinci bir gerçeklemesini buraya yazmak `03` §B5'in *"aynı
-kuralı iki yerde yazmak"* hatası olurdu. Ölçüm bu yüzden kalibrasyon
-tarafında yapılıyor: `python -u kalibrasyon/dugum_sayisi.py --bolunme`.
-
-⚠️ VE BU, `kopma_fiziksel` HAKKINDA DA BİR ŞEY SÖYLÜYOR: bu sayaç derecesi
-2,75 olan bir grafikteki geçişleri sayıyor, derecesi 8,10 olan erişilebilir
-grafikteki geçişleri değil. Sayaç kendi tanımına sadıktır ve tanım kaydında
-yazılıdır; ama *"ağın bağları koptu"* diye okunmamalıdır.
-
+⚠️ AĞ BÖLÜNMESİ BURADA ÖLÇÜLMEZ: yavaş SINR grafiği, erişilebilir grafikten
+(kâhin grafiği) çok seyrektir ve hep bölünmüş görünürdü. Bölünme
+kalibrasyon tarafında kâhin grafiğinde ölçülür (`kalibrasyon/dugum_sayisi.py
+--bolunme`). Aynı sebeple `kopma_fiziksel` "ağın bağları koptu" diye
+okunmamalıdır: seyrek yavaş SINR grafiğinin geçişlerini sayar.
 """
 
 from __future__ import annotations

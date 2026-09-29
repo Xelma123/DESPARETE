@@ -1,104 +1,63 @@
 """
-DESPARETE — öğrencinin protokolü, simülatöre bağlanan sınıf. Aşama 3.
+DESPARETE — öğrencinin protokolü; simülatöre bağlanan sınıf.
 
-Tasarım: `protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/` (v0.1, tek okuma
-`36`). Kararlar: `v2/04` K-150 · K-152 … K-166.
-Parça parça yazılıyor (`v2/12` §5); her parça kendi testiyle.
+Bugünkü hâl **v0.4.1** = `PROFIL_V02` + `SECENEK_V041` (`desparete_bayrak.py`,
+K-172). Bağlayıcı olan bu kod; tasarımın ilk taslağı
+`protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/` (tek okuma `36`). Sürümler:
+v0.1 tasarım paketi (bütün bayraklar açık) · v0.2 yalın profil (K-161) ·
+v0.3 + V1 · V5 · V7 (K-164) · v0.4 + V8 · V10 (K-167) · v0.4.1 + V11 komut
+geri izi (K-172).
 
-    3.1 biçimler 🟢 (`desparete_bicim.py`) · 3.2 M0.1 🟢 (`desparete_metrik.py`)
-    3.3 komşu yaşamı 🟢 (`desparete_komsu.py`)
-    3.4 alan / ardıl 🟢 (`desparete_alan.py`)
-    3.5 edinim ve onarım 🟢 (`desparete_edinim.py` + bu dosya)
-    3.6 postürler 🟢 (`desparete_politika.py`)
-    3.7 ablasyon bayrakları 🟢 (`desparete_bayrak.py`) — hepsi açık = v0.1;
-        kullanılan bayraklar her düğümün teşhisinde
-    🔴 v0.2 (K-161, öğrenci): bayrak profili `PROFIL_V02` — boşta
-        sondalama, onarım edinimi ve ilan koruması KAPALI (yalın profil).
-        v0.1 = `bayraklar=PROFIL_V01`.
-    🔴 v0.3 (K-164, öğrenci): `PROFIL_V02` + `SECENEK_V03` (V1 yanıt
-        yalnız onaysız · V5 ihtiyaca bağlı nitelik · V7 nitelik sonrası
-        ölçüm PROBE'u). v0.2 = `secenekler=SECENEK_YOK`.
-    🔴 K-166 (bağımsız denetim K-1): v0.3'te V5 edinim yolunu kapatıyor —
-        DFSN_REQUEST kabul kapısında (gönderen ACTIVE) düşer ve açlık
-        görünmez (uygulanabilir olmayan komşu hiç ACTIVE değil) → tur artmaz.
-    🟢 v0.4 (K-167, ajan — öğrencinin devriyle): `PROFIL_V02`
-        + `SECENEK_V04` = v0.3 + V8 (istek: `23` §2'nin ilk kabul kuralı) +
-        V10 (alan iletilemezken aynı turun sonlu ilanı nitelik açar).
-        Küçük dünyada uzun pencerede v0.2'nin teslimi, yükünün ~yarısıyla.
-    🟢 v0.4.1 (K-172): VARSAYILAN = `PROFIL_V02` + `SECENEK_V041` = v0.4 +
-        V11 — geçitten çıkan komut telemetrinin geri iziyle taşınır (v0.1'in
-        C kararı komutu `politika` ile düşürüyordu). Tam ölçekte kısa
-        pencerede komut PDR 0 → 0,87 (statik) · 0,57 (hareketli).
-
-🔒 POSTÜR — `22` §7 · K-150 §4 · K-158
-======================================
-Her iletilebilir alan epochta bir kez, EN SON değerlendirilir (`21` §3
-madde 4). Tek davranış etkisi: STEADY → CAUTION girişinde seçili ardıla
-bir sınırlı doğrulama oturumu. Yedeklilik yok → koruma izni yok → PROTECT
-yok. Postür ardıl seçimine, maliyete ve kapılara DOKUNMAZ.
+Parçalar: biçimler `desparete_bicim` · M0.1 metrik `desparete_metrik` ·
+komşu yaşamı `desparete_komsu` · alan ve ardıl `desparete_alan` · edinim ve
+onarım `desparete_edinim` · postür `desparete_politika` · bayraklar
+`desparete_bayrak`. Her parça kendi testiyle (`tests2/test_desparete.py`).
 
 🔒 KÂHİN ERİŞİMİ YOK
-====================
-Yalnız `sim2/gozlem/`i içe aktarır (içe aktarma grafiği testi bağlar).
-Bildiği her şey ya aldığı bir DESPARETE mesajından ya kendi MAC'inin
-sonucundan (`iletim_sonucu`, K-151 Y1) ya da kendi saatinden gelir.
+Yalnız `sim2/gozlem/`i içe aktarır (içe aktarma testi bağlar). Bildiği her
+şey aldığı bir DESPARETE mesajından, kendi MAC'inin sonucundan
+(`iletim_sonucu`, K-151) ya da kendi saatinden gelir.
 
-🔒 HEDEFLER
-===========
-  · SinkID (geçit) YAPILANDIRMADIR (`36` §2) — kurucu argümanı `sink`,
-    fabrika onu `Konfig.gecit`ten alır. Geçit alanını baştan üretir.
-  · 🔴 K-160 §10 (öğrenci kararı C): v0.1 YALNIZ geçit alanıyla çalışır —
-    tasarımın tek-sink profili. Hedefi geçit olmayan DATA her düğümde yerel
-    politika hatasıdır (`23` §7) ve beyansız düşer (`hedef_yok`); geçit dışı
-    hedef için edinim başlamaz, alan açılmaz.
-  · `komut_alanlari=True` K-150 §4 A'yı açar: komut alacak düğüm, geçidin
-    bağlamsız DFSN_REQUEST'i ona ulaşınca kendi alanını üretir. Tam ölçekte
-    ağı ÇÖKERTTİĞİ ölçüldü (K-160 §6–§9); yalnız o bulgu ve v0.2 için.
+🔒 HEDEF — tek-sink profili (K-160 §10)
+SinkID (geçit) yapılandırmadır (`36` §2): kurucu `sink`i alır, yalnız geçit
+alanı kurulur. Geçit dışı hedefli veri yerel politika hatasıdır (`23` §7):
+V11 açıkken komut telemetrinin geri iziyle taşınır, kapalıyken `politika`
+ile düşer (K-172). `komut_alanlari=True` K-150 §4 A'dır; tam ölçekte kontrol
+yükünden çöktüğü ölçüldü (K-160), yalnız o bulgu için durur.
 
-🔒 KOMŞU ADAYI: DUYULAN DESPARETE ÇERÇEVESİ — ajan seçimi (K-154)
-================================================================
-Koşum beacon'ı KAPALI; keşif için ödenen her bayt DESPARETE'nin kendi
-mesajıdır.
+🔒 KOMŞU ADAYI (K-154)
+Koşum beacon'ı kapalı; aday, duyulan her DESPARETE kontrol çerçevesinin
+göndereni. V5 açıkken yalnız uygulanabilir ilanın sahibi (K-163).
 
-🔒 OLAYIN SIRASI — `22` §3
-==========================
-Her kancada önce KOMŞU değişimleri alanlara verilir, sonra alan işlemi,
-sonra alanın doğurduğu edinim ve tampon olayları. Tersi olsaydı ardılı kopan
-bir alan kopma BEYAN edilmeden sessizce yeni ardıla geçebilirdi.
+🔒 OLAYIN SIRASI (`22` §3)
+Her kancada önce komşu değişimleri alanlara verilir, sonra alan işlemi,
+sonra alanın doğurduğu edinim ve tampon olayları. Ters sıra, ardılı kopan
+bir alanın kopmayı beyan etmeden yeni ardıla geçmesine izin verirdi (K-160).
 
-🔒 BEYANLAR — taban protokollerle AYNI tanım (AODV, K-139 · K-141)
-=================================================================
-  · `kopma(j)`: ACTIVE olmaktan çıkan `j`, en az bir iletilebilir alanın
-    ARDILIYSA. Boştaki komşunun düşmesi kopma değildir.
-  · `rota_kuruldu(j)`: etkilenen alanlardan biri yeniden iletilebilir olunca.
-  · `rota_gecersiz(hedef)`: alanı bilinen ama iletilemeyen hedefe giden paket
-    düşerken.
-⚠️ Niyet döndüremeyen sonuç kancasında doğan bir kurtarma, niyet
-döndürebilen ilk kancada — en geç 0,5 s sonra — beyan edilir.
+🔒 BEYANLAR — taban protokollerle aynı tanım (K-139 · K-141)
+`kopma(j)`: ACTIVE olmaktan çıkan `j` bir iletilebilir alanın ardılıysa ·
+`rota_kuruldu(j)`: etkilenen alan yeniden iletilebilir olunca ·
+`rota_gecersiz(hedef)`: alanı bilinen ama iletilemeyen hedefe paket düşerken.
+Niyet döndüremeyen sonuç kancasında doğan kurtarma, niyet döndürebilen ilk
+kancada (en geç 0,5 s sonra) beyan edilir.
 
-🔒 ONARIM TAMPONU — `36` §6 · `22` §8.1
-=======================================
-REPAIRING alana giden paket simülatörün bekleme tamponunda TUTULUR
-(`Karar.beklet`); alan iletilebilir olunca ya da ulaşılamaz olunca bir
-uyandırma tamponu yeniden sordurur: iletilir ya da düşer. Onarım bölümü en
-çok `T_repair_max` (6 s) sürdüğü için tutulan paket en çok 6 s bekler —
-`T_buffer[Class-0]`in kendisi. UNREACHABLE alana yeni paket tampona girmez.
+🔒 ONARIM TAMPONU (`36` §6 · `22` §8.1 · `21` §2.4)
+REPAIRING alana giden paket simülatörün bekleme tamponunda tutulur
+(`Karar.beklet`); alan iletilebilir ya da ulaşılamaz olunca bir uyandırma
+tamponu yeniden sordurur. Onarım en çok `T_repair_max` (6 s) sürer. Alan
+başına en çok `TAMPON_KOTASI` (6) ayrı paket tutulur, Data-ID'siyle
+`(kaynak, kaynak_sira)` tanınır; fazlası `rota_gecersiz` ile düşer (K-157).
+UNREACHABLE alana yeni paket tampona girmez.
 
-🔒 ALAN BAŞINA KOTA — `21` §2.4 · K-157
-======================================
-Bir alanın onarımı sırasında en çok `TAMPON_KOTASI` (6) AYRI paket tutulur;
-fazlası düşer. Paket Data-ID'siyle — `(kaynak, kaynak_sira)` — tanınır:
-simülatör her uyandırmada bütün tamponu yeniden sorar, yani aynı paket
-defalarca gelir; kümede olan yine bekler ve yeniden SAYILMAZ. Küme onarım
-bölümü bitince (iletilebilir ya da ulaşılamaz) boşaltılır — tek kural: bölüm
-en çok 6 s sürdüğü için, simülatörün kendi düşürdüğü bir paket kotayı en çok
-bölüm sonuna kadar işgal eder.
+🔒 YENİDEN EDİNİM (K-152 §2)
+Düğümün KENDİ paketi ulaşılamaz ya da bilinmeyen hedefe giderken, son
+edinim bölümünün bitişinden en az `T_repair_max` geçmişse yeni edinim
+başlar; röleler başlatmaz; paket düşer.
 
-🔒 YENİDEN EDİNİM — K-152 §2 (devredilen karar)
-===============================================
-Düğümün KENDİ ürettiği paket ulaşılamaz ya da hiç bilinmeyen bir hedefe
-giderken, son edinim bölümünün bitişinden en az `T_repair_max` geçmişse yeni
-bir edinim başlar. Röleler başlatmaz. Paket düşer (ilk paketin kuralı).
+POSTÜR (`22` §7 · K-158)
+İletilebilir her alan epochta bir kez, en son değerlendirilir. STEADY →
+CAUTION girişinde seçili ardıla bir doğrulama oturumu. Yedeklilik yok →
+PROTECT yok; postür ardıl seçimine, maliyete ve kapılara dokunmaz.
 """
 
 from __future__ import annotations

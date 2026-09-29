@@ -1,0 +1,10 @@
+olcek_1_50: slot 20 µs · başarı turu 2.548 ms · çarpışma turu 2.290 ms
+  n= 5 ölçülen 0.7093 · Bianchi 0.7137 · bağıl fark %-0.6
+  n=10 ölçülen 0.6699 · Bianchi 0.6730 · bağıl fark %-0.5
+  n=20 ölçülen 0.6236 · Bianchi 0.6237 · bağıl fark %-0.0
+  n=40 ölçülen 0.5711 · Bianchi 0.5696 · bağıl fark %+0.3
+referans_2026: slot 20 µs · başarı turu 2.604 ms · çarpışma turu 2.290 ms
+  n= 5 ölçülen 0.6958 · Bianchi 0.7000 · bağıl fark %-0.6
+  n=10 ölçülen 0.6578 · Bianchi 0.6608 · bağıl fark %-0.5
+  n=20 ölçülen 0.6131 · Bianchi 0.6133 · bağıl fark %-0.0
+  n=40 ölçülen 0.5623 · Bianchi 0.5609 · bağıl fark %+0.3

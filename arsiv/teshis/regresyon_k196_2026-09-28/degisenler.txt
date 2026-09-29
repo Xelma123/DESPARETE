@@ -1,0 +1,26 @@
+IZINLI ALANLARIN YONU
+  f-bagimsiz-surekli-dogrudan_komsu-tam            sok_derinligi_se     0.013821678375283681 -> 0.030368304067246606
+  f-bagimsiz-surekli-dogrudan_komsu-tam            toparlanma_suresi_s  None -> 90.0
+  f-gorev-surekli_darbeli-dogrudan_komsu-tam       sok_derinligi_se     0.0164703346786806 -> 0.02256065574493075
+
+DEGISEN VAKALAR (pdr, pdr_pencere, dusen_toplam)
+  c-bagimsiz-surekli-en_guvenilir_kahin            pdr 0.6169 -> 0.6275 (+0.0106) · pencere 0.6475 -> 0.6325 · dusen 613 -> 596
+  c-bagimsiz-surekli-en_kisa_yol_kahin             pdr 0.5431 -> 0.5656 (+0.0225) · pencere 0.535 -> 0.54 · dusen 731 -> 695
+  c-gorev-surekli-en_guvenilir_kahin               pdr 0.8075 -> 0.7362 (-0.0713) · pencere 0.8225 -> 0.71 · dusen 308 -> 422
+  c-gorev-surekli-en_kisa_yol_kahin                pdr 0.6681 -> 0.6831 (+0.0150) · pencere 0.675 -> 0.6716666666666666 · dusen 531 -> 507
+  c-statik-surekli-en_guvenilir_kahin              pdr 0.8869 -> 0.9087 (+0.0219) · pencere 0.8983333333333333 -> 0.8983333333333333 · dusen 181 -> 146
+  c-statik-surekli-en_kisa_yol_kahin               pdr 0.7681 -> 0.8056 (+0.0375) · pencere 0.7858333333333334 -> 0.7775 · dusen 371 -> 311
+  g-statik-surekli-en_guvenilir_kahin-yere_toplama pdr 0.9656 -> 0.9919 (+0.0262) · pencere 0.9924937447873228 -> 0.9924937447873228 · dusen 55 -> 13
+  h-formasyon-surekli-en_guvenilir_kahin           pdr 0.8263 -> 0.8331 (+0.0069) · pencere 0.8241666666666667 -> 0.8241666666666667 · dusen 278 -> 267
+  i-statik-surekli-en_guvenilir_kahin-hava_eslik   pdr 0.9619 -> 0.9656 (+0.0037) · pencere 0.9758333333333333 -> 0.9691666666666666 · dusen 61 -> 55
+  k-statik-surekli-aodv                            pdr 0.6937 -> 0.8219 (+0.1281) · pencere 0.705 -> 0.8366666666666667 · dusen 490 -> 285
+  k-statik-surekli-aomdv                           pdr 0.8775 -> 0.9344 (+0.0569) · pencere 0.8991666666666667 -> 0.9683333333333334 · dusen 196 -> 105
+  k-statik-surekli-olsr                            pdr 0.6713 -> 0.5769 (-0.0944) · pencere 0.8733333333333333 -> 0.7458333333333333 · dusen 526 -> 677
+  t-statik-surekli-aodv-dugum_kaybi                pdr 0.7593 -> 0.8284 (+0.0691) · pencere 0.7939464493597206 -> 0.8521536670547147 · dusen 392 -> 297
+
+KARA LISTE / S13 SAYACLARI (ag toplami)
+  k-statik-surekli-aodv                    yeni {'kara_liste_eklenen': 41, 'rreq_kara_listeden': 616} · k186 {}
+  k-statik-surekli-aomdv                   yeni {'kara_liste_eklenen': 34, 'rreq_kara_listeden': 159} · k186 {}
+  r-referans-statik-surekli-aodv           yeni {'kara_liste_eklenen': 2, 'rreq_kara_listeden': 1} · k186 {}
+  t-statik-surekli-aodv-dugum_kaybi        yeni {'kara_liste_eklenen': 36, 'rreq_kara_listeden': 559} · k186 {}
+  k-statik-surekli-olsr                    yeni {'bag_katmani_kopma': 0} · k186 {'bag_katmani_kopma': 143}

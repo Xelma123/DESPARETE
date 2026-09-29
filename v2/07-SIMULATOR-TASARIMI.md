@@ -37,7 +37,7 @@ Bir paketin yolu: trafik üretir → düğüm kuyruğa alır → protokol sonrak
 
 ## 4 · Dünya, kanal ve MAC (referans dünyada)
 
-- **Sürü:** 40 İHA · 33 km alan · 50–300 m irtifa · 40–120 km/h. Hacim sürüyle hareket eden bir gözlem çerçevesidir; yer referanslı varlıklar (karıştırıcılar) bu çerçevede hareket eder.
+- **Sürü:** 40 İHA · 33 km alan · 50–300 m irtifa · 40–120 km/h. Alan yere göre sabit bir görev alanıdır: sürü onun üzerinde kalır (bağımsız ve görev kollarında dolaşır, formasyonda istasyon tutar); ortak transiti modellenmez (gelecek çalışma). Karıştırıcılar bu alanda sabit durur ya da kendi yörüngesini izler.
 - **Hareket kolları:** statik (referans; sönümleme donuk) · bağımsız · görev (müfreze + istasyon tutma) · formasyon (istasyon = yerleşim; birincil hücrenin kolu). Kapı: Θ = rota ömrü / 15 s (OLSR `TOP_HOLD_TIME`) ≥ 3; her satır Θ_OLSR ve Θ_AODV'yi taşır.
 - **Kanal:** serbest uzay α = 2 · log-normal gölgeleme σ 3 dB, 2,5 km'lik hücrede korelasyonlu · dipol anten deseni · Rician K 10 dB, Doppler gerçek bağıl hızdan; sönümleme 190 µs'lik parçalarda, durumsuz (her protokol aynı izi görür), referans dünyada blok üreteciyle (K-198) · girişim toplamsal, karıştırıcı alıcıda.
 - **PHY/MAC:** EIRP 20 dBm · işlem kazancı · 1/2/5,5/11 Mb/s ARF · ED −76 dBm · slot 20 µs, SIFS 10 µs, CW 31–1023 · kısa yeniden deneme 7 · yayılım gecikmesi · yakalama. Veri onayı yalnız gönderen alıcı tarafından çözüldüyse sayılır.
@@ -77,7 +77,7 @@ PDR (doğum kohortu; tüm koşu ve ölçüm penceresi; telemetri/komut ayrı) ·
 
 ## 9 · Parametre disiplini ve kapsam
 
-- **Köken defteri** (`sim2/yapilandirma/kokenler.py`): her `Konfig` alanı ve modül sabiti yedi kovadan birinde; kayıtsız alan kurulumu durdurur, mimari denetimi sayar. Mühürden önce SINANMAMIŞ = 0 ya da eksen ilanı.
+- **Köken defteri** (`sim2/yapilandirma/kokenler.py`): her `Konfig` alanı ve modül sabiti sekiz kovadan birinde, gerekçesi referans dünyanın değeriyle (K-203); kayıtsız alan kurulumu durdurur, mimari denetimi sayar. Mühürden önce SINANMAMIŞ = 0 ve duyarlılık borcu boş ya da eksen/kapsam ilanı.
 - **Kapsam beyanı** (`kapsam.py`): her sonuç satırı modellenmeyenleri ve sonucu hangi yöne çektiklerini kendi konfiginden yazar (çoklu kanal · RTS/CTS · arazi/engel · patlamalı trafik · hava–hava kanalının ayrı modeli · karıştırıcının akıllı hedef takibi).
 
 ## 10 · Simülatörü değiştirirken

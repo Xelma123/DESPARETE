@@ -1,54 +1,15 @@
 """
 Başlangıç yerleşimi — düğümler hacme nasıl dağıtılır.
 
-🔴 BAŞLANGIÇ BAĞLANTI KOŞULLAMASI KALDIRILDI
-============================================
-Eski simülatör, bağlı olmayan yerleşimleri reddedip yeniden çekiyordu
-(en çok 500 deneme). Ölçüldü ve gerekçesi düştü:
-
-Başlangıcı zorlamak, ağın hareket boyunca girdiği rejimi değiştirmiyor;
-yalnızca **beyan edilmiş bir yanlılık** ekliyordu — eski depoda ölçülmüş
-derece kayması −%0,364.
-
-⚠️ BURADAKİ GEREKÇE SAYISI KALDIRILDI — 9 Eylül 2026. Eskiden *"mobil kolda
-tam bağlı zaman oranı %82,4"* yazıyordu; o sayı 280 m'lik TEŞHİS DİSKİNDE
-ölçülmüştü (K-096: o disk veri yolunda hiçbir yeri kapamaz) ve üreticisi
-aylardır koşmuyordu. Bugün aynı disk %0,0 veriyor. Kararın kendisi
-etkilenmiyor — koşullamanın maliyeti aşağıdaki asıl gerekçeye dayanıyor.
-
-🔒 KOŞULLAMA NEDEN STATİK KOL İÇİN DE AÇILMADI
-==============================================
-Açılsaydı statik ve mobil kollar **farklı yerleşim dağılımlarından**
-örneklenirdi. Mobilite bir EKSEN olduğu için bu, eksenin iki ucunu
-karşılaştırılamaz yapardı — ölçülen fark hareketin değil, yerleşimin farkı
-olurdu. Bu, koşullamanın maliyetinden büyük bir bedeldir.
-
-🔴 "BAĞLI TOHUM SÜZGECİ" GEREKSİZ ÇIKTI — VE ZATEN HİÇ UYGULANMAMIŞTI
-=====================================================================
-Burada eskiden şu yazıyordu: *"500 tohumda yerleşimlerin %78,2'si bağlı
-çıkıyor; U1 bağlı çıkan tohumlar üzerinde değerlendirilir ve kaç tohumun
-elendiği rapora yazılır"* — ve *"statik kolda bu süzgeç ZORUNLUDUR"*.
-
-İki şey birden çürüdü (9 Eylül 2026):
-
-  1. **Süzgeç hiçbir yerde YOK.** Beş dosyada beyan ediliyordu; kodda tohum
-     eleyen tek satır bile yok. Klasik *"bildirim ≠ kullanım"*.
-  2. **Gerekçesi yanlış grafikten geliyordu.** %78,2 sayısı 280 m'lik teşhis
-     diskinde ölçülmüştü ve üreticisi aylardır koşmuyordu. Bugün aynı disk
-     **%0,0** veriyor — yani süzgeç uygulansaydı BÜTÜN tohumları elerdi.
-
-🔒 VE VERİ TAŞIYAN GRAFİKTE SÜZGECE GEREK YOK: kanal grafiğinde statik kol
-30 tohum × 9 anın **270/270'inde tek parça**, yalnız düğüm **0** (üretici:
-`python kalibrasyon/denetim_ornekleme.py d`). Bu tesadüf değil — çalışma
-noktası (1800 m) zaten *"statik kolda 30 tohumun hiçbirinde kopukluk
-kalmayan EN BÜYÜK alan"* ölçütüyle seçilmişti. Kopukluğun sıfır olması o
-seçimin SONUCUDUR, ayrıca sağlanması gereken bir koşul değil.
-
-⚠️ Süzgecin gerekli hâle geldiği tek durum, alan büyütülür ya da güç
-düşürülürse doğar; o zaman ölçüt yeniden koşar ve kopukluk yine sıfırlanır.
-
-Üretici: `python kalibrasyon/adim3_oncesi.py` (yerleşim istatistikleri) ve
-`python kalibrasyon/adim3_kapanis.py` (zaman serisi).
+🔒 BAĞLANTI KOŞULLAMASI YOK
+===========================
+Yerleşim bağlı olsun diye yeniden çekilmez: koşullama hareketin girdiği
+rejimi değiştirmiyor, yalnız beyan edilmiş bir yanlılık ekliyordu; statik
+kolda açılsaydı statik ve hareketli kollar farklı yerleşim dağılımlarından
+örneklenir ve mobilite ekseni karşılaştırılamaz olurdu. Veri taşıyan kanal
+grafiğinde statik kol zaten tek parçadır: alan "kopukluğun sıfır kaldığı en
+büyük alan" ölçütüyle seçildi (referansta 33 km, K-188). Bölünme ana deney
+tohumlarında ölçülüp satırda beyan edilir (`senaryolar.py`).
 
 🔒 İRTİFA AYRI BİR AKIŞTAN ÇEKİLİR
 ==================================

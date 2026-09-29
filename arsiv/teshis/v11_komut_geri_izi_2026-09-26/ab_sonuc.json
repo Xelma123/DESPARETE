@@ -1,0 +1,531 @@
+[
+ {
+  "senaryo": "bagimsiz-surekli",
+  "tohum": 1003,
+  "kol": "v04",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.0,
+  "pdr_telemetri_pencere": 0.565068493150685,
+  "pdr_komut": 0.0,
+  "pdr_telemetri": 0.518946692357097,
+  "kontrol_bayt": 2662192.0,
+  "duyma_bildirimi": 0.0,
+  "dusen": {
+   "iletim_basarisiz": 469,
+   "hedef_yok": 82,
+   "rota_gecersiz": 198,
+   "politika": 40
+  },
+  "sayac": {
+   "komut_iz_iletilen": 0,
+   "komut_izsiz": 0,
+   "geri_iz_ogrenilen": 0,
+   "geri_iz_silinen": 0,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 40
+  },
+  "sure_s": 890.9793138999958
+ },
+ {
+  "senaryo": "bagimsiz-surekli",
+  "tohum": 1003,
+  "kol": "v04_v11",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.6,
+  "pdr_telemetri_pencere": 0.550513698630137,
+  "pdr_komut": 0.525,
+  "pdr_telemetri": 0.5157353885677585,
+  "kontrol_bayt": 2522940.0,
+  "duyma_bildirimi": 273238.0,
+  "dusen": {
+   "iletim_basarisiz": 461,
+   "hedef_yok": 94,
+   "rota_gecersiz": 218
+  },
+  "sayac": {
+   "komut_iz_iletilen": 77,
+   "komut_izsiz": 11,
+   "geri_iz_ogrenilen": 3198,
+   "geri_iz_silinen": 204,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 0
+  },
+  "sure_s": 895.8794040000066
+ },
+ {
+  "senaryo": "bagimsiz-surekli",
+  "tohum": 1004,
+  "kol": "v04",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.0,
+  "pdr_telemetri_pencere": 0.6449957228400343,
+  "pdr_komut": 0.0,
+  "pdr_telemetri": 0.5952533675432969,
+  "kontrol_bayt": 2411426.0,
+  "duyma_bildirimi": 0.0,
+  "dusen": {
+   "iletim_basarisiz": 437,
+   "hedef_yok": 70,
+   "rota_gecersiz": 124,
+   "politika": 40
+  },
+  "sayac": {
+   "komut_iz_iletilen": 0,
+   "komut_izsiz": 0,
+   "geri_iz_ogrenilen": 0,
+   "geri_iz_silinen": 0,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 40
+  },
+  "sure_s": 827.8797081999946
+ },
+ {
+  "senaryo": "bagimsiz-surekli",
+  "tohum": 1004,
+  "kol": "v04_v11",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.4827586206896552,
+  "pdr_telemetri_pencere": 0.5962360992301112,
+  "pdr_komut": 0.475,
+  "pdr_telemetri": 0.5503527902501604,
+  "kontrol_bayt": 2550876.0,
+  "duyma_bildirimi": 234423.0,
+  "dusen": {
+   "iletim_basarisiz": 467,
+   "hedef_yok": 82,
+   "rota_gecersiz": 173
+  },
+  "sayac": {
+   "komut_iz_iletilen": 68,
+   "komut_izsiz": 12,
+   "geri_iz_ogrenilen": 3162,
+   "geri_iz_silinen": 196,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 0
+  },
+  "sure_s": 867.5664641999756
+ },
+ {
+  "senaryo": "bagimsiz-surekli",
+  "tohum": 1005,
+  "kol": "v04",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.0,
+  "pdr_telemetri_pencere": 0.5736301369863014,
+  "pdr_komut": 0.0,
+  "pdr_telemetri": 0.5256410256410257,
+  "kontrol_bayt": 2609282.0,
+  "duyma_bildirimi": 0.0,
+  "dusen": {
+   "iletim_basarisiz": 434,
+   "hedef_yok": 80,
+   "rota_gecersiz": 226,
+   "politika": 40
+  },
+  "sayac": {
+   "komut_iz_iletilen": 0,
+   "komut_izsiz": 0,
+   "geri_iz_ogrenilen": 0,
+   "geri_iz_silinen": 0,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 40
+  },
+  "sure_s": 897.626671999984
+ },
+ {
+  "senaryo": "bagimsiz-surekli",
+  "tohum": 1005,
+  "kol": "v04_v11",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.5483870967741935,
+  "pdr_telemetri_pencere": 0.5162671232876712,
+  "pdr_komut": 0.525,
+  "pdr_telemetri": 0.48205128205128206,
+  "kontrol_bayt": 2692756.0,
+  "duyma_bildirimi": 274552.0,
+  "dusen": {
+   "iletim_basarisiz": 451,
+   "hedef_yok": 93,
+   "rota_gecersiz": 280
+  },
+  "sayac": {
+   "komut_iz_iletilen": 63,
+   "komut_izsiz": 13,
+   "geri_iz_ogrenilen": 3029,
+   "geri_iz_silinen": 153,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 0
+  },
+  "sure_s": 910.6896909000352
+ },
+ {
+  "senaryo": "bagimsiz-surekli",
+  "tohum": 1006,
+  "kol": "v04",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.0,
+  "pdr_telemetri_pencere": 0.6743589743589744,
+  "pdr_komut": 0.0,
+  "pdr_telemetri": 0.65,
+  "kontrol_bayt": 2313268.0,
+  "duyma_bildirimi": 0.0,
+  "dusen": {
+   "iletim_basarisiz": 288,
+   "hedef_yok": 92,
+   "rota_gecersiz": 166,
+   "politika": 40
+  },
+  "sayac": {
+   "komut_iz_iletilen": 0,
+   "komut_izsiz": 0,
+   "geri_iz_ogrenilen": 0,
+   "geri_iz_silinen": 0,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 40
+  },
+  "sure_s": 750.192821900011
+ },
+ {
+  "senaryo": "bagimsiz-surekli",
+  "tohum": 1006,
+  "kol": "v04_v11",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.6129032258064516,
+  "pdr_telemetri_pencere": 0.7495726495726496,
+  "pdr_komut": 0.525,
+  "pdr_telemetri": 0.7134615384615385,
+  "kontrol_bayt": 2187134.0,
+  "duyma_bildirimi": 225841.0,
+  "dusen": {
+   "iletim_basarisiz": 299,
+   "hedef_yok": 98,
+   "rota_gecersiz": 69
+  },
+  "sayac": {
+   "komut_iz_iletilen": 65,
+   "komut_izsiz": 8,
+   "geri_iz_ogrenilen": 2641,
+   "geri_iz_silinen": 96,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 0
+  },
+  "sure_s": 751.3926284000045
+ },
+ {
+  "senaryo": "bagimsiz-surekli",
+  "tohum": 1007,
+  "kol": "v04",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.0,
+  "pdr_telemetri_pencere": 0.6965811965811965,
+  "pdr_komut": 0.0,
+  "pdr_telemetri": 0.6474358974358975,
+  "kontrol_bayt": 2543850.0,
+  "duyma_bildirimi": 0.0,
+  "dusen": {
+   "iletim_basarisiz": 417,
+   "hedef_yok": 82,
+   "rota_gecersiz": 51,
+   "politika": 40
+  },
+  "sayac": {
+   "komut_iz_iletilen": 0,
+   "komut_izsiz": 0,
+   "geri_iz_ogrenilen": 0,
+   "geri_iz_silinen": 0,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 40
+  },
+  "sure_s": 501.8249784000218
+ },
+ {
+  "senaryo": "bagimsiz-surekli",
+  "tohum": 1007,
+  "kol": "v04_v11",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.5862068965517241,
+  "pdr_telemetri_pencere": 0.694017094017094,
+  "pdr_komut": 0.475,
+  "pdr_telemetri": 0.6557692307692308,
+  "kontrol_bayt": 2423260.0,
+  "duyma_bildirimi": 275722.0,
+  "dusen": {
+   "iletim_basarisiz": 407,
+   "hedef_yok": 90,
+   "rota_gecersiz": 61
+  },
+  "sayac": {
+   "komut_iz_iletilen": 82,
+   "komut_izsiz": 9,
+   "geri_iz_ogrenilen": 2892,
+   "geri_iz_silinen": 89,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 0
+  },
+  "sure_s": 477.35119319998194
+ },
+ {
+  "senaryo": "statik-surekli",
+  "tohum": 1003,
+  "kol": "v04",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.0,
+  "pdr_telemetri_pencere": 0.8304794520547946,
+  "pdr_komut": 0.0,
+  "pdr_telemetri": 0.7732819524727039,
+  "kontrol_bayt": 1456652.0,
+  "duyma_bildirimi": 0.0,
+  "dusen": {
+   "iletim_basarisiz": 198,
+   "hedef_yok": 61,
+   "rota_gecersiz": 94,
+   "politika": 40
+  },
+  "sayac": {
+   "komut_iz_iletilen": 0,
+   "komut_izsiz": 0,
+   "geri_iz_ogrenilen": 0,
+   "geri_iz_silinen": 0,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 40
+  },
+  "sure_s": 184.99084400001448
+ },
+ {
+  "senaryo": "statik-surekli",
+  "tohum": 1003,
+  "kol": "v04_v11",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.8,
+  "pdr_telemetri_pencere": 0.8638698630136986,
+  "pdr_komut": 0.7,
+  "pdr_telemetri": 0.8124598587026333,
+  "kontrol_bayt": 1470606.0,
+  "duyma_bildirimi": 204497.0,
+  "dusen": {
+   "iletim_basarisiz": 160,
+   "hedef_yok": 69,
+   "rota_gecersiz": 75
+  },
+  "sayac": {
+   "komut_iz_iletilen": 74,
+   "komut_izsiz": 8,
+   "geri_iz_ogrenilen": 3926,
+   "geri_iz_silinen": 84,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 0
+  },
+  "sure_s": 192.75496180000482
+ },
+ {
+  "senaryo": "statik-surekli",
+  "tohum": 1004,
+  "kol": "v04",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.0,
+  "pdr_telemetri_pencere": 0.9777587681779298,
+  "pdr_komut": 0.0,
+  "pdr_telemetri": 0.9262347658755613,
+  "kontrol_bayt": 1149114.0,
+  "duyma_bildirimi": 0.0,
+  "dusen": {
+   "iletim_basarisiz": 38,
+   "hedef_yok": 69,
+   "rota_gecersiz": 8,
+   "politika": 40
+  },
+  "sayac": {
+   "komut_iz_iletilen": 0,
+   "komut_izsiz": 0,
+   "geri_iz_ogrenilen": 0,
+   "geri_iz_silinen": 0,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 40
+  },
+  "sure_s": 127.63454370002728
+ },
+ {
+  "senaryo": "statik-surekli",
+  "tohum": 1004,
+  "kol": "v04_v11",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.7586206896551724,
+  "pdr_telemetri_pencere": 0.9709153122326775,
+  "pdr_komut": 0.65,
+  "pdr_telemetri": 0.9211032713277743,
+  "kontrol_bayt": 1170938.0,
+  "duyma_bildirimi": 142128.0,
+  "dusen": {
+   "iletim_basarisiz": 54,
+   "hedef_yok": 75,
+   "rota_gecersiz": 8
+  },
+  "sayac": {
+   "komut_iz_iletilen": 62,
+   "komut_izsiz": 6,
+   "geri_iz_ogrenilen": 3141,
+   "geri_iz_silinen": 19,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 0
+  },
+  "sure_s": 133.18905590003124
+ },
+ {
+  "senaryo": "statik-surekli",
+  "tohum": 1005,
+  "kol": "v04",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.0,
+  "pdr_telemetri_pencere": 0.9118150684931506,
+  "pdr_komut": 0.0,
+  "pdr_telemetri": 0.8371794871794872,
+  "kontrol_bayt": 1486914.0,
+  "duyma_bildirimi": 0.0,
+  "dusen": {
+   "iletim_basarisiz": 139,
+   "hedef_yok": 90,
+   "rota_gecersiz": 25,
+   "politika": 40
+  },
+  "sayac": {
+   "komut_iz_iletilen": 0,
+   "komut_izsiz": 0,
+   "geri_iz_ogrenilen": 0,
+   "geri_iz_silinen": 0,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 40
+  },
+  "sure_s": 183.67941179999616
+ },
+ {
+  "senaryo": "statik-surekli",
+  "tohum": 1005,
+  "kol": "v04_v11",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.9032258064516129,
+  "pdr_telemetri_pencere": 0.922945205479452,
+  "pdr_komut": 0.825,
+  "pdr_telemetri": 0.841025641025641,
+  "kontrol_bayt": 1488584.0,
+  "duyma_bildirimi": 201140.0,
+  "dusen": {
+   "iletim_basarisiz": 140,
+   "hedef_yok": 94,
+   "rota_gecersiz": 21
+  },
+  "sayac": {
+   "komut_iz_iletilen": 83,
+   "komut_izsiz": 4,
+   "geri_iz_ogrenilen": 3753,
+   "geri_iz_silinen": 58,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 0
+  },
+  "sure_s": 192.310685799981
+ },
+ {
+  "senaryo": "statik-surekli",
+  "tohum": 1006,
+  "kol": "v04",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.0,
+  "pdr_telemetri_pencere": 0.935042735042735,
+  "pdr_komut": 0.0,
+  "pdr_telemetri": 0.8852564102564102,
+  "kontrol_bayt": 1291618.0,
+  "duyma_bildirimi": 0.0,
+  "dusen": {
+   "iletim_basarisiz": 102,
+   "hedef_yok": 69,
+   "rota_gecersiz": 8,
+   "politika": 40
+  },
+  "sayac": {
+   "komut_iz_iletilen": 0,
+   "komut_izsiz": 0,
+   "geri_iz_ogrenilen": 0,
+   "geri_iz_silinen": 0,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 40
+  },
+  "sure_s": 143.2884092000313
+ },
+ {
+  "senaryo": "statik-surekli",
+  "tohum": 1006,
+  "kol": "v04_v11",
+  "gecerli": true,
+  "pdr_komut_pencere": 1.0,
+  "pdr_telemetri_pencere": 0.9367521367521368,
+  "pdr_komut": 0.95,
+  "pdr_telemetri": 0.8903846153846153,
+  "kontrol_bayt": 1191504.0,
+  "duyma_bildirimi": 156893.0,
+  "dusen": {
+   "iletim_basarisiz": 102,
+   "hedef_yok": 71
+  },
+  "sayac": {
+   "komut_iz_iletilen": 86,
+   "komut_izsiz": 2,
+   "geri_iz_ogrenilen": 2881,
+   "geri_iz_silinen": 1,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 0
+  },
+  "sure_s": 142.21296349994373
+ },
+ {
+  "senaryo": "statik-surekli",
+  "tohum": 1007,
+  "kol": "v04",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.0,
+  "pdr_telemetri_pencere": 0.9444444444444444,
+  "pdr_komut": 0.0,
+  "pdr_telemetri": 0.8961538461538462,
+  "kontrol_bayt": 1310056.0,
+  "duyma_bildirimi": 0.0,
+  "dusen": {
+   "iletim_basarisiz": 87,
+   "hedef_yok": 67,
+   "rota_gecersiz": 8,
+   "politika": 40
+  },
+  "sayac": {
+   "komut_iz_iletilen": 0,
+   "komut_izsiz": 0,
+   "geri_iz_ogrenilen": 0,
+   "geri_iz_silinen": 0,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 40
+  },
+  "sure_s": 155.3853304000222
+ },
+ {
+  "senaryo": "statik-surekli",
+  "tohum": 1007,
+  "kol": "v04_v11",
+  "gecerli": true,
+  "pdr_komut_pencere": 0.896551724137931,
+  "pdr_telemetri_pencere": 0.9598290598290599,
+  "pdr_komut": 0.8,
+  "pdr_telemetri": 0.8987179487179487,
+  "kontrol_bayt": 1326228.0,
+  "duyma_bildirimi": 188007.0,
+  "dusen": {
+   "iletim_basarisiz": 72,
+   "hedef_yok": 70,
+   "rota_gecersiz": 24
+  },
+  "sayac": {
+   "komut_iz_iletilen": 81,
+   "komut_izsiz": 3,
+   "geri_iz_ogrenilen": 3509,
+   "geri_iz_silinen": 23,
+   "veri_hop_siniri": 0,
+   "veri_sink_disi": 0
+  },
+  "sure_s": 167.8976946999901
+ }
+]

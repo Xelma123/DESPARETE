@@ -38,11 +38,9 @@ from sim2.cekirdek.degismezler import dogrula
 from sim2.gozlem.kontrol import (BEYAN_TIPLERI, Beyan,  # noqa: F401
                                  niyetleri_dogrula)
 
-# 🔒 `Beyan` ve `BEYAN_TIPLERI` 16 Eylül 2026'da `gozlem/kontrol.py`ye TAŞINDI
-# (`04` K-134): kancaların da beyan döndürebilmesi gerekti ve bu dosya o
-# modülü içe aktardığı için tersi bir döngü olurdu. Buradan YENİDEN DIŞA
-# VERİLİYOR — `from sim2.gozlem.karar import Beyan` yazan her yer (testler,
-# `olcum/`) değişmeden çalışıyor.
+# `Beyan` ve `BEYAN_TIPLERI` `gozlem/kontrol.py`dedir (K-134: kancalar da
+# beyan döndürür; tersi bir içe aktarma döngüsü olurdu) ve buradan
+# yeniden dışa verilir.
 __all__ = ["BEYAN_TIPLERI", "Beyan", "Karar"]
 
 
@@ -50,40 +48,25 @@ __all__ = ["BEYAN_TIPLERI", "Beyan", "Karar"]
 class Karar:
     """Protokolün bir gözleme verdiği cevap.
 
-    🔒 ÜÇ SONUÇ, İKİ DEĞİL — 16 Eylül 2026 (denetim B1, `04` K-131)
-    ==============================================================
+    🔒 ÜÇ SONUÇ (denetim B1, K-131)
+    ===============================
         sonraki = n              → "şu komşuya gönder"
-        sonraki = None           → "gönderme"; paket DÜŞER (`hedef_yok`)
-        beklet  = True           → "kuyrukta tut, birazdan yine sor"
+        sonraki = None           → "gönderme"; paket DÜŞER
+        beklet  = True           → "bekleme tamponunda tut, birazdan yine sor"
 
-    🔒 DÜŞME SEBEBİ BEYANA BAKAR — 16 Eylül 2026 (`04` K-134)
-    =========================================================
+    🔒 DÜŞME SEBEBİ BEYANA BAKAR (K-134)
+    ====================================
         sonraki=None                              → `hedef_yok`
         sonraki=None + Beyan("rota_gecersiz")     → `rota_gecersiz`
         sonraki=None + Beyan("politika")          → `politika` (K-171)
 
-    🔴 İkinci satır 16 Eylül'e kadar BELGEDE VARDI ama KODDA YOKTU. Ölçüldü:
-    her kararda `rota_gecersiz` beyan eden bir sınav protokolünde sayaç 320
-    arttı, o sebeple düşüş **0** kaldı — 320 paketin hepsi `hedef_yok` yazdı.
-    Sebep listesi protokoller yazılmadan ÖNCE ayrılmıştı (bir ŞEMA
-    taahhüdüdür) ama ona giden dal hiç döşenmemişti.
-
-    🔒 AODV'de bu gerçek bir ayrımdır: rota HİÇ bulunamadı (keşif başarısız)
-    ile rota VARDI ve koptu (RFC 3561 §6.11 — ara düğüm RERR gönderir ve
-    paketi düşürür) ayrı şeylerdir; karıştırma altında ikisinin oranı
+    AODV'de bu gerçek bir ayrımdır: rota HİÇ bulunamadı ile rota VARDI ve
+    koptu (RFC 3561 §6.11) ayrı şeylerdir; karıştırma altında oranları
     protokolün davranışını anlatır.
 
-    Üçüncüsü 16 Eylül'e kadar YOKTU ve bu, karşılaştırdığımız iki protokol
-    ailesinden yalnız BİRİNİ vuruyordu. RFC 3561 §6.3 rota keşfi sırasında
-    paketlerin tamponlanmasını ŞART KOŞAR (NS-2'nin AODV'si 64 paketlik bir
-    kuyruk tutar). Tamponsuz bir AODV akış başlangıcında ve HER ROTA
-    KOPMASINDAN SONRA keşif bitene kadar doğan her paketi kaybederdi; OLSR
-    proaktiftir ve rotası neredeyse hep vardır, yani kayıp ona uğramazdı.
-    Üstelik etkinin yoğunlaştığı yer kötüydü: karıştırma altında kopma sıktır
-    ve onarım yavaştır — yani eksik, iddianın yaşadığı rejimde en büyüktü.
-
-    `06` §8'in üçüncü geçerlilik koşulu (*"gizli asimetri yok"*) ve `03` §2
-    ilke 4'ün straw-man uyarısı doğrudan buraya bakıyordu.
+    Bekletme RFC 3561 §6.3'ün şartıdır: tamponsuz bir tepkisel protokol
+    her kopmadan sonra keşif bitene kadar doğan paketi kaybeder, proaktif
+    protokol kaybetmezdi — gizli bir asimetri (`06` §8 koşul 3).
     """
 
     sonraki: int | None = None

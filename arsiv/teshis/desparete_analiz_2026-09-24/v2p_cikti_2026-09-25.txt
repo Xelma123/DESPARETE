@@ -1,0 +1,18 @@
+# PYTHONIOENCODING=utf-8 PYTHONDONTWRITEBYTECODE=1 python -u arsiv/teshis/desparete_analiz_2026-09-24/v2p.py  (25 Eylül 2026, K-166 — K-165 §3'ün yeniden üretimi; 8 işçi)
+kol             tohum   v0.3   +V2+   fark   oran k/v v0.3   k/v   p95  onarim  bosta  atlandi
+statik-yok       1000  0.834  0.796 -0.038  0.808     0.57  0.63  0.06     148    697      589   (118 s)
+statik-yok       1001  0.824  0.804 -0.020  0.808     0.54  0.59  0.07      77    727      581   (122 s)
+statik-yok       1002  0.857  0.827 -0.030  0.829     0.58  0.61  0.04      74    666      514   (105 s)
+bagimsiz-yok     1000  0.607  0.640 +0.033  0.840     0.66  0.71  0.44     373    448      842   (577 s)
+bagimsiz-yok     1001  0.710  0.698 -0.012  0.789     0.73  0.72  0.52     298    573      729   (571 s)
+bagimsiz-yok     1002  0.639  0.607 -0.032  0.741     0.69  0.72  0.62     335    470      755   (560 s)
+gorev-yok        1000  0.791  0.788 -0.003  0.813     0.91  0.97  0.08     133    800      814   (580 s)
+gorev-yok        1001  0.651  0.653 +0.002  0.774     0.70  0.75  0.57     342    572      705   (624 s)
+gorev-yok        1002  0.704  0.706 +0.002  0.821     0.74  0.76  0.21     323    533      830   (576 s)
+formasyon-yok    1000  0.707  0.707 -0.000  0.924     0.74  0.80  0.70     281    609      870   (906 s)
+formasyon-yok    1001  0.721  0.679 -0.042  0.859     0.79  0.81  1.41     258    545      846   (919 s)
+formasyon-yok    1002  0.719  0.683 -0.036  0.904     0.77  0.77  0.85     320    426      819   (642 s)
+v0.3 esles bagimsiz-yok    1000 pdr 0.607 k/v 0.66 p95 0.78 onarim 453  (446 s)
+v0.3 esles gorev-yok       1000 pdr 0.791 k/v 0.91 p95 0.11 onarim 231  (466 s)
+v0.3 esles formasyon-yok   1000 pdr 0.707 k/v 0.74 p95 0.20 onarim 256  (640 s)
+duvar 1220 s

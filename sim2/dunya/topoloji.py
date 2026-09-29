@@ -1,34 +1,14 @@
 """
-Topoloji — ZAMANA BAĞLI. Eski simülatörün en büyük kusuru buradaydı.
-
-🔴 NE DEĞİŞTİ
-=============
-Eski `Topoloji` dondurulmuş bir nesneydi: konumlar bir kez çekiliyor ve koşu
-boyunca hiç değişmiyordu. Proje ise *"karıştırma altındaki taktik İHA mesh
-ağları"* iddiasını taşıyor. Sabit topolojili bir İHA ağı, İHA ağı değildir.
-
-Burada topoloji bir **fonksiyondur**: `konum(dugum, t)`. Kanal katmanı onu
-parça başına, sıra dışı zamanlarda çağırır; bu yüzden **saf** olmak zorunda —
-çağrı sırası sonucu değiştiremez.
+Topoloji — zamana bağlı: `konum(dugum, t)` zamanın SAF fonksiyonudur. Kanal
+katmanı onu parça başına, sıra dışı zamanlarda çağırır; çağrı sırası sonucu
+değiştiremez.
 
 🔴 BU MODÜL BİR KÂHİN YÜZEYİDİR
 ===============================
-Buradaki graf **geometriktir**: iki düğüm menzil içindeyse "bağ" vardır.
-Protokolün gördüğü şey bu değildir — protokol yalnız `gozlem/` üzerinden
-komşu görür ve orada bağ, kanalın verdiği gerçek alım başarısıyla tanımlıdır.
-Buradaki graf ölçüme, kalibrasyona ve teşhise aittir.
-
-⚠️ AÇIK TAAHHÜT — `kopma_fiziksel` HENÜZ BURADAN TANIMLANMADI
-=============================================================
-Sayaç kaydı `kopma_fiziksel`i *"SINR eşiği altına inen bağ"* diye tanımlıyor.
-Gölgeleme ve sönümleme eklendikten sonra bu, **saf menzilden farklıdır**:
-gölgeleme σ = 3 dB iken menzil sınırı ±3 dB'lik bir bulanıklık kazanır ve
-ölçüldü — PER'in 0,01'den 0,99'a düştüğü bant yalnızca 3,02 dB, yani tek bir
-σ'dan dar. Bu yüzden `kopma_fiziksel` Adım 4'te **kanalın yavaş SINR'i**
-(yol kaybı + gölgeleme + anten deseni, hızlı sönümleme HARİÇ) üzerinden
-tanımlanacak. Buradaki geometrik graf o tanımın yerine geçmez; çalışma
-noktasını ölçmek ve bölünmeyi izlemek içindir.
-Üretici: `python kalibrasyon/adim3_oncesi.py`
+Buradaki graf geometriktir (menzil içi = bağ) ve ölçüme, kalibrasyona,
+teşhise aittir. Protokol komşuyu yalnız `gozlem/` üzerinden, kanalın verdiği
+gerçek alım başarısıyla görür. Fiziksel kopma buradan değil kanalın yavaş
+SINR'inden tanımlanır (`olcum/kopma.py`).
 """
 
 from __future__ import annotations
@@ -123,22 +103,13 @@ class Topoloji:
 
     @staticmethod
     def baglantililik_ozeti(seri: tuple[Anlik, ...]) -> dict[str, float]:
-        """Bir zaman serisinin bağlantılılık özeti.
+        """Geometrik grafiğin bağlantılılık özeti — TEŞHİS.
 
-        🔴 `tam_bagli_zaman_orani` BU GRAFİKTE ÖLÇÜLÜR, yani 280 m'lik
-        TEŞHİS DİSKİNDE — ve modül başlığının söylediği gibi o disk veri
-        yolunda hiçbir yeri kapamaz (K-096). Bu sayıyı bir bağlantılılık
-        SONUCU diye okumak, kimsenin kullanmadığı bir ağı raporlamaktır.
-
-        Bugün ölçülen (30 tohum × 350 s, üretici:
-        `python kalibrasyon/adim3_kapanis.py`): statik **%0,0** · hareketli
-        **%0,0** — derece 2,53 ↔ 2,49. Veri taşıyan KANAL grafiğinde ise
-        statik kol 270/270 anda tek parça, derece 8,76 (üretici:
-        `python kalibrasyon/denetim_ornekleme.py d`).
-
-        ⚠️ Buradaki eski yorum (*"statik %73,3 · mobil %82,4"*) iki kere
-        çürüdü — üreticisi aylardır koşmuyordu ve terk edilmiş bir çalışma
-        noktasından geliyordu. Tam kayıt `yapilandirma/senaryolar.py`de.
+        🔴 Bu grafik veri yolunda hiçbir yeri kapamaz (K-096): kimin duyacağını
+        alınan güç, alınıp alınmadığını SINR belirler. Buradaki
+        `tam_bagli_zaman_orani`nı bir bağlantılılık SONUCU diye okumak, kimsenin
+        kullanmadığı bir ağı raporlamaktır; veri taşıyan grafiğin bölünmesi
+        `yapilandirma/senaryolar.py`nin tablolarında.
         """
         dogrula(len(seri) > 0, "boş zaman serisi özetlenemez")
         return {

@@ -1,0 +1,10 @@
+aodv yere_toplama cikis=1 sure=20325 s
+olsr yere_toplama cikis=1 sure=20767 s
+olsr yere_toplama bitti (kopmus surec) 14:54
+aomdv yere_toplama cikis=1 sure=25688 s
+# NOT (ajan, 27 Eylul 22:05): yukaridaki "aomdv ... cikis=1 sure=25688 s" satiri CIFT kopyanindir, GECERSIZ.
+# Eski zincir (h_u1_kos.sh) sabah kesilmemisti; OLSR sonrasi AOMDV'yi ikinci kez baslatti ve 22:02'de
+# esler_arasi AODV'ye gecti. Ogrenci onayiyla eski zincir ve iki kosusu durduruldu (h_u1_aodv_esler_arasi.txt
+# yarim, gecersiz). GECERLI AOMDV: h_u1_devam.sh (PID 4212); bitince asagiya "aomdv ... cikis=" ve YERE_TOPLAMA_BITTI yazar.
+aomdv yere_toplama cikis=1 sure=31686 s
+YERE_TOPLAMA_BITTI

@@ -1,0 +1,17 @@
+REGRESYON KARSILASTIRMASI — k176 (59 satir) ↔ k177 (61 satir)
+  (yeni vaka) yalniz k177: q-bagimsiz-surekli-kontrol_sinav-islem_kazanci-hiz_uyarlamasi · gecerli=True
+  (yeni vaka) yalniz k177: q-statik-surekli-dogrudan_komsu-islem_kazanci-hiz_uyarlamasi · gecerli=True
+
+  bulgusuz vaka : 59/59
+  (beklenen) kimlik.arac_hash                                 59 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           59 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              59 vakada farkli
+  (beklenen) kimlik.protokol_hash                             15 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         59 vakada farkli
+  (izinli)   kimlik.kurulum_hash                              59 vakada farkli
+  (izinli)   konfig.arf_basari_esigi                          59 vakada farkli
+  (izinli)   konfig.arf_zamanlayici_esigi                     59 vakada farkli
+  (izinli)   konfig.hiz_uyarlamasi                            59 vakada farkli
+  (izinli)   teshis.koken_kovalari.KAYNAK                     59 vakada farkli
+
+  🟢 BIREBIR (izinli farklar disinda)
