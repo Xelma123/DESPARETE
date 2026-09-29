@@ -131,8 +131,10 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-198 | 🟢 SÖNÜMLEME BLOK ÜRETECİ (birincil hücre ~3,8 kat hızlı, istatistik aynı) · rota tamponu | 🟢 geçerli |
 | K-199 | 🟢 BELGE TEMİZLİĞİ — her bilgi tek yerde · kurallar sadeleşti · git okuma serbest · yeni  | 🟢 geçerli |
 | K-200 | 🟢 BİRİNCİL HÜCRE PARTİSİ — OLSR §13 kapalı kalır (karıştırma altında da kanıtlı) · rota  | 🟢 geçerli |
+| K-201 | 🟢 DEVİR İSTEMİ: yeni ajan gerekli belgeleri okur, projeyi ve nerede kaldığımızı anlar, p | 🟢 geçerli |
+| K-202 | 🟢 U1 ARACI: kâhin desen başına bir kez, ara kayıt · ANATOMİDE ETKİ ALANI · DESPARETE U1' | 🟢 geçerli |
 
-**111 kayıt · 1 revize · 110 geçerli**
+**113 kayıt · 1 revize · 112 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1429,3 +1431,19 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Alet sınırı (yeni iş):** bölge sınıflaması anlık — sessiz evrede her düşüş "uzak" sayılıyor, bölge tablosu karıştırıcının etki alanını göstermiyor. Faz 5.0'da evre × bölge (karıştırıcı açık olsaydı alacağı güç) sınıflaması.
 - **Evre metrikleri** periyodik karıştırıcıda anlamını yitiriyor (tek basamak varsayımı) — Faz 6'da çizelgeli karıştırıcı için evre tanımı.
 **Sıradaki:** U1 yeni kod hâlleriyle (yere toplama + eşler arası) → taban protokoller donar (`v2/12`).
+# K-201 · 🟢 DEVİR İSTEMİ: yeni ajan gerekli belgeleri okur, projeyi ve nerede kaldığımızı anlar, plan yapar; ilk cevabı dosya değiştirmeden kısa özet
+> 29 Eylül · öğrenci: *"basitçe devir promptu ile ajan gerekli belgeleri okuyup projeyi anlayıp nerede kaldığımızı anlayıp bundan sonra ne yapacağımız hakkında plan yapması ve ilk cevap olarak dosya değiştirmeyip sadece projeden ne anladığını ve planları hakkında kısa bir özet vermesi gerekiyordu"*
+
+- `DEVIR-PROMPT.md` §0: (1) gerekli belgeleri oku (`v2/01`, `04-KARARLAR`, `12`; sonra `07`, `14`, `05`, `13`, `06`, `08`, `03`; gerektiği kadar kod) · (2) nerede kaldığımızı anla (`v2/12` §1–§1.1) · (3) plan yap · (4) ilk cevapta dosya değiştirme; kısa özet: ne anladın, nerede kaldık, plan, emin olmadıkların → onay bekle.
+- Aynı gün denenip öğrencinin istemediği ağır düzen geri alındı: zorunlu 196/156 dosyalık okuma listesi, okuma defteri, denetim, 14 soruluk rapor (*"bu kadar ayrıntılı yapmanı istemedim"*). `arsiv/dogrulama/okuma_denetimi.py` arşivde kaldı, zorunlu değil.
+- DESPARETE tasarım paketi okuma belgesi değil (öğrencinin ilk taslak fikirleri); bugünkü yapı kodda (`protokoller/desparete*.py`, günlük K-150…K-172, K-200). Devir istemine araç tuzakları eklendi (kurulum özeti, anatomi ara kaydı, U1 hüküm dünya denetimi).
+# K-202 · 🟢 U1 ARACI: kâhin desen başına bir kez, ara kayıt · ANATOMİDE ETKİ ALANI · DESPARETE U1'e eklendi · Python 3.11
+> 29 Eylül · ajan · öğrenci: *"genel olarak dediğin her şeyi onaylıyorum"* (plan, DESPARETE'nin U1'e eklenmesi dâhil) · *"şu anda 3.11'de çalıştıralım komutları"*
+
+- **U1 aracı** (`kalibrasyon/aodv_uygunluk.py`): `--protokol a,b,c`; ETX kâhini desen başına BİR kez koşulur, aynı desendeki protokoller paylaşır — kâhin koşusu protokolden bağımsız (27 Eylül'ün ayrı ayrı koşulmuş üç referans kaydında kâhin PDR'si 12/12 hücrede birebir). Desen başına 72 → 48 koşu. Her koşu bitince ara kayıt (`ciktilar2/aodv_uygunluk/u1_ara_<dünya>_<desen>.jsonl`), kesintide kaldığı yerden sürer; ara kayıt kod özetine (`sim2` · `protokoller` · `kalibrasyon`) bağlı, başka kod hâlinin satırını reddeder. Kayıt biçimi ve `hukum` aynı. **Denklik** (duman kesiti: statik-yok · 1000 · kısa pencere · yere toplama · referans; eski araç dört protokol ayrı ayrı ↔ yeni araç tek çağrı): AODV 0,8255 · OLSR 0,4653 · AOMDV 0,8718 · DESPARETE 0,9018 · kâhin 0,9931 ve tampon sayaçları birebir; 8 koşu 344 s → 5 koşu 130 s. Test `test_U1_KAHIN_PAYLASIMI_ve_ARA_KAYIT`.
+- **Kayıp anatomisi — etki alanı** (K-200'ün alet sınırı): bölge anlık güçle okunduğu için sessiz evrede her düşüş "uzak"tı. Etki alanı = karıştırıcı o an AÇIK olsaydı alınacak ORTALAMA güç (yavaş kayıp; kapı ve hızlı sönümleme hariç), aynı eşikler. Evre × alan üç tablo: paket PDR'si (paketin geçit dışı ucu, doğumda) · veri kararlarının payı (seçilen sonraki atlama) · düşüşler. DESPARETE'nin iç içe teşhis sayaçları (`protokol.*` · `komsu.*` · `alan.*` · `edinim.*` · `politika.*`) artık toplanıyor. **Denklik** (kısa pencere, birincil hücre, 1003, AODV · DESPARETE · kâhin): eski alanların hepsi birebir (fark 0). Testler `tests2/test_kayip_anatomisi.py` (2).
+- **İlk okuma** (kısa pencere, tek tohum — yalnız aletin çalıştığını gösterir): karıştırıcı açıkken kayıp, karıştırıcının UZAK alanındaki kaynaklarda (PDR AODV 0,33 · DESPARETE 0,50 · kâhin 0,63; girişim alanındakiler 0,70 · 0,83 · 0,77) — geçide giden yolu karıştırılan merkezden geçen düğümler. DESPARETE'nin açık evredeki `rota_gecersiz`i uzak alandaki rölelerde (üretilenin %12,2'si).
+- **DESPARETE U1'e eklendi** (yere toplama; bilgi amaçlı, donma kararına girmez): v0.4.1'in referans dünyada karıştırıcısız tam ölçümü yoktu; kâhin paylaşıldığı için ek 12 koşu.
+- **Ortam:** `python` komutu başka bir proje için kurulan 3.12'yi açıyor, onda numpy/scipy/pytest yok → komutlar `py -3.11` ile (öğrenci).
+- **Doğrulama:** ilgili 5 test geçti · mimari denetimi ihlalsiz, kökeni yazılmamış sabit yok, SINANMAMIŞ 41 · takım 941 → 944 test (tam takım iş kapanışında). Simülatör davranışı değişmedi (yalnız alet) → regresyon gerekmez.
+**Koşan:** U1, dondurulmuş kopya `arsiv/teshis/u1_2026-09-29/kopya` (`arac_hash` 6e784895…), beklenti ve karar kuralları `arsiv/teshis/u1_2026-09-29/beklenti.md` (ölçmeden önce); yere toplama (60 koşu) → eşler arası (48 koşu).

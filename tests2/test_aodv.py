@@ -687,3 +687,40 @@ def test_K191_hukum_DUNYA_uyusmazligini_reddeder(monkeypatch, tmp_path):
     with pytest.raises(SystemExit, match="eski"):
         U.hukum(eski)
 
+
+def test_U1_KAHIN_PAYLASIMI_ve_ARA_KAYIT(monkeypatch, tmp_path, capsys):
+    """29 Eylül: aynı desendeki protokoller TEK kâhin koşusunu paylaşır ve
+    her protokolün kaydı onu taşır; ara kayıttaki bitmiş koşu yeniden
+    koşulmaz, hatalı koşu yeniden koşulur, başka kod hâlinin satırı reddedilir."""
+    import json
+    import pytest
+    import kalibrasyon.aodv_uygunluk as U
+    monkeypatch.setenv(U.DESEN_ORTAM, "yere_toplama")
+    monkeypatch.setenv("DESPARETE_DUNYA", "referans_2026")
+    monkeypatch.setattr(U, "DIZIN", tmp_path)
+    monkeypatch.setattr(U, "_kod_imzasi", lambda: "A")
+    yol = U._ara_kayit_yolu()
+    assert yol.name == "u1_ara_referans_2026_yere_toplama.jsonl"
+    olcum = {"pdr": 0.5, "gecerli": True, "tampon": {}, "sure": 1.0}
+    def satir(kahin, protokol, hata=None):
+        return {"kol": "statik-yok", "tohum": 1000, "kahin": kahin,
+                "protokol": protokol, "desen": "yere_toplama",
+                "olcum": None if hata else olcum, "hata": hata, "kod": "A"}
+    satirlar = [satir(False, "aodv", hata="X"), satir(True, None),
+                satir(False, "aodv"), satir(False, "olsr")]
+    yol.write_text("\n".join(json.dumps(r) for r in satirlar) + "\n",
+                   encoding="utf-8")
+    assert set(U._ara_kayit_oku(yol, "A")) == {
+        ("statik-yok", 1000, k, (), p, "yere_toplama")
+        for k, p in ((True, None), (False, "aodv"), (False, "olsr"))}
+    with pytest.raises(SystemExit, match="başka bir kod"):
+        U._ara_kayit_oku(yol, "B")
+    # İki protokol, bir kol, bir tohum → 3 koşu (kâhin bir kez); hepsi ara
+    # kayıtta olduğu için havuz açılmaz.
+    assert U.u1(("statik-yok",), (1000,), protokol=("aodv", "olsr")) == 0
+    assert "3 kosu (0 kaldi)" in capsys.readouterr().out
+    for p in ("aodv", "olsr"):
+        kayit = json.loads((tmp_path / f"{p}_referans_2026_yere_toplama_son.json"
+                            ).read_text(encoding="utf-8"))
+        assert kayit["protokol"] == p
+        assert [(h["kahin"], h["olcum"]["pdr"]) for h in kayit["hucreler"]]             == [(False, 0.5), (True, 0.5)]

@@ -5,6 +5,8 @@ U1 — AODV'nin teslim oranı kâhin referansına YAKIN mı? (`v2/06` §4.3)
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py --protokol olsr
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py --protokol desparete
+    PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py --dunya referans_2026 \
+        --desen yere_toplama --protokol aodv,olsr,aomdv,desparete
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py duman
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py hukum [kayit]
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py u3
@@ -150,14 +152,16 @@ DESEN_ORTAM = "DESPARETE_U1_DESEN"
 DESENLER = ("esler_arasi", "yere_toplama")
 
 
-def _desen(protokol: str) -> dict[str, str]:
+def _desen_adi(protokol: str) -> str | None:
     """Protokolün U1 deseni — `--desen` verildiyse o, yoksa taban
-    protokollerde `Konfig` varsayılanı (DESPARETE'de yere toplama)."""
-    desen = os.environ.get(DESEN_ORTAM)
-    if desen:
-        return {"trafik_deseni": desen}
-    return ({"trafik_deseni": TRAFIK_DESENI[protokol]}
-            if protokol in TRAFIK_DESENI else {})
+    protokollerde `None` (`Konfig` varsayılanı; DESPARETE'de yere toplama)."""
+    return os.environ.get(DESEN_ORTAM) or TRAFIK_DESENI.get(protokol)
+
+
+def _desen(protokol: str) -> dict[str, str]:
+    """`_desen_adi`nın `Konfig` argümanı hâli."""
+    desen = _desen_adi(protokol)
+    return {"trafik_deseni": desen} if desen else {}
 
 
 def _kayit_adi(protokol: str) -> str:
@@ -280,38 +284,99 @@ def _pdr(kfg: Konfig, kahin: bool, protokol: str = "aodv") -> tuple:
 
 
 def _is(gorev):
-    """Havuz işçisi: (kol, tohum, kâhin mi, pencere, protokol) → ölçüm."""
-    kol, tohum, kahin, pencere, protokol = gorev
+    """Havuz işçisi: (kol, tohum, kâhin mi, pencere, protokol, desen) →
+    ölçüm. Kâhin görevinde protokol `None`dır: kâhin koşusu protokolden
+    bağımsızdır, yalnız desene bağlıdır."""
+    kol, tohum, kahin, pencere, protokol, desen = gorev
     try:
         t0 = time.perf_counter()
         pdr, gecerli, tampon = _pdr(
-            DS.konfig(kol="u1", senaryo=kol, tohum=tohum, **_desen(protokol),
-                   **dict(pencere)), kahin, protokol)
+            DS.konfig(kol="u1", senaryo=kol, tohum=tohum,
+                      **({"trafik_deseni": desen} if desen else {}),
+                      **dict(pencere)), kahin, protokol)
         return {"pdr": pdr, "gecerli": gecerli, "tampon": tampon,
                 "sure": time.perf_counter() - t0}, None
     except Exception as e:                       # noqa: BLE001
         return None, f"{type(e).__name__}: {e}"
 
 
+def _is_etiketli(gorev):
+    """`imap_unordered` için: sonucu görevle birlikte döndürür."""
+    return gorev, _is(gorev)
+
+
+def _kod_imzasi() -> str:
+    """Ara kaydın bağlı olduğu kod hâli: simülatör · protokoller · aletler.
+    Kod değişince ara kayıttaki ölçüm başka bir kodundur, sürdürülemez."""
+    from sim2.cekirdek.kimlik import arac_hash
+    return "/".join(arac_hash(KOK / p)
+                    for p in ("sim2", "protokoller", "kalibrasyon"))
+
+
+def _ara_kayit_yolu() -> Path:
+    """Tam koşumun ara kaydı — dünya ve desen başına bir dosya."""
+    desen = os.environ.get(DESEN_ORTAM)
+    ad = DS.etiket("u1_ara")
+    return DIZIN / (f"{ad}_{desen}.jsonl" if desen else f"{ad}.jsonl")
+
+
+def _ara_kayit_oku(yol: Path, imza: str) -> dict:
+    """Ara kayıttaki hatasız ölçümler — görev anahtarıyla. Başka bir kod
+    hâlinin satırı varsa durur: iki kod hâlinin sayısı tek kayda karışmaz."""
+    bitti: dict = {}
+    if not yol.exists():
+        return bitti
+    for satir in yol.read_text(encoding="utf-8").splitlines():
+        if not satir.strip():
+            continue
+        r = json.loads(satir)
+        if r["kod"] != imza:
+            raise SystemExit(
+                f"ara kayıt başka bir kod hâlinin ({r['kod']} ≠ {imza}): "
+                f"{yol} — arsiv/'e taşı ya da aynı kodla sür")
+        if r["hata"] is None:
+            bitti[(r["kol"], r["tohum"], r["kahin"], (), r["protokol"],
+                   r["desen"])] = (r["olcum"], None)
+    return bitti
+
+
 def u1(kollar=KOLLAR, tohumlar=TOHUMLAR, isci: int = 8,
        pencere: dict[str, float] | None = None,
-       protokol: str = "aodv") -> int:
-    """U1 kapısı. Çıkış kodu: 0 geçti, 1 kaldı.
+       protokol: str | tuple[str, ...] = "aodv") -> int:
+    """U1 kapısı — bir ya da birkaç protokol. Çıkış kodu: 0 hepsi geçti,
+    1 en az biri kaldı.
+
+    🔒 KÂHİN DESEN BAŞINA BİR KEZ KOŞULUR (29 Eylül 2026). Kâhin koşusu
+    protokolden bağımsızdır (aynı konfig, aynı dünya); aynı desendeki
+    protokoller aynı kâhin ölçümünü paylaşır. Kanıt: 27 Eylül'ün referans
+    dünya kayıtlarında (AODV · OLSR · AOMDV, ayrı ayrı koşulmuş) kâhinin
+    PDR'si 12 hücrenin hepsinde üç protokolde birebir aynı. Kayıt biçimi ve
+    hüküm protokol başına değişmedi: her protokolün kaydı kâhin hücrelerini
+    kendisi taşır.
+
+    🔒 ARA KAYIT (tam koşumda): her koşu biter bitmez `_ara_kayit_yolu()`na
+    yazılır; kesintiden sonra aynı komut, aynı kod hâlindeyse, bitmiş
+    koşuları yeniden koşmaz (`kayip_anatomisi.py` ile aynı gelenek, K-198).
 
     ⚠️ `pencere` YALNIZ duman kesiti içindir ve verildiğinde bastığı oran
     kapının oranı DEĞİLDİR; başlıkta bir uyarı satırı basılır.
     """
+    protokoller = (protokol,) if isinstance(protokol, str) else tuple(protokol)
+    desenler = {p: _desen_adi(p) for p in protokoller}
     print("=" * 78)
-    print(f"U1 — {protokol.upper()} / ETX KAHINI ORANI  (`06` §4.3 · tam olcek)")
+    print(f"U1 — {', '.join(p.upper() for p in protokoller)} / ETX KAHINI "
+          f"ORANI  (`06` §4.3 · tam olcek)")
     print("=" * 78)
     if pencere:
         print("  ⚠️ DUMAN KESITI — KISA PENCERE. Bastigi oran KAPININ")
         print("     orani DEGILDIR; yalniz aletin kostugunu gosterir.")
-    ornek = DS.konfig(kol="u1", senaryo=kollar[0], tohum=tohumlar[0],
-                   **_desen(protokol), **dict(pencere or {}))
-    print(f"  N = {ornek.dugum_sayisi} · pencere "
-          f"({ornek.isinma_s:.0f}; {ornek.olcum_bitis_s:.0f}) s · "
-          f"kosu {ornek.kosu_bitis_s:.0f} s · desen {ornek.trafik_deseni}")
+    for desen in dict.fromkeys(desenler.values()):
+        ornek = DS.konfig(kol="u1", senaryo=kollar[0], tohum=tohumlar[0],
+                          **({"trafik_deseni": desen} if desen else {}),
+                          **dict(pencere or {}))
+        print(f"  N = {ornek.dugum_sayisi} · pencere "
+              f"({ornek.isinma_s:.0f}; {ornek.olcum_bitis_s:.0f}) s · "
+              f"kosu {ornek.kosu_bitis_s:.0f} s · desen {ornek.trafik_deseni}")
     print(f"  kollar: {list(kollar)}")
     print(f"  tohumlar: {list(tohumlar)}  (GELISTIRME — ana deney tohumu YOK)")
     print(f"  🔒 OLCUT: statik oran >= {U1_ESIK_STATIK:.2f} · "
@@ -319,23 +384,62 @@ def u1(kollar=KOLLAR, tohumlar=TOHUMLAR, isci: int = 8,
     print()
 
     sabit = tuple(sorted((pencere or {}).items()))
-    gorevler = [(kol, t, kahin, sabit, protokol)
-                for kol in kollar for t in tohumlar for kahin in (False, True)]
+    gorevler = [(kol, t, False, sabit, p, desenler[p])
+                for p in protokoller for kol in kollar for t in tohumlar]
+    gorevler += [(kol, t, True, sabit, None, d)
+                 for d in dict.fromkeys(desenler.values())
+                 for kol in kollar for t in tohumlar]
+    ham: dict = {}
+    ara = None if pencere else _ara_kayit_yolu()
+    imza = _kod_imzasi() if ara else ""
+    if ara is not None:
+        istenen = set(gorevler)
+        ham = {g: v for g, v in _ara_kayit_oku(ara, imza).items()
+               if g in istenen}
+        if ham:
+            print(f"  ara kayittan {len(ham)} kosu okundu ({ara})")
     # 🔒 Havuza UZUN işler ÖNCE verilir: hareketli kollar, protokol kâhinden
     # önce. Yalnız süreyi etkiler, sonucu değil — kayıt ve hüküm aşağıda
     # yine kanonik sırayla kurulur. Ölçülmüş gerekçe (`AODV-e` kaydının iş
     # süreleri, K-145): kanonik sırada statik işler başta biter ve sonda
     # uzun hareketli işler tek başına kalır; 8 işçide çekişmesiz tahmin
     # 2,58 → 2,14 sa (alt sınır 1,91).
-    sira = sorted(gorevler, key=lambda g: (g[0].startswith("statik"), g[2]))
+    sira = sorted((g for g in gorevler if g not in ham),
+                  key=lambda g: (g[0].startswith("statik"), g[2]))
+    print(f"  {len(gorevler)} kosu ({len(sira)} kaldi) · {isci} isci")
     t0 = time.perf_counter()
-    with Pool(isci) as havuz:
-        ham = dict(zip(sira, havuz.map(_is, sira, chunksize=1)))
-    sonuc = {g[:4]: ham[g] for g in gorevler}
-    if not pencere:
-        _kaydet(sonuc, protokol)
-    return _degerlendir(sonuc, kollar, tohumlar, sabit,
-                        time.perf_counter() - t0, len(gorevler), protokol)
+    if sira:
+        with Pool(min(isci, len(sira))) as havuz:
+            for n, (g, (olcum, hata)) in enumerate(havuz.imap_unordered(
+                    _is_etiketli, sira, chunksize=1), 1):
+                ham[g] = (olcum, hata)
+                if ara is not None:
+                    ara.parent.mkdir(parents=True, exist_ok=True)
+                    with ara.open("a", encoding="utf-8") as f:
+                        f.write(json.dumps(
+                            {"kol": g[0], "tohum": g[1], "kahin": g[2],
+                             "protokol": g[4], "desen": g[5], "olcum": olcum,
+                             "hata": hata, "kod": imza},
+                            ensure_ascii=False) + "\n")
+                ne = "kahin" if g[2] else g[4]
+                durum = (f"🔴 {hata}" if hata is not None else
+                         f"PDR {olcum['pdr'] or 0:.4f} · "
+                         f"{olcum['sure'] / 60:.0f} dk")
+                print(f"  {n:>3}/{len(sira)} {ne:<10}{g[0]:<15}{g[1]:>5}  "
+                      f"{durum}", flush=True)
+    sure_s = time.perf_counter() - t0
+    print()
+    cikis = 0
+    for p in protokoller:
+        sonuc = {(kol, t, kahin, sabit):
+                 ham[(kol, t, kahin, sabit, None if kahin else p, desenler[p])]
+                 for kol in kollar for t in tohumlar for kahin in (False, True)}
+        if not pencere:
+            _kaydet(sonuc, p)
+        cikis |= _degerlendir(sonuc, kollar, tohumlar, sabit, sure_s,
+                              len(sonuc), p)
+        print()
+    return cikis
 
 
 # ==========================================================================
@@ -398,6 +502,7 @@ def _kaydet(sonuc: dict, protokol: str) -> None:
                  "olcum": olcum, "hata": hata}
                 for (kol, t, kahin, _s), (olcum, hata) in sonuc.items()]
     metin = json.dumps({"kaynak": "tam kosum", "protokol": protokol,
+                        "kahin": "desen basina ortak kosu",
                         "hucreler": satirlar}, ensure_ascii=False, indent=1)
     damga = time.strftime("%Y%m%d_%H%M%S", time.gmtime())
     # K-183: referans dünyanın kaydı eskisini EZMEZ (`_referans_2026` soneki)
@@ -564,13 +669,20 @@ if __name__ == "__main__":
     print(f"  DUNYA: {DS.secili()}")
     # 🔒 Windows `spawn` korumasi — Pool bu blok disinda acilmaz.
     arg = sys.argv[1:]
-    protokol = "aodv"
+    protokoller = ("aodv",)
     if "--protokol" in arg:
         i = arg.index("--protokol")
-        protokol = arg[i + 1]
+        protokoller = tuple(arg[i + 1].split(","))
         del arg[i:i + 2]
-    if protokol not in PROTOKOLLER:
-        raise SystemExit(f"bilinmeyen protokol: {protokol} — {sorted(PROTOKOLLER)}")
+    for protokol in protokoller:
+        if protokol not in PROTOKOLLER:
+            raise SystemExit(f"bilinmeyen protokol: {protokol} — "
+                             f"{sorted(PROTOKOLLER)}")
+    if len(set(protokoller)) != len(protokoller):
+        raise SystemExit(f"tekrarlanan protokol: {protokoller}")
+    protokol = protokoller[0]
+    if len(protokoller) > 1 and arg and arg[0] in ("u3", "hukum"):
+        raise SystemExit(f"{arg[0]} tek protokolle çalışır")
     if "--desen" in arg:
         i = arg.index("--desen")
         if arg[i + 1] not in DESENLER:
@@ -586,5 +698,5 @@ if __name__ == "__main__":
     if "duman" in arg:
         # ⚠️ UCUZ KESIT — SAYIYI URETMEZ, yalniz aletin kostugunu gosterir.
         raise SystemExit(u1(DUMAN_KOLLARI, DUMAN_TOHUMLARI, isci=4,
-                            pencere=DUMAN_PENCERESI, protokol=protokol))
-    raise SystemExit(u1(protokol=protokol))
+                            pencere=DUMAN_PENCERESI, protokol=protokoller))
+    raise SystemExit(u1(protokol=protokoller))

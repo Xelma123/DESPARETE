@@ -44,7 +44,7 @@
 
 ## 6 · DESPARETE
 
-- Tasarım öğrencinin paketinde (`protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/`, tek okumalık özet `36`); geliştirilmesi ajana bırakıldı, "yapım aşamasında" (öğrenci, 23 ve 25 Eylül).
+- Öğrencinin ilk taslak fikirleri `protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/`de duruyor; bağlayıcı olan bugünkü yapı, o da kodda (`protokoller/desparete*.py`). Geliştirilmesi ajana bırakıldı, "yapım aşamasında" (öğrenci, 23 ve 25 Eylül).
 - **Bugünkü kod hâli v0.4.1:** bayrak profili `PROFIL_V02` (yalın) + `SECENEK_V041` (V1 · V5 · V7 · V8 · V10 · V11 komut geri izi). Sekiz ablasyon bayrağı; güvenlik değişmezleri bayrakla kapanmaz (K-159…K-172).
 - **Komutlar:** DESPARETE yalnız geçit alanı kurar; komut V11 geri iziyle taşınır; trafik herkes için aynıdır (K-160, K-172).
 - **Birincil hücrede ilk ölçüm** (K-200, 4 geliştirme tohumu — ana deney değil): PDR 0,700; AODV 0,556, AOMDV 0,569, OLSR 0,418, kâhin 0,813. Kazancın büyüğü rotasızlığın azalmasından; açık evrede 0,56 — iyileştirilecek yer.
@@ -55,7 +55,7 @@
 - **Metrikler üçlü sunulur:** teslim · gecikme · kontrol yükü; tek metrikle sıralama yok. PDR = ölçüm penceresinde doğan paketlerin teslim oranı. Gecikme ortak alt küme üzerinden. Kontrol yükü bayt ve kanal süresiyle; protokolün veri başlığı dâhil (K-151).
 - **Evre metrikleri (`08`):** şok derinliği · toparlanma tamlığı · toparlanma süresi · tespit gecikmesi. Hata payı kümelenmeye dayanıklı; tespitin boş dağılımı negatif binom (K-196). Boş kol kapısı gerçek protokollerle geçti (G1-P).
 - **Kâhinler:** ETX kâhini (U1 paydası) kesin tavan değildir; üst referans = üç kâhinin tohum başına zarfı (K-110). Kâhin grafiği karıştırıcının açık/sessiz çizelgesini görür (K-195). *Kâhin − protokol = körlüğün bedeli.*
-- **Kayıp anatomisi** (`kalibrasyon/kayip_anatomisi.py`): düşüş sebebi × karıştırıcı bölgesi (alıcıda) × açık/sessiz evre × bağ kalitesi bandı; Faz 5 hedefleri buradan çıkar. ⚠️ Bölge anlık güçle okunuyor, sessiz evrede her düşüş "uzak" — düzeltilecek (K-200).
+- **Kayıp anatomisi** (`kalibrasyon/kayip_anatomisi.py`): düşüş sebebi × karıştırıcı bölgesi (alıcıda) × açık/sessiz evre × bağ kalitesi bandı; Faz 5 hedefleri buradan çıkar. Bölge anlık güçle, ayrıca **etki alanı** (karıştırıcı açık olsaydı alınacak ortalama güç) evre × alan tablolarıyla (K-202).
 - **Çözünürlük:** eşleştirilmiş R = 0,023 (eski dünyada ölçüldü; referans dünyada Faz 6'da yeniden).
 
 ## 8 · Deney tasarımı ve istatistik (`06`)

@@ -43,6 +43,20 @@ düştüğü ana göre `once` (açılmadan önce) · `acik` · `sessiz` diye ayr
 Sessiz evrede PDR'nin temize dönüp dönmediği protokolün çizelgeye zamansal
 uyumudur — birincil hücrenin sınadığı şey (K-192 §4).
 
+🔒 29 Eylül · ETKİ ALANI (Faz 5.0; K-200'ün alet sınırı): yukarıdaki bölge
+ANLIK güçle okunur — sessiz evrede karıştırıcı 0 W yayar ve her düşüş "uzak"
+sayılır; bölge tablosu karıştırıcının etki alanını değil çoğunlukla sessizliği
+gösteriyordu. Etki alanı, karıştırıcı o anda AÇIK olsaydı düğümün alacağı
+ORTALAMA güçtür — yavaş kayıp (yol kaybı + gölgeleme + yer–hava), açık/sessiz
+kapısı ve hızlı sönümleme hariç — ve aynı eşiklerle `ed · girisim · uzak`
+diye ayrılır. Karıştırıcının o anki konumu kullanılır (sessizken taşınan
+araç). Evre × alan üç tabloda: paketlerin teslimi (paketin GEÇİT DIŞI ucunun
+doğumdaki alanı: telemetride kaynak, komutta hedef), veri kararlarının payı
+(seçilen sonraki atlamanın alanı) ve düşüşler (bölgeyle aynı düğüm kuralı).
+Açık evrede `ed` alanındaki PDR ile sessiz evredeki aynı alanın PDR'si,
+karıştırıcının o alandaki etkisini ve protokolün sessizlikte toparlanmasını
+birlikte gösterir.
+
 🔒 K-193 · TOHUM BAŞINA: sonuçlar tohum başına da basılır; tohumlar tek
 çağrıda paralel koşar (eskiden ayrı ayrı koşuluyordu çünkü toplanıyordu).
 
@@ -85,6 +99,22 @@ def _bolge(kur, dugum: int, t_s: float, ed_w: float) -> str:
     if kar is None:
         return "uzak"
     p = kar.alinan_guc_w(dugum, kur.topoloji.konum(dugum, t_s), t_s)
+    if p >= ed_w:
+        return "ed"
+    if p >= kur.kanal.yayilim.gurultu_w:
+        return "girisim"
+    return "uzak"
+
+
+def _etki_alani(kur, dugum: int, t_s: float, ed_w: float) -> str:
+    """Karıştırıcı `t`de AÇIK olsaydı düğümün alacağı ORTALAMA güce göre
+    bölge — yavaş kayıp, kapı ve hızlı sönümleme hariç (29 Eylül)."""
+    kar = kur.kanal.karistirici
+    if kar is None:
+        return "uzak"
+    konum = kur.topoloji.konum(dugum, t_s)
+    p = sum(u.tepe_w / 10.0 ** (u._kayip_db(dugum, konum, t_s) / 10.0)
+            for u in getattr(kar, "uyeler", (kar,)))
     if p >= ed_w:
         return "ed"
     if p >= kur.kanal.yayilim.gurultu_w:
@@ -310,6 +340,17 @@ def _is(is_) -> dict:
                     trafik_deseni="yere_toplama", **ek, **pencere,
                     **_konfig_farklari(farklar))
     kur = kurulum_yap(kfg)
+    # --- karıştırıcının AÇIK / SESSİZ evresi (`derin_sizma`: 15 s · 15 s) --
+    kar = kur.kanal.karistirici
+    acilma = kfg.karistirici_baslangic_s
+    uyeler = getattr(kar, "uyeler", (kar,)) if kar is not None else ()
+
+    def evre_adi(t_s: float) -> str:
+        if kar is None or t_s < acilma:
+            return "once"
+        return ("acik" if any(u.devrede_mi(t_s) for u in uyeler)
+                else "sessiz")
+
     kayit: list[tuple[int, str, float, int | None]] = []
     son_hedef: dict[int, int | None] = {}
     kararlar: Counter = Counter()
@@ -332,7 +373,8 @@ def _is(is_) -> dict:
         karar = asil_karar(self, paket, t_s)
         if karar.sonraki is not None:
             dilim = 0 if donuk else int(t_s / BAG_DILIMI_S)
-            kararlar[(self.kimlik, int(karar.sonraki), dilim)] += 1
+            kararlar[(self.kimlik, int(karar.sonraki), dilim,
+                      evre_adi(t_s))] += 1
         return karar
 
     s13 = {"s13": 0, "geri_alinan": 0, "geri_supurmede": 0,
@@ -387,12 +429,26 @@ def _is(is_) -> dict:
 
     karar_bant: Counter = Counter()
     karar_mesafe: list[tuple[float, int]] = []
-    for (i, j, dilim), n in kararlar.items():
+    ed_w = dbm_to_w(kfg.ed_esigi_dbm)
+    alan_onbellek: dict[tuple[int, int], str] = {}
+
+    def alan(dugum: int, t_s: float) -> str:
+        """Etki alanı, 1 s'lik dilimin ortasında (hareket 1 s'de ≤ 33 m)."""
+        anahtar = (dugum, int(t_s))
+        a = alan_onbellek.get(anahtar)
+        if a is None:
+            a = alan_onbellek[anahtar] = _etki_alani(
+                kur, dugum, int(t_s) + 0.5, ed_w)
+        return a
+
+    karar_alan: Counter = Counter()
+    for (i, j, dilim, evre), n in kararlar.items():
         t_orta = 0.0 if donuk else (dilim + 0.5) * BAG_DILIMI_S
         karar_bant[_bant(p_atlama(i, j, dilim, t_orta))] += n
         karar_mesafe.append((mesafe_km(i, j, t_orta), n))
+        if kar is not None:
+            karar_alan[f"{evre}|{alan(j, t_orta)}"] += n
 
-    ed_w = dbm_to_w(kfg.ed_esigi_dbm)
     isinmada: Counter = Counter()          # ölçüm penceresinden ÖNCE düşen
     for _n, sebep, t, _j in kayit:
         if t < kfg.olcum_penceresi[0]:
@@ -402,7 +458,11 @@ def _is(is_) -> dict:
     basarisiz_mesafe: list[float] = []
     basarisiz_bag: Counter = Counter()
     verici_bolge: Counter = Counter()
+    evre_alan_dusen: Counter = Counter()
     for n, sebep, t, j in kayit:
+        if kar is not None:
+            yer = j if sebep == "iletim_basarisiz" and j is not None else n
+            evre_alan_dusen[f"{sebep}|{evre_adi(t)}|{alan(yer, t)}"] += 1
         if sebep == "iletim_basarisiz" and j is not None:
             tablo[(sebep, _bolge(kur, j, t, ed_w))] += 1
             verici_bolge[_bolge(kur, n, t, ed_w)] += 1
@@ -423,32 +483,33 @@ def _is(is_) -> dict:
                  for n, v in c.most_common(5)]
              for s, c in dugum_dusen.items()}
 
-    # --- karıştırıcının AÇIK / SESSİZ evresi (`derin_sizma`: 15 s · 15 s) --
-    # Düşüş ve paket (DOĞUM anına göre, `pdr_pencere` gibi) evreye ayrılır:
-    # sessiz evrede PDR'nin temize dönüp dönmediği, protokolün çizelgeye
-    # zamansal uyumudur (K-192 §4'ün birincil hücre gerekçesi).
-    kar = kur.kanal.karistirici
-    acilma = kfg.karistirici_baslangic_s
-    uyeler = getattr(kar, "uyeler", (kar,)) if kar is not None else ()
-
-    def evre_adi(t_s: float) -> str:
-        if kar is None or t_s < acilma:
-            return "once"
-        return ("acik" if any(u.devrede_mi(t_s) for u in uyeler)
-                else "sessiz")
-
+    # --- AÇIK / SESSİZ evre: düşüş ve paket (DOĞUM anına göre, `pdr_pencere`
+    # gibi) evreye ayrılır — sessiz evrede PDR'nin temize dönüp dönmediği,
+    # protokolün çizelgeye zamansal uyumudur (K-192 §4).
     evre_dusen: Counter = Counter()
     for _n, sebep, t, _j in kayit:
         evre_dusen[f"{sebep}|{evre_adi(t)}"] += 1
     bas, bitis = kfg.olcum_penceresi
     evre_dogan: Counter = Counter()
     evre_teslim: Counter = Counter()
-    for _k, _kaynak, d in kur.paket_defteri.dogumlar():
+    # Paketin GEÇİT DIŞI ucu: telemetride kaynak, komutta hedef; eşler
+    # arası desende kaynak.
+    uc = {a.kimlik: (a.hedef if a.kaynak == kfg.gecit else a.kaynak)
+          for a in kur.trafik.akislar}
+    paket_alani: dict[int, str] = {}
+    alan_dogan: Counter = Counter()
+    alan_teslim: Counter = Counter()
+    for k, akis, d in kur.paket_defteri.dogumlar():
         if bas <= d < bitis:
             evre_dogan[evre_adi(d)] += 1
+            if kar is not None:
+                paket_alani[k] = f"{evre_adi(d)}|{alan(uc[akis], d)}"
+                alan_dogan[paket_alani[k]] += 1
     for kd in kur.paket_defteri.kayitlar():
         if bas <= kd.dogum_s < bitis:
             evre_teslim[evre_adi(kd.dogum_s)] += 1
+            if kd.kimlik in paket_alani:
+                alan_teslim[paket_alani[kd.kimlik]] += 1
     karistirici_evresi = {
         e: {"dogan": evre_dogan[e], "teslim": evre_teslim[e],
             "pdr": (evre_teslim[e] / evre_dogan[e] if evre_dogan[e]
@@ -460,6 +521,13 @@ def _is(is_) -> dict:
         for k, v in dt.items():
             if isinstance(v, (int, float)) and not isinstance(v, bool):
                 teshis[k] += v
+            elif k.endswith("_sayac") and isinstance(v, (tuple, list)):
+                # DESPARETE: sayaç grupları ad + değer demeti (`teshis`)
+                grup = k[:-len("_sayac")]
+                for ad, deger in zip(dt.get(f"{grup}_adlari") or (), v):
+                    if (isinstance(deger, (int, float))
+                            and not isinstance(deger, bool)):
+                        teshis[f"{grup}.{ad}"] += deger
     m = satir["metrikler"]
     return {"protokol": etiket, "tohum": tohum, "gecerli": kr["gecerli"],
             "pdr": m["pdr"], "pdr_pencere": m["pdr_pencere"],
@@ -488,6 +556,10 @@ def _is(is_) -> dict:
             "olsr_s13": s13 if geri_olsr is not None else None,
             "karistirici_evresi": karistirici_evresi,
             "evre_dusen": dict(evre_dusen),
+            "evre_alan_paket": {a: [alan_dogan[a], alan_teslim[a]]
+                                for a in alan_dogan},
+            "evre_alan_karar": dict(karar_alan),
+            "evre_alan_dusen": dict(evre_alan_dusen),
             "sure_s": round(time.perf_counter() - t0, 1)}
 
 
@@ -513,6 +585,45 @@ def _arg(argv: list[str], ad: str, varsayilan: str) -> str:
         del argv[i:i + 2]
         return deger
     return varsayilan
+
+
+EVRELER = ("once", "acik", "sessiz")
+
+
+def _evre_alan_raporu(rs: list[dict], sebepler: list[str]) -> None:
+    """Evre × etki alanı — tohumlar toplanmış: paket PDR'si (doğan), veri
+    kararlarının alan payı ve düşüşler (üretilene oran)."""
+    paket: Counter = Counter()
+    karar: Counter = Counter()
+    dusen: Counter = Counter()
+    for r in rs:
+        for a, (dogan, teslim) in r["evre_alan_paket"].items():
+            paket[a + "|d"] += dogan
+            paket[a + "|t"] += teslim
+        karar.update(r["evre_alan_karar"])
+        dusen.update(r["evre_alan_dusen"])
+    uretilen = sum(r["uretilen"] for r in rs)
+    print(f"    evre × etki alanı{'':<3}" + "".join(
+        f"{b:>22}" for b in BOLGELER))
+    for e in EVRELER:
+        hucre = []
+        for b in BOLGELER:
+            d, t = paket[f"{e}|{b}|d"], paket[f"{e}|{b}|t"]
+            hucre.append(f"{t / d:.3f} ({d})" if d else "—")
+        print(f"    PDR {e:<16}" + "".join(f"{h:>22}" for h in hucre))
+    for e in EVRELER:
+        toplam = sum(karar[f"{e}|{b}"] for b in BOLGELER)
+        if toplam:
+            print(f"    karar payı {e:<9}" + "".join(
+                f"{karar[f'{e}|{b}'] / toplam:>22.1%}" for b in BOLGELER))
+    print("    düşen/üretilen (ed / girisim / uzak):")
+    for s in sebepler:
+        parca = [f"{e} " + " / ".join(
+                    f"{dusen[f'{s}|{e}|{b}'] / uretilen:.1%}" for b in BOLGELER)
+                 for e in EVRELER
+                 if any(dusen[f"{s}|{e}|{b}"] for b in BOLGELER)]
+        if parca:
+            print(f"      {s:<18}" + " · ".join(parca))
 
 
 def _oranlar(sayac: dict) -> str:
@@ -676,6 +787,8 @@ def main() -> int:
                         "hello_uretilen", "tc_uretilen", "tc_iletilen",
                         "tc_simetriksiz", "hist_kayip_psn",
                         "hist_kayip_sessiz", "erken_tc")))
+        if sinif != "yok":
+            _evre_alan_raporu(rs, sebepler)
         print(f"    {'sebep':<18}" + "".join(f"{b:>10}" for b in BOLGELER)
               + f"{'toplam':>10}{'üretilene':>11}")
         for s in sebepler:
@@ -690,6 +803,9 @@ def main() -> int:
               f"{kuyrukta / uretilen:>10.1%}")
     print("\n  bolge: ed = karistirici >= ED esigi (kanal erisim kilidi) · "
           "girisim = gurultunun ustu · uzak = karistiricidan bagimsiz")
+    print("  etki alani: karistirici o an ACIK olsaydi alinacak ORTALAMA guc "
+          "(yavas kayip; kapi ve hizli sonumleme haric), ayni esikler; paket "
+          "tablosunda paketin gecit disi ucunda, dogum aninda")
     print("  iletim_basarisiz'in bolgesi ALICIDA (denenen sonraki atlama) "
           "okunur; digerleri dustugu dugumde (K-193)")
     print("  bag bandi: kahinin tek deneme basarisindan p_atlama — iyi >= "

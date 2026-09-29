@@ -10,17 +10,17 @@
 | simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu tek süreçte ~1 sa, 8 işçide koşu başına 1–2 sa (K-198, K-200) |
 | taban protokoller | `AODV-f` · `OLSR-c` · `AOMDV-b` — **donmadı**. §13 kapalı kanıtlı, rota tamponu bağlamıyor (K-200); eski kod hâlleriyle koşulmuş U1 bayat |
 | DESPARETE | v0.4.1; birincil hücrede ilk ölçüm PDR 0,700 (AODV 0,556, kâhin 0,813; 4 geliştirme tohumu, K-200) |
-| doğrulama | `941 passed` · mimari denetimi ihlalsiz · regresyon tabanı `k198` · SINANMAMIŞ 41 |
-| arkada koşan | **yok** (29 Eylül) |
+| doğrulama | `941 passed` + 3 yeni alet testi (K-202; tam takım iş kapanışında) · mimari denetimi ihlalsiz · regresyon tabanı `k198` · SINANMAMIŞ 41 |
+| arkada koşan | **U1** — 29 Eylül 18:35'ten, yere toplama (60 koşu) → eşler arası (48 koşu), tahmin ~10–13 sa; dondurulmuş kopya ve beklenti `arsiv/teshis/u1_2026-09-29/`, ilerleme orada `yere_toplama.txt` · `esler_arasi.txt` · `zaman.txt` |
 | takvim | mühür ~12 Kasım · teslim 19 Aralık 2026 |
 
 ### 1.1 · Sıradaki iş — yeni ajan buradan başlar
 
-1. **U1 aracında kâhin paylaşımı** (yazılım, kısa): `kalibrasyon/aodv_uygunluk.py` ETX kâhinini her protokol için ayrıca koşuyor; aynı desende üç protokol aynı kâhin koşusunu görür. Desen başına bir kez koşup paylaştırmak U1 hesabını ~1/3 azaltır (desen başına 72 → 48 koşu). Kayıt biçimi ve `hukum` kipi korunmalı.
-2. **U1 yeni kod hâlleriyle** — referans dünya, yere toplama ve eşler arası, AODV · OLSR · AOMDV (ön-kayıt `06` §4.3–4.4; eşik değişmez, K-192). Dondurulmuş kopyadan: `python -u kalibrasyon/aodv_uygunluk.py --dunya referans_2026 --desen <yere_toplama|esler_arasi> --protokol <p>`. Süre bilinmiyor — önce bir hareketli hücrede kısa profil al; kaba bant desen başına 8–12 sa. Hüküm: U1-U geçmeli; U1-B'de eşik altı hücreler açıklanır (OLSR "açıklanmış, sıralamasız" K-196; statik hücrelerde donuk sönümleme yüzünden tohum varyansı büyük, K-198). → **taban protokoller DONAR** (K kaydı).
+1. ✅ **U1 aracı:** kâhin desen başına bir kez, birden çok protokol tek çağrıda, ara kayıt ve kaldığı yerden sürme (K-202).
+2. 🟡 **U1 yeni kod hâlleriyle — KOŞUYOR** — referans dünya, yere toplama (AODV · OLSR · AOMDV + bilgi amaçlı DESPARETE) ve eşler arası (üç taban protokol); ön-kayıt `06` §4.3–4.4, eşik değişmez (K-192); karar kuralları `arsiv/teshis/u1_2026-09-29/beklenti.md`. Komut: `py -3.11 -u kalibrasyon/aodv_uygunluk.py --dunya referans_2026 --desen <desen> --protokol aodv,olsr,aomdv[,desparete]`; hüküm `… --protokol <p> hukum`. Hüküm: U1-U geçmeli; U1-B'de eşik altı hücreler açıklanır (OLSR "açıklanmış, sıralamasız" K-196; statik hücrelerde donuk sönümleme yüzünden tohum varyansı büyük, K-198). → **taban protokoller DONAR** (K kaydı).
 3. **Faz 4.4** — SINANMAMIŞ 41: referans dünyada duyarlılık taraması (`kalibrasyon/duyarlilik.py`, tabanı düzeltildi; Rician K 6/10/15 dB, `beacon_araligi_s`, `irtifa_maks_m` …); kaynağa bağlanamayan ve duyarlı çıkanlar öğrenciye eksen listesi olarak.
 4. **Faz 4.5** — eski doğrulama listesinin referans dünyada anlamlı kısmını ayıkla ve bir kez koş.
-5. **Faz 5.0 aleti:** kayıp anatomisinde bölge sınıflaması anlık (sessiz evrede her düşüş "uzak") → karıştırıcı açık olsaydı alacağı güçle evre × bölge. Sonra Faz 5 mekanizmaları (§2), hedefler K-200'ün anatomisinden: açık evrede PDR (DESPARETE 0,56), rotasızlık.
+5. **Faz 5:** alet hazır (✅ K-202: evre × etki alanı, DESPARETE'nin iç sayaçları). Önce birincil hücrede tam pencere anatomisi (taban protokoller, kâhin, v0.4.1), sonra mekanizmalar (§2). Hedef K-200 ve K-202'nin ilk okumasından: açık evrede PDR (DESPARETE 0,56) — kayıp, yolu karıştırılan merkezden geçen uzak rölelerde ve DESPARETE'de rotasızlık (ardıl düşünce uygulanabilir yedek yoksa alan onarımda bekliyor).
 6. **Ayrı iş (öğrenci onaylı sıra):** kod yorumlarındaki tarihçe anlatılarını kısaltmak — davranış değişmez, regresyonla doğrulanır.
 
 ## 2 · Fazlar
@@ -44,7 +44,7 @@
 
 | # | mekanizma | ne çözer |
 |---|---|---|
-| 5.0 | **kayıp anatomisi** — birincil hücrede taban protokoller, kâhin, v0.4.1: paket nerede, neden ölüyor (ilk ölçüm K-200; bölge sınıflaması düzeltilecek) | hedefleri ölçümle koyar |
+| 5.0 | **kayıp anatomisi** — birincil hücrede taban protokoller, kâhin, v0.4.1: paket nerede, neden ölüyor (ilk ölçüm K-200; etki alanı ve DESPARETE sayaçları K-202) | hedefleri ölçümle koyar |
 | 5.1 | **karıştırma kanıtı** (taslaktaki C_jam) — komşu başına RSSI × teslim tutarlılığı, kanal doluluğu, PHY hatası; komşununki ilanda, bedeli ödenerek. "Karıştırıcı tespiti" iddiası yok | karıştırılan bağdan kopmadan önce kaçmak |
 | 5.2 | **öngörülü kaçınma** — konum/hızdan bağ ömrü tahmini | hareketle kopan bağı önceden bırakmak |
 | 5.3 | **kanıta dayalı postür** — CAUTION/PROTECT kanıtla, histerezisle; yanlış kriz oranı ölçülür | savunma modunun doğru anda açılması |
