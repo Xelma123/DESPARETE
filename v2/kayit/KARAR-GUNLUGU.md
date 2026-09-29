@@ -130,8 +130,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-197 | 🟡 YAZILIM KALEMLERİ — kayıp anatomisinde açık/sessiz evre · karıştırıcı geçişleri yapısa | 🟢 geçerli |
 | K-198 | 🟢 SÖNÜMLEME BLOK ÜRETECİ (birincil hücre ~3,8 kat hızlı, istatistik aynı) · rota tamponu | 🟢 geçerli |
 | K-199 | 🟢 BELGE TEMİZLİĞİ — her bilgi tek yerde · kurallar sadeleşti · git okuma serbest · yeni  | 🟢 geçerli |
+| K-200 | 🟢 BİRİNCİL HÜCRE PARTİSİ — OLSR §13 kapalı kalır (karıştırma altında da kanıtlı) · rota  | 🟢 geçerli |
 
-**110 kayıt · 1 revize · 109 geçerli**
+**111 kayıt · 1 revize · 110 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1418,3 +1419,13 @@ AODV'de susan düğüm kuyruk taşması 451 → 0 ✓, ama rota tamponu taşmas�
 - **Boyut:** etkin belgeler ~382 KB → ~156 KB; bellek ~22 → ~6 KB; başlarken okunan üç belge (giriş, durum, kararlar) ~25 KB.
 - Hiçbir şey kalıcı silinmedi: bütün önceki hâller `arsiv/*-2026-09-28-temizlik*`, `v2/arsiv/*-2026-09-28-temizlik*`, bellek `arsiv/bellek-2026-09-28-temizlik/`. İndeks araçları yeni günlük yoluna yönlendirildi. Kod değişmedi.
 **Sonraki (öğrenci onaylı sıra):** kod yorumlarındaki tarihçe anlatıları ayrı iş. Öğrenciye: git'te izlenen 154 `.pyc` dosyası çıkarılırsa `PYTHONDONTWRITEBYTECODE` kuralı da kalkar.
+# K-200 · 🟢 BİRİNCİL HÜCRE PARTİSİ — OLSR §13 kapalı kalır (karıştırma altında da kanıtlı) · rota tamponu bağlamıyor · ilk anatomi: DESPARETE v0.4.1 temel protokollerin önünde
+> 29 Eylül · ajan (öğrenci onayı: "her şey için onay", 28 Eylül) · kurallar ölçmeden önce `arsiv/teshis/birincil_2026-09-28/beklenti.md` · sonuç `sonuc.md`, tablolar `python arsiv/teshis/birincil_2026-09-28/ozet.py`
+
+Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · sürekli`, 10 W), tam pencere, tohum 1003–1006, 32/32 koşu, 7,1 sa (8 işçi, dondurulmuş kopya `8f099aa1…`).
+- **§13 (kural 1):** PDR(OLSR-c) − PDR(OLSR-b) = +0,049 · +0,059 · +0,037 · +0,064, ort +0,052 > R, 4/4 → **OLSR-c kalır, kanıtlı.** K-196'nın açık maddesi kapandı; regresyonun eski dünya vakasındaki ters işaret yanıltıcıydı.
+- **Rota tamponu (kural 2):** 256 paket ve 60 s kolları temel AODV ile tüm koşu PDR'si ve düşüş tablosu BİREBİR (4/4) → birincil hücrede tampon bağlamıyor, sonuç duyarsız; ns-3 değerleri kalır.
+- **Anatomi:** PDR (pencere) DESPARETE 0,700 · AOMDV 0,569 · AODV 0,556 · OLSR 0,418 · kâhin 0,813. DESPARETE − AODV eşli +0,158 · +0,045 · +0,152 · +0,219 (geliştirme tohumları; δ ölçülmedi, ana deney değil). Temel protokollerin kâhinden farkının büyüğü rotasızlık (`rota_gecersiz` AODV %24, OLSR %44; DESPARETE %11); iletim başarısızlığı herkeste ~%17–19. Doğuma göre PDR açık evrede herkeste düşüyor (kâhin 0,86 → 0,73, DESPARETE 0,78 → 0,56); sessiz evrede AODV ve DESPARETE "önce" düzeyine tam dönmüyor. AODV'nin başarısız bağlarının %45'i kâhine göre orta/kötü (en az atlamanın bedeli).
+- **Alet sınırı (yeni iş):** bölge sınıflaması anlık — sessiz evrede her düşüş "uzak" sayılıyor, bölge tablosu karıştırıcının etki alanını göstermiyor. Faz 5.0'da evre × bölge (karıştırıcı açık olsaydı alacağı güç) sınıflaması.
+- **Evre metrikleri** periyodik karıştırıcıda anlamını yitiriyor (tek basamak varsayımı) — Faz 6'da çizelgeli karıştırıcı için evre tanımı.
+**Sıradaki:** U1 yeni kod hâlleriyle (yere toplama + eşler arası) → taban protokoller donar (`v2/12`).

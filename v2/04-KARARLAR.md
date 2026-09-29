@@ -1,7 +1,7 @@
 # 04 · GEÇERLİ KARARLAR
 
 > Bugün geçerli olan her karar burada, konu konu. Yazılı değilse verilmemiştir. Bir kararın nasıl ve neden verildiği, kodda geçen `K-xxx` atıfları ve eski dünyanın (1:50) kararları: `kayit/KARAR-GUNLUGU.md`. Kod ile bu belge çelişirse hangisinin yanlış olduğu ölçülerek bulunur.
-> Güncel: 28 Eylül 2026.
+> Güncel: 29 Eylül 2026.
 
 ## 1 · Proje ve kapsam
 
@@ -29,7 +29,7 @@
 ## 4 · Protokolün gördüğü ve yapabildiği
 
 - **Gözlem sözleşmesi (`05`):** protokol yalnız gerçek bir telsizin ve otopilotun verebileceğini görür — RSSI, gürültü, kanal doluluğu, PHY hatası, kulak misafiri çerçeveler, kendi konum/hız; karıştırıcıyı, gerçek bağ kalitesini ve topolojiyi göremez. Yüzey 29 alan; sızıntı testle kapalı.
-- **Kontrol düzlemi (`13`):** protokol çağırmaz, niyet döndürür; her kontrol baytı kanalda ödenir; unicast sonucu ve iletim başarısızlığı kancalarla bildirilir; bekleme tamponu simülatörde (64 paket · 30 s, taşmada en eski düşer — ns-3 AODV ile aynı, K-198).
+- **Kontrol düzlemi (`13`):** protokol çağırmaz, niyet döndürür; her kontrol baytı kanalda ödenir; unicast sonucu ve iletim başarısızlığı kancalarla bildirilir; bekleme tamponu simülatörde (64 paket · 30 s, taşmada en eski düşer — ns-3 AODV ile aynı, K-198; birincil hücrede bağlamıyor: 256 paket ve 60 s birebir aynı sonuç, K-200).
 - **Kâhin bilgisi hiçbir protokol kararına girmez.** Kâhinler yalnız ölçüm aleti ve referanstır.
 
 ## 5 · Taban protokoller — kod hâlleri `AODV-f` · `OLSR-c` · `AOMDV-b`
@@ -37,16 +37,17 @@
 - Kaynağına sadık, parametreler RFC varsayılanı, hiçbiri senaryoya göre ayarlanmaz; her protokol kendi HELLO'sunu kullanır, HELLO aralıkları eşitlenmez (`06` §4.2).
 - **Kural:** SHOULD uygulanır, MAY beyan edilir (öğrenci, 19 Eylül). Sapmalar her protokolün biçim dosyasında gerekçesiyle (`protokoller/*_bicim.py`, `aomdv.py`).
 - **AODV (RFC 3561):** yerel onarım (§6.12) yok, beyanlı · §6.8 kara liste var, tetiği RREP'in bağ katmanı onayının gelmemesi (K-194).
-- **OLSR (RFC 3626):** §14 histerezis var · §13 bağ katmanı bildirimi varsayılan KAPALI (K-196; referans dünyada karıştırıcısız kolda zarar veriyordu). ⚠️ Karıştırma altında sınanmadı — birincil hücrede §13 açık/kapalı eşli karşılaştırma koşuyor; iyi olan taban olur (`arsiv/teshis/birincil_2026-09-28/beklenti.md`).
+- **OLSR (RFC 3626):** §14 histerezis var · §13 bağ katmanı bildirimi KAPALI (K-196): karıştırıcısız kolda ve birincil hücrede (karıştırma altında) zarar veriyor — kapalı sürüm 4/4 tohumda ort +0,052 iyi (K-200). `OLSR(i, s13=True)` eski `OLSR-b`.
 - **AOMDV:** Marina–Das 2001 + RFC 3561; AODV'nin alt sınıfı, kara listeyi miras alır (K-148, K-149, K-194).
 - **U1 (kabul, K-136/K-137/K-192):** oran = PDR(protokol) / PDR(ETX kâhini), aynı konfig, tüm koşu PDR'si; statik ≥ 0,90 · hareketli ≥ 0,60, referans dünyada da değişmez. **U1-U** uygunluk kapısı (keşif, çok atlamalı teslim, korunum, kâhin aşılmıyor) — kalırsa protokol kabul edilmez. **U1-B** başarım bulgusu — eşik altı hücre ölçümle açıklanır: kusur izleri dışlanır ve mekanizma hücreleri sıralar. OLSR'ın düşük hücreleri "açıklanmış, sıralamasız" (öğrenci onayı, K-196). **Kâhin aşımı** otomatik ret değil: çözünürlükten fazla aşarsa üç kâhinin zarfına bakılır; zarfı da aşıyorsa yazılım hatası aranır (K-192).
-- **Durum:** taban protokoller henüz DONMADI — birincil hücre partisi ve yeni kod hâlleriyle U1'den sonra donar (`12`).
+- **Durum:** taban protokoller henüz DONMADI — yeni kod hâlleriyle U1 (yere toplama + eşler arası) koşulup U1-B okunduktan sonra donar (`12`).
 
 ## 6 · DESPARETE
 
 - Tasarım öğrencinin paketinde (`protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/`, tek okumalık özet `36`); geliştirilmesi ajana bırakıldı, "yapım aşamasında" (öğrenci, 23 ve 25 Eylül).
 - **Bugünkü kod hâli v0.4.1:** bayrak profili `PROFIL_V02` (yalın) + `SECENEK_V041` (V1 · V5 · V7 · V8 · V10 · V11 komut geri izi). Sekiz ablasyon bayrağı; güvenlik değişmezleri bayrakla kapanmaz (K-159…K-172).
 - **Komutlar:** DESPARETE yalnız geçit alanı kurar; komut V11 geri iziyle taşınır; trafik herkes için aynıdır (K-160, K-172).
+- **Birincil hücrede ilk ölçüm** (K-200, 4 geliştirme tohumu — ana deney değil): PDR 0,700; AODV 0,556, AOMDV 0,569, OLSR 0,418, kâhin 0,813. Kazancın büyüğü rotasızlığın azalmasından; açık evrede 0,56 — iyileştirilecek yer.
 - **Eksikler — Faz 5'in konusu:** karıştırmaya özgü kanıt (C_jam) · öngörülü kaçınma · kanıta dayalı postür · PROTECT'in çok yolu ve çoğaltması · pasif dinleme (`12` Faz 5).
 
 ## 7 · Ölçüm
@@ -54,7 +55,7 @@
 - **Metrikler üçlü sunulur:** teslim · gecikme · kontrol yükü; tek metrikle sıralama yok. PDR = ölçüm penceresinde doğan paketlerin teslim oranı. Gecikme ortak alt küme üzerinden. Kontrol yükü bayt ve kanal süresiyle; protokolün veri başlığı dâhil (K-151).
 - **Evre metrikleri (`08`):** şok derinliği · toparlanma tamlığı · toparlanma süresi · tespit gecikmesi. Hata payı kümelenmeye dayanıklı; tespitin boş dağılımı negatif binom (K-196). Boş kol kapısı gerçek protokollerle geçti (G1-P).
 - **Kâhinler:** ETX kâhini (U1 paydası) kesin tavan değildir; üst referans = üç kâhinin tohum başına zarfı (K-110). Kâhin grafiği karıştırıcının açık/sessiz çizelgesini görür (K-195). *Kâhin − protokol = körlüğün bedeli.*
-- **Kayıp anatomisi** (`kalibrasyon/kayip_anatomisi.py`): düşüş sebebi × karıştırıcı bölgesi (alıcıda) × açık/sessiz evre × bağ kalitesi bandı; Faz 5 hedefleri buradan çıkar.
+- **Kayıp anatomisi** (`kalibrasyon/kayip_anatomisi.py`): düşüş sebebi × karıştırıcı bölgesi (alıcıda) × açık/sessiz evre × bağ kalitesi bandı; Faz 5 hedefleri buradan çıkar. ⚠️ Bölge anlık güçle okunuyor, sessiz evrede her düşüş "uzak" — düzeltilecek (K-200).
 - **Çözünürlük:** eşleştirilmiş R = 0,023 (eski dünyada ölçüldü; referans dünyada Faz 6'da yeniden).
 
 ## 8 · Deney tasarımı ve istatistik (`06`)
@@ -76,8 +77,7 @@
 
 | konu | kimde | ne zaman |
 |---|---|---|
-| OLSR §13 karıştırma altında (açık/kapalı) | ölçümde — birincil hücre partisi, kural önceden yazılı | Faz 4.3 |
-| rota tamponu duyarlılığı (64↔256, 30↔60 s) | ölçümde, aynı parti | Faz 4.3 |
 | KR-2 · birincil metrikte komutlar (öneri: birincil telemetri, bütün trafik ikincil) | öğrenci | Faz 6 |
 | KR-D · Faz 5 mekanizmalarının tasarım paketine yansıması | öğrenci | Faz 5 |
+| çizelgeli (periyodik) karıştırıcıda evre metriklerinin tanımı | ajan önerir, öğrenci onaylar | Faz 6 |
 | SINANMAMIŞ 41 parametre: kaynağa bağla, duyarlılıkla ölç ya da eksen ilan et | ajan, öğrenciye eksen listesi | Faz 4.4 |
