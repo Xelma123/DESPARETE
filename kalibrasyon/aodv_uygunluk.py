@@ -243,6 +243,37 @@ ACIKLANMIS_DUSUK: dict[str, dict[tuple[str, int], str]] = {"aodv": {
         "desen (%72 / %25) ve daha dusuk. K-149",
 }}
 
+# 🔒 REFERANS DÜNYANIN AÇIKLANMIŞ HÜCRELERİ — eski dünyanınkiler burada
+# geçmez (K-188). Anahtar (desen, kol, tohum): aynı hücre iki desende başka
+# ağdır. Girme şartı aynı: ölçülmüş mekanizma, dışlanmış kusur izleri
+# (K-192 c). OLSR K-196'ya atıfla girer ("açıklanmış, sıralamasız";
+# mekanizma yere toplamada ölçüldü, K-193). Eşler arası keşifseldir: oradaki
+# düşük hücre açıklanmamış BULGU kalır, donmayı durdurmaz.
+_OLSR_K196 = ("OLSR-c · aciklanmis, siralamasiz (K-196): gecide rotanin "
+              "aralikli bosalmasi, gecici donguler (K-193); kusur adaylari "
+              "elendi. U1 30 Eylul 2026")
+ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
+    "aodv": {}, "aomdv": {}, "desparete": {},
+    "olsr": {("yere_toplama", kol, t): _OLSR_K196 for kol, t in (
+        ("statik-yok", 1000), ("statik-yok", 1001), ("statik-yok", 1002),
+        ("bagimsiz-yok", 1000), ("gorev-yok", 1000), ("gorev-yok", 1002),
+        ("formasyon-yok", 1000), ("formasyon-yok", 1002))},
+}
+
+# 🔒 K-192 (b) · KÂHİN AŞIMI OTOMATİK RET DEĞİL, PROSEDÜR: aşım çözünürlükten
+# büyükse (ya da R geçerli ölçülemiyorsa) aynı hücrede üç kâhinin zarfına
+# bakılır; protokol zarfın İÇİNDEYSE "ETX kâhini bu hücrede üst sınır değil"
+# beyan edilir ve kayıt buraya girer. Zarfı da aşan hücre kayda giremez —
+# yazılım hatası aranır. Anahtar (desen, kol, tohum); ölü kayıt taraması aynı.
+KAHIN_ASIMI_ACIKLANMIS: dict[str, dict[tuple[str, str, int], str]] = {
+    "aodv": {}, "olsr": {}, "desparete": {},
+    "aomdv": {("esler_arasi", "formasyon-yok", 1000):
+              "AOMDV 0,9777 · ETX kahini 0,9762 · zarf 0,9986 (en olasi "
+              "teslim kahini; en kisa yol 0,8861). R referans dunyada "
+              "gecerli olculemedi (taban etkisi). K-192 b · K-206, "
+              "`arsiv/teshis/faz4_4_2026-09-30/aomdv_zarf.py`"},
+}
+
 DUMAN_KOLLARI: tuple[str, ...] = ("statik-yok",)
 DUMAN_TOHUMLARI: tuple[int, ...] = (1000,)
 # 🔴 DUMAN KESİTİ SAYIYI ÜRETMEZ — ve bunun sebebi ölçüldü: tam pencerede
@@ -437,7 +468,7 @@ def u1(kollar=KOLLAR, tohumlar=TOHUMLAR, isci: int = 8,
         if not pencere:
             _kaydet(sonuc, p)
         cikis |= _degerlendir(sonuc, kollar, tohumlar, sabit, sure_s,
-                              len(sonuc), p)
+                              len(sonuc), p, desenler[p])
         print()
     return cikis
 
@@ -502,6 +533,7 @@ def _kaydet(sonuc: dict, protokol: str) -> None:
                  "olcum": olcum, "hata": hata}
                 for (kol, t, kahin, _s), (olcum, hata) in sonuc.items()]
     metin = json.dumps({"kaynak": "tam kosum", "protokol": protokol,
+                        "desen": _desen_adi(protokol),
                         "kahin": "desen basina ortak kosu",
                         "hucreler": satirlar}, ensure_ascii=False, indent=1)
     damga = time.strftime("%Y%m%d_%H%M%S", time.gmtime())
@@ -531,11 +563,15 @@ def hukum(yol: Path | None = None, protokol: str = "aodv") -> int:
     veri = json.loads(Path(yol).read_text(encoding="utf-8"))
     # Kayıt kendi protokolünü söyler; eski kayıtlar (alan yok) AODV'dir.
     protokol = veri.get("protokol", "aodv")
+    # Desen: kayıt söylüyorsa o; 30 Eylül öncesi kayıtlar adından.
+    desen = veri.get("desen") or next(
+        (d for d in DESENLER if f"_{d}_" in Path(yol).name), None)
     print("=" * 78)
     print("U1 — HUKUM KIPI  (olcmez, kayitli olcume bugunku kodu uygular)")
     print("=" * 78)
     print(f"  kayit  : {yol}")
     print(f"  protokol: {protokol}")
+    print(f"  desen  : {desen}")
     print(f"  kaynak : {veri.get('kaynak')}")
     sonuc = {}
     kollar: list[str] = []
@@ -550,23 +586,26 @@ def hukum(yol: Path | None = None, protokol: str = "aodv") -> int:
           f"hareketli oran >= {U1_ESIK_HAREKETLI:.2f}")
     print()
     return _degerlendir(sonuc, tuple(kollar), tuple(tohumlar), (),
-                        0.0, len(sonuc), protokol)
+                        0.0, len(sonuc), protokol, desen)
 
 
 def _degerlendir(sonuc: dict, kollar, tohumlar, sabit, sure_s: float,
-                 n_gorev: int, protokol: str = "aodv") -> int:
+                 n_gorev: int, protokol: str = "aodv",
+                 desen: str | None = None) -> int:
     """🔒 Hükmün TEK gerçeklemesi — tam koşum da `hukum` kipi de buradan geçer."""
-    # 🔴 K-188: açıklamalar ESKİ DÜNYANIN hücreleridir (K-137, K-149) — başka
-    # bir dünyada o (kol, tohum) çiftinin ne olduğu bilinmez. Referans
-    # dünyada açıklanmış hücre YOKTUR; her düşük hücre yeniden ölçülerek
-    # açıklanır.
-    aciklanmis = {} if DS.referans_mi() else ACIKLANMIS_DUSUK[protokol]
+    # 🔴 K-188: `ACIKLANMIS_DUSUK` ESKİ DÜNYANIN hücreleridir (K-137, K-149);
+    # referans dünyada yalnız kendi listesi, o desenin hücreleri geçerlidir.
+    aciklanmis = ({(k, t): g for (d, k, t), g
+                   in ACIKLANMIS_DUSUK_REFERANS[protokol].items()
+                   if d == desen}
+                  if DS.referans_mi() else ACIKLANMIS_DUSUK[protokol])
     print(f"  {'kol':<16}{'tohum':>6}{protokol.upper():>9}{'ETX kahin':>11}"
           f"{'oran':>8}{'esik':>7}{'karar':>18}")
     uygunluk = True            # U1-U — kalirsa protokol KABUL EDILMEZ
     basarim_temiz = True       # U1-B — aciklanmamis dusuk ya da olu kayit
     olculen_dusuk: set = set()
     kol_oranlari: dict[str, list[float]] = {}
+    hucre_oranlari: dict[tuple[str, int], float] = {}
     for kol in kollar:
         esik = (U1_ESIK_STATIK if kol.startswith("statik-")
                 else U1_ESIK_HAREKETLI)
@@ -590,6 +629,7 @@ def _degerlendir(sonuc: dict, kollar, tohumlar, sabit, sure_s: float,
                 continue
             oran = a["pdr"] / k["pdr"]
             kol_oranlari.setdefault(kol, []).append(oran)
+            hucre_oranlari[(kol, t)] = oran
             if oran >= esik:
                 karar = "GECTI"
             elif (kol, t) in aciklanmis:
@@ -632,8 +672,23 @@ def _degerlendir(sonuc: dict, kollar, tohumlar, sabit, sure_s: float,
     # ⚠️ KAHINI GECMEK DE BIR HATADIR: kahin her seyi bilir. Asiliyorsa
     # kahin bilgisi protokole sizmis demektir ve bu bir KAZANC degil, bir
     # kacaktir. Kapinin ikinci yarisi budur.
-    asan = [(kol, o) for kol, oranlar in kol_oranlari.items()
-            for o in oranlar if o > 1.0]
+    asan_tum = [(kol, t, o) for (kol, t), o in hucre_oranlari.items()
+                if o > 1.0]
+    zarfli = {(k, t) for (d, k, t) in (
+        KAHIN_ASIMI_ACIKLANMIS.get(protokol, {}) if DS.referans_mi() else {})
+        if d == desen}
+    for kol, t, o in asan_tum:
+        if (kol, t) in zarfli:
+            print(f"  🟡 [U1-U] kahin asimi ZARF ICINDE (K-192 b): {kol}/{t} "
+                  f"oran = {o:.3f} — ETX kahini bu hucrede ust sinir degil")
+    asan = [(kol, o) for kol, t, o in asan_tum if (kol, t) not in zarfli]
+    # Ölü kayıt: bu koşumda ölçülen ama artık aşmayan hücre (D12 emsali).
+    olu_zarf = sorted((zarfli & set(hucre_oranlari))
+                      - {(k, t) for k, t, _ in asan_tum})
+    if olu_zarf:
+        print("  🔴 [U1-U] OLU ZARF KAYDI — artik asim yok, kayit silinmeli: "
+              f"{olu_zarf}")
+        uygunluk = False
     if asan:
         print(f"  🔴 [U1-U] {protokol.upper()} KAHINI GECTI — kahin bilgisi "
               f"sizmis olabilir:")

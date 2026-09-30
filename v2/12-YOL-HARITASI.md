@@ -1,6 +1,6 @@
 # 12 · DURUM VE YOL HARİTASI
 
-> Projenin durumu ve planı YALNIZ burada tutulur; başka belgeler buraya atıf verir. Güncel: 29 Eylül 2026. Onaylı plan Faz 0–7 (öğrenci, 25 Eylül, K-168). Kararlar `04`, tarihçe `kayit/KARAR-GUNLUGU.md`.
+> Projenin durumu ve planı YALNIZ burada tutulur; başka belgeler buraya atıf verir. Güncel: 30 Eylül 2026. Onaylı plan Faz 0–7 (öğrenci, 25 Eylül, K-168). Kararlar `04`, tarihçe `kayit/KARAR-GUNLUGU.md`.
 
 ## 1 · Nerede duruyoruz
 
@@ -8,10 +8,10 @@
 |---|---|
 | **faz** | **4 · yeniden kalibrasyon ve doğrulama → KAPANIŞ** — 4.1 ✅ · 4.2 ✅ · 4.3'te yalnız U1 kaldı · 4.4–4.5 sırada · ardından kapanış denetimi (§1.1). Planın takviminden ~2 hafta önde |
 | simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu tek süreçte ~1 sa, 8 işçide koşu başına 1–2 sa (K-198, K-200) |
-| taban protokoller | `AODV-f` · `OLSR-c` · `AOMDV-b` — **donmadı**. §13 kapalı kanıtlı, rota tamponu bağlamıyor (K-200); eski kod hâlleriyle koşulmuş U1 bayat |
+| taban protokoller | `AODV-g` · `OLSR-c` · `AOMDV-b` — **donmadı**. U1 (K-205): OLSR ve AOMDV yere toplamada temiz · AODV'de döngü kusuru bulundu ve RFC'ye göre düzeltildi (`AODV-g`), U1 yeniden koşuyor · AOMDV eşler arası kâhin aşımı çözünürlük (R) bekliyor |
 | DESPARETE | v0.4.1; birincil hücrede ilk ölçüm PDR 0,700 (AODV 0,556, kâhin 0,813; 4 geliştirme tohumu, K-200) |
-| doğrulama | `941 passed` + 3 yeni alet testi (K-202; tam takım iş kapanışında) · mimari denetimi ihlalsiz · regresyon tabanı `k198` · SINANMAMIŞ 41 |
-| arkada koşan | **U1** — 29 Eylül 18:35'ten, yere toplama (60 koşu) → eşler arası (48 koşu), tahmin ~15–16 sa (hareketli koşu AODV ~90 dk · OLSR ~70 dk; K-198 hızlanması burada ~2 kat, birincil hücredeki 3,8 değil) → yere toplama ~04:30, eşler arası ~30 Eylül 10:00; dondurulmuş kopya ve beklenti `arsiv/teshis/u1_2026-09-29/`, ilerleme orada `yere_toplama.txt` · `esler_arasi.txt` · `zaman.txt`. |
+| doğrulama | `952 passed` (30 Eylül 13:28) · mimari denetimi ihlalsiz · regresyon tabanı **`k203`** (k198 → k203 birebir, K-206) · SINANMAMIŞ 25 · duyarlılık borcu 0 (10 keşifsel kol tanımı kapsam ilanı, K-204) |
+| arkada koşan | yok |
 | takvim | mühür ~12 Kasım · teslim 19 Aralık 2026 |
 
 ### 1.1 · Sıradaki iş — Faz 4 kapanışı (yeni ajan buradan başlar)
@@ -19,10 +19,10 @@
 > **Kural (öğrenci, 29 Eylül):** Faz 5'e geride iş kalmadan, yazılım ve yapı denetiminden geçmiş bir simülatörle ve güncel, arınmış belgelerle geçilir. Faz 5'le paralel iş yok.
 
 1. ✅ **U1 aracı:** kâhin desen başına bir kez, birden çok protokol tek çağrıda, ara kayıt ve kaldığı yerden sürme (K-202).
-2. 🟡 **U1 yeni kod hâlleriyle — KOŞUYOR** — referans dünya, yere toplama (AODV · OLSR · AOMDV + bilgi amaçlı DESPARETE) ve eşler arası (üç taban protokol); ön-kayıt `06` §4.3–4.4, eşik değişmez (K-192); karar kuralları `arsiv/teshis/u1_2026-09-29/beklenti.md`. Komut: `py -3.11 -u kalibrasyon/aodv_uygunluk.py --dunya referans_2026 --desen <desen> --protokol aodv,olsr,aomdv[,desparete]`; hüküm `… --protokol <p> hukum`. Hüküm: U1-U geçmeli; U1-B'de eşik altı hücreler ölçümle açıklanır (anatomi `--sinif yok`; OLSR "açıklanmış, sıralamasız" K-196; statik hücrelerde donuk sönümleme yüzünden tohum varyansı büyük, K-198). → **taban protokoller DONAR** (K kaydı).
-3. **Faz 4.4** — ✅ köken defteri referans dünyaya göre yeniden yazıldı (K-203: kaynaklar indirildi, DÜNYA TANIMI kovası, eski dünya aletleri arşivde). Kalan: **SINANMAMIŞ 25 + borç 10** — referans dünyada duyarlılık taraması (önce referans R; liste ve plan her kaydın gerekçesinde; maliyet önce hesaplanır) → duyarlı çıkanlar öğrenciye eksen listesi. Ayrıntı `arsiv/teshis/faz4_kapanis_2026-09-30/`.
+2. 🟡 **U1 — öğrenci kararı bekliyor** (K-205, K-206): U1-U üç taban protokolde iki desende de ✅ (AOMDV'nin eşler arası kâhin aşımı üç kâhinin zarfında, K-192 b). U1-B yere toplamada: OLSR ✅ (8 hücre K-196 atfıyla) · AOMDV ✅ · AODV'de döngü kusuru bulundu ve RFC'ye göre düzeltildi (`AODV-g`), yeniden koşuldu: 3 hücre eşik altı (statik 1000 0,891 · 1002 0,867 · bağımsız 1000 0,598), ön-kayıtlı değişkenle açıklanamıyor. **Öğrenciye:** bu hücrelerle donma ve U1-B koşul 1'in okuması. Onaydan sonra → **taban protokoller DONAR** (`AODV-g` · `OLSR-c` · `AOMDV-b`, K kaydı). Ayrıntı `arsiv/teshis/u1_2026-09-29/`, `u1_aodv_g_2026-09-30/`.
+3. **Faz 4.4** — ✅ köken defteri referans dünyaya göre yeniden yazıldı (K-203: kaynaklar indirildi, DÜNYA TANIMI kovası, eski dünya aletleri arşivde). Duyarlılık borcu kapandı: 10 keşifsel kol tanımı ölçülmeden **kapsam ilanı** (K-204; birincil hücrenin kod yoluna girmiyorlar). Kalan: **SINANMAMIŞ 25** — referans dünyada duyarlılık taraması. ⚠️ Plan düzeltilecek (K-206): eski çekirdek hücre (statik-sürekli) referans dünyada tabana yapışık (kâhin PDR 0,029), orada ölçülen R (0,0086) ve taramalar geçersiz → R ve taramalar **birincil hücrede**, maliyet önce hesaplanır (önce referans R; liste ve plan her kaydın gerekçesinde; maliyet önce hesaplanır) → duyarlı çıkanlar öğrenciye eksen listesi. Ayrıntı `arsiv/teshis/faz4_kapanis_2026-09-30/`.
 4. **Faz 4.5** — eski doğrulama listesinin referans dünyada anlamlı kısmını ayıkla ve bir kez koş.
-5. **Yazılım ve yapı denetimi:** simülatör projenin kapsamına yetiyor mu — ön-kayıdın ve hipotezlerin ölçmek istediği her şey referans dünyada ölçülebiliyor mu (bilinen boşluk: çizelgeli karıştırıcıda evre metriklerinin tanımı); kod: ölü kod, eski dünyaya bağlı aletler, bayat yorum ve adlar (`iletim_menzili_m`); tam takım + regresyon (yeni taban) + mimari denetimi.
+5. **Yazılım ve yapı denetimi:** simülatör projenin kapsamına yetiyor mu — ön-kayıdın ve hipotezlerin ölçmek istediği her şey referans dünyada ölçülebiliyor mu (çizelgeli karıştırıcıda evre metrikleri: v1 eldeki veriyle sınanıp geri çekildi, **v2 öğrenci onayında** — `arsiv/teshis/faz4_kapanis_2026-09-30/evre_cizelgeli_oneri.md`); kod: ölü kod, eski dünyaya bağlı aletler, bayat yorum ve adlar (`iletim_menzili_m`); tam takım + regresyon (yeni taban) + mimari denetimi.
 6. **Dosya ve belge temizliği:** bağlam zehirlenmesi yaratacak bayat anlatılar arşive; kod yorumlarındaki tarihçe anlatıları kısaltılır (davranış aynı, regresyonla); belgeler tek kaynak ve güncel; devir istemi.
 7. **Faz 4 kapanış kaydı** (K) → Faz 5.
 
@@ -42,7 +42,7 @@ Faz 5.0'ın aleti hazır (K-202 ve 29 Eylül gecesi eki: onarım bölümleri, `r
 | 4.1 | çalışma noktası: alan 33 km, N 40, karıştırıcı rejimi ve birincil hücre, görev yarıçapı 16 km | ✅ K-185…K-188 |
 | 4.2 | doğrulama: Li (sabit hızda tuttu), Bianchi, PER eğrileri, kâhin tavanı | ✅ K-187 |
 | 4.3 | taban protokoller: kara liste ✅ · AOMDV U1–U4 ✅ · evre metriklerinin boş kol kapısı ✅ · OLSR teşhisi ✅ · birincil hücrede §13 (kapalı kalır) ve rota tamponu (bağlamıyor) ✅ K-200 → **U1 yeni kod hâlleriyle** (yere toplama + eşler arası) → **taban protokoller DONAR** | 🟡 |
-| 4.4 | köken defteri referans dünyaya göre ✅ (K-203) · SINANMAMIŞ 25 + borç 10: referans dünyada duyarlılıkla ölç ya da eksen ilan et 🟦 | 🟡 |
+| 4.4 | köken defteri referans dünyaya göre ✅ (K-203) · borç 0, 10 keşifsel kol tanımı kapsam ilanı ✅ (K-204) · SINANMAMIŞ 25: referans dünyada duyarlılıkla ölç ya da eksen ilan et 🟦 | 🟡 |
 | 4.5 | doğrulama listesinin referans dünyada anlamlı kısmı bir kez (`DEVIR-PROMPT.md` §5) · iş başına süre (bütçe) | ⏳ |
 
 ### Faz 5 · DESPARETE — karıştırmayı gerçekten çözen protokol ⏳

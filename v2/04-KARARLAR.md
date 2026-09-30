@@ -32,15 +32,15 @@
 - **Kontrol düzlemi (`13`):** protokol çağırmaz, niyet döndürür; her kontrol baytı kanalda ödenir; unicast sonucu ve iletim başarısızlığı kancalarla bildirilir; bekleme tamponu simülatörde (64 paket · 30 s, taşmada en eski düşer — ns-3 AODV ile aynı, K-198; birincil hücrede bağlamıyor: 256 paket ve 60 s birebir aynı sonuç, K-200).
 - **Kâhin bilgisi hiçbir protokol kararına girmez.** Kâhinler yalnız ölçüm aleti ve referanstır.
 
-## 5 · Taban protokoller — kod hâlleri `AODV-f` · `OLSR-c` · `AOMDV-b`
+## 5 · Taban protokoller — kod hâlleri `AODV-g` · `OLSR-c` · `AOMDV-b`
 
 - Kaynağına sadık, parametreler RFC varsayılanı, hiçbiri senaryoya göre ayarlanmaz; her protokol kendi HELLO'sunu kullanır, HELLO aralıkları eşitlenmez (`06` §4.2).
 - **Kural:** SHOULD uygulanır, MAY beyan edilir (öğrenci, 19 Eylül). Sapmalar her protokolün biçim dosyasında gerekçesiyle (`protokoller/*_bicim.py`, `aomdv.py`).
-- **AODV (RFC 3561):** yerel onarım (§6.12) yok, beyanlı · §6.8 kara liste var, tetiği RREP'in bağ katmanı onayının gelmemesi (K-194).
+- **AODV (RFC 3561):** yerel onarım (§6.12) yok, beyanlı · §6.8 kara liste var, tetiği RREP'in bağ katmanı onayının gelmemesi (K-194) · sıra numarası kuralları RFC'ye ve ns-3'e döndü (`AODV-g`, K-205): §6.7 geçersiz girdiyi yalnız eşit ya da büyük sırayla günceller (bayat RREP kabulü döngü kuruyordu), §6.2 komşu rotası geçerli sırasız, §6.11 sıra yalnız geçerliyse artar, RERR'de kopyalanır. RFC'ye uygun kurallardan doğan geçici döngüler kalır (RERR kopyası + §6.7 iii).
 - **OLSR (RFC 3626):** §14 histerezis var · §13 bağ katmanı bildirimi KAPALI (K-196): karıştırıcısız kolda ve birincil hücrede (karıştırma altında) zarar veriyor — kapalı sürüm 4/4 tohumda ort +0,052 iyi (K-200). `OLSR(i, s13=True)` eski `OLSR-b`.
-- **AOMDV:** Marina–Das 2001 + RFC 3561; AODV'nin alt sınıfı, kara listeyi miras alır (K-148, K-149, K-194).
+- **AOMDV:** Marina–Das 2001 + RFC 3561; AODV'nin alt sınıfı, kara listeyi miras alır (K-148, K-149, K-194). Geçersiz girdide ilanı sıraya bakmadan kabul eder (S10, ölçülmüş sapma; RFC'nin kuralı değil — döngü etkisi AOMDV'de ölçülmedi); AODV'nin K-205 düzeltmesi AOMDV'yi değiştirmez.
 - **U1 (kabul, K-136/K-137/K-192):** oran = PDR(protokol) / PDR(ETX kâhini), aynı konfig, tüm koşu PDR'si; statik ≥ 0,90 · hareketli ≥ 0,60, referans dünyada da değişmez. **U1-U** uygunluk kapısı (keşif, çok atlamalı teslim, korunum, kâhin aşılmıyor) — kalırsa protokol kabul edilmez. **U1-B** başarım bulgusu — eşik altı hücre ölçümle açıklanır: kusur izleri dışlanır ve mekanizma hücreleri sıralar. OLSR'ın düşük hücreleri "açıklanmış, sıralamasız" (öğrenci onayı, K-196). **Kâhin aşımı** otomatik ret değil: çözünürlükten fazla aşarsa üç kâhinin zarfına bakılır; zarfı da aşıyorsa yazılım hatası aranır (K-192).
-- **Durum:** taban protokoller henüz DONMADI — yeni kod hâlleriyle U1 (yere toplama + eşler arası) koşulup U1-B okunduktan sonra donar (`12`).
+- **Durum:** taban protokoller henüz DONMADI. U1 (29–30 Eylül, K-205): OLSR ve AOMDV yere toplamada temiz (OLSR'ın 8 düşük hücresi K-196'ya atıfla) · AODV'nin iki statik hücresi açıklanamadı → gerçekleme kusuru bulundu, `AODV-g` ile U1 yeniden · AOMDV'nin eşler arası kâhin aşımı (+0,0015) çözünürlük ölçülünce hükme bağlanır (`12`).
 
 ## 6 · DESPARETE
 
@@ -69,7 +69,7 @@
 
 - **Rastgelelik:** durum tutan kaynaklar ayrı sıralı akışlarda; kanal rastgeleliği protokolden bağımsız hash alanlarında → aynı tohumda her protokol aynı dünyayı görür (eşleştirme yapısal).
 - **Korunum:** `üretilen = teslim + düşen + kuyrukta + uçuşta`, her koşuda; düşme sebepleri kapalı kümedir.
-- **Köken defteri** (K-203): gerekçeler REFERANS dünyanın değerini anlatır; her parametre sekiz kovadan birinde (TÜRETİLMİŞ · ÖLÇÜLMÜŞ · KAYNAK · DUYARSIZ · TEDAVİ · KOL TANIMI · DÜNYA TANIMI · SINANMAMIŞ). **DÜNYA TANIMI** = öğrencinin onayladığı referans dünya tanımları ve birincil hücre (33 km, N 40, 40–120 km/h, 10 W …) — projenin kapsamı, duyarlılık borcu taşımaz. Mühürden önce SINANMAMIŞ = 0 ve duyarlılık borcu boş (ya da eksen/kapsam ilanı). Bugün SINANMAMIŞ 25 · borç 10 (keşifsel kol tanımları).
+- **Köken defteri** (K-203): gerekçeler REFERANS dünyanın değerini anlatır; her parametre sekiz kovadan birinde (TÜRETİLMİŞ · ÖLÇÜLMÜŞ · KAYNAK · DUYARSIZ · TEDAVİ · KOL TANIMI · DÜNYA TANIMI · SINANMAMIŞ). **DÜNYA TANIMI** = öğrencinin onayladığı referans dünya tanımları ve birincil hücre (33 km, N 40, 40–120 km/h, 10 W …) — projenin kapsamı, duyarlılık borcu taşımaz. Mühürden önce SINANMAMIŞ = 0 ve duyarlılık borcu boş (ya da eksen/kapsam ilanı). Bugün SINANMAMIŞ 25 · borç 0. **Kapsam ilanı** (K-204): 10 keşifsel kol tanımı (darbeli · reaktif · taramalı sabitleri, tekli merkezin konumu, hava eşlik hızı) ölçülmeden kapsam — o kolların sonucu bu değerlere koşullu, birincil hücrenin kod yoluna girmezler; defterde `KAPSAM_ILANI`, rapor kapsam bölümünde yazar (eski dünyada darbeli ve taramalı DUYARLI çıkmıştı).
 - **Sonuç satırı** kendi konfigini, kimliğini (kod özetleri dâhil), kapsam sınırlarını ve metrikleri yeniden üretecek ham veriyi taşır.
 - **Regresyon** (`kalibrasyon/regresyon_satirlari.py`, taban `k198`) ve **mimari denetimi** davranış değiştiren her simülatör değişikliğinden sonra.
 
@@ -80,4 +80,4 @@
 | KR-2 · birincil metrikte komutlar (öneri: birincil telemetri, bütün trafik ikincil) | öğrenci | Faz 6 |
 | KR-D · Faz 5 mekanizmalarının tasarım paketine yansıması | öğrenci | Faz 5 |
 | çizelgeli (periyodik) karıştırıcıda evre metriklerinin tanımı | ajan önerir, öğrenci onaylar | Faz 6 |
-| SINANMAMIŞ 25 + borç 10: referans dünyada duyarlılıkla ölç ya da eksen ilan et (liste defterde, gerekçelerinde) | ajan, öğrenciye eksen listesi | Faz 4.4 (kapanış) |
+| SINANMAMIŞ 25: referans dünyada duyarlılıkla ölç ya da eksen ilan et (liste defterde, gerekçelerinde) | ajan, öğrenciye eksen listesi | Faz 4.4 (kapanış) |

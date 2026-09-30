@@ -1,0 +1,7 @@
+# GEÇERSİZ (30 Eylül 07:53): kısa kesilen koşu tam koşuyla aynı olayları üretmiyor (trafik çizelgesi ölçüm sonuna bağlı) ve saatler düğüm-yerel. Sonuç kullanılmadı.
+  52.9535 dugum 36 ← 17 RREQ id 48 sira 86 atlama 2 | tekrar False kara False ilet False | rota (13, 3, 80, True) → (17, 3, 86, True)
+  52.9546 dugum 36 ← 30 RREQ id 48 sira 86 atlama 2 | tekrar True kara False ilet False | rota (17, 3, 86, True) → (17, 3, 86, True)
+  52.6024 dugum 15 ← 30 RREQ id 48 sira 86 atlama 2 | tekrar False kara False ilet False | rota (18, 3, 82, True) → (30, 3, 86, True)
+  52.6035 dugum 15 ← 18 RREQ id 48 sira 86 atlama 2 | tekrar True kara False ilet False | rota (30, 3, 86, True) → (30, 3, 86, True)
+  52.9717 dugum 15 ← 18 RREQ id 50 sira 88 atlama 1 | tekrar False kara False ilet True | rota (30, 3, 86, True) → (18, 2, 88, True)
+  53.3259 dugum 36 ← 15 RREQ id 50 sira 88 atlama 2 | tekrar False kara False ilet False | rota (17, 3, 87, False) → (15, 3, 88, True)

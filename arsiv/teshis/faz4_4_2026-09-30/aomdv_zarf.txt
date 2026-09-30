@@ -1,0 +1,7 @@
+basla 12:17:02
+  en_guvenilir_kahin       PDR 0.9762
+  en_kisa_yol_kahin        PDR 0.8861
+  en_olasi_teslim_kahin    PDR 0.9986
+  zarf 0.9986 · AOMDV 0.9777 · ETX (U1) 0.9762
+  🟢 AOMDV zarfın içinde — ETX kâhini bu hücrede üst sınır değil
+bitti 12:32:40

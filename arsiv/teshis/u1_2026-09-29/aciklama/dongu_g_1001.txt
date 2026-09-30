@@ -1,0 +1,5 @@
+tohum 1001 · paket 12799 · döngülü paket 1 (ölçüm penceresinde doğan 1)
+sayaç: {}
+döngüyü kuran son değişiklik (paket başına): {'_rrep_isle': 1}
+PDR(pencere) 0.9256 · kesif_basarili 1349 · kesif_basarisiz 0 · rota_gecersizlestirilen 20300 · rreq_uretilen 2149 · rrep_uretilen 3935 · rerr_uretilen 2607
+dusus (tum kosu): {'iletim_basarisiz': 707, 'rota_gecersiz': 251}

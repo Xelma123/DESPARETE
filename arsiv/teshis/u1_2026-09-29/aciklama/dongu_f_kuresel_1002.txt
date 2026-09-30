@@ -1,0 +1,30 @@
+kod kopya · aodv AODV — RFC 3561'e sadık gerçekleme. Aşama 2'nin dikey dilimi
+tohum 1002 · paket 12799 · döngülü paket 23 (ölçüm penceresinde doğan 21)
+sayaç: {'H-a bayat RREP kabulu (hepsi)': 336, 'sira DUSURDU · _rrep_isle': 336, 'sira DUSURDU · _ters_rota': 34}
+döngüyü kuran son değişiklik (paket başına): {'H-a': 16, '_rrep_isle': 7}
+
+  paket 6879 → hedef 0 · t 172.149 · döngü [(16, 28), (28, 16)]
+     düğüm 16: 171.192 _rrep_isle     (6, 4, 244, True, 177.159) → (6, 3, 244, True, 177.34)
+     düğüm 16: 172.131 _rrep_isle     (6, 3, 245, False, 177.34) → (28, 5, 244, True, 177.342)  ⚠ BAYAT
+     düğüm 28: 171.136 _rrep_isle     (9, 4, 243, True, 177.005) → (3, 5, 244, True, 177.063)
+     düğüm 28: 171.193 _rrep_isle     (3, 5, 244, True, 177.065) → (16, 4, 244, True, 177.232)
+
+  paket 6883 → hedef 0 · t 172.181 · döngü [(28, 16), (16, 28)]
+     düğüm 28: 171.136 _rrep_isle     (9, 4, 243, True, 177.005) → (3, 5, 244, True, 177.063)
+     düğüm 28: 171.193 _rrep_isle     (3, 5, 244, True, 177.065) → (16, 4, 244, True, 177.232)
+     düğüm 16: 171.192 _rrep_isle     (6, 4, 244, True, 177.159) → (6, 3, 244, True, 177.34)
+     düğüm 16: 172.131 _rrep_isle     (6, 3, 245, False, 177.34) → (28, 5, 244, True, 177.342)  ⚠ BAYAT
+
+  paket 6891 → hedef 0 · t 172.488 · döngü [(28, 16), (16, 28)]
+     düğüm 28: 171.136 _rrep_isle     (9, 4, 243, True, 177.005) → (3, 5, 244, True, 177.063)
+     düğüm 28: 171.193 _rrep_isle     (3, 5, 244, True, 177.065) → (16, 4, 244, True, 177.232)
+     düğüm 16: 171.192 _rrep_isle     (6, 4, 244, True, 177.159) → (6, 3, 244, True, 177.34)
+     düğüm 16: 172.131 _rrep_isle     (6, 3, 245, False, 177.34) → (28, 5, 244, True, 177.342)  ⚠ BAYAT
+
+  paket 6893 → hedef 0 · t 172.489 · döngü [(16, 28), (28, 16)]
+     düğüm 16: 171.192 _rrep_isle     (6, 4, 244, True, 177.159) → (6, 3, 244, True, 177.34)
+     düğüm 16: 172.131 _rrep_isle     (6, 3, 245, False, 177.34) → (28, 5, 244, True, 177.342)  ⚠ BAYAT
+     düğüm 28: 171.136 _rrep_isle     (9, 4, 243, True, 177.005) → (3, 5, 244, True, 177.063)
+     düğüm 28: 171.193 _rrep_isle     (3, 5, 244, True, 177.065) → (16, 4, 244, True, 177.232)
+PDR(pencere) 0.8759 · kesif_basarili 2512 · kesif_basarisiz 0 · rota_gecersizlestirilen 25665 · rreq_uretilen 3842 · rrep_uretilen 8140 · rerr_uretilen 5080
+dusus (tum kosu): {'ttl': 16, 'iletim_basarisiz': 956, 'rota_gecersiz': 670}

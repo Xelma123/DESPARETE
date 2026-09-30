@@ -26,7 +26,7 @@ SIM2 = KOK / "sim2"
 from sim2.cekirdek.degismezler import DegismezHatasi  # noqa: E402
 from sim2.yapilandirma.konfig import HENUZ_OKUNMAYAN, Konfig  # noqa: E402
 from sim2.yapilandirma.kokenler import (  # noqa: E402
-    DUYARLILIK_BEKLEYEN, KOKENLER, KOVALAR, MODUL_KOKENLERI,
+    DUYARLILIK_BEKLEYEN, KAPSAM_ILANI, KOKENLER, KOVALAR, MODUL_KOKENLERI,
     duyarlilik_borcu, eksik_alanlar, kova_sayimi)
 from sim2.yapilandirma.senaryolar import (  # noqa: E402
     KARISTIRICI_GUCU_DBM, KARISTIRICI_SINIFLARI, MOBILITE_KOLLARI,
@@ -684,6 +684,21 @@ def test_DUYARLILIK_BORCU_KOL_TANIMI_icinde():
         "🔴 duyarlılık borcunda `KOL_TANIMI` kovasında olmayan ad var: "
         f"{sorted(DUYARLILIK_BEKLEYEN - kol_tanimi)}")
     assert set(duyarlilik_borcu()) == DUYARLILIK_BEKLEYEN
+
+
+def test_KAPSAM_ILANI_izli():
+    """Borçtan kapsam ilanıyla çıkan ad kaybolmaz, izi kalır (K-204).
+
+    🔒 Ölçülmeden kapanan borç ancak öğrencinin kapsam kararıyla kapanır:
+    ad `KOL_TANIMI`nda durur, gerekçesi kararı taşır, borçla kesişmez.
+    """
+    kol_tanimi = {ad for ad, (kova, _) in KOKENLER.items()
+                  if kova == "KOL_TANIMI"}
+    assert KAPSAM_ILANI <= kol_tanimi, sorted(KAPSAM_ILANI - kol_tanimi)
+    assert not KAPSAM_ILANI & DUYARLILIK_BEKLEYEN
+    izsiz = sorted(ad for ad in KAPSAM_ILANI
+                   if "KAPSAM (K-204)" not in KOKENLER[ad][1])
+    assert not izsiz, f"🔴 gerekçesi kapsam kararını taşımıyor: {izsiz}"
 
 
 def test_HER_KOKENIN_GEREKCESI_VAR():

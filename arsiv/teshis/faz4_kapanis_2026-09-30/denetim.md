@@ -61,9 +61,15 @@ Denetçi `yorum_denetci.py` (taban `yorum_tabani/`): belge dizgileri çıkarılm
 
 `dugum.py::_guc_mesgul_bitisi_s`: gerçekçi karıştırıcıda ED kilidindeki düğüm her zaman `karistirici_denetim_araligi_s` (10 ms) sonra yeniden bakar; eski dünya birebir. Köken kayıtları güncellendi. Beklenen regresyon farkı ölçmeden önce `regresyon_beklenti.md`de (3 vaka + köken sayımı + 13 yeni `u-`).
 
-## B8 · öneri yazıldı — `evre_cizelgeli_oneri.md` (öğrenci onayı bekliyor)
+## B8 · öneri v2 — `evre_cizelgeli_oneri.md` (öğrenci onayı bekliyor)
+
+v1 (evre katlama, `evre_cizelgeli_oneri_v1.md`) öğrencinin "bir süre daha düşün" isteğiyle eldeki veriye karşı sınandı ve geri çekildi (K-204). Sayılar `evre_mevcut_veri.py`. v2: M1 aynı · M2 sessiz dönemler · M3 tanımsız · M4 ilk açık dönem; kapılar G1ç/G2ç/G4ç. Onaylanırsa kod regresyon k203'ten ÖNCE (tek regresyon ikisini doğrular).
 
 ## Faz 4.4 · ölçüm planı (U1 ve regresyondan sonra, sırayla)
+
+> ⚠️ **30 Eylül 12:15 — plan kusurlu, düzeltilecek.** #1 koşuldu (`arsiv/teshis/faz4_4_2026-09-30/`): R 0,0086 çıktı ama hücrede ETX kâhininin PDR'si **0,029**. `statik-surekli` (tek merkez karıştırıcı, kısa pencere) eski dünyanın çekirdek hücresidir; referans dünyada neredeyse her şeyi öldürür. Taban etkisiyle R yapay küçük çıkar ve aynı hücrede yapılacak tarama (#3) her parametreyi **sahte DUYARSIZ** gösterir. Aynı kusur `hareketli` (bağımsız-sürekli) ve `gorev` hücrelerinde de olabilir, çünkü tek merkez karıştırıcı alan merkezinde 10 W.
+>
+> **Öneri:** R ve taramalar referans dünyanın çalışma noktasında, **birincil hücrede** (formasyon · yere toplama · derin sızma; `duyarlilik.py birincil` hazır). Tutarlılık için ikisi de aynı pencerede ölçülür. Her tarama hücresinin ETX kâhini PDR'si taramadan önce basılır; tabana (< 0,1) ya da tavana (> 0,95) yakın hücre tarama hücresi olamaz, kural ölçmeden önce. Maliyet sonra hesaplanır; birincil hücrenin koşusu statikten pahalı.
 
 | # | ne | nasıl | maliyet (tahmin) |
 |---|---|---|---|
@@ -75,6 +81,6 @@ Denetçi `yorum_denetci.py` (taban `yorum_tabani/`): belge dizgileri çıkarılm
 | 6 | modül sabitleri | `ISTASYON_TUTMA_S` · `kahin.py::ATLAMA_ESIGI` · `SONUMLEME_ORNEGI` · kâhin beacon'ı açık/kapalı (B3): işçide sabit yamalanır, kısa pencere | ~1 sa |
 | 7 | güvenlik sınırı | `BEKLEYEN_UYANDIRMA_TAVANI`: `u-` regresyon satırlarından tepe bekleyen | 0 |
 | — | pencere üçlüsü | Faz 6 (`06` §8 koşul 1) | — |
-| — | 10 borçlu keşifsel kol tanımı | ❓ öğrenci: kendi kollarında ölçülsün mü, "keşifsel kol tanımı, sonuç bu tanıma koşullu" diye kapsama mı alınsın | — |
+| — | 10 borçlu keşifsel kol tanımı | ✅ kapsam ilanı (öğrenci, K-204): defterde `KAPSAM_ILANI`, borç 0 | — |
 
 Ölçüt değişmez (`duyarlilik.py`): DUYARSIZ = eşleştirilmiş |Δ| referans R'nin altında VE kendi 2 SE bandı içinde; aksi DUYARLI → kaynak/eksen/kapsam kararı öğrenciye.

@@ -131,8 +131,11 @@ class AOMDV(AODV):
         ve (1) dalı işler. (7)–(8): bir düğüm kendine rota TUTMAZ.
 
         🔴 S10 · GEÇERSİZ GİRDİDE (1) dalı işler — Şekil 3 geçersiz girdiyi
-        ele almıyor, dolayısıyla RFC 3561 ve `AODV`nin aynı kuralı geçerli
-        (`_rrep_isle`/`_ters_rota`: *"rota geçersizse ilan kabul edilir"*).
+        ele almıyor; burada *"rota geçersizse ilan kabul edilir"*. ⚠️ Bu RFC
+        3561'in kuralı DEĞİL: §6.7 geçersiz girdide yalnız eşit ya da büyük
+        sırayı kabul eder ve `AODV` K-205'te ona döndü (bayat kabul AODV'de
+        döngü kuruyordu). AOMDV'de sapma aşağıdaki ölçümle duruyor; döngü
+        etkisi AOMDV'de ölçülmedi.
         Sebebi ÖLÇÜLDÜ (22 Eylül 2026, küçük dünya `bagimsiz-yok`): RFC §6.11
         her geçersizleştirmede sıra numarasını YEREL olarak bir artırır; bir
         komşunun rotası kopup (S8 ile) yeniden kurulup yeniden kopunca yerel
@@ -158,8 +161,17 @@ class AOMDV(AODV):
         return False
 
     def _gecersizlestir(self, r, simdi_s: float) -> None:
-        """RFC §6.11 (miras) + yol listesi ve ilan boşalır — girdi SİLİNMEZ."""
+        """RFC §6.11 (miras) + yol listesi ve ilan boşalır — girdi SİLİNMEZ.
+
+        🔒 Sıra numarası AOMDV'de K-205'ten ÖNCEKİ gibi her geçersizleştirmede
+        bir artar, bilinmeyen sıra dâhil: AODV'nin §6.11 düzeltmesi (K-205)
+        AOMDV'nin ölçülmüş sıra kuralına (yukarıdaki `_kural`, S10)
+        dokunmaz — `AOMDV-b` U1'i bu hâliyle geçti, davranışı birebir kalır.
+        """
+        bilinmeyen = r.hedef_sira == SONSUZ_SIRA
         super()._gecersizlestir(r, simdi_s)
+        if bilinmeyen:
+            r.hedef_sira = SONSUZ_SIRA + 1
         r.yollar.clear()
         r.ilan_atlama = _SONSUZ
 

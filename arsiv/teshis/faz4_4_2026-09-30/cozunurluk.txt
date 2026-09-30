@@ -1,0 +1,31 @@
+  DUNYA: referans_2026
+==============================================================================
+DENEYIN COZUNURLUGU — statik-surekli · 40 tohum
+==============================================================================
+
+           cikti   ortalama   SD_tohum    R = 2 SD/sqrt(n)   (n = 40)
+         pdr_etx     0.0287     0.0499              0.0158
+      pdr_atlama     0.0198     0.0402              0.0127
+    olcut_bedeli     0.0089     0.0271              0.0086
+
+  🔒 `olcut_bedeli` ESLESTIRILMIS oldugu icin cok daha keskin:
+     iki kahin ayni tohumda ayni dunyayi gorur, tohumlar arasi
+     varyans ortak-mod olarak duser. Deneyin asil ayirt edici
+     ekseni de budur.
+
+      saklanan R     0.0230  (`duyarlilik.py::R_ESLESTIRILMIS`)
+  🔴 BAYAT SABIT: olculen 0.0086 ile saklanan 0.0230 ayrismis (sapma 0.0144).
+     `duyarlilik.py::R_ESLESTIRILMIS` guncellenmeli ve
+     koken defterindeki `DUYARSIZ` aklamalari YENIDEN
+     denetlenmeli — esik degisince siniflandirma degisebilir.
+
+  🟢 KULLANILACAK ESIK R = 0.0086 (ESLESTIRILMIS — birincil testin cozunurlugu)
+     Tek kol cozunurlukleri karsilastirma icin: pdr_etx 0.0158 · pdr_atlama 0.0127
+     Bir parametre, ETKISI R'DEN KUCUK **ve** kendi hata payi
+     icindeyse `DUYARSIZ` olur. Ikisinden biri yetmez.
+
+  ⚠️ BU SAYI BUGUNUN EN IYI ESLESTIRILMIS KESTIRIMIDIR, nihai
+     degil: burada olculen kontrast IKI KAHIN arasindadir. Ana
+     deneyin kontrasti PROTOKOL KOLLARI arasinda olacak ve onun
+     gurultusu Asama 2'de taban protokollerle olculecek
+     (`06` §7 guc analizi).

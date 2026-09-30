@@ -1,7 +1,7 @@
 # Faz 4 kapanışı · regresyon `k198 → k203` — beklenen farklar (ölçmeden önce)
 
 > 30 Eylül 2026 gece · ajan · U1 bittikten sonra, dondurulmuş kopyadan, yanında ağır iş yok.
-> Komut: `py -3.11 -u kalibrasyon/regresyon_satirlari.py uret k203` → `karsilastir k198 k203 --izin teshis.koken_kovalari --yeni u- --degisen <aşağıdaki üç vaka>`
+> Komut: `py -3.11 -u kalibrasyon/regresyon_satirlari.py uret k203` → `karsilastir k198 k203 --izin teshis.koken_kovalari --yeni u- --degisen p-statik-aldatici-dogrudan_komsu-tasiyici_guc-karistirici_gercekci,r-referans-bagimsiz-surekli-dogrudan_komsu,r-referans-statik-surekli-aodv,k-statik-surekli-aodv,t-statik-surekli-aodv-dugum_kaybi`
 
 ## k198'den beri değişen
 
@@ -12,7 +12,8 @@
    - `r-referans-bagimsiz-surekli-dogrudan_komsu`
    - `r-referans-statik-surekli-aodv`
    ⚠️ Kilitlenen düğüm yoksa satır birebir kalabilir — bu da kabul (değişen DEĞİL diye raporlanır).
-4. **Yeni vakalar:** 13 `u-` (referans dünya) → `--yeni u-`; ilk kez üretilir, tabanı `k203` olur.
+4. **Davranış değişikliği — `AODV-g` (K-205, 30 Eylül sabah):** RFC 3561 §6.7 güncelleme kuralı, §6.2 sırasız komşu rotası, §6.11 sıra kuralı, keşfin yalnız rota kurulunca bitmesi. **AODV koşan vakalar değişebilir:** `k-statik-surekli-aodv` · `t-statik-surekli-aodv-dugum_kaybi` · `r-referans-statik-surekli-aodv` (sonuncusu B4 listesinde de) → `--degisen`e; kod kimliği dışında hiçbir fark AODV dışı bir vakada kabul edilmez. **AOMDV vakası `k-statik-surekli-aomdv` BİREBİR kalmalı** (AOMDV kendi `_gecersizlestir`iyle eski kuralı taşır; test `test_K205_AOMDV_sira_kurali_DEGISMEDI`). OLSR, DESPARETE, kâhin vakaları birebir.
+5. **Yeni vakalar:** 13 `u-` (referans dünya) → `--yeni u-`; ilk kez üretilir, tabanı `k203` olur.
 
 ## Değişmemesi gerekenler
 

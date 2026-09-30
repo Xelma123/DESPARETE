@@ -1,0 +1,26 @@
+ilan edilen degisen vakalar — k198 → k203
+  k-statik-surekli-aodv
+     pdr 0.8219 → 0.7944 · dusen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 219, 'hedef_yok': 0, 'rota_gecersiz': 66, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0} → {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 275, 'hedef_yok': 0, 'rota_gecersiz': 54, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0}
+  t-statik-surekli-aodv-dugum_kaybi
+     pdr 0.8284 → 0.8022 · dusen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 170, 'hedef_yok': 0, 'rota_gecersiz': 50, 'tampon_asimi': 77, 'politika': 0, 'dugum_kaybi': 0} → {'kuyruk_tasmasi': 1, 'ttl': 0, 'iletim_basarisiz': 212, 'hedef_yok': 0, 'rota_gecersiz': 41, 'tampon_asimi': 66, 'politika': 0, 'dugum_kaybi': 0}
+  r-referans-statik-surekli-aodv
+     pdr 0.1195 → 0.1195 · dusen {'kuyruk_tasmasi': 90, 'ttl': 0, 'iletim_basarisiz': 16, 'hedef_yok': 0, 'rota_gecersiz': 9, 'tampon_asimi': 721, 'politika': 0, 'dugum_kaybi': 0} → {'kuyruk_tasmasi': 90, 'ttl': 0, 'iletim_basarisiz': 16, 'hedef_yok': 0, 'rota_gecersiz': 9, 'tampon_asimi': 721, 'politika': 0, 'dugum_kaybi': 0}
+  p-statik-aldatici-dogrudan_komsu-tasiyici_guc-karistirici_gercekci
+     pdr 0.2829 → 0.2829 · dusen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 450, 'hedef_yok': 696, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0} → {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 450, 'hedef_yok': 696, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0}
+  r-referans-bagimsiz-surekli-dogrudan_komsu
+     pdr 0.0294 → 0.0288 · dusen {'kuyruk_tasmasi': 140, 'ttl': 0, 'iletim_basarisiz': 84, 'hedef_yok': 1277, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0} → {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 93, 'hedef_yok': 1459, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0}
+
+yeni u- vakalari (k203, ilk taban)
+  u-birincil-olsr                            pdr 0.3419 · gecerli True
+  u-statik-aldatici-aodv                     pdr 0.0969 · gecerli True
+  u-statik-surekli_darbeli-aodv              pdr 0.4838 · gecerli True
+  u-birincil-en_guvenilir_kahin              pdr 0.7145 · gecerli True
+  u-bagimsiz-surekli-olsr-dugum_kaybi        pdr 0.0000 · gecerli True
+  u-statik-taramali-aodv                     pdr 0.5106 · gecerli True
+  u-birincil-aodv                            pdr 0.4483 · gecerli True
+  u-gorev-surekli-aomdv-esler_arasi          pdr 0.1977 · gecerli True
+  u-birincil-aomdv                           pdr 0.4915 · gecerli True
+  u-statik-yok-desparete                     pdr 0.8156 · gecerli True
+  u-statik-surekli-aodv-cephe_hatti          pdr 0.7019 · gecerli True
+  u-birincil-desparete                       pdr 0.6331 · gecerli True
+  u-statik-reaktif-aodv                      pdr 0.6581 · gecerli True

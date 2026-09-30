@@ -19,6 +19,7 @@ Eski dünyanın uzun gerekçeleri: `arsiv/kokenler-2026-09-30-eski-dunya.py`.
 from __future__ import annotations
 
 __all__ = ["KOVALAR", "KOKENLER", "MODUL_KOKENLERI", "DUYARLILIK_BEKLEYEN",
+           "KAPSAM_ILANI",
            "kova_sayimi", "eksik_alanlar", "duyarlilik_borcu"]
 
 # ===========================================================================
@@ -48,10 +49,19 @@ KOVALAR: dict[str, str] = {
 # 🔴 DUYARLILIK BORCU — `KOL_TANIMI`ndaki bir sabit sonucu belirleyebilir
 # (eski dünyada darbeli ve taramalı sabitleri DUYARLI çıktı, 8 Eylül).
 # Borç burada sayılır; mühürden önce ölçülür ya da eksen/kapsam ilan
-# edilir. Bir adı silmek, gerekçesine ölçümün üretici komutunu yazmayı
-# gerektirir. `DUYARSIZ` gerekçeleri ölçülen |Δ|'yı taşır (D12 sayar) ve
+# edilir. Bir adı silmek, gerekçesine ölçümün üretici komutunu ya da
+# kapsam kararını (`KAPSAM_ILANI`) yazmayı gerektirir. `DUYARSIZ` gerekçeleri ölçülen |Δ|'yı taşır (D12 sayar) ve
 # referans dünyanın eşleştirilmiş çözünürlüğüne karşı verilir (Faz 4.4).
-DUYARLILIK_BEKLEYEN: frozenset[str] = frozenset({
+DUYARLILIK_BEKLEYEN: frozenset[str] = frozenset()
+
+# 🔒 KAPSAM İLANI (K-204, öğrenci 30 Eylül) — borç ölçülmeden kapanmadı,
+# kapsam olarak beyan edildi: keşifsel sınıfların (darbeli · reaktif ·
+# taramalı), tekli merkezin ve hava eşliğin tanım sabitleri. Hiçbiri
+# birincil hücrenin kod yoluna girmez (yalnız kendi sınıfı ya da ailesi
+# okur); o kolların sonucu bu değerlere koşulludur ve eski dünyada darbeli
+# ile taramalı sabitleri DUYARLI çıkmıştı — rapor kapsam bölümünde yazar.
+# Test: her ad `KOL_TANIMI`nda ve gerekçesi K-204'ü taşır.
+KAPSAM_ILANI: frozenset[str] = frozenset({
     "darbe_gorev_cevrimi",
     "darbe_periyodu_s",
     "karistirici_konum",
@@ -210,9 +220,11 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "km/h'de ≈ 1,3 s"),
     "reaktif_esik_dbm": ("KOL_TANIMI",
         "−90 dBm — reaktif kolun tanımı (802.11b duyarlılığı mertebesi, "
-        "K-173); keşifsel sınıf"),
+        "K-173); keşifsel sınıf"
+        " · KAPSAM (K-204): keşifsel kolun tanımı — o kolun sonucu bu değere koşullu; birincil hücrenin kod yoluna girmez"),
     "reaktif_sezme_olasiligi": ("KOL_TANIMI",
-        "0,95 — reaktif kolun tanımı; keşifsel sınıf"),
+        "0,95 — reaktif kolun tanımı; keşifsel sınıf"
+        " · KAPSAM (K-204): keşifsel kolun tanımı — o kolun sonucu bu değere koşullu; birincil hücrenin kod yoluna girmez"),
     "yayilim_gecikmesi": ("TURETILMIS",
         "anahtar (`v2/15` A5, K-175): açıkken varış gecikmesi d/c (ışık hızı "
         "— fizik); onay bekleme en uzak duyma mesafesinin gidiş-dönüşünü "
@@ -362,7 +374,8 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "60 km/h — birincil hücrenin yer aracı (`v2/07` §5, K-186)"),
     "tehdit_hava_hiz_kmh": ("KOL_TANIMI",
         "200 km/h — hava eşlik ailesinin tanımı; keşifsel aile (1–5 W sürüyü "
-        "böler, K-186)"),
+        "böler, K-186)"
+        " · KAPSAM (K-204): keşifsel kolun tanımı — o kolun sonucu bu değere koşullu; birincil hücrenin kod yoluna girmez"),
     "gecit_konumu": ("DUNYA_TANIMI",
         "`kenar` — geçit batı kenarının ortasında sabit röle (`v2/07` §6; "
         "birincil hücre)"),
@@ -438,24 +451,31 @@ KOKENLER: dict[str, tuple[str, str]] = {
     "karistirici_konum": ("KOL_TANIMI",
         "None → alan merkezi — tekli merkez ailesinin tanımı (tohumlar arası "
         "karşılaştırılabilir). Eski dünyada oynatıldı, karar verilemedi (|Δ| "
-        "0,048 kendi bandı içinde, 8 Eylül)"),
+        "0,048 kendi bandı içinde, 8 Eylül)"
+        " · KAPSAM (K-204): keşifsel kolun tanımı — o kolun sonucu bu değere koşullu; birincil hücrenin kod yoluna girmez"),
     "darbe_periyodu_s": ("KOL_TANIMI",
         "2,7 s — darbeli kolun tanımı; keşifsel sınıf. Eski dünyada kendi "
-        "kolunda DUYARLI çıktı (×2 → PDR −0,093, 8 Eylül)"),
+        "kolunda DUYARLI çıktı (×2 → PDR −0,093, 8 Eylül)"
+        " · KAPSAM (K-204): keşifsel kolun tanımı — o kolun sonucu bu değere koşullu; birincil hücrenin kod yoluna girmez"),
     "darbe_gorev_cevrimi": ("KOL_TANIMI",
         "%50 — darbeli kolun tanımı (açık/kapalı simetrisi); tepe telafisi "
-        "buradan türer. Eski dünyada DUYARLI (×2 → PDR +0,066)"),
+        "buradan türer. Eski dünyada DUYARLI (×2 → PDR +0,066)"
+        " · KAPSAM (K-204): keşifsel kolun tanımı — o kolun sonucu bu değere koşullu; birincil hücrenin kod yoluna girmez"),
     "taramali_konak_suresi_s": ("KOL_TANIMI",
         "100 ms — taramalı kolun tanımı (en hızlı protokol zamanlayıcısının "
-        "onda biri); eski dünyada DUYARLI"),
+        "onda biri); eski dünyada DUYARLI"
+        " · KAPSAM (K-204): keşifsel kolun tanımı — o kolun sonucu bu değere koşullu; birincil hücrenin kod yoluna girmez"),
     "taramali_konak_sayisi": ("KOL_TANIMI",
         "3 konak — taramalı kolun tanımı; ortalama gücü −4,77 dB düşürür "
-        "(`06` H1.3'te beyanlı); eski dünyada DUYARLI"),
+        "(`06` H1.3'te beyanlı); eski dünyada DUYARLI"
+        " · KAPSAM (K-204): keşifsel kolun tanımı — o kolun sonucu bu değere koşullu; birincil hücrenin kod yoluna girmez"),
     "reaktif_sezme_s": ("KOL_TANIMI",
         "16 µs — reaktif kolun tanımı (`02` G5: < 4 µs geçiş ister; 16 µs ED "
-        "süresi mertebesi); keşifsel"),
+        "süresi mertebesi); keşifsel"
+        " · KAPSAM (K-204): keşifsel kolun tanımı — o kolun sonucu bu değere koşullu; birincil hücrenin kod yoluna girmez"),
     "reaktif_patlama_s": ("KOL_TANIMI",
-        "144 µs — reaktif kolun tanımı (çevrim %90 görev); keşifsel"),
+        "144 µs — reaktif kolun tanımı (çevrim %90 görev); keşifsel"
+        " · KAPSAM (K-204): keşifsel kolun tanımı — o kolun sonucu bu değere koşullu; birincil hücrenin kod yoluna girmez"),
 }
 
 # ===========================================================================

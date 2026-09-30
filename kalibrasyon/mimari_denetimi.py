@@ -396,7 +396,8 @@ def d12_parametre_kokenleri() -> None:
     """
     basliklar("D12 - PARAMETRE KOKENLERI  (her sayi bir kovada mi)")
     import re
-    from sim2.yapilandirma.kokenler import (KOKENLER, KOVALAR, MODUL_KOKENLERI,
+    from sim2.yapilandirma.kokenler import (KAPSAM_ILANI, KOKENLER, KOVALAR,
+                                            MODUL_KOKENLERI,
                                             duyarlilik_borcu, kova_sayimi)
 
     sayisal = re.compile(r"^[-\d.eE_ ()*/+<]+$")
@@ -479,6 +480,11 @@ def d12_parametre_kokenleri() -> None:
     if borc:
         notlar.append(f"{len(borc)} kol tanimi sabitinin duyarlilik "
                       f"borcu ACIK — on-kayit muhurlenmeden once bosalmali")
+    # Olculmeden kapanan borc gizlenmez: kapsam ilani (K-204) ayrica basilir.
+    print(f"  KAPSAM ILANI ({len(KAPSAM_ILANI)} kol tanimi sabiti, K-204 — "
+          f"sonuc bu degerlere kosullu)")
+    for ad in sorted(KAPSAM_ILANI):
+        print(f"    · {ad}")
 
     # 🔴 ÜÇÜNCÜ SAYAÇ — `DUYARSIZ` AKLAMASI SAYIYI TAŞIYOR MU? (16 Eylul 2026)
     #

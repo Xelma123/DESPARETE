@@ -1,0 +1,12 @@
+kod desparete_pls · aodv AODV — RFC 3561'e sadık gerçekleme (`AODV-g`: kara liste K-1
+tohum 1000 · paket 12798 · döngülü paket 5 (ölçüm penceresinde doğan 1)
+sayaç: {'sira DUSURDU · _komsu_rotasi': 6651, 'H-b ara dugum tamponu+kesfi (girdi gecerli)': 1, 'ara dugum tamponladi (hepsi)': 1}
+döngüyü kuran son değişiklik (paket başına): {'_rrep_isle': 4, '_rrep_isle+_ters_rota': 1}
+
+  paket 9929 → hedef 0 · t 248.224 · döngü [(13, 36), (36, 13)]
+     düğüm 13: 247.191 _rrep_isle     (0, 1, 482, False, 252.278) → (36, 2, 482, True, 252.883)
+     düğüm 13: 247.954 _rrep_isle     (36, 2, 482, True, 252.883) → (36, 2, 483, True, 253.646)
+     düğüm 36: 247.987 _ters_rota     (0, 1, 483, True, 253.913) → (0, 1, 484, True, 253.467)
+     düğüm 36: 248.288 _ters_rota     (0, 1, 484, True, 253.467) → (13, 2, 487, True, 253.688)
+PDR(pencere) 0.8865 · kesif_basarili 2248 · kesif_basarisiz 0 · rota_gecersizlestirilen 23036 · rreq_uretilen 3560 · rrep_uretilen 7227 · rerr_uretilen 4696
+dusus (tum kosu): {'ttl': 4, 'iletim_basarisiz': 951, 'rota_gecersiz': 529}

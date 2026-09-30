@@ -1,0 +1,27 @@
+tohum 1001 · paket 12799 · döngülü paket 4 (ölçüm penceresinde doğan 4)
+sayaç: {'H-a bayat RREP kabulu (hepsi)': 99}
+döngüyü kuran son değişiklik (paket başına): {'H-a': 4}
+
+  paket 5528 → hedef 0 · t 138.283 · döngü [(38, 30), (30, 38)]
+     düğüm 38: 136.105 _ters_rota     (0, 1, 149, True, 139.105) → (0, 1, 154, True, 141.625)
+     düğüm 38: 137.028 _rrep_isle     (0, 1, 155, False, 141.625) → (30, 2, 155, True, 143.028)
+     düğüm 30: 137.064 _rrep_isle     (0, 1, 154, True, 142.487) → (0, 1, 155, True, 143.064)
+     düğüm 30: 138.016 _rrep_isle     (0, 1, 156, False, 143.064) → (38, 3, 155, True, 143.081)  ⚠ BAYAT
+
+  paket 5529 → hedef 0 · t 138.308 · döngü [(38, 30), (30, 38)]
+     düğüm 38: 136.105 _ters_rota     (0, 1, 149, True, 139.105) → (0, 1, 154, True, 141.625)
+     düğüm 38: 137.028 _rrep_isle     (0, 1, 155, False, 141.625) → (30, 2, 155, True, 143.028)
+     düğüm 30: 137.064 _rrep_isle     (0, 1, 154, True, 142.487) → (0, 1, 155, True, 143.064)
+     düğüm 30: 138.016 _rrep_isle     (0, 1, 156, False, 143.064) → (38, 3, 155, True, 143.081)  ⚠ BAYAT
+
+  paket 5532 → hedef 0 · t 138.391 · döngü [(38, 30), (30, 38)]
+     düğüm 38: 136.105 _ters_rota     (0, 1, 149, True, 139.105) → (0, 1, 154, True, 141.625)
+     düğüm 38: 137.028 _rrep_isle     (0, 1, 155, False, 141.625) → (30, 2, 155, True, 143.028)
+     düğüm 30: 137.064 _rrep_isle     (0, 1, 154, True, 142.487) → (0, 1, 155, True, 143.064)
+     düğüm 30: 138.016 _rrep_isle     (0, 1, 156, False, 143.064) → (38, 3, 155, True, 143.081)  ⚠ BAYAT
+
+  paket 5533 → hedef 0 · t 138.370 · döngü [(30, 38), (38, 30)]
+     düğüm 30: 137.064 _rrep_isle     (0, 1, 154, True, 142.487) → (0, 1, 155, True, 143.064)
+     düğüm 30: 138.016 _rrep_isle     (0, 1, 156, False, 143.064) → (38, 3, 155, True, 143.081)  ⚠ BAYAT
+     düğüm 38: 136.105 _ters_rota     (0, 1, 149, True, 139.105) → (0, 1, 154, True, 141.625)
+     düğüm 38: 137.028 _rrep_isle     (0, 1, 155, False, 141.625) → (30, 2, 155, True, 143.028)

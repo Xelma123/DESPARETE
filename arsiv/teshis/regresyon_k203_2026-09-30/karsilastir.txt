@@ -1,0 +1,35 @@
+REGRESYON KARSILASTIRMASI — k198 (67 satir) ↔ k203 (80 satir)
+  (yeni vaka) yalniz k203: u-bagimsiz-surekli-olsr-dugum_kaybi · gecerli=True
+  (yeni vaka) yalniz k203: u-birincil-aodv · gecerli=True
+  (yeni vaka) yalniz k203: u-birincil-aomdv · gecerli=True
+  (yeni vaka) yalniz k203: u-birincil-desparete · gecerli=True
+  (yeni vaka) yalniz k203: u-birincil-en_guvenilir_kahin · gecerli=True
+  (yeni vaka) yalniz k203: u-birincil-olsr · gecerli=True
+  (yeni vaka) yalniz k203: u-gorev-surekli-aomdv-esler_arasi · gecerli=True
+  (yeni vaka) yalniz k203: u-statik-aldatici-aodv · gecerli=True
+  (yeni vaka) yalniz k203: u-statik-reaktif-aodv · gecerli=True
+  (yeni vaka) yalniz k203: u-statik-surekli-aodv-cephe_hatti · gecerli=True
+  (yeni vaka) yalniz k203: u-statik-surekli_darbeli-aodv · gecerli=True
+  (yeni vaka) yalniz k203: u-statik-taramali-aodv · gecerli=True
+  (yeni vaka) yalniz k203: u-statik-yok-desparete · gecerli=True
+  (ilan edilmis degisen vaka) k-statik-surekli-aodv · 176 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) p-statik-aldatici-dogrudan_komsu-tasiyici_guc-karistirici_gercekci · 10 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) r-referans-bagimsiz-surekli-dogrudan_komsu · 102 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) r-referans-statik-surekli-aodv · 16 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) t-statik-surekli-aodv-dugum_kaybi · 182 alan farkli · gecerli=True
+
+  bulgusuz vaka : 62/62 (+5 ilan edilmis degisen)
+  (beklenen) kimlik.arac_hash                                 62 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           62 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              62 vakada farkli
+  (beklenen) kimlik.protokol_hash                             57 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         62 vakada farkli
+  (izinli)   teshis.koken_kovalari.DUNYA_TANIMI               62 vakada farkli
+  (izinli)   teshis.koken_kovalari.DUYARSIZ                   62 vakada farkli
+  (izinli)   teshis.koken_kovalari.KAYNAK                     62 vakada farkli
+  (izinli)   teshis.koken_kovalari.KOL_TANIMI                 62 vakada farkli
+  (izinli)   teshis.koken_kovalari.OLCULMUS                   62 vakada farkli
+  (izinli)   teshis.koken_kovalari.SINANMAMIS                 62 vakada farkli
+  (izinli)   teshis.koken_kovalari.TURETILMIS                 62 vakada farkli
+
+  🟢 BIREBIR (izinli farklar disinda)

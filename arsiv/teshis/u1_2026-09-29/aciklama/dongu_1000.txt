@@ -1,0 +1,27 @@
+tohum 1000 · paket 12798 · döngülü paket 77 (ölçüm penceresinde doğan 48)
+sayaç: {'H-a bayat RREP kabulu (hepsi)': 331, 'H-b ara dugum tamponu+kesfi (girdi gecerli)': 1, 'ara dugum tamponladi (hepsi)': 1}
+döngüyü kuran son değişiklik (paket başına): {'_rrep_isle+_ters_rota': 6, 'H-a': 61, '_rrep_isle': 8, '_ters_rota': 2}
+
+  paket 2458 → hedef 0 · t 61.425 · döngü [(22, 37), (37, 22)]
+     düğüm 22: 60.966 _ters_rota     (20, 3, 124, False, 65.18) → (4, 3, 130, True, 66.326)
+     düğüm 22: 61.205 _rrep_isle     (4, 3, 131, False, 66.326) → (37, 5, 130, True, 66.25)  ⚠ BAYAT
+     düğüm 37: 58.647 _komsu_rotasi  (22, 5, 123, False, 63.308) → (0, 1, 123, True, 61.647)
+     düğüm 37: 60.551 _ters_rota     (0, 1, 123, True, 63.3) → (22, 4, 130, True, 65.831)
+
+  paket 2461 → hedef 0 · t 61.532 · döngü [(22, 37), (37, 22)]
+     düğüm 22: 60.966 _ters_rota     (20, 3, 124, False, 65.18) → (4, 3, 130, True, 66.326)
+     düğüm 22: 61.205 _rrep_isle     (4, 3, 131, False, 66.326) → (37, 5, 130, True, 66.25)  ⚠ BAYAT
+     düğüm 37: 58.647 _komsu_rotasi  (22, 5, 123, False, 63.308) → (0, 1, 123, True, 61.647)
+     düğüm 37: 60.551 _ters_rota     (0, 1, 123, True, 63.3) → (22, 4, 130, True, 65.831)
+
+  paket 2482 → hedef 0 · t 62.074 · döngü [(22, 37), (37, 22)]
+     düğüm 22: 60.966 _ters_rota     (20, 3, 124, False, 65.18) → (4, 3, 130, True, 66.326)
+     düğüm 22: 61.205 _rrep_isle     (4, 3, 131, False, 66.326) → (37, 5, 130, True, 66.25)  ⚠ BAYAT
+     düğüm 37: 58.647 _komsu_rotasi  (22, 5, 123, False, 63.308) → (0, 1, 123, True, 61.647)
+     düğüm 37: 60.551 _ters_rota     (0, 1, 123, True, 63.3) → (22, 4, 130, True, 65.831)
+
+  paket 2485 → hedef 0 · t 62.130 · döngü [(37, 22), (22, 37)]
+     düğüm 37: 58.647 _komsu_rotasi  (22, 5, 123, False, 63.308) → (0, 1, 123, True, 61.647)
+     düğüm 37: 60.551 _ters_rota     (0, 1, 123, True, 63.3) → (22, 4, 130, True, 65.831)
+     düğüm 22: 60.966 _ters_rota     (20, 3, 124, False, 65.18) → (4, 3, 130, True, 66.326)
+     düğüm 22: 61.205 _rrep_isle     (4, 3, 131, False, 66.326) → (37, 5, 130, True, 66.25)  ⚠ BAYAT

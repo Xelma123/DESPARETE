@@ -1,0 +1,30 @@
+kod desparete_pls · aodv AODV — RFC 3561'e sadık gerçekleme (`AODV-g`: kara liste K-1
+tohum 1002 · paket 12799 · döngülü paket 32 (ölçüm penceresinde doğan 30)
+sayaç: {'sira DUSURDU · _komsu_rotasi': 6770}
+döngüyü kuran son değişiklik (paket başına): {'_rrep_isle': 31, '_ters_rota': 1}
+
+  paket 2183 → hedef 0 · t 54.636 · döngü [(36, 15), (15, 36)]
+     düğüm 36: 53.046 _ters_rota     (17, 3, 85, False, 58.011) → (30, 4, 88, True, 58.4)
+     düğüm 36: 53.395 _ters_rota     (30, 4, 88, True, 58.4) → (15, 4, 89, True, 58.749)
+     düğüm 15: 53.394 _ters_rota     (30, 4, 88, True, 58.048) → (18, 3, 89, True, 58.476)
+     düğüm 15: 54.682 _ters_rota     (18, 3, 90, False, 58.476) → (36, 4, 92, True, 59.684)
+
+  paket 6866 → hedef 0 · t 171.804 · döngü [(3, 26), (26, 3)]
+     düğüm 3: 170.254 _rrep_isle     (39, 3, 265, True, 174.916) → (39, 3, 266, True, 176.648)
+     düğüm 3: 171.764 _rrep_isle     (39, 3, 266, False, 176.648) → (26, 5, 266, True, 176.65)
+     düğüm 26: 169.157 _rrep_isle     (38, 5, 265, True, 174.529) → (35, 4, 265, True, 174.531)
+     düğüm 26: 170.256 _rrep_isle     (35, 4, 266, False, 174.531) → (3, 4, 266, True, 176.379)
+
+  paket 6871 → hedef 0 · t 171.866 · döngü [(3, 26), (26, 3)]
+     düğüm 3: 170.254 _rrep_isle     (39, 3, 265, True, 174.916) → (39, 3, 266, True, 176.648)
+     düğüm 3: 171.764 _rrep_isle     (39, 3, 266, False, 176.648) → (26, 5, 266, True, 176.65)
+     düğüm 26: 169.157 _rrep_isle     (38, 5, 265, True, 174.529) → (35, 4, 265, True, 174.531)
+     düğüm 26: 170.256 _rrep_isle     (35, 4, 266, False, 174.531) → (3, 4, 266, True, 176.379)
+
+  paket 8771 → hedef 0 · t 219.430 · döngü [(27, 12), (12, 27)]
+     düğüm 27: 219.389 _rrep_isle     (39, 3, 332, False, 224.263) → (4, 8, 332, True, 224.262)
+     düğüm 27: 219.391 _rrep_isle     (4, 8, 332, True, 224.262) → (12, 5, 332, True, 224.274)
+     düğüm 12: 218.807 _rrep_isle     (26, 6, 332, False, 224.208) → (3, 6, 332, True, 224.543)
+     düğüm 12: 218.814 _rrep_isle     (3, 6, 332, True, 224.546) → (27, 4, 332, True, 224.553)
+PDR(pencere) 0.8681 · kesif_basarili 2390 · kesif_basarisiz 0 · rota_gecersizlestirilen 25524 · rreq_uretilen 3951 · rrep_uretilen 7493 · rerr_uretilen 4928
+dusus (tum kosu): {'ttl': 21, 'iletim_basarisiz': 983, 'rota_gecersiz': 731}

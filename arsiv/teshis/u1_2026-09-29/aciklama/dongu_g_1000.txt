@@ -1,0 +1,5 @@
+tohum 1000 · paket 12798 · döngülü paket 5 (ölçüm penceresinde doğan 1)
+sayaç: {'H-b ara dugum tamponu+kesfi (girdi gecerli)': 1, 'ara dugum tamponladi (hepsi)': 1}
+döngüyü kuran son değişiklik (paket başına): {'_rrep_isle': 4, '_ters_rota': 1}
+PDR(pencere) 0.8865 · kesif_basarili 2248 · kesif_basarisiz 0 · rota_gecersizlestirilen 23036 · rreq_uretilen 3560 · rrep_uretilen 7227 · rerr_uretilen 4696
+dusus (tum kosu): {'ttl': 4, 'iletim_basarisiz': 951, 'rota_gecersiz': 529}

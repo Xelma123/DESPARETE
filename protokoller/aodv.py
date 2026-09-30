@@ -1,5 +1,6 @@
 """
-AODV — RFC 3561'e sadık gerçekleme (`AODV-f`: kara liste K-194).
+AODV — RFC 3561'e sadık gerçekleme (`AODV-g`: kara liste K-194 · sıra
+numarası kuralları §6.2/§6.7/§6.11, K-205).
 
 🔒 KÂHİN ERİŞİMİ YOK
 ====================
@@ -396,10 +397,21 @@ class AODV:
                 del self._gorulen_rreq[anahtar]
         return tuple(niyetler)
 
-    def _gecersizlestir(self, r: Rota, simdi_s: float) -> None:
-        """§6.11 · geçersizleştirme — sıra numarası ARTAR, girdi SİLİNMEZ."""
+    def _gecersizlestir(self, r: Rota, simdi_s: float,
+                        rerr_sira: int | None = None) -> None:
+        """§6.11 · geçersizleştirme — girdi SİLİNMEZ.
+
+        🔒 Madde 1: sıra numarası, *"if it exists and is valid"*, yerel
+        kopmada bir ARTAR, RERR ile öğrenilen kopmada RERR'den KOPYALANIR.
+        Bilinmeyen sıra (`SONSUZ_SIRA`, komşu rotası §6.2) bilinmeyen kalır:
+        artırılsaydı hedefin hiç söylemediği bir sıra uydurulurdu (K-205).
+        """
         r.gecerli = False
-        r.hedef_sira = (r.hedef_sira + 1) & _ALAN_32
+        if r.hedef_sira != SONSUZ_SIRA:
+            if rerr_sira is None:
+                r.hedef_sira = (r.hedef_sira + 1) & _ALAN_32
+            elif rerr_sira != SONSUZ_SIRA:
+                r.hedef_sira = rerr_sira
         r.silme_s = simdi_s + DELETE_PERIOD_S
         self._sayac["rota_gecersizlestirilen"] += 1
 
@@ -515,12 +527,18 @@ class AODV:
         return niyet + self._beyan_bosalt()
 
     def _komsu_rotasi(self, komsu: int, simdi_s: float) -> None:
-        """Bir atlamalık rota — §6.2, `ACTIVE_ROUTE_TIMEOUT` ömürlü."""
+        """Bir atlamalık rota — §6.2, `ACTIVE_ROUTE_TIMEOUT` ömürlü.
+
+        🔒 §6.2 · §6.5 · §6.7: önceki atlamaya rota *"without a valid
+        sequence number"* kurulur (ns-3 `UpdateRouteToNeighbor`: vSeqNo
+        false, seqNo 0). Eski sıra taşınsaydı, yerelde artırılmış bir sıra
+        (§6.11) hedefin gerçek sırasını geçer ve hedefin kendi RREP'i
+        §6.7'de bayat sayılırdı (AOMDV'de 22 Eylül'de ölçülen tuzak, K-205).
+        """
         r = self._rota.get(komsu)
         if r is None or not r.gecerli or r.atlama > 1:
             self._rota[komsu] = Rota(
-                sonraki=komsu, atlama=1,
-                hedef_sira=(r.hedef_sira if r else SONSUZ_SIRA),
+                sonraki=komsu, atlama=1, hedef_sira=SONSUZ_SIRA,
                 son_gecerli_s=simdi_s + ACTIVE_ROUTE_TIMEOUT_S,
                 oncular=(r.oncular if r else set()))
             self._kurtarma(komsu)
@@ -599,9 +617,18 @@ class AODV:
         omur = simdi_s + y["omur_ms"] / 1000.0
 
         r = self._rota.get(hedef)
-        daha_iyi = (r is None or not r.gecerli
-                    or hedef_sira > r.hedef_sira
-                    or (hedef_sira == r.hedef_sira and atlama < r.atlama))
+        # 🔴 §6.7 (i)–(iv), BİRİNCİL BELGEDEN ve ns-3 `RecvReply` ile aynı:
+        # sıra bilinmiyor · daha büyük · EŞİT ve rota etkin değil · EŞİT ve
+        # daha az atlama. İlk yazımda *"rota geçersizse her RREP"* kabul
+        # ediliyordu — daha KÜÇÜK sıralı, yani bu düğümün kopmasından önceki
+        # bir yolu anlatan bayat RREP dâhil. Ölçüldü (30 Eylül, statik-yok
+        # 1000): 331 bayat kabul, döngülü 77 paketin 61'inde döngüyü kuran
+        # buydu; TTL düşüşü 42 (K-205, `arsiv/teshis/u1_2026-09-29/aciklama/`).
+        daha_iyi = (r is None
+                    or r.hedef_sira == SONSUZ_SIRA                  # (i)
+                    or hedef_sira > r.hedef_sira                    # (ii)
+                    or (hedef_sira == r.hedef_sira
+                        and (not r.gecerli or atlama < r.atlama)))  # (iii)·(iv)
         if daha_iyi:
             self._rota[hedef] = Rota(
                 sonraki=gonderen, atlama=atlama, hedef_sira=hedef_sira,
@@ -616,7 +643,11 @@ class AODV:
 
         kaynak = y["kaynak"]
         if kaynak == self.kimlik:
-            if hedef in self._kesif:
+            # 🔒 Keşif yalnız kullanılabilir bir rota VARSA biter: reddedilen
+            # (bayat) bir RREP keşfi "başarılı" sayıp kapatsaydı tampondaki
+            # paketler rotasız beklerdi (AOMDV'de 22 Eylül'de ölçüldü).
+            if (hedef in self._kesif
+                    and self._rota_al(hedef, simdi_s) is not None):
                 del self._kesif[hedef]
                 self._sayac["kesif_basarili"] += 1
             if not daha_iyi:
@@ -648,10 +679,10 @@ class AODV:
         """§6.11 · RERR işleme — etkilenen rotalar geçersizleşir."""
         ulasilamaz = y["ulasilamaz"]
         etkilenen: list[int] = []
-        for h in ulasilamaz:
+        for h, sira in zip(ulasilamaz, y["ulasilamaz_sira"], strict=True):
             r = self._rota.get(h)
             if r is not None and r.gecerli and r.sonraki == gonderen:
-                self._gecersizlestir(r, simdi_s)
+                self._gecersizlestir(r, simdi_s, rerr_sira=sira)
                 etkilenen.append(h)
         if not etkilenen:
             return ()

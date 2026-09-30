@@ -31,8 +31,8 @@ from protokoller.aodv_bicim import (  # noqa: E402
     ACTIVE_ROUTE_TIMEOUT_S, ALLOWED_HELLO_LOSS, DELETE_PERIOD_S,
     HELLO_INTERVAL_S, NET_DIAMETER, NET_TRAVERSAL_TIME_S,
     NODE_TRAVERSAL_TIME_S, PATH_DISCOVERY_TIME_S, RERR, RREP, RREQ,
-    RREQ_RETRIES, TIP_RERR, TIP_RREP, TIP_RREQ, TTL_INCREMENT, TTL_START,
-    TTL_THRESHOLD, halka_suresi_s)
+    RREQ_RETRIES, SONSUZ_SIRA, TIP_RERR, TIP_RREP, TIP_RREQ, TTL_INCREMENT,
+    TTL_START, TTL_THRESHOLD, halka_suresi_s)
 from sim2.cekirdek.saat import YerelZaman  # noqa: E402
 from sim2.gozlem.karar import Beyan  # noqa: E402
 from sim2.gozlem.kontrol import KontrolIstegi, Uyandirma  # noqa: E402
@@ -699,6 +699,9 @@ def test_U1_KAHIN_PAYLASIMI_ve_ARA_KAYIT(monkeypatch, tmp_path, capsys):
     monkeypatch.setenv("DESPARETE_DUNYA", "referans_2026")
     monkeypatch.setattr(U, "DIZIN", tmp_path)
     monkeypatch.setattr(U, "_kod_imzasi", lambda: "A")
+    # Sahte PDR'lerle gerçek açıklanmış hücre listesi "ölü kayıt" sayılırdı.
+    monkeypatch.setattr(U, "ACIKLANMIS_DUSUK_REFERANS",
+                        {p: {} for p in U.ACIKLANMIS_DUSUK_REFERANS})
     yol = U._ara_kayit_yolu()
     assert yol.name == "u1_ara_referans_2026_yere_toplama.jsonl"
     olcum = {"pdr": 0.5, "gecerli": True, "tampon": {}, "sure": 1.0}
@@ -724,3 +727,136 @@ def test_U1_KAHIN_PAYLASIMI_ve_ARA_KAYIT(monkeypatch, tmp_path, capsys):
                             ).read_text(encoding="utf-8"))
         assert kayit["protokol"] == p
         assert [(h["kahin"], h["olcum"]["pdr"]) for h in kayit["hucreler"]]             == [(False, 0.5), (True, 0.5)]
+
+
+def test_REFERANS_ACIKLANMIS_HUCRE_DESEN_BASINA(monkeypatch, tmp_path, capsys):
+    """30 Eylül: referans dünyanın açıklanmış hücre listesi desen başınadır —
+    yere toplamada K-196'ya atıfla açıklanan OLSR hücresi, eşler arasında
+    (keşifsel) aynı (kol, tohum) olsa da açıklanmış SAYILMAZ."""
+    import json
+
+    import kalibrasyon.aodv_uygunluk as U
+    monkeypatch.setenv("DESPARETE_DUNYA", "referans_2026")
+    monkeypatch.delenv(U.DESEN_ORTAM, raising=False)
+    olcum = {"pdr": 0.64, "gecerli": True, "tampon": {}}
+    kahin = {"pdr": 0.99, "gecerli": True, "tampon": {}}
+    hucreler = [{"kol": "statik-yok", "tohum": 1000, "kahin": k,
+                 "olcum": kahin if k else olcum, "hata": None}
+                for k in (False, True)]
+    assert ("yere_toplama", "statik-yok", 1000) in         U.ACIKLANMIS_DUSUK_REFERANS["olsr"]
+    for desen, beklenen in (("yere_toplama", 0), ("esler_arasi", 1)):
+        yol = tmp_path / f"olsr_referans_2026_{desen}_son.json"
+        yol.write_text(json.dumps({"protokol": "olsr", "hucreler": hucreler}),
+                       encoding="utf-8")
+        assert U.hukum(yol) == beklenen, desen
+        cikti = capsys.readouterr().out
+        assert f"desen  : {desen}" in cikti
+        assert ("DUSUK (aciklanmis)" in cikti) == (beklenen == 0)
+
+
+# ==========================================================================
+# K-205 · SIRA NUMARASI KURALLARI — RFC 3561 §6.2 · §6.7 · §6.11 (ns-3 ile aynı)
+# ==========================================================================
+def _rrep(hedef_sira: int, atlama: int = 1, kaynak: int = 0,
+          hedef: int = 9) -> dict:
+    return {"kaynak": kaynak, "hedef": hedef, "hedef_sira": hedef_sira,
+            "atlama": atlama, "omur_ms": 3000}
+
+
+def test_K205_BAYAT_RREP_gecersiz_girdiyi_GUNCELLEMEZ():
+    """🔴 §6.7 (i)–(iv): geçersiz girdi yalnız EŞİT ya da büyük sırayla
+    güncellenir. İlk yazımda her RREP kabul ediliyordu; daha küçük sıralı
+    (kopmadan önceki bir yolu anlatan) RREP döngü kuruyordu (K-205)."""
+    p = AODV(5)
+    p._rota[9] = Rota(sonraki=1, atlama=2, hedef_sira=7, gecerli=False,
+                      son_gecerli_s=0.0, silme_s=100.0)
+    p._rrep_isle(3, _rrep(hedef_sira=6), 1.0)
+    assert p._rota[9].sonraki == 1 and not p._rota[9].gecerli, "bayat kabul"
+    p._rrep_isle(3, _rrep(hedef_sira=7, atlama=4), 1.1)        # (iii)
+    assert p._rota[9].sonraki == 3 and p._rota[9].gecerli
+    assert p._rota[9].hedef_sira == 7 and p._rota[9].atlama == 5
+    p._rrep_isle(4, _rrep(hedef_sira=7, atlama=5), 1.2)        # eşit, uzun
+    assert p._rota[9].sonraki == 3
+    p._rrep_isle(4, _rrep(hedef_sira=7, atlama=2), 1.3)        # (iv)
+    assert p._rota[9].sonraki == 4 and p._rota[9].atlama == 3
+    p._rrep_isle(6, _rrep(hedef_sira=8, atlama=9), 1.4)        # (ii)
+    assert p._rota[9].sonraki == 6 and p._rota[9].hedef_sira == 8
+
+
+def test_K205_komsu_rotasi_SIRASIZ_ve_gecersizlestirme_kurallari():
+    """§6.2: komşu rotası geçerli sıra OLMADAN kurulur (ns-3
+    `UpdateRouteToNeighbor`) ve (i) ile her RREP'le güncellenebilir. §6.11
+    madde 1: sıra yalnız geçerliyse artar, RERR'de RERR'den kopyalanır."""
+    p = AODV(5)
+    p._rota[3] = Rota(sonraki=4, atlama=2, hedef_sira=8, gecerli=False,
+                      silme_s=100.0)
+    p._komsu_rotasi(3, 1.0)
+    assert p._rota[3].hedef_sira == SONSUZ_SIRA and p._rota[3].atlama == 1
+    p._rrep_isle(4, _rrep(hedef_sira=2, atlama=1, hedef=3), 1.1)   # (i)
+    assert p._rota[3].hedef_sira == 2 and p._rota[3].sonraki == 4
+    p._rota[7] = Rota(sonraki=3, atlama=1, hedef_sira=SONSUZ_SIRA)
+    p._gecersizlestir(p._rota[7], 2.0)
+    assert p._rota[7].hedef_sira == SONSUZ_SIRA, "bilinmeyen sıra uyduruldu"
+    p._rota[8] = Rota(sonraki=3, atlama=2, hedef_sira=8)
+    p._gecersizlestir(p._rota[8], 2.0)
+    assert p._rota[8].hedef_sira == 9                          # yerel: +1
+    p._rota[9] = Rota(sonraki=1, atlama=2, hedef_sira=5, son_gecerli_s=100.0)
+    p._rerr_isle(1, {"ulasilamaz": (9,), "ulasilamaz_sira": (12,)}, 3.0)
+    assert not p._rota[9].gecerli and p._rota[9].hedef_sira == 12
+
+
+def test_K205_kaynak_REDDEDILEN_RREPle_kesfi_KAPATMAZ():
+    """Keşif yalnız kullanılabilir rota varsa biter: bayat RREP keşfi
+    "başarılı" sayıp kapatsaydı tampondaki paket rotasız beklerdi (AOMDV'de
+    22 Eylül'de ölçülen tuzak)."""
+    p = AODV(0)
+    p._rota[9] = Rota(sonraki=1, atlama=2, hedef_sira=7, gecerli=False,
+                      silme_s=100.0)
+    karar = p.sonraki_atlama(_gozlem(0, 1.0, paket_hedefi=9))
+    assert karar.beklet and 9 in p._kesif
+    assert dict(_istekler(karar.niyetler)[0].yuk)["hedef_sira"] == 7
+    assert p._rrep_isle(3, _rrep(hedef_sira=6), 1.1) == ()
+    assert 9 in p._kesif and p._sayac["kesif_basarili"] == 0
+    cikti = p._rrep_isle(3, _rrep(hedef_sira=7), 1.2)
+    assert 9 not in p._kesif and p._sayac["kesif_basarili"] == 1
+    assert _uyandirmalar(cikti), "tampon yeniden sorulmadı"
+
+
+def test_K205_AOMDV_sira_kurali_DEGISMEDI():
+    """AOMDV kendi (S10) kuralını taşır: bilinmeyen sıra geçersizleşince
+    K-205'ten önceki gibi 1 olur — `AOMDV-b` davranışı birebir."""
+    from protokoller.aomdv import AOMDV
+    q = AOMDV(5)
+    q._komsu_rotasi(3, 1.0)
+    assert q._rota[3].hedef_sira == SONSUZ_SIRA
+    q._gecersizlestir(q._rota[3], 2.0)
+    assert q._rota[3].hedef_sira == SONSUZ_SIRA + 1
+
+
+def test_K192b_KAHIN_ASIMI_ZARF_KAYDI(monkeypatch, tmp_path, capsys):
+    """K-192 (b): zarf içinde kalan kâhin aşımı kayıtlıysa U1-U geçer; aynı
+    hücre başka desende ya da kayıtsız aşım kalır; aşmayan kayıt ÖLÜ kayıttır."""
+    import json
+
+    import kalibrasyon.aodv_uygunluk as U
+    monkeypatch.setenv("DESPARETE_DUNYA", "referans_2026")
+    monkeypatch.delenv(U.DESEN_ORTAM, raising=False)
+    monkeypatch.setattr(U, "KAHIN_ASIMI_ACIKLANMIS", {
+        "aomdv": {("esler_arasi", "formasyon-yok", 1000): "zarf"}})
+
+    def kayit(desen, pdr):
+        hucreler = [{"kol": "formasyon-yok", "tohum": 1000, "kahin": k,
+                     "olcum": {"pdr": 0.97 if k else pdr, "gecerli": True,
+                               "tampon": {}}, "hata": None}
+                    for k in (False, True)]
+        yol = tmp_path / f"aomdv_referans_2026_{desen}_son.json"
+        yol.write_text(json.dumps({"protokol": "aomdv", "hucreler": hucreler}),
+                       encoding="utf-8")
+        return yol
+
+    assert U.hukum(kayit("esler_arasi", 0.975)) == 0
+    assert "ZARF ICINDE" in capsys.readouterr().out
+    assert U.hukum(kayit("yere_toplama", 0.975)) == 1       # kayıtsız desen
+    assert "KAHINI GECTI" in capsys.readouterr().out
+    assert U.hukum(kayit("esler_arasi", 0.96)) == 1         # aşım yok → ölü
+    assert "OLU ZARF KAYDI" in capsys.readouterr().out
