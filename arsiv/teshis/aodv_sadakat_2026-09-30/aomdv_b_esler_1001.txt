@@ -1,0 +1,4 @@
+kod kopya · esler_arasi statik-yok 1001 · pdr 0.9817
+  dusus: {'iletim_basarisiz': 192, 'rota_gecersiz': 42}
+  sayac: {'cevap_siniri': 10, 'kara_liste_eklenen': 18, 'kesif_basarili': 107, 'komsu_zaman_asimi': 8785, 'rerr_onculsuz': 8212, 'rerr_uretilen': 953, 'rota_gecersizlestirilen': 10086, 'rrep_iletilen': 423, 'rrep_uretilen': 240, 'rreq_bastirilan': 2767, 'rreq_iletilen': 1859, 'rreq_kara_listeden': 21, 'rreq_uretilen': 216, 'rreq_yeni_yol': 1180, 'yedek_yola_gecis': 413, 'yol_dusen': 9782}
+  ara dugum: {'ara: rota var': 20323, 'ara: gecersiz': 42}

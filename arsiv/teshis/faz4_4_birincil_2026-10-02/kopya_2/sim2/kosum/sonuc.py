@@ -1,0 +1,362 @@
+"""
+Sonuç satırı — bir koşunun bıraktığı TEK kayıt, ve onu diske yazan kalem.
+
+🔴 BU DOSYADA TEK BİR SÖZLÜK LİTERALİ YOK
+=========================================
+Eski simülatörde sonuç sözlüğü **elle yazılmış 25 sayaç ifadesiydi** ve aynı
+ifadeler anlık görüntü fonksiyonunda bir kez daha duruyordu. İki liste
+sessizce ayrıştı. Buradaki kural yapısaldır: her bölüm kendi kayıt
+defterinden TÜRETİLİR — sayaçlar `cekirdek/sayaclar.py`den, konfig
+`Konfig.sozluk()`ten, metrikler `olcum/metrikler.py`den. Elle yazılan tek
+şey bölüm ADLARIdır ve onlar da tek bir demettedir.
+
+🔴 SATIR BAŞINA `fsync`
+=======================
+Uzun bir tarama saatler sürer ve ortasında kesilebilir (elektrik, kullanıcı,
+işletim sistemi). `fsync` olmadan işletim sisteminin arabelleğindeki son
+satırlar YARIM kalır ve `.jsonl` dosyası okunamaz hâle gelir — üstelik hata
+dosyanın SONUNDA olduğu için, hatayı görene kadar okunmuş satırlar geçerli
+sanılır. Satır başına `fsync` bu maliyeti (koşu başına milisaniyeler) öder.
+
+🔒 GEÇERSİZ SATIR SİLİNMEZ, İŞARETLENİR
+=======================================
+Korunum ya da mutabakat tutmayan bir koşu dosyaya YAZILIR ve
+`gecerli=False` taşır. Yazmamak, bozuk koşuların varlığını gizlemek olurdu;
+analiz onları dışlar ama kaç tane olduğunu SAYAR.
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import sys
+from pathlib import Path
+from typing import Any, Iterable
+
+from sim2.cekirdek import kimlik as K
+from sim2.cekirdek.degismezler import dogrula
+from sim2.cekirdek.rng import akis_listesi_hash
+from sim2.cekirdek.sayaclar import kume_uyeleri, sayac_semasi_hash
+from sim2.kosum.kontrol import kontrol_korunumu, kontrol_teshisi
+from sim2.kosum.kurulum import Kurulum
+from sim2.yapilandirma.kapsam import kapsam_bolumu
+from sim2.yapilandirma.kokenler import kova_sayimi
+from sim2.olcum.metrikler import metrik_sozlugu
+
+__all__ = ["BOLUMLER", "TEDAVI_ALANLARI", "korunum_bolumu",
+           "sonuc_satiri", "SatirYazici"]
+
+# 🔒 Satırın bölümleri. Elle yazılan TEK liste bu; içerikleri türetilir.
+BOLUMLER: tuple[str, ...] = (
+    "kimlik", "ortam", "konfig", "kapsam", "metrikler", "korunum",
+    "ham", "teshis",
+)
+
+# `kapsam`: satır kendi kapsam sınırlarını taşır — aylar sonra açılan bir
+# `.jsonl` satırı hangi sınırlarla üretildiğini kendisi söyler.
+# `ham`: paket defterinin ham listeleri satırdadır; `analiz/` (sim2'yi içe
+# aktaramaz) yüzdelik ve evre metriklerini buradan yeniden üretir ve iki
+# gerçeklemenin sessizce ayrışması böyle engellenir. Bedeli: tam uzunluk
+# satırı ~0,5 MB (%98'i `ham`). Kapatılabilir değil — iki koşum modu doğar
+# ve birinde metrikler yeniden üretilemezdi; çare sıkıştırmadır.
+
+# 🔒 İki kolun MEŞRU olarak ayrılabileceği alanlar. `kurulum_hash` bunları
+# dışarıda bırakır: başka bir alan farklıysa o ikisi aynı deneyin iki kolu
+# değildir ve karşılaştırılamazlar.
+TEDAVI_ALANLARI: tuple[str, ...] = ("kol", "senaryo", "tohum", "not_",
+                                    "trafik_deseni", "tehdit_senaryosu",
+                                    # `v2/15` C1 · C2 (K-180) — eksenler
+                                    "kayip_dugum_sayisi", "kayip_bas_s",
+                                    "kayip_bitis_s", "telemetri_paket_hizi_hz",
+                                    "komut_paket_hizi_hz", "akis_paket_hizi_hz")
+
+
+def _kimlik_bolumu(kur: Kurulum, dugumler: tuple[Any, ...],
+                   protokol_adi: str) -> dict[str, Any]:
+    konfig = kur.konfig
+    sozluk = konfig.sozluk()
+    arac = K.arac_hash()
+    kurulum = K.kurulum_hash(sozluk, TEDAVI_ALANLARI)
+    tedavi = K.tedavi_hash(sozluk, TEDAVI_ALANLARI)
+    protokol = _protokol_parmak_izi(dugumler, protokol_adi)
+    evren = K.evren_hash(_evren(kur))
+    sayac_sema = sayac_semasi_hash()
+    akis_listesi = akis_listesi_hash()
+    return dict(zip(
+        ("kosu_kimligi", "calisma_kimligi", "zaman_damgasi_utc", "arac_hash",
+         "kurulum_hash", "tedavi_hash", "protokol_hash", "evren_hash",
+         "sayac_semasi_hash", "akis_listesi_hash", "kol", "protokol",
+         "senaryo", "tohum", "not_"),
+        (K.kosu_kimligi(arac=arac, kurulum=kurulum, tedavi=tedavi,
+                        protokol=protokol, kol=konfig.kol,
+                        tohum=konfig.tohum, sayac_semasi=sayac_sema,
+                        akis_listesi=akis_listesi),
+         K.calisma_kimligi(), K.zaman_damgasi_utc(), arac, kurulum, tedavi,
+         protokol, evren, sayac_sema, akis_listesi, konfig.kol, protokol_adi,
+         konfig.senaryo, konfig.tohum, konfig.not_)))
+
+
+def _protokol_parmak_izi(dugumler: tuple[Any, ...], protokol_adi: str) -> str:
+    """Protokolün kodu + bildirdiği parametreler → `protokol_hash` (K-171).
+
+    🔒 KOD: sınıfın modülü bir paketteyse PAKETİN tamamı özetlenir —
+    DESPARETE'nin davranışı `protokoller/` altındaki yardımcı modüllerde de
+    yaşar. Tek dosyalık modülde (sınav protokolleri, betikler) o dosya.
+    Modül ADI değil dosya adı kullanılır: havuz işçisinde betiğin modülü
+    `__mp_main__` olur ve kimlik havuzla havuzsuz koşu arasında
+    ayrışmamalı.
+
+    🔒 PARAMETRE: protokol `kimlik_parametreleri()` tanımlarsa onun
+    `repr`leri. Tanımlamayan protokol (bugünkü taban protokoller) parametresiz
+    kurulur; imzası yalnız kodudur.
+    """
+    kod: set[str] = set()
+    parametre: set[str] = set()
+    for d in dugumler:
+        sinif = type(d.protokol)
+        ad = sinif.__module__.split(".")[0]
+        yollar = getattr(sys.modules.get(ad), "__path__", None)
+        if yollar:
+            kod.add(f"{ad}:{sinif.__qualname__}:"
+                    f"{K.arac_hash(Path(next(iter(yollar))))}")
+        else:
+            dosya = Path(sys.modules[sinif.__module__].__file__)
+            kod.add(f"{dosya.name}:{sinif.__qualname__}:"
+                    f"{K.dosya_hash(dosya)}")
+        bildiren = getattr(d.protokol, "kimlik_parametreleri", None)
+        if bildiren is not None:
+            parametre.add(sinif.__qualname__ + ":" + ";".join(
+                f"{k}={v!r}" for k, v in sorted(bildiren().items())))
+    return K.protokol_hash(ad=protokol_adi, kod=kod, parametreler=parametre)
+
+
+def _akis_siniflari(kur: Kurulum) -> dict[int, str] | None:
+    """Yere toplamada akış → `telemetri` (geçide) | `komut` (geçitten).
+
+    🔒 K-171 (`v2/15` A1): iki yönün teslimi TEK `pdr`de toplanıyordu. Komut
+    akışı az (`komut_akis_sayisi`) ama görevin kendisidir; telemetri
+    kalabalığı içinde kaybı görünmez kalırdı. Eşler arası desende sınıf
+    yok → `None`, ve satır birebir eskisi gibi.
+    """
+    gecit = kur.konfig.gecit
+    if gecit is None:
+        return None
+    return {a.kimlik: ("telemetri" if a.hedef == gecit else "komut")
+            for a in kur.trafik.akislar}
+
+
+def karistirici_cizelgesi(kur: Kurulum) -> tuple[float, float] | None:
+    """Karıştırıcının yayın çizelgesi `(açık_s, sessiz_s)` — evre metrikleri
+    için (K-209). Karıştırıcı yoksa ya da sürekliyse `None`.
+
+    🔒 Tanımlar tehdit ailesinden (`kanal/tehdit.py`) okunur; kanal nesnesine
+    dokunulmaz. Çizelgeli ailede üyelerin çizelgesi tek ve ofseti sıfır
+    olmalı (bugün yalnız `derin_sizma`, tek üye); değilse durulur.
+    """
+    if kur.kanal.karistirici is None:
+        return None
+    from sim2.kanal.tehdit import tehdit_tanimlari
+    yayinlar = {t.yayin for t in (tehdit_tanimlari(kur.konfig) or ())}
+    cizelgeli = [y for y in yayinlar if y.duzen != "surekli"]
+    if not cizelgeli:
+        return None
+    dogrula(len(yayinlar) == 1 and cizelgeli[0].ofset_s == 0.0,
+            "evre metrikleri tek ve ofsetsiz bir çizelge ister")
+    return (cizelgeli[0].acik_s, cizelgeli[0].sessiz_s)
+
+
+def _evren(kur: Kurulum) -> tuple[tuple[int, float, int, int], ...]:
+    """Ölçüm penceresindeki paket evreni — `(kimlik, doğum, kaynak, hedef)`.
+
+    🔒 Kaynak/hedef defterden DEĞİL, akış tanımından okunur: defter yalnız
+    akış kimliğini tutar ve o kimlik, üretecin akış tablosunda kaynak-hedef
+    çiftinin TEK doğru kaynağıdır.
+    """
+    cikti = []
+    for paket, akis_kimligi, dogum_s in kur.paket_defteri.dogumlar(True):
+        akis = kur.trafik.akis(akis_kimligi)
+        cikti.append((paket, dogum_s, akis.kaynak, akis.hedef))
+    return tuple(cikti)
+
+
+def korunum_bolumu(kur: Kurulum, dugumler: Iterable[Any]) -> dict[str, Any]:
+    """🔴 DENKLEM ve MUTABAKAT — iki AYRI kapı, ikisi de yazılır.
+
+    Denklem defterin kendi geçişlerinin tutarlılığını ölçer; mutabakat
+    defterin gerçeği doğru modelleyip modellemediğini. Biri tutup öteki
+    tutmayabilir ve o durumda satır GEÇERSİZDİR.
+    """
+    # 🔒 ROTA BEKLEME TAMPONU DA "KUYRUKTA" SAYILIR — K-131 (denetim B1).
+    # Tampon defterde ayrı bir havuz DEĞİLDİR: paket arayüz kuyruğu ile
+    # tampon arasında yer değiştirir, durum değiştirmez. Buraya eklenmeseydi
+    # bekleyen her paket defterde "kuyrukta" görünür ama gerçekte hiçbir
+    # kuyrukta olmazdı — ve MUTABAKAT tam olarak bunu yakalamak için var
+    # (`cekirdek/korunum.py`: denklem tutar ama defterin modeli ayrışır).
+    dugumler = tuple(dugumler)
+    kuyrukta = (sum(len(k) for k in kur.kuyruklar)
+                + sum(len(d.bekleyenler) for d in dugumler))
+    # 🔴 EL DEĞİŞTİRMİŞ PAKET UÇUŞTA SAYILMAZ. `_ucustaki` gönderende, onay
+    # gelene ya da zaman aşımına uğrayana kadar durur; ama paket alıcı onu
+    # çözdüğü ANDA defterde el değiştirmiştir. Koşu, bu ikisinin arasında
+    # biterse gönderende bayat bir `_ucustaki` kalır. Onu "uçuşta" saymak
+    # mutabakatı sahte olarak kırardı — 30 tohumluk kapıda 1005'te ölçüldü
+    # (`ucus_farki = -1`) ve mutabakatın kendisi bunu YAKALADI.
+    ucusta = sum(1 for d in dugumler
+                 if d.ucustaki is not None and not d.devredildi)
+    rapor = dict(kur.korunum.kontrol())
+    rapor.update(kur.korunum.mutabakat(kuyrukta, ucusta))
+    # 🔴 ÜÇÜNCÜ KAPI — İLETİM SONUCU KAPALI KÜMESİ (8 Eylül 2026).
+    # Her MAC denemesi ya onaylanır ya onaysız kalır; onaysızlık da ya
+    # verinin ulaşmamasından ya onayın kaybolmasındandır. Üçünün toplamı
+    # deneme sayısına EŞİT olmak zorundadır. Eşit değilse bir deneme
+    # hiçbir kovaya girmeden kaybolmuştur — korunum denklemini KIRMADAN.
+    # Ölçüldü: kimlik tam tutuyor (fark 0).
+    sayac = kur.sayaclar.disa_ver()
+    uyeler = kume_uyeleri("iletim_sonucu")
+    toplam = sum(float(sayac.get(ad) or 0.0) for ad in uyeler)
+    deneme = float(sayac.get("mac_deneme") or 0.0)
+    # 🔴 KOŞU SONUNDA SONUCU BEKLEYEN DENEME — 11 Eylül 2026 (K-115).
+    # Koşu `kosu_bitis_s`te kesilir ve bitişten sonraya düşen olaylar
+    # işlenmez. Son anlarda başlayan bir veri denemesinin onay penceresi
+    # bitişi aşarsa deneme SAYILMIŞ ama sonucu YAZILMAMIŞ olur. Onay bekleme
+    # bayrağı iletim başında kalkar, kredi ya da zaman aşımında iner; onay
+    # beklenirken düğümün sürümü değişmediği için koşu içindeki pencere olayı
+    # mutlaka işlenir. Yani bayrağı koşu sonunda kalkık düğüm sayısı TAM
+    # OLARAK sonucu yazılmamış deneme sayısıdır ve orta yerde kaybolmuş bir
+    # sonucu örtemez. Ölçüldü: Y2'den sonra `d-bagimsiz-surekli-yuklu`
+    # vakasında fark 1, bekleyen düğüm 1.
+    askida = sum(1 for d in dugumler if d.onay_bekleniyor)
+    rapor["iletim_sonucu_toplam"] = toplam
+    rapor["iletim_sonucu_askida"] = askida
+    rapor["mac_deneme"] = deneme
+    rapor["iletim_sonucu_tamam"] = toplam + askida == deneme
+    # 🔒 C3 (K-180) — ENERJİ SÜRE DEĞİŞMEZİ: gönderim + alım + dinleme =
+    # telsizin açık kaldığı süre, üçü de negatif değil (gönderirken kilit
+    # düşer, yani ikisi örtüşemez).
+    sureler = [d.enerji(kur.konfig.kosu_bitis_s)[1:] for d in dugumler]
+    rapor["enerji_sure_tamam"] = all(min(s) >= -1e-9 for s in sureler)
+    rapor["enerji_gonderim_s"] = sum(s[0] for s in sureler)
+    rapor["enerji_alim_s"] = sum(s[1] for s in sureler)
+    rapor["enerji_dinleme_s"] = sum(s[2] for s in sureler)
+    rapor["gecerli"] = bool(rapor["korunum_tamam"]
+                            and rapor["mutabakat_tamam"]
+                            and rapor["iletim_sonucu_tamam"]
+                            and rapor["enerji_sure_tamam"])
+    # 🔒 DÖRDÜNCÜ KAPI — KONTROL DEFTERİ (K-112). Yalnız kontrol düzlemi
+    # KULLANILDIYSA satıra girer; kullanmayan protokolde bölüm birebir aynı.
+    kk = kontrol_korunumu(dugumler)
+    if kk is not None:
+        rapor.update(kk)
+        rapor["gecerli"] = bool(rapor["gecerli"] and kk["kontrol_mesaj_tamam"]
+                                and kk["kontrol_uyandirma_tamam"]
+                                and kk["kontrol_jitter_tamam"])
+    return rapor
+
+
+def _teshis_bolumu(kur: Kurulum, dugumler: Iterable[Any]) -> dict[str, Any]:
+    """Protokol teşhisleri + ikizsiz sayaç raporu. KARARA GİRMEZ, rapora."""
+    rapor: dict[str, Any] = dict()
+    rapor["dugum"] = tuple(d.teshis() for d in dugumler)
+    rapor["ikizsiz"] = dict(kur.sayaclar.ikizsiz_rapor())
+    rapor["bekleyen_olay"] = kur.olaylar.bekleyen_olay_sayisi()
+    rapor["cizelgelenen_dogum"] = kur.trafik.toplam_dogum
+    rapor["penceredeki_dogum"] = kur.trafik.penceredeki_dogum()
+    rapor["pencere_kimlik_araligi"] = kur.paket_defteri.pencere_kimlik_araligi()
+    # 🔴 SÖNÜMLEME ÖNBELLEĞİ — tavanın yettiğini HER koşuda göster.
+    # Tavan sonucu değiştiremez (saf memo) ama yetmezse bedeli sessiz bir CPU
+    # kaybıdır: ıskalama oranı yükselir ve kimse fark etmez. Çalışma noktası
+    # değiştiğinde (yol kaybı üsteli, hızlar) sönümleme filtresi uzuyor ve
+    # çalışma kümesi büyüyor — o yüzden bu satır rapora giriyor.
+    rapor["sonumleme_onbellegi"] = dict(kur.kanal.sonumleme.onbellek_raporu())
+    # 🔴 PARAMETRE KÖKEN BORCU — her koşu kendi borcunu BEYAN eder.
+    # `SINANMAMIS` sayısı, o koşunun kaç parametresinin gerekçesiz olduğunu
+    # söyler. Sıfırlanmadan ön-kayıt mühürlenemez; satıra yazılması, borcun
+    # zamanla nasıl eridiğinin (ya da erimediğinin) kaydını tutar.
+    rapor["koken_kovalari"] = dict(kova_sayimi())
+    kt = kontrol_teshisi(dugumler)
+    if kt is not None:
+        rapor["kontrol_duzlemi"] = kt
+    # Yere toplamada düşüşlerin geçide mesafesi (`v2/07` §18 Y4).
+    if kur.kayip_yeri is not None:
+        rapor["kayip_yeri"] = kur.kayip_yeri.rapor()
+    return rapor
+
+
+def sonuc_satiri(kur: Kurulum, dugumler: Iterable[Any],
+                 protokol_adi: str) -> dict[str, Any]:
+    """Bir koşunun sonuç satırı. Bölümler `BOLUMLER`den, içerik defterlerden."""
+    dugumler = tuple(dugumler)
+    uretici = (
+        lambda: _kimlik_bolumu(kur, dugumler, protokol_adi),
+        K.ortam_ozeti,
+        kur.konfig.sozluk,
+        lambda: kapsam_bolumu(kur.konfig),
+        # 🔒 Açılma anı SATIRA konfigden taşınır, `olcum/` onu aramaz:
+        # ölçüm defterleri konfigürasyona bağımlı olmamalı. Akış sınıfları
+        # da öyle — `olcum/` geçidi bilmez, sınıf haritasını alır.
+        lambda: metrik_sozlugu(kur.sayaclar.disa_ver(), kur.paket_defteri,
+                               kur.rota_defteri,
+                               acilma_s=kur.konfig.karistirici_baslangic_s,
+                               akis_siniflari=_akis_siniflari(kur),
+                               cizelge=karistirici_cizelgesi(kur),
+                               enerji_j=tuple(
+                                   d.enerji(kur.konfig.kosu_bitis_s)[0]
+                                   for d in dugumler)),
+        lambda: korunum_bolumu(kur, dugumler),
+        kur.paket_defteri.ham_sozluk,
+        lambda: _teshis_bolumu(kur, dugumler),
+    )
+    dogrula(len(uretici) == len(BOLUMLER),
+            "bölüm adı ile üreticisi ayrışmış — biri eklenmiş, öteki değil")
+    return dict(zip(BOLUMLER, (f() for f in uretici)))
+
+
+class SatirYazici:
+    """`.jsonl` yazıcısı — satır başına `flush` + `fsync`.
+
+    🔒 `append` kipi: bir dosyaya iki kez yazmak satırları ÇOĞALTIR ve
+    çoğaltılmış satırlar anlamlılığı uydurur (`cekirdek/kimlik.py`deki
+    41 katlık ölçüme bak). Kopyayı bulmak analiz katmanının işidir ve
+    `kosu_kimligi` bunun için vardır — ama yazıcı kopyayı gizlemez.
+    """
+
+    __slots__ = ("yol", "_dosya")
+
+    def __init__(self, yol: str | Path) -> None:
+        self.yol = Path(yol)
+        self.yol.parent.mkdir(parents=True, exist_ok=True)
+        self._dosya = None
+
+    def __enter__(self) -> "SatirYazici":
+        self._dosya = open(self.yol, "a", encoding="utf-8", newline="\n")
+        return self
+
+    def __exit__(self, *_) -> None:
+        if self._dosya is not None:
+            self._dosya.close()
+            self._dosya = None
+
+    def yaz(self, satir: dict[str, Any]) -> None:
+        dogrula(self._dosya is not None,
+                "yazıcı açılmadan yazılamaz — `with SatirYazici(...) as y`")
+        self._dosya.write(json.dumps(satir, ensure_ascii=False,
+                                     default=_donustur) + "\n")
+        self._dosya.flush()
+        os.fsync(self._dosya.fileno())
+
+
+def _donustur(nesne: Any) -> Any:
+    """JSON'un tanımadığı tipler. 🔴 Sessiz `str()` YOK.
+
+    Bilinmeyen bir tipi metne çevirmek, sonuç satırına ne yazıldığının
+    bilinmemesi demektir; şema sessizce kayar. Demet listeye çevrilir
+    (JSON'da karşılığı odur), gerisi HATA verir.
+    """
+    if isinstance(nesne, tuple):
+        return list(nesne)
+    if isinstance(nesne, (set, frozenset)):
+        return sorted(nesne)
+    raise TypeError(
+        f"sonuç satırına JSON'a çevrilemeyen bir tip girdi: "
+        f"{type(nesne).__name__}. Şemaya girecek her değer açıkça "
+        f"dönüştürülmelidir.")

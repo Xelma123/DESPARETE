@@ -130,6 +130,7 @@ yuvarlanır, geçersiz değerler `GECERSIZ` diye raporlanır (bastırılmaz).
 from __future__ import annotations
 
 import dataclasses
+import importlib
 import math
 import statistics as ist
 import sys
@@ -157,8 +158,15 @@ CARPANLAR = (0.5, 2.0)
 # Bu sayı düzyazıda dolaşıyordu (köken defteri başlığı, karar kayıtları,
 # `12` §1) ve bu alet ona HİÇ bakmıyordu. Artık bir sabittir ve karar
 # mantığında KULLANILIR.
-#     Üretici : `python -u kalibrasyon/cozunurluk.py --tohum 40`
-#     Ölçüldü : 15 Eylül 2026 (C7, K-128) · eşleştirilmiş `olcut_bedeli`
+#     Üretici : `py -3.11 -u kalibrasyon/cozunurluk.py --dunya referans_2026
+#               --hucre birincil --tohum 40`
+#     Ölçüldü : 6 Ekim 2026 (Faz 4.4, K-216) · referans dünya, BİRİNCİL hücre
+#               (formasyon-sürekli · yere_toplama · derin_sizma) ·
+#               eşleştirilmiş `olcut_bedeli` · yakınsamış kâhin (48 örnek,
+#               K-215), PDR 0,887 (taban değil).
+#     Önceki değerler arşivde: 0,0188 (2 Ekim, 6 örnekli kâhin, K-213) ·
+#               eski dünyanın 0,0230'u (15 Eylül, K-128) —
+#               `arsiv/teshis/faz4_4_2026-09-30/beklenti.md`.
 # ⚠️ EŞLEŞTİRİLMİŞ olan seçildi, en gevşek olan değil: ön-kayıttaki birincil
 # test de (Wilcoxon, `06` §7), bu aletin kendi farkı da (`_esli_fark`)
 # eşleştirilmiştir. Tek kol çözünürlüğü (0,0316) buraya YAZILSAYDI aklamalar
@@ -167,7 +175,7 @@ CARPANLAR = (0.5, 2.0)
 # 🔒 BAYATLIK KAPISI `cozunurluk.py`dedir: o alet R'yi yeniden ölçer ve bu
 # sabitle karşılaştırır; ayrışırsa kırmızı yanar. Sabit burada durur çünkü
 # `cozunurluk.py` bu modülü içe aktarıyor — ters yön bir döngü olurdu.
-R_ESLESTIRILMIS: float = 0.0230
+R_ESLESTIRILMIS: float = 0.0142
 
 # 🔒 KISA PENCERE, TAMAMEN KARIŞTIRILMIŞ EVREDE. Sorulan şey çalışma
 # noktasındaki bir DEĞER değil, bir parametrenin çıktıyı oynatıp
@@ -209,12 +217,41 @@ def _taban_degeri(ad: str, varsayilan):
     return getattr(_TABAN_KONFIG[0], ad)
 
 
+# 🔴 OLASILIK EŞİKLERİ (2 Ekim 2026, K-213). `ATLAMA_ESIGI = 0,90` düz
+# çarpılınca ×2 → 1,8 olur: hiçbir bağ eşiği geçmez, kâhin boş grafikte
+# koşar ve "etki" bir yapay sıfırdan ölçülür. Çarpılan, TOLERE EDİLEN KAYIP
+# payıdır (1 − p): ×0,5 → 0,95 · ×2 → 0,80.
+OLASILIK_SABITLERI: frozenset[str] = frozenset({
+    "kalibrasyon/kahin.py::ATLAMA_ESIGI",
+})
+
+
+def _modul_sabiti(ad: str):
+    """`"sim2/dunya/mobilite.py::ISTASYON_TUTMA_S"` → (modül, ad, değer)."""
+    yol, _, sabit = ad.partition("::")
+    modul = importlib.import_module(yol.removesuffix(".py").replace("/", "."))
+    return modul, sabit, getattr(modul, sabit)
+
+
 def _oynat(ad: str, carpan: float):
     """Parametrenin oynatılmış değeri; oynatılamıyorsa `None`.
 
     🔒 Tür KONFİGDEN okunur, elle eşlenmez: yeni bir alan eklendiğinde bu
     fonksiyon onu kendiliğinden doğru oynatır.
+    🔒 Faz 4.4 (2 Ekim 2026): `yol::AD` bir MODÜL SABİTİDİR (köken
+    defterindeki adıyla); türü değerinden okunur, işçide koşudan önce
+    yamalanır ve sonra geri alınır (`_kos`).
     """
+    if "::" in ad:
+        _m, _a, deger = _modul_sabiti(ad)
+        if ad in OLASILIK_SABITLERI:
+            return 1.0 - (1.0 - deger) * carpan
+        if isinstance(deger, bool):
+            return not deger
+        if isinstance(deger, int):
+            yeni = round(deger * carpan)
+            return yeni if yeni != deger else None
+        return deger * carpan
     alan = _ALANLAR.get(ad)
     if alan is None:
         return None
@@ -261,16 +298,27 @@ def _kos(senaryo: str, tohum: int, alet: str, ek: dict):
     # geçiyordu ve `isinma_s` gibi bir pencere alanı oynatıldığında koşum
     # `TypeError` ile patlıyordu — üstelik hata "GECERSIZ" diye düşülüp
     # parametre "OLCULEMEDI" kovasına girdiği için SESSİZCE AKLANIYORDU.
-    kfg = DS.konfig(kol="duyarlilik", senaryo=senaryo, tohum=tohum,
-                 **{**PENCERE, **ek})
-    kur = kurulum_yap(kfg)
-    if alet == "en_guvenilir_kahin":
-        g = KanalGrafigi(kur)
-        kosu = Kosu(kur, lambda i: EnGuvenilirKahin(i, g))
-    else:
-        g = KanalGrafigi(kur)
-        kosu = Kosu(kur, lambda i: EnKisaYolKahin(i, g))
-    kosu.kostur()
+    modul_ek = {a: d for a, d in ek.items() if "::" in a}
+    ek = {a: d for a, d in ek.items() if "::" not in a}
+    eskiler = []
+    try:
+        for ad, deger in modul_ek.items():
+            modul, sabit, eski = _modul_sabiti(ad)
+            eskiler.append((modul, sabit, eski))
+            setattr(modul, sabit, deger)
+        kfg = DS.konfig(kol="duyarlilik", senaryo=senaryo, tohum=tohum,
+                        **{**PENCERE, **ek})
+        kur = kurulum_yap(kfg)
+        if alet == "en_guvenilir_kahin":
+            g = KanalGrafigi(kur)
+            kosu = Kosu(kur, lambda i: EnGuvenilirKahin(i, g))
+        else:
+            g = KanalGrafigi(kur)
+            kosu = Kosu(kur, lambda i: EnKisaYolKahin(i, g))
+        kosu.kostur()
+    finally:
+        for modul, sabit, eski in reversed(eskiler):
+            setattr(modul, sabit, eski)
     s = metrik_sozlugu(kur.sayaclar.disa_ver(), kur.paket_defteri,
                        kur.rota_defteri)
     say = kur.sayaclar

@@ -1,0 +1,5 @@
+veri karari: ESKI (U1 kopyasi)
+kod desparete_pls · esler_arasi statik-yok 1001 · pdr 0.9498
+  dusus: {'iletim_basarisiz': 96, 'rota_gecersiz': 546}
+  sayac: {'cevap_siniri': 8, 'kara_liste_eklenen': 9, 'kesif_basarili': 75, 'komsu_zaman_asimi': 8988, 'rerr_onculsuz': 9067, 'rerr_uretilen': 608, 'rota_gecersizlestirilen': 10137, 'rrep_iletilen': 264, 'rrep_uretilen': 161, 'rreq_bastirilan': 2052, 'rreq_iletilen': 1633, 'rreq_kara_listeden': 4, 'rreq_uretilen': 159, 'rreq_yeni_yol': 1230, 'yedek_yola_gecis': 366, 'yol_dusen': 9772}
+  ara dugum: {'ara: rota var': 19123, 'ara: gecersiz': 546, 'ara: girdi yok': 47, 'ara: TAMPONLADI': 47}

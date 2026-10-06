@@ -1,0 +1,134 @@
+  DUNYA: referans_2026
+  DESEN: yere_toplama
+==============================================================================
+U1 — AODV, AOMDV / ETX KAHINI ORANI  (`06` §4.3 · tam olcek)
+==============================================================================
+  N = 40 · pencere (50; 320) s · kosu 350 s · desen yere_toplama
+  kollar: ['statik-yok', 'bagimsiz-yok', 'gorev-yok', 'formasyon-yok']
+  tohumlar: [1000, 1001, 1002]  (GELISTIRME — ana deney tohumu YOK)
+  🔒 OLCUT: statik oran >= 0.90 · hareketli oran >= 0.60
+
+  36 kosu (36 kaldi) · 8 isci
+    1/36 aodv      formasyon-yok   1001  PDR 0.7687 · 117 dk
+    2/36 aodv      gorev-yok       1002  PDR 0.6433 · 122 dk
+    3/36 aodv      formasyon-yok   1000  PDR 0.7443 · 132 dk
+    4/36 aodv      gorev-yok       1001  PDR 0.6073 · 132 dk
+    5/36 aodv      bagimsiz-yok    1001  PDR 0.6457 · 139 dk
+    6/36 aodv      bagimsiz-yok    1002  PDR 0.5639 · 148 dk
+    7/36 aodv      gorev-yok       1000  PDR 0.5726 · 156 dk
+    8/36 aodv      bagimsiz-yok    1000  PDR 0.4743 · 169 dk
+    9/36 aomdv     bagimsiz-yok    1001  PDR 0.6618 · 106 dk
+   10/36 aomdv     gorev-yok       1002  PDR 0.6808 · 93 dk
+   11/36 aomdv     gorev-yok       1000  PDR 0.6553 · 112 dk
+   12/36 aomdv     bagimsiz-yok    1002  PDR 0.6040 · 121 dk
+   13/36 aomdv     bagimsiz-yok    1000  PDR 0.4683 · 134 dk
+   14/36 aomdv     gorev-yok       1001  PDR 0.5969 · 120 dk
+   15/36 aodv      formasyon-yok   1002  PDR 0.7041 · 153 dk
+   16/36 aomdv     formasyon-yok   1000  PDR 0.7424 · 104 dk
+   17/36 kahin     bagimsiz-yok    1001  PDR 0.8826 · 57 dk
+   18/36 kahin     bagimsiz-yok    1000  PDR 0.7966 · 62 dk
+   19/36 kahin     bagimsiz-yok    1002  PDR 0.8030 · 63 dk
+   20/36 aomdv     formasyon-yok   1001  PDR 0.8185 · 85 dk
+   21/36 kahin     gorev-yok       1000  PDR 0.8757 · 55 dk
+   22/36 kahin     gorev-yok       1001  PDR 0.8205 · 55 dk
+   23/36 kahin     gorev-yok       1002  PDR 0.8715 · 53 dk
+   24/36 aomdv     statik-yok      1000  PDR 0.8937 · 16 dk
+   25/36 aodv      statik-yok      1001  PDR 0.9236 · 20 dk
+   26/36 aodv      statik-yok      1000  PDR 0.8939 · 26 dk
+   27/36 kahin     formasyon-yok   1001  PDR 0.9395 · 37 dk
+   28/36 kahin     formasyon-yok   1000  PDR 0.9223 · 45 dk
+   29/36 aodv      statik-yok      1002  PDR 0.8719 · 31 dk
+   30/36 aomdv     formasyon-yok   1002  PDR 0.7248 · 108 dk
+   31/36 aomdv     statik-yok      1001  PDR 0.9437 · 16 dk
+   32/36 kahin     statik-yok      1000  PDR 0.9926 · 10 dk
+   33/36 kahin     statik-yok      1001  PDR 0.9921 · 9 dk
+   34/36 kahin     formasyon-yok   1002  PDR 0.9262 · 42 dk
+   35/36 kahin     statik-yok      1002  PDR 0.9976 · 9 dk
+   36/36 aomdv     statik-yok      1002  PDR 0.8859 · 21 dk
+
+  kol              tohum     AODV  ETX kahin    oran   esik             karar
+  statik-yok        1000   0.8939     0.9926   0.901   0.90             GECTI
+  statik-yok        1001   0.9236     0.9921   0.931   0.90             GECTI
+  statik-yok        1002   0.8719     0.9976   0.874   0.90    🔴 ACIKLANMAMIS
+  bagimsiz-yok      1000   0.4743     0.7966   0.595   0.60    🔴 ACIKLANMAMIS
+  bagimsiz-yok      1001   0.6457     0.8826   0.732   0.60             GECTI
+  bagimsiz-yok      1002   0.5639     0.8030   0.702   0.60             GECTI
+  gorev-yok         1000   0.5726     0.8757   0.654   0.60             GECTI
+  gorev-yok         1001   0.6073     0.8205   0.740   0.60             GECTI
+  gorev-yok         1002   0.6433     0.8715   0.738   0.60             GECTI
+  formasyon-yok     1000   0.7443     0.9223   0.807   0.60             GECTI
+  formasyon-yok     1001   0.7687     0.9395   0.818   0.60             GECTI
+  formasyon-yok     1002   0.7041     0.9262   0.760   0.60             GECTI
+
+  kol               oran ort  en dusuk
+  statik-yok           0.902     0.874
+  bagimsiz-yok         0.676     0.595
+  gorev-yok            0.711     0.654
+  formasyon-yok        0.795     0.760
+
+  ROTA TAMPONU  (kapasite 64 · omur 30 s — ikisi de SINANMAMIS)
+  kol              tohum    giris   dusen   tepe
+  statik-yok        1000     1762       0      2
+  statik-yok        1001     1229       0      2
+  statik-yok        1002     1882       0      2
+  bagimsiz-yok      1000     6289       0      6
+  bagimsiz-yok      1001     3893       0      7
+  bagimsiz-yok      1002     4482       0      5
+  gorev-yok         1000     5173       0     12
+  gorev-yok         1001     4355       0      5
+  gorev-yok         1002     7046      79     31
+  formasyon-yok     1000     3492       0      4
+  formasyon-yok     1001     2878       0      5
+  formasyon-yok     1002     3553       0      3
+  → en yuksek doluluk 31/64 · toplam sure tavanindan dusen 79
+
+  toplam 24 kosum · 21836 s
+
+==============================================================================
+  U1-U uygunluk : GECTI 🟢   (kalirsa protokol KABUL EDILMEZ)
+  U1-B basarim  : KALDI 🔴   (aciklanmamis dusuk / olu aciklama yok mu)
+==============================================================================
+
+  kol              tohum    AOMDV  ETX kahin    oran   esik             karar
+  statik-yok        1000   0.8937     0.9926   0.900   0.90             GECTI
+  statik-yok        1001   0.9437     0.9921   0.951   0.90             GECTI
+  statik-yok        1002   0.8859     0.9976   0.888   0.90    🔴 ACIKLANMAMIS
+  bagimsiz-yok      1000   0.4683     0.7966   0.588   0.60    🔴 ACIKLANMAMIS
+  bagimsiz-yok      1001   0.6618     0.8826   0.750   0.60             GECTI
+  bagimsiz-yok      1002   0.6040     0.8030   0.752   0.60             GECTI
+  gorev-yok         1000   0.6553     0.8757   0.748   0.60             GECTI
+  gorev-yok         1001   0.5969     0.8205   0.728   0.60             GECTI
+  gorev-yok         1002   0.6808     0.8715   0.781   0.60             GECTI
+  formasyon-yok     1000   0.7424     0.9223   0.805   0.60             GECTI
+  formasyon-yok     1001   0.8185     0.9395   0.871   0.60             GECTI
+  formasyon-yok     1002   0.7248     0.9262   0.783   0.60             GECTI
+
+  kol               oran ort  en dusuk
+  statik-yok           0.913     0.888
+  bagimsiz-yok         0.697     0.588
+  gorev-yok            0.752     0.728
+  formasyon-yok        0.820     0.783
+
+  ROTA TAMPONU  (kapasite 64 · omur 30 s — ikisi de SINANMAMIS)
+  kol              tohum    giris   dusen   tepe
+  statik-yok        1000     2424       0      3
+  statik-yok        1001     1092       0      2
+  statik-yok        1002     1963       0      3
+  bagimsiz-yok      1000     8221       0      6
+  bagimsiz-yok      1001     5433       0      5
+  bagimsiz-yok      1002     6477       0      5
+  gorev-yok         1000     5787       0      3
+  gorev-yok         1001     7506       0      6
+  gorev-yok         1002     9586      63     30
+  formasyon-yok     1000     4628       0      3
+  formasyon-yok     1001     3056       0      2
+  formasyon-yok     1002     4510       0      7
+  → en yuksek doluluk 30/64 · toplam sure tavanindan dusen 63
+
+  toplam 24 kosum · 21836 s
+
+==============================================================================
+  U1-U uygunluk : GECTI 🟢   (kalirsa protokol KABUL EDILMEZ)
+  U1-B basarim  : KALDI 🔴   (aciklanmamis dusuk / olu aciklama yok mu)
+==============================================================================
+

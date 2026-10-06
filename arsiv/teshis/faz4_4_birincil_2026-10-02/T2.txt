@@ -1,0 +1,53 @@
+  DUNYA: referans_2026
+  tohum sayisi: 5 (1000–1004)
+====================================================================================================
+DUYARLILIK TARAMASI — senaryo 'formasyon-surekli' · 5 aday · 5 tohum · carpanlar (0.5, 2.0)
+====================================================================================================
+  OLCUT — IKI AYAK, biri yeterse DUYARLI (`cozunurluk.py`):
+    band : etki KENDI hata payindan buyuk mu (istatistiksel)
+    R    : |D| >= 0.0188 mi — deneyin gorebilecegi
+           en kucuk ESLESTIRILMIS fark (pratik)
+  🔴 parmak izi BIREBIR ayniysa 'DUYARSIZ' DEGIL 'OLCULEMEDI'
+
+  toplam kosu: 110  ·  8 isci
+  kosum suresi: 91.0 dk
+
+  TABAN: pdr_etx 0.8401 · pdr_atlama 0.6664 · olcut_bedeli 0.1737
+  🔒 Band artik TOHUM BASINA FARKLARIN yayilimindan; ortalamalarin
+     yayilimindan DEGIL. Esleştirme yapisal oldugu icin tohumlar
+     arasi varyans ortak-mod olarak dusuyor.
+
+  parametre                       carpan  d_pdr_etx   d_atlama    d_bedel   |D|/band    |D|/R        karar
+  beacon_araligi_s                  0.50   -0.00850   -0.02085   +0.01235       1.8x     1.1R    🔴 DUYARLI
+  beacon_araligi_s                  2.00   -0.00384   -0.01234   +0.00851       0.8x     0.7R     duyarsiz
+  beacon_bayt                       0.50   -0.01503   -0.00733   -0.00770       1.1x     0.8R    🔴 DUYARLI
+  beacon_bayt                       2.00   -0.01518   -0.00466   -0.01052       1.2x     0.8R    🔴 DUYARLI
+  komsu_omru_katsayisi              0.50   +0.00000   +0.00000   +0.00000       0.0x     0.0R   OLCULEMEDI
+  komsu_omru_katsayisi              2.00   +0.00000   +0.00000   +0.00000       0.0x     0.0R   OLCULEMEDI
+  kalibrasyon/kahin.py::ATLAMA_ESIGI    0.50   +0.00000   +0.04873   -0.04873       1.3x     2.6R    🔴 DUYARLI
+  kalibrasyon/kahin.py::ATLAMA_ESIGI    2.00   +0.00000   -0.07745   +0.07745       2.9x     4.1R    🔴 DUYARLI
+  kalibrasyon/kahin.py::SONUMLEME_ORNEGI    0.50   -0.06025   -0.03241   -0.02784       3.4x     3.2R    🔴 DUYARLI
+  kalibrasyon/kahin.py::SONUMLEME_ORNEGI    2.00   +0.03020   +0.03990   -0.00969      14.7x     2.1R    🔴 DUYARLI
+
+====================================================================================================
+OZET
+====================================================================================================
+
+  🔴 GECERSIZ  (0)
+
+  🔴 DUYARLI  (4)
+    · beacon_araligi_s
+    · beacon_bayt
+    · kalibrasyon/kahin.py::ATLAMA_ESIGI
+    · kalibrasyon/kahin.py::SONUMLEME_ORNEGI
+
+  duyarsiz  (0)
+
+  OLCULEMEDI  (1)
+    · komsu_omru_katsayisi
+
+  🔴 'OLCULEMEDI' AKLAMA DEGILDIR: o parametre bu kolda hesaba
+     hic girmedi. Canli oldugu bir kolda YENIDEN taranmali.
+  ⚠️ 'duyarsiz' = TEK BASINA oynatinca duyarsiz (OAT sinirlamasi)
+     ve YALNIZ calisma noktasi ciktilarina. Protokol SIRALAMASININ
+     duyarliligi gercek protokoller gerektirir — Faz 3.

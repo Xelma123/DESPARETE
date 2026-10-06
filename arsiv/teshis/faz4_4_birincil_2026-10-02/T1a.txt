@@ -1,0 +1,56 @@
+  DUNYA: referans_2026
+  tohum sayisi: 5 (1000–1004)
+====================================================================================================
+DUYARLILIK TARAMASI — senaryo 'formasyon-surekli' · 6 aday · 5 tohum · carpanlar (0.5, 2.0)
+====================================================================================================
+  OLCUT — IKI AYAK, biri yeterse DUYARLI (`cozunurluk.py`):
+    band : etki KENDI hata payindan buyuk mu (istatistiksel)
+    R    : |D| >= 0.0188 mi — deneyin gorebilecegi
+           en kucuk ESLESTIRILMIS fark (pratik)
+  🔴 parmak izi BIREBIR ayniysa 'DUYARSIZ' DEGIL 'OLCULEMEDI'
+
+  toplam kosu: 130  ·  8 isci
+  kosum suresi: 107.3 dk
+
+  TABAN: pdr_etx 0.8401 · pdr_atlama 0.6664 · olcut_bedeli 0.1737
+  🔒 Band artik TOHUM BASINA FARKLARIN yayilimindan; ortalamalarin
+     yayilimindan DEGIL. Esleştirme yapisal oldugu icin tohumlar
+     arasi varyans ortak-mod olarak dusuyor.
+
+  parametre                       carpan  d_pdr_etx   d_atlama    d_bedel   |D|/band    |D|/R        karar
+  rician_k_db                       0.50   -0.12616   -0.08678   -0.03938       3.9x     6.7R    🔴 DUYARLI
+  rician_k_db                       2.00   +0.07659   +0.15952   -0.08292       4.4x     8.5R    🔴 DUYARLI
+  golgeleme_hucre_m                 0.50   +0.01850   +0.01682   +0.00168       0.7x     1.0R     duyarsiz
+  golgeleme_hucre_m                 2.00   +0.00634   +0.01583   -0.00949       0.4x     0.8R     duyarsiz
+  gm_adim_s                         0.50   -0.00299   -0.00369   +0.00069       0.2x     0.2R     duyarsiz
+  gm_adim_s                         2.00   -0.00936   +0.00968   -0.01904       0.8x     1.0R    🔴 DUYARLI
+  gm_pitch_sigma_rad                0.50   +0.00000   +0.00000   +0.00000       0.0x     0.0R   OLCULEMEDI
+  gm_pitch_sigma_rad                2.00   +0.00000   +0.00000   +0.00000       0.0x     0.0R   OLCULEMEDI
+  yakalama_esigi_db                 0.50   -0.00833   -0.01301   +0.00468       1.3x     0.7R    🔴 DUYARLI
+  yakalama_esigi_db                 2.00   -0.01167   -0.00367   -0.00800       1.6x     0.6R    🔴 DUYARLI
+  kuyruk_kapasitesi                 0.50   +0.00000   +0.00000   +0.00000       0.0x     0.0R   OLCULEMEDI
+  kuyruk_kapasitesi                 2.00   +0.00000   +0.00000   +0.00000       0.0x     0.0R   OLCULEMEDI
+
+====================================================================================================
+OZET
+====================================================================================================
+
+  🔴 GECERSIZ  (0)
+
+  🔴 DUYARLI  (3)
+    · gm_adim_s
+    · rician_k_db
+    · yakalama_esigi_db
+
+  duyarsiz  (1)
+    · golgeleme_hucre_m
+
+  OLCULEMEDI  (2)
+    · gm_pitch_sigma_rad
+    · kuyruk_kapasitesi
+
+  🔴 'OLCULEMEDI' AKLAMA DEGILDIR: o parametre bu kolda hesaba
+     hic girmedi. Canli oldugu bir kolda YENIDEN taranmali.
+  ⚠️ 'duyarsiz' = TEK BASINA oynatinca duyarsiz (OAT sinirlamasi)
+     ve YALNIZ calisma noktasi ciktilarina. Protokol SIRALAMASININ
+     duyarliligi gercek protokoller gerektirir — Faz 3.

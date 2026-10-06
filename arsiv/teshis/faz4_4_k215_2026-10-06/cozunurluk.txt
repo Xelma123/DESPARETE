@@ -1,0 +1,32 @@
+  DUNYA: referans_2026
+  HUCRE: formasyon-surekli · {'trafik_deseni': 'yere_toplama', 'tehdit_senaryosu': 'derin_sizma'}
+==============================================================================
+DENEYIN COZUNURLUGU — formasyon-surekli · 40 tohum
+==============================================================================
+
+           cikti   ortalama   SD_tohum    R = 2 SD/sqrt(n)   (n = 40)
+         pdr_etx     0.8871     0.0408              0.0129
+      pdr_atlama     0.7364     0.0613              0.0194
+    olcut_bedeli     0.1506     0.0449              0.0142
+
+  🔒 `olcut_bedeli` ESLESTIRILMIS oldugu icin cok daha keskin:
+     iki kahin ayni tohumda ayni dunyayi gorur, tohumlar arasi
+     varyans ortak-mod olarak duser. Deneyin asil ayirt edici
+     ekseni de budur.
+
+      saklanan R     0.0188  (`duyarlilik.py::R_ESLESTIRILMIS`)
+  🔴 BAYAT SABIT: olculen 0.0142 ile saklanan 0.0188 ayrismis (sapma 0.0046).
+     `duyarlilik.py::R_ESLESTIRILMIS` guncellenmeli ve
+     koken defterindeki `DUYARSIZ` aklamalari YENIDEN
+     denetlenmeli — esik degisince siniflandirma degisebilir.
+
+  🟢 KULLANILACAK ESIK R = 0.0142 (ESLESTIRILMIS — birincil testin cozunurlugu)
+     Tek kol cozunurlukleri karsilastirma icin: pdr_etx 0.0129 · pdr_atlama 0.0194
+     Bir parametre, ETKISI R'DEN KUCUK **ve** kendi hata payi
+     icindeyse `DUYARSIZ` olur. Ikisinden biri yetmez.
+
+  ⚠️ BU SAYI BUGUNUN EN IYI ESLESTIRILMIS KESTIRIMIDIR, nihai
+     degil: burada olculen kontrast IKI KAHIN arasindadir. Ana
+     deneyin kontrasti PROTOKOL KOLLARI arasinda olacak ve onun
+     gurultusu Asama 2'de taban protokollerle olculecek
+     (`06` §7 guc analizi).

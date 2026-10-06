@@ -1,0 +1,26 @@
+REGRESYON KARSILASTIRMASI — k203 (80 satir) ↔ k204 (80 satir)
+  (ilan edilmis degisen vaka) i-statik-surekli-dogrudan_komsu-derin_sizma · 3 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) k-statik-surekli-aodv · 169 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) k-statik-surekli-aomdv · 171 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) r-referans-statik-surekli-aodv · 159 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) t-statik-surekli-aodv-dugum_kaybi · 176 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-aodv · 185 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-aomdv · 188 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-desparete · 3 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-en_guvenilir_kahin · 3 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-olsr · 3 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-gorev-surekli-aomdv-esler_arasi · 164 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-aldatici-aodv · 161 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-reaktif-aodv · 191 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-surekli-aodv-cephe_hatti · 181 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-surekli_darbeli-aodv · 180 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-taramali-aodv · 182 alan farkli · gecerli=True
+
+  bulgusuz vaka : 64/64 (+16 ilan edilmis degisen)
+  (beklenen) kimlik.arac_hash                                 64 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           64 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              64 vakada farkli
+  (beklenen) kimlik.protokol_hash                             59 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         64 vakada farkli
+
+  🟢 BIREBIR (izinli farklar disinda)

@@ -1,0 +1,18 @@
+kopya: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz4_4_birincil_2026-10-02\kopya_3
+  aodv   ofset 0.25 tohum 1001  pdr 0.6981  iz (1130, 10724, 25995)
+  aodv   ofset  0.5 tohum 1001  pdr 0.6981  iz (1130, 10724, 25995)
+  aodv   ofset  1.0 tohum 1001  pdr 0.6981  iz (1130, 10724, 25995)
+  aodv   ofset 0.25 tohum 1003  pdr 0.5167  iz (814, 11203, 29998)
+  aodv   ofset  0.5 tohum 1003  pdr 0.5167  iz (814, 11203, 29998)
+  aodv   ofset  1.0 tohum 1003  pdr 0.5167  iz (814, 11203, 29998)
+  aomdv  ofset 0.25 tohum 1001  pdr 0.6964  iz (1125, 9526, 17600)
+  aomdv  ofset  0.5 tohum 1001  pdr 0.6964  iz (1125, 9526, 17600)
+  aomdv  ofset  1.0 tohum 1001  pdr 0.6964  iz (1125, 9526, 17600)
+  aomdv  ofset 0.25 tohum 1003  pdr 0.5075  iz (809, 10691, 23502)
+  aomdv  ofset  0.5 tohum 1003  pdr 0.5075  iz (809, 10691, 23502)
+  aomdv  ofset  1.0 tohum 1003  pdr 0.5075  iz (809, 10691, 23502)
+  aodv   1001: BIREBIR
+  aodv   1003: BIREBIR
+  aomdv  1001: BIREBIR
+  aomdv  1003: BIREBIR
+🟢 sebep bulundu — ofsete degismez

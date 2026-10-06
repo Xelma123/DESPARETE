@@ -1,0 +1,24 @@
+kopya: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz4_4_birincil_2026-10-02\kopya_2
+toplam kosu 40 · 8 isci · R 0.0188
+sure 30.1 dk
+
+== birincil
+  N  6: pdr_etx 0.8401  (tohumlar 0.858 0.889 0.880 0.756 0.817)  kosu 6.5 dk
+  N 12: pdr_etx 0.8703  (tohumlar 0.891 0.916 0.909 0.787 0.849)  kosu 6.6 dk
+  N 24: pdr_etx 0.8737  (tohumlar 0.878 0.932 0.900 0.786 0.873)  kosu 6.6 dk
+  N 48: pdr_etx 0.8795  (tohumlar 0.885 0.916 0.940 0.783 0.874)  kosu 7.0 dk
+   6→12: Δ +0.0302  band 0.0021  degisiyor
+  12→24: Δ +0.0033  band 0.0144  PLATO
+  24→48: Δ +0.0058  band 0.0187  PLATO
+  → en kucuk platolu N = 12
+
+== bagimsiz-yok
+  N  6: pdr_etx 0.7895  (tohumlar 0.685 0.891 0.826 0.715 0.830)  kosu 4.9 dk
+  N 12: pdr_etx 0.8203  (tohumlar 0.736 0.907 0.829 0.774 0.856)  kosu 5.0 dk
+  N 24: pdr_etx 0.8437  (tohumlar 0.754 0.926 0.871 0.805 0.862)  kosu 4.9 dk
+  N 48: pdr_etx 0.8540  (tohumlar 0.748 0.927 0.890 0.823 0.883)  kosu 4.3 dk
+   6→12: Δ +0.0309  band 0.0210  degisiyor
+  12→24: Δ +0.0234  band 0.0125  degisiyor
+  24→48: Δ +0.0104  band 0.0111  PLATO
+  → en kucuk platolu N = 24
+

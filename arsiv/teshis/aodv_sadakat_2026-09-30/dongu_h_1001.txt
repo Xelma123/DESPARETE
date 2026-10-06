@@ -1,0 +1,12 @@
+kod desparete_pls · aodv AODV — RFC 3561'e sadık gerçekleme (`AODV-h`: kara liste K-1
+tohum 1001 · paket 12799 · döngülü paket 1 (ölçüm penceresinde doğan 1)
+sayaç: {'sira DUSURDU · _komsu_rotasi': 5371}
+döngüyü kuran son değişiklik (paket başına): {'_rrep_isle+_ters_rota': 1}
+
+  paket 2461 → hedef 0 · t 61.465 · döngü [(25, 3), (3, 25)]
+     düğüm 25: 61.115 _ters_rota     (33, 3, 65, True, 65.392) → (2, 4, 67, True, 66.43)
+     düğüm 25: 61.210 _ters_rota     (2, 4, 67, True, 66.43) → (3, 5, 68, True, 66.446)
+     düğüm 3: 61.209 _ters_rota     (23, 3, 67, True, 66.201) → (27, 4, 68, True, 66.216)
+     düğüm 3: 61.476 _rrep_isle     (27, 4, 68, True, 66.216) → (25, 5, 69, True, 67.095)
+PDR(pencere) 0.9242 · kesif_basarili 1164 · kesif_basarisiz 0 · rota_gecersizlestirilen 24034 · rreq_uretilen 1235 · rrep_uretilen 5593 · rerr_uretilen 9811
+dusus (tum kosu): {'iletim_basarisiz': 732, 'rota_gecersiz': 246}

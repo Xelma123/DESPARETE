@@ -155,7 +155,9 @@ def test_U2_kopmadan_sonra_YENI_RREQ_baslar():
     assert len(rreq) == 1, "yeni keşif başlamadı"
     y = dict(rreq[0].yuk)
     assert y["hedef"] == 9 and y["kaynak"] == 0
-    assert y["ttl"] == TTL_START, "genişleyen halka TTL_START ile başlar"
+    # 🔒 §6.4 (K-208 H7): geçersiz girdi varsa ilk TTL *"the Hop Count plus
+    # TTL_INCREMENT"* — burada 2 + 2. İlk yazımda hep TTL_START idi.
+    assert y["ttl"] == 2 + TTL_INCREMENT, "halka son atlamadan başlamalı"
     assert _uyandirmalar(karar.niyetler), "keşif zaman aşımı kurulmadı"
 
 
@@ -245,10 +247,12 @@ def test_U4_HELLO_RREP_bicimindedir_ve_ILETILMEZ():
     assert not _istekler(cikti), "HELLO iletilmemeli"
     assert 7 in alan._komsu, "HELLO komşuluğu kurmalı"
 
-    # …ama GERÇEK bir RREP (kaynak ≠ hedef) İLETİLİR.
+    # …ama GERÇEK bir RREP (kaynak ≠ hedef) İLETİLİR. 🔒 §6.7 (K-208 H5):
+    # RREP yalnız ileri rotayı kurduysa ya da güncellediyse iletilir; HELLO
+    # 7'ye rotayı sıra 1 ile kurdu, bu RREP sıra 2 getiriyor.
     alan._rota[3] = Rota(sonraki=9, atlama=1, hedef_sira=1,
                          son_gecerli_s=100.0)
-    gercek = dict(hello[0].yuk) | {"kaynak": 3}
+    gercek = dict(hello[0].yuk) | {"kaynak": 3, "hedef_sira": 2}
     cikti = alan.kontrol_alindi(_gozlem(8, 5.2), 7, "RREP", tuple(
         gercek.items()), False)
     iletilen = [i for i in _istekler(cikti) if i.bicim is RREP]
@@ -822,15 +826,17 @@ def test_K205_kaynak_REDDEDILEN_RREPle_kesfi_KAPATMAZ():
     assert _uyandirmalar(cikti), "tampon yeniden sorulmadı"
 
 
-def test_K205_AOMDV_sira_kurali_DEGISMEDI():
-    """AOMDV kendi (S10) kuralını taşır: bilinmeyen sıra geçersizleşince
-    K-205'ten önceki gibi 1 olur — `AOMDV-b` davranışı birebir."""
+def test_K208_AOMDV_sira_kurali_AODVden_MIRAS():
+    """AOMDV'nin §6.11 sıra kuralı AODV'den miras (K-208): bilinmeyen sıra
+    bilinmeyen kalır, ömür dolması sırayı değiştirmez, yerel kopmada artar.
+    AOMDV'nin kendi ilan kuralı (Şekil 3, S10) ayrı ve değişmedi."""
     from protokoller.aomdv import AOMDV
     q = AOMDV(5)
     q._komsu_rotasi(3, 1.0)
     assert q._rota[3].hedef_sira == SONSUZ_SIRA
     q._gecersizlestir(q._rota[3], 2.0)
-    assert q._rota[3].hedef_sira == SONSUZ_SIRA + 1
+    assert q._rota[3].hedef_sira == SONSUZ_SIRA and not q._rota[3].yollar
+    assert q._son_atlama(q._rota[3]) is None, "yolsuz girdi atlama bilmez"
 
 
 def test_K192b_KAHIN_ASIMI_ZARF_KAYDI(monkeypatch, tmp_path, capsys):
@@ -860,3 +866,211 @@ def test_K192b_KAHIN_ASIMI_ZARF_KAYDI(monkeypatch, tmp_path, capsys):
     assert "KAHINI GECTI" in capsys.readouterr().out
     assert U.hukum(kayit("esler_arasi", 0.96)) == 1         # aşım yok → ölü
     assert "OLU ZARF KAYDI" in capsys.readouterr().out
+
+
+# ==========================================================================
+# K-208 · SADAKAT DENETİMİ — RFC 3561 (birincil) ve ns-3 (hakem), H1–H11
+# `arsiv/teshis/aodv_sadakat_2026-09-30/denetim.md`
+# ==========================================================================
+def _rreq(hedef_sira: int = 0, kaynak: int = 0, hedef: int = 9,
+          kimlik: int = 1, atlama: int = 0, kaynak_sira: int = 3) -> tuple:
+    return tuple({"tip": TIP_RREQ, "bayraklar": 1 if hedef_sira == 0 else 0,
+                  "ayrilmis": 0, "atlama": atlama, "rreq_kimlik": kimlik,
+                  "hedef": hedef, "hedef_sira": hedef_sira, "kaynak": kaynak,
+                  "kaynak_sira": kaynak_sira, "ttl": 10}.items())
+
+
+def test_K208_H1_RREQ_onceki_atlamanin_sirasini_GECERSIZ_yapar():
+    """§6.5 ilk cümle: önceki atlamaya rota *"without a valid sequence
+    number"* (ns-3 `RecvRequest`)."""
+    p = AODV(5)
+    p._rota[4] = Rota(sonraki=4, atlama=1, hedef_sira=7, son_gecerli_s=9.0)
+    p._komsu[4] = 0.5
+    p.kontrol_alindi(_gozlem(5, 1.0), 4, "RREQ", _rreq(kaynak=0), True)
+    assert p._rota[4].hedef_sira == SONSUZ_SIRA
+
+
+def test_K208_H2_ters_rota_KOSULSUZ_sira_ve_omur_BUYUGU():
+    """§6.5 (1)–(5): ters rota tekrar olmayan her RREQ'te güncellenir; sıra
+    büyüğü, ömür büyüğü tutulur (ns-3 `RecvRequest`)."""
+    p = AODV(5)
+    p._rota[0] = Rota(sonraki=2, atlama=1, hedef_sira=9, son_gecerli_s=50.0)
+    p._ters_rota(0, kaynak_sira=4, atlama=3, sonraki=6, simdi_s=1.0)
+    r = p._rota[0]
+    assert r.sonraki == 6 and r.atlama == 3, "ters rota güncellenmeli"
+    assert r.hedef_sira == 9, "sıra küçülemez (copied if greater)"
+    assert r.son_gecerli_s == 50.0, "ömür kısalamaz (max)"
+
+
+def test_K208_H3_iletilen_RREQin_sirasi_BILINENIN_BUYUGUNE_cikar():
+    """§6.5: *"set to the maximum of"* gelen ile bilinen; U bayrağı iner;
+    düğüm kendi değerini değiştirmez."""
+    p = AODV(5)
+    p._rota[9] = Rota(sonraki=1, atlama=2, hedef_sira=7, gecerli=False,
+                      silme_s=100.0)
+    cikti = p.kontrol_alindi(_gozlem(5, 1.0), 4, "RREQ",
+                             _rreq(hedef_sira=0), True)
+    iletilen = [dict(i.yuk) for i in _istekler(cikti) if i.bicim is RREQ]
+    assert iletilen and iletilen[0]["hedef_sira"] == 7
+    assert iletilen[0]["bayraklar"] == 0
+    assert p._rota[9].hedef_sira == 7
+
+
+def test_K208_H4_ara_dugum_U_bayrakli_RREQe_cevap_ve_IKI_oncul():
+    """§6.6.2: etkin rota + geçerli sıra → U bayraklı RREQ'e de cevap (ns-3
+    hakem); ileri rotaya gönderen, ters rotaya hedefe doğru sonraki atlama."""
+    p = AODV(5)
+    p._rota[9] = Rota(sonraki=1, atlama=2, hedef_sira=7, son_gecerli_s=100.0)
+    cikti = p.kontrol_alindi(_gozlem(5, 1.0), 4, "RREQ",
+                             _rreq(hedef_sira=0), True)
+    rrep = [i for i in _istekler(cikti) if i.bicim is RREP]
+    assert rrep and dict(rrep[0].yuk)["hedef_sira"] == 7
+    assert 4 in p._rota[9].oncular and 1 in p._rota[0].oncular
+    q = AODV(5)                                  # sırası bilinmeyen rota: cevap yok
+    q._rota[9] = Rota(sonraki=1, atlama=1, hedef_sira=SONSUZ_SIRA,
+                      son_gecerli_s=100.0)
+    cikti = q.kontrol_alindi(_gozlem(5, 1.0), 4, "RREQ",
+                             _rreq(hedef_sira=0), True)
+    assert not [i for i in _istekler(cikti) if i.bicim is RREP]
+
+
+def test_K208_H5_RREP_yalniz_GUNCELLEDIYSE_iletilir_ve_omur_UZAMAZ():
+    """§6.7: *"AND a forward route has been created or updated"*; reddedilen
+    RREP ömür uzatmaz; iletimde ters rota ömrü ve komşu öncülü güncellenir."""
+    p = AODV(5)
+    p._rota[0] = Rota(sonraki=2, atlama=1, hedef_sira=3, son_gecerli_s=1.5)
+    p._rota[9] = Rota(sonraki=1, atlama=2, hedef_sira=7, son_gecerli_s=10.0)
+    assert p._rrep_isle(3, _rrep(hedef_sira=7, atlama=4), 1.0) == ()
+    assert p._rota[9].son_gecerli_s == 10.0, "reddedilen RREP ömür uzattı"
+    p._rota[3] = Rota(sonraki=3, atlama=1, hedef_sira=SONSUZ_SIRA,
+                      son_gecerli_s=5.0)
+    cikti = p._rrep_isle(3, _rrep(hedef_sira=8, atlama=1), 1.0)
+    assert [i for i in _istekler(cikti) if i.bicim is RREP], "iletilmedi"
+    assert p._rota[0].son_gecerli_s == 1.0 + ACTIVE_ROUTE_TIMEOUT_S
+    assert 2 in p._rota[9].oncular and 2 in p._rota[3].oncular
+
+
+def test_K208_H6_HELLO_komsu_rotasina_SIRAYI_yazar():
+    """§6.9: *"MUST … the latest Destination Sequence Number from the Hello"*."""
+    p = AODV(8)
+    hello = tuple({"tip": TIP_RREP, "bayraklar": 0, "ayrilmis": 0,
+                   "onek_boyu": 0, "atlama": 0, "hedef": 7, "hedef_sira": 5,
+                   "kaynak": 7, "omur_ms": 2000}.items())
+    p.kontrol_alindi(_gozlem(8, 1.0), 7, "RREP", hello, True)
+    r = p._rota[7]
+    assert r.gecerli and r.atlama == 1 and r.hedef_sira == 5
+    assert r.son_gecerli_s >= 1.0 + ALLOWED_HELLO_LOSS * HELLO_INTERVAL_S
+
+
+def test_K208_H8_rotasiz_ARA_dugum_DUSURUR_tamponlamaz():
+    """§6.11 (ii): girdisiz → `hedef_yok` + RERR; süresi dolmuş geçerli girdi
+    → geçersizleşir (sıra +1), RERR, `rota_gecersiz`; keşif YOK."""
+    p = AODV(5)
+    karar = p.sonraki_atlama(_gozlem(5, 1.0, paket_hedefi=9, paket_kaynagi=0))
+    assert not karar.beklet and karar.sonraki is None and not karar.beyan
+    assert 9 not in p._kesif
+    # 🔒 K-210: (ii)'nin RERR'i öncüle bakmadan gider (ns-2/ns-3; RFC'nin
+    # süzme cümlesi normatif değil) — sıra bilinmiyor (0).
+    rerr = [dict(i.yuk) for i in _istekler(karar.niyetler) if i.bicim is RERR]
+    assert rerr and rerr[0]["ulasilamaz"] == (9,)
+    assert rerr[0]["ulasilamaz_sira"] == (SONSUZ_SIRA,)
+    p._rota[9] = Rota(sonraki=1, atlama=2, hedef_sira=5, son_gecerli_s=0.5,
+                      oncular={0})
+    karar = p.sonraki_atlama(_gozlem(5, 1.0, paket_hedefi=9, paket_kaynagi=0))
+    assert not karar.beklet and [b.tip for b in karar.beyan] == ["rota_gecersiz"]
+    assert not p._rota[9].gecerli and p._rota[9].hedef_sira == 6
+    assert [i for i in _istekler(karar.niyetler) if i.bicim is RERR]
+    p._rota[9].silme_s = 2.0
+    p.sonraki_atlama(_gozlem(5, 3.0, paket_hedefi=9, paket_kaynagi=0))
+    assert p._rota[9].silme_s == 3.0 + DELETE_PERIOD_S
+
+
+def test_K208_H9_omru_dolan_rotanin_sirasi_ARTMAZ():
+    """§6.11 madde 1 sırayı yalnız RERR durumlarında değiştirir (ns-3
+    `Purge` de dokunmaz)."""
+    p = AODV(5)
+    p._rota[9] = Rota(sonraki=1, atlama=2, hedef_sira=5, son_gecerli_s=0.5)
+    p._bakim(1.0)
+    assert not p._rota[9].gecerli and p._rota[9].hedef_sira == 5
+
+
+def test_K208_H10_hiz_sinirinda_RREQ_ERTELENIR_kesif_takilmaz():
+    """§10 `RREQ_RATELIMIT` (ns-3 `SendRequest`): aşan RREQ ertelenir, pencere
+    dolunca aynı adım gönderilir. İlk yazımda yeniden deneme zamanlayıcısız
+    dönüyor ve keşif kalıcı olarak takılıyordu."""
+    from protokoller.aodv_bicim import RREQ_RATELIMIT
+    p = AODV(0)
+    p._rreq_pencere[:] = [1.0, float(RREQ_RATELIMIT)]       # pencere dolu
+    karar = p.sonraki_atlama(_gozlem(0, 1.2, paket_hedefi=9))
+    assert karar.beklet and 9 in p._kesif
+    assert not [i for i in _istekler(karar.niyetler) if i.bicim is RREQ]
+    ertele = _uyandirmalar(karar.niyetler)
+    assert ertele and ertele[0].etiket.startswith("kesif_ertele:9:")
+    assert ertele[0].gecikme_s == pytest.approx(0.8 + 1e-4)
+    cikti = p.uyandi(_gozlem(0, 2.0001), ertele[0].etiket)
+    rreq = [dict(i.yuk) for i in _istekler(cikti) if i.bicim is RREQ]
+    assert rreq and rreq[0]["ttl"] == TTL_START
+    assert p._sayac["rreq_ertelenen"] == 1
+
+
+def test_K208_H11_ag_capinda_bekleme_ve_ESKI_NESIL_yok_sayilir():
+    """§6.3: ağ çapında ilk bekleme `NET_TRAVERSAL_TIME`, sonra iki katı
+    (ns-3); biten keşfin eski zamanlayıcısı yeni keşfi ilerletmez."""
+    p = AODV(0)
+    karar = p.sonraki_atlama(_gozlem(0, 1.0, paket_hedefi=9))
+    etiket = _uyandirmalar(karar.niyetler)[0].etiket
+    t, beklemeler = 1.0, []
+    while True:
+        t += 20.0
+        cikti = p.uyandi(_gozlem(0, t), etiket)
+        u = _uyandirmalar(cikti)
+        istek = [dict(i.yuk) for i in _istekler(cikti) if i.bicim is RREQ]
+        if not u:
+            break
+        etiket = u[0].etiket
+        if istek and istek[0]["ttl"] == NET_DIAMETER:
+            beklemeler.append(u[0].gecikme_s)
+    assert beklemeler == [pytest.approx(NET_TRAVERSAL_TIME_S),
+                          pytest.approx(2 * NET_TRAVERSAL_TIME_S)]
+    q = AODV(0)
+    ilk = _uyandirmalar(q.sonraki_atlama(
+        _gozlem(0, 1.0, paket_hedefi=9)).niyetler)[0].etiket
+    del q._kesif[9]                                     # keşif bitti
+    q.sonraki_atlama(_gozlem(0, 1.1, paket_hedefi=9))   # yeni nesil
+    assert q.uyandi(_gozlem(0, 1.2), ilk) == ()
+    assert q._kesif[9].ttl == TTL_START, "eski zamanlayıcı yeni keşfi ilerletti"
+
+
+def test_K215_AODV_baslangici_YEREL_SAATIN_SIFIRINA_bagli_degil():
+    """Faz 4.4: sonuç saat ofsetine bağlıydı. Başlangıç "hiç olmadı" (−∞):
+    negatif yerel saatte ilk HELLO gider (§6.9) ve §10'un ilk "saniye"si ilk
+    olayda açılır — yerel 0'a kadar uzamaz."""
+    from protokoller.aodv_bicim import RREQ_RATELIMIT
+
+    assert AODV(0)._hello(-0.5), "negatif yerel saatte HELLO susturuldu"
+    b = AODV(1)
+    for _ in range(RREQ_RATELIMIT):
+        assert not b._hiz_sinirli_mi(b._rreq_pencere, RREQ_RATELIMIT, -0.8)
+    assert b._hiz_sinirli_mi(b._rreq_pencere, RREQ_RATELIMIT, -0.8)
+    # İlk pencere −0,8'de açıldı; 1,01 s sonra yeni pencere (eskiden yerel
+    # 1,0'a kadar, yani 1,8 s sürerdi).
+    assert not b._hiz_sinirli_mi(b._rreq_pencere, RREQ_RATELIMIT, 0.21)
+
+
+def test_K215_kahin_beaconi_AODV_HELLO_cercevesiyle_BIREBIR():
+    """Referans dünyada kâhinin beacon'ı = AODV HELLO çerçevesi: RREP (RFC
+    3561 §5.2) + kontrol kapsüllemesi. sim2 protokolü içe aktaramadığı için
+    20 sayısı burada RREP biçimine bağlanır; TTL de IP varsayılanı (G17)."""
+    from sim2.kanal.cerceve import cerceve_kur, kontrol_kapsulleme_bayt
+    from sim2.kanal.dunya import REFERANS_BEACON_BAYT, REFERANS_TTL, referans_2026
+
+    y_rrep = {"tip": TIP_RREP, "bayraklar": 0, "ayrilmis": 0, "onek_boyu": 0,
+              "atlama": 0, "hedef": 2, "hedef_sira": 1, "kaynak": 2,
+              "omur_ms": 2000}
+    hello = RREP.bayt(y_rrep) + kontrol_kapsulleme_bayt()
+    assert REFERANS_BEACON_BAYT == hello == 84
+    k = referans_2026(kol="t", senaryo="statik-yok", tohum=1000)
+    assert k.beacon_bayt == hello and k.beacon_araligi_s == HELLO_INTERVAL_S
+    assert cerceve_kur(k, "beacon").bayt == cerceve_kur(
+        k, "kontrol", mesaj_bayt=RREP.bayt(y_rrep)).bayt
+    assert k.ttl_baslangic == REFERANS_TTL == 64

@@ -1,0 +1,34 @@
+kod desparete_pls · aodv AODV — RFC 3561'e sadık gerçekleme (`AODV-h`: kara liste K-1
+tohum 1000 · paket 12798 · döngülü paket 6 (ölçüm penceresinde doğan 6)
+sayaç: {'sira DUSURDU · _komsu_rotasi': 5976}
+döngüyü kuran son değişiklik (paket başına): {'_rrep_isle+_ters_rota': 5, '_ters_rota': 1}
+
+  paket 4968 → hedef 0 · t 124.212 · döngü [(37, 27), (27, 13), (13, 18), (18, 37)]
+     düğüm 37: 123.433 _rrep_isle     (0, 1, 195, True, 126.328) → (0, 1, 198, True, 129.328)
+     düğüm 37: 123.666 _rrep_isle     (0, 1, 199, False, 129.328) → (27, 4, 199, True, 129.56)
+     düğüm 27: 123.557 _rrep_isle     (13, 4, 198, False, 129.045) → (26, 3, 198, True, 129.388)
+     düğüm 27: 123.664 _rrep_isle     (26, 3, 198, True, 129.388) → (13, 3, 199, True, 129.785)
+     düğüm 13: 123.663 _rrep_isle     (36, 2, 198, True, 128.96) → (2, 2, 199, True, 129.358)
+     düğüm 13: 124.256 _ters_rota     (2, 2, 199, True, 129.358) → (18, 3, 200, True, 129.358)
+     düğüm 18: 123.758 _rrep_isle     (17, 3, 199, False, 129.633) → (37, 5, 199, True, 129.866)
+     düğüm 18: 124.253 _ters_rota     (37, 5, 199, True, 129.866) → (37, 2, 200, True, 129.89)
+
+  paket 8648 → hedef 0 · t 216.238 · döngü [(29, 7), (7, 29)]
+     düğüm 29: 215.734 _rrep_isle     (11, 6, 340, True, 217.863) → (31, 4, 344, True, 221.192)
+     düğüm 29: 215.963 _rrep_isle     (31, 4, 344, True, 221.192) → (7, 5, 345, True, 221.555)
+     düğüm 7: 215.867 _rrep_isle     (26, 3, 344, True, 221.915) → (18, 4, 345, True, 222.016)
+     düğüm 7: 216.313 _ters_rota     (18, 4, 346, False, 222.016) → (29, 6, 347, True, 221.583)
+
+  paket 8649 → hedef 0 · t 216.260 · döngü [(29, 7), (7, 29)]
+     düğüm 29: 215.734 _rrep_isle     (11, 6, 340, True, 217.863) → (31, 4, 344, True, 221.192)
+     düğüm 29: 215.963 _rrep_isle     (31, 4, 344, True, 221.192) → (7, 5, 345, True, 221.555)
+     düğüm 7: 215.867 _rrep_isle     (26, 3, 344, True, 221.915) → (18, 4, 345, True, 222.016)
+     düğüm 7: 216.313 _ters_rota     (18, 4, 346, False, 222.016) → (29, 6, 347, True, 221.583)
+
+  paket 8651 → hedef 0 · t 216.281 · döngü [(29, 7), (7, 29)]
+     düğüm 29: 215.734 _rrep_isle     (11, 6, 340, True, 217.863) → (31, 4, 344, True, 221.192)
+     düğüm 29: 215.963 _rrep_isle     (31, 4, 344, True, 221.192) → (7, 5, 345, True, 221.555)
+     düğüm 7: 215.867 _rrep_isle     (26, 3, 344, True, 221.915) → (18, 4, 345, True, 222.016)
+     düğüm 7: 216.313 _ters_rota     (18, 4, 346, False, 222.016) → (29, 6, 347, True, 221.583)
+PDR(pencere) 0.8977 · kesif_basarili 1598 · kesif_basarisiz 0 · rota_gecersizlestirilen 25983 · rreq_uretilen 1735 · rrep_uretilen 8097 · rerr_uretilen 11161
+dusus (tum kosu): {'ttl': 1, 'iletim_basarisiz': 874, 'rota_gecersiz': 483}

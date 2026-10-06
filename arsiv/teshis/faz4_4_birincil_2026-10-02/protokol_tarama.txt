@@ -1,0 +1,141 @@
+kopya: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz4_4_birincil_2026-10-02\kopya_2
+toplam kosu 109 · 8 isci · R 0.0188
+degerler: {'kuyruk_kapasitesix0.5': 25, 'kuyruk_kapasitesix2.0': 100, 'saat_ofset_araligi_sx0.5': 0.25, 'saat_ofset_araligi_sx2.0': 1.0, 'saat_sapma_ppmx0.5': 10.0, 'saat_sapma_ppmx2.0': 40.0, 'gps_dikey_sigma_mx0.5': 1.0, 'gps_dikey_sigma_mx2.0': 4.0, 'gps_hiz_sigma_msx0.5': 0.05, 'gps_hiz_sigma_msx2.0': 0.2, 'rssi_olcum_sigma_dbx0.5': 1.0, 'rssi_olcum_sigma_dbx2.0': 4.0}
+sure 166.6 dk
+
+  aodv       None                       None 1000  pdr 0.5845  kuyruk_tasmasi    0  iz (955, 11989, 31577)  17.8 dk
+  aodv       None                       None 1001  pdr 0.6906  kuyruk_tasmasi    0  iz (1098, 10298, 26245)  14.2 dk
+  aodv       None                       None 1002  pdr 0.6842  kuyruk_tasmasi    0  iz (1074, 12006, 28276)  15.6 dk
+  aodv       None                       None 1003  pdr 0.5501  kuyruk_tasmasi    0  iz (855, 11905, 29996)  16.1 dk
+  aodv       None                       None 1004  pdr 0.4775  kuyruk_tasmasi    0  iz (809, 11945, 30892)  17.0 dk
+  aomdv      None                       None 1000  pdr 0.6328  kuyruk_tasmasi    0  iz (1015, 11242, 20664)  12.4 dk
+  aomdv      None                       None 1001  pdr 0.7431  kuyruk_tasmasi    0  iz (1186, 9664, 16493)  9.6 dk
+  aomdv      None                       None 1002  pdr 0.6650  kuyruk_tasmasi    0  iz (1083, 10885, 19101)  10.9 dk
+  aomdv      None                       None 1003  pdr 0.5376  kuyruk_tasmasi    0  iz (838, 11118, 23658)  12.8 dk
+  aomdv      None                       None 1004  pdr 0.6686  kuyruk_tasmasi    0  iz (1050, 11402, 21677)  12.4 dk
+  olsr       None                       None 1000  pdr 0.3838  kuyruk_tasmasi    0  iz (478, 9169, 10327)  8.0 dk
+  olsr       None                       None 1001  pdr 0.6222  kuyruk_tasmasi    0  iz (776, 10938, 11580)  9.1 dk
+  olsr       None                       None 1002  pdr 0.7226  kuyruk_tasmasi    0  iz (901, 8825, 11324)  7.5 dk
+  olsr       None                       None 1003  pdr 0.4432  kuyruk_tasmasi    0  iz (546, 6032, 7305)  4.5 dk
+  olsr       None                       None 1004  pdr 0.5192  kuyruk_tasmasi    0  iz (635, 7261, 9358)  6.0 dk
+  aodv       kuyruk_kapasitesi            25 1000  pdr 0.5845  kuyruk_tasmasi    0  iz (955, 11989, 31577)  17.8 dk
+  aodv       kuyruk_kapasitesi            25 1001  pdr 0.6906  kuyruk_tasmasi    0  iz (1098, 10298, 26245)  14.2 dk
+  aodv       kuyruk_kapasitesi            25 1002  pdr 0.6842  kuyruk_tasmasi    0  iz (1074, 12006, 28276)  15.7 dk
+  aodv       kuyruk_kapasitesi            25 1003  pdr 0.5501  kuyruk_tasmasi    0  iz (855, 11905, 29996)  16.3 dk
+  aodv       kuyruk_kapasitesi            25 1004  pdr 0.4775  kuyruk_tasmasi    0  iz (809, 11945, 30892)  17.1 dk
+  aodv       kuyruk_kapasitesi           100 1000  pdr 0.5845  kuyruk_tasmasi    0  iz (955, 11989, 31577)  17.9 dk
+  aodv       kuyruk_kapasitesi           100 1001  pdr 0.6906  kuyruk_tasmasi    0  iz (1098, 10298, 26245)  14.2 dk
+  aodv       kuyruk_kapasitesi           100 1002  pdr 0.6842  kuyruk_tasmasi    0  iz (1074, 12006, 28276)  15.8 dk
+  aodv       kuyruk_kapasitesi           100 1003  pdr 0.5501  kuyruk_tasmasi    0  iz (855, 11905, 29996)  16.2 dk
+  aodv       kuyruk_kapasitesi           100 1004  pdr 0.4775  kuyruk_tasmasi    0  iz (809, 11945, 30892)  17.3 dk
+  aodv       saat_ofset_araligi_s       0.25 1000  pdr 0.5845  kuyruk_tasmasi    0  iz (955, 11989, 31577)  17.8 dk
+  aodv       saat_ofset_araligi_s       0.25 1001  pdr 0.7214  kuyruk_tasmasi    0  iz (1117, 10929, 25646)  14.2 dk
+  aodv       saat_ofset_araligi_s       0.25 1002  pdr 0.6842  kuyruk_tasmasi    0  iz (1074, 12006, 28276)  15.9 dk
+  aodv       saat_ofset_araligi_s       0.25 1003  pdr 0.5100  kuyruk_tasmasi    0  iz (829, 11685, 30419)  16.5 dk
+  aodv       saat_ofset_araligi_s       0.25 1004  pdr 0.4775  kuyruk_tasmasi    0  iz (809, 11945, 30892)  17.1 dk
+  aodv       saat_ofset_araligi_s        1.0 1000  pdr 0.5429  kuyruk_tasmasi    0  iz (867, 11887, 32216)  18.1 dk
+  aodv       saat_ofset_araligi_s        1.0 1001  pdr 0.6606  kuyruk_tasmasi    0  iz (1078, 11339, 26723)  15.1 dk
+  aodv       saat_ofset_araligi_s        1.0 1002  pdr 0.6842  kuyruk_tasmasi    0  iz (1074, 12006, 28276)  15.7 dk
+  aodv       saat_ofset_araligi_s        1.0 1003  pdr 0.4975  kuyruk_tasmasi    0  iz (759, 11015, 29916)  15.9 dk
+  aodv       saat_ofset_araligi_s        1.0 1004  pdr 0.4775  kuyruk_tasmasi    0  iz (809, 11945, 30892)  17.3 dk
+  aodv       saat_sapma_ppm             10.0 1000  pdr 0.5845  kuyruk_tasmasi    0  iz (955, 11989, 31577)  18.0 dk
+  aodv       saat_sapma_ppm             10.0 1001  pdr 0.6906  kuyruk_tasmasi    0  iz (1098, 10298, 26245)  14.3 dk
+  aodv       saat_sapma_ppm             10.0 1002  pdr 0.6842  kuyruk_tasmasi    0  iz (1074, 12006, 28276)  15.7 dk
+  aodv       saat_sapma_ppm             10.0 1003  pdr 0.5501  kuyruk_tasmasi    0  iz (855, 11905, 29996)  16.3 dk
+  aodv       saat_sapma_ppm             10.0 1004  pdr 0.4775  kuyruk_tasmasi    0  iz (809, 11945, 30892)  17.5 dk
+  aodv       saat_sapma_ppm             40.0 1000  pdr 0.5845  kuyruk_tasmasi    0  iz (955, 11989, 31577)  18.2 dk
+  aodv       saat_sapma_ppm             40.0 1001  pdr 0.6906  kuyruk_tasmasi    0  iz (1098, 10298, 26245)  14.6 dk
+  aodv       saat_sapma_ppm             40.0 1002  pdr 0.6842  kuyruk_tasmasi    0  iz (1074, 12006, 28276)  16.2 dk
+  aodv       saat_sapma_ppm             40.0 1003  pdr 0.5501  kuyruk_tasmasi    0  iz (855, 11905, 29996)  16.7 dk
+  aodv       saat_sapma_ppm             40.0 1004  pdr 0.4775  kuyruk_tasmasi    0  iz (809, 11945, 30892)  17.9 dk
+  aomdv      kuyruk_kapasitesi            25 1000  pdr 0.6328  kuyruk_tasmasi    0  iz (1015, 11242, 20664)  12.9 dk
+  aomdv      kuyruk_kapasitesi            25 1001  pdr 0.7431  kuyruk_tasmasi    0  iz (1186, 9664, 16493)  10.0 dk
+  aomdv      kuyruk_kapasitesi            25 1002  pdr 0.6650  kuyruk_tasmasi    0  iz (1083, 10885, 19101)  11.4 dk
+  aomdv      kuyruk_kapasitesi            25 1003  pdr 0.5376  kuyruk_tasmasi    0  iz (838, 11118, 23658)  13.2 dk
+  aomdv      kuyruk_kapasitesi            25 1004  pdr 0.6686  kuyruk_tasmasi    0  iz (1050, 11402, 21677)  12.9 dk
+  aomdv      kuyruk_kapasitesi           100 1000  pdr 0.6328  kuyruk_tasmasi    0  iz (1015, 11242, 20664)  12.9 dk
+  aomdv      kuyruk_kapasitesi           100 1001  pdr 0.7431  kuyruk_tasmasi    0  iz (1186, 9664, 16493)  10.1 dk
+  aomdv      kuyruk_kapasitesi           100 1002  pdr 0.6650  kuyruk_tasmasi    0  iz (1083, 10885, 19101)  11.4 dk
+  aomdv      kuyruk_kapasitesi           100 1003  pdr 0.5376  kuyruk_tasmasi    0  iz (838, 11118, 23658)  13.3 dk
+  aomdv      kuyruk_kapasitesi           100 1004  pdr 0.6686  kuyruk_tasmasi    0  iz (1050, 11402, 21677)  13.0 dk
+  aomdv      saat_ofset_araligi_s       0.25 1000  pdr 0.6328  kuyruk_tasmasi    0  iz (1015, 11242, 20664)  13.0 dk
+  aomdv      saat_ofset_araligi_s       0.25 1001  pdr 0.7481  kuyruk_tasmasi    0  iz (1212, 9798, 15919)  9.9 dk
+  aomdv      saat_ofset_araligi_s       0.25 1002  pdr 0.7101  kuyruk_tasmasi    0  iz (1148, 11323, 17225)  11.1 dk
+  aomdv      saat_ofset_araligi_s       0.25 1003  pdr 0.4866  kuyruk_tasmasi    0  iz (794, 10922, 23882)  13.5 dk
+  aomdv      saat_ofset_araligi_s       0.25 1004  pdr 0.6686  kuyruk_tasmasi    0  iz (1050, 11402, 21677)  12.8 dk
+  aomdv      saat_ofset_araligi_s        1.0 1000  pdr 0.5828  kuyruk_tasmasi    0  iz (932, 11379, 21599)  13.5 dk
+  aomdv      saat_ofset_araligi_s        1.0 1001  pdr 0.7548  kuyruk_tasmasi    0  iz (1193, 10286, 16317)  10.2 dk
+  aomdv      saat_ofset_araligi_s        1.0 1002  pdr 0.6650  kuyruk_tasmasi    0  iz (1083, 10885, 19101)  11.2 dk
+  aomdv      saat_ofset_araligi_s        1.0 1003  pdr 0.4215  kuyruk_tasmasi    0  iz (669, 10021, 25632)  13.1 dk
+  aomdv      saat_ofset_araligi_s        1.0 1004  pdr 0.6686  kuyruk_tasmasi    0  iz (1050, 11402, 21677)  12.4 dk
+  aomdv      saat_sapma_ppm             10.0 1000  pdr 0.6328  kuyruk_tasmasi    0  iz (1015, 11242, 20664)  12.4 dk
+  aomdv      saat_sapma_ppm             10.0 1001  pdr 0.7431  kuyruk_tasmasi    0  iz (1186, 9664, 16493)  9.6 dk
+  aomdv      saat_sapma_ppm             10.0 1002  pdr 0.6650  kuyruk_tasmasi    0  iz (1083, 10885, 19101)  10.9 dk
+  aomdv      saat_sapma_ppm             10.0 1003  pdr 0.5376  kuyruk_tasmasi    0  iz (838, 11118, 23658)  12.7 dk
+  aomdv      saat_sapma_ppm             10.0 1004  pdr 0.6686  kuyruk_tasmasi    0  iz (1050, 11402, 21677)  12.4 dk
+  aomdv      saat_sapma_ppm             40.0 1000  pdr 0.6328  kuyruk_tasmasi    0  iz (1015, 11242, 20664)  12.6 dk
+  aomdv      saat_sapma_ppm             40.0 1001  pdr 0.7431  kuyruk_tasmasi    0  iz (1186, 9664, 16493)  9.5 dk
+  aomdv      saat_sapma_ppm             40.0 1002  pdr 0.6650  kuyruk_tasmasi    0  iz (1083, 10885, 19101)  10.9 dk
+  aomdv      saat_sapma_ppm             40.0 1003  pdr 0.5376  kuyruk_tasmasi    0  iz (838, 11118, 23658)  12.6 dk
+  aomdv      saat_sapma_ppm             40.0 1004  pdr 0.6686  kuyruk_tasmasi    0  iz (1050, 11402, 21677)  12.3 dk
+  olsr       kuyruk_kapasitesi            25 1000  pdr 0.3838  kuyruk_tasmasi    0  iz (478, 9169, 10327)  7.9 dk
+  olsr       kuyruk_kapasitesi            25 1001  pdr 0.6222  kuyruk_tasmasi    0  iz (776, 10938, 11580)  9.0 dk
+  olsr       kuyruk_kapasitesi            25 1002  pdr 0.7226  kuyruk_tasmasi    0  iz (901, 8825, 11324)  7.4 dk
+  olsr       kuyruk_kapasitesi            25 1003  pdr 0.4098  kuyruk_tasmasi   11  iz (506, 6970, 7306)  5.0 dk
+  olsr       kuyruk_kapasitesi            25 1004  pdr 0.5192  kuyruk_tasmasi    0  iz (635, 7261, 9358)  6.0 dk
+  olsr       kuyruk_kapasitesi           100 1000  pdr 0.3838  kuyruk_tasmasi    0  iz (478, 9169, 10327)  7.9 dk
+  olsr       kuyruk_kapasitesi           100 1001  pdr 0.6222  kuyruk_tasmasi    0  iz (776, 10938, 11580)  9.0 dk
+  olsr       kuyruk_kapasitesi           100 1002  pdr 0.7226  kuyruk_tasmasi    0  iz (901, 8825, 11324)  7.5 dk
+  olsr       kuyruk_kapasitesi           100 1003  pdr 0.4432  kuyruk_tasmasi    0  iz (546, 6032, 7305)  4.5 dk
+  olsr       kuyruk_kapasitesi           100 1004  pdr 0.5192  kuyruk_tasmasi    0  iz (635, 7261, 9358)  6.0 dk
+  olsr       saat_ofset_araligi_s       0.25 1000  pdr 0.3838  kuyruk_tasmasi    0  iz (478, 9169, 10327)  7.9 dk
+  olsr       saat_ofset_araligi_s       0.25 1001  pdr 0.6222  kuyruk_tasmasi    0  iz (776, 10938, 11580)  9.1 dk
+  olsr       saat_ofset_araligi_s       0.25 1002  pdr 0.7226  kuyruk_tasmasi    0  iz (901, 8825, 11324)  7.3 dk
+  olsr       saat_ofset_araligi_s       0.25 1003  pdr 0.4432  kuyruk_tasmasi    0  iz (546, 6032, 7305)  4.5 dk
+  olsr       saat_ofset_araligi_s       0.25 1004  pdr 0.5192  kuyruk_tasmasi    0  iz (635, 7261, 9358)  6.0 dk
+  olsr       saat_ofset_araligi_s        1.0 1000  pdr 0.3838  kuyruk_tasmasi    0  iz (478, 9169, 10327)  7.8 dk
+  olsr       saat_ofset_araligi_s        1.0 1001  pdr 0.6222  kuyruk_tasmasi    0  iz (776, 10938, 11580)  9.0 dk
+  olsr       saat_ofset_araligi_s        1.0 1002  pdr 0.7226  kuyruk_tasmasi    0  iz (901, 8825, 11324)  7.5 dk
+  olsr       saat_ofset_araligi_s        1.0 1003  pdr 0.4432  kuyruk_tasmasi    0  iz (546, 6032, 7305)  4.5 dk
+  olsr       saat_ofset_araligi_s        1.0 1004  pdr 0.5192  kuyruk_tasmasi    0  iz (635, 7261, 9358)  6.1 dk
+  olsr       saat_sapma_ppm             10.0 1000  pdr 0.3838  kuyruk_tasmasi    0  iz (478, 9169, 10327)  7.9 dk
+  olsr       saat_sapma_ppm             10.0 1001  pdr 0.6222  kuyruk_tasmasi    0  iz (776, 10938, 11580)  9.0 dk
+  olsr       saat_sapma_ppm             10.0 1002  pdr 0.7226  kuyruk_tasmasi    0  iz (901, 8825, 11324)  7.4 dk
+  olsr       saat_sapma_ppm             10.0 1003  pdr 0.4432  kuyruk_tasmasi    0  iz (546, 6032, 7305)  4.5 dk
+  olsr       saat_sapma_ppm             10.0 1004  pdr 0.5401  kuyruk_tasmasi    0  iz (660, 7982, 9567)  6.7 dk
+  olsr       saat_sapma_ppm             40.0 1000  pdr 0.3838  kuyruk_tasmasi    0  iz (478, 9169, 10327)  7.9 dk
+  olsr       saat_sapma_ppm             40.0 1001  pdr 0.6222  kuyruk_tasmasi    0  iz (776, 10938, 11580)  8.8 dk
+  olsr       saat_sapma_ppm             40.0 1002  pdr 0.7226  kuyruk_tasmasi    0  iz (901, 8825, 11324)  7.4 dk
+  olsr       saat_sapma_ppm             40.0 1003  pdr 0.4432  kuyruk_tasmasi    0  iz (546, 6032, 7305)  4.5 dk
+  olsr       saat_sapma_ppm             40.0 1004  pdr 0.5192  kuyruk_tasmasi    0  iz (635, 7261, 9358)  6.0 dk
+  desparete  None                       None 1003  pdr 0.6928  kuyruk_tasmasi    0  iz (1011, 11060, 30209)  13.2 dk
+  desparete  gps_dikey_sigma_m           4.0 1003  pdr 0.6928  kuyruk_tasmasi    0  iz (1011, 11060, 30209)  13.3 dk
+  desparete  gps_hiz_sigma_ms            0.2 1003  pdr 0.6928  kuyruk_tasmasi    0  iz (1011, 11060, 30209)  12.7 dk
+  desparete  rssi_olcum_sigma_db         4.0 1003  pdr 0.6928  kuyruk_tasmasi    0  iz (1011, 11060, 30209)  12.5 dk
+
+parametre              carpan protokol      d_pdr     band  birebir  karar
+kuyruk_kapasitesi         0.5 aodv        +0.0000   0.0000     True  BAGLAMIYOR
+kuyruk_kapasitesi         0.5 aomdv       +0.0000   0.0000     True  BAGLAMIYOR
+kuyruk_kapasitesi         0.5 olsr        -0.0067   0.0134    False  DUYARSIZ
+kuyruk_kapasitesi         2.0 aodv        +0.0000   0.0000     True  BAGLAMIYOR
+kuyruk_kapasitesi         2.0 aomdv       +0.0000   0.0000     True  BAGLAMIYOR
+kuyruk_kapasitesi         2.0 olsr        +0.0000   0.0000     True  BAGLAMIYOR
+  → kuyruk_kapasitesi: DUYARSIZ
+
+saat_ofset_araligi_s      0.5 aodv        -0.0018   0.0225    False  DUYARSIZ
+saat_ofset_araligi_s      0.5 aomdv       -0.0002   0.0305    False  DUYARSIZ
+saat_ofset_araligi_s      0.5 olsr        +0.0000   0.0000     True  BAGLAMIYOR
+saat_ofset_araligi_s      2.0 aodv        -0.0248   0.0215    False  DUYARLI
+saat_ofset_araligi_s      2.0 aomdv       -0.0309   0.0476    False  DUYARLI
+saat_ofset_araligi_s      2.0 olsr        +0.0000   0.0000     True  BAGLAMIYOR
+  → saat_ofset_araligi_s: DUYARLI / GECERSIZ
+
+saat_sapma_ppm            0.5 aodv        +0.0000   0.0000     True  BAGLAMIYOR
+saat_sapma_ppm            0.5 aomdv       +0.0000   0.0000     True  BAGLAMIYOR
+saat_sapma_ppm            0.5 olsr        +0.0042   0.0083    False  DUYARSIZ
+saat_sapma_ppm            2.0 aodv        +0.0000   0.0000     True  BAGLAMIYOR
+saat_sapma_ppm            2.0 aomdv       +0.0000   0.0000     True  BAGLAMIYOR
+saat_sapma_ppm            2.0 olsr        +0.0000   0.0000     True  BAGLAMIYOR
+  → saat_sapma_ppm: DUYARSIZ
+
+BIREBIRLIK (DESPARETE, gps/rssi x2): 🟢 BIREBIR

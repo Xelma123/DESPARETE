@@ -71,6 +71,19 @@ v1 (evre katlama, `evre_cizelgeli_oneri_v1.md`) öğrencinin "bir süre daha dü
 >
 > **Öneri:** R ve taramalar referans dünyanın çalışma noktasında, **birincil hücrede** (formasyon · yere toplama · derin sızma; `duyarlilik.py birincil` hazır). Tutarlılık için ikisi de aynı pencerede ölçülür. Her tarama hücresinin ETX kâhini PDR'si taramadan önce basılır; tabana (< 0,1) ya da tavana (> 0,95) yakın hücre tarama hücresi olamaz, kural ölçmeden önce. Maliyet sonra hesaplanır; birincil hücrenin koşusu statikten pahalı.
 
+> **Düzeltilmiş plan (öğrenci onayı K-207 §4; maliyet 1 Ekim):** her koşu iki kâhinle, kısa pencerede (aracın tasarımı); birincil hücrede kâhinin PDR'si ~0,7–0,8 (tabanda değil).
+>
+> | # | ne | nasıl | koşu · süre (makine boşken) |
+> |---|---|---|---|
+> | R | eşleştirilmiş çözünürlük | `cozunurluk.py` birincil hücrede, 40 tohum | 80 · ~50 dk |
+> | T1 | fizik · MAC · hareket | `duyarlilik.py birincil`: `rician_k_db` · `golgeleme_hucre_m` · `gm_adim_s` · `gm_pitch_sigma_rad` · `yakalama_esigi_db` · `kuyruk_kapasitesi` · `cbr_titresim_s` · `saat_ofset_araligi_s` · `saat_sapma_ppm` · `kanal_dilimi_s` (alıcı karar dilimi ve RSSI gürültüsü de kullanıyor — yalnız reaktif değil) · `ISTASYON_TUTMA_S` × (0,5 · 2) × 5 tohum | ~230 · ~2,4 sa |
+> | T2 | kâhine özgü (U1 paydası) | `beacon_araligi_s` · `beacon_bayt` · `komsu_omru_katsayisi` · `kahin.py::ATLAMA_ESIGI` · `SONUMLEME_ORNEGI`, aynı hücre | ~100 · ~1 sa |
+> | E | gözlem gürültüsü birebirliği | `gps_dikey_sigma_m` · `gps_hiz_sigma_ms` · `rssi_olcum_sigma_db` × 2 → satır birebir mi (bugün hiçbir protokol okumuyor; DESPARETE Faz 5'te RSSI okuyacak, orada yeniden) | ~6 · ~10 dk |
+> | K | kanıtla kapanan | `BEKLEYEN_UYANDIRMA_TAVANI`: bütün regresyon satırlarında tepe ≤ 22/256, hiç bağlamıyor (k203) · `ttl_baslangic` yalnız döngüdeki paketin ömrü (AODV-i'de TTL düşüşü 0–2) · `gorev_grup_sayisi` görev kolunda ayrı | — |
+> | — | ön-kayıtta Faz 6'ya ayrılmış | `isinma_s` · `olcum_bitis_s` · `kosu_bitis_s` (`06` §8 koşul 1) | — |
+>
+> Toplam ~4 sa (makine boşken). Başka projenin deneyi aynı anda koşarsa ~2 katı. Duyarlı çıkan ve kaynağa bağlanamayanlar öğrenciye eksen listesi.
+
 | # | ne | nasıl | maliyet (tahmin) |
 |---|---|---|---|
 | 1 | referans dünyanın eşleştirilmiş R'si | `cozunurluk.py --dunya referans_2026 --tohum 40` (statik-sürekli, kısa pencere, iki kâhin) | ~30 dk |

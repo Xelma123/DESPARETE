@@ -46,10 +46,14 @@ if str(KOK) not in sys.path:
     sys.path.insert(0, str(KOK))
 
 from kalibrasyon import dunya_secimi as DS  # noqa: E402  (K-183)
-from kalibrasyon.duyarlilik import R_ESLESTIRILMIS, _is  # noqa: E402
+from kalibrasyon.duyarlilik import HUCRE_EKLERI, R_ESLESTIRILMIS, _is  # noqa: E402
 
 TOHUMLAR = tuple(range(1000, 1030))
 SENARYO = "statik-surekli"
+# `--hucre birincil` (K-211 sonrası Faz 4.4): eski çekirdek hücre referans
+# dünyada tabana yapışık (kâhin PDR 0,029, K-206); R ve taramalar birincil
+# hücrede (`duyarlilik.py::HUCRE_EKLERI` ile aynı tanım).
+EK: dict = {}
 
 
 def main(isci: int = 8) -> None:
@@ -57,7 +61,7 @@ def main(isci: int = 8) -> None:
     print(f"DENEYIN COZUNURLUGU — {SENARYO} · {len(TOHUMLAR)} tohum")
     print("=" * 78)
     aletler = ("en_guvenilir_kahin", "en_kisa_yol_kahin")
-    gorevler = [(SENARYO, t, a, {}) for a in aletler for t in TOHUMLAR]
+    gorevler = [(SENARYO, t, a, dict(EK)) for a in aletler for t in TOHUMLAR]
     with Pool(isci) as havuz:
         ham = havuz.map(_is, gorevler, chunksize=1)
     n = len(TOHUMLAR)
@@ -139,6 +143,13 @@ if __name__ == "__main__":
     DS.secimi_oku()
     print(f"  DUNYA: {DS.secili()}")
     # `--tohum N`: çözünürlüğü N tohumla ölçer; ilk tohum aynı kalır.
+    if "--hucre" in sys.argv:
+        _h = sys.argv[sys.argv.index("--hucre") + 1]
+        if _h != "birincil":
+            raise SystemExit(f"bilinmeyen hucre: {_h!r} (yalniz `birincil`)")
+        SENARYO = "formasyon-surekli"
+        EK = dict(HUCRE_EKLERI["birincil"])
+        print(f"  HUCRE: {SENARYO} · {EK}")
     if "--tohum" in sys.argv:
         _n = int(sys.argv[sys.argv.index("--tohum") + 1])
         TOHUMLAR = tuple(range(TOHUMLAR[0], TOHUMLAR[0] + _n))

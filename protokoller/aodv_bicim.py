@@ -61,6 +61,21 @@ eniyileme, önek tek arayüzde anlamsız.
 Yerel onarım EVET zayıflatabilir ve bu açıkça yazılıyor: karıştırma altında
 kopma sıktır ve yerel onarım tam orada iş görür. Ölçüm raporlanırken bu sapma
 sonucun yanında anılır.
+
+🔒 SADAKAT DENETİMİ (K-208, `arsiv/teshis/aodv_sadakat_2026-09-30/denetim.md`)
+===============================================================================
+Kod RFC 3561'e kural kural karşılaştırıldı; ns-3 yalnız RFC'nin sustuğu ya
+da çeliştiği yerde hakem. İki hakem kararı:
+  · §6.1 ("sırayı RREQ'tekiyle büyüğüne çıkar") ile §6.6.1 ("yalnız bir
+    fazlasıysa artır") çelişir → ns-3 gibi §6.6.1.
+  · §6.9 HELLO *"only if … part of an active route"*: RFC'nin tanımında etkin
+    rota = geçerli girdi → ns-3 gibi HELLO son aralıkta yayın yoksa gider.
+ns-3'ün RFC'de olmayan üç eklemesi ALINMADI: rotası RREQ göndereninden geçen
+ara düğümün RREQ'i düşürmesi · kaynağın keşifte her RREP'i kabulü · RREP'in
+güncelleme olmasa da iletilmesi.
+Başlangıç durumu (K-215, `AODV-j`): HELLO'nun "son yayın" anı ve §10
+pencereleri −∞'dan başlar; yerel saatin 0 anına çapalı başlangıç sonucu saat
+ofsetine bağlı kılıyordu (Faz 4.4 ölçümü; yamalıyken ofsete birebir).
 """
 
 from __future__ import annotations

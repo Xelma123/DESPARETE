@@ -318,3 +318,49 @@ def test_U4_AOMDV_genisleyen_halka_ve_RREQ_RETRIES_AODV_ile_AYNI():
     assert ttl_dizisi[:2] == [TTL_START, TTL_START + TTL_INCREMENT]
     assert TTL_THRESHOLD in ttl_dizisi and NET_DIAMETER in ttl_dizisi
     assert 9 not in p._kesif and p._sayac["kesif_basarisiz"] == 1
+
+
+# ==========================================================================
+# K-210 · AOMDV'NİN RFC 3561 TABANI (makalenin sustuğu yerlerde AODV-h kuralı)
+# ==========================================================================
+def test_K210_RREP_iletiminde_ONCULLER_ve_ters_yol_OMRU():
+    """RFC §6.7 son paragraf: ters yolun ömrü `max(mevcut, şimdi +
+    ACTIVE_ROUTE_TIMEOUT)`, hedefe doğru sonraki atlamanın girdisinin öncülüne
+    kaynağa doğru sonraki atlama. İlk yazımda yoktu; RERR yukarı ulaşmıyor,
+    eşler arası statik 1001'de 1 697 paket kara deliğe düşüyordu (K-210)."""
+    from protokoller.aodv_bicim import ACTIVE_ROUTE_TIMEOUT_S, SONSUZ_SIRA
+    q = AOMDV(5)
+    q._komsu.update({2: 0.9, 3: 0.9})
+    q._rota[0] = CokluRota(hedef_sira=3, yollar={2: 1}, son_gecerli_s=1.5)
+    q._rota[3] = CokluRota(hedef_sira=SONSUZ_SIRA, yollar={3: 1},
+                           son_gecerli_s=5.0)
+    y = {"kaynak": 0, "hedef": 9, "hedef_sira": 8, "atlama": 1,
+         "omur_ms": 3000}
+    cikti = q._rrep_isle(3, y, 1.0)
+    assert [i for i in _istekler(cikti) if i.bicim is RREP], "iletilmedi"
+    assert 2 in q._rota[9].oncular
+    assert 2 in q._rota[3].oncular, "komşu girdisinin öncülü yok"
+    assert q._rota[0].son_gecerli_s == 1.0 + ACTIVE_ROUTE_TIMEOUT_S
+
+
+def test_K210_son_yol_RERRle_duserse_SIRA_KOPYALANIR():
+    """RFC §6.11 (iii): son yol RERR ile düşünce sıra RERR'den kopyalanır."""
+    q = AOMDV(5)
+    q._rota[9] = CokluRota(hedef_sira=5, yollar={1: 2}, son_gecerli_s=100.0)
+    q._rerr_isle(1, {"ulasilamaz": (9,), "ulasilamaz_sira": (12,)}, 3.0)
+    assert not q._rota[9].gecerli and q._rota[9].hedef_sira == 12
+
+
+def test_K210_HELLO_komsu_rotasina_SIRAYI_yazar_ve_komsu_rotasi_SIRASIZ():
+    """RFC §6.9: komşu rotası HELLO'nun sırasını taşır (Şekil 3'ün kuralından
+    geçen atlama-0 ilanı); §6.2: yeniden kurulan komşu girdisi sırasız."""
+    from protokoller.aodv_bicim import SONSUZ_SIRA
+    q = AOMDV(8)
+    q._rota[7] = CokluRota(hedef_sira=4, gecerli=False, silme_s=50.0)
+    q._komsu_rotasi(7, 1.0)
+    assert q._rota[7].hedef_sira == SONSUZ_SIRA
+    hello = tuple({"tip": TIP_RREP, "bayraklar": 0, "ayrilmis": 0,
+                   "onek_boyu": 0, "atlama": 0, "hedef": 7, "hedef_sira": 6,
+                   "kaynak": 7, "omur_ms": 2000}.items())
+    q.kontrol_alindi(_gozlem(8, 1.1), 7, "RREP", hello, True)
+    assert q._rota[7].hedef_sira == 6 and q._rota[7].yollar == {7: 1}

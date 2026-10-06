@@ -92,7 +92,8 @@ def metrik_sozlugu(sayaclar: dict[str, float | None],
                    rota_defteri: RotaDefteri,
                    acilma_s: float | None = None,
                    akis_siniflari: Mapping[int, str] | None = None,
-                   enerji_j: Sequence[float] | None = None
+                   enerji_j: Sequence[float] | None = None,
+                   cizelge: tuple[float, float] | None = None
                    ) -> dict[str, object]:
     """Sonuç satırının `metrikler` bölümü.
 
@@ -191,7 +192,8 @@ def metrik_sozlugu(sayaclar: dict[str, float | None],
         cikti.update(evre_sozlugu(
             paket_defteri, rota_defteri, bas_s=bas_s, acilma_s=acilma_s,
             bitis_s=bitis_s,
-            gecikme_p99_s=cikti.get("gecikme_p99_s_pencere")))
+            gecikme_p99_s=cikti.get("gecikme_p99_s_pencere"),
+            cizelge=cizelge))
     else:
         # 🔴 SESSİZ ATLAMA YOK. Açılma anı pencerenin dışındaysa evreler
         # TANIMSIZDIR — ama bunu yazmadan atlamak, 8 Eylül 2026'da üç

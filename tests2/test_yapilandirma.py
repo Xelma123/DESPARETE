@@ -687,7 +687,7 @@ def test_DUYARLILIK_BORCU_KOL_TANIMI_icinde():
 
 
 def test_KAPSAM_ILANI_izli():
-    """Borçtan kapsam ilanıyla çıkan ad kaybolmaz, izi kalır (K-204).
+    """Borçtan kapsam ilanıyla çıkan ad kaybolmaz, izi kalır (K-204, K-215).
 
     🔒 Ölçülmeden kapanan borç ancak öğrencinin kapsam kararıyla kapanır:
     ad `KOL_TANIMI`nda durur, gerekçesi kararı taşır, borçla kesişmez.
@@ -697,7 +697,7 @@ def test_KAPSAM_ILANI_izli():
     assert KAPSAM_ILANI <= kol_tanimi, sorted(KAPSAM_ILANI - kol_tanimi)
     assert not KAPSAM_ILANI & DUYARLILIK_BEKLEYEN
     izsiz = sorted(ad for ad in KAPSAM_ILANI
-                   if "KAPSAM (K-204)" not in KOKENLER[ad][1])
+                   if "KAPSAM (K-2" not in KOKENLER[ad][1])
     assert not izsiz, f"🔴 gerekçesi kapsam kararını taşımıyor: {izsiz}"
 
 

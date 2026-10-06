@@ -1,0 +1,4 @@
+kod desparete_pls · sure 121.2 s · pdr 0.8468
+  sayac: {'rreq_uretilen': 325, 'rreq_iletilen': 5096, 'rreq_bastirilan': 14694, 'rrep_uretilen': 1395, 'rrep_iletilen': 1025, 'rerr_uretilen': 1384, 'kesif_basarili': 276, 'komsu_zaman_asimi': 992, 'rota_gecersizlestirilen': 3943, 'rerr_onculsuz': 876, 'kara_liste_eklenen': 82, 'rreq_kara_listeden': 377}
+  uyandi: {'tampon': 1464, 'kesif': 325}
+  kontrol: {'tepe_bekleyen_uyandirma': 6, 'bekleyen_uyandirma_tavani': 256}

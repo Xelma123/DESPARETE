@@ -484,3 +484,108 @@ def test_K196_toparlanma_KUMELENEN_kayipta_ANINDA_ve_SE_GENISLER():
     assert e.toparlanma_suresi() == 0.0
     _, se = e.sok_derinligi()
     assert se == pytest.approx(e._kume_se())
+
+
+# ==========================================================================
+# K-209 · ÇİZELGELİ KARIŞTIRICI (evre metrikleri v2, öğrenci onayı K-207)
+# ==========================================================================
+CIZELGE = (15.0, 15.0)
+
+
+def _acik_mi(t: float) -> bool:
+    return t >= ACILMA and (t - ACILMA) % 30.0 < 15.0
+
+
+def test_K209_SUREKLI_karistiricida_SATIR_BIREBIR():
+    """Çizelge yoksa yeni alan YOK ve metrikler bugünküyle aynı."""
+    dogum = _duzgun()
+    d = _defter(dogum, [k for k, _ in dogum])
+    s = evre_sozlugu(d, RotaDefteri(), BAS, ACILMA, BITIS)
+    assert "evre_cizelge_s" not in s and "pdr_acik" not in s
+    assert s["toparlanma_suresi_s"] == 0.0
+
+
+def test_K209_DONEMLER_kismi_son_sessiz_dahil():
+    e = Evreler(_defter(_duzgun()), BAS, ACILMA, BITIS, cizelge=CIZELGE)
+    assert e.donemler(True) == ((150.0, 165.0), (180.0, 195.0), (210.0, 225.0),
+                                (240.0, 255.0), (270.0, 285.0), (300.0, 315.0))
+    assert e.donemler(False)[-1] == (315.0, 320.0)
+    assert len(e.donemler(False)) == 6
+    assert e.sok_araligi == (150.0, 165.0), "ŞOK = ilk açık dönem"
+    kisa = Evreler(_defter(_duzgun()), BAS, ACILMA, BITIS, cizelge=(10.0, 20.0))
+    assert kisa.sok_araligi == (150.0, 160.0), "ŞOK açık dönemden taşmaz"
+
+
+def test_K209_M1_M2_M3_BILINEN_dunyada():
+    """Açıkta hiçbir paket geçmez, sessizde hepsi: M1 = 1 · M2 = 1 · M3
+    tanımsız (sansürden ayrı alan)."""
+    dogum = _duzgun()
+    d = _defter(dogum, [k for k, t in dogum if not _acik_mi(t)])
+    s = evre_sozlugu(d, RotaDefteri(), BAS, ACILMA, BITIS, cizelge=CIZELGE)
+    assert s["sok_derinligi"] == pytest.approx(1.0)
+    assert s["toparlanma_tamligi"] == pytest.approx(1.0)
+    assert s["pdr_acik"] == 0.0 and s["pdr_sessiz"] == pytest.approx(1.0)
+    assert s["toparlanma_suresi_s"] is None
+    assert s["toparlanma_suresi_tanimsiz"] == "cizelgeli"
+    assert s["en_dip_pdr"] is None
+    assert s["evre_cizelge_s"] == [15.0, 15.0]
+
+
+def test_K209_M4_ILK_ACIK_DONEMLE_sinirli():
+    """İkinci açık dönemdeki patlama çizelgede tespit DEĞİL (ilk açılmayı
+    kaçırdı); ilk açık dönemdeki patlama yakalanır."""
+    def defter(patlama_s):
+        r = RotaDefteri()
+        for i in range(100):
+            r.beyan_isle(0, Beyan("kopma", komsu=i % 7), BAS + i * 1.0)
+        for j in range(40):
+            r.beyan_isle(0, Beyan("kopma", komsu=j % 7),
+                         ACILMA + patlama_s + j * 0.01)
+        return r
+    e = Evreler(_defter(_duzgun()), BAS, ACILMA, BITIS)
+    ec = Evreler(_defter(_duzgun()), BAS, ACILMA, BITIS, cizelge=CIZELGE)
+    assert e.tespit_gecikmesi(defter(31.0)) == pytest.approx(32.0, abs=1.0)
+    assert ec.tespit_gecikmesi(defter(31.0)) is None
+    assert ec.tespit_gecikmesi(defter(5.0)) == pytest.approx(6.0, abs=1.0)
+
+
+def test_K209_TESHIS_cevrim_profil_sizinti():
+    dogum = _duzgun()
+    d = _defter(dogum, [k for k, t in dogum if not _acik_mi(t)])
+    s = evre_sozlugu(d, RotaDefteri(), BAS, ACILMA, BITIS, cizelge=CIZELGE)
+    assert len(s["evre_cevrim_pdr"]) == 6
+    assert s["evre_cevrim_pdr"][0] == [0.0, pytest.approx(1.0)]
+    assert s["evre_cevrim_pdr"][-1][0] == 0.0
+    profil = s["evre_katli_profil"]
+    assert len(profil) == 30
+    assert all(p == 0.0 for p in profil[:15])
+    assert all(p == pytest.approx(1.0) for p in profil[15:])
+    assert s["evre_sizinti"] == pytest.approx(0.0, abs=0.01)
+
+
+def test_K209_CIZELGE_konfigden_TURER():
+    """Birincil hücrenin `derin_sizma`sı (15, 15); sürekli aile ve
+    karıştırıcısız kol `None`."""
+    from sim2.kanal.dunya import referans_2026
+    from sim2.kosum.kurulum import kurulum_yap
+    from sim2.kosum.sonuc import karistirici_cizelgesi
+    ek = {"isinma_s": 10.0, "olcum_bitis_s": 40.0, "kosu_bitis_s": 50.0}
+    birincil = kurulum_yap(referans_2026(
+        kol="t", senaryo="formasyon-surekli", tohum=1003,
+        tehdit_senaryosu="derin_sizma", trafik_deseni="yere_toplama", **ek))
+    assert karistirici_cizelgesi(birincil) == (15.0, 15.0)
+    # 🔒 TEK TANIM: evre bölümlemesi karıştırıcının kendi `devrede_mi`siyle
+    # aynı (kayıp anatomisi o fonksiyonu kullanıyor).
+    kar = birincil.kanal.karistirici
+    uyeler = getattr(kar, "uyeler", (kar,))
+    ac = birincil.konfig.karistirici_baslangic_s
+    for i in range(700):
+        t = ac + i * 0.1 + 0.05
+        beklenen = (t - ac) % 30.0 < 15.0
+        assert any(u.devrede_mi(t) for u in uyeler) == beklenen, t
+    surekli = kurulum_yap(referans_2026(kol="t", senaryo="statik-surekli",
+                                        tohum=1003, **ek))
+    assert karistirici_cizelgesi(surekli) is None
+    yok = kurulum_yap(referans_2026(kol="t", senaryo="statik-yok",
+                                    tohum=1003, **ek))
+    assert karistirici_cizelgesi(yok) is None

@@ -88,6 +88,8 @@ Vu Khanh Quy, Nguyen Tien Ban, Nguyen Dinh Han, *"A High-Performance Routing Pro
 
 **G16 · IP/UDP/802.2 kapsüllemesi** ✅ RFC 791 (IPv4, 1981): başlık en az 5 × 32 bit = **20 oktet** · RFC 768 (UDP, 1980): başlık **8 oktet** · RFC 1042 (IP over IEEE 802, 1988): *"The total length of the LLC Header and the SNAP header is 8-octets"*. RFC Editor'ün kanonik metinleri, 30 Eylül 2026 (K-203).
 
+**G17 · IP veri paketinin varsayılan TTL'i** ✅ RFC 1700 (Reynolds & Postel, *"Assigned Numbers"*, STD 2, Ekim 1994; RFC 3232 ile tarihsel, kayıtlar IANA'da çevrimiçi), "IP TIME TO LIVE PARAMETER": *"The current recommended default time to live (TTL) for the Internet Protocol (IP) is 64."* Bağımsız uygulama kaynağı: ns-3-dev `ipv4-l3-protocol.cc` `DefaultTtl` = **64**. RFC 791 (G16) TTL'in anlamını verir, değer vermez; RFC 3626 OLSR'ın TTL'i yalnız kendi kontrol mesajlarınındır. 6 Ekim 2026 (K-215).
+
 **G5 · Karıştırma taraması** ✅ Pirayesh & Zeng, arXiv:2101.00292v1, 2021 (dergi sürümü IEEE COMST 2022). Sürekli, aldatıcı, reaktif, taramalı saldırılar; reaktif karıştırıcı < 4 µs geçiş ister · karıştırma tespiti gürültü, kanal meşgul oranı, çerçeveler arası süre, sinyal gücü, teslim oranıyla (Puñal vd.) · hız uyarlaması düşük güçlü girişimde etkili, yüksek güçlü sürekli karıştırmada etkisiz (Pelechrinis vd.).
 
 ## S · Doğrulanmayı bekleyen kaynak soruları

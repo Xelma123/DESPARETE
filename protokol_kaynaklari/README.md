@@ -213,6 +213,15 @@ Ortak denetim; etkin içerik yok (1801.01656'daki `/JS` sıkıştırılmış ak�
 | `rfc791.txt` | J. Postel, *"Internet Protocol"*, RFC 791, Eylül 1981 | `https://www.rfc-editor.org/rfc/rfc791.txt` | 94 892 B · `6cfb387fcecfc1b72f2f69343c5b6951b5d263d708162e2b5c66ab8f394f6265` | §3.1 başlık biçimi: IHL en az 5 × 32 bit → **20 oktet** |
 | `rfc768.txt` | J. Postel, *"User Datagram Protocol"*, RFC 768, Ağustos 1980 | `https://www.rfc-editor.org/rfc/rfc768.txt` | 5 896 B · `7dc8880e1ecef9c3f9da0db4b876a16e96bfa4f0953cc9d977d414f8f680c2f0` | tamamı: başlık kaynak/hedef kapısı, uzunluk, sağlama — **8 oktet** |
 | `rfc1042.txt` | J. Postel, J. Reynolds, *"A Standard for the Transmission of IP Datagrams over IEEE 802 Networks"*, RFC 1042, Şubat 1988 | `https://www.rfc-editor.org/rfc/rfc1042.txt` | 34 359 B · `e8737abe7f7b80ae2e84b8cada0ea02d8cc3c4ad2414e902cc055e6953a01c55` | başlık bölümü: *"The total length of the LLC Header and the SNAP header is 8-octets"* |
+
+### RFC 1700 ve ns-3 IPv4 — veri paketinin varsayılan TTL'i (6 Ekim 2026, öğrenci izniyle, K-215)
+
+| dosya | künye | alındığı yer | boyut · SHA-256 | okunan |
+|---|---|---|---|---|
+| `rfc1700_assigned_numbers.txt` | J. Reynolds, J. Postel, *"Assigned Numbers"*, RFC 1700 (STD 2), Ekim 1994 — RFC 3232 (2002) ile tarihsel; kayıtlar IANA'nın çevrimiçi veritabanına taşındı | `https://www.rfc-editor.org/rfc/rfc1700.txt` | 458 860 B · `77de0532a5b4b6bef3d233795b5a87aae1838358b98e7da82676e0c6455eb03e` | "IP TIME TO LIVE PARAMETER": *"The current recommended default time to live (TTL) for the Internet Protocol (IP) [45,105] is 64."* |
+| `uygulama_kaynaklari/ns-3/ipv4-l3-protocol.cc` | ns-3-dev `src/internet/model/ipv4-l3-protocol.cc` (GPL-2.0-only) | `https://gitlab.com/nsnam/ns-3-dev/-/raw/master/src/internet/model/ipv4-l3-protocol.cc` | 58 517 B · `faa5c2a9c5fdb800fda076bab33cb42b8b5dec5b208d46cd10a13d10e5b146ef` | öznitelik `DefaultTtl`: *"The TTL value set by default on all outgoing packets generated on this node"*, **64** |
+
+Denetim: talimat kalıbı yok (RFC 1700'deki "Claude" geçişleri kayıt sahibi adları).
 | `linux/net_wireless_core.c` | *"Initialize wiphy parameters to IEEE 802.11 MIB default values"*: `retry_short = 7`, `retry_long = 4`, RTS kapalı | `a1e6ebc52f7634585e5c7e8cb29b2e106de5af12da68cf9e5ed0794ad94fcb9a` |
 
 - **`arsiv/kaynak_elenen/ieee_80211_2016_kesit_madde21_IPR2023-01414.pdf`:** IEEE Std 802.11-2016'nın yalnız 9 sayfası, madde 21 (VHT/802.11ac, s. 2538–2580). Bir ABD patent davasının delil dosyası (*"IPR2023-01414 · Patent Owner · EX 2003"*), üçüncü kişinin lisans damgasıyla. İhtiyaç duyulan 802.11b maddeleri (15–16) ve MAC zamanlaması (madde 10) yok → kaynak olarak kullanılmadı, arşive taşındı.

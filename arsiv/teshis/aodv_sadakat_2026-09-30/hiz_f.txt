@@ -1,0 +1,4 @@
+kod kopya · sure 96.9 s · pdr 0.8255
+  sayac: {'rreq_uretilen': 647, 'rreq_iletilen': 2765, 'rreq_bastirilan': 7925, 'rrep_uretilen': 1413, 'rrep_iletilen': 679, 'rerr_uretilen': 792, 'kesif_basarili': 422, 'komsu_zaman_asimi': 1103, 'rota_gecersizlestirilen': 3619, 'rerr_onculsuz': 1574, 'kara_liste_eklenen': 83, 'rreq_kara_listeden': 189}
+  uyandi: {'tampon': 1074, 'kesif': 647}
+  kontrol: {'tepe_bekleyen_uyandirma': 6, 'bekleyen_uyandirma_tavani': 256}

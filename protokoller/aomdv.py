@@ -48,8 +48,9 @@ from sim2.gozlem.karar import Beyan
 from sim2.gozlem.kontrol import KontrolIstegi, Uyandirma
 from protokoller.aodv import AODV
 from protokoller.aodv_bicim import (
-    ACTIVE_ROUTE_TIMEOUT_S, MY_ROUTE_TIMEOUT_S, NET_TRAVERSAL_TIME_S,
-    NODE_TRAVERSAL_TIME_S, PATH_DISCOVERY_TIME_S, SONSUZ_SIRA)
+    ACTIVE_ROUTE_TIMEOUT_S, ALLOWED_HELLO_LOSS, HELLO_INTERVAL_S,
+    MY_ROUTE_TIMEOUT_S, NET_TRAVERSAL_TIME_S, NODE_TRAVERSAL_TIME_S,
+    PATH_DISCOVERY_TIME_S, SONSUZ_SIRA)
 from protokoller.aomdv_bicim import K_CEVAP, RREQ
 
 __all__ = ["AOMDV", "CokluRota"]
@@ -160,20 +161,21 @@ class AOMDV(AODV):
             return yeni
         return False
 
-    def _gecersizlestir(self, r, simdi_s: float) -> None:
+    def _gecersizlestir(self, r, simdi_s: float, **kosul) -> None:
         """RFC §6.11 (miras) + yol listesi ve ilan boşalır — girdi SİLİNMEZ.
 
-        🔒 Sıra numarası AOMDV'de K-205'ten ÖNCEKİ gibi her geçersizleştirmede
-        bir artar, bilinmeyen sıra dâhil: AODV'nin §6.11 düzeltmesi (K-205)
-        AOMDV'nin ölçülmüş sıra kuralına (yukarıdaki `_kural`, S10)
-        dokunmaz — `AOMDV-b` U1'i bu hâliyle geçti, davranışı birebir kalır.
+        🔒 Sıra numarası kuralı AODV'den miras (§6.11 madde 1: bilinmeyen sıra
+        bilinmeyen kalır, ömür dolması sırayı değiştirmez — K-205, K-208).
+        AOMDV'nin kendi ilan kuralı (`_kural`, Şekil 3, S10) değişmez.
         """
-        bilinmeyen = r.hedef_sira == SONSUZ_SIRA
-        super()._gecersizlestir(r, simdi_s)
-        if bilinmeyen:
-            r.hedef_sira = SONSUZ_SIRA + 1
+        super()._gecersizlestir(r, simdi_s, **kosul)
         r.yollar.clear()
         r.ilan_atlama = _SONSUZ
+
+    def _son_atlama(self, r) -> int | None:
+        """§6.4 (miras): yolu kalmayan geçersiz girdi son atlamayı bilmez —
+        keşif `TTL_START`tan başlar."""
+        return r.atlama if r.yollar else None
 
     # ==================================================================
     # RREQ
@@ -193,6 +195,11 @@ class AOMDV(AODV):
 
     def _rreq_isle(self, gonderen: int, y: dict, simdi_s: float) -> tuple:
         """§3.2 · yinelenen kopyalar HEMEN ATILMAZ."""
+        # 🔒 RFC §6.5 ilk cümle (K-210, AODV-h H1'in karşılığı): önceki
+        # atlamaya rota *"without a valid sequence number"*.
+        onceki = self._rota.get(gonderen)
+        if onceki is not None and onceki.yollar.get(gonderen) == 1:
+            onceki.hedef_sira = SONSUZ_SIRA
         kaynak, kimlik, hedef = y["kaynak"], y["rreq_kimlik"], y["hedef"]
         anahtar = (kaynak, kimlik)
         if kaynak == self.kimlik:
@@ -234,13 +241,21 @@ class AOMDV(AODV):
                 kaynak=kaynak, omur_s=MY_ROUTE_TIMEOUT_S, sonraki=gonderen),)
 
         r = self._rota_al(hedef, simdi_s)
-        taze = (r is not None and r.hedef_sira >= y["hedef_sira"]
-                and y["hedef_sira"] != SONSUZ_SIRA)
+        # 🔒 RFC §6.6.2 (K-210, AODV-h H4'ün karşılığı): kendi sırası GEÇERLİ
+        # ve RREQ'inkinden büyük ya da eşit; U bayraklı RREQ'e de (ns-3 hakem).
+        bilinmiyor = y["hedef_sira"] == SONSUZ_SIRA
+        taze = (r is not None and r.hedef_sira != SONSUZ_SIRA
+                and (bilinmiyor or r.hedef_sira >= y["hedef_sira"]))
         if taze and (ilk_kopya or yeni_yol):
             # §3.2 · *"If a reverse path is set up and a valid route to the
             # destination is available at the intermediate node, it sends
             # back a RREP"* — RFC §6.6.2'nin tazelik koşuluyla.
             r.oncular.add(gonderen)
+            # 🔒 RFC §6.6.2 (K-210): ters rotanın öncülüne hedefe doğru
+            # sonraki atlama — o yol koparsa RERR kaynağa ulaşsın.
+            ters = self._rota.get(kaynak)
+            if ters is not None:
+                ters.oncular.add(r.sonraki)
             self._sayac["rrep_uretilen"] += 1
             return (self._rrep_kur(
                 hedef_adres=hedef, hedef_sira=r.hedef_sira, atlama=r.ilan_et(),
@@ -259,8 +274,15 @@ class AOMDV(AODV):
         self._sayac["rreq_iletilen"] += 1
         self._son_yayin_s = simdi_s
         # §3.1 · RREQ, kaynak için bir İLANDIR: `atlama` = ilan edilen atlama.
-        return (KontrolIstegi.kur(None, RREQ, {**y, "atlama": geri.ilan_et(),
-                                               "ttl": ttl, "ilk_atlama": ilk}),)
+        yeni_y = {**y, "atlama": geri.ilan_et(), "ttl": ttl, "ilk_atlama": ilk}
+        # 🔒 RFC §6.5 (K-210, AODV-h H3'ün karşılığı): hedef sırası *"set to
+        # the maximum of"* gelen ile bilinen geçerli sıra; U bayrağı iner.
+        bildigi = self._rota.get(hedef)
+        if bildigi is not None and bildigi.hedef_sira != SONSUZ_SIRA and (
+                bilinmiyor or bildigi.hedef_sira > y["hedef_sira"]):
+            yeni_y["hedef_sira"] = bildigi.hedef_sira
+            yeni_y["bayraklar"] = 0
+        return (KontrolIstegi.kur(None, RREQ, yeni_y),)
 
     # ==================================================================
     # RREP
@@ -268,14 +290,23 @@ class AOMDV(AODV):
     def _rrep_isle(self, gonderen: int, y: dict, simdi_s: float) -> tuple:
         """§3.1 · §3.2 · RREP bir hedef İLANIDIR; güncelleme kuralından geçer."""
         if y["kaynak"] == y["hedef"]:
-            return ()                              # HELLO (§6.9, miras)
+            # HELLO (§6.9): iletilmez. 🔒 K-210 (AODV-h H6'nın karşılığı):
+            # komşu rotası HELLO'nun sırasını *"MUST"* taşır — AOMDV'de bu,
+            # komşunun KENDİSİ hakkındaki atlama-0 ilanıdır ve Şekil 3'ün
+            # kuralından geçer; ömür ≥ ALLOWED_HELLO_LOSS × HELLO_INTERVAL.
+            self._kural(gonderen, y["hedef_sira"], 0, gonderen,
+                        simdi_s + ALLOWED_HELLO_LOSS * HELLO_INTERVAL_S)
+            return ()
         hedef, kaynak = y["hedef"], y["kaynak"]
         omur = simdi_s + y["omur_ms"] / 1000.0
         yeni = self._kural(hedef, y["hedef_sira"], y["atlama"], gonderen, omur)
         if yeni:
             self._kurtarma(hedef)
         if kaynak == self.kimlik:
-            if hedef in self._kesif:
+            # 🔒 K-210 (AODV-h ile aynı): keşif yalnız kullanılabilir rota
+            # VARSA biter — S10'un 22 Eylül'de ölçülen tuzağına karşı.
+            if (hedef in self._kesif
+                    and self._rota_al(hedef, simdi_s) is not None):
                 del self._kesif[hedef]
                 self._sayac["kesif_basarili"] += 1
             if not yeni:
@@ -293,6 +324,16 @@ class AOMDV(AODV):
         yol = adaylar[0] if adaylar else geri.sonraki
         kullanilan.add(yol)
         r.oncular.add(yol)
+        # 🔒 RFC §6.7 son paragraf (AOMDV'nin tabanı; K-208 H5'in AOMDV
+        # karşılığı, K-210): iletimde kullanılan ters yolun ömrü `max(mevcut,
+        # şimdi + ACTIVE_ROUTE_TIMEOUT)`, hedefe doğru sonraki atlamanın
+        # (gönderen) girdisinin öncülüne kaynağa doğru sonraki atlama. İlk
+        # yazımda ikisi de yoktu; RERR yukarı ulaşamıyor, kara delik doğuyordu.
+        geri.son_gecerli_s = max(geri.son_gecerli_s,
+                                 simdi_s + ACTIVE_ROUTE_TIMEOUT_S)
+        komsu = self._rota.get(gonderen)
+        if komsu is not None:
+            komsu.oncular.add(yol)
         self._sayac["rrep_iletilen"] += 1
         iletim = self._rrep_kur(
             hedef_adres=hedef, hedef_sira=r.hedef_sira, atlama=r.ilan_et(),
@@ -306,11 +347,16 @@ class AOMDV(AODV):
     # KOMŞU ROTASI · BAĞ KOPMASI · RERR
     # ==================================================================
     def _komsu_rotasi(self, komsu: int, simdi_s: float) -> None:
-        """S8 · tek atlamalı yol, `ACTIVE_ROUTE_TIMEOUT` ömürlü (RFC §6.2)."""
+        """S8 · tek atlamalı yol, `ACTIVE_ROUTE_TIMEOUT` ömürlü (RFC §6.2).
+
+        🔒 K-210 (AODV-h ile aynı): yeniden kurulan girdi *"without a valid
+        sequence number"* (ns-3 `UpdateRouteToNeighbor`). S10'un ölçtüğü
+        tuzağın kökü buydu: yerelde artırılmış sıra taşınıyordu.
+        """
         r = self._rota.get(komsu)
         if r is None or not r.gecerli:
             self._rota[komsu] = CokluRota(
-                hedef_sira=(r.hedef_sira if r else SONSUZ_SIRA),
+                hedef_sira=SONSUZ_SIRA,
                 yollar={komsu: 1},
                 son_gecerli_s=simdi_s + ACTIVE_ROUTE_TIMEOUT_S,
                 oncular=(r.oncular if r else set()))
@@ -349,14 +395,15 @@ class AOMDV(AODV):
         """S4 · yalnız GÖNDERENDEN geçen yol düşer. RERR bir kopma beyanı
         değildir (K-139, miras anlam)."""
         olen: list[int] = []
-        for h in y["ulasilamaz"]:
+        for h, sira in zip(y["ulasilamaz"], y["ulasilamaz_sira"], strict=True):
             r = self._rota.get(h)
             if r is None or not r.gecerli or gonderen not in r.yollar:
                 continue
             del r.yollar[gonderen]
             self._sayac["yol_dusen"] += 1
             if not r.yollar:
-                self._gecersizlestir(r, simdi_s)
+                # 🔒 RFC §6.11 (iii), K-210: sıra RERR'den KOPYALANIR.
+                self._gecersizlestir(r, simdi_s, rerr_sira=sira)
                 olen.append(h)
         if not olen:
             return ()

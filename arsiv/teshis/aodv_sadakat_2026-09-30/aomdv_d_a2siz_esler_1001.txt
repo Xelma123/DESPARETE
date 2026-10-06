@@ -1,0 +1,4 @@
+kod aomdv_a2siz · esler_arasi statik-yok 1001 · pdr 0.8434
+  dusus: {'iletim_basarisiz': 100, 'hedef_yok': 1904}
+  sayac: {'cevap_siniri': 7, 'kara_liste_eklenen': 9, 'kesif_basarili': 31, 'komsu_zaman_asimi': 7936, 'rerr_onculsuz': 6663, 'rerr_uretilen': 1286, 'rota_gecersizlestirilen': 8461, 'rrep_iletilen': 146, 'rrep_uretilen': 78, 'rreq_bastirilan': 1272, 'rreq_iletilen': 814, 'rreq_kara_listeden': 9, 'rreq_uretilen': 71, 'rreq_yeni_yol': 569, 'yedek_yola_gecis': 274, 'yol_dusen': 8407}
+  ara dugum: {'ara: rota var': 18588, 'ara: girdi yok': 1904}

@@ -1,0 +1,23 @@
+
+=== paket 0 · t 0.275 · U 18 → X 18 · hedef 23
+  U'nun girdisi (son 4 değişiklik ≤ t):
+  X'in girdisi (son 4 değişiklik ≤ t):
+
+=== paket 2 · t 0.307 · U 32 → X 32 · hedef 0
+  U'nun girdisi (son 4 değişiklik ≤ t):
+  X'in girdisi (son 4 değişiklik ≤ t):
+
+=== paket 3 · t 0.362 · U 19 → X 19 · hedef 25
+  U'nun girdisi (son 4 değişiklik ≤ t):
+  X'in girdisi (son 4 değişiklik ≤ t):
+
+=== paket 4 · t 0.412 · U 37 → X 37 · hedef 38
+  U'nun girdisi (son 4 değişiklik ≤ t):
+  X'in girdisi (son 4 değişiklik ≤ t):
+
+=== paket 5 · t 0.361 · U 33 → X 33 · hedef 9
+  U'nun girdisi (son 4 değişiklik ≤ t):
+  X'in girdisi (son 4 değişiklik ≤ t):
+
+girdi yok olayı 1268 · ayrı (U, X, hedef) 11
+en sık: [((33, 5, 9), 1181), ((17, 8, 35), 44), ((17, 17, 35), 12), ((33, 33, 9), 10), ((19, 19, 25), 5), ((3, 3, 10), 5), ((4, 4, 24), 5), ((32, 32, 0), 2)]

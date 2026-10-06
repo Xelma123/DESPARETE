@@ -61,8 +61,13 @@ DUYARLILIK_BEKLEYEN: frozenset[str] = frozenset()
 # okur); o kolların sonucu bu değerlere koşulludur ve eski dünyada darbeli
 # ile taramalı sabitleri DUYARLI çıkmıştı — rapor kapsam bölümünde yazar.
 # Test: her ad `KOL_TANIMI`nda ve gerekçesi K-204'ü taşır.
+# K-215 (öğrenci, 6 Ekim): iki mobilite kolu tanımı daha — görev kolunun
+# müfreze sayısı ve bağımsız/görev kollarının GM eğim gürültüsü; ikisini de
+# formasyon (birincil hücre) okumaz, Faz 4.4'te iz birebir.
 KAPSAM_ILANI: frozenset[str] = frozenset({
     "darbe_gorev_cevrimi",
+    "gm_pitch_sigma_rad",
+    "gorev_grup_sayisi",
     "darbe_periyodu_s",
     "karistirici_konum",
     "reaktif_esik_dbm",
@@ -133,12 +138,17 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "0,11 rad"),
     "gm_pitch_ort_rad": ("TURETILMIS",
         "0 — kalıcı tırmanış olmaması gerektiği için; testle bağlı"),
-    "gm_pitch_sigma_rad": ("SINANMAMIS",
-        "0,05 rad — eski dünyadaki DUYARSIZ aklaması (8 Eylül) referans "
-        "dünyada geçerli değil; Faz 4.4'te referans dünyada ölçülür"),
-    "gorev_grup_sayisi": ("SINANMAMIS",
-        "10 müfreze × 4 — görev kolunun tanımı; Faz 4.4'te referans dünyada "
-        "ölçülür (görev kolunda)"),
+    "gm_pitch_sigma_rad": ("KOL_TANIMI",
+        "0,05 rad — Gauss–Markov eğim gürültüsü; bağımsız ve görev "
+        "kollarının mobilitesi okur, formasyon okumaz (Faz 4.4: birincil "
+        "hücrede iz birebir, K-214) · KAPSAM (K-215): mobilite kolunun "
+        "tanımı — o kolun sonucu bu değere koşullu; birincil hücrenin kod "
+        "yoluna girmez"),
+    "gorev_grup_sayisi": ("KOL_TANIMI",
+        "10 müfreze × 4 — görev kolunun tanımı; yalnız görev kolunun "
+        "mobilitesi okur, formasyon okumaz · KAPSAM (K-215): mobilite "
+        "kolunun tanımı — o kolun sonucu bu değere koşullu; birincil "
+        "hücrenin kod yoluna girmez"),
     "gorev_grup_yaricapi_m": ("OLCULMUS",
         "referansta 16 km (`kanal/dunya.py::REFERANS_GOREV_YARICAPI_M`, "
         "K-188). Üretici: `python kalibrasyon/calisma_noktasi.py --dunya "
@@ -279,10 +289,13 @@ KOKENLER: dict[str, tuple[str, str]] = {
         " hücrede sönümleme maliyetini düşürmek için. Varsayılan 'tekil' = "
         "eski dünya birebir; referans dünyada 'blok'. İstatistiksel denkliği "
         "testlerde (ortalama, varyans, otokorelasyon, basıklık) sınanır"),
-    "rician_k_db": ("SINANMAMIS",
-        "10 dB — hava–hava için doğrudan ölçüm yok, dolaylı aralık 6–15 dB "
-        "(`02` G11, S1; `v2/14` §2); 6 · 10 · 15 dB Faz 4.4'te referans "
-        "dünyada ölçülür — çözünürlüğün altındaysa DUYARSIZ, değilse eksen"),
+    "rician_k_db": ("TEDAVI",
+        "EKSEN (öğrenci, K-215): birincil test 10 dB'de, 6 ve 15 dB'de "
+        "keşifsel tekrar (`06`'ya Faz 6'da). Hava–hava için doğrudan ölçüm "
+        "yok, dolaylı aralık 6–15 dB (`02` G11, S1; `v2/14` §2). Faz 4.4'te "
+        "DUYARLI ölçüldü: 5 dB'de pdr_etx −0,126, 20 dB'de +0,077 (8,5R; "
+        "`py -3.11 -u kalibrasyon/duyarlilik.py --dunya referans_2026 "
+        "birincil …`, 2 Ekim 2026, K-214)"),
     "sonumleme_parca_suresi_s": ("TURETILMIS",
         "190 µs ≤ T_c/4: en büyük bağıl hız 2 × 120 km/h = 66,7 m/s, λ = 12,3"
         " cm → T_c = 0,423 λ/v ≈ 0,78 ms → T_c/4 ≈ 195 µs (Clarke)"),
@@ -296,17 +309,33 @@ KOKENLER: dict[str, tuple[str, str]] = {
     "gps_yatay_cep_m": ("KAYNAK",
         "1,5 m CEP — `02` G7 (Doodle Labs veri sayfası, yerleşik GPS); "
         "`v2/14` §3"),
-    "gps_dikey_sigma_m": ("SINANMAMIS",
-        "2 m (`v2/15` B3, onaylı K-170; kaynak yok) — bugün hiçbir protokol "
-        "konum okumuyor; `rssi_olcum_sigma_db` ile aynı yol"),
-    "gps_hiz_sigma_ms": ("SINANMAMIS",
-        "0,1 m/s (`v2/15` B3; kaynak yok) — `gps_dikey_sigma_m` ile aynı yol"),
+    "gps_dikey_sigma_m": ("DUYARSIZ",
+        "2 m (`v2/15` B3, onaylı K-170; kaynak yok). Bugün hiçbir protokol "
+        "konum okumuyor (kodda). Faz 4.4'te ölçüldü: kâhinle ×0,5 · ×2'de "
+        "ve DESPARETE'yle ×2'de |Δ| = 0,0000 (iz birebir). Üretici: `py "
+        "-3.11 -u kalibrasyon/duyarlilik.py --dunya referans_2026 birincil "
+        "…` ve `kalibrasyon/duyarlilik.py`nin oynatmasıyla "
+        "`arsiv/teshis/faz4_4_birincil_2026-10-02/protokol_tarama.py` (2 "
+        "Ekim 2026, K-214). Faz 5'te bir mekanizma okursa yeniden ölçülür"),
+    "gps_hiz_sigma_ms": ("DUYARSIZ",
+        "0,1 m/s (`v2/15` B3; kaynak yok). Bugün hiçbir protokol hız "
+        "okumuyor. Faz 4.4'te ölçüldü: kâhinle ve DESPARETE'yle |Δ| = "
+        "0,0000 (iz birebir). Üretici: `py -3.11 -u "
+        "kalibrasyon/duyarlilik.py --dunya referans_2026 birincil …` ve "
+        "`kalibrasyon/duyarlilik.py`nin oynatmasıyla "
+        "`arsiv/teshis/faz4_4_birincil_2026-10-02/protokol_tarama.py` (2 "
+        "Ekim 2026, K-214). Faz 5'te bir mekanizma okursa yeniden ölçülür"),
     "gps_tazeleme_s": ("TURETILMIS",
         "1 s — `v2/15` B3 (1 Hz tazeleme), onaylı K-170"),
-    "rssi_olcum_sigma_db": ("SINANMAMIS",
-        "σ 2 dB (`v2/15` B2, onaylı K-170; kaynak yok) — bugün hiçbir "
-        "protokol RSSI okumuyor; birebirlik ölçümüyle kapanır, Faz 5'te bir "
-        "mekanizma okursa yeniden açılır"),
+    "rssi_olcum_sigma_db": ("DUYARSIZ",
+        "σ 2 dB (`v2/15` B2, onaylı K-170; kaynak yok). Bugün hiçbir "
+        "protokol RSSI okumuyor (DESPARETE'nin kancası argümanı "
+        "kullanmıyor). Faz 4.4'te ölçüldü: kâhinle ve DESPARETE'yle |Δ| = "
+        "0,0000 (iz birebir). Üretici: `py -3.11 -u "
+        "kalibrasyon/duyarlilik.py --dunya referans_2026 birincil …` ve "
+        "`kalibrasyon/duyarlilik.py`nin oynatmasıyla "
+        "`arsiv/teshis/faz4_4_birincil_2026-10-02/protokol_tarama.py` (2 "
+        "Ekim 2026, K-214). Faz 5'te bir mekanizma okursa yeniden ölçülür"),
     "yakalama_penceresi_s": ("TURETILMIS",
         "192 µs = önbelge süresi (`onbelge_s`: uzun PLCP önbelgesi 144 µs + "
         "başlık 48 µs, ns-3 `dsss-phy.cc`) — TANIM gereği: alıcı PLCP "
@@ -339,11 +368,19 @@ KOKENLER: dict[str, tuple[str, str]] = {
     "saat_senkron": ("TURETILMIS",
         "False; bedava kusursuz senkron yasak — ablasyon için True"),
     "saat_ofset_araligi_s": ("SINANMAMIS",
-        "±0,5 s — saatler senkron değil (`v2/05` §3.2), protokoller mutlak "
-        "zaman alışverişi yapmıyor; Faz 4.4'te referans dünyada ölçülür"),
+        "±0,5 s — saatler senkron değil (`v2/05` §3.2). Faz 4.4'te AODV ve "
+        "AOMDV'de DUYARLI ölçüldü, OLSR birebir (K-214); sebep AODV'nin "
+        "başlangıç durumunun yerel saatin 0 anına çapalı olmasıydı ve "
+        "düzeltildi (`AODV-j`, K-215; yamalı kopyada 2 tohum × 3 ofsette "
+        "birebir). Beş tohumda yeniden ölçülür"),
     "saat_sapma_ppm": ("SINANMAMIS",
-        "20 ppm kristal (802.11'in ±25 ppm toleransının içinde; standart "
-        "erişilemedi) — 350 s'de ≤ 7 ms; Faz 4.4'te referans dünyada ölçülür"),
+        "20 ppm kristal (802.11'in ±25 ppm toleransının içinde) — 350 s'de "
+        "≤ 7 ms. Kâhinin zamanlayıcısı yok (iz birebir); taban "
+        "protokollerle TTL 32'de ölçüldü: AODV ve AOMDV birebir, OLSR en "
+        "büyük Δ 0,0042 (band 0,0083) — `kalibrasyon/duyarlilik.py`nin "
+        "oynatmasıyla "
+        "`arsiv/teshis/faz4_4_birincil_2026-10-02/protokol_tarama.py` (2 "
+        "Ekim 2026, K-214). TTL 64'le OLSR'da yeniden (K-215)"),
     "paket_bayt": ("DUNYA_TANIMI",
         "512 B telemetri — `v2/14` §5 (onaylı; MAVLink ölçeği `02` G4)"),
     "akis_sayisi": ("TURETILMIS",
@@ -421,23 +458,39 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "bir süre — PDR'yi ve gecikmeyi doğrudan oynatabilir; etkisi birincil"
         " hücrede 30 ↔ 60 s ölçülecek (İ-8c)"),
     "kuyruk_kapasitesi": ("SINANMAMIS",
-        "50 paket (NS-2 `ifqlen` geleneği) — ns-3 MAC kuyruğu 500 paket · 500"
-        " ms (`02` G15); Faz 4.4'te referans dünyada ölçülür (birincil hücre)"),
-    "ttl_baslangic": ("SINANMAMIS",
-        "32 — ağ çapının üstünde (döngüsüz yolda bağlamaz); değeri yalnız "
-        "döngüdeki paketin ömrünü belirler (K-200: AODV `ttl` %0,5); Faz "
-        "4.4'te referans dünyada ölçülür"),
-    "beacon_araligi_s": ("SINANMAMIS",
-        "1 s = AODV `HELLO_INTERVAL` (`02` R1). Dört protokolde koşum "
-        "beacon'ı KAPALI; yalnız kâhinlerde açık (U1 paydası, denetim B3). "
-        "Eski dünyada ED yeniden dinleme ufku da buydu (B4). Faz 4.4'te "
-        "referans dünyada ölçülür"),
-    "beacon_bayt": ("SINANMAMIS",
-        "32 B — yalnız kâhinlerde etkin (denetim B3); Faz 4.4'te referans "
-        "dünyada ölçülür"),
-    "komsu_omru_katsayisi": ("SINANMAMIS",
-        "10 × beacon aralığı — yalnız kâhinlerde etkin (denetim B3); Faz "
-        "4.4'te referans dünyada ölçülür"),
+        "50 paket (NS-2 `ifqlen` geleneği; ns-3 MAC kuyruğu 500 · 500 ms, "
+        "`02` G15). Kâhinin kuyruğu 25'e dolmuyor (iz birebir); taban "
+        "protokollerle TTL 32'de ölçüldü: AODV ve AOMDV birebir, OLSR en "
+        "büyük Δ 0,0067 (band 0,0134) — `kalibrasyon/duyarlilik.py`nin "
+        "oynatmasıyla "
+        "`arsiv/teshis/faz4_4_birincil_2026-10-02/protokol_tarama.py` (2 "
+        "Ekim 2026, K-214). TTL 64'le OLSR'da yeniden (döngüdeki paket "
+        "kuyruğu doldurabilir, K-215)"),
+    "ttl_baslangic": ("KAYNAK",
+        "referansta 64 — IP'nin önerilen varsayılan TTL'i: RFC 1700 'IP "
+        "TIME TO LIVE PARAMETER' ve ns-3 `Ipv4L3Protocol::DefaultTtl` (`02` "
+        "G17; `kanal/dunya.py::REFERANS_TTL`, öğrenci K-215). Yalnız VERİ "
+        "paketinin ömrü (kontrol mesajlarının TTL'i yükte). Faz 4.4'te "
+        "ölçüldü (K-214): AODV birebir, AOMDV duyarsız, OLSR DUYARLI (32 → "
+        "64 Δ −0,079: döngüdeki paket kanalı doldurur) — bu yüzden kaynağa "
+        "bağlandı. Eski dünyada 32"),
+    "beacon_araligi_s": ("KAYNAK",
+        "1 s = AODV `HELLO_INTERVAL` (RFC 3561 §10; `02` R1). Beacon yalnız "
+        "kâhinlerde açık (dört protokolde koşum beacon'ı KAPALI, denetim "
+        "B3): kâhinin kontrol yükü AODV'nin HELLO'suyla birebir (K-215). "
+        "Faz 4.4 taramasında sınırdaydı (×0,5: 1,1R, K-214)"),
+    "beacon_bayt": ("KAYNAK",
+        "referansta 84 B = AODV HELLO çerçevesi: RREP 20 B (RFC 3561 §5.2, "
+        "§6.9) + kontrol kapsüllemesi 64 B (`02` G15 · G16) — "
+        "`kanal/dunya.py::REFERANS_BEACON_BAYT`, RREP biçimine testle bağlı "
+        "(öğrenci K-215). Yalnız kâhinlerde etkin. Eski dünyada 32 B"),
+    "komsu_omru_katsayisi": ("DUYARSIZ",
+        "10 × beacon aralığı — komşu tablosunun BELLEK sınırı (tazelik "
+        "kararı protokolün). Deneyde okuyan yok: dört protokolde beacon "
+        "kapalı, kâhin tabloyu okumaz. Faz 4.4'te ölçüldü: ×0,5 · ×2'de |Δ| "
+        "= 0,0000 (iz birebir). Üretici: `py -3.11 -u "
+        "kalibrasyon/duyarlilik.py --dunya referans_2026 birincil …` (2 "
+        "Ekim 2026, K-214). Bir protokol beacon açarsa yeniden ölçülür"),
     "karistirici_guc_override_dbm": ("KOL_TANIMI",
         "karıştırıcı şiddeti. 🔒 DUYARLILIK BORCU TAŞIMAZ ve sebebi ölçüm: bu "
         "sabit duyarlılık denetimini BEKLEMİYOR, çünkü ρ taraması onu zaten "
@@ -500,6 +553,9 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "metninden, ek kayıp (η_LoS, η_NLoS) §III'ten — banliyö (0,1; 21) · "
         "kentsel (1,0; 20) · yoğun (1,6; 23) · yüksek (2,3; 34) dB (A6, "
         "K-176)"),
+    "sim2/kanal/dunya.py::REFERANS_TTL": ("KAYNAK",
+        "64 — RFC 1700 'IP TIME TO LIVE PARAMETER' · ns-3 `DefaultTtl` "
+        "(`02` G17, öğrenci K-215)"),
     "sim2/kanal/dunya.py::REFERANS_EIRP_DBM": ("KAYNAK",
         "20 dBm — `02` G7: Avrupa EIRP sınırı 100 mW (2,4 GHz); `v2/14` §1 "
         "(A7, K-178)"),
@@ -529,11 +585,14 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
     "sim2/kanal/cerceve.py::KONTROL_KAPSULLEME": ("KAYNAK",
         "MAC 24 + FCS 4 + LLC/SNAP 8 + IPv4 20 + UDP 8 = 64 B — `02` G15 "
         "(802.11 başlığı, FCS) · G16 (RFC 1042, 791, 768)"),
-    "sim2/kosum/kontrol.py::BEKLEYEN_UYANDIRMA_TAVANI": ("SINANMAMIS",
+    "sim2/kosum/kontrol.py::BEKLEYEN_UYANDIRMA_TAVANI": ("OLCULMUS",
         "256 — güvenlik sınırı: aşılırsa koşu deterministik DURUR, tamamlanan"
-        " hiçbir sonucu değiştiremez. Referans dünyada gerçek protokollerin "
-        "tepe bekleyen sayısı (satırda `teshis.kontrol_duzlemi`) Faz 4.4'te "
-        "regresyonun `u-` vakalarından okunur"),
+        " hiçbir sonucu değiştiremez. Referans dünyada kontrol düzlemli 21 "
+        "regresyon satırının hepsinde tepe bekleyen ≤ 22 (DESPARETE; taban "
+        "protokoller ≤ 9) — hiç bağlamıyor. Üretici: satırlar `python -u "
+        "kalibrasyon/regresyon_satirlari.py uret k204`, okuma `arsiv/teshis/"
+        "faz4_4_birincil_2026-10-02/k_kalemleri.py` (2 Ekim 2026, K-214). "
+        "DESPARETE Faz 5'te değişince regresyondan yeniden okunur"),
     "sim2/kanal/yayilim.py::BOLTZMANN": ("KAYNAK",
         "SI tanımlı sabit; tartışma konusu değil"),
     "sim2/kanal/yayilim.py::ISIK_HIZI": ("KAYNAK",
@@ -643,13 +702,27 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "aynı gerekçe"),
     "sim2/gozlem/teshis.py::TESHIS_EN_COK_ELEMAN": ("TURETILMIS",
         "aynı gerekçe"),
-    "kalibrasyon/kahin.py::ATLAMA_ESIGI": ("SINANMAMIS",
-        "0,90 — kâhin grafiğinin 'kullanılabilir bağ' eşiği; ETX kâhinini (U1"
-        " paydası) belirler. Eski dünyada platonun alt ucu olarak ölçüldü (9 "
-        "Eylül); Faz 4.4'te referans dünyada yeniden"),
-    "kalibrasyon/kahin.py::SONUMLEME_ORNEGI": ("SINANMAMIS",
-        "6 örnek — kâhinin bağ başına sönümleme örneği. Eski dünyadaki "
-        "DUYARSIZ aklaması referansta geçerli değil; Faz 4.4'te ölçülür"),
+    "kalibrasyon/kahin.py::ATLAMA_ESIGI": ("KOL_TANIMI",
+        "0,90 — EN KISA YOL kâhininin TANIMI: 'kullanılabilir bağ' = "
+        "yeniden denemelerle teslim olasılığı ≥ 0,90. ETX kâhini eşik "
+        "kullanmaz (U1 paydası değil; Faz 4.4'te pdr_etx birebir). Aletin "
+        "tanımı olduğu için DUYARLI olması tanım gereği: 0,95 → pdr_atlama "
+        "+0,049 · 0,80 → −0,077 (`py -3.11 -u kalibrasyon/duyarlilik.py "
+        "--dunya referans_2026 birincil "
+        "kalibrasyon/kahin.py::ATLAMA_ESIGI`, 2 Ekim 2026, K-214). Hiçbir "
+        "hipoteze ve U1'e girmez; `olcut_bedeli`nin (çözünürlük R'nin "
+        "ikilisi, K-128) ve K-192 (b) zarfının bir üyesi. Öğrenci K-215"),
+    "kalibrasyon/kahin.py::SONUMLEME_ORNEGI": ("OLCULMUS",
+        "48 örnek — kâhinin bağ başına sönümleme KESTİRİMİNİN örneklemi "
+        "(sayısal parametre; hareketli kollarda, statikte tek örnek). "
+        "Yakınsama ölçüldü: ETX kâhininin PDR'si 6 · 12 · 24 · 48 örnekte "
+        "birincilde 0,840 · 0,870 · 0,874 · 0,880, bağımsız-yokta 0,790 · "
+        "0,820 · 0,844 · 0,854; plato birincilde 12, bağımsız-yokta 24 (N → "
+        "2N adımında |Δ| < R ve band içinde). Koşu süresi N'den bağımsız → "
+        "48 (öğrenci K-215). Üretici: `kalibrasyon/duyarlilik.py`nin "
+        "koşucusuyla "
+        "`arsiv/teshis/faz4_4_birincil_2026-10-02/sonumleme_yakinsama.py` "
+        "(2 Ekim 2026, K-214). 6 örnekte kâhin yakınsamamıştı"),
     "kalibrasyon/kahin.py::SONUMLEME_ADIMI_S": ("TURETILMIS",
         "5 ms — sönümleme tutarlılık süresinden (~2 ms) BÜYÜK seçildi ki "
         "örnekler bağımsız olsun; küçük seçilseydi aynı fade tekrar sayılırdı"),
@@ -688,10 +761,13 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "`TC_INTERVAL` = 5 s. Birincil belge 8 Eylül 2026'da açıldı, `02` "
         "§R2. Θ'nın PAYDASI budur"),
     "kalibrasyon/duyarlilik.py::R_ESLESTIRILMIS": ("OLCULMUS",
-        "0,0230 — ESKİ DÜNYANIN eşleştirilmiş çözünürlüğü "
-        "(`kalibrasyon/cozunurluk.py --tohum 40`, 15 Eylül). Referans dünyada"
-        " Faz 4.4'te yeniden ölçülür; o güne kadar referans dünyada DUYARSIZ "
-        "kararı verilmez"),
+        "0,0142 — referans dünyanın BİRİNCİL hücresinde eşleştirilmiş "
+        "çözünürlük, yakınsamış kâhinle (48 örnek; 40 tohum, `olcut_bedeli` "
+        "SD 0,0449; kâhin PDR 0,887). Üretici: `py -3.11 -u "
+        "kalibrasyon/cozunurluk.py --dunya referans_2026 --hucre birincil "
+        "--tohum 40` (6 Ekim 2026, 74 dk, K-216). Önceki: 0,0188 (6 örnekli "
+        "kâhin, K-213) · eski dünya 0,0230; `statik-surekli` hücresinin "
+        "0,0086'sı taban etkisiyle geçersiz"),
     "kalibrasyon/calkanti.py::ETKIN_YARICAP_M": ("TURETILMIS",
         "400 m — yalnız `calkanti.py`nin hızlı teşhis taramasında; hiçbir "
         "karar taşımaz (Θ yavaş SINR tanımıyla ölçülür, `theta_kollari.py`)"),
@@ -794,6 +870,17 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "kaybın protokolün kendi mekanizmasından geldiği gösterilmiş olmalı. "
         "🔒 Liste iki yönden denetleniyor — listede olmayan düşük hücre ve "
         "artık düşük olmayan liste kaydı, ikisi de kapıyı kırmızı yakar"),
+    "kalibrasyon/aodv_uygunluk.py::ACIKLANMIS_DUSUK_REFERANS": ("TEDAVI",
+        "Referans dünyada U1-B'nin açıklanmış düşük hücreleri, anahtar "
+        "(desen, kol, tohum) — `ACIKLANMIS_DUSUK`un referans dünya karşılığı "
+        "(K-196 OLSR-c · K-207 AODV-i). Bir eşik değil, MUAFİYET listesi; "
+        "girmesinin şartı ölçüm ve mekanizma (K-193, K-208). Ölü kayıt "
+        "taraması aynı: artık düşük olmayan kayıt kapıyı kırmızı yakar"),
+    "kalibrasyon/aodv_uygunluk.py::KAHIN_ASIMI_ACIKLANMIS": ("TEDAVI",
+        "K-192 (b) zarf beyanları, anahtar (desen, kol, tohum): ETX kâhinini "
+        "aşan hücre, aynı hücrede üç kâhinin zarfının İÇİNDEYSE girer (K-206,"
+        " K-211); zarfı da aşan giremez, yazılım hatası aranır. Ölü kayıt "
+        "taraması araçta (artık aşmayan kayıt kırmızı)"),
     "kalibrasyon/aodv_uygunluk.py::U3_SURELERI_S": ("TEDAVI",
         "(60, 120) s — U3 yük profilinin ÖLÇÜM ekseni, bir değer değil. İki "
         "süre, yükün süreyle nasıl büyüdüğünü tek bir oranla söyler: ~2 sabit"
@@ -816,6 +903,11 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "Milliseconds'. Birincil belge 8 Eylül 2026'da açıldı ve `02` §R1'e "
         "işlendi; `olcum/evre.py::IZGARA_ADIMI_S` ile AYNI kaynak. Θ'nın "
         "ikinci paydası"),
+    "kalibrasyon/evre_metrikleri_kapilari.py::CIZ_TOHUMLAR": ("TEDAVI",
+        "(1003, 1004) — çizelgeli karıştırıcı kapılarının (G1ç · G2ç · G4ç, "
+        "K-209) GELİŞTİRME tohumları; K-200 birincil hücre partisinin "
+        "tohumları, yani anatomisi bilinen koşular. Ana tohumlar (2000–2039) "
+        "koşulmaz. Verdikt kol ortalamasında; tek tohum bilgisiz (K-212)"),
     "kalibrasyon/duyarlilik.py::TOHUMLAR": ("TURETILMIS",
         "5 tohum — tarama örneklemi; karar eşleştirilmiş R'ye ve kendi 2 SE "
         "bandına karşı (kasıtlı kuşkucu); sınırdaki kayıt `--tohum N` ile "

@@ -1,0 +1,4 @@
+kod desparete_pls · yere_toplama statik-yok 1002 · pdr 0.9034
+  dusus: {'iletim_basarisiz': 832, 'rota_gecersiz': 404}
+  sayac: {'cevap_siniri': 57, 'kara_liste_eklenen': 310, 'kesif_basarili': 1251, 'komsu_zaman_asimi': 9867, 'rerr_onculsuz': 4066, 'rerr_uretilen': 9345, 'rota_gecersizlestirilen': 18886, 'rrep_iletilen': 4014, 'rrep_uretilen': 4856, 'rreq_bastirilan': 14011, 'rreq_iletilen': 10200, 'rreq_kara_listeden': 710, 'rreq_uretilen': 2068, 'rreq_yeni_yol': 7389, 'yedek_yola_gecis': 1572, 'yol_dusen': 18047}
+  ara dugum: {'ara: rota var': 22673, 'ara: gecersiz': 403, 'ara: suresi dolmus': 1}

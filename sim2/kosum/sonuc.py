@@ -68,7 +68,10 @@ TEDAVI_ALANLARI: tuple[str, ...] = ("kol", "senaryo", "tohum", "not_",
                                     # `v2/15` C1 · C2 (K-180) — eksenler
                                     "kayip_dugum_sayisi", "kayip_bas_s",
                                     "kayip_bitis_s", "telemetri_paket_hizi_hz",
-                                    "komut_paket_hizi_hz", "akis_paket_hizi_hz")
+                                    "komut_paket_hizi_hz", "akis_paket_hizi_hz",
+                                    # K-215 · Rician K ekseni (birincil 10 dB;
+                                    # 6 ve 15 dB keşifsel)
+                                    "rician_k_db")
 
 
 def _kimlik_bolumu(kur: Kurulum, dugumler: tuple[Any, ...],
@@ -143,6 +146,26 @@ def _akis_siniflari(kur: Kurulum) -> dict[int, str] | None:
         return None
     return {a.kimlik: ("telemetri" if a.hedef == gecit else "komut")
             for a in kur.trafik.akislar}
+
+
+def karistirici_cizelgesi(kur: Kurulum) -> tuple[float, float] | None:
+    """Karıştırıcının yayın çizelgesi `(açık_s, sessiz_s)` — evre metrikleri
+    için (K-209). Karıştırıcı yoksa ya da sürekliyse `None`.
+
+    🔒 Tanımlar tehdit ailesinden (`kanal/tehdit.py`) okunur; kanal nesnesine
+    dokunulmaz. Çizelgeli ailede üyelerin çizelgesi tek ve ofseti sıfır
+    olmalı (bugün yalnız `derin_sizma`, tek üye); değilse durulur.
+    """
+    if kur.kanal.karistirici is None:
+        return None
+    from sim2.kanal.tehdit import tehdit_tanimlari
+    yayinlar = {t.yayin for t in (tehdit_tanimlari(kur.konfig) or ())}
+    cizelgeli = [y for y in yayinlar if y.duzen != "surekli"]
+    if not cizelgeli:
+        return None
+    dogrula(len(yayinlar) == 1 and cizelgeli[0].ofset_s == 0.0,
+            "evre metrikleri tek ve ofsetsiz bir çizelge ister")
+    return (cizelgeli[0].acik_s, cizelgeli[0].sessiz_s)
 
 
 def _evren(kur: Kurulum) -> tuple[tuple[int, float, int, int], ...]:
@@ -278,6 +301,7 @@ def sonuc_satiri(kur: Kurulum, dugumler: Iterable[Any],
                                kur.rota_defteri,
                                acilma_s=kur.konfig.karistirici_baslangic_s,
                                akis_siniflari=_akis_siniflari(kur),
+                               cizelge=karistirici_cizelgesi(kur),
                                enerji_j=tuple(
                                    d.enerji(kur.konfig.kosu_bitis_s)[0]
                                    for d in dugumler)),

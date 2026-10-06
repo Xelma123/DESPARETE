@@ -121,7 +121,10 @@ ATLAMA_ESIGI: float = 0.90
 # bağımsız olsun; küçük seçilseydi aynı fade tekrar sayılırdı.
 # Donuk (statik) kolda tek örnek alınır — ölçüldü, K = 2…48 aynı sonucu
 # veriyor, çünkü sönümleme orada zamanla değişmiyor.
-SONUMLEME_ORNEGI: int = 6
+# 🔴 K-214/K-215: 6 örnekte kâhin YAKINSAMAMIŞTI — ETX kâhininin PDR'si
+# 6 → 48 örnekte birincil hücrede +0,039, bağımsız-yokta +0,065 (plato 12 ve
+# 24). Koşu süresi örnek sayısından bağımsız → 48.
+SONUMLEME_ORNEGI: int = 48
 SONUMLEME_ADIMI_S: float = 0.005
 
 

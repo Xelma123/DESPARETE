@@ -137,8 +137,18 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-204 | 🟢 ÖĞRENCİ KARARLARI (30 Eylül) — 10 keşifsel kol tanımı kapsam ilanı · arşiv git'te izle | 🟢 geçerli |
 | K-205 | 🟡 U1 SONUCU (referans dünya, dört protokol) · OLSR K-196'ya atıfla temiz · AODV'DE DÖNGÜ | 🟢 geçerli |
 | K-206 | 🟡 U1 AODV-g SONUCU · AOMDV'NİN KÂHİN AŞIMI ZARF İÇİNDE (K-192 b) · REFERANS DÜNYADA R GE | 🟢 geçerli |
+| K-207 | 🟢 ÖĞRENCİ KARARLARI (30 Eylül) — AODV sadakat şartıyla DONAR, eşik altı hücreler protoko | 🟢 geçerli |
+| K-208 | 🟡 AODV SADAKAT DENETİMİ (RFC 3561 + ns-3) — 11 sapma daha bulundu ve düzeltildi (AODV-h) | 🟢 geçerli |
+| K-209 | 🟡 EVRE METRİKLERİ v2 UYGULANDI (çizelgeli karıştırıcı) — kapılar U1'den sonra | 🟢 geçerli |
+| K-210 | 🟡 AOMDV'DE KARA DELİK: iki kusur bulundu ve düzeltildi — AOMDV'nin kendi işleyicilerinde | 🟢 geçerli |
+| K-211 | 🟢 TABAN PROTOKOLLER DONDU — AODV-i · OLSR-c · AOMDV-e · U1 son hükmü · regresyon tabanı  | 🟢 geçerli |
+| K-212 | 🟡 EVRE METRİKLERİ v2 KAPILARI — G1ç ✅ · G4ç ✅ · G2ç ❌ (bölümleme hatası yok: kâhinin ken | 🟢 geçerli |
+| K-213 | 🟡 FAZ 4.4 ÇÖZÜNÜRLÜĞÜ BİRİNCİL HÜCREDE — R = 0,0188 (eşleştirilmiş, 40 tohum) · olasılık | 🟢 geçerli |
+| K-214 | 🟡 FAZ 4.4 TARAMALARI — 3 güçlü DUYARLI (Rician K · kâhinin sönümleme örneği · en kısa yo | 🟢 geçerli |
+| K-215 | 🟢 ÖĞRENCİ KARARLARI (Faz 4.4) — TTL 64 kaynağa bağlı · kâhin 48 örnek · AODV-j/AOMDV-f · | 🟢 geçerli |
+| K-216 | 🟢 K-215 KODU DOĞRULANDI — regresyon k215 (58/58 birebir + 22 ilanlı) · R = 0,0142 (yakın | 🟢 geçerli |
 
-**117 kayıt · 1 revize · 116 geçerli**
+**127 kayıt · 1 revize · 126 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1487,3 +1497,132 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Regresyon k198 → k203** (`arsiv/teshis/regresyon_k203_2026-09-30/`): 🟢 BİREBİR. 62/62 vaka yalnız kod kimliği ve (izinli) köken kova sayılarında farklı, **AOMDV birebir**. İlan edilen 5 vaka değişti: eski dünya AODV PDR 0,822 → 0,794 · 0,828 → 0,802 (`AODV-g`); B4'le referans bağımsız vakada kuyruk taşması 140 → 0. 13 `u-` vakası ilk kez; **yeni taban k203**.
 - **Tam takım:** 952 geçti (13 dk 58 s). Mimari denetimi: yapısal ihlal yok · SINANMAMIŞ 25 · borç 0 · kapsam ilanı 10.
 - **Açık · öğrenciye:** (1) `AODV-g`'nin 3 düşük hücresiyle donma · (2) U1-B koşul 1'in "RFC'den sapma = kusur" okuması (K-205) · (3) evre metrikleri v2 (K-204) · (4) 4.4'ün birincil hücreye taşınması.
+# K-207 · 🟢 ÖĞRENCİ KARARLARI (30 Eylül) — AODV sadakat şartıyla DONAR, eşik altı hücreler protokolün kendi sorunu · RFC kurallarından doğan döngü mekanizmadır · evre metrikleri v2 onaylı · Faz 4.4 birincil hücrede
+> 30 Eylül öğleden sonra · öğrenci: *"aodv donabilir yani eğer aodv kesinlikle gerçeğine birebir yapıldıysa ve hala eşiğin altında kalıyorsa düzeltilecek bir sorun değil protokolün kendi sorunudur muhtemelen. genel olarakta diğer önerilerini kabul ediyorum"*
+
+1. **AODV donar — şartı sadakat.** Donmadan önce `AODV-g` RFC 3561'e ve ns-3'e karşı kural kural denetlenir; gerekçesiz her sapma düzeltilir (davranış değişirse U1 ve regresyon yeniden), gerekçeli sapmalar beyan listesine girer. Sadakat sağlandıktan sonra eşik altında kalan U1-B hücreleri "protokolün kendi sorunu" olarak bulgu diye raporlanır; donmayı durdurmaz.
+2. **U1-B koşul 1'in okuması:** kusur izi = gerçeklemenin kaynağından sapması. RFC'nin kendi kurallarından doğan geçici döngü mekanizmadır, kusur değildir (K-205).
+3. **Evre metrikleri v2 onaylı** (`arsiv/teshis/faz4_kapanis_2026-09-30/evre_cizelgeli_oneri.md`): çizelgeli karıştırıcıda M1 aynı (ilk açık dönem) · M2 sessiz dönemlerin birleşimi · M3 tanımsız · M4 ilk açık dönem; kapılar G1ç · G2ç · G4ç; katlanmış profil yalnız betimleyici.
+4. **Faz 4.4 birincil hücrede:** R ve duyarlılık taramaları referans dünyanın çalışma noktasında; maliyet önce hesaplanır.
+# K-208 · 🟡 AODV SADAKAT DENETİMİ (RFC 3561 + ns-3) — 11 sapma daha bulundu ve düzeltildi (`AODV-h`); AOMDV'nin AODV'den devraldığı kısım da (`AOMDV-c`) · U1 ikisi için yeniden
+> 30 Eylül öğleden sonra–akşam · ajan · K-207'nin şartı ("aodv kesinlikle gerçeğine birebir yapıldıysa") · denetim `arsiv/teshis/aodv_sadakat_2026-09-30/denetim.md`
+
+- **K-205'teki "`AODV-g` RFC'ye sadık" iddiası fazlaydı.** Kod RFC 3561'e kural kural karşılaştırıldı (yerel `rfc3561_aodv.txt`, ns-3 `aodv-routing-protocol.cc`). İlke: RFC birincil, ns-3 yalnız RFC'nin sustuğu ya da çeliştiği yerde hakem; ns-3'ün RFC'de olmayan eklemeleri alınmadı.
+- **Düzeltilenler (H1–H11):**
+  - H1 · §6.5: önceki atlamanın sırası RREQ'te geçersiz.
+  - H2 · §6.5: ters rota koşulsuz güncellenir; sıra ve ömürde büyüğü tutulur.
+  - H3 · §6.5: iletilen RREQ'in hedef sırası bilinenin büyüğüne çıkar.
+  - H4 · §6.6.2: ara düğüm U bayraklı RREQ'e de cevap verir; iki öncül.
+  - H5 · §6.7: RREP yalnız rotayı kurduysa ya da güncellediyse iletilir; reddedilen RREP ömür uzatmaz.
+  - H6 · §6.9: HELLO'nun sırası komşu rotasına yazılır (MUST).
+  - H7 · §6.4: halka son atlama + `TTL_INCREMENT`'ten başlar.
+  - H8 · §6.11 (ii): rotasız ara düğüm RERR gönderip düşürür; eskiden tamponlayıp kendisi keşif başlatıyordu.
+  - H9 · §6.11: ömür dolması sırayı artırmaz.
+  - H10 · §10: hız sınırında RREQ ertelenir. Eskiden yeniden deneme zamanlayıcısız dönüyor ve keşif kalıcı takılabiliyordu.
+  - H11 · §6.3: ağ çapında ilk bekleme `NET_TRAVERSAL_TIME`; eski keşfin zamanlayıcısı yeni keşfi ilerletmez.
+- **RFC'nin kendi çelişkisi:** §6.1 ile §6.6.1 → ns-3 gibi §6.6.1. **Alınmayan ns-3 eklemeleri:** RREQ düşürerek döngü koruması · kaynağın keşifte her RREP'i kabulü · RREP'in koşulsuz iletimi.
+- **AOMDV:** devraldığı kısımlar (H7 kısmen, H8–H11) değişti; kendi kuralları (Şekil 3, S10) aynı. Geçersizleştirmedeki "bilinmeyen sıra → 1" pini kalktı (RFC §6.11 madde 1).
+- **Etki (statik, döngü izi, tohum 1000 · 1001 · 1002):**
+  - döngülü paket 77 · 4 · 23 (f) → 6 · 1 · 5 (h)
+  - TTL düşüşü 42 · 4 · 16 → 1 · 0 · 2
+  - PDR (pencere) 0,864 · 0,933 · 0,876 → 0,898 · 0,924 · 0,871
+  - keşif başarısızlığı 0
+  - Kısa pencerede RREQ başlatma yarıya indi, RREQ iletimi ~2 kat (H7: halka geniş başlar), RERR ~2 kat (H8). Simülasyon ~%25 yavaş (`hiz_olcumu.py`).
+- **Testler:** 62 (AODV + AOMDV; eski davranışı sabitleyen 3 test RFC'ye göre güncellendi, 10 yeni). Tam takım 962 geçti.
+- **Sürüyor:** U1 `AODV-h` + `AOMDV-c`, iki desen (`arsiv/teshis/aodv_sadakat_2026-09-30/`, beklenti orada; 30 Eylül 19:05'ten, ~8–10 sa). Ardından regresyon ve donma kaydı (K-207: eşik altı hücreler bulgu).
+# K-209 · 🟡 EVRE METRİKLERİ v2 UYGULANDI (çizelgeli karıştırıcı) — kapılar U1'den sonra
+> 30 Eylül gece · ajan · öğrenci onayı K-207 (öneri v2) · tanım `v2/08` §08
+
+- **Kod** (`sim2/olcum/evre.py`, `cizelge=(açık, sessiz)`; çizelge `sonuc.karistirici_cizelgesi` ile tehdit tanımından türer):
+  - M1 aynı (ŞOK = `[T_j; T_j + min(L, açık))`, birincil hücrede ilk açık dönem)
+  - M2 sessiz dönemlerin birleşimi
+  - M3 tanımsız (`toparlanma_suresi_tanimsiz = "cizelgeli"`)
+  - M4 ilk açık dönemle sınırlı (Bonferroni 15)
+  - betimleyici teşhis: çevrim başına açık/sessiz PDR · katlanmış 1 s profili · evre sızıntısı
+  - Sürekli karıştırıcıda satır birebir, yeni alanlar yalnız çizelgeli satırda.
+- **Tek tanım:** evre bölümlemesinin karıştırıcının kendi `devrede_mi`siyle (kayıp anatomisinin kullandığı) aynı olduğu test edilir.
+- **Testler:** `test_K209_*` (6; bilinen cevaplı sentetik defterler + konfigden türetme), evre takımı 32 geçti.
+- **Kapılar:** `evre_metrikleri_kapilari.py 1c` (G1ç) ve `2c` (G2ç + G4ç); ölçüt `arsiv/teshis/evre_cizelge_2026-10-01/beklenti.md`.
+  - D'nin hata payı K-196 kuralının gerçek pencere uzunluğuna uygulanmışı: `s_L·√(L/T_s + L/T)`.
+  - Kapılar U1 bittikten sonra koşar (~3 sa); geçmeden birincil hücrenin evre metrikleri bir sonuç için kullanılmaz.
+# K-210 · 🟡 AOMDV'DE KARA DELİK: iki kusur bulundu ve düzeltildi — AOMDV'nin kendi işleyicilerinde RFC öncül adımları yoktu · RFC durum (ii)'nin RERR'i öncül süzmesiz (ns-2/ns-3) → `AODV-i` + `AOMDV-e`, U1 yeniden
+> 1 Ekim sabahı · ajan · K-208'in U1'i (`AODV-h` + `AOMDV-c`, 30 Eylül 19:03 – 1 Ekim 05:17) · teşhisler `arsiv/teshis/aodv_sadakat_2026-09-30/` (`aomdv_teshis.py`, `aomdv_kara_delik.py`, `denetim.md`)
+
+- **U1 `AODV-h`:** U1-U ✅ iki desende; yere toplamada statik 1000 geçti (0,901), statik 1002 (0,874) ve bağımsız 1000 (0,595) eşik altı; eşler arası temiz. K-207 gereği bulgu olarak kaydedildi.
+- **U1 `AOMDV-c` kötüleşti:**
+  - yere toplama statik 1002 0,914 → 0,888 · bağımsız 1000 0,606 → 0,588
+  - eşler arası statik 1001 **0,991 → 0,870**
+  - Kâhin PDR'leri yine birebir.
+- **Teşhis:** eşler arası statik 1001'de 1 697 paket, o hedefe girdisi olmayan ara düğüme gidiyordu ("hedef yok"). Nedensellik sınaması: yalnız veri kararı eskiye döndürülünce 0,950.
+  1. **AOMDV'nin kendi `_rrep_isle`/`_rreq_isle`'sinde RFC §6.7 son paragrafı ve §6.6.2 ters rota öncülü yoktu.** Eklenince 0,980, kara delik 0. Eski kodun RFC dışı "ara düğüm kendi keşfini yapar" davranışı bunu örtüyordu.
+  2. RFC tabanını makalenin sustuğu yerlerde AODV-i'ninkine getiren hizalamalar (A1–A7) kara deliği başka yoldan geri getirdi (0,897). Kök mekanizma: ters yoldan öğrenilmiş rotayı kullanan gönderen, rotası düşen ara düğümün öncülü değil; RFC durum (ii)'nin RERR'i öncül listesine göre süzülüyor ve gönderen hiç haber almıyor (tek akış, 1 181 paket). RFC'nin süzme cümlesi küçük harf "should" (normatif değil); ns-2 ve ns-3 (ii)'de süzmüyor → **(ii)'nin RERR'i öncül süzmesiz** (durum (i)'nin süzmesi K-143 kalır). Sonuç **0,987** ("hedef yok" 2).
+  - Ayrıca öğrenciye söylenen "makalede yol başına zaman aşımı" iddiası yanlıştı: Şekil 2'de girdi başına tek; kod makaleye sadık.
+- **Kod hâlleri:**
+  - `AODV-i` = AODV-h + (ii) RERR süzmesiz. Statik 1002'de 0,871 → 0,866.
+  - `AOMDV-e` = devralınan AODV-i + öncül adımları + RFC tabanı (A1–A7: komşu rotası sırasız · RREQ'te önceki atlama sırasız · iletilen RREQ'in sırası büyüğe · U bayraklı RREQ'e ara düğüm cevabı · HELLO sırası Şekil 3 kuralıyla · keşif yalnız rota kurulunca kapanır · RERR'de sıra kopyası).
+  - Makaleye özgü kurallar (Şekil 3, §3.2, S10) değişmedi.
+- **Testler:** AODV + AOMDV 65 geçti (K-210 3 yeni; H8 testi güncellendi) · simülasyon test dosyaları 612 geçti.
+  - `test_kosum`'daki iki dünya seçimi testi ortam değişkeni sızdırıyordu (`delenv` olmayan değişkende geri alma kaydı tutmaz); düzeltildi.
+- **Sürüyor:** U1 `AODV-i` + `AOMDV-e`, iki desen (`beklenti_2.md`, `kopya_2/`, 1 Ekim 07:4x'ten ~9–10 sa). Makinede başka bir projenin deneyi (Kargoz, 8 işçi) koşuyor; süreleri uzatır.
+# K-211 · 🟢 TABAN PROTOKOLLER DONDU — `AODV-i` · `OLSR-c` · `AOMDV-e` · U1 son hükmü · regresyon tabanı k204
+> 2 Ekim gece · ajan · donma kuralı (`arsiv/teshis/u1_2026-09-29/beklenti.md`) ve öğrenci kararı K-207 · U1 `arsiv/teshis/aodv_sadakat_2026-09-30/` (`beklenti_2.md`; 1 Ekim 07:36'daki koşu elektrik kesintisinde tamamlanmış koşu olmadan durdu, 16:55'te aynı dondurulmuş kopyadan baştan)
+
+- **U1 son hükmü** (geliştirme tohumları 1000–1002, referans dünya; kâhin PDR'leri 29 Eylül'le birebir):
+  - **AODV-i:** U1-U ✅ iki desende. U1-B: yere toplamada tek düşük hücre statik 1002 (0,873), K-207 gereği "protokolün kendi sınırı" diye bulgu. Bağımsız 1000 0,604 (AODV-h'de 0,595). Eşler arası temiz.
+  - **AOMDV-e:** U1-U ✅ iki desende. Eşler arasında üç kâhin aşımı, üçü de K-192 (b) zarfında: formasyon 1000 (0,9854 ≤ 0,9986) · bağımsız 1000 (0,9403 ≤ 0,9970) · formasyon 1002 (0,9210 ≤ 0,9809). ETX kâhini bu hücrelerde üst sınır değil. U1-B iki desende temiz.
+  - **OLSR-c:** yere toplamada temiz (K-196 atfıyla 8 hücre, K-205). Eşler arası düşük hücreleri keşifsel bulgu.
+- **Donma koşulları sağlandı:** U1-U üç protokolde iki desende ✅ · yere toplamanın düşük hücreleri açıklanmış ✅ · sadakat denetimi AODV (K-208, K-210) ve AOMDV'nin RFC tabanı (K-210) ✅. Bundan sonra taban protokollerin kodu değişmez. Değişirse yeni K kaydı, U1 ve regresyon gerekir.
+- **Regresyon k203 → k204** (`arsiv/teshis/regresyon_k204/`): 🟢 BİREBİR. İlan edilmeyen 64 vaka yalnız kod kimliğinde farklı (OLSR, DESPARETE, kâhin, sınav protokolleri aynen). İlan edilen 16 vaka değişti (AODV ve AOMDV satırları). Çizelgeli hücrenin OLSR, DESPARETE ve kâhin satırlarında kod kimliği dışında fark yok, çünkü regresyonun kısa penceresinde karıştırıcı ölçüm penceresinden önce açılıyor ve evre metrikleri hesaplanmıyor; evre metrikleri v2'yi birim testleri ve kapılar (1c, 2c) sınar. **Yeni taban k204.**
+- **Kod hâlleri:** `protokoller/aodv.py` (`AODV-i`) · `protokoller/olsr.py` (`OLSR-c`) · `protokoller/aomdv.py` (`AOMDV-e`). Beyanlı sapmalar biçim dosyalarında ve `arsiv/teshis/aodv_sadakat_2026-09-30/denetim.md`.
+# K-212 · 🟡 EVRE METRİKLERİ v2 KAPILARI — G1ç ✅ · G4ç ✅ · G2ç ❌ (bölümleme hatası yok: kâhinin kendi zaman kayması) · G2ç'nin düzeltilmesi öğrenci onayında
+> 2 Ekim 02:26–07:00 · ajan · ölçüt ölçmeden önce `arsiv/teshis/evre_cizelge_2026-10-01/beklenti.md` (K-209)
+
+- **G1ç** (formasyon · yere toplama · karıştırıcısız, hayalet çizelge; 4 protokol × 1003 · 1004): GEÇTİ.
+  - M4 yanlış tespit 0/8
+  - M1 2 SE dışında 1/4 (DESPARETE +0,056 / 0,051)
+  - D iki tohumda dışarıda kalan protokol yok (OLSR −0,004 · −0,090, 2 SE 0,115 · 0,182)
+  - ÖNCE referansı protokollerde durağan.
+- **G4ç** (birincil hücre, 5 kol × 2): GEÇTİ. p99 < 15 s hepsinde. p99 0,28–4,7 s ≥ 1 s → 1 s profili hepsinde "bulanık" etiketiyle.
+- **G2ç** (kâhin, birincil hücre): M1 kol ortalaması +0,214 (2 SE 0,036, etkili ✅), ama D 1004'te −0,035 (2 SE 0,012) → KALDI.
+  - Kural gereği bölümleme incelendi: hata yok (sentetik testler + `devrede_mi` tutarlılığı).
+  - Teşhis (`g2c_teshis.py`, kâhin 1004): karıştırıcısız kolda da kâhinin PDR'si 150 s'den sonra ~0,90'a iniyor (hayalet sessiz 0,900; hayalet ilk açık dönem 0,80). Birincil hücrenin sessizi (0,915) bunun üstünde.
+  - → Eksik, kâhinin zaman kayması (formasyonun topolojisi). Kapının "kâhinin ÖNCE düzeyi durağan" öncülü yanlış kurulmuştu.
+- **Öneri — öğrenciye:** G2ç'nin D maddesi kâhinin aynı tohumdaki boş kol koşusuna göre eşleştirilsin: `D_birincil − D_boş` 2 SE içinde. 1004'te +0,015; 1003 için ~50 dk'lık bir koşu gerekir. Onaya kadar birincil hücrenin evre metrikleri bir SONUÇ için kullanılmaz (`08` §05).
+- **Yan bulgu:** tohum başına M1 topoloji olaylarıyla karışabilir (1004'te hayalet M1 0,150) → `08` §06: kol düzeyinde SE'siyle okunur.
+# K-213 · 🟡 FAZ 4.4 ÇÖZÜNÜRLÜĞÜ BİRİNCİL HÜCREDE — R = 0,0188 (eşleştirilmiş, 40 tohum) · olasılık eşikleri kayıp payından oynatılır · taramalar başladı
+> 2 Ekim 07:02–08:14 · ajan · ölçüt ölçmeden önce `arsiv/teshis/faz4_4_2026-09-30/beklenti.md`
+
+- **R** · `py -3.11 -u kalibrasyon/cozunurluk.py --dunya referans_2026 --hucre birincil --tohum 40` (67 dk, kopyadan): `olcut_bedeli` 0,1572 · SD 0,0595 → **R = 0,0188**. Ön koşul sağlandı: kâhin PDR'si 0,834 (taban da tavan da değil; eski çekirdek hücrede 0,029'du, K-206).
+- `kalibrasyon/duyarlilik.py::R_ESLESTIRILMIS` 0,0230 → **0,0188**; köken kaydı ÖLÇÜLMÜŞ, üretici bu komut. Eski dünyanın 0,0230'u arşiv notunda kalır. Bundan sonra referans dünyada DUYARSIZ hükmü bu eşiğe karşı verilir.
+- **Aracın oynatma kuralı (ölçmeden düzeltildi):** `kahin.py::ATLAMA_ESIGI` bir olasılık eşiği. ×2 onu 1,8 yapıyordu, yani kâhin boş grafikte koşacaktı. Olasılık eşiklerinde çarpılan, tolere edilen kayıp payı (1 − p): 0,95 · 0,80 (`OLASILIK_SABITLERI`, testli).
+- **Taramalar:** T1 · T2 · E, birincil hücrede, 5 tohum, çarpanlar 0,5 · 2, dört parti (`arsiv/teshis/faz4_4_birincil_2026-10-02/taramalar.sh`, 390 koşu, ~6 sa). Hükümler ve köken kovaları sonuçlar gelince ayrı kayıtta.
+# K-214 · 🟡 FAZ 4.4 TARAMALARI — 3 güçlü DUYARLI (Rician K · kâhinin sönümleme örneği · en kısa yol eşiği) · 7 sınırda · TTL OLSR'da DUYARLI · kâhin 6 örnekte YAKINSAMAMIŞ · AODV'de saat ofseti bağımlılığı bulundu · uyandırma tavanı ölçüldü
+> 2 Ekim 08:14–19:15 · ajan · ölçütler ölçmeden önce `arsiv/teshis/faz4_4_2026-09-30/beklenti.md` ve betiklerin başında · ayrıntı aynı dosya Sonuç 3–8
+
+- **Kâhinle tarama** (birincil hücre, 5 tohum, ×0,5 · ×2; `taramalar.sh`, 390 koşu, 5,8 sa): güçlü DUYARLI `rician_k_db` (8,5R) · `kahin.py::SONUMLEME_ORNEGI` (3,2R, band 14,7×) · `kahin.py::ATLAMA_ESIGI` (4,1R; yalnız en kısa yol kâhini, pdr_etx birebir 0). Sınırda (≤ 1,3R, band ≤ 1,8×): `gm_adim_s` · `kanal_dilimi_s` · `yakalama_esigi_db` · `cbr_titresim_s` · `ISTASYON_TUTMA_S` · `beacon_araligi_s` · `beacon_bayt`; `golgeleme_hucre_m` kurala göre duyarsız ama 0,98R. ÖLÇÜLEMEDİ 8 (kâhin koşusuna girmiyorlar).
+- **Kâhin yakınsaması** (`sonumleme_yakinsama.py`): 6 → 48 örnekte ETX kâhininin PDR'si birincilde +0,039, bağımsız-yokta +0,065; plato birincilde 12, bağımsız-yokta 24. Koşu süresi N'den bağımsız. → ETX kâhini (U1 paydası, R'nin ve G2ç'nin aleti) yakınsamamış; hareketli kollarda U1 oranları şişik.
+- **TTL** (`ttl_olcum.py`, taban protokoller): AODV birebir · AOMDV duyarsız · **OLSR DUYARLI** (TTL 64'te Δ −0,079; döngüdeki paket kanalı ve kuyruğu dolduruyor). 32 kaynaksız; IP varsayılanı 64.
+- **Taban protokollerle** (`protokol_tarama.py`): `kuyruk_kapasitesi` DUYARSIZ (AODV/AOMDV birebir, OLSR \|Δ\| 0,0067) · `saat_sapma_ppm` DUYARSIZ (\|Δ\| 0,0042) · `saat_ofset_araligi_s` AODV/AOMDV'de DUYARLI, OLSR birebir. Konum/RSSI hataları DESPARETE'de BİREBİR (okuyan yok).
+- **Saat ofsetinin sebebi** (`saat_dogrulama.py`): AODV'nin başlangıç durumu yerel saatin 0 anına çapalı (`_son_yayin_s = -1`, hız sınırı pencereleri `[0, 0]`): negatif ofsetli düğüm açılışta HELLO gönderemiyor, ilk "saniye" 1 + \|ofset\| s sürüyor (RFC 3561 §6.9, §10'a aykırı). Başlangıç −∞ yapılınca AODV ve AOMDV ofsete BİREBİR değişmez. Ana depoya uygulanmadı (dondurulmuş taban).
+- **Kanıtla kapanan:** `BEKLEYEN_UYANDIRMA_TAVANI` ÖLÇÜLMÜŞ (21 satırda tepe ≤ 22/256). Köken düzeltmesi: `ATLAMA_ESIGI` ETX kâhinini belirlemez. SINANMAMIŞ 25 → 24.
+- **Öğrenci kararı:** TTL kaynağa bağlanır (a, 2 Ekim akşamı). Bekleyenler `v2/12` §1.1/3a.
+# K-215 · 🟢 ÖĞRENCİ KARARLARI (Faz 4.4) — TTL 64 kaynağa bağlı · kâhin 48 örnek · AODV-j/AOMDV-f · kâhin beacon'ı = AODV HELLO · Rician K eksen · iki kapsam ilanı · en kısa yol eşiği aletin tanımı · G2ç boş kola eşleştirilir
+> 6 Ekim · öğrenci ("hepsini onaylıyorum"; TTL için önce (a) seçildi) · uygulama ajan · ölçümler K-214
+
+- **TTL → 64** (kaynağa bağlama): RFC 1700 "IP TIME TO LIVE PARAMETER" ve ns-3 `DefaultTtl` (öğrenci izniyle indirildi, `02` G17, `protokol_kaynaklari/README.md`). Referans dünyada `REFERANS_TTL`; eski dünya 32 kalır. `ttl_baslangic` KAYNAK.
+- **Kâhinin sönümleme örneği 6 → 48** (yakınsama ölçümü K-214; koşu süresi değişmiyor). `SONUMLEME_ORNEGI` ÖLÇÜLMÜŞ. Bütün kâhin sayıları (U1 paydası, R, G2ç) yeniden ölçülür.
+- **`AODV-j`** — başlangıç durumu −∞ (HELLO'nun son yayını ve §10 pencereleri). AOMDV miras alır → **`AOMDV-f`**. Dondurulmuş tabana sadakat düzeltmesi; yamalı kopyada saat ofsetine birebir değişmez (K-214). Test `test_K215_AODV_baslangici_YEREL_SAATIN_SIFIRINA_bagli_degil`.
+- **Kâhinin beacon'ı = AODV HELLO çerçevesi:** RREP 20 B (RFC 3561 §5.2) + kontrol kapsüllemesi 64 B = **84 B** toplam çerçeve (öneride "20 bayt" mesajın boyuydu; beacon boyu toplam çerçevedir), aralık 1 s = `HELLO_INTERVAL`. `REFERANS_BEACON_BAYT` testle RREP biçimine bağlı. `beacon_araligi_s` · `beacon_bayt` KAYNAK.
+- **Rician K EKSEN:** birincil test 10 dB'de, 6 ve 15 dB'de keşifsel tekrar (`06`'ya Faz 6'da). `rician_k_db` TEDAVI ve `TEDAVI_ALANLARI`'nda (bütün satırların `kurulum_hash`i değişir).
+- **Kapsam ilanı +2:** `gorev_grup_sayisi`, `gm_pitch_sigma_rad` (formasyon okumuyor) → KOL_TANIMI + `KAPSAM_ILANI` (12). Test kalıbı "KAPSAM (K-2…".
+- **`kahin.py::ATLAMA_ESIGI`** → KOL_TANIMI: en kısa yol kâhininin tanımı; hipoteze ve U1'e girmez.
+- **G2ç:** kâhinin D'si aynı tohumdaki karıştırıcısız (hayalet çizelgeli) koşusununkine göre okunur; 2c kapısı bu iki koşuyu da koşar (`v2/08` §08).
+- **Ölçümle kapanan (K-214):** `komsu_omru_katsayisi` · `gps_dikey_sigma_m` · `gps_hiz_sigma_ms` · `rssi_olcum_sigma_db` → DUYARSIZ (|Δ| = 0, okuyan yok; Faz 5'te okuyan olursa yeniden). SINANMAMIŞ 24 → **12**: pencere üçlüsü (Faz 6) · sınırdaki 6 (20 tohum) · `kuyruk_kapasitesi` ve `saat_sapma_ppm` (TTL 64'le OLSR'da yeniden) · `saat_ofset_araligi_s` (AODV-j'yle beş tohumda yeniden).
+- **Sıra** (`v2/12` §1.1/3): regresyon k215 → R → sınırdakiler ve protokol kontrolleri → U1 → evre kapıları.
+# K-216 · 🟢 K-215 KODU DOĞRULANDI — regresyon k215 (58/58 birebir + 22 ilanlı) · R = 0,0142 (yakınsamış kâhinle) · uzun kuyruk başladı
+> 6 Ekim 20:36–22:32 · ajan · beklentiler ölçmeden önce `arsiv/teshis/regresyon_k215/beklenti.md`, `arsiv/teshis/faz4_4_k215_2026-10-06/beklenti.md`
+
+- **Tam takım** `976 passed` (14 dk) · mimari denetimi ihlalsiz.
+- **Regresyon k215** (`regresyon_satirlari.py uret k215`, kopyadan, 41 dk) · `karsilastir k204 k215 --izin kimlik.kurulum_hash,kimlik.tedavi_hash,konfig.ttl_baslangic,konfig.beacon_bayt,teshis.koken_kovalari --degisen <22 vaka>` → **🟢 58/58 birebir** (+22 ilanlı değişen: AODV/AOMDV, hareketli kâhinler, beacon'lı ve OLSR'lı referans vakaları). DESPARETE'nin üç vakası, eski dünyanın OLSR'ı, statik kâhinleri ve bütün sınav vakaları birebir — beklendiği gibi. **Yeni taban k215.**
+- **Çözünürlük** (`cozunurluk.py --dunya referans_2026 --hucre birincil --tohum 40`, 74 dk): pdr_etx 0,8871 (SD 0,0408) · pdr_atlama 0,7364 (SD 0,0613) · `olcut_bedeli` 0,1506 (SD 0,0449) → **R = 0,0142** (K-213'te 6 örnekli kâhinle 0,0188). Ön koşul sağlandı (kâhin 0,887). `R_ESLESTIRILMIS` güncellendi.
+- **Kuyruk B** (`kuyruk_b.sh`, kopya_b, 22:32'den ~22 sa): sınırdaki 6 parametre 20 tohumla (3 parti) → protokol kontrolleri → U1 iki desen → evre kapıları 1c · 2c.

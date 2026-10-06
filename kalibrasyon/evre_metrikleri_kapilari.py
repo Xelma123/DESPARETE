@@ -348,10 +348,187 @@ def g4_bulaniklik() -> bool:
     return hepsi
 
 
+# ==========================================================================
+# G1ç · G2ç · G4ç — ÇİZELGELİ KARIŞTIRICI (K-209, `v2/08` §08)
+# ==========================================================================
+CIZ_PROTOKOLLER: tuple[str, ...] = ("aodv", "olsr", "aomdv", "desparete")
+CIZ_TOHUMLAR: tuple[int, ...] = (1003, 1004)
+
+
+def _d_se(e: Evreler, temiz: float, n_t: int, sessiz: float,
+          n_s: int) -> float:
+    """`D = PDR(sessiz) − PDR(TEMİZ)`in hata payı — K-196'nın kuralı, GERÇEK
+    pencere uzunluğuyla: `max(Agresti–Caffo, s_L · √(L/T_s + L/T))`.
+    M1'in `√(1 + L/T)`i tek bir `L` penceresi içindir (`L/L = 1`); sessiz
+    dönemlerin birleşimi `T_s` saniyedir."""
+    kume = e._kume_se()
+    se = e._se(temiz, n_t, sessiz, n_s)
+    if kume is None:
+        return se
+    s_l = kume / (1.0 + e.pencere_s / (e.acilma_s - e.bas_s)) ** 0.5
+    t_s = sum(b - a for a, b in e.donemler(acik=False))
+    return max(se, s_l * (e.pencere_s / t_s
+                          + e.pencere_s / (e.acilma_s - e.bas_s)) ** 0.5)
+
+
+def _ciz_is(is_) -> dict:
+    """Havuz işçisi: (senaryo, protokol, tohum, ek) → çizelgeli evre özeti.
+    Karıştırıcısız kolda çizelge HAYALETTİR (`tehdit_acik_s`, `_sessiz_s`)."""
+    from kalibrasyon.aodv_uygunluk import _fabrika
+    from sim2.kosum.sonuc import karistirici_cizelgesi
+
+    senaryo, protokol, tohum, ek = is_
+    kfg = DS.konfig(kol="evre_kapi_c", senaryo=senaryo, tohum=tohum,
+                    trafik_deseni="yere_toplama", **dict(ek))
+    kur = kurulum_yap(kfg)
+    if protokol == "en_guvenilir_kahin":
+        grafik = KanalGrafigi(kur)
+        fabrika = lambda i: EnGuvenilirKahin(i, grafik)
+    else:
+        fabrika = _fabrika(protokol, kfg)
+    t0 = time.perf_counter()
+    Kosu(kur, fabrika).kostur()
+    sure = time.perf_counter() - t0
+    cizelge = (karistirici_cizelgesi(kur)
+               or (kfg.tehdit_acik_s, kfg.tehdit_sessiz_s))
+    bas, bitis = kfg.olcum_penceresi
+    acilma = kfg.karistirici_baslangic_s
+    p99 = yuzdelik(kur.paket_defteri.gecikmeler(True), 99)
+    s = evre_sozlugu(kur.paket_defteri, kur.rota_defteri, bas_s=bas,
+                     acilma_s=acilma, bitis_s=bitis, gecikme_p99_s=p99,
+                     cizelge=cizelge)
+    e = Evreler(kur.paket_defteri, bas, acilma, bitis, cizelge=cizelge)
+    d_se = (None if s["pdr_temiz"] is None or s["pdr_sessiz"] is None else
+            _d_se(e, s["pdr_temiz"], s["pdr_temiz_n"], s["pdr_sessiz"],
+                  s["pdr_sessiz_n"]))
+    return {"senaryo": senaryo, "protokol": protokol, "tohum": tohum,
+            "sure_s": round(sure, 1), "cizelge": list(cizelge),
+            "hayalet": karistirici_cizelgesi(kur) is None,
+            "pdr_temiz": s["pdr_temiz"], "pdr_acik": s["pdr_acik"],
+            "pdr_sessiz": s["pdr_sessiz"], "sok": s["sok_derinligi"],
+            "sok_se": s["sok_derinligi_se"],
+            "d": (None if d_se is None
+                  else s["pdr_sessiz"] - s["pdr_temiz"]), "d_se": d_se,
+            "m2": s["toparlanma_tamligi"], "tespit": s["tespit_gecikmesi_s"],
+            "beyan_etmiyor": kur.rota_defteri.beyan_etmiyor,
+            "p99_s": p99, "bulaniklik_evre": s["bulaniklik_orani_evre"],
+            "sizinti": s["evre_sizinti"]}
+
+
+def _ciz_tablo(sonuc: list[dict]) -> None:
+    print(f"  {'protokol':>18} {'tohum':>5} {'temiz':>6} {'acik':>6} "
+          f"{'sessiz':>6} {'M1':>7} {'2SE':>6} {'D':>7} {'2SE_D':>6} "
+          f"{'M4':>5} {'p99':>6} {'siz':>6} {'sure':>6}")
+    for r in sonuc:
+        def f(x, bi="{:>6.3f}"):
+            return f"{'—':>6}" if x is None else bi.format(x)
+        print(f"  {r['protokol']:>18} {r['tohum']:>5} {f(r['pdr_temiz'])} "
+              f"{f(r['pdr_acik'])} {f(r['pdr_sessiz'])} "
+              f"{f(r['sok'], '{:>+7.3f}')} {f(r['sok_se'] and 2 * r['sok_se'])} "
+              f"{f(r['d'], '{:>+7.3f}')} {f(r['d_se'] and 2 * r['d_se'])} "
+              f"{r['tespit']!s:>5} {f(r['p99_s'])} {f(r['sizinti'])} "
+              f"{r['sure_s']:>6.0f}")
+
+
+def g1c_bos_kol_cizelge(isci: int = 8) -> bool:
+    """G1ç — birincil hücrenin hareketliliğinde (formasyon · yere toplama)
+    karıştırıcısız kol, HAYALET çizelgeyle. Ölçüt koşudan ÖNCE yazıldı
+    (`v2/08` §08, `arsiv/teshis/evre_cizelge_2026-10-01/beklenti.md`):
+        M4  yanlış tespit (ilk açık dönemde)          ≤ 1 / 8 koşu
+        M1  kol ortalaması 2 SE dışında              ≤ 1 / 4 protokol
+        D   iki tohumda da 2 SE dışında kalan protokol YOK
+    D'de kalan protokolün M2'si "yorumlanamaz (ÖNCE referansı durağan
+    değil)" — düzeltilmiş sayı üretilmez."""
+    from multiprocessing import Pool
+
+    _baslik("G1c - BOS KOL, HAYALET CIZELGE  (formasyon-yok, yere toplama)")
+    isler = [("formasyon-yok", p, t, ()) for p in CIZ_PROTOKOLLER
+             for t in CIZ_TOHUMLAR]
+    with Pool(min(isci, len(isler))) as havuz:
+        sonuc = havuz.map(_ciz_is, isler, chunksize=1)
+    _ciz_tablo(sonuc)
+    tespit = sum(r["tespit"] is not None for r in sonuc)
+    disinda = 0
+    yorumlanamaz = []
+    for p in CIZ_PROTOKOLLER:
+        rr = [r for r in sonuc if r["protokol"] == p]
+        ort = ist.mean(r["sok"] for r in rr)
+        se = ist.mean(r["sok_se"] for r in rr) / len(rr) ** 0.5
+        disinda += abs(ort) > 2.0 * se
+        if all(r["d"] is not None and abs(r["d"]) > 2.0 * r["d_se"]
+               for r in rr):
+            yorumlanamaz.append(p)
+        print(f"  KOL {p:>10}: M1 ort {ort:+.4f} · 2 SE {2 * se:.4f} · "
+              f"D {[round(r['d'], 4) for r in rr]}")
+    n = len(sonuc)
+    print(f"\n  M4 yanlis tespit : {tespit}/{n}")
+    print(f"  M1 2 SE disinda  : {disinda}/{len(CIZ_PROTOKOLLER)}")
+    print(f"  D iki tohumda disarida (M2 yorumlanamaz): {yorumlanamaz or 'yok'}")
+    hepsi = tespit <= 1 and disinda <= 1 and not yorumlanamaz
+    print(f"\n  G1c : {'GECTI' if hepsi else 'KALDI'}")
+    import json
+    print("  KAYIT " + json.dumps(sonuc, ensure_ascii=False))
+    return hepsi
+
+
+def g2c_kahin_ve_bulaniklik(isci: int = 8) -> bool:
+    """G2ç + G4ç — birincil hücre (formasyon · yere toplama · derin sızma).
+    G2ç (kâhin): M1 kol ortalamasında 2 SE dışında (karıştırıcı etkili) ve
+    D, kâhinin AYNI tohumdaki karıştırıcısız (hayalet çizelgeli) koşusunun
+    D'sine göre 2 SE içinde (grafiği geçişte yenilenen kâhin sessizde anında
+    temiz; formasyonun kendi zaman kayması iki kolda ortak — K-212, öğrenci
+    K-215). SE iki koşununkinin karelerinin toplamının kökü.
+    G4ç (her kol): `p99 < açık süre`; 1 s profili `p99 ≥ 1 s` ise "bulanık"."""
+    from multiprocessing import Pool
+
+    _baslik("G2c + G4c - BIRINCIL HUCRE  (formasyon-surekli, derin sizma)")
+    ek = (("tehdit_senaryosu", "derin_sizma"),)
+    isler = [("formasyon-surekli", p, t, ek)
+             for p in ("en_guvenilir_kahin",) + CIZ_PROTOKOLLER
+             for t in CIZ_TOHUMLAR]
+    isler += [("formasyon-yok", "en_guvenilir_kahin", t, ())
+              for t in CIZ_TOHUMLAR]
+    with Pool(min(isci, len(isler))) as havuz:
+        hepsi_ = havuz.map(_ciz_is, isler, chunksize=1)
+    sonuc = [r for r in hepsi_ if r["senaryo"] == "formasyon-surekli"]
+    bos = {r["tohum"]: r for r in hepsi_ if r["senaryo"] == "formasyon-yok"}
+    _ciz_tablo(sonuc)
+    print("  bos kol (kahin, hayalet cizelge):")
+    _ciz_tablo(list(bos.values()))
+    kahin = [r for r in sonuc if r["protokol"] == "en_guvenilir_kahin"]
+    ort = ist.mean(r["sok"] for r in kahin)
+    se = ist.mean(r["sok_se"] for r in kahin) / len(kahin) ** 0.5
+    etkili = ort > 2.0 * se
+    temiz_doner = True
+    for r in kahin:
+        b = bos[r["tohum"]]
+        fark = r["d"] - b["d"]
+        se_f = (r["d_se"] ** 2 + b["d_se"] ** 2) ** 0.5
+        temiz_doner &= abs(fark) <= 2.0 * se_f
+        print(f"  G2c kahin {r['tohum']}: D {r['d']:+.4f} · bos D {b['d']:+.4f}"
+              f" · fark {fark:+.4f} · 2 SE {2 * se_f:.4f}")
+    g4 = all(r["bulaniklik_evre"] is not None and r["bulaniklik_evre"] < 1.0
+             for r in sonuc)
+    bulanik = sorted({r["protokol"] for r in sonuc
+                      if r["p99_s"] is not None and r["p99_s"] >= 1.0})
+    print(f"\n  G2c kahin M1 ort {ort:+.4f} · 2 SE {2 * se:.4f} · etkili "
+          f"{'EVET' if etkili else 'HAYIR'} · D 2 SE icinde "
+          f"{'EVET' if temiz_doner else 'HAYIR'}")
+    print(f"  G4c p99 < acik sure (hepsi): {'EVET' if g4 else 'HAYIR'} · "
+          f"1 s profili bulanik: {bulanik or 'yok'}")
+    hepsi = etkili and temiz_doner and g4
+    print(f"\n  G2c + G4c : {'GECTI' if hepsi else 'KALDI'}")
+    import json
+    print("  KAYIT " + json.dumps(hepsi_, ensure_ascii=False))
+    return hepsi
+
+
 if __name__ == "__main__":
     KAPILAR = {"1": g1_bos_kol, "1p": g1p_bos_kol_protokoller,
-               "2": g2_tekduzelik, "3": g3_izgara_fazi, "4": g4_bulaniklik}
-    secim = sys.argv[1:] or list(KAPILAR)
+               "2": g2_tekduzelik, "3": g3_izgara_fazi, "4": g4_bulaniklik,
+               "1c": g1c_bos_kol_cizelge, "2c": g2c_kahin_ve_bulaniklik}
+    # Çizelgeli kapılar (1c, 2c; ~3 sa) yalnız adıyla çağrılır.
+    secim = sys.argv[1:] or ["1", "1p", "2", "3", "4"]
     bilinmeyen = [s for s in secim if s not in KAPILAR]
     if bilinmeyen:
         raise SystemExit(f"bilinmeyen kapi: {bilinmeyen}")

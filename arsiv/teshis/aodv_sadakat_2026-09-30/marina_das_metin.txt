@@ -1,0 +1,1157 @@
+On-demand Multipath Distance V ector Routing in Ad Hoc Netw orks
+Mahesh K. Marina Samir R. Das
+Department of Electrical & Computer Engineering and Computer Science
+Uni v ersity of Cincinnati
+Cincinnati OH 45221-0030
+U.S.A.
+E-mail: mmarina, sdas@ececs.uc.edu
+Abstract
+W e de velop an on-demand, multipath distance vector
+pr otocol for mobile ad hoc networks. Specically , we pr o-
+pose multipath e xtensions to a well-studied single path r out-
+ing pr otocol known as Ad hoc On-demand Distance V ector
+(A OD  The r esulting pr otocol is r eferr ed to as Ad hoc On-
+demand Multipath Distance V ector (A OMD  The pr otocol
+computes multiple loop-fr ee and link-disjoint paths. Loop-
+fr eedom is guar anteed by using a notion of advertised
+hopcount.  Link-disjointness of multiple paths is ac hie ved
+by using a particular pr operty of ooding . P erformance
+comparison of A OMD V with A OD V using ns-2 simulations
+shows that A OMD V is able to ac hie ve a r emarkable im-
+pr o vement in the end-to-end delay  often mor e than a fac-
+tor of two, and is also able to r educe r outing o verheads by
+about 20%.
+1 Intr oduction
+Mobile ad hoc netw orks are characterized by dynamic
+topology due to node mobility , limited channel bandwidth
+and limited battery po wer of nodes. The k e y challenge here
+is to be able to route with lo w o v erheads e v en in dynamic
+conditions. Ov erhead here is dened in terms of the rout-
+ing protocol control messages which consume both channel
+bandwidth as well as the battery po wer of nodes for com-
+munication/processing.
+In order to reduce routing o v erheads, on-demand routing
+protocols b uild and maintain only needed routes. Examples
+include Dynamic Source Routing  [14 ], T emporally
+Ordered Routing Algorithm (T  [24 ] and Ad hoc On-
+demand Distance V ector routing (A OD  [27 , 28 ]. This
+is in contrast to proacti v e protocols (e.g., Destination Se-
+quenced Distance V ector (DSD  [26  that maintain routes
+between all node pairs all the time. In on-demand proto-
+cols, a route disco v ery process (typically via a netw ork-
+wide  is initiated whene v er a route is needed. Se v-
+eral performance studies [3 , 7, 13 ] of ad hoc netw orks ha v e
+sho wn that on-demand protocols incur lo wer routing o v er -
+heads compared to their proacti v e counterparts. Ho we v er ,
+the y are not without performance problems. High route
+disco v ery latenc y together with frequent route disco v ery
+attempts in dynamic netw orks can af fect the performance
+adv ersely . Multipath on-demand protocols try to alle vi-
+ate these problems by computing multiple paths in a single
+route disco v ery attempt. Multiple paths could be formed at
+both traf c sources as well as at intermediate nodes. Ne w
+route disco v ery is needed only when all paths f ail. This re-
+duces both route disco v ery latenc y and routing o v erheads.
+Multiple paths can also be used to balance load by forw ard-
+ing data pack ets on multiple paths at the same time, though
+we will not e xplore this aspect in our w ork here.
+Our goal here is to de v elop an on-demand, multipath
+distance vector protocol as an e xtension to a well-studied
+single path routing protocol kno wn as Ad hoc On-demand
+Distance V ector (A OD  [27 , 28 ]. W e refer to the ne w
+protocol as Ad hoc On-demand Multipath Distance V ector
+(A OMD  protocol. Primary design goal behind A OMD V
+is to pro vide ef cient f ault tolerance in the sense of f aster
+and ef cient reco v ery from route f ailures in dynamic net-
+w orks. T o achie v e this goal, A OMD V computes multiple
+loop-free and link-disjoint paths.  The notion of an ad-
+v ertised hopcount is used to maintain multiple loop-free
+paths. A particular property of ooding is used to ensure
+link-disjointness of the multiple paths computed within a
+single route disco v ery .
+The rest of the paper is or ganized as follo ws. In section
+2, we re vie w the A OD V protocol. In section 3, we de v elop
+the A OMD V protocol as an e xtension of A OD V . In section
+4, we e v aluate the performance of A OMD V using ns-2 sim-
+ulations. Related w ork is presented in section 5, and con-
+clusions in section 6.
+
+=== SAYFA ===
+
+2 Ad Hoc On-Demand Distance V ector Rout-
+ing
+A OD V [27 , 28 ] combines the use of destination sequence
+numbers in DSD V [26 ] with the on-demand route disco v ery
+technique in DSR [14 ] to formulate a loop-free, on-demand,
+single path, distance v ector protocol. Unlik e DSR, which
+uses source routing, A OD V is based on hop-by-hop rout-
+ing approach. Belo w we re vie w some of the k e y features of
+A OD V to pro vide suf cient background for A OMD V de-
+scribed in the ne xt section.
+2.1 Route Disco v ery and Route Maintenance
+When a traf c source needs a route to a destination, it ini-
+tiates a route disco v ery process. Route disco v ery typically
+in v olv es a netw ork-wide ood of route request 
+pack ets tar geting the destination and w aiting for a route
+reply  An intermediate node recei ving a RREQ
+pack et rst sets up a re v erse path to the source using the
+pre vious hop of the RREQ as the ne xt hop on the re v erse
+path. If a v alid route to the destination is a v ailable, then the
+intermediate node generates a RREP , else the RREQ is re-
+broadcast. Duplicate copies of the RREQ pack et recei v ed
+at an y node are discarded. When the destination recei v es a
+RREQ, it also generates a RREP . The RREP is routed back
+to the source via the re v erse path. As the RREP proceeds to-
+w ards the source, a forw ard path to the destination is estab-
+lished. Se v eral optimizations ha v e been proposed in the lit-
+erature to contain the scope of the ood [5 ] and to reduce the
+redundanc y of the broadcasts during the ood [22 ]. Since
+these are some what orthogonal to our interest, we will limit
+our discussion to only pure ooding in this paper . Further ,
+we assume bidirectional links and a connected netw ork.
+Route maintenance is done using route error 
+pack ets. When a link f ailure is detected (by a link layer
+feedback, for e  a RERR is sent back via separately
+maintained predecessor links to all sources using that f ailed
+link. Routes are erased by the RERR along its w ay . When
+a traf c source recei v es a RERR, it initiates a ne w route
+disco v ery if the route is still needed. Unused routes in the
+routing table are e xpired using a timer -based technique.
+2.2 Sequence Numbers and Loop Fr eedom
+Sequence numbers in A OD V play a k e y role in ensur -
+ing loop freedom. Ev ery node maintains a monotonically
+increasing sequence number for itself. It also maintains the
+highest kno wn sequence numbers for each destination in the
+routing table (called destination sequence  Des-
+tination sequence numbers are tagged on all routing mes-
+sages, thus pro viding a mechanism to determine the relati v e
+freshness of tw o pieces of routing information generated by
+if 	\n\r
+
+	\n
+or   	\n\r
+
+	\n
+
+and  	!"
+$#
+ 	!"
+
+then	\n\r
+%
+
+	\n\r
+; & 	!"
+
+%
+
+ 	!"
+; *+&!"
+
+%
+-,; 
+endif
+Figur e 1. A OD V route update rule. This is used
+whene v er a node.recei v es a route adv ertisement to
+a destination/from a neighbor,. The v ariables	\n
+,0	!"
+and*+!"&
+represent the
+destination sequence number , hopcount and the ne x-
+thop, respecti v ely , for a destination/at node..
+tw o dif ferent nodes for the same destination. The A OD V
+protocol maintains an in v ariant that destination sequence
+numbers monotonically increase along a v alid route, thus
+pre v enting routing loops. This is e xplained belo w further ,
+as it will play a crucial role in the understanding of the mul-
+tipath protocol.
+A node can recei v e a routing update via a RREQ or
+RREP pack et either forming or updating a re v erse or for -
+w ard path. In the rest of the paper , we refer to such routing
+updates recei v ed via a RREQ or RREP as route adv ertise-
+ments.  The update rule in Figure 1 is in v ok ed upon re-
+cei ving a route adv ertisement. It is easy to see why loops
+cannot be formed if this rule is follo wed. Consider the tu-
+ple 21	\n\r
+43
+ 	!"
+where	\n\r
+represents
+the sequence number at node.for the destination/. Simi-
+larly ,0	!"
+represents the hopcount to the destination/from node.. F or an y tw o successi v e nodes.and,on a
+v alid path to the destination,,being the ne xt hop from.to/, the route update rule in Figure 1 enforces that 21	\n
+
+
+3
+& 	!
+
+
+
+#
+ 21	\n
+
+
+3
+ 	!
+
+
+ 3where the comparison is in the le xicographic sense. Thus,
+the tuples "1	\n\r
+43
+ 	!"
+along an y v alid route
+are in a le xicographic total order , which in turn implies loop
+freedom. Ad Hoc On-Demand Multipath Distance
+V ector Routing
+The main idea in A OMD V is to compute multiple paths
+during route disco v ery . It is designed primarily for highly
+dynamic ad hoc netw orks where link f ailures and route
+breaks occur frequently . When single path on-demand rout-
+ing protocol such as A OD V is used in such netw orks, a ne w
+
+=== SAYFA ===
+
+route disco v ery is needed in response to e v ery route break.
+Each route disco v ery is associated with high o v erhead and
+latenc y . This inef cienc y can be a v oided by ha ving multi-
+ple redundant paths a v ailable. No w , a ne w route disco v ery
+is needed only when all paths to the destination break.
+A note w orthy feature of the A OMD V protocol is the use
+of routing information already a v ailable in the underlying
+A OD V protocol as much as possible. Thus little additional
+o v erhead is required for the computation of multiple paths.
+The A OMD V protocol has tw o main components:
+1. a route update rule to establish and maintain multiple
+loop-fr ee paths at each node.
+2. a distrib uted protocol to nd link-disjoint paths.
+In the follo wing, we describe each of these tw o components
+in detail.
+3.1 Computing Multiple Loop­fr ee P aths
+Observ e that each route adv ertisement arri ving at a node
+during A OD V route disco v ery potentially denes an alter -
+nate path to the source or the destination. F or e xample, each
+cop y of the RREQ pack et arri ving at a node denes an al-
+ternate path back to the source. Ho we v er , accepting all such
+copies nai v ely to construct routes will lead to routing loops.
+T o see ho w loops can occur , consider this simple e xample.
+Source initiates a ood of RREQ pack ets. An interme-
+diate nodebroadcasts the RREQ. A neighborrebroad-
+casts it, which in turn is heard by. Ifaccepts this RREQ
+cop y to form a re v erse path, this will form a loop. On the
+other hand, loop cannot be formed ifaccepts a duplicate
+cop y of the RREQ arri ving via a trajectory that does not
+already include.
+In order to eliminate an y possibility of loops, we main-
+tain a similar in v ariant as in the single path case. The major
+dif ference, ho we v er , is that we accept and maintain multi-
+ple ne xt-hop routes as obtained by multiple route adv ertise-
+ments, b ut we do this as long as the in v ariant is satised.
+One trouble is that dif ferent routes to the same destination
+no w may ha v e dif ferent hopcounts. Therefore, a node must
+be consistent re garding which one of these multiple hop-
+counts is adv ertised to others. It cannot adv ertise dif ferent
+hopcounts to dif ferent neighbors with the same destination
+sequence number .
+W e b uild the A OMD V in v ariant based on a ne w notion of
+adv ertised hopcount.  The advertised hopcount of a node.for a destination/represents the maximum hopcount of
+the multiple paths for/a v ailable at.. Maximum hop-
+count is considered, as then the adv ertised hopcount can
+ne v er change for the same sequence number . The proto-
+col only allo ws accepting alternate routes with lo wer hop-
+counts. This in v ariance is necessary to guarantee loop free-
+dom.destinationsequence numberhopcountne xthope xpirationtimeout A OD Vdestinationsequence numberadv ertisedhopcountroutelist   *+!"&
+3
+& 	!
+ 3  *+&!"
+3
+0	!	
+ 3\n\n\re xpirationtimeout A OMD V
+Figur e 2. Structure of routing table entries for A OD V
+and A OMD V .
+Figure 2 sho ws the structure of the routing ta-
+ble entries for A OD V and A OMD V . In A OMD V ,
+/
+!
+.
+
+/0	!replaces& 	!in A OD V . A !2
+.
+!replaces the*+&!", and essentially denes
+multiple ne xt hops with respecti v e hopcounts. Ho we v er , all
+ne xt hops still ha v e the same destination sequence number .
+The
+/
+!
+.
+
+/& 	!is initialized each time the
+sequence number is updated. A node.updates its
+/
+!
+.
+
+/0	!for a destination/whene v er it sends
+a route adv ertisement for/. Specically , it is updated as fol-
+lo ws:
+/
+!
+.
+
+/0	!"
+
+%
+
+ 	!
+
+  *+!"&
+
+3
+0	!
+
+ 
+ !2
+.
+!"
+\rThe route update rule in Figure 3 is in v ok ed whene v er
+a node recei v es a route adv ertisement. Lines  and 
+ of the A OMD V route update rule ensure loop freedom.
+A proof is pro vided in the appendix. A k e y observ ation
+here is that similar to A OD V the follo wing condition holds
+good for tw o successi v e nodes.and,on an y v alid route to
+destination/. "1	\n
+
+
+3
+
+/!
+!
+.
+
+/& 	!
+
+
+3
+.
+
+#
+ 21	\n
+
+
+3
+
+/!
+"!
+.
+
+/ 	!
+
+
+3
+,
+ 3where the comparison is in the le xicographic sense.
+3.2 Finding Link­disjoint P aths
+The abo v e mechanism establishes multiple loop-free
+paths at e v ery node. Here, we e xplore ho w we can mak e
+these paths disjoint. P ath disjointness has the nice property
+that paths f ail independently . There are tw o types of dis-
+joint paths: node-disjoint and link-disjoint. Node-disjoint
+paths do not ha v e an y nodes in common, e xcept the source
+and destination. In contrast, link-disjoint paths do not ha v e
+
+=== SAYFA ===
+
+if 	\n\r
+$
+	\n\r
+then 	\n
+
+
+%
+
+	\n
+
+; 
+if 
+. 
+
+/
+then 
+/
+!
+.
+
+/& 	!
+
+$%
+;  !2
+.
+!"
+= NULL; 
+insert 
+,
+3
+
+/!
+!
+.
+
+/& 	!"
+
+
+into !2
+.
+!"
+; 
+else 
+/
+!
+.
+
+/& 	!"
+$%
+; 
+endif
+elseif  	\n\r
+
+
+	\n
+ and  " 
+
+/
+!
+.
+
+/& 	!"
+43
+.
+
+#
+ 
+
+/
+!
+.
+
+/& 	!"
+ 3
+,
+then
+insert 
+,
+3
+
+/!
+"!
+.
+
+/0	!"
+
+' (
+into !2
+.
+!"
+; 
+endif
+Figur e 3. A OMD V route update rules. This is used whene v er a node.recei v es a route adv ertisement to a destination/from a neighbor,. The v ariables	\n
+
+,
+/!
+"!
+.
+
+/ 	!
+
+and !2
+.
+!
+
+represent the sequence number ,
+adv ertisedhopcount and routelist for destination/at node.respecti v ely .
+an y common link. Note that link-disjoint paths may ha v e
+common nodes.
+W e ha v e in v estigated the issue of node- vs. link-
+disjointness carefully . Generally speaking, using link-
+disjointness is ne as long as links do f ail independently .
+This is often the case, e xcept in situations where multiple
+links from/to a node f ail together as the node mo v es out
+of range. Of course, node-disjointness actually guar antees
+that links f ail independently . Ho we v er , node-disjointness
+is a much stricter condition than link-disjointness and thus
+presents a much lesser number of disjoint routes in the sim-
+ulations we ha v e run. This mak es node-disjointness less
+ef fecti v e. Thus, we stick to link-disjoint routes here.
+Also, here we are interested in in v estigating the f ault
+tolerance property of multipath routing, and not the load
+balancing property . In the latter case, use of node-disjoint
+routes will be more critical. W ith a simple modica-
+tion, A OMD V can allo w disco v ery of either node- or link-
+disjoint routes and this can easily be controlled by a ag. So
+the choice can be left to the implementor or e v en the user .
+Additional modications are made in the route disco v ery
+process to allo w formation of node-disjoint paths from in-
+termediate nodes to the source and destination. A collection
+of such node-disjoint paths forms a set of link-disjoint paths
+between the source and destination. See Figure 4 for an il-
+lustration. W e rst describe an important property of ood-
+ing on which the rst part of the route disco v ery (forming
+node-disjoint paths from intermediate nodes to the sourceS I D
+is1
+id1
+id2
+is2Figur e 4. Illustration of link-disjoint path computa-
+tion in A OMD V . ,anddenote the source, in-
+termediate node and the destination, respecti v ely;.
+
+(and.
+	are node-disjoint paths fromto ;. /
+(and. /
+are node-disjoint paths fromto. There are
+tw o possible sets of link-disjoint paths between and,.
+
+(
+1
+. /
+(
+3
+.
+	1
+. /
+or.
+
+(
+1
+. /
+
+3
+.
+	1
+. /
+(.
+and  is based.
+Pr operty 1. Let a node ood a pac k et\nin the network.
+The set of copies of\nr eceived at any node( 
+
+  eac h
+arriving via a dif fer ent neighbor of , denes a set of node-
+disjoint paths fr omto .
+Pr oof . W e pro v e by contradiction. Suppose that the paths
+tak en by tw o copies of\nrecei v ed atvia dif ferent neigh-
+bors of ha v e a common node\n. This implies that\nmust
+
+=== SAYFA ===
+
+S
+A
+B
+C
+I
+JFigur e 5. Illustration of Property 1. S oods a pack et
+in the netw ork. A, B and C are neighbors of S. J trans-
+mits only the rst arri ving cop y of the pack et (from A
+or  and suppresses the latter . T w o copies are re-
+cei v ed at I, one via C and the other via A or B. Thus I
+nds tw o node-disjoint paths to S.
+ha v e transmitted at least tw o copies of\n, each recei v ed via
+a dif ferent neighbor of . But in the ooding algorithm,
+each node transmits the message at most once, a contradic-
+tion.Observ e that in the abo v e property , the neighbors of uniquely identify the node-disjoint paths to from an y node. Since the RREQs are ooded in A OD V , replacing\nby RREQ and by the source of the RREQ pro vides a
+mechanism for an intermediate node ( to determine node-
+disjoint paths to the source. This concept is e xplained fur -
+ther in Figure 5.
+Se v eral changes are needed in the A OD V route disco v-
+ery procedure to enable computation of link-disjoint paths
+between source-destination pairs. Each RREQ no w carries
+an additional eld called .
+!"to indicate the rst hop
+(neighbor of the  tak en by it. Also, each node main-
+tains a .
+!"&
+.
+0!for each RREQ to k eep track of the
+list of neighbors of the source through which a cop y of the
+RREQ has been recei v ed.
+At the intermediate nodes, unlik e in A OD V , duplicate
+copies of RREQ are not immediately discarded. Each cop y
+is e xamined to see if it pro vides a ne w node-disjoint path to
+the source . This is ascertained by e xamining the .
+!"eld in the RREQ cop y and the .
+0!"
+.
+0!in the node
+for the RREQ. If it does pro vide a ne w path, the A OMD V
+route update rule (Figure  is in v ok ed to check if a re v erse
+path can be set up. If a re v erse path is set up and a v alid
+route to the destination is a v ailable at the intermediate node,
+it sends back a RREP to the source. Just as in A OD V , only
+the rst arri ving RREQ cop y is forw arded if a route to des-
+tination is una v ailable.
+At the destination, re v erse routes are set up just lik e in
+the case of intermediate nodes. Ho we v er , in the hope of
+getting link-disjoint paths (which w ould be more numer -S I D
+X
+Acopy 1 via A
+copy of copy 1Figur e 6. The second cop y of RREQ via B is sup-
+pressed at intermediate node I. Ho we v er tw o copies
+of the rst cop y (via  still reaches the destination
+D. Both are replied to by D e v en though both carry
+the same rst hop. The re v erse paths will mer ge at
+I and then split again. But the y will remain link dis-
+joint.
+ous than node-disjoint  the destination node adopts
+a looser reply polic y . It replies up tocopies of RREQ
+(arri ving via unique  re gardless of the rsthops
+tak en by these RREQs. Unique neighbors guarantee link
+disjointness in the rst hop of the RREP . Be yond the rst
+hop, the RREP follo w the re v erse routes that ha v e been
+set up already which are node-disjoint (and hence link-
+ Each RREP arri ving at an intermediate node tak es
+a dif ferent re v erse route when multiple routes are already
+a v ailable. Note that because of the looser reply polic y it
+is possible for the trajectories of RREPs to cross at an inter -
+mediate node (Figure 
+The parameteris used to control the number of RREPs
+and thus to pre v ent a RREP storm. Also, our earlier ob-
+serv ation [21 ] indicated that additional routes be yond a fe w
+pro vide only mar ginal benet, if an y . W e ha v e used
+in our e xperiments.
+4 P erf ormance Ev aluation
+W e ha v e e v aluated the performance of A OMD V with re-
+spect to A OD V using ns-2 simulations under a wide range
+of mobility and traf c scenarios. The goal is to address the
+follo wing questions:Ho w does A OMD V compare with A OD V , particularly
+in terms of end-to-end delay and frequenc y of route
+disco v eries, as node mobilities v ary?Ho w does A OMD V compare with A OD V with in-
+crease in of fered load (i.e., number of sessions and/or
+pack et rate per  ?
+
+=== SAYFA ===
+
+4.1 Simulation En vir onment
+W e use a detailed simulation model based on ns-2 [8 ].
+The Monarch research group in CMU de v eloped support
+for simulating multi-hop wireless netw orks complete with
+physical, data link and MA C layer models [3 ] on ns-
+2 . The distrib uted coordination function  of IEEE
+802.11 [12 ] for wireless LANs is used as the MA C layer .
+The radio model uses characteristics similar to a commer -
+cial radio interf ace, Lucent' s W a v eLAN [32 ]. W a v eLAN is
+a shared-media radio with a nominal bit-rate of 2 Mb/sec
+and a nominal radio range of 250 meters. A detailed
+description of simulation en vironment and the models is
+a v ailable in [3 , 8] and will not be presented here. Note
+that the same simulation en vironment has been used before
+in se v eral recent performance studies on ad hoc netw orks
+[3 , 10 , 13 , 29 ]. In our simulations, we use the latest A OD V
+specication [28 ]. Link layer feedback is used to detect link
+f ailures.
+Mobility and traf c models are similar to pre viously re-
+ported results using this simulator [3, 13 , 29 ]. The r andom
+waypoint model [3 ] is used to model mobility . Here, each
+node starts its journe y from a random location to a random
+destination with a randomly chosen speed (uniformly dis-
+trib uted between 0 and max.  Once the destination
+is reached, another random destination is tar geted after a
+pause. W e consider only the continuous mobility case (i.e.,
+no  T o change mobility , we v ary the max. speed of
+the nodes. A 100 node netw ork in a eld with dimensions
+2200m 600m is used.
+T raf c sources are CBR (continuous  The
+source-destination pairs  are spread randomly
+o v er the netw ork. Only 512 byte data pack ets are used. The
+number of sessions and/or the pack et sending rate in each
+pair are v aried to change the of fer ed load in the netw ork.
+All traf c sessions are established at random times near the
+be ginning of the simulation run and the y stay acti v e until the
+end. Simulations are run for 500 simulated seconds. Each
+data point represents an a v erage of ten runs with identical
+traf c models, b ut dif ferent randomly generated mobility
+scenarios. Each plot sho ws error bars indicating the 90%
+condence interv al. Identical mobility and traf c scenarios
+are used across all protocol v ariations.
+4.2 Simulation Results
+4.2.1 P erf ormance Metrics
+W e e v aluate four k e y performance metrics:  P ac k et de-
+livery fr action  ratio of the data pack ets deli v ered to the
+destination to those generated by the CBR sources; or a re-
+lated metric r eceived thr oughput in Kb/sec recei v ed at the
+destination;  A ver a g e end-to-end delay of data pack ets
+ this includes all possible delays caused by b uf fering dur -
+ing route disco v ery , queuing delay at the interf ace, retrans-
+mission delays at the MA C, propagation and transfer times;
+ Route disco very fr equency  the total number of route
+disco v eries initiated per second; (i  Normalized r outing
+load  the total number of routing pack ets transmitted
+for each deli v ered data pack et. Each hop-wise transmission
+of these pack ets is counted as one transmission.
+4.2.2 V arying mobility
+Figure 7 sho ws the four performance metrics as a function
+of mobility . Max. speed of the nodes is v aried from 0 m/s
+to 30 m/s to change mobility . Max. speed of 0 m/s corre-
+sponds to a static netw ork. A v erage rate of link f ailures in
+our mobility scenarios increases between 050 per second
+as the max. speed increases between 030 m/s. The number
+of sessions and pack et rate are x ed at 25 and 4 pack ets/sec,
+respecti v ely . Performance of A OD V and A OMD V are sim-
+ilar in the static case. Their performance dif ferences, ho w-
+e v er , become more apparent at higher speeds (Figure  As
+e xpected, the fraction of pack ets deli v ered goes do wn for
+both the protocols. Ho we v er , A OMD V loses fe wer pack ets
+than A OD V (3-5%  in mobile cases.
+There is a tremendous reduction in the a v erage end-to-
+end delay with A OMD V as sho wn in Figure 7  Im-
+pro v ement in delay is almost al w ays more than 100%. This
+is because a v ailability of alternate routes on route f ailures
+eliminates route disco v ery latenc y that contrib utes to the
+delay . Interestingly , for both protocols the delay increases
+with mobility only until the max. speed of 10 m/s and
+be yond that delays stabilize. W ith additional instrumenta-
+tion, we found that pack et drops at intermediate nodes due
+to link f ailures be yond 10 m/s are dominated by pack ets
+with longer path lengths. In other w ords, the a v erage hop-
+counts of deli v ered data pack ets comes do wn at high speeds.
+Thus, delays become insensiti v e to increase in mobility af-
+ter a point as the pack ets deli v ered at high speeds are mostly
+those that tra v el along shorter paths. Frequenc y of route dis-
+co v eries and the routing load beha v e similarly with v arying
+mobility ( Figure  and  As e xpected, A OMD V per -
+forms better in both the metrics with impro v ements staying
+around 20%.
+4.2.3 V arying offer ed load
+W e rst v ary the number of sessions from 10-50 with pack et
+rate per session x ed at 2 pack ets/sec (Figure  W e k eep
+the max. speed constant at 10 m/s in this set of e xperiments.
+Figure 8  plots the a v erage delay (in  against the
+throughput (in  Note the signicant reduction in de-
+lay for A OMD V for the same throughput  hallmark of a
+good routing protocol [2]. Reduction in routing load is also
+observ ed (Figure 8  as before.
+
+=== SAYFA ===
+
+0.750.80.850.90.951051015202530Packet Delivery Fraction
+AODVAOMDV P ack et Deli v ery00.10.20.30.40.50.6051015202530
+AODVAOMDV End-to-End Delay01234567051015202530
+AODVAOMDV Route Disco v ery Frequenc y01234567891011051015202530Normalized Routing Load
+AODVAOMDV Routing Load
+Figur e 7. Performance with v arying mobility .0.050.10.150.20.250.30.350.40.450.50.550.650100150200250300350
+AODVAOMDV Delay vs. Throughput56789101112131415101520253035404550Normalized Routing Load#Sessions
+AODVAOMDV Routing Load
+Figur e 8. Performance with v arying number of ses-
+sions. 9 studies the performance with v arying pack et
+rate. W e v ary the pack et rate at each source from 0.5-8
+pack ets/sec while k eeping the max. speed and the number
+of sessions x ed at 10 m/s and 25, respecti v ely . As before,
+A OMD V pro vides much lo wer delay for the same through-
+put (Figure  Note the initial sharp reduction in normal-
+ized routing load with increase in pack et rate (Figure 
+At v ery lo w pack et rates, most routes become in v alid by
+the time the y are used again. This is re gardless ho w man y
+routes are computed each time. This is because link f ailure
+rates are v ery high compared to pack et rate. Thus, multi-
+path and single path protocols perform alik e at lo w pack et
+rates. Both protocols start performing signicantly well 
+with A OMD V relati v ely better  as the pack et rate is in-
+creased be yond the rate of link f ailures. At higher pack et
+rates, ho we v er , the routing o v erhead in both protocols is
+dominated by route retry attempts as it tak es longer to get
+a route due to the high netw ork load. Relati v ely , A OMD V
+is af fected more since it also has the additional o v erhead of
+more RREPs per route disco v ery . But notice that at these
+
+=== SAYFA ===
+
+00.10.20.30.40.50.60.70.80.9050100150200250300350400450
+AODVAOMDV Delay vs. Throughput4681012141618202224012345678Normalized Routing Load
+AODVAOMDV Routing Load
+Figur e 9. Performance with v arying pack et rates.
+high rates, the netw ork is already under saturation (almost
+40% pack ets are dropped by both  and in an o v er -
+all sense, A OMD V still performs better as it gi v es lo wer
+end-to-end delay .
+5 Related W ork
+Multipath routing and its applications [4 , 18 ] ha v e been
+well studied in the netw orking literature, in particular for
+wired netw orks. In a broad sense, multipath routing en-
+ables f ault tolerance and also f acilitates load balancing. An
+early w ork by Max emchuk [18 ] on an application of mul-
+tipath routing kno wn as disper sity r outing discusses ho w
+a message can be dispersed along multiple paths by split-
+ting it in order to achie v e smaller a v erage delay and delay
+v ariance. Since then, there has been a signicant amount
+of w ork done on multipath routing for both connection-
+oriented (e.g., [1,  and connection-less technologies (e.g.,
+[20 , 35 
+Distrib uted protocols to compute multiple disjoint and
+loop-free paths are more related to our interests. Ogier
+and Shacham [23 ] describe a distrib uted algorithm to nd
+shortest pairs of node-  disjoint paths. Later , an im-
+pro v ed technique w as proposed by Sidhu et al. [31 ] to com-
+pute node-disjoint paths. Another well kno wn e xample of
+a multipath routing algorithm is the OSPF [19 ], a link state
+protocol that computes multiple paths of equal cost. More
+recently , multipath distance v ector algorithms that use dif-
+fusing computations to construct and maintain D A Gs ha v e
+been proposed [33 , 35 ]. Ho we v er , all the abo v e algorithms
+ha v e high o v erheads that mak e them inef cient for band-
+width limited wireless netw orks. The y are designed to w ork
+in the frame w ork of proacti v e protocols, pre v alent in the In-
+ternet, where o v erheads are not such major concern.
+There has been some interest in the ad hoc netw orking
+community to emplo y multipath routing algorithms. T w o of
+the on-demand protocols, DSR [14 ] and T ORA [24 ] ha v e
+b uilt-in capability to compute multiple paths. But either
+of them suf fers from a dif ferent set of performance prob-
+lems. DSR uses source routing, by virtue of which it can
+detect loops easily and can gather a lot of routing informa-
+tion per route disco v ery . Ho we v er , aggressi v e use of route
+caching, lack of ef fecti v e mechanisms to pur ge stale routes
+and cache pollution leads to problems such as stale caches
+and reply storms. These problems not just limit the per -
+formance benets of caching multiple paths, the y can e v en
+hurt performance in man y cases [10 , 29 ]. These problems
+are, ho we v er , being addressed [11 , 17 ]. T ORA [14 ], on the
+other hand, b uilds and maintains multiple loop free paths
+without use of source routing. It also can detect netw ork
+partitions. T ORA uses an idea based on link re v ersals [9 ] to
+reco v er from link f ailures. Performance studies ha v e sho wn
+that T ORA suf fers from high o v erheads primarily because
+of the requirement of reliable, in-order deli v ery of routing
+control messages [3 ].
+Routing On-demand Ac yclic Multipath (R O  [30 ] is
+an on-demand, multipath distance v ector algorithm based
+on dif fusing computations. Lik e T ORA, R O AM can also
+detect netw ork partitions. But on the do wnside, state infor -
+mation must be maintained at each node during route dis-
+co v ery; this requires close coordination between nodes in-
+creasing o v erheads. Thus R O AM is better suited for static
+ad hoc netw orks or netw orks with lo w node mobility .
+A technique is proposed in [15 ] to allo w A OD V to main-
+tain backup routes at the neighboring nodes of a primary
+route. This can be done with no additional o v erheads. The
+idea is to a v oid dropping pack ets in ight when the primary
+route f ails. Ho we v er , e v ery node still has at most one route
+per destination just as in A OD V . Finally , none of the abo v e
+mentioned protocols e xplicitly tak e path disjointness into
+account.
+P ath disjointness has been considered in [21 , 25 , 16 , 34 ],
+b ut all of them use source routing. Nasipuri et al. [21 ] pro-
+pose e xtensions to DSR to compute multiple disjoint paths
+for o v erhead reduction in mobile netw orks. The y study the
+
+=== SAYFA ===
+
+ef fect of number of multiple paths, path lengths on rout-
+ing performance using analytical modeling and pack et-le v el
+simulations. Split Multipath Routing  [16 ] is another
+disjoint multipath protocol using source routing. SMR is
+similar to multipath DSR [21 ] e xcept that the former uses
+a modied ooding algorithm and the data traf c is split
+among the multiple paths. Pearlman et al. [25 ] analyze
+the performance impacts of alternati v e path routing for load
+balancing . The y use a technique called diver sity injection
+to compute node-disjoint paths. In [34 ], an impro v ement
+o v er the di v ersity injection technique [25 ] is proposed to
+nd more node-disjoint paths.
+6 Conclusions and Futur e W ork
+Multipath routing can be used in on-demand protocols
+to achie v e f aster and ef cient reco v ery from route f ailures
+in highly dynamic ad hoc netw orks. In this paper , we ha v e
+proposed an on-demand, multipath distance v ector proto-
+col A OMD V that e xtends the single path A OD V protocol to
+compute multiple paths. There are tw o main contrib utions
+of this w ork:
+1. W e use the notion of an adv ertised hopcount to main-
+tain multiple loop-fr ee paths at each node.
+2. W e sho w ho w route disco v ery mechanism in the
+A OD V protocol can be modied to obtain link-disjoint
+multiple paths from source and intermediate nodes to
+the destination.
+W e ha v e studied the performance of A OMD V relati v e to
+A OD V under a wide range of mobility and traf c scenarios.
+W e observ e that A OMD V of fers a signicant reduction in
+delay , often more than a f actor of tw o. It also pro vides up to
+about 20% reduction in the routing load and the frequenc y
+of route disco v eries. In general, A OMD V al w ays of fers a
+superior o v erall routing performance than A OD V in a v ari-
+ety of mobility and traf c conditions.
+W e are currently w orking on augmenting the A OMD V
+protocol with a technique to uniquely identify each disjoint
+path on an end-to-end basis. This feature is v ery useful
+when it is necessary to route al w ays along one specic path.
+F or e xample, TCP retransmission timeout computation is
+sensiti v e to message reordering which can be a v oided by
+al w ays follo wing the same end-to-end path as long as it is
+a v ailable. W e will also look into other issues related to on-
+demand multipath routing  for e xample, the a v ailability
+of multiple paths in relationship with node density and load
+balancing with multiple paths.
+Ackno wledgments
+This w ork is partially supported by NSF CAREER grant
+A CI-0096186 and NSF netw orking research grant ANI-
+0096264. Mahesh Marina is supported by an OBR comput-
+ing research a w ard in the ECECS department, Uni v ersity of
+Cincinnati. ppendix
+Theor em 1. The r oute update rule in A OMD V (F igur e 
+yields loop fr ee r outes.
+Pr oof . Suppose that a loop of size\n, 
+.
+
+3
+.
+
+3"\n \n 3
+. 
+3
+.
+
+forms in a route to a destination/. Note that nodes.and,in the code are tw o consecuti v e nodes in the route, and	\n
+
+
+
+	\n
+
+
+\nTherefore, the follo wing must be true among the nodes in
+the loop so formed.	\n
+
+
+
+	\n
+
+
+
+\n\n
+
+	\n
+
+
+
+	\n
+
+
+3which implies	\n
+
+
+
+
+	\n
+
+
+
+
+\n"\n\n
+
+	\n
+
+
+
+
+	\n
+
+
+
+3This in turn implies the follo wing condition holds in line. 
+
+/!
+!
+.
+
+/& 	!
+
+
+
+3
+.
+
+
+#
+ 
+
+/!
+!
+.
+
+/ 	!"
+ 3
+.
+
+
+#
+\n\n
+#
+ 
+
+/!
+!
+.
+
+/ 	!"
+
+3
+.	 
+
+#
+ 
+
+/
+!
+.
+
+/& 	!"
+
+3
+.
+
+ \nThen, 
+
+/!
+!
+.
+
+/ 	!
+
+\n
+3
+.
+
+
+#
+ 
+
+/
+!
+.
+
+/& 	!
+
+\n
+3
+.
+
+ 3which clearly is impossible. Thus, routes formed by
+A OMD V are loop free.Refer ences
+[1] S. Bahk and M. E. Zarki. Dynamic Multi-path Routing and
+Ho w it Compares with other Dynamic Routing Algorithms
+for High Speed W ide Area Netw orks. In Pr oceedings of the
+A CM SIGCOMM , pages 5364, 1992.
+[2] D. Bertsekas and R. Gallager . Data Networks . Prentice-Hall,
+1992.
+[3] J. Broch, D. Maltz, D. Johnson, Y .-C. Hu, and J. Jetche v a.
+A Performance Comparison of Multi-Hop W ireless Ad
+Hoc Netw ork Routing Protocols. In Pr oceedings of the
+IEEE/A CM MOBICOM , pages 8597, 1998.
+[4] J. W . Byers, M. Luby , M. Mitzenmacher , and A. Re ge. A
+Digital F ountain Approach to Reliable Distrib ution of Bulk
+Data. In Pr oceedings of the A CM SIGCOMM , pages 5667,
+1998.
+
+=== SAYFA ===
+
+[5] R. Castaneda and S. R. Das. Query Localization T echniques
+for On-demand Protocols in Ad Hoc Netw orks. In Pr oceed-
+ings of the IEEE/A CM MOBICOM , pages 186194, 1999.
+[6] I. Cidon, R. Rom, and Y . Sha vitt. Analysis of Multi-P ath
+Routing. IEEE T r ansactions on Networking , 
+1999.
+[7] S. R. Das, R. Castaneda, and J. Y an. Simulation-based Per -
+formance Ev aluation of Routing Protocols for Mobile Ad
+hoc Netw orks. A CM/Baltzer Mobile Networks and Applica-
+tions  ,  2000.
+[8] K. F all and K. V  ns notes and documentation,
+1999. a v ailable from http://www-mash.cs.berk ele y .edu/ns/.
+[9] E. Gafni and D. Bertsekas. Distrib uted Algorithms for
+Generating Loop-free Routes in Netw orks with Frequently
+Changing T opology . IEEE T r ansactions on Communica-
+tions ,  1981.
+[10] G. Holland and N. H. V aidya. Analysis of TCP Perfor -
+mance o v er Mobile Ad Hoc Netw orks. In Pr oceedings of
+the IEEE/A CM MOBICOM , pages 219230, 1999.
+[11] Y .-C. Hu and D. Johnson. Caching strate gies in On-demand
+Routing Protocols for W ireless Ad Hoc Netw orks. In Pr o-
+ceedings of the IEEE/A CM MOBICOM , pages 231242,
+2000.
+[12] IEEE Standards Department. W ireless LAN medium ac-
+cess control (MA  and physical layer  specications,
+IEEE standard 802.111997.
+[13] P . Johansson, T . Larsson, N. Hedman, and B. Mielczarek.
+Routing Protocols for Mobile Ad-hoc Netw orks - A Com-
+parati v e Performance Analysis. In Pr oceedings of the
+IEEE/A CM MOBICOM , pages 195206, 1999.
+[14] D. Johnson and D. Maltz. Dynamic Source Routing in Ad
+Hoc W ireless Netw orks. In T . Imielinski and H. K orth, edi-
+tors, Mobile computing , chapter 5. Kluwer Academic, 1996.
+[15] S. J. Lee and M. Gerla. A OD V -BR: Backup Routing in Ad
+hoc Netw orks. In Pr oceedings of the IEEE W ir eless Commu-
+nications and Networking Confer  , pages 1311
+1316, 2000.
+[16] S. J. Lee and M. Gerla. Split Multipath Routing with Max-
+imally Disjoint P aths in Ad Hoc Netw orks. In Pr oceedings
+of the IEEE ICC , pages 32013205, 2001.
+[17] M. K. Marina and S. R. Das. Performance of Route
+Caching Strate gies in Dynamic Source Routing. In Pr oceed-
+ings of the Int'l W orkshop on W ir eless Networks and Mo-
+bile Computing  in conjunction with Int'l Conf . on
+Distrib uted Computing Systems  , pages 425432,
+2001.
+[18] N. F . Max emchuk. Dispersity Routing. In Pr oceedings of
+the IEEE ICC , pages 41:1041:13, 1975.
+[19] J. Mo y . OSPF v ersion 2. RFC 1247, 1991.
+[20] S. Murthy and J. J. Garcia-Luna-Ace v es. Congestion-
+Oriented Shortest Multipath Routing. In Pr oceedings of the
+IEEE INFOCOM , pages 10281036, 1996.
+[21] A. Nasipuri, R. Castaneda, and S. R. Das. Performance of
+Multipath Routing for On-demand Protocols in Mobile Ad
+Hoc Netw orks. A CM/Kluwer Mobile Networks and Appli-
+cations  ,  2001.
+[22] S.-Y . Ni, Y .-C. Tseng, Y .-S. Chen, and J.-P . Sheu. The
+Broadcast Storm Problem in a Mobile Ad Hoc Netw ork. In
+Pr oceedings of the IEEE/A CM MOBICOM , pages 151162,
+1999.
+[23] R. Ogier , V . Rutenb ur g, and N. Shacham. Distrib uted Algo-
+rithms for Computing Shortest P airs of Disjoint P aths. IEEE
+T r ansactions on Information Theory ,  1993.
+[24] V . D. P ark and M. S. Corson. A Highly Adapti v e Distrib uted
+Routing Algorithm for Mobile W ireless Netw orks. In Pr o-
+ceedings of the IEEE INFOCOM , pages 14051413, 1997.
+[25] M. R. Pearlman, Z. J. Haas, P . Sholander , and S. S. T abrizi.
+On the Impact of Alternate P ath Routing for Load Balancing
+in Mobile Ad Hoc Netw orks. In Pr oceedings of the A CM
+MobiHoc , pages 3 10, 2000.
+[26] C. E. Perkins and P . Bhagw at. Highly Dynamic Destination-
+Sequenced Distance-V ector Routing (DSD  for Mobile
+Computers. In Pr oceedings of the A CM SIGCOMM , pages
+234244, 1994.
+[27] C. E. Perkins and E. M. Ro yer . Ad Hoc On-Demand Dis-
+tance V ector Routing. In Pr oceedings of the IEEE W orkshop
+on Mobile Computing Systems and Applications  ,
+pages 90100, 1999.
+[28] C. E. Perkins, E. M. Ro yer , and S. R. Das. Ad
+Hoc On Demand Distance V ector (A OD  Routing.
+http://www .ietf.or g/internet-drafts/draft-ietf-manet-aodv-
+07.txt, No v 2000. IETF Internet Draft (w ork in 
+[29] C. E. Perkins, E. M. Ro yer , S. R. Das, and M. K. Marina.
+Performance Comparison of T w o On-demand Routing Pro-
+tocols for Ad Hoc Netw orks. IEEE P er sonal Communica-
+tions ,  2001.
+[30] J. Raju and J. J. Garcia-Luna-Ace v es. A Ne w Approach to
+On-demand Loop-Free Multipath Routing. In Pr oceedings
+of the Int'l Conf . on Computer Communications and Net-
+works  , pages 522527, 1999.
+[31] D. Sidhu, R. Nair , and S. Abdallah. Finding Disjoint P aths
+in Netw orks. In Pr oceedings of the A CM SIGCOMM , pages
+4351, 1991.
+[32] B. T uch. De v elopment of W a v eLAN, an ISM band wireless
+LAN. A T&T T ec hnical J ournal ,  1993.
+[33] S. V utukury and J. J. Garcia-Luna-Ace v es. MD V A: A
+Distance-V ector Multipath Routing Protocol. In Pr oceed-
+ings of the IEEE INFOCOM , pages 557564, 2001.
+[34] K. W u and J. Harms. Performance Study of a Multipath
+Routing Method for W ireless Mobile Ad Hoc Netw orks.
+In Pr oceedings of the IEEE Int'l Symposium on Modeling ,
+Analysis and Simulation of Computer and T elecommunica-
+tion Systems (MASCO  , pages 99107, 2001.
+[35] W . Zaumen and J. J. Garcia-Luna-Ace v es. Shortest multi-
+path routing using generalized dif fusing computations. In
+Pr oceedings of the IEEE INFOCOM , pages 14081417,
+1998.

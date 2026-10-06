@@ -1,6 +1,9 @@
 """
-AODV — RFC 3561'e sadık gerçekleme (`AODV-g`: kara liste K-194 · sıra
-numarası kuralları §6.2/§6.7/§6.11, K-205).
+AODV — RFC 3561'e sadık gerçekleme (`AODV-j`: kara liste K-194 · sıra
+numarası kuralları §6.2/§6.7/§6.11, K-205 · sadakat denetimi H1–H11, K-208 ·
+(ii)'nin RERR'i öncül süzmesiz, K-210 · başlangıç durumu yerel saatten
+bağımsız, K-215 ·
+`arsiv/teshis/aodv_sadakat_2026-09-30/denetim.md`).
 
 🔒 KÂHİN ERİŞİMİ YOK
 ====================
@@ -50,6 +53,7 @@ zamanlama ızgaraya yuvarlanır ve RFC'nin ölçüsü bozulurdu.
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass, field
 
 from sim2.gozlem.karar import Beyan, Karar
@@ -99,6 +103,10 @@ class _Kesif:
     deneme: int
     ttl: int
     baslangic_s: float
+    # 🔒 Zamanlayıcı İPTAL EDİLEMEZ; biten bir keşfin eski zaman aşımı aynı
+    # hedefin YENİ keşfini erken ilerletmesin diye etiket nesli taşır
+    # (ns-3 zamanlayıcıyı iptal eder, K-208 H11).
+    nesil: int = 0
 
 
 class AODV:
@@ -111,7 +119,7 @@ class AODV:
     __slots__ = ("kimlik", "_sira", "_rreq_kimlik", "_rota", "_komsu",
                  "_gorulen_rreq", "_kesif", "_son_yayin_s", "_rreq_pencere",
                  "_rerr_pencere", "_sayac", "_kopuk", "_bekleyen_beyan",
-                 "_kara_liste")
+                 "_kara_liste", "_kesif_nesli")
 
     def __init__(self, kimlik: int) -> None:
         self.kimlik = kimlik
@@ -124,11 +132,16 @@ class AODV:
         # (kaynak, rreq_kimlik) → görülme anı. §6.5 tekrar bastırma.
         self._gorulen_rreq: dict[tuple[int, int], float] = {}
         self._kesif: dict[int, _Kesif] = {}
+        self._kesif_nesli = 0
         # §6.9 — HELLO yalnız son aralıkta BAŞKA bir yayın yapılmadıysa.
-        self._son_yayin_s = -1.0
         # §10 hız sınırları: (pencere başı, o pencerede gönderilen).
-        self._rreq_pencere: list[float] = [0.0, 0.0]
-        self._rerr_pencere: list[float] = [0.0, 0.0]
+        # 🔴 K-215: başlangıç "hiç olmadı" (−∞). Yerel saatin 0 anına çapalı
+        # başlangıç (−1 · [0, 0]) saat ofseti negatif düğümü açılışta |ofset|
+        # s HELLO'suz bırakıyor, ilk "saniye"yi 1 + |ofset| s uzatıyordu —
+        # sonuç saat ofsetine bağlıydı (Faz 4.4).
+        self._son_yayin_s = -math.inf
+        self._rreq_pencere: list[float] = [-math.inf, 0.0]
+        self._rerr_pencere: list[float] = [-math.inf, 0.0]
         # 🔒 ÖLÇÜM DURUMU — karara GİRMEZ (19 Eylül 2026, `04` K-139).
         # Kopan komşu → o bağ koptuğunda onun üzerinden geçen hedefler.
         # Bu hedeflerden birine rota yeniden kurulunca `rota_kuruldu(komşu)`
@@ -149,6 +162,7 @@ class AODV:
             "komsu_zaman_asimi": 0, "rota_gecersizlestirilen": 0,
             "hiz_siniri_engelledi": 0, "rerr_onculsuz": 0,
             "kara_liste_eklenen": 0, "rreq_kara_listeden": 0,
+            "rreq_ertelenen": 0,
         }
 
     # ==================================================================
@@ -271,12 +285,29 @@ class AODV:
             return Karar(sonraki=r.sonraki)
 
         eski = self._rota.get(hedef)
-        if eski is not None and not eski.gecerli and gozlem.paket.kaynak != self.kimlik:
-            # 🔒 §6.11 — ARA DÜĞÜM: rota VARDI ve koptu. RFC burada RERR
-            # gönderip paketi DÜŞÜRMEYİ söyler; yeni bir keşif BAŞLATMAZ,
-            # çünkü keşif kaynağın işidir. Düşme sebebi `hedef_yok` DEĞİL
-            # `rota_gecersiz`dir ve o ayrım K-134'te koda alındı.
-            niyet = self._rerr_kur((hedef,), simdi)
+        if eski is not None and not eski.gecerli:
+            # §6.11: *"If a data packet is received for an invalid route, the
+            # Lifetime field is updated to current time plus DELETE_PERIOD."*
+            eski.silme_s = simdi + DELETE_PERIOD_S
+        if gozlem.paket.kaynak != self.kimlik:
+            # 🔒 §6.11 (ii) — ARA DÜĞÜMÜN ETKİN ROTASI YOK: RERR (öncülü
+            # varsa) ve paket DÜŞER; keşif kaynağın işidir. Düşme sebebi
+            # rota VARDIYSA `rota_gecersiz` (K-134), hiç yoksa `hedef_yok`.
+            # 🔴 K-208 H8: süresi dolmuş (ya da sonraki atlaması artık komşu
+            # olmayan) geçerli girdide ve girdisiz hedefte ara düğüm paketi
+            # tamponlayıp KENDİSİ keşif başlatıyordu — RFC'de yok.
+            # 🔴 K-210: (ii)'nin RERR'i ÖNCÜL LİSTESİNE BAKMADAN gider. RFC'nin
+            # süzme cümlesi küçük harf ("The RERR should contain … non-empty
+            # precursor list") — normatif değil; ns-2 ve ns-3 bu durumda süzmez.
+            # Süzülünce, ters yoldan öğrenilmiş rotayla gönderen (öncül değil)
+            # hiç haber almıyor ve akış kara deliğe düşüyordu (AOMDV, eşler
+            # arası statik 1001: 1 225 paket). (i)'nin süzmesi (K-143) kalır.
+            if eski is None:
+                return Karar(sonraki=None, niyetler=self._rerr_kur(
+                    (hedef,), simdi, oncul_suz=False))
+            if eski.gecerli:
+                self._gecersizlestir(eski, simdi)       # (ii): sıra artar
+            niyet = self._rerr_kur((hedef,), simdi, oncul_suz=False)
             return Karar(sonraki=None,
                          beyan=(Beyan("rota_gecersiz", komsu=hedef),),
                          niyetler=niyet)
@@ -287,16 +318,50 @@ class AODV:
             niyetler = self._kesif_baslat(hedef, simdi)
         return Karar(beklet=True, niyetler=niyetler)
 
-    def _kesif_baslat(self, hedef: int, simdi_s: float) -> tuple:
-        """§6.3 + §6.4 · genişleyen halka araması ile RREQ."""
-        if self._hiz_sinirli_mi(self._rreq_pencere, RREQ_RATELIMIT, simdi_s):
-            return ()
-        ttl = TTL_START
-        self._kesif[hedef] = _Kesif(deneme=0, ttl=ttl, baslangic_s=simdi_s)
-        return (self._rreq_kur(hedef, ttl, simdi_s),
-                Uyandirma(halka_suresi_s(ttl), f"kesif:{hedef}"))
+    def _son_atlama(self, r) -> int | None:
+        """Girdinin son bilinen atlama sayısı (§6.4); AOMDV'de yolu kalmayan
+        geçersiz girdi bunu bilmez."""
+        return r.atlama
 
-    def _rerr_kur(self, hedefler: tuple[int, ...], simdi_s: float) -> tuple:
+    def _kesif_baslat(self, hedef: int, simdi_s: float) -> tuple:
+        """§6.3 + §6.4 · genişleyen halka araması ile RREQ.
+
+        🔒 §6.4 (K-208 H7): geçersiz bir girdi varsa ilk TTL *"the Hop Count
+        plus TTL_INCREMENT"* (ns-3 `SendRequest` ile aynı); yoksa `TTL_START`.
+        """
+        bilinen = self._rota.get(hedef)
+        atlama = None if bilinen is None else self._son_atlama(bilinen)
+        ttl = (TTL_START if atlama is None
+               else min(atlama + TTL_INCREMENT, NET_DIAMETER))
+        self._kesif_nesli += 1
+        self._kesif[hedef] = _Kesif(deneme=1 if ttl >= NET_DIAMETER else 0,
+                                    ttl=ttl, baslangic_s=simdi_s,
+                                    nesil=self._kesif_nesli)
+        return self._kesif_gonder(hedef, simdi_s)
+
+    def _kesif_gonder(self, hedef: int, simdi_s: float) -> tuple:
+        """Süren keşfin RREQ'ini gönderir ve zaman aşımını kurar.
+
+        🔒 §10 `RREQ_RATELIMIT` aşılırsa RREQ ERTELENİR (ns-3 `SendRequest`:
+        pencere dolunca yeniden dener). 🔴 K-208 H10: ilk yazımda ilk keşif
+        bırakılıyor, yeniden denemede ise zamanlayıcı kurulmadan dönülüyordu;
+        keşif kaydı silinmediği için o hedefe bir daha keşif başlamıyordu.
+        🔒 Bekleme §6.3–§6.4: halkada `RING_TRAVERSAL_TIME`; ağ çapında
+        `NET_TRAVERSAL_TIME`, her ek denemede iki katı (ilk bekleme tek kat —
+        K-208 H11, ns-3 ile aynı; ilk yazım iki katından başlıyordu).
+        """
+        k = self._kesif[hedef]
+        if self._hiz_sinirli_mi(self._rreq_pencere, RREQ_RATELIMIT, simdi_s):
+            self._sayac["rreq_ertelenen"] += 1
+            kalan = max(self._rreq_pencere[0] + 1.0 - simdi_s, 0.0)
+            return (Uyandirma(kalan + 1e-4, f"kesif_ertele:{hedef}:{k.nesil}"),)
+        bekleme = (NET_TRAVERSAL_TIME_S * (2 ** (k.deneme - 1))
+                   if k.ttl >= NET_DIAMETER else halka_suresi_s(k.ttl))
+        return (self._rreq_kur(hedef, k.ttl, simdi_s),
+                Uyandirma(bekleme, f"kesif:{hedef}:{k.nesil}"))
+
+    def _rerr_kur(self, hedefler: tuple[int, ...], simdi_s: float,
+                  oncul_suz: bool = True) -> tuple:
         """§6.11 · RERR — ulaşılamaz hedefler ve sıra numaraları.
 
         🔴 RFC 3561 §6.11, BİRİNCİL BELGEDEN (19 Eylül 2026, `04` K-143):
@@ -313,8 +378,9 @@ class AODV:
         🔒 Süzme hız sınırından ÖNCE: öncülsüz bir aday, `RERR_RATELIMIT`
         penceresinden boşuna bir hak tüketmemeli.
         """
-        onculu = tuple(h for h in hedefler
-                       if h in self._rota and self._rota[h].oncular)
+        onculu = (tuple(h for h in hedefler
+                        if h in self._rota and self._rota[h].oncular)
+                  if oncul_suz else tuple(hedefler))
         self._sayac["rerr_onculsuz"] += len(hedefler) - len(onculu)
         hedefler = onculu
         if not hedefler or self._hiz_sinirli_mi(self._rerr_pencere,
@@ -386,9 +452,12 @@ class AODV:
             niyetler.extend(self._bag_koptu(n, simdi_s))
         # §6.11 — süresi dolan geçerli rotalar geçersizleşir; `DELETE_PERIOD`
         # dolunca girdi silinir (sıra numarası o ana kadar korunur).
+        # 🔒 K-208 H9: ömür dolması RERR durumu DEĞİLDİR (§6.11 madde 1 sırayı
+        # yalnız (i)–(iii)'te değiştirir; ns-3 `Purge` de dokunmaz). İlk yazımda
+        # burada da artıyordu: yerel sıra hedefin gerçek sırasını geçebiliyordu.
         for hedef, r in list(self._rota.items()):
             if r.gecerli and r.son_gecerli_s <= simdi_s:
-                self._gecersizlestir(r, simdi_s)
+                self._gecersizlestir(r, simdi_s, suresi_doldu=True)
             elif not r.gecerli and r.silme_s <= simdi_s:
                 del self._rota[hedef]
         # §6.5 — tekrar bastırma kayıtları `PATH_DISCOVERY_TIME` yaşar.
@@ -398,7 +467,8 @@ class AODV:
         return tuple(niyetler)
 
     def _gecersizlestir(self, r: Rota, simdi_s: float,
-                        rerr_sira: int | None = None) -> None:
+                        rerr_sira: int | None = None,
+                        suresi_doldu: bool = False) -> None:
         """§6.11 · geçersizleştirme — girdi SİLİNMEZ.
 
         🔒 Madde 1: sıra numarası, *"if it exists and is valid"*, yerel
@@ -407,7 +477,7 @@ class AODV:
         artırılsaydı hedefin hiç söylemediği bir sıra uydurulurdu (K-205).
         """
         r.gecerli = False
-        if r.hedef_sira != SONSUZ_SIRA:
+        if r.hedef_sira != SONSUZ_SIRA and not suresi_doldu:
             if rerr_sira is None:
                 r.hedef_sira = (r.hedef_sira + 1) & _ALAN_32
             elif rerr_sira != SONSUZ_SIRA:
@@ -464,25 +534,26 @@ class AODV:
         # 🔒 "tampon" etiketi bir İŞ YAPMAZ: tek amacı simülatörün bekleyen
         # paketleri yeniden sormasıdır (`kosum/kontrol.py`, K-135). Protokol
         # burada hiçbir şey döndürmez.
-        if not etiket.startswith("kesif:"):
+        tur, _, geri = etiket.partition(":")
+        if tur not in ("kesif", "kesif_ertele"):
             return ()
-        hedef = int(etiket.split(":", 1)[1])
+        hedef_s, _, nesil_s = geri.partition(":")
+        hedef = int(hedef_s)
         k = self._kesif.get(hedef)
         simdi = float(gozlem.saat_s)
-        if k is None:
-            return ()                               # keşif zaten bitmiş
+        if k is None or (nesil_s and int(nesil_s) != k.nesil):
+            return ()                  # keşif bitmiş ya da bu eski bir nesil
         if self._rota_al(hedef, simdi) is not None:
             del self._kesif[hedef]
             return ()
+        if tur == "kesif_ertele":
+            return self._kesif_gonder(hedef, simdi)   # aynı adımı yeniden dene
         # §6.4 — genişleyen halka: TTL eşiği aşınca NET_DIAMETER'a atla.
         if k.ttl < TTL_THRESHOLD:
             k.ttl = min(k.ttl + TTL_INCREMENT, TTL_THRESHOLD)
-            bekleme = halka_suresi_s(k.ttl)
         else:
             k.ttl = NET_DIAMETER
             k.deneme += 1
-            # §6.3 — ikili üstel geri çekilme.
-            bekleme = NET_TRAVERSAL_TIME_S * (2 ** k.deneme)
         if k.deneme > RREQ_RETRIES:
             del self._kesif[hedef]
             self._sayac["kesif_basarisiz"] += 1
@@ -491,10 +562,7 @@ class AODV:
             # bırakır — RFC de *"the application is notified"* der, paketleri
             # protokolün kendisi silmez.
             return ()
-        if self._hiz_sinirli_mi(self._rreq_pencere, RREQ_RATELIMIT, simdi):
-            return ()
-        return (self._rreq_kur(hedef, k.ttl, simdi),
-                Uyandirma(bekleme, f"kesif:{hedef}"))
+        return self._kesif_gonder(hedef, simdi)
 
     # ==================================================================
     # KANCA · kontrol mesajı alındı
@@ -548,22 +616,36 @@ class AODV:
 
     def _ters_rota(self, kaynak: int, kaynak_sira: int, atlama: int,
                    sonraki: int, simdi_s: float) -> None:
-        """§6.5 · RREQ'in kaynağına doğru TERS rota."""
+        """§6.5 · RREQ'in kaynağına doğru TERS rota — oluşturulur ya da
+        güncellenir (tekrar olmayan her RREQ'te; ns-3 `RecvRequest` ile aynı).
+
+        🔒 (1) sıra *"copied if greater than the existing value"* · (2) sıra
+        geçerli · (3) sonraki atlama gönderen · (4) atlama RREQ'ten · (5) ömür
+        `max(mevcut, şimdi + 2·NET_TRAVERSAL_TIME − 2·atlama·NODE_TRAVERSAL_TIME)`.
+        🔴 K-208 H2: ilk yazımda güncelleme koşullu, ömür tabanı RFC'de olmayan
+        `ACTIVE_ROUTE_TIMEOUT`tu ve mevcut ömür kısalabiliyordu.
+        """
         r = self._rota.get(kaynak)
-        daha_taze = (r is None or not r.gecerli
-                     or kaynak_sira > r.hedef_sira
-                     or (kaynak_sira == r.hedef_sira and atlama < r.atlama))
-        if not daha_taze:
-            return
-        omur = simdi_s + 2 * NET_TRAVERSAL_TIME_S - 2 * atlama * 0.040
+        sira = (kaynak_sira if r is None or r.hedef_sira == SONSUZ_SIRA
+                else max(r.hedef_sira, kaynak_sira))
+        omur = (simdi_s + 2 * NET_TRAVERSAL_TIME_S
+                - 2 * atlama * NODE_TRAVERSAL_TIME_S)
+        if r is not None and r.gecerli:
+            omur = max(omur, r.son_gecerli_s)
         self._rota[kaynak] = Rota(
-            sonraki=sonraki, atlama=atlama, hedef_sira=kaynak_sira,
-            son_gecerli_s=max(omur, simdi_s + ACTIVE_ROUTE_TIMEOUT_S),
-            oncular=(r.oncular if r else set()))
+            sonraki=sonraki, atlama=atlama, hedef_sira=sira,
+            son_gecerli_s=omur, oncular=(r.oncular if r else set()))
         self._kurtarma(kaynak)
 
     def _rreq_isle(self, gonderen: int, y: dict, simdi_s: float) -> tuple:
         """§6.5 · RREQ işleme."""
+        # 🔒 K-208 H1 · §6.5 ilk cümle: önceki atlamaya rota *"without a valid
+        # sequence number"* (ns-3 `RecvRequest`: `toNeighbor.SetValidSeqNo
+        # (false)`). Rota `kontrol_alindi`de kuruldu; burada sırası düşer.
+        onceki = self._rota.get(gonderen)
+        if onceki is not None and onceki.atlama == 1 \
+                and onceki.sonraki == gonderen:
+            onceki.hedef_sira = SONSUZ_SIRA
         kaynak, kimlik = y["kaynak"], y["rreq_kimlik"]
         if (kaynak, kimlik) in self._gorulen_rreq:
             self._sayac["rreq_bastirilan"] += 1
@@ -584,10 +666,17 @@ class AODV:
                 sonraki=gonderen),)
 
         r = self._rota_al(hedef, simdi_s)
-        if r is not None and r.hedef_sira >= y["hedef_sira"] \
-                and y["hedef_sira"] != SONSUZ_SIRA:
-            # §6.6.2 — yeterince taze rotası olan ARA düğüm RREP üretir.
+        bilinmiyor = y["hedef_sira"] == SONSUZ_SIRA          # U bayrağı
+        if (r is not None and r.hedef_sira != SONSUZ_SIRA
+                and (bilinmiyor or r.hedef_sira >= y["hedef_sira"])):
+            # §6.6.2 — etkin rotası ve GEÇERLİ, yeterince büyük sırası olan
+            # ARA düğüm RREP üretir. 🔒 K-208 H4: U bayraklı RREQ'e de (ns-3
+            # hakem) ve iki öncül: ileri rotaya gönderen, TERS rotaya hedefe
+            # doğru sonraki atlama.
             r.oncular.add(gonderen)
+            ters = self._rota.get(kaynak)
+            if ters is not None:
+                ters.oncular.add(r.sonraki)
             self._sayac["rrep_uretilen"] += 1
             return (self._rrep_kur(
                 hedef_adres=hedef, hedef_sira=r.hedef_sira, atlama=r.atlama,
@@ -597,10 +686,18 @@ class AODV:
         ttl = y["ttl"] - 1
         if ttl <= 0:
             return ()
+        # 🔒 K-208 H3 · §6.5: iletilen RREQ'in hedef sırası *"set to the
+        # maximum of"* gelen değer ile bu düğümün bildiği GEÇERLİ sıra; düğüm
+        # kendi değerini DEĞİŞTİRMEZ.
+        bildigi = self._rota.get(hedef)
+        yeni = dict(y, atlama=atlama, ttl=ttl)
+        if bildigi is not None and bildigi.hedef_sira != SONSUZ_SIRA and (
+                bilinmiyor or bildigi.hedef_sira > y["hedef_sira"]):
+            yeni["hedef_sira"] = bildigi.hedef_sira
+            yeni["bayraklar"] = 0                        # U bayrağı iner
         self._sayac["rreq_iletilen"] += 1
         self._son_yayin_s = simdi_s
-        return (KontrolIstegi.kur(None, RREQ, {**y, "atlama": atlama,
-                                               "ttl": ttl}),)
+        return (KontrolIstegi.kur(None, RREQ, yeni),)
 
     def _rrep_isle(self, gonderen: int, y: dict, simdi_s: float) -> tuple:
         """§6.7 · RREP işleme. HELLO da buraya gelir (§6.9).
@@ -610,7 +707,17 @@ class AODV:
         bir RREP'te `kaynak` RREQ'i başlatan düğümdür ve hedeften farklıdır.
         """
         # 🔒 HELLO: iletilmez (§6.9). Ayıraç `kaynak == hedef`.
+        # 🔒 K-208 H6 · §6.9: komşuya etkin rota, ömür ≥ `ALLOWED_HELLO_LOSS ×
+        # HELLO_INTERVAL`, sıra *"MUST … the latest Destination Sequence
+        # Number from the Hello"* (ns-3 `ProcessHello`). Rota
+        # `kontrol_alindi`de kuruldu; burada sırası ve ömrü yazılır.
         if y["kaynak"] == y["hedef"]:
+            k = self._rota.get(gonderen)
+            if k is not None and k.gecerli and k.atlama == 1:
+                k.hedef_sira = y["hedef_sira"]
+                k.son_gecerli_s = max(
+                    k.son_gecerli_s,
+                    simdi_s + ALLOWED_HELLO_LOSS * HELLO_INTERVAL_S)
             return ()
         hedef, hedef_sira = y["hedef"], y["hedef_sira"]
         atlama = y["atlama"] + 1
@@ -638,8 +745,8 @@ class AODV:
             # ⚠️ ARA DÜĞÜMDE DE rota kuruldu: burada bekleyen paketler de
             # artık gönderilebilir olabilir. Uyandırma aşağıda, iletme
             # dalında ekleniyor.
-        elif r is not None:
-            r.son_gecerli_s = max(r.son_gecerli_s, omur)
+        # 🔴 K-208 H5: reddedilen RREP mevcut rotanın ömrünü UZATMAZ (ilk
+        # yazımda uzatıyordu; RFC'de ve ns-3'te yok).
 
         kaynak = y["kaynak"]
         if kaynak == self.kimlik:
@@ -662,18 +769,31 @@ class AODV:
             # anahtarı, 6'sı ortak). Kurtarma artık `_kurtarma` ile, rota
             # kurulan HER yerde, kopan komşu anahtarıyla beyan ediliyor.
             return (Uyandirma(NODE_TRAVERSAL_TIME_S, "tampon"),)
+        # 🔒 K-208 H5 · §6.7: RREP yalnız ileri rota *"created or updated"*
+        # ise iletilir (ns-3 koşulsuz iletir — RFC'den sapma, alınmadı).
+        # Kabul edilmeyen bir RREP'i iletmek, bu düğümün KULLANMADIĞI bir yolu
+        # aşağıya duyurmaktı.
+        if not daha_iyi:
+            return ()
         geri = self._rota_al(kaynak, simdi_s)
         if geri is None:
             return ()
+        # §6.7: ileri rotanın öncülüne kaynağa doğru sonraki atlama · ters
+        # rotanın ömrü `max(mevcut, şimdi + ACTIVE_ROUTE_TIMEOUT)` · hedefe
+        # doğru sonraki atlamanın (gönderen) girdisinin öncülüne kaynağa
+        # doğru sonraki atlama.
         self._rota[hedef].oncular.add(geri.sonraki)
+        geri.son_gecerli_s = max(geri.son_gecerli_s,
+                                 simdi_s + ACTIVE_ROUTE_TIMEOUT_S)
+        komsu = self._rota.get(gonderen)
+        if komsu is not None:
+            komsu.oncular.add(geri.sonraki)
         self._sayac["rrep_iletilen"] += 1
         iletim = self._rrep_kur(
             hedef_adres=hedef, hedef_sira=hedef_sira, atlama=atlama,
             kaynak=kaynak, omur_s=max(0.0, omur - simdi_s),
             sonraki=geri.sonraki)
-        if daha_iyi:
-            return (iletim, Uyandirma(NODE_TRAVERSAL_TIME_S, "tampon"))
-        return (iletim,)
+        return (iletim, Uyandirma(NODE_TRAVERSAL_TIME_S, "tampon"))
 
     def _rerr_isle(self, gonderen: int, y: dict, simdi_s: float) -> tuple:
         """§6.11 · RERR işleme — etkilenen rotalar geçersizleşir."""

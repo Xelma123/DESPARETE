@@ -1,0 +1,42 @@
+REGRESYON KARSILASTIRMASI — k204 (80 satir) ↔ k215 (80 satir)
+  (ilan edilmis degisen vaka) c-bagimsiz-surekli-en_guvenilir_kahin · 101 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) c-bagimsiz-surekli-en_kisa_yol_kahin · 103 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) c-gorev-surekli-en_guvenilir_kahin · 102 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) c-gorev-surekli-en_kisa_yol_kahin · 103 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) h-formasyon-surekli-en_guvenilir_kahin · 103 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) k-statik-surekli-aodv · 178 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) k-statik-surekli-aomdv · 180 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) r-referans-bagimsiz-surekli-dogrudan_komsu · 104 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) r-referans-statik-surekli-aodv · 159 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) r-referans-statik-yok-dogrudan_komsu · 102 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) t-statik-surekli-aodv-dugum_kaybi · 182 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-bagimsiz-surekli-olsr-dugum_kaybi · 13 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-aodv · 196 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-aomdv · 206 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-en_guvenilir_kahin · 115 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-olsr · 187 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-gorev-surekli-aomdv-esler_arasi · 165 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-aldatici-aodv · 168 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-reaktif-aodv · 198 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-surekli-aodv-cephe_hatti · 191 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-surekli_darbeli-aodv · 195 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-taramali-aodv · 191 alan farkli · gecerli=True
+
+  bulgusuz vaka : 58/58 (+22 ilan edilmis degisen)
+  (beklenen) kimlik.arac_hash                                 58 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           58 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              58 vakada farkli
+  (beklenen) kimlik.protokol_hash                             51 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         58 vakada farkli
+  (izinli)   kimlik.kurulum_hash                              58 vakada farkli
+  (izinli)   kimlik.tedavi_hash                               58 vakada farkli
+  (izinli)   konfig.beacon_bayt                               2 vakada farkli
+  (izinli)   konfig.ttl_baslangic                             2 vakada farkli
+  (izinli)   teshis.koken_kovalari.DUYARSIZ                   58 vakada farkli
+  (izinli)   teshis.koken_kovalari.KAYNAK                     58 vakada farkli
+  (izinli)   teshis.koken_kovalari.KOL_TANIMI                 58 vakada farkli
+  (izinli)   teshis.koken_kovalari.OLCULMUS                   58 vakada farkli
+  (izinli)   teshis.koken_kovalari.SINANMAMIS                 58 vakada farkli
+  (izinli)   teshis.koken_kovalari.TEDAVI                     58 vakada farkli
+
+  🟢 BIREBIR (izinli farklar disinda)

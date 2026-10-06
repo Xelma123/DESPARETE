@@ -1,7 +1,7 @@
 # 08 · EVRE METRİKLERİ — dört metrik, sıfır serbest parametre
 
 > **Durum: 🟢 uygulandı** (8 Eylül öğrenci onayı · kapılar K-105 · tek α K-123). Güncel 25 Eylül 2026 (öz sürüm; ayrıntılı tarihçe ve eski ölçüm planı `v2/arsiv/08-EVRE-METRIKLERI-2026-09-25.md`). Bölüm numaraları kodda atıflı, korunur. Kod `sim2/olcum/evre.py` · kapılar `python -u kalibrasyon/evre_metrikleri_kapilari.py` · tek α kapısı `python -u kalibrasyon/anlamlilik_sabitleri.py`.
-> Açık (öğrenci, 10 Eylül): `T_j` parametre kalır; ısınma ve ölçüm penceresi birlikte taranır (`06` §8 koşul 1) · çoklu/hareketli karıştırıcıda açılma anı ve evre tanımı mühürden önce yazılacak (Faz 6). M4'ün boş kol kapısı gerçek protokollerle geçti (G1-P, K-196).
+> Açık (öğrenci, 10 Eylül): `T_j` parametre kalır; ısınma ve ölçüm penceresi birlikte taranır (`06` §8 koşul 1). **Çizelgeli karıştırıcı §08'de (K-209, öğrenci onayı K-207)**; çoklu/hareketli sürekli karıştırıcıda tek basamaklı tanım geçerli. M4'ün boş kol kapısı gerçek protokollerle geçti (G1-P, K-196).
 
 ---
 
@@ -22,11 +22,11 @@
 
 🔒 Çözünürlük en hızlı taban protokolden, durağanlık en yavaştan (§06/1). Kafes `beacon_araligi_s`e değil RFC'ye çıpalı (ikisi bugün 1 s; ayrışırlarsa kafes yerinde kalır).
 
-## 03 · Zemin ve evreler (varsayılan konfigürasyon)
+## 03 · Zemin ve evreler (referans dünya, birincil hücre)
 
-Ölçüm penceresi `[50; 320)` s · `T_j = 150` s (`karistirici_baslangic_s`) · 10 akış × 4 pkt/s · gecikme p99 5–6 ms (`ciktilar2/adim9_kapanis.jsonl`).
+Ölçüm penceresi `[50; 320)` s · `T_j = 150` s (`karistirici_baslangic_s`) · 40 pkt/s (yere toplama: 39 × 1 pkt/s telemetri + 4 × 0,25 pkt/s komut; eski dünyanın 10 akış × 4 pkt/s'iyle aynı yük) · gecikme p99 0,28–4,7 s (G4ç, K-212). Çizelgeli karıştırıcıda ŞOK ve TOPARLANMA'nın yerini açık/sessiz dönemler alır (§08).
 
-| evre | aralık | paket/tohum | kol SE (30 tohum) |
+| evre | aralık | paket/tohum | kol SE (30 tohum, Wald, p ≈ 0,6) |
 |---|---|---|---|
 | TEMİZ | `[50; T_j)` | 4 000 | 0,0014 |
 | ŞOK | `[T_j; T_j+15)` | 600 | 0,0037 |
@@ -98,3 +98,26 @@ Kapı: bugünkü kural `ALFA`yı aşarsa çıkış 1.
 ## 07 · Uygulama
 
 Dördü de **son işlemdir**: paket defteri doğum/teslim anını, rota defteri beyanları zaten tutuyor. Sıcak yola sayaç eklenmez — eklenseydi ölçümün maliyeti sonuca karışırdı.
+
+## 08 · Çizelgeli karıştırıcı (K-209 · öğrenci onayı K-207)
+
+Birincil hücrenin karıştırıcısı (`derin_sizma`) `T_j`'den sonra 15 s açık · 15 s sessiz. Tek basamaklı tanımda TOPARLANMA açık ve sessiz dönemleri karıştırır. Eldeki veride (K-200 partisi) M3 0–45 s arasında anlamsız çıktı; M4'ün bütün tespitleri 2. ya da 3. açık dönemdeydi, yani "32 s" aslında "ilk açılmayı kaçırdı" demekti. Çizelge sonuç satırında `evre_cizelge_s`; karıştırıcının kendi `devrede_mi`siyle aynı olduğu test edilir.
+
+| metrik | çizelgeli karıştırıcıda |
+|---|---|
+| **M1** | aynı; ŞOK `[T_j; T_j + min(L, açık))` = ilk açık dönem (temiz durumdan) |
+| **M2** | `PDR(bütün sessiz dönemler) / PDR(TEMİZ)`, kırpılmaz |
+| **M3** | **tanımsız**: `None`, `toparlanma_suresi_tanimsiz = "cizelgeli"`. Sessiz dönem `L`den uzun değil; yerine metrik uydurulmaz |
+| **M4** | tarama ilk açık dönemle sınırlı; Bonferroni sayısı taranan pencereden (15) |
+
+Sürekli karıştırıcıda dördü ve satır birebir kalır. **Betimleyici teşhis** (karar kuralı yok, iddia taşımaz):
+- çevrim başına açık/sessiz PDR (`evre_cevrim_pdr`)
+- katlanmış 1 s profili (`evre_katli_profil`; özdeş çevrim varsayımı beyanlı, çünkü karıştırıcı her sessizde 250 m taşınır)
+- evre sızıntısı (`evre_sizinti`: teslim edilenlerden doğduğu evreden başka evrede teslim edilenlerin oranı)
+
+**Kapılar (ölçmeden önce):**
+- **G1ç** · birincil hücrenin hareketliliğinde karıştırıcısız kol, hayalet çizelgeyle; AODV · OLSR · AOMDV · DESPARETE × 2 tohum. G1-P kuralları aynen, artı `D = PDR(sessiz) − PDR(TEMİZ)` iki tohumda 2 SE dışında kalan protokol yok. Kalan protokolün M2'si "yorumlanamaz (ÖNCE referansı durağan değil)" diye yazılır.
+- **G2ç** · kâhinde M1 kol ortalamasında 2 SE dışında ve D, kâhinin AYNI tohumdaki karıştırıcısız (hayalet çizelgeli) koşusunun D'sine göre 2 SE içinde (SE iki koşununkinin karelerinin toplamının kökü). İlk tanım (D 0'a göre) K-212'de kaldı: formasyonun topolojisi zamanla kötüleşiyor ve bu iki kolda ortak — öğrenci K-215.
+- **G4ç** · `p99 < açık süre` (`bulaniklik_orani_evre < 1`); 1 s profili `p99 ≥ 1 s` ise "bulanık" etiketiyle çizilir.
+
+Öneri ve v1'in neden geri çekildiği: `arsiv/teshis/faz4_kapanis_2026-09-30/evre_cizelgeli_oneri*.md`.

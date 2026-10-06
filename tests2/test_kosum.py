@@ -2116,7 +2116,11 @@ def test_K183_kahin_HIZ_UYARLAMASINDA_bag_ARF_TABANINDA():
 
 def test_K183_dunya_secimi_ARGUMANI_cikarir_ORTAMA_yazar(monkeypatch):
     from kalibrasyon import dunya_secimi as DS
-    monkeypatch.delenv(DS.ORTAM, raising=False)
+    # 🔒 Önce `setenv`: `delenv` olmayan değişkende geri alma kaydı TUTMAZ;
+    # `secimi_oku`nun doğrudan yazdığı değer sonraki testlere sızıyordu
+    # (1 Ekim 2026, dosya sırası değişince U1 testleri kırıldı).
+    monkeypatch.setenv(DS.ORTAM, "olcek_1_50")
+    monkeypatch.delenv(DS.ORTAM)
     assert DS.secili() == "olcek_1_50"
     argv = ["arac", "--dunya", "referans_2026", "tarama"]
     assert DS.secimi_oku(argv) == "referans_2026"
@@ -2155,8 +2159,10 @@ def test_K185_dunya_secimi_ALAN_gecersiz_kilma(monkeypatch):
     """Faz 4.1 alan × güç taraması: `--alan` referans alanını ve görev
     yarıçapını (alan oranıyla) değiştirir; eski dünyada etkisizdir."""
     from kalibrasyon import dunya_secimi as DS
-    monkeypatch.delenv(DS.ORTAM, raising=False)
-    monkeypatch.delenv(DS.ALAN_ORTAM, raising=False)
+    # 🔒 Önce `setenv` (geri alma kaydı için; yukarıdaki testin notu).
+    for ad in (DS.ORTAM, DS.ALAN_ORTAM):
+        monkeypatch.setenv(ad, "x")
+        monkeypatch.delenv(ad)
     argv = ["arac", "--dunya", "referans_2026", "--alan", "15000", "x"]
     DS.secimi_oku(argv)
     assert argv == ["arac", "x"]

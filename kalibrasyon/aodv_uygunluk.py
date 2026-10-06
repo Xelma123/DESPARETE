@@ -252,8 +252,15 @@ ACIKLANMIS_DUSUK: dict[str, dict[tuple[str, int], str]] = {"aodv": {
 _OLSR_K196 = ("OLSR-c · aciklanmis, siralamasiz (K-196): gecide rotanin "
               "aralikli bosalmasi, gecici donguler (K-193); kusur adaylari "
               "elendi. U1 30 Eylul 2026")
+# `AODV-i`ninkiler K-207'ye atıfla: kaynağına kural kural sadık (K-208,
+# K-210) ve yine eşik altındaysa protokolün KENDİ sınırıdır — bulgu, kusur
+# değil. (`AODV-h`de bağımsız 1000 de düşüktü, 0,595; `AODV-i`de 0,604.)
+_AODV_K207 = ("AODV-i · sadakat denetiminden gecti (RFC 3561 + ns-3, H1-H11, "
+              "K-208, K-210); esik alti protokolun kendi siniri (ogrenci, "
+              "K-207). U1 2 Ekim 2026: 0,873")
 ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
-    "aodv": {}, "aomdv": {}, "desparete": {},
+    "aodv": {("yere_toplama", "statik-yok", 1002): _AODV_K207},
+    "aomdv": {}, "desparete": {},
     "olsr": {("yere_toplama", kol, t): _OLSR_K196 for kol, t in (
         ("statik-yok", 1000), ("statik-yok", 1001), ("statik-yok", 1002),
         ("bagimsiz-yok", 1000), ("gorev-yok", 1000), ("gorev-yok", 1002),
@@ -268,10 +275,19 @@ ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
 KAHIN_ASIMI_ACIKLANMIS: dict[str, dict[tuple[str, str, int], str]] = {
     "aodv": {}, "olsr": {}, "desparete": {},
     "aomdv": {("esler_arasi", "formasyon-yok", 1000):
-              "AOMDV 0,9777 · ETX kahini 0,9762 · zarf 0,9986 (en olasi "
-              "teslim kahini; en kisa yol 0,8861). R referans dunyada "
-              "gecerli olculemedi (taban etkisi). K-192 b · K-206, "
-              "`arsiv/teshis/faz4_4_2026-09-30/aomdv_zarf.py`"},
+              "AOMDV 0,9777 (b) / 0,9854 (AOMDV-e) · ETX kahini 0,9762 · "
+              "zarf 0,9986 (en olasi teslim kahini; en kisa yol 0,8861). "
+              "R bu hucrede olculmedi (eski cekirdek hucrede taban etkisi; "
+              "birincil hucrenin R'si 0,0188, K-213). "
+              "K-192 b · K-206, `arsiv/teshis/faz4_4_2026-09-30/aomdv_zarf.py`",
+              ("esler_arasi", "bagimsiz-yok", 1000):
+              "AOMDV-e 0,9403 · ETX kahini 0,9351 · zarf 0,9970 (en olasi "
+              "teslim kahini; en kisa yol 0,6585). K-192 b · K-211, "
+              "`arsiv/teshis/aodv_sadakat_2026-09-30/aomdv_zarf_hucre.py`",
+              ("esler_arasi", "formasyon-yok", 1002):
+              "AOMDV-e 0,9210 · ETX kahini 0,9143 · zarf 0,9809 (en olasi "
+              "teslim kahini; en kisa yol 0,7395). K-192 b · K-211, "
+              "`arsiv/teshis/aodv_sadakat_2026-09-30/aomdv_zarf_hucre.py`"},
 }
 
 DUMAN_KOLLARI: tuple[str, ...] = ("statik-yok",)

@@ -1,0 +1,4 @@
+kod desparete_pls · esler_arasi statik-yok 1001 · pdr 0.9804
+  dusus: {'iletim_basarisiz': 232, 'rota_gecersiz': 19}
+  sayac: {'cevap_siniri': 11, 'kara_liste_eklenen': 5, 'kesif_basarili': 78, 'komsu_zaman_asimi': 8834, 'rerr_onculsuz': 7954, 'rerr_uretilen': 1091, 'rota_gecersizlestirilen': 9886, 'rrep_iletilen': 261, 'rrep_uretilen': 149, 'rreq_bastirilan': 2354, 'rreq_iletilen': 1453, 'rreq_kara_listeden': 6, 'rreq_uretilen': 161, 'rreq_yeni_yol': 890, 'yedek_yola_gecis': 396, 'yol_dusen': 9667}
+  ara dugum: {'ara: rota var': 20310, 'ara: gecersiz': 19}

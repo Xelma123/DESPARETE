@@ -32,13 +32,14 @@ from __future__ import annotations
 from dataclasses import fields
 
 from sim2.cekirdek.degismezler import dogrula
-from sim2.kanal.cerceve import cerceve_kur
+from sim2.kanal.cerceve import cerceve_kur, kontrol_kapsulleme_bayt
 from sim2.kanal.kanal import cerceve_per
 from sim2.kanal.yayilim import Yayilim, lin_to_db
 from sim2.yapilandirma.konfig import Konfig
 
 __all__ = ["REFERANS_EIRP_DBM", "REFERANS_PAY_DB", "REFERANS_ALAN_M",
-           "REFERANS_GOREV_YARICAPI_M", "referans_2026", "snr_esigi_db"]
+           "REFERANS_GOREV_YARICAPI_M", "REFERANS_TTL", "REFERANS_BEACON_BAYT",
+           "referans_2026", "snr_esigi_db"]
 
 REFERANS_EIRP_DBM = 20.0   # `v2/14` §1 — AB/TR 2,4 GHz EIRP sınırı (G2 · G7)
 REFERANS_PAY_DB = 10.0     # nominal bağ: duyarlılığın 10 dB üstü (`bag_butcesi.py`)
@@ -60,6 +61,17 @@ REFERANS_GOREV_YARICAPI_M = 16000.0
 # bölünme 2/30. 1–5 W'lık HAVA karıştırıcısı sürüyü her geometride böler
 # (`arsiv/teshis/faz4_2026-09-26/b_aile_guc.txt`); `hava_eslik` keşifsel.
 REFERANS_KARISTIRICI_DBM = 40.0
+# 🔒 K-215 (öğrenci, kaynağa bağlama): VERİ paketinin TTL'i = IP'nin önerilen
+# varsayılanı. RFC 1700 "IP TIME TO LIVE PARAMETER": 64; ns-3
+# `Ipv4L3Protocol::DefaultTtl` 64 (`02` G17). Eski dünyanın 32'si kaynaksızdı
+# ve OLSR'da DUYARLI ölçüldü (döngüdeki paket kanalı doldurur, K-214).
+REFERANS_TTL = 64
+# 🔒 K-215: kâhinin beacon'ı AODV'nin HELLO'suyla BİREBİR — HELLO bir RREP'tir
+# (RFC 3561 §6.9) ve RREP 20 B'tır (§5.2); kontrol çerçevesi gibi kapsüllenir
+# (`KONTROL_KAPSULLEME`, `02` G15 · G16). Beacon boyu TOPLAM çerçevedir.
+# 20, `protokoller/aodv_bicim.py::RREP`e bir testle bağlı (sim2 protokolü içe
+# aktaramaz). Aralık zaten 1 s = `HELLO_INTERVAL` (§10).
+REFERANS_BEACON_BAYT = 20 + kontrol_kapsulleme_bayt()
 
 # Türetilen alanlar — `ek` ile verilemez.
 _TURETILEN = ("sinr_esigi_db", "menzil_snr_db", "iletim_menzili_m")
@@ -108,6 +120,7 @@ def referans_2026(**ek) -> Konfig:
         cca_s=15e-6, verici_eirp_dbm=REFERANS_EIRP_DBM,
         alici_anten_kazanci_dbi=2.15,           # yarım dalga dipol (`v2/14` §1)
         karistirici_taban_dbm=REFERANS_KARISTIRICI_DBM,
+        ttl_baslangic=REFERANS_TTL, beacon_bayt=REFERANS_BEACON_BAYT,  # K-215
     )
     temel.update(ek)
     # Geçici konfig: eski türetim yoluyla — yalnız gürültü, yol kaybı ve PER.

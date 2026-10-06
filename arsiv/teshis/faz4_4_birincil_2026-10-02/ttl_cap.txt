@@ -1,0 +1,7 @@
+tohum 1000: en uzun BFS 5 · en uzun ETX yolu 6  (gecit 0, pencere 50.0–320.0 s)
+tohum 1001: en uzun BFS 6 · en uzun ETX yolu 6  (gecit 0, pencere 50.0–320.0 s)
+tohum 1002: en uzun BFS 5 · en uzun ETX yolu 6  (gecit 0, pencere 50.0–320.0 s)
+tohum 1003: en uzun BFS 8 · en uzun ETX yolu 9  (gecit 0, pencere 50.0–320.0 s)
+tohum 1004: en uzun BFS 6 · en uzun ETX yolu 6  (gecit 0, pencere 50.0–320.0 s)
+HEPSI: en uzun BFS 8 · en uzun ETX yolu 9 · TTL 32 / ×0,5 = 16
+🔴 olcut asildi — TTL taranmali

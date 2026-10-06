@@ -1,0 +1,12 @@
+  DUNYA: referans_2026
+  tohum sayisi: 20 (1000–1019)
+====================================================================================================
+DUYARLILIK TARAMASI — senaryo 'formasyon-surekli' · 2 aday · 20 tohum · carpanlar (0.5, 2.0)
+====================================================================================================
+  OLCUT — IKI AYAK, biri yeterse DUYARLI (`cozunurluk.py`):
+    band : etki KENDI hata payindan buyuk mu (istatistiksel)
+    R    : |D| >= 0.0142 mi — deneyin gorebilecegi
+           en kucuk ESLESTIRILMIS fark (pratik)
+  🔴 parmak izi BIREBIR ayniysa 'DUYARSIZ' DEGIL 'OLCULEMEDI'
+
+  toplam kosu: 200  ·  8 isci

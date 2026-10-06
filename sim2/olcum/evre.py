@@ -85,6 +85,21 @@ penceresinin uzunluğu kadar iyi görünürdü. `rota_olaylari.py`nin Δ için
 kurduğu kuralın aynısı; ikinci bir kural koymak ikisinin ayrışabileceği
 anlamına gelirdi.
 
+🔒 ÇİZELGELİ KARIŞTIRICI (K-207 onayı · K-209) — `cizelge=(açık_s, sessiz_s)`
+=================================================================================
+Tek basamaklı tanım (TEMİZ · ŞOK · TOPARLANMA) karıştırıcı açılıp kapanınca
+bozulur: TOPARLANMA açık ve sessiz dönemleri karıştırır. Çizelge verilince
+(birincil hücrenin `derin_sizma`sı; boş kolda "hayalet" çizelge):
+    M1  aynı — ŞOK `[T_j; T_j + min(L, açık))`, yani ilk açık dönem
+    M2  `PDR(bütün sessiz dönemler) / PDR(TEMİZ)`
+    M3  TANIMSIZ (`None`, sebep `cizelgeli`): sessiz dönem durağanlık
+        penceresinden (L) uzun değil — yerine bir metrik uydurulmaz
+    M4  tarama İLK açık dönemle sınırlı; Bonferroni sayısı ondan türer
+Sürekli karıştırıcıda dördü ve satırın alanları BİREBİR aynı kalır; yeni
+alanlar yalnız çizelgeli satırda. Betimleyici teşhis (karar kuralı yok):
+çevrim başına açık/sessiz PDR, katlanmış ızgara profili, evre sızıntısı.
+Öneri ve gerekçe `arsiv/teshis/faz4_kapanis_2026-09-30/evre_cizelgeli_oneri.md`.
+
 🔒 BU MODÜL SON İŞLEMDİR — sıcak yola dokunmaz
 ==============================================
 Paket defteri zaten paket başına doğum ve teslim anını, rota defteri zaten
@@ -184,12 +199,13 @@ class Evreler:
     """
 
     __slots__ = ("bas_s", "acilma_s", "bitis_s", "izgara_s", "pencere_s",
-                 "_dogum", "_teslim")
+                 "cizelge", "_dogum", "_teslim", "_teslim_cift")
 
     def __init__(self, paket_defteri: PaketDefteri, bas_s: float,
                  acilma_s: float, bitis_s: float,
                  izgara_s: float = IZGARA_ADIMI_S,
-                 pencere_s: float = PENCERE_S) -> None:
+                 pencere_s: float = PENCERE_S,
+                 cizelge: tuple[float, float] | None = None) -> None:
         dogrula(bas_s <= acilma_s < bitis_s,
                 f"açılma anı ölçüm penceresinde olmalı: "
                 f"[{bas_s}; {bitis_s}) içinde {acilma_s}")
@@ -200,11 +216,17 @@ class Evreler:
         self.bitis_s = bitis_s
         self.izgara_s = izgara_s
         self.pencere_s = pencere_s
+        if cizelge is not None:
+            dogrula(cizelge[0] > 0.0 and cizelge[1] > 0.0,
+                    f"çizelgede açık ve sessiz süre pozitif olmalı: {cizelge}")
+        self.cizelge = cizelge
         # Doğum anları (payda) ve teslim edilenlerin doğum anları (pay).
         # 🔒 İkisi de AYNI kümeden türer — pay ile paydanın farklı kümelerden
         # gelmesi, `pdr_pencere`de bir kez düzeltilmiş bir kusurdu.
         self._dogum = sorted(d for _, _, d in paket_defteri.dogumlar())
         self._teslim = sorted(t.dogum_s for t in paket_defteri.kayitlar())
+        self._teslim_cift = tuple((t.dogum_s, t.teslim_s)
+                                  for t in paket_defteri.kayitlar())
 
     # ------------------------------------------------------------ yardımcı
     @staticmethod
@@ -291,6 +313,32 @@ class Evreler:
         se = self._se(p1, n1, p2, n2)
         return se if kume is None else max(se, kume)
 
+    def donemler(self, acik: bool) -> tuple[tuple[float, float], ...]:
+        """Çizelgenin açık (ya da sessiz) dönemleri, `[T_j; ölçüm sonu)`na
+        kırpılmış; son kısmi dönem dâhil. Çizelge yoksa boş."""
+        if self.cizelge is None:
+            return ()
+        acik_s, sessiz_s = self.cizelge
+        periyot = acik_s + sessiz_s
+        cikti: list[tuple[float, float]] = []
+        k = 0
+        while self.acilma_s + k * periyot < self.bitis_s:
+            t0 = self.acilma_s + k * periyot
+            a, b = (t0, t0 + acik_s) if acik else (t0 + acik_s, t0 + periyot)
+            a, b = min(a, self.bitis_s), min(b, self.bitis_s)
+            if b > a:
+                cikti.append((a, b))
+            k += 1
+        return tuple(cikti)
+
+    def pdr_birlesim(self, araliklar) -> tuple[float | None, int]:
+        """Birden çok aralıkta DOĞAN paketlerin havuzlanmış teslim oranı."""
+        payda = sum(self._aralikta(self._dogum, a, b) for a, b in araliklar)
+        if payda == 0:
+            return None, 0
+        pay = sum(self._aralikta(self._teslim, a, b) for a, b in araliklar)
+        return pay / payda, payda
+
     def izgara(self) -> tuple[float, ...]:
         """Açılmadan sonraki ızgara anları; pencere ölçüm sonunu AŞMAZ."""
         anlar: list[float] = []
@@ -306,8 +354,11 @@ class Evreler:
     # ------------------------------------------------------------- evreler
     @property
     def sok_araligi(self) -> tuple[float, float]:
-        return (self.acilma_s, min(self.acilma_s + self.pencere_s,
-                                   self.bitis_s))
+        # 🔒 Çizelgede ŞOK ilk açık dönemden taşmaz (`min(L, açık)`); birincil
+        # hücrede açık = L = 15 s, yani ŞOK bugünküyle birebir.
+        uzunluk = (self.pencere_s if self.cizelge is None
+                   else min(self.pencere_s, self.cizelge[0]))
+        return (self.acilma_s, min(self.acilma_s + uzunluk, self.bitis_s))
 
     @property
     def toparlanma_araligi(self) -> tuple[float, float]:
@@ -341,7 +392,9 @@ class Evreler:
         🔒 `> 1` KIRPILMAZ: kırpmak bozuk bir ölçümü gizlemek olurdu.
         """
         temiz, _ = self.pdr(self.bas_s, self.acilma_s)
-        top, _ = self.pdr(*self.toparlanma_araligi)
+        # 🔒 Çizelgede TOPARLANMA = bütün sessiz dönemlerin birleşimi (K-209).
+        top, _ = (self.pdr(*self.toparlanma_araligi) if self.cizelge is None
+                  else self.pdr_birlesim(self.donemler(acik=False)))
         if temiz is None or top is None or temiz == 0.0:
             return None
         return top / temiz
@@ -361,6 +414,10 @@ class Evreler:
         K-196'dan beri SE kümelenmeye dayanıklı (`_fark_se`) — kümelenen
         kolda band o koşunun KENDİ temiz oynaklığı kadar genişler.
         """
+        # 🔒 Çizelgede TANIMSIZ (K-209): sessiz dönem `L`den uzun değil;
+        # sebep sözlükte `toparlanma_suresi_tanimsiz` alanında.
+        if self.cizelge is not None:
+            return None
         temiz, n_t = self.pdr(self.bas_s, self.acilma_s)
         if temiz is None:
             return None
@@ -411,16 +468,59 @@ class Evreler:
         # Tek bir pencere için α kullanmak, ~170 pencere tarandığında aile
         # düzeyi yanlış alarmı %37–70'e çıkarıyordu — ölçüldü, üretici:
         # `python -u kalibrasyon/anlamlilik_sabitleri.py`.
-        taranan = max(int((self.bitis_s - self.acilma_s) / self.izgara_s), 1)
+        # 🔒 Çizelgede tarama İLK açık dönemle sınırlı (K-209): sonraki
+        # dönemlerdeki bir tespit "ilk açılmayı kaçırdı" demektir, gecikme
+        # değil (K-200 partisinde tespitlerin hepsi 2. ya da 3. dönemdeydi).
+        son = (self.bitis_s if self.cizelge is None
+               else min(self.acilma_s + self.cizelge[0], self.bitis_s))
+        taranan = max(int((son - self.acilma_s) / self.izgara_s), 1)
         esik = _negatif_binom_esigi(ort, var, ALFA / taranan)
         k = 1
         while True:
             t = self.acilma_s + k * self.izgara_s
-            if t > self.bitis_s:
+            if t > son:
                 return None
             if self._aralikta(sirali, t - self.izgara_s, t) > esik:
                 return t - self.acilma_s
             k += 1
+
+    def cizelge_teshisi(self) -> dict[str, object]:
+        """🔴 BETİMLEYİCİ — karar kuralı yok (K-209). Çizelgeli satırda:
+        çevrim başına açık/sessiz PDR · katlanmış ızgara profili (çevrimler
+        havuzlanır; özdeş çevrim varsayımı beyanlı — karıştırıcı her sessizde
+        taşınır) · evre sızıntısı (teslim edilen paketlerden doğduğu evreden
+        BAŞKA evrede teslim edilenlerin oranı; G4ç'nin ölçüsü)."""
+        acik_s, sessiz_s = self.cizelge
+        periyot = acik_s + sessiz_s
+        acik, sessiz = self.donemler(True), self.donemler(False)
+        cevrim = []
+        for i, a in enumerate(acik):
+            s_ = sessiz[i] if i < len(sessiz) else None
+            cevrim.append([self.pdr(*a)[0],
+                           None if s_ is None else self.pdr(*s_)[0]])
+        kova = round(periyot / self.izgara_s)
+        profil = []
+        for j in range(kova):
+            araliklar = []
+            k = 0
+            while True:
+                a = self.acilma_s + k * periyot + j * self.izgara_s
+                if a >= self.bitis_s:
+                    break
+                araliklar.append((a, min(a + self.izgara_s, self.bitis_s)))
+                k += 1
+            profil.append(self.pdr_birlesim(araliklar)[0])
+
+        def evre(t: float) -> str | None:
+            if t < self.acilma_s:
+                return None
+            return "acik" if (t - self.acilma_s) % periyot < acik_s else "sessiz"
+        sayilan = [(evre(d), evre(t)) for d, t in self._teslim_cift
+                   if self.acilma_s <= d < self.bitis_s]
+        sizinti = (sum(1 for a, b in sayilan if a != b) / len(sayilan)
+                   if sayilan else None)
+        return {"evre_cevrim_pdr": cevrim, "evre_katli_profil": profil,
+                "evre_sizinti": sizinti}
 
     def _kova_momentleri(self, sirali: list[float]) -> tuple[float, float]:
         """TEMİZ evrenin ızgara kovalarındaki beyan sayısının ortalaması ve
@@ -450,7 +550,9 @@ def evre_sozlugu(paket_defteri: PaketDefteri, rota_defteri: RotaDefteri,
                  bas_s: float, acilma_s: float, bitis_s: float,
                  gecikme_p99_s: float | None = None,
                  izgara_s: float = IZGARA_ADIMI_S,
-                 pencere_s: float = PENCERE_S) -> dict[str, object]:
+                 pencere_s: float = PENCERE_S,
+                 cizelge: tuple[float, float] | None = None
+                 ) -> dict[str, object]:
     """Sonuç satırına giren evre metrikleri.
 
     🔒 Karıştırıcısız kolda açılma anı ölçüm penceresine düşse bile evreler
@@ -458,13 +560,15 @@ def evre_sozlugu(paket_defteri: PaketDefteri, rota_defteri: RotaDefteri,
     mu"*) ancak metrikler orada da hesaplanırsa çalışır. Boş kolda beklenen
     şey metriğin YOKLUĞU değil, SIFIRA YAKIN OLMASIDIR.
     """
-    e = Evreler(paket_defteri, bas_s, acilma_s, bitis_s, izgara_s, pencere_s)
+    e = Evreler(paket_defteri, bas_s, acilma_s, bitis_s, izgara_s, pencere_s,
+                cizelge)
     derinlik, derinlik_se = e.sok_derinligi()
-    dip, dip_pencere = e.en_dip()
+    # 🔴 En dip çizelgede açık/sessizi karıştıran pencerelerden olurdu → yok.
+    dip, dip_pencere = e.en_dip() if cizelge is None else (None, 0)
     temiz, temiz_n = e.pdr(bas_s, acilma_s)
     sok, sok_n = e.pdr(*e.sok_araligi)
     top, top_n = e.pdr(*e.toparlanma_araligi)
-    return {
+    cikti: dict[str, object] = {
         "evre_izgara_s": izgara_s,
         "evre_pencere_s": pencere_s,
         "evre_acilma_s": acilma_s,
@@ -484,3 +588,18 @@ def evre_sozlugu(paket_defteri: PaketDefteri, rota_defteri: RotaDefteri,
         "bulaniklik_orani": (None if gecikme_p99_s is None
                              else gecikme_p99_s / izgara_s),
     }
+    if cizelge is not None:
+        # 🔒 Yalnız çizelgeli satırda — sürekli karıştırıcının satırı birebir.
+        acik_p, acik_n = e.pdr_birlesim(e.donemler(acik=True))
+        sessiz_p, sessiz_n = e.pdr_birlesim(e.donemler(acik=False))
+        cikti.update({
+            "evre_cizelge_s": list(cizelge),
+            "pdr_acik": acik_p, "pdr_acik_n": acik_n,
+            "pdr_sessiz": sessiz_p, "pdr_sessiz_n": sessiz_n,
+            "toparlanma_suresi_tanimsiz": "cizelgeli",
+            # G4ç: M1 ve M2 bütün-evre toplamları → ölçüt p99 < açık süre.
+            "bulaniklik_orani_evre": (None if gecikme_p99_s is None
+                                      else gecikme_p99_s / cizelge[0]),
+            **e.cizelge_teshisi(),
+        })
+    return cikti

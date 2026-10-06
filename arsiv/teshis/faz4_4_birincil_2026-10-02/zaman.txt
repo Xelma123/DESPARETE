@@ -1,0 +1,18 @@
+basla 07:02:09
+R bitti 08:09:12
+T1a basla 08:14:56
+T1a bitti 10:02:16 cikis 0
+T1b basla 10:02:16
+T1b bitti 11:33:31 cikis 0
+T2 basla 11:33:31
+T2 bitti 13:04:34 cikis 0
+E basla 13:04:34
+E bitti 14:02:57 cikis 0
+ttl basla 14:03:19
+ttl bitti 15:20:24 cikis 0
+sonumleme_yakinsama basla 15:20:43
+sonumleme_yakinsama bitti 15:50:52 cikis 0
+protokol_tarama basla 15:50:52
+protokol_tarama bitti 18:37:27 cikis 0
+saat_dogrulama basla 18:39:30
+saat_dogrulama bitti 19:04:51 cikis 0
