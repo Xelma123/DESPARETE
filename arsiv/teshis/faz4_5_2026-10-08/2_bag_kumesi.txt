@@ -1,0 +1,22 @@
+  DUNYA: referans_2026
+
+======================================================================================
+A - ALETIN KAPILARI  (turetme dogru mu, kaydirma ne izole ediyor)
+======================================================================================
+  G-a · TURETILEN DERECE == CANLI GRAFIGIN KENDI DERECESI
+        (esik 0.90, birebir esitlik araniyor)
+    OK  tohum 1000: turetilen 8.900000000 ↔ canli 8.900000000
+    OK  tohum 1001: turetilen 8.400000000 ↔ canli 8.400000000
+    OK  tohum 1002: turetilen 8.450000000 ↔ canli 8.450000000
+    OK  tohum 1003: turetilen 9.100000000 ↔ canli 9.100000000
+    OK  tohum 1004: turetilen 8.550000000 ↔ canli 8.550000000
+    OK  tohum 1005: turetilen 9.250000000 ↔ canli 9.250000000
+
+  G-b · SONUMLEME KAPALIYKEN KAYDIRMA GRAFIGI DEGISTIRMEMELI
+        (degistiriyorsa kaydirma sonumlemeyi IZOLE ETMIYOR)
+    kaydirmalar: (0.0, 0.007, 0.014, 0.021, 0.028, 0.035)
+    dereceler  : 8.650000000, 8.650000000, 8.650000000, 8.650000000, 8.650000000, 8.650000000
+    OK  yayilim 0.000e+00
+
+  G-a : GECTI
+  G-b : GECTI

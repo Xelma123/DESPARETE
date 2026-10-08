@@ -102,6 +102,10 @@ SUPERSEDE: dict[str, tuple[str, str]] = {
               "AODV kapanışının U1 tablosu `AODV-c` hâline aitti; RFC §6.11 öncül "
               "kuralı davranışı değiştirdi (K-143) ve kapanış `AODV-e` ile yeniden "
               "koşuldu (K-145). Açıklanmış düşük hücre 4 → **2**"),
+    "K-212": ("K-217",
+              "G2ç'nin kalışı \"formasyonun zaman kayması\" diye teşhis edilmişti — "
+              "**yanlış**: sebep 6 örnekli kâhinin yakınsamamasıydı (K-214); 48 "
+              "örnekte G1ç · G2ç · G4ç **GEÇTİ**"),
 }
 
 

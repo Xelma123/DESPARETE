@@ -1,0 +1,15 @@
+
+================================================================================================
+K - ALETIN KENDI KAPISI  (kisa pencere · tek tohum)
+================================================================================================
+  statik-surekli     PDR  etx 0.0033 · atlama 0.0000 · teslim 0.0025
+  bagimsiz-surekli   PDR  etx 0.0117 · atlama 0.0000 · teslim 0.0125
+
+  1) alt sinif mevcut kahinleri degistirmiyor    OK
+  2) yeni kahin farkli bir sey olcuyor           OK
+  3) korunum + mutabakat + iletim sonucu         OK
+
+  kisa pencerede en uzun kosu : 138.3 s
+  10 tohumla olcum (120 kosu, 10 isci) · BANT 25–44 dk (tum kosular; --devam'da yalniz kalanlar kosar)
+
+  🟢 KAPI GECTI

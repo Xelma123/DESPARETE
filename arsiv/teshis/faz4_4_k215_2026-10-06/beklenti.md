@@ -28,3 +28,9 @@ Beklenti ayrı dosyada: `arsiv/teshis/regresyon_k215/beklenti.md`.
 ## 6 · Evre kapıları
 
 `evre_metrikleri_kapilari.py 1c` ve `2c` (protokoller ve kâhin değişti). Ölçütler `v2/08` §08; G2ç'nin D maddesi K-215'le boş kola eşleştirilmiş hâliyle.
+
+## 7 · U1'in iki prosedür adımı (kuyruk B'den sonra, ölçmeden önce — 8 Ekim 00:50)
+
+- **K-192 (b) zarfı** — eşler arası `statik-yok` 1001: AODV-j 0,9906 · AOMDV-f 0,9923 · ETX kâhini 0,9898 (aşım 0,0008 · 0,0025; kâhinin beacon'ı 84 B'a ağırlaştı). `aomdv_zarf_hucre.py esler_arasi statik-yok 1001 0.9923 0.9898` (üç kâhin). Kural aynen: protokol ≤ zarf → "ETX kâhini bu hücrede üst sınır değil", kayıt; zarfı aşan → yazılım hatası aranır. AOMDV'nin eşler arası üç eski zarf kaydı artık aşmıyor (ölü) → silinir.
+- **OLSR anatomisi** — yere toplamada yeni açıklanmamış üç hücre (`bagimsiz-yok` 1001 · 1002, `gorev-yok` 1001) + karşılaştırma için açıklanmış `bagimsiz-yok` 1000: `kayip_anatomisi.py --dunya referans_2026 --sinif yok --protokoller olsr --kol <kol> --tohumlar …` (tam pencere). K-196 atfı ancak AYNI anatomiyse: her yeni hücrede (i) en büyük düşme sebebi `rota_gecersiz` (geçide rotanın boşalması) ve (ii) karar bağlarının ≥ %90'ı kâhine göre iyi (kötü bağ seçimi değil). Sağlanmazsa mekanizma aranır.
+- Toplam yük: zarf 3 süreç (~10 dk), sonra iki anatomi çağrısı birlikte 3 + 1 süreç (8'in altında, ~1,5 sa).

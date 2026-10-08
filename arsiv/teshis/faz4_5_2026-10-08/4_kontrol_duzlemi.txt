@@ -1,0 +1,30 @@
+==============================================================================
+KONTROL DUZLEMI KAPILARI — 40 dugum, gercek kontrol trafigi
+==============================================================================
+  kosuluyor: statik-surekli · tohum 1000 · 60.0 s
+  kosuluyor: bagimsiz-surekli · tohum 1001 · 60.0 s
+
+--- statik-surekli ---
+  P1 bedel      : kontrol iletimi 9347 · sayac == havaya cikan (bayt/sure/cerceve) : EVET
+  P2 MAC        : konay 3834 == unicast teslim+tekrar 3834 · yeniden deneme 3359
+  P3 teslim     : teslim 8610 · fiziksel basariyla birebir EVET · kayip alim 297483 · baskasina 20691==20691
+  P4 zamanlayici: periyodik 3360 (zincir kesin) · dinamik 2022 (en buyuk anlik hata 2.56e-06 s) · ayrim EVET
+  P8 uctan uca  : veri defteri TAMAM · kontrol defteri TAMAM · gecerli True · tepe bekleyen uyandirma 4/256
+                  defter {"basarisiz_bildirim": 1561, "baskasina_adresli": 20691, "dinamik_ates": 2022, "dinamik_istenen": 2022, "iletim": 9347, "istenen": 6309, "jitter_ates": 0, "jitter_istenen": 0, "kuyruk_tasmasi": 0, "periyodik_ates": 3360, "tekrar_bastirilan": 79, "teslim_unicast": 3755, "teslim_yayin": 4855, "unicast_onaylanan": 3750, "unicast_vazgecilen": 157, "yayin_gonderilen": 2080}
+
+--- bagimsiz-surekli ---
+  P1 bedel      : kontrol iletimi 9988 · sayac == havaya cikan (bayt/sure/cerceve) : EVET
+  P2 MAC        : konay 3924 == unicast teslim+tekrar 3924 · yeniden deneme 3726
+  P3 teslim     : teslim 8013 · fiziksel basariyla birebir EVET · kayip alim 317505 · baskasina 12919==12919
+  P4 zamanlayici: periyodik 3360 (zincir kesin) · dinamik 2022 (en buyuk anlik hata 1.83e-06 s) · ayrim EVET
+  P8 uctan uca  : veri defteri TAMAM · kontrol defteri TAMAM · gecerli True · tepe bekleyen uyandirma 4/256
+                  defter {"basarisiz_bildirim": 1746, "baskasina_adresli": 12919, "dinamik_ates": 2022, "dinamik_istenen": 2023, "iletim": 9988, "istenen": 6345, "jitter_ates": 0, "jitter_istenen": 0, "kuyruk_tasmasi": 0, "periyodik_ates": 3360, "tekrar_bastirilan": 123, "teslim_unicast": 3801, "teslim_yayin": 4212, "unicast_onaylanan": 3756, "unicast_vazgecilen": 188, "yayin_gonderilen": 2318}
+
+--- ortak ---
+  P2 MAC        : veri ikizine gore veri sayaclari farkli EVET · kontrol {'mac_deneme': 31602.0, 'teslim_paket': 263.0, 'alim_red_mesgul': 583666.0} · ikiz {'mac_deneme': 36085.0, 'teslim_paket': 278.0, 'alim_red_mesgul': 520973.0}
+  P5 tavan      : iki kosuda ayni FAIL EVET — düğüm 7: t=0.06803507827003202 anında bekleyen dinamik uyandırma 257 > tavan 256. Koşu durduruldu (sözleşme kararı 2 — sessiz düşürme yok).
+  P6 yuzey      : pencere 17/6/6 · tip True · kismi kanca reddi True
+  P7 belirlenim : ayni tohum ayni satir EVET
+
+--- KAPI OZETI ---
+  21/21 GECTI

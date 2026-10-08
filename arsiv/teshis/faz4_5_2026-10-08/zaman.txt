@@ -1,0 +1,22 @@
+1_anlamlilik basla 01:41:28
+1_anlamlilik bitti 01:41:40 cikis 0
+2_bag_kumesi basla 01:41:40
+2_bag_kumesi bitti 01:41:46 cikis 0
+3_li basla 01:41:46
+3_li bitti 01:45:49 cikis 0
+4_kontrol_duzlemi basla 01:45:49
+4_kontrol_duzlemi bitti 02:07:05 cikis 0
+5_denetim_ornekleme basla 02:07:05
+5_denetim_ornekleme bitti 02:11:43 cikis 0
+6_ust_referans basla 02:11:43
+6_ust_referans bitti 02:14:05 cikis 0
+7_evre basla 02:14:05
+7_evre bitti 03:14:48 cikis 0
+8_uretici_duman basla 03:14:48
+8_uretici_duman bitti 03:42:37 cikis 0
+9_denetim_C basla 03:45:38
+9_denetim_C bitti 03:47:03 cikis 0
+10_li_sabit_hiz basla 03:47:03
+10_li_sabit_hiz bitti 03:49:43 cikis 0
+11_G3c basla 03:49:43
+11_G3c bitti 04:21:12 cikis 0

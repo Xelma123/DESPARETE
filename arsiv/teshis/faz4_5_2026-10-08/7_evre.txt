@@ -1,0 +1,105 @@
+
+==============================================================================
+G1 - BOS KOL  (statik-yok, en guvenilir kahin)
+==============================================================================
+  OLCUT (KOL DUZEYINDE): ortalama sok_derinligi 0'dan 2 SE icinde
+         her tohumda toparlanma_suresi = 0 · tespit SANSURLU
+
+  🔴 VERDIKT TOHUM BASINA DEGIL, KOL ORTALAMASINDA VERILIR.
+     Tohum basina 2 SE testi TANIM GEREGI tohumlarin ~%5'inde
+     kalir; uc tohumda en az birinin kalma olasiligi ~%14. Yani
+     tohum basina bir kapi, DOGRU bir metrigi rastgele reddeder.
+     Sok derinligi zaten kol duzeyinde okunuyor (08 §06/2).
+
+   tohum  pdr_temiz   sok_der      2SE   tamlik  top_sure   tespit
+    1000     1.0000  +0.00000  0.00335   1.0000       0.0     None
+    1001     0.9910  +0.00100  0.00925   0.9975       0.0     None
+    1002     0.9988  +0.00041  0.00484   1.0008       0.0     None
+
+  KOL ORTALAMASI  sok_derinligi +0.000472  2 SE 0.003356  ICINDE
+  zaman metrikleri (her tohumda) : TAMAM
+
+  G1 : GECTI
+  ⚠️ TESPIT SUTUNU BOS YERE GECIYOR: kahin hic kopma BEYAN
+     ETMIYOR, metrik tanim geregi None doner. M4'un bos kol kapisi
+     gercek protokollerle G1-P'de (`1p`).
+
+==============================================================================
+G1-P - BOS KOL, GERCEK PROTOKOLLER  (statik-yok, yere toplama)
+==============================================================================
+    protokol  tohum  pdr_t      sok     2SE  2SE_es   top top_es tespit tsp_es    kova m/v   sure
+        aodv   1000  0.878  -0.0318  0.0645  0.0257   0.0    0.0   None  154.0 22.54/47.0    1251
+        aodv   1001  0.924  -0.0122  0.0234  0.0217   0.0    0.0   None   None 26.57/45.7    1065
+        olsr   1000  0.620  +0.1312  0.3570  0.0435   0.0   20.0   None   13.0 28.52/223.2   1394
+        olsr   1001  0.875  +0.0467  0.1202  0.0325   0.0   55.0   None   16.0 32.45/153.4   1262
+       aomdv   1000  0.901  +0.0112  0.0767  0.0273   0.0    0.0   None    8.0 28.17/56.7     882
+       aomdv   1001  0.950  -0.0036  0.0375  0.0188   0.0    0.0   None  149.0 29.80/65.5     664
+   desparete   1000  0.944  -0.0298  0.0310  0.0154   0.0    0.0  146.0  146.0  2.04/2.9     1062
+   desparete   1001  0.955  +0.0064  0.0345  0.0194   0.0    0.0   None   None  2.15/3.3      935
+  KOL       aodv: sok ort -0.0220 · 2 SE 0.0311 (eski 0.0168)
+  KOL       olsr: sok ort +0.0889 · 2 SE 0.1687 (eski 0.0269)
+  KOL      aomdv: sok ort +0.0038 · 2 SE 0.0404 (eski 0.0163)
+  KOL  desparete: sok ort -0.0117 · 2 SE 0.0232 (eski 0.0123)
+
+  M4 yanlis tespit : 1/8   (eski kural 6/8)
+  M3 toparlanma≠0  : 0/8   (eski kural 2/8)
+  M1 2 SE disinda  : 0/4   (eski kural 2/4)
+
+  G1-P : GECTI
+  KAYIT [{"protokol": "aodv", "tohum": 1000, "sure_s": 1251.3, "pdr_temiz": 0.87825, "sok": -0.031750000000000056, "sok_se": 0.03222579582787721, "sok_se_eski": 0.012831715250921171, "kume_se": 0.03222579582787721, "top_sure": 0.0, "top_sure_eski": 0.0, "tespit": null, "tespit_eski": 154.0, "beyan_etmiyor": false, "kova_ort": 22.54, "kova_var": 46.97818181818182}, {"protokol": "aodv", "tohum": 1001, "sure_s": 1064.6, "pdr_temiz": 0.9245, "sok": -0.012166666666666659, "sok_se": 0.01169198369002977, "sok_se_eski": 0.010868725780061077, "kume_se": 0.01169198369002977, "top_sure": 0.0, "top_sure_eski": 0.0, "tespit": null, "tespit_eski": null, "beyan_etmiyor": false, "kova_ort": 26.57, "kova_var": 45.722323232323234}, {"protokol": "olsr", "tohum": 1000, "sure_s": 1394.0, "pdr_temiz": 0.6195, "sok": 0.1311666666666667, "sok_se": 0.1784903410529264, "sok_se_eski": 0.021770664815611303, "kume_se": 0.1784903410529264, "top_sure": 0.0, "top_sure_eski": 20.0, "tespit": null, "tespit_eski": 13.0, "beyan_etmiyor": false, "kova_ort": 28.52, "kova_var": 223.18141414141417}, {"protokol": "olsr", "tohum": 1001, "sure_s": 1262.5, "pdr_temiz": 0.875, "sok": 0.046666666666666634, "sok_se": 0.06012160516649293, "sok_se_eski": 0.01627148100580582, "kume_se": 0.06012160516649293, "top_sure": 0.0, "top_sure_eski": 55.0, "tespit": null, "tespit_eski": 16.0, "beyan_etmiyor": false, "kova_ort": 32.45, "kova_var": 153.4419191919192}, {"protokol": "aomdv", "tohum": 1000, "sure_s": 882.5, "pdr_temiz": 0.90125, "sok": 0.011249999999999982, "sok_se": 0.03833689073779472, "sok_se_eski": 0.01365940246500636, "kume_se": 0.03833689073779472, "top_sure": 0.0, "top_sure_eski": 0.0, "tespit": null, "tespit_eski": 8.0, "beyan_etmiyor": false, "kova_ort": 28.17, "kova_var": 56.667777777777786}, {"protokol": "aomdv", "tohum": 1001, "sure_s": 663.5, "pdr_temiz": 0.94975, "sok": -0.0035833333333333828, "sok_se": 0.018743684110234863, "sok_se_eski": 0.0093884038954101, "kume_se": 0.018743684110234863, "top_sure": 0.0, "top_sure_eski": 0.0, "tespit": null, "tespit_eski": 149.0, "beyan_etmiyor": false, "kova_ort": 29.8, "kova_var": 65.4949494949495}, {"protokol": "desparete", "tohum": 1000, "sure_s": 1061.6, "pdr_temiz": 0.9435, "sok": -0.02983333333333338, "sok_se": 0.015496347089538984, "sok_se_eski": 0.007678130728869461, "kume_se": 0.015496347089538984, "top_sure": 0.0, "top_sure_eski": 0.0, "tespit": 146.0, "tespit_eski": 146.0, "beyan_etmiyor": false, "kova_ort": 2.04, "kova_var": 2.9276767676767674}, {"protokol": "desparete", "tohum": 1001, "sure_s": 934.6, "pdr_temiz": 0.95475, "sok": 0.006416666666666626, "sok_se": 0.017272868972441468, "sok_se_eski": 0.009718664779854294, "kume_se": 0.017272868972441468, "top_sure": 0.0, "top_sure_eski": 0.0, "tespit": null, "tespit_eski": null, "beyan_etmiyor": false, "kova_ort": 2.15, "kova_var": 3.26010101010101}]
+
+==============================================================================
+G2 - TEKDUZELIK  (sok derinligi siddetle artiyor mu)
+==============================================================================
+  OLCUT: hicbir DUSUS, iki noktanin BIRLESIK 2 SE'sini asmayacak
+
+  🔴 ILK YAZDIGIM OLCUT 'KESIN MONOTON ARTIS' IDI — ve o olcut
+     SINANAMAZ. Iki noktanin gercek degeri de sifirsa (zayif
+     karistiricida oyle), gurultu yuzunden ~%50 olasilikla dusus
+     gorunur; yani DOGRU bir metrik yarisi yarisina kalirdi.
+     Duzeltilen sey esik degil TANIM: 'artis' bir olcumdur ve
+     olculen her sey hata payiyla birlikte okunur.
+
+    guc_dBm    sok_derinligi (3 tohum ort)        SE  onceki ile fark              karar
+      -30.0                       -0.00069   0.00201                —                  —
+      -21.0                        0.00042   0.00201         +0.00111              artis
+      -15.0                        0.00042   0.00201         +0.00000              artis
+       -9.0                        0.00208   0.00204         +0.00167              artis
+
+  G2 : GECTI
+
+==============================================================================
+G3 - IZGARA FAZI  (yarim adim kaydir, karar degismesin)
+==============================================================================
+  OLCUT: hicbir karar kendi hata payindan fazla degismeyecek
+
+   tohum    sok_der  kaydirilmis      fark       2SE   gecti
+    1000    1.00000      0.99478   0.00522   0.00335   HAYIR
+    1001    0.91909      0.91286   0.00623   0.02144    EVET
+    1002    0.99875      0.99428   0.00447   0.00353   HAYIR
+
+  G3 : KALDI
+
+==============================================================================
+G4 - BULANIKLIK  (gecikme p99 / izgara adimi)
+==============================================================================
+  OLCUT: oran < 1 — yoksa evre atfetme kurali yeniden yazilmali
+
+             senaryo      p99_s     oran   gecti
+          statik-yok   0.033213   0.0332    EVET
+      statik-surekli   0.032808   0.0328    EVET
+
+  G4 : GECTI
+
+==============================================================================
+SONUC
+==============================================================================
+  G1 : GECTI
+  G1p : GECTI
+  G2 : GECTI
+  G3 : 🔴 KALDI
+  G4 : GECTI
+
+  🔒 Dordu de gecmeden evre metrikleri bir SONUC icin
+     kullanilmaz. Kosulmayan kapi 'gecti' sayilmaz.
+🔴 EVRE METRIKLERI KAPISI KALDI — yukarisi okunmali

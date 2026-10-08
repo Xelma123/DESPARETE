@@ -1,0 +1,70 @@
+kopya: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz4_4_k215_2026-10-06\kopya_b
+toplam kosu 55 · 8 isci · R 0.0142
+degerler: {'kuyruk_kapasitesix0.5': 25, 'kuyruk_kapasitesix2.0': 100, 'saat_sapma_ppmx0.5': 10.0, 'saat_sapma_ppmx2.0': 40.0, 'saat_ofset_araligi_sx0.5': 0.25, 'saat_ofset_araligi_sx2.0': 1.0}
+sure 76.4 dk
+
+  olsr   None                       None 1000  pdr 0.3880  kuyruk_tasmasi    0  ttl_olumu    2  iz (483, 8163, 10174)  7.0 dk
+  olsr   None                       None 1001  pdr 0.4846  kuyruk_tasmasi    0  ttl_olumu    9  iz (611, 10363, 11325)  8.5 dk
+  olsr   None                       None 1002  pdr 0.5731  kuyruk_tasmasi    0  ttl_olumu    8  iz (722, 9497, 11256)  7.7 dk
+  olsr   None                       None 1003  pdr 0.3297  kuyruk_tasmasi    9  ttl_olumu   10  iz (410, 8381, 7968)  5.9 dk
+  olsr   None                       None 1004  pdr 0.5209  kuyruk_tasmasi    0  ttl_olumu    0  iz (637, 7887, 9343)  6.4 dk
+  aodv   None                       None 1000  pdr 0.5845  kuyruk_tasmasi    0  ttl_olumu    0  iz (909, 12215, 31276)  17.8 dk
+  aodv   None                       None 1001  pdr 0.6981  kuyruk_tasmasi    0  ttl_olumu    0  iz (1130, 10724, 25995)  14.5 dk
+  aodv   None                       None 1002  pdr 0.6742  kuyruk_tasmasi    0  ttl_olumu    0  iz (1077, 11822, 26986)  15.1 dk
+  aodv   None                       None 1003  pdr 0.5167  kuyruk_tasmasi    0  ttl_olumu    0  iz (814, 11203, 29998)  15.6 dk
+  aodv   None                       None 1004  pdr 0.5576  kuyruk_tasmasi    0  ttl_olumu    0  iz (921, 12695, 29062)  16.7 dk
+  aomdv  None                       None 1000  pdr 0.6295  kuyruk_tasmasi    0  ttl_olumu    0  iz (962, 11218, 20024)  12.2 dk
+  aomdv  None                       None 1001  pdr 0.6964  kuyruk_tasmasi    0  ttl_olumu    0  iz (1125, 9526, 17600)  10.1 dk
+  aomdv  None                       None 1002  pdr 0.6566  kuyruk_tasmasi    0  ttl_olumu    2  iz (1064, 11444, 20646)  12.0 dk
+  aomdv  None                       None 1003  pdr 0.5075  kuyruk_tasmasi    0  ttl_olumu    0  iz (809, 10691, 23502)  12.6 dk
+  aomdv  None                       None 1004  pdr 0.6260  kuyruk_tasmasi    0  ttl_olumu    0  iz (1004, 11686, 20543)  12.1 dk
+  olsr   kuyruk_kapasitesi            25 1000  pdr 0.3880  kuyruk_tasmasi    0  ttl_olumu    2  iz (483, 8163, 10174)  6.9 dk
+  olsr   kuyruk_kapasitesi            25 1001  pdr 0.4846  kuyruk_tasmasi    0  ttl_olumu    9  iz (611, 10363, 11325)  8.5 dk
+  olsr   kuyruk_kapasitesi            25 1002  pdr 0.5731  kuyruk_tasmasi    0  ttl_olumu    8  iz (722, 9497, 11256)  7.7 dk
+  olsr   kuyruk_kapasitesi            25 1003  pdr 0.3564  kuyruk_tasmasi   29  ttl_olumu    7  iz (442, 6828, 7471)  5.0 dk
+  olsr   kuyruk_kapasitesi            25 1004  pdr 0.5209  kuyruk_tasmasi    2  ttl_olumu    0  iz (637, 7887, 9343)  6.4 dk
+  olsr   kuyruk_kapasitesi           100 1000  pdr 0.3880  kuyruk_tasmasi    0  ttl_olumu    2  iz (483, 8163, 10174)  6.9 dk
+  olsr   kuyruk_kapasitesi           100 1001  pdr 0.4846  kuyruk_tasmasi    0  ttl_olumu    9  iz (611, 10363, 11325)  8.5 dk
+  olsr   kuyruk_kapasitesi           100 1002  pdr 0.5731  kuyruk_tasmasi    0  ttl_olumu    8  iz (722, 9497, 11256)  7.7 dk
+  olsr   kuyruk_kapasitesi           100 1003  pdr 0.3439  kuyruk_tasmasi    0  ttl_olumu    6  iz (427, 7549, 7912)  5.6 dk
+  olsr   kuyruk_kapasitesi           100 1004  pdr 0.5209  kuyruk_tasmasi    0  ttl_olumu    0  iz (637, 7887, 9343)  6.4 dk
+  olsr   saat_sapma_ppm             10.0 1000  pdr 0.3880  kuyruk_tasmasi    0  ttl_olumu    2  iz (483, 8163, 10174)  7.0 dk
+  olsr   saat_sapma_ppm             10.0 1001  pdr 0.4796  kuyruk_tasmasi    0  ttl_olumu   10  iz (605, 10468, 11154)  8.4 dk
+  olsr   saat_sapma_ppm             10.0 1002  pdr 0.5731  kuyruk_tasmasi    0  ttl_olumu    8  iz (722, 9497, 11256)  7.7 dk
+  olsr   saat_sapma_ppm             10.0 1003  pdr 0.3297  kuyruk_tasmasi    9  ttl_olumu   10  iz (410, 8381, 7968)  5.9 dk
+  olsr   saat_sapma_ppm             10.0 1004  pdr 0.5434  kuyruk_tasmasi    0  ttl_olumu    3  iz (664, 8044, 9634)  6.9 dk
+  olsr   saat_sapma_ppm             40.0 1000  pdr 0.3880  kuyruk_tasmasi    0  ttl_olumu    2  iz (483, 8163, 10174)  7.0 dk
+  olsr   saat_sapma_ppm             40.0 1001  pdr 0.4846  kuyruk_tasmasi    0  ttl_olumu    9  iz (611, 10363, 11325)  8.5 dk
+  olsr   saat_sapma_ppm             40.0 1002  pdr 0.5731  kuyruk_tasmasi    0  ttl_olumu    8  iz (722, 9497, 11256)  7.7 dk
+  olsr   saat_sapma_ppm             40.0 1003  pdr 0.3297  kuyruk_tasmasi    9  ttl_olumu   10  iz (410, 8381, 7968)  5.9 dk
+  olsr   saat_sapma_ppm             40.0 1004  pdr 0.5209  kuyruk_tasmasi    0  ttl_olumu    0  iz (637, 7887, 9343)  6.3 dk
+  aodv   saat_ofset_araligi_s       0.25 1000  pdr 0.5845  kuyruk_tasmasi    0  ttl_olumu    0  iz (909, 12215, 31276)  17.8 dk
+  aodv   saat_ofset_araligi_s       0.25 1001  pdr 0.6981  kuyruk_tasmasi    0  ttl_olumu    0  iz (1130, 10724, 25995)  14.5 dk
+  aodv   saat_ofset_araligi_s       0.25 1002  pdr 0.6742  kuyruk_tasmasi    0  ttl_olumu    0  iz (1077, 11822, 26986)  15.1 dk
+  aodv   saat_ofset_araligi_s       0.25 1003  pdr 0.5167  kuyruk_tasmasi    0  ttl_olumu    0  iz (814, 11203, 29998)  15.6 dk
+  aodv   saat_ofset_araligi_s       0.25 1004  pdr 0.5576  kuyruk_tasmasi    0  ttl_olumu    0  iz (921, 12695, 29062)  16.6 dk
+  aodv   saat_ofset_araligi_s        1.0 1000  pdr 0.5845  kuyruk_tasmasi    0  ttl_olumu    0  iz (909, 12215, 31276)  17.8 dk
+  aodv   saat_ofset_araligi_s        1.0 1001  pdr 0.6981  kuyruk_tasmasi    0  ttl_olumu    0  iz (1130, 10724, 25995)  14.4 dk
+  aodv   saat_ofset_araligi_s        1.0 1002  pdr 0.6742  kuyruk_tasmasi    0  ttl_olumu    0  iz (1077, 11822, 26986)  15.0 dk
+  aodv   saat_ofset_araligi_s        1.0 1003  pdr 0.5167  kuyruk_tasmasi    0  ttl_olumu    0  iz (814, 11203, 29998)  15.6 dk
+  aodv   saat_ofset_araligi_s        1.0 1004  pdr 0.5576  kuyruk_tasmasi    0  ttl_olumu    0  iz (921, 12695, 29062)  16.4 dk
+  aomdv  saat_ofset_araligi_s       0.25 1000  pdr 0.6295  kuyruk_tasmasi    0  ttl_olumu    0  iz (962, 11218, 20024)  12.2 dk
+  aomdv  saat_ofset_araligi_s       0.25 1001  pdr 0.6964  kuyruk_tasmasi    0  ttl_olumu    0  iz (1125, 9526, 17600)  10.0 dk
+  aomdv  saat_ofset_araligi_s       0.25 1002  pdr 0.6566  kuyruk_tasmasi    0  ttl_olumu    2  iz (1064, 11444, 20646)  11.9 dk
+  aomdv  saat_ofset_araligi_s       0.25 1003  pdr 0.5075  kuyruk_tasmasi    0  ttl_olumu    0  iz (809, 10691, 23502)  12.6 dk
+  aomdv  saat_ofset_araligi_s       0.25 1004  pdr 0.6260  kuyruk_tasmasi    0  ttl_olumu    0  iz (1004, 11686, 20543)  12.1 dk
+  aomdv  saat_ofset_araligi_s        1.0 1000  pdr 0.6295  kuyruk_tasmasi    0  ttl_olumu    0  iz (962, 11218, 20024)  11.8 dk
+  aomdv  saat_ofset_araligi_s        1.0 1001  pdr 0.6964  kuyruk_tasmasi    0  ttl_olumu    0  iz (1125, 9526, 17600)  8.1 dk
+  aomdv  saat_ofset_araligi_s        1.0 1002  pdr 0.6566  kuyruk_tasmasi    0  ttl_olumu    2  iz (1064, 11444, 20646)  9.1 dk
+  aomdv  saat_ofset_araligi_s        1.0 1003  pdr 0.5075  kuyruk_tasmasi    0  ttl_olumu    0  iz (809, 10691, 23502)  9.5 dk
+  aomdv  saat_ofset_araligi_s        1.0 1004  pdr 0.6260  kuyruk_tasmasi    0  ttl_olumu    0  iz (1004, 11686, 20543)  8.4 dk
+
+parametre              carpan protokol      d_pdr     band  birebir  karar
+kuyruk_kapasitesi         0.5 olsr        +0.0053   0.0107    False  DUYARSIZ
+kuyruk_kapasitesi         2.0 olsr        +0.0028   0.0057    False  DUYARSIZ
+saat_sapma_ppm            0.5 olsr        +0.0035   0.0097    False  DUYARSIZ
+saat_sapma_ppm            2.0 olsr        +0.0000   0.0000     True  BAGLAMIYOR
+saat_ofset_araligi_s      0.5 aodv        +0.0000   0.0000     True  BAGLAMIYOR
+saat_ofset_araligi_s      2.0 aodv        +0.0000   0.0000     True  BAGLAMIYOR
+saat_ofset_araligi_s      0.5 aomdv       +0.0000   0.0000     True  BAGLAMIYOR
+saat_ofset_araligi_s      2.0 aomdv       +0.0000   0.0000     True  BAGLAMIYOR

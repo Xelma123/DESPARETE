@@ -1,0 +1,16 @@
+========================================================================================
+M4 · TESPIT GECIKMESI — sentetik bos hipotezde yanlis alarm
+  pencere [50.0; 320.0) · acilma 150.0 s · 4000 deneme / hucre · ALFA = 0.05 (aile duzeyi)
+========================================================================================
+   hiz (beyan/s) kural         pencere basina a  taranan  yanlis alarm     2SE
+            0.10 eski                      0.01      170         0.478   0.016
+            0.10 bugunku               0.000294      170         0.015   0.004
+            0.50 eski                      0.01      170         0.335   0.015
+            0.50 bugunku               0.000294      170         0.017   0.004
+            2.00 eski                      0.01      170         0.526   0.016
+            2.00 bugunku               0.000294      170         0.025   0.005
+           10.00 eski                      0.01      170         0.626   0.015
+           10.00 bugunku               0.000294      170         0.021   0.005
+
+  Hesap (bagimsiz pencere varsayimiyla, ust sinir): 1 - (1 - 0.01)^170 = 0.819
+  🟢 KAPI GECTI: bugunku kuralin olculen yanlis alarmi aile hedefinin (ALFA = 0.05) ALTINDA, 2SE marjiyla.

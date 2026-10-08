@@ -471,6 +471,52 @@ def g1c_bos_kol_cizelge(isci: int = 8) -> bool:
     return hepsi
 
 
+def _g3c_is(tohum: int) -> dict:
+    """Havuz işçisi: birincil hücrede kâhin; ızgara fazı 0 ve yarım adım."""
+    from sim2.kosum.sonuc import karistirici_cizelgesi
+    kur, kfg, _ = _kos("formasyon-surekli", tohum,
+                       trafik_deseni="yere_toplama",
+                       tehdit_senaryosu="derin_sizma")
+    cizelge = karistirici_cizelgesi(kur)
+    bas, bitis = kfg.olcum_penceresi
+    p99 = yuzdelik(kur.paket_defteri.gecikmeler(True), 99)
+    s = [evre_sozlugu(kur.paket_defteri, kur.rota_defteri, bas_s=bas,
+                      acilma_s=kfg.karistirici_baslangic_s + k,
+                      bitis_s=bitis, gecikme_p99_s=p99, cizelge=cizelge)
+         for k in (0.0, 0.5 * IZGARA_ADIMI_S)]
+    return {"tohum": tohum, "sok": [x["sok_derinligi"] for x in s],
+            "sok_se": s[0]["sok_derinligi_se"],
+            "tespit": [x["tespit_gecikmesi_s"] for x in s]}
+
+
+def g3c_izgara_fazi_cizelge(isci: int = 8) -> bool:
+    """G3ç — G3'ün referans dünya karşılığı (Faz 4.5, 8 Ekim 2026).
+
+    🔒 G3 eski çekirdek hücrede (`statik-surekli`) koşar; referans dünyada
+    o hücre tabandadır (kâhin PDR ~0,03, K-206): M1 ≈ 1 olur, Agresti–Caffo
+    SE'si çöker ve 0,005'lik fark "karar değişti" sayılır. Aynı soru
+    birincil hücrede (çizelgeli karıştırıcı, kâhin, `CIZ_TOHUMLAR`): ızgara
+    yarım adım kayınca M1 kendi 2 SE'sinden fazla değişmemeli."""
+    from multiprocessing import Pool
+
+    _baslik("G3c - IZGARA FAZI, BIRINCIL HUCRE  (kahin, yarim adim)")
+    with Pool(min(isci, len(CIZ_TOHUMLAR))) as havuz:
+        sonuc = havuz.map(_g3c_is, CIZ_TOHUMLAR, chunksize=1)
+    hepsi = True
+    print(f"  {'tohum':>6} {'sok_der':>10} {'kaydirilmis':>12} "
+          f"{'fark':>9} {'2SE':>9} {'gecti':>7}  M4 (0 · kaymis)")
+    for r in sonuc:
+        fark = abs(r["sok"][0] - r["sok"][1])
+        bant = 2.0 * (r["sok_se"] or 0.0)
+        gecti = fark <= bant
+        hepsi &= gecti
+        print(f"  {r['tohum']:>6} {r['sok'][0]:>10.5f} {r['sok'][1]:>12.5f} "
+              f"{fark:>9.5f} {bant:>9.5f} {'EVET' if gecti else 'HAYIR':>7}"
+              f"  {r['tespit']}")
+    print(f"\n  G3c : {'GECTI' if hepsi else 'KALDI'}")
+    return hepsi
+
+
 def g2c_kahin_ve_bulaniklik(isci: int = 8) -> bool:
     """G2ç + G4ç — birincil hücre (formasyon · yere toplama · derin sızma).
     G2ç (kâhin): M1 kol ortalamasında 2 SE dışında (karıştırıcı etkili) ve
@@ -526,7 +572,8 @@ def g2c_kahin_ve_bulaniklik(isci: int = 8) -> bool:
 if __name__ == "__main__":
     KAPILAR = {"1": g1_bos_kol, "1p": g1p_bos_kol_protokoller,
                "2": g2_tekduzelik, "3": g3_izgara_fazi, "4": g4_bulaniklik,
-               "1c": g1c_bos_kol_cizelge, "2c": g2c_kahin_ve_bulaniklik}
+               "1c": g1c_bos_kol_cizelge, "2c": g2c_kahin_ve_bulaniklik,
+               "3c": g3c_izgara_fazi_cizelge}
     # Çizelgeli kapılar (1c, 2c; ~3 sa) yalnız adıyla çağrılır.
     secim = sys.argv[1:] or ["1", "1p", "2", "3", "4"]
     bilinmeyen = [s for s in secim if s not in KAPILAR]

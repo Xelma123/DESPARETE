@@ -252,19 +252,32 @@ ACIKLANMIS_DUSUK: dict[str, dict[tuple[str, int], str]] = {"aodv": {
 _OLSR_K196 = ("OLSR-c · aciklanmis, siralamasiz (K-196): gecide rotanin "
               "aralikli bosalmasi, gecici donguler (K-193); kusur adaylari "
               "elendi. U1 30 Eylul 2026")
-# `AODV-i`ninkiler K-207'ye atıfla: kaynağına kural kural sadık (K-208,
-# K-210) ve yine eşik altındaysa protokolün KENDİ sınırıdır — bulgu, kusur
-# değil. (`AODV-h`de bağımsız 1000 de düşüktü, 0,595; `AODV-i`de 0,604.)
-_AODV_K207 = ("AODV-i · sadakat denetiminden gecti (RFC 3561 + ns-3, H1-H11, "
-              "K-208, K-210); esik alti protokolun kendi siniri (ogrenci, "
-              "K-207). U1 2 Ekim 2026: 0,873")
+# K-218: yakınsamış kâhinle (K-215) eşiğin altına inen üç hücre; anatomisi
+# ölçüldü — en büyük düşüş `rota_gecersiz`, karar bağlarının %100'ü iyi
+# (`arsiv/teshis/faz4_4_k215_2026-10-06/anatomi_*.txt`).
+_OLSR_K218 = ("OLSR-c · K-196 atfi, anatomi olculdu (K-218): rota_gecersiz "
+              "en buyuk dusus %33-40, karar baglarinin %100'u iyi. Esigin "
+              "altina yakinsamis kahinle indi. U1 7 Ekim 2026")
+# `AODV-j` ve `AOMDV-f`ninkiler K-207'ye atıfla: kaynağına kural kural sadık
+# (K-208, K-210, K-215) ve yine eşik altındaysa protokolün KENDİ sınırıdır —
+# bulgu, kusur değil. K-215'ten sonra yakınsamış kâhinle yeniden koşuldu.
+_AODV_K207 = ("AODV-j · sadakat denetiminden gecti (RFC 3561 + ns-3, H1-H11, "
+              "K-208, K-210, K-215); esik alti protokolun kendi siniri "
+              "(ogrenci, K-207). U1 7 Ekim 2026, yakinsamis kahin")
+_AOMDV_K207 = ("AOMDV-f · Marina-Das + RFC 3561 tabani (K-210, K-215); esik "
+               "alti protokolun kendi siniri (K-207 kurali, K-215 on-kaydi). "
+               "U1 7 Ekim 2026: 0,569")
 ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
-    "aodv": {("yere_toplama", "statik-yok", 1002): _AODV_K207},
-    "aomdv": {}, "desparete": {},
-    "olsr": {("yere_toplama", kol, t): _OLSR_K196 for kol, t in (
+    "aodv": {("yere_toplama", kol, t): _AODV_K207 for kol, t in (
+        ("statik-yok", 1000), ("statik-yok", 1002), ("bagimsiz-yok", 1000))},
+    "aomdv": {("yere_toplama", "bagimsiz-yok", 1000): _AOMDV_K207},
+    "desparete": {},
+    "olsr": {**{("yere_toplama", kol, t): _OLSR_K196 for kol, t in (
         ("statik-yok", 1000), ("statik-yok", 1001), ("statik-yok", 1002),
-        ("bagimsiz-yok", 1000), ("gorev-yok", 1000), ("gorev-yok", 1002),
+        ("bagimsiz-yok", 1000), ("gorev-yok", 1000),
         ("formasyon-yok", 1000), ("formasyon-yok", 1002))},
+             **{("yere_toplama", kol, t): _OLSR_K218 for kol, t in (
+        ("bagimsiz-yok", 1001), ("bagimsiz-yok", 1002), ("gorev-yok", 1001))}},
 }
 
 # 🔒 K-192 (b) · KÂHİN AŞIMI OTOMATİK RET DEĞİL, PROSEDÜR: aşım çözünürlükten
@@ -272,22 +285,18 @@ ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
 # bakılır; protokol zarfın İÇİNDEYSE "ETX kâhini bu hücrede üst sınır değil"
 # beyan edilir ve kayıt buraya girer. Zarfı da aşan hücre kayda giremez —
 # yazılım hatası aranır. Anahtar (desen, kol, tohum); ölü kayıt taraması aynı.
+# K-218: AOMDV'nin eşler arası üç eski kaydı yakınsamış kâhinle (K-215) ÖLDÜ
+# — o aşımlar 6 örnekli kâhinin iziydi; arşiv K-206 · K-211.
+_ZARF_K218 = ("{p} 7 Ekim · ETX kahini 0,9898 · zarf 0,9998 (en olasi "
+              "teslim kahini; en kisa yol 0,9675). Statik kahin tek ornekli; "
+              "asim kahinin beacon'i 84 B'a agirlasinca (K-215). K-192 b · "
+              "K-218, `arsiv/teshis/faz4_4_k215_2026-10-06/zarf.txt`")
 KAHIN_ASIMI_ACIKLANMIS: dict[str, dict[tuple[str, str, int], str]] = {
-    "aodv": {}, "olsr": {}, "desparete": {},
-    "aomdv": {("esler_arasi", "formasyon-yok", 1000):
-              "AOMDV 0,9777 (b) / 0,9854 (AOMDV-e) · ETX kahini 0,9762 · "
-              "zarf 0,9986 (en olasi teslim kahini; en kisa yol 0,8861). "
-              "R bu hucrede olculmedi (eski cekirdek hucrede taban etkisi; "
-              "birincil hucrenin R'si 0,0188, K-213). "
-              "K-192 b · K-206, `arsiv/teshis/faz4_4_2026-09-30/aomdv_zarf.py`",
-              ("esler_arasi", "bagimsiz-yok", 1000):
-              "AOMDV-e 0,9403 · ETX kahini 0,9351 · zarf 0,9970 (en olasi "
-              "teslim kahini; en kisa yol 0,6585). K-192 b · K-211, "
-              "`arsiv/teshis/aodv_sadakat_2026-09-30/aomdv_zarf_hucre.py`",
-              ("esler_arasi", "formasyon-yok", 1002):
-              "AOMDV-e 0,9210 · ETX kahini 0,9143 · zarf 0,9809 (en olasi "
-              "teslim kahini; en kisa yol 0,7395). K-192 b · K-211, "
-              "`arsiv/teshis/aodv_sadakat_2026-09-30/aomdv_zarf_hucre.py`"},
+    "olsr": {}, "desparete": {},
+    "aodv": {("esler_arasi", "statik-yok", 1001):
+             _ZARF_K218.format(p="AODV-j 0,9906")},
+    "aomdv": {("esler_arasi", "statik-yok", 1001):
+              _ZARF_K218.format(p="AOMDV-f 0,9923")},
 }
 
 DUMAN_KOLLARI: tuple[str, ...] = ("statik-yok",)

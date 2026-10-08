@@ -1,0 +1,17 @@
+
+==============================================================================
+G3c - IZGARA FAZI, BIRINCIL HUCRE  (kahin, yarim adim)
+==============================================================================
+   tohum    sok_der  kaydirilmis      fark       2SE   gecti  M4 (0 · kaymis)
+    1003    0.21576      0.21299   0.00277   0.03822    EVET  [None, None]
+    1004    0.07158      0.06625   0.00534   0.02431    EVET  [None, None]
+
+  G3c : GECTI
+
+==============================================================================
+SONUC
+==============================================================================
+  G3c : GECTI
+
+  🔒 Dordu de gecmeden evre metrikleri bir SONUC icin
+     kullanilmaz. Kosulmayan kapi 'gecti' sayilmaz.

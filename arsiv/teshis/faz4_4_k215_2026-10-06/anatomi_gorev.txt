@@ -1,0 +1,30 @@
+==============================================================================
+KAYIP ANATOMISI — dunya referans_2026 · gorev-yok · aile — · yere toplama · tohum [1001]
+==============================================================================
+    1/1 olsr                                       1001 · PDR(pencere) 0.5017 · 3275 s
+
+  olsr                 PDR(pencere) ort 0.502 · üretilen 12799 · geçerli True
+    tohum 1001: PDR 0.4718 (pencere 0.5017) · 3275 s
+      düşen/üretilen: rota_gecersiz 36.4% · iletim_basarisiz 12.6% · hedef_yok 3.1% · ttl 0.7%
+      ısınmada düşen (adet): rota_gecersiz 762 · hedef_yok 394 · iletim_basarisiz 213 · ttl 9
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[16, 258, 28.5], [27, 239, 25.8], [26, 215, 25.0], [7, 179, 27.4], [13, 170, 15.3]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[27, 89, 25.8], [9, 82, 21.7], [25, 74, 11.7], [24, 73, 13.4], [17, 72, 26.3]]
+      en çok ttl (düğüm, adet, geçide km): [[15, 7, 14.0], [3, 7, 33.4], [9, 6, 21.7], [4, 5, 16.4], [0, 4, 0.0]]
+      evre: şok derinliği -0.06074999999999997 · toparlanma 0.0 s · tespit None s (boş kolda None olmalı — M4 kapısı)
+      karar bağı kâhin bandı: iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 2.26, 'p50': 5.65, 'p90': 12.17}
+      başarısız bağ bandı:   iyi 99% · orta 1% · kotu 0% · mesafe km {'p10': 6.41, 'p50': 10.3, 'p90': 16.8} · 261 ayrı bağ, en çok [[14, 19, 52], [27, 35, 46], [20, 0, 40], [4, 38, 38], [9, 0, 36]]
+      OLSR §13: bildirim 0 · geri alınan 0 (süpürmede 0 · pakette 0) · geri alma süresi medyan — s · simetrik olmayan ardıla karar 0/53732
+      rota boşalması: 4657 karar · simetrik komşu yok 402 · geçit bağ kümesinde 775 · KENDİ bilgisinde düz yol VAR 1423 (atlama medyan 4)
+      OLSR sayaçları (ağ toplamı): komsu_kaybi 7646 · bag_katmani_kopma 0 · rota_hesap 146917 · hello_uretilen 7976 · tc_uretilen 4471 · tc_iletilen 44550 · tc_simetriksiz 51523 · hist_kayip_psn 542805 · hist_kayip_sessiz 64400 · erken_tc 1691
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    hedef_yok                  0         0       394       394      3.1%
+    iletim_basarisiz           0         0      1616      1616     12.6%
+    rota_gecersiz              0         0      4657      4657     36.4%
+    ttl                        0         0        93        93      0.7%
+    (koşu sonu kuyrukta)                                       0      0.0%
+
+  bolge: ed = karistirici >= ED esigi (kanal erisim kilidi) · girisim = gurultunun ustu · uzak = karistiricidan bagimsiz
+  etki alani: karistirici o an ACIK olsaydi alinacak ORTALAMA guc (yavas kayip; kapi ve hizli sonumleme haric), ayni esikler; paket tablosunda paketin gecit disi ucunda, dogum aninda
+  iletim_basarisiz'in bolgesi ALICIDA (denenen sonraki atlama) okunur; digerleri dustugu dugumde (K-193)
+  bag bandi: kahinin tek deneme basarisindan p_atlama — iyi >= 0,90 · orta 0,50-0,90 · kotu < 0,50 (girisim haric)
+  toplam duvar suresi 3276 s

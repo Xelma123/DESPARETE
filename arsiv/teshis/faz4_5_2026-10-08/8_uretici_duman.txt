@@ -1,0 +1,29 @@
+==============================================================================
+URETICI DUMAN KOSUCUSU — defterin andigi komutlar kosuyor mu?
+==============================================================================
+  defterin andigi betik : 11
+  duman kesiti tanimli  : 14
+  ⚠️ defterde ANILMAYAN     : ['anlamlilik_sabitleri.py', 'bag_kumesi.py', 'calkanti.py'] (kesit tanimli ama hicbir kayit gostermiyor)
+
+  ⚠️ zaman asimi: 30 dk/betik. Tamami BANT 40–60 dk (olculdu: 45,6 dk).
+
+  betik                      kesit                              sure_s      sonuc
+  anlamlilik_sabitleri.py    tamamı — zaten bir kapı              10.8      GECTI
+  aodv_uygunluk.py           tek kol × tek tohum × KISA PENCERE — SAYIYI ÜRETMEZ     32.1      GECTI
+  bag_kumesi.py              yalnız kapılar (a)                    6.7      GECTI
+  bagil_hiz_tabani.py        tamamı                                1.6      GECTI
+  calisma_noktasi.py         iki ucuz bölüm — SAYIYI ÜRETMEZ      30.8      GECTI
+  calkanti.py                tamamı                                7.6      GECTI
+  cozunurluk.py              tamamı                              442.2      GECTI
+  dugum_sayisi.py            tamamı                               56.5      GECTI
+  duyarlilik.py              tek parametre — TARAMA DEĞİL        215.0      GECTI
+  karistirici_gucu.py        tamamı                              102.6      GECTI
+  regresyon_satirlari.py     taban kendisiyle karşılaştırma        1.6      GECTI
+  sonumleme_onbellegi.py     yalnız bölüm 2                      717.8      GECTI
+  theta_kollari.py           tamamı                               11.3      GECTI
+  yere_toplama_yuku.py       tek hız × tek tohum — SAYIYI ÜRETMEZ     31.9      GECTI
+
+==============================================================================
+🟢 Defterin andigi her uretici kosuyor (ucuz kesitleriyle).
+⚠️ Bu 'sayilar yeniden uretildi' DEMEK DEGILDIR — ustteki
+   basligin 'IDDIA ETMEDIGI SEY' bolumune bak.

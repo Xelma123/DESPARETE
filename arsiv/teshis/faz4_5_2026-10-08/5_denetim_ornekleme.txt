@@ -1,0 +1,87 @@
+
+==============================================================================
+E · DARBE FAZININ ORTULMESI
+==============================================================================
+  periyot 2.7 s · gorev cevrimi 0.5
+  dokuz anin NORMALIZE fazi: 0.074, 0.185, 0.296, 0.407, 0.519, 0.630, 0.741, 0.852, 0.963
+  ornek anlarinda ACIK olan: 4/9 (beklenen ~4.5)
+  faz araliklari min 0.1111 maks 0.1111 (duzgun olsa hepsi 0.1111)
+
+==============================================================================
+C · SINIFLARIN ORNEK ANLARINDAKI DURUMU
+==============================================================================
+  🔒 `_acik_orani` SUREKLI bir tarama yapar (150→350 s, 10 ms).
+     Ama rho SADECE dokuz anda okunur. Iki soru AYRIDIR:
+     'sinif ne kadar acik' ile 'orneklendigi anda acik miydi'.
+
+              sinif   ornek anlarinda ACIK        desen
+            surekli             9/9 an    111111111
+    surekli_darbeli             4/9 an    100110001
+            reaktif             0/9 an    000000000
+           aldatici             9/9 an    111111111
+           taramali             3/9 an    111000000
+
+  Ayrica: `aldatici` ile `surekli` KENAR KUMELERI birebir ayni mi?
+    birebir ayni: 0/270 (tohum x an) 🔴 KALDI
+==============================================================================
+A · ZAMAN DEGISMEZLIGI — dokuz anin KENAR KUMELERI
+==============================================================================
+  anlar: (200.0, 215.6, 231.2, 246.8, 262.4, 278.0, 293.6, 309.2, 324.8)
+             senaryo   kenar kumesi 9 anda AYNI      derece(min..maks)  en kucuk Jaccard
+          statik-yok            30/30 tohum      8.000..12.550                1.0000     GECTI
+      statik-surekli            30/30 tohum      0.300..0.950                 1.0000     GECTI
+     statik-aldatici            30/30 tohum      0.000..0.000                 1.0000     GECTI
+
+  🔒 '30/30 tohum' + 'Jaccard 1,0000' = grafik zamandan BAGIMSIZ.
+     O zaman an sayisi rho'yu DEGISTIREMEZ; iddia olcume dondu.
+
+==============================================================================
+D · TEMIZ GRAFIGIN BUTUNLUGU — dokuz anin hepsinde
+==============================================================================
+  tek parca (cok uyeli bilesen = 1, yalniz dugum = 0): 270/270 GECTI
+
+==============================================================================
+B · RHO'NUN PAYDASI — tek an mi, dokuz an mi
+==============================================================================
+  temiz derece — tek an ortalamasi  : 9.598333
+  temiz derece — dokuz an ortalamasi: 9.598333
+  tohum basina EN BUYUK fark        : 0.000000000
+
+              sinif   rho (payda TEK an)   rho (payda DOKUZ an)       fark
+            surekli             0.935098               0.935098   0.00e+00
+    surekli_darbeli             0.428433               0.428433   0.00e+00
+            reaktif             0.000000               0.000000   0.00e+00
+           aldatici             1.000000               1.000000   0.00e+00
+           taramali             0.331305               0.331305   0.00e+00
+
+==============================================================================
+F · ALDATICI ARTIGI — cerceve duzeyinde eslesme ne kadar tam
+==============================================================================
+  ara bantta (0,02 < PER < 0,98) bag sayisi : 5
+  surekli − aldatici PER farki, ortalama    : +0.005028
+  ayni fark, EN BUYUK mutlak deger          : 0.007620
+    (bag 5-8: surekli 0.488694 ↔ aldatici 0.481074)
+
+  🔒 Fark POZITIF bekleniyor: aldatici zamanin %2,2'sinde kapali,
+     yani biraz DAHA AZ hasar verir. Isaret negatifse model yanlis.
+  ⚠️ 'Eslestirilmis kontrast' iddiasi bu artikla birlikte okunur:
+     bag hasari kanal grafiginde BIREBIR ayni, cerceve duzeyinde
+     ise bu kadar sapiyor. Fark saf CSMA degil, CSMA + bu artik.
+
+==============================================================================
+G · DARBELININ KAPALI EVRESI — cikarimi kanita cevirmek
+==============================================================================
+  periyot 2.7 s · acik sure 1.35 s
+  sinanan KAPALI anlar: 202.03, 204.72, 207.43, 210.12, 212.83, 215.53, 218.22, 220.93, 223.62
+  hepsi gercekten kapali mi: True
+
+  kapali evre grafigi == temiz grafik : 270/270
+  kapali evrede tek parca             : 270/270
+
+  🟢 KANIT TAMAM: kapali evrede ag, karistiricisiz agin
+     BIREBIR aynisi. Bolunme yapisal olarak ACIK evreyle
+     sinirli, yani suresi <= 1.35 s. AODV'nin 3 s'lik
+     rota gecersizleme suresinin altinda — K-103 ayakta.
+
+  🔒 KAPI OZETI: 3/4 GECTI
+🔴 KAPI KALDI — yukaridaki kirmizi satir okunmali

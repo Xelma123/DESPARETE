@@ -60,9 +60,12 @@ def _kenarlar(g: KanalGrafigi) -> frozenset[tuple[int, int]]:
                      for j in komsu if i < j)
 
 
-def _ozet_ve_kenar(senaryo: str, tohum: int, t_s: float):
+def _ozet_ve_kenar(senaryo: str, tohum: int, t_s: float,
+                   ed_haric: bool = False):
     kfg = DS.konfig(kol="rho", senaryo=senaryo, tohum=tohum)
     g = KanalGrafigi(kurulum_yap(kfg))
+    if ed_haric:
+        g._ed_w = None                # ED susturması (K-183) dışarıda
     return g.ozet(t_s), _kenarlar(g)
 
 
@@ -171,14 +174,29 @@ def c_aldatici_acik_mi() -> bool:
               f"{desen:>12}")
     print()
     print("  Ayrica: `aldatici` ile `surekli` KENAR KUMELERI birebir ayni mi?")
-    ayni = 0
+    # 🔒 Faz 4.5 (8 Ekim 2026): güç kipinde (referans dünya) kâhin grafiği
+    # ED susturmasını içerir (K-183) ve aldatıcı tanım gereği ED'yi tetikler
+    # — yani CSMA görünürlüğü grafiğin İÇİNDEDİR ve kenar kümeleri ayrışır.
+    # "Tek fark CSMA" önermesi o zaman ED DIŞARIDA bırakılarak sınanır;
+    # ED dâhil sayı bilgi olarak basılır. Geometrik kipte (eski dünya)
+    # ED yoktur ve kapı birebir eskisidir.
+    guc_kipi = DS.konfig(kol="rho", senaryo="statik-surekli",
+                         tohum=TOHUMLAR[0]).tasiyici_dinleme == "guc"
+    ayni = ayni_ed = 0
     toplam = 0
     for tohum in TOHUMLAR:
         for t in ORNEK_ANLARI:
-            ka = _ozet_ve_kenar("statik-aldatici", tohum, t)[1]
-            ks = _ozet_ve_kenar("statik-surekli", tohum, t)[1]
+            ka = _ozet_ve_kenar("statik-aldatici", tohum, t, guc_kipi)[1]
+            ks = _ozet_ve_kenar("statik-surekli", tohum, t, guc_kipi)[1]
             ayni += (ka == ks)
+            if guc_kipi:
+                ayni_ed += (_ozet_ve_kenar("statik-aldatici", tohum, t)[1]
+                            == _ozet_ve_kenar("statik-surekli", tohum, t)[1])
             toplam += 1
+    if guc_kipi:
+        print(f"    (bilgi) ED dahil birebir: {ayni_ed}/{toplam} — aldatici "
+              f"ED'yi tetikler (K-183)")
+        print("    kapi ED DISARIDA birakilarak:")
     gecti = ayni == toplam
     print(f"    birebir ayni: {ayni}/{toplam} (tohum x an) "
           f"{'GECTI' if gecti else '🔴 KALDI'}")

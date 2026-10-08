@@ -142,13 +142,16 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-209 | 🟡 EVRE METRİKLERİ v2 UYGULANDI (çizelgeli karıştırıcı) — kapılar U1'den sonra | 🟢 geçerli |
 | K-210 | 🟡 AOMDV'DE KARA DELİK: iki kusur bulundu ve düzeltildi — AOMDV'nin kendi işleyicilerinde | 🟢 geçerli |
 | K-211 | 🟢 TABAN PROTOKOLLER DONDU — AODV-i · OLSR-c · AOMDV-e · U1 son hükmü · regresyon tabanı  | 🟢 geçerli |
-| K-212 | 🟡 EVRE METRİKLERİ v2 KAPILARI — G1ç ✅ · G4ç ✅ · G2ç ❌ (bölümleme hatası yok: kâhinin ken | 🟢 geçerli |
+| **K-212** | 🟡 EVRE METRİKLERİ v2 KAPILARI — G1ç ✅ · G4ç ✅ · G2ç ❌ (bölümleme hatası yok: kâhinin ken | 🔄 **REVİZE → K-217**<br>G2ç'nin kalışı "formasyonun zaman kayması" diye teşhis edilmişti — **yanlış**: sebep 6 örnekli kâhinin yakınsamamasıydı (K-214); 48 örnekte G1ç · G2ç · G4ç **GEÇTİ** |
 | K-213 | 🟡 FAZ 4.4 ÇÖZÜNÜRLÜĞÜ BİRİNCİL HÜCREDE — R = 0,0188 (eşleştirilmiş, 40 tohum) · olasılık | 🟢 geçerli |
 | K-214 | 🟡 FAZ 4.4 TARAMALARI — 3 güçlü DUYARLI (Rician K · kâhinin sönümleme örneği · en kısa yo | 🟢 geçerli |
 | K-215 | 🟢 ÖĞRENCİ KARARLARI (Faz 4.4) — TTL 64 kaynağa bağlı · kâhin 48 örnek · AODV-j/AOMDV-f · | 🟢 geçerli |
 | K-216 | 🟢 K-215 KODU DOĞRULANDI — regresyon k215 (58/58 birebir + 22 ilanlı) · R = 0,0142 (yakın | 🟢 geçerli |
+| K-217 | 🟡 KUYRUK B SONUÇLARI — sınırdaki 6'nın 3'ü DUYARSIZ, 3'ü DUYARLI · protokol kontrolleri  | 🟢 geçerli |
+| K-218 | 🟢 U1 HÜKMÜ (K-215 kodu, yakınsamış kâhin) — U1-U üç protokolde iki desende ✅ · U1-B yere | 🟢 geçerli |
+| K-219 | 🟢 FAZ 4.5 — doğrulama listesi referans dünyada bir kez: anlamlı her kapı GEÇTİ · iki kap | 🟢 geçerli |
 
-**127 kayıt · 1 revize · 126 geçerli**
+**130 kayıt · 2 revize · 128 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1626,3 +1629,30 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Regresyon k215** (`regresyon_satirlari.py uret k215`, kopyadan, 41 dk) · `karsilastir k204 k215 --izin kimlik.kurulum_hash,kimlik.tedavi_hash,konfig.ttl_baslangic,konfig.beacon_bayt,teshis.koken_kovalari --degisen <22 vaka>` → **🟢 58/58 birebir** (+22 ilanlı değişen: AODV/AOMDV, hareketli kâhinler, beacon'lı ve OLSR'lı referans vakaları). DESPARETE'nin üç vakası, eski dünyanın OLSR'ı, statik kâhinleri ve bütün sınav vakaları birebir — beklendiği gibi. **Yeni taban k215.**
 - **Çözünürlük** (`cozunurluk.py --dunya referans_2026 --hucre birincil --tohum 40`, 74 dk): pdr_etx 0,8871 (SD 0,0408) · pdr_atlama 0,7364 (SD 0,0613) · `olcut_bedeli` 0,1506 (SD 0,0449) → **R = 0,0142** (K-213'te 6 örnekli kâhinle 0,0188). Ön koşul sağlandı (kâhin 0,887). `R_ESLESTIRILMIS` güncellendi.
 - **Kuyruk B** (`kuyruk_b.sh`, kopya_b, 22:32'den ~22 sa): sınırdaki 6 parametre 20 tohumla (3 parti) → protokol kontrolleri → U1 iki desen → evre kapıları 1c · 2c.
+# K-217 · 🟡 KUYRUK B SONUÇLARI — sınırdaki 6'nın 3'ü DUYARSIZ, 3'ü DUYARLI · protokol kontrolleri temiz (ofset artık birebir) · evre kapıları G1ç ✅ G2ç ✅ G4ç ✅ · U1 yakınsamış kâhinle: U1-U iki desende yalnız kâhin aşımı, U1-B yeni düşük hücreler · K-212'nin teşhisi DÜZELTİLDİ
+> 6 Ekim 22:32 – 8 Ekim 00:34 · ajan · kopya_b · ölçütler ölçmeden önce `arsiv/teshis/faz4_4_k215_2026-10-06/beklenti.md` · çıktılar aynı klasörde
+
+- **Sınırdakiler 20 tohumla** (S1–S3, R 0,0142): `gm_adim_s` (\|Δ\| 0,0068) · `kanal_dilimi_s` (0,0048) · `yakalama_esigi_db` (0,0118) → **DUYARSIZ**. `golgeleme_hucre_m` ×0,5'te **DUYARLI** (pdr_atlama +0,030 = 2,1R; pdr_etx +0,014) · `cbr_titresim_s` ×2'de yalnız istatistik bacağıyla (0,5R, band 1,2×) · `ISTASYON_TUTMA_S` ×2'de (pdr_atlama 1,1R, band 1,1×) → öğrenci kararı.
+- **Protokol kontrolleri** (`protokol_kontrol.py`, 55 koşu): OLSR TTL 64'le `kuyruk_kapasitesi` (\|Δ\| ≤ 0,0053) ve `saat_sapma_ppm` (≤ 0,0035) DUYARSIZ; **AODV-j ve AOMDV-f saat ofsetine beş tohumda BİREBİR** — K-215 düzeltmesi doğrulandı. Köken: altısı DUYARSIZ, SINANMAMIŞ 12 → **6**.
+- **Evre kapıları:** G1ç GEÇTİ (M4 0/8 · M1 1/4 · D'de kalan yok) · G2ç + G4ç GEÇTİ. Yakınsamış kâhinin D'si boş kola eşleştirmeden de 2 SE içinde (1003 −0,005 · 1004 −0,0005); boş kolda kâhin artık durağan (1004: 0,978 · 0,973 · 0,977; 6 örnekle 0,950 · 0,902 · 0,900).
+- **🔴 K-212 düzeltmesi:** G2ç'nin 2 Ekim'deki kalışı "formasyonun kendi zaman kayması" diye teşhis edilmişti — YANLIŞ. Sebep 6 örnekli kâhinin yakınsamamasıydı (K-214); 48 örnekte kayma yok. Boş kola eşleştirme (K-215) zararsız ve tutucu olarak kalır.
+- **U1** (iki desen, AODV-j · OLSR-c · AOMDV-f + kâhin, 24 + 24 koşum, 6 + 4,5 sa): kâhin hareketli kollarda +0,02…+0,07 iyileşti → oranlar düştü (statik kol değişmedi). AOMDV'nin eşler arası üç kâhin aşımı ORTADAN KALKTI (ölü zarf kaydı) — eski aşımlar da yakınsamamış kâhinin izi.
+  - Yere toplama: U1-U üç protokolde ✅. U1-B yeni düşük: AODV statik 1000 (0,885) · bağımsız 1000 (0,590) · AOMDV bağımsız 1000 (0,569) · OLSR bağımsız 1001 (0,574) · 1002 (0,533) · görev 1001 (0,535); OLSR görev 1002 artık düşük değil (ölü açıklama). OLSR'ın statik 1002'si TTL 64'le 0,799 → 0,685 (döngü, K-214 yönünde).
+  - Eşler arası: statik-yok 1001'de AODV 1,001 · AOMDV 1,003 kâhin aşımı (kâhinin beacon'ı ağırlaştı: 0,9903 → 0,9898) → K-192 (b) zarfı koşuyor. OLSR'ın düşük hücreleri keşifsel desende bulgu.
+- **Sıradaki** (ölçüt yazıldı, koşuyor): eşler arası statik 1001 zarfı · OLSR'ın üç yeni hücresinin anatomisi (K-196 atfı ancak aynı anatomiyse).
+# K-218 · 🟢 U1 HÜKMÜ (K-215 kodu, yakınsamış kâhin) — U1-U üç protokolde iki desende ✅ · U1-B yere toplamada ✅ (açıklanmış 3 · 10 · 1) · eşler arası statik 1001 aşımı zarfın içinde · OLSR'ın üç yeni hücresi aynı anatomi
+> 8 Ekim 00:37–01:40 · ajan · ölçütler ölçmeden önce `arsiv/teshis/faz4_4_k215_2026-10-06/beklenti.md` §5 · §7
+
+- **K-192 (b) zarfı** (`zarf.txt`, eşler arası `statik-yok` 1001): ETX 0,9898 · en kısa yol 0,9675 · **en olası teslim 0,9998** → AODV-j 0,9906 ve AOMDV-f 0,9923 zarfın içinde; "ETX kâhini bu hücrede üst sınır değil". Kayıt `KAHIN_ASIMI_ACIKLANMIS`e (AODV ve AOMDV); AOMDV'nin üç eski kaydı ölü olduğu için silindi (K-206 · K-211; yakınsamamış kâhinin izi).
+- **OLSR anatomisi** (`anatomi_bagimsiz.txt`, `anatomi_gorev.txt`; PDR'ler U1 kaydıyla birebir): yeni üç hücrede en büyük düşüş `rota_gecersiz` (%33,3 · %39,6 · %36,4), karar bağlarının %100'ü iyi, başarısız bağların %98–99'u iyi — açıklanmış bağımsız 1000 ile aynı imza (%53,8 · %100). Ölçüt sağlandı → K-196 atfı (`_OLSR_K218`). Görev 1002 artık düşük değil → açıklama silindi.
+- **AODV-j** yere toplamada statik 1000 (0,885) · statik 1002 (0,883) · bağımsız 1000 (0,590), **AOMDV-f** bağımsız 1000 (0,569) → K-207 (kaynağına sadık protokolün kendi sınırı; K-215 ön-kaydı) — BULGU.
+- **Hüküm** (`aodv_uygunluk.py hukum`, altı kayıt): U1-U altısında ✅ · U1-B yere toplamada üç protokolde ✅ TEMİZ (açıklanmış 3 · 10 · 1) · eşler arası AODV ve AOMDV ✅ · OLSR'ın eşler arası 9 düşük hücresi keşifsel desende açıklanmamış BULGU (K-211'deki gibi; donmayı durdurmaz).
+- **Taban protokoller yeniden DONDU:** `AODV-j` · `OLSR-c` · `AOMDV-f` (K-211'in yerine). U1 kayıtları `ciktilar2/aodv_uygunluk/*_20261007_*.json`, ara kayıtlar `u1_ara_referans_2026_<desen>_k215.jsonl`.
+# K-219 · 🟢 FAZ 4.5 — doğrulama listesi referans dünyada bir kez: anlamlı her kapı GEÇTİ · iki kapı referans biçimine taşındı (aldatıcı ↔ sürekli · G3 → G3ç) · dört alet ayıklandı · Li sabit hızda TUTTU (0,1188; farkı beacon)
+> 8 Ekim 01:41–04:30 · ajan · ölçütler ölçmeden önce `arsiv/teshis/faz4_5_2026-10-08/beklenti.md` (sonuçlar aynı dosyada)
+
+- **Geçenler:** anlamlılık sabitleri · bağ kümesi G-a/G-b · kontrol düzlemi 21/21 (P6 17/6/6) · üst referans üç kapı · evre G1 · G1-P · G2 · G4 · üretici dumanı (bütün kesitler; araç düzeltmesi: `yol.py::AD` modül sabiti atfı üretici sayılmaz, regresyon satırlarının kesiti eklendi). Toplam 2 sa 1 dk + 36 dk.
+- **Referans biçimine taşınan iki kapı:** (1) örnekleme denetimi C — "aldatıcı ile sürekli'nin tek farkı CSMA" geometrik kipte kurulmuştu; referansta kâhin ED'yi görür (K-183) ve kenar kümeleri tam da bu yüzden ayrışır (0/270). Kapı ED dışarıda sorulur: **270/270 birebir**. (2) G3 eski çekirdek hücrede (tabanda, M1 ≈ 1, SE çöküyor) yanlış alarm veriyordu → **G3ç** (birincil hücre, kâhin, 1003 · 1004): |ΔM1| 0,0028 · 0,0053 ≤ 2 SE 🟢 (`evre_metrikleri_kapilari.py 3c`).
+- **Li:** sabit hızda H1 **0,1188 TUTTU** (K-187: 0,1270); 32 B beacon'la birebir 0,1270 → fark K-215'in 84 B beacon'ı. A8 (ARF) TUTMADI, K-187 gibi. DEVIR'deki "`li_replikasyonu.py` → 0,127" satırı yanlıştı (o sayı `b_li_ayristirma.py`nin) — düzeltildi.
+- **Ayıklandı (koşulmadı):** adım 9 kapanışı · onay semantiği (eski dünyanın tarihçesi) · kâhin tavanı (yerini U1'in kâhin sütunu tuttu) · karıştırıcı çalışma noktası (yerini K-186 tuttu).
+- 🔵 **Faz 6'ya:** referansta 10 W aldatıcı ED'yle bütün ağı susturuyor (statik-aldatıcıda derece 0) → `06` H1.3'ün aldatıcı ↔ sürekli kontrastı bu dünyada dejenere olabilir.

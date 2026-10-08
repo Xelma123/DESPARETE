@@ -344,12 +344,6 @@ def _is(gorev):
 CIKTILAR = ("pdr_etx", "pdr_atlama", "olcut_bedeli")
 
 
-def _tohum_ciktilari(pdr: dict) -> dict[str, float]:
-    """Bir tohumun üç çıktısı. `pdr[(alet, tohum)]` sözlüğünden."""
-    etx, atl = pdr["en_guvenilir_kahin"], pdr["en_kisa_yol_kahin"]
-    return {"pdr_etx": etx, "pdr_atlama": atl, "olcut_bedeli": etx - atl}
-
-
 def _esli_fark(bozuk: dict, taban: dict) -> dict[str, tuple[float, float]]:
     """🔒 TOHUM BAŞINA fark; ortalama ve 2 SE.
 

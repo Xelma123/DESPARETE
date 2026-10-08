@@ -103,13 +103,20 @@ DUMAN_KESITI: dict[str, tuple[list[str], str, str]] = {
                                                                   "BANT 3,5–4,5 saat"),
     "dugum_sayisi.py":        ([],                "tamamı",       "BANT 5–15 dk"),
     "theta_kollari.py":       ([],                "tamamı",       "BANT 2–5 dk"),
+    # 8 Ekim 2026 (K-218): `BEKLEYEN_UYANDIRMA_TAVANI`nın üreticisi regresyon
+    # satırları. Duman: tabanın kendisiyle karşılaştırması (uret ~40 dk).
+    "regresyon_satirlari.py": (["karsilastir", "k215", "k215"],
+                                                  "taban kendisiyle karşılaştırma",
+                                                                  "BANT uret 35–45 dk"),
     "yere_toplama_yuku.py":   (["duman"],         "tek hız × tek tohum — SAYIYI ÜRETMEZ",
                                                                   "BANT 25–35 dk"),
     "sonumleme_onbellegi.py": (["2"],             "yalnız bölüm 2",
                                                                   "BANT 30–40 dk"),
 }
 
-_KAL = re.compile(r"kalibrasyon/([a-z0-9_]+\.py)")
+# `yol.py::AD` bir MODÜL SABİTİDİR (duyarlılık aracının argümanı), betik
+# çağrısı değil — anılan üretici sayılmaz (8 Ekim 2026, K-218).
+_KAL = re.compile(r"kalibrasyon/([a-z0-9_]+\.py)(?!::)")
 
 
 def anilan_ureticiler() -> dict[str, set[str]]:

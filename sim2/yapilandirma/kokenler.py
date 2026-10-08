@@ -122,9 +122,13 @@ KOKENLER: dict[str, tuple[str, str]] = {
     "gm_alfa": ("TURETILMIS",
         "α = exp(−adım/τ_v), τ_v ≈ 30 s hız korelasyonu — bir ARAÇ DİNAMİĞİ "
         "zamanıdır ve ÖLÇEKLENMEZ. Ölçüldü: Θ'yı değiştirmiyor (5,95 → 5,93)"),
-    "gm_adim_s": ("SINANMAMIS",
+    "gm_adim_s": ("DUYARSIZ",
         "0,5 s mobilite adımı (adımda ≤ 17 m, hız korelasyonu `gm_alfa` ile "
-        "korunur) — Faz 4.4'te referans dünyada ölçülür"),
+        "korunur). Faz 4.4'te 20 tohumla ölçüldü: en büyük |Δ| = 0,0068 "
+        "(×2, pdr_atlama; 0,5R, band 0,8×). Üretici: `py -3.11 -u "
+        "kalibrasyon/duyarlilik.py --dunya referans_2026 birincil --tohum "
+        "20 …` (7 Ekim 2026, K-217; yakınsamış kâhin, R 0,0142). 5 tohumluk "
+        "ölçüm sınırdaydı (K-214)"),
     "gm_hiz_min_ms": ("DUNYA_TANIMI",
         "40 km/h = 11,1 m/s — `v2/14` §3 (onaylı); eski dünyada 0,25 m/s "
         "(ölçekli)"),
@@ -268,18 +272,25 @@ KOKENLER: dict[str, tuple[str, str]] = {
     "sicaklik_k": ("TURETILMIS",
         "290 K — gürültü figürünün tanımlı referans sıcaklığı (gürültü = "
         "kTB·NF, `v2/14` §1)"),
-    "kanal_dilimi_s": ("SINANMAMIS",
-        "0,1 ms — hash tabanlı kanal kararlarının (reaktif sezme) zaman "
-        "dilimi; Faz 4.4'te referans dünyada ölçülür"),
+    "kanal_dilimi_s": ("DUYARSIZ",
+        "0,1 ms — hash tabanlı kanal kararlarının zaman dilimi (reaktif "
+        "sezme, alıcı ve RSSI yolları). Faz 4.4'te 20 tohumla ölçüldü: en "
+        "büyük |Δ| = 0,0048 (×0,5, pdr_atlama; 0,3R, band 0,5×). Üretici: "
+        "`py -3.11 -u kalibrasyon/duyarlilik.py --dunya referans_2026 "
+        "birincil --tohum 20 …` (7 Ekim 2026, K-217; yakınsamış kâhin, R "
+        "0,0142). 5 tohumluk ölçüm sınırdaydı (K-214)"),
     "golgeleme_acik": ("TURETILMIS",
         "açık; kapalıyken bağlar gerçeğe göre keskin açılıp kapanıyor — "
         "ablasyon için False yapılabilir"),
     "golgeleme_sigma_db": ("DUNYA_TANIMI",
         "σ 3 dB log-normal — `v2/14` §2 (onaylı K-169)"),
     "golgeleme_hucre_m": ("SINANMAMIS",
-        "2,5 km (eski dünyanın 50 m'si × 50; K-188) — değeri kaynakta yok; "
-        "eski dünyada DUYARLI çıkmıştı (16 Eylül, |Δ| 0,06); Faz 4.4'te "
-        "referans dünyada ölçülür"),
+        "2,5 km (eski dünyanın 50 m'si × 50; K-188) — değeri kaynakta yok. "
+        "Faz 4.4'te 20 tohumla DUYARLI: ×0,5 (1,25 km) pdr_atlama +0,030 "
+        "(2,1R), pdr_etx +0,014 (1,0R), bedel −0,016; ×2 duyarsız (0,1R). "
+        "Üretici: `py -3.11 -u kalibrasyon/duyarlilik.py --dunya "
+        "referans_2026 birincil --tohum 20 …` (7 Ekim 2026, K-217; "
+        "yakınsamış kâhin, R 0,0142). Kova kararı öğrencide (K-217)"),
     "sonumleme_acik": ("TURETILMIS",
         "açık; ablasyon için False"),
     "sonumleme_uretec": ("TURETILMIS",
@@ -303,9 +314,13 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "açık; ablasyon için False"),
     "yakalama_etkisi_acik": ("TURETILMIS",
         "açık; ablasyon için False"),
-    "yakalama_esigi_db": ("SINANMAMIS",
+    "yakalama_esigi_db": ("DUYARSIZ",
         "10 dB, 192 µs'lik önbelge penceresinde — ns-3 5 dB, 16 µs (`02` "
-        "G15); Faz 4.4'te referans dünyada ölçülür"),
+        "G15). Faz 4.4'te 20 tohumla ölçüldü (5 · 20 dB): en büyük |Δ| = "
+        "0,0118 (×0,5, pdr_atlama; 0,8R, band 0,9×). Üretici: `py -3.11 -u "
+        "kalibrasyon/duyarlilik.py --dunya referans_2026 birincil --tohum "
+        "20 …` (7 Ekim 2026, K-217; yakınsamış kâhin, R 0,0142). 5 tohumluk "
+        "ölçüm sınırdaydı (K-214)"),
     "gps_yatay_cep_m": ("KAYNAK",
         "1,5 m CEP — `02` G7 (Doodle Labs veri sayfası, yerleşik GPS); "
         "`v2/14` §3"),
@@ -367,20 +382,27 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "`wifi-standard-constants.h`)"),
     "saat_senkron": ("TURETILMIS",
         "False; bedava kusursuz senkron yasak — ablasyon için True"),
-    "saat_ofset_araligi_s": ("SINANMAMIS",
+    "saat_ofset_araligi_s": ("DUYARSIZ",
         "±0,5 s — saatler senkron değil (`v2/05` §3.2). Faz 4.4'te AODV ve "
-        "AOMDV'de DUYARLI ölçüldü, OLSR birebir (K-214); sebep AODV'nin "
-        "başlangıç durumunun yerel saatin 0 anına çapalı olmasıydı ve "
-        "düzeltildi (`AODV-j`, K-215; yamalı kopyada 2 tohum × 3 ofsette "
-        "birebir). Beş tohumda yeniden ölçülür"),
-    "saat_sapma_ppm": ("SINANMAMIS",
+        "AOMDV'de DUYARLI'ydı; sebep AODV'nin başlangıç durumunun yerel "
+        "saatin 0 anına çapalı olmasıydı ve giderildi (`AODV-j`, K-215). "
+        "Yeniden ölçüldü (±0,25 · ±1 s, 5 tohum): AODV-j ve AOMDV-f İZ "
+        "BİREBİR, OLSR birebir (K-214), kâhin birebir → |Δ| = 0,0000. "
+        "Üretici: `kalibrasyon/duyarlilik.py`nin oynatmasıyla "
+        "`arsiv/teshis/faz4_4_birincil_2026-10-02/protokol_tarama.py` (TTL "
+        "32, K-214) ve "
+        "`arsiv/teshis/faz4_4_k215_2026-10-06/protokol_kontrol.py` (TTL 64, "
+        "K-217)"),
+    "saat_sapma_ppm": ("DUYARSIZ",
         "20 ppm kristal (802.11'in ±25 ppm toleransının içinde) — 350 s'de "
-        "≤ 7 ms. Kâhinin zamanlayıcısı yok (iz birebir); taban "
-        "protokollerle TTL 32'de ölçüldü: AODV ve AOMDV birebir, OLSR en "
-        "büyük Δ 0,0042 (band 0,0083) — `kalibrasyon/duyarlilik.py`nin "
-        "oynatmasıyla "
-        "`arsiv/teshis/faz4_4_birincil_2026-10-02/protokol_tarama.py` (2 "
-        "Ekim 2026, K-214). TTL 64'le OLSR'da yeniden (K-215)"),
+        "≤ 7 ms. Kâhinin zamanlayıcısı yok (iz birebir). Taban "
+        "protokollerle (10 · 40 ppm): AODV ve AOMDV birebir; OLSR en büyük "
+        "|Δ| = 0,0042 (TTL 32) · 0,0035 (TTL 64). Üretici: "
+        "`kalibrasyon/duyarlilik.py`nin oynatmasıyla "
+        "`arsiv/teshis/faz4_4_birincil_2026-10-02/protokol_tarama.py` (TTL "
+        "32, K-214) ve "
+        "`arsiv/teshis/faz4_4_k215_2026-10-06/protokol_kontrol.py` (TTL 64, "
+        "K-217)"),
     "paket_bayt": ("DUNYA_TANIMI",
         "512 B telemetri — `v2/14` §5 (onaylı; MAVLink ölçeği `02` G4)"),
     "akis_sayisi": ("TURETILMIS",
@@ -392,9 +414,12 @@ KOKENLER: dict[str, tuple[str, str]] = {
         " — `akis_sayisi` ile AYNI kayıt; ikisi tek yükü (10 × 4,0 = 40 "
         "pkt/s) birlikte tanımlar (K-126)"),
     "cbr_titresim_s": ("SINANMAMIS",
-        "50 ms — periyodik kilitlenmeyi kırar; eski dünyadaki DUYARSIZ "
-        "aklaması referansta geçerli değil; Faz 4.4'te referans dünyada "
-        "ölçülür"),
+        "50 ms — periyodik kilitlenmeyi kırar. Faz 4.4'te 20 tohumla ×2'de "
+        "DUYARLI yalnız istatistik bacağıyla: |Δ| 0,0070 (pdr_etx; 0,5R — "
+        "deneyin çözünürlüğünün altında, band 1,2×); ×0,5 duyarsız. "
+        "Üretici: `py -3.11 -u kalibrasyon/duyarlilik.py --dunya "
+        "referans_2026 birincil --tohum 20 …` (7 Ekim 2026, K-217; "
+        "yakınsamış kâhin, R 0,0142). Kova kararı öğrencide (K-217)"),
     "trafik_deseni": ("TEDAVI",
         "trafik deseni ekseni: `esler_arasi` · `yere_toplama` (`v2/07` §06.2,"
         " §18 Y4; öğrenci onayı 10–11 Eylül 2026)"),
@@ -457,15 +482,16 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "kadar beklemesini engellemez. ⚠️ Ölçüm penceresine göre 30 s ÖNEMLİ "
         "bir süre — PDR'yi ve gecikmeyi doğrudan oynatabilir; etkisi birincil"
         " hücrede 30 ↔ 60 s ölçülecek (İ-8c)"),
-    "kuyruk_kapasitesi": ("SINANMAMIS",
+    "kuyruk_kapasitesi": ("DUYARSIZ",
         "50 paket (NS-2 `ifqlen` geleneği; ns-3 MAC kuyruğu 500 · 500 ms, "
-        "`02` G15). Kâhinin kuyruğu 25'e dolmuyor (iz birebir); taban "
-        "protokollerle TTL 32'de ölçüldü: AODV ve AOMDV birebir, OLSR en "
-        "büyük Δ 0,0067 (band 0,0134) — `kalibrasyon/duyarlilik.py`nin "
-        "oynatmasıyla "
-        "`arsiv/teshis/faz4_4_birincil_2026-10-02/protokol_tarama.py` (2 "
-        "Ekim 2026, K-214). TTL 64'le OLSR'da yeniden (döngüdeki paket "
-        "kuyruğu doldurabilir, K-215)"),
+        "`02` G15). Kâhinin kuyruğu 25'e dolmuyor (iz birebir). Taban "
+        "protokollerle (25 · 100): AODV ve AOMDV birebir; OLSR en büyük |Δ| "
+        "= 0,0067 (TTL 32, band 0,0134) · 0,0053 (TTL 64, band 0,0107). "
+        "Üretici: `kalibrasyon/duyarlilik.py`nin oynatmasıyla "
+        "`arsiv/teshis/faz4_4_birincil_2026-10-02/protokol_tarama.py` (TTL "
+        "32, K-214) ve "
+        "`arsiv/teshis/faz4_4_k215_2026-10-06/protokol_kontrol.py` (TTL 64, "
+        "K-217). DESPARETE mühürden önce son hâliyle yeniden"),
     "ttl_baslangic": ("KAYNAK",
         "referansta 64 — IP'nin önerilen varsayılan TTL'i: RFC 1700 'IP "
         "TIME TO LIVE PARAMETER' ve ns-3 `Ipv4L3Protocol::DefaultTtl` (`02` "
@@ -665,7 +691,11 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "Eylül 2026)"),
     "sim2/dunya/mobilite.py::ISTASYON_TUTMA_S": ("SINANMAMIS",
         "2 s — istasyon tutma zaman sabiti; görev ve formasyon kolları "
-        "(birincil hücre) ortak. Faz 4.4'te referans dünyada ölçülür"),
+        "(birincil hücre) ortak. Faz 4.4'te 20 tohumla ×2'de DUYARLI: "
+        "pdr_atlama +0,016 (1,1R, band 1,1×), pdr_etx +0,001; ×0,5 "
+        "duyarsız. Üretici: `py -3.11 -u kalibrasyon/duyarlilik.py --dunya "
+        "referans_2026 birincil --tohum 20 …` (7 Ekim 2026, K-217; "
+        "yakınsamış kâhin, R 0,0142). Kova kararı öğrencide (K-217)"),
     "sim2/olcum/metrikler.py::YUZDELIKLER": ("TURETILMIS",
         "(50, 95, 99) — ortanca + iki kuyruk. Bir DEĞER seçimi değil, sonuç "
         "şemasının kapalı listesi: sonradan eklemek eski satırları "

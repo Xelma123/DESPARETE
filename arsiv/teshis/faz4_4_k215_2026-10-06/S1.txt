@@ -10,3 +10,35 @@ DUYARLILIK TARAMASI — senaryo 'formasyon-surekli' · 2 aday · 20 tohum · car
   🔴 parmak izi BIREBIR ayniysa 'DUYARSIZ' DEGIL 'OLCULEMEDI'
 
   toplam kosu: 200  ·  8 isci
+  kosum suresi: 184.8 dk
+
+  TABAN: pdr_etx 0.8907 · pdr_atlama 0.7269 · olcut_bedeli 0.1638
+  🔒 Band artik TOHUM BASINA FARKLARIN yayilimindan; ortalamalarin
+     yayilimindan DEGIL. Esleştirme yapisal oldugu icin tohumlar
+     arasi varyans ortak-mod olarak dusuyor.
+
+  parametre                       carpan  d_pdr_etx   d_atlama    d_bedel   |D|/band    |D|/R        karar
+  golgeleme_hucre_m                 0.50   +0.01376   +0.02986   -0.01611       1.0x     2.1R    🔴 DUYARLI
+  golgeleme_hucre_m                 2.00   +0.00131   +0.00128   +0.00003       0.1x     0.1R     duyarsiz
+  gm_adim_s                         0.50   +0.00080   +0.00555   -0.00475       0.4x     0.4R     duyarsiz
+  gm_adim_s                         2.00   +0.00083   +0.00684   -0.00600       0.8x     0.5R     duyarsiz
+
+====================================================================================================
+OZET
+====================================================================================================
+
+  🔴 GECERSIZ  (0)
+
+  🔴 DUYARLI  (1)
+    · golgeleme_hucre_m
+
+  duyarsiz  (1)
+    · gm_adim_s
+
+  OLCULEMEDI  (0)
+
+  🔴 'OLCULEMEDI' AKLAMA DEGILDIR: o parametre bu kolda hesaba
+     hic girmedi. Canli oldugu bir kolda YENIDEN taranmali.
+  ⚠️ 'duyarsiz' = TEK BASINA oynatinca duyarsiz (OAT sinirlamasi)
+     ve YALNIZ calisma noktasi ciktilarina. Protokol SIRALAMASININ
+     duyarliligi gercek protokoller gerektirir — Faz 3.

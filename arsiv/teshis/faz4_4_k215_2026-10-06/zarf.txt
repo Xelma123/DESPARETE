@@ -1,0 +1,6 @@
+  en_guvenilir_kahin       PDR 0.9898
+  en_kisa_yol_kahin        PDR 0.9675
+  en_olasi_teslim_kahin    PDR 0.9998
+  esler_arasi statik-yok 1001
+  zarf 0.9998 · AOMDV 0.9923 · ETX (U1) 0.9898
+  🟢 AOMDV zarfın içinde — ETX kâhini bu hücrede üst sınır değil

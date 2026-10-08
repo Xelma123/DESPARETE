@@ -6,12 +6,12 @@
 
 | | |
 |---|---|
-| **faz** | **4 · yeniden kalibrasyon ve doğrulama → KAPANIŞ** — 4.1 ✅ · 4.2 ✅ · 4.3'te yalnız U1 kaldı · 4.4–4.5 sırada · ardından kapanış denetimi (§1.1). Planın takviminden ~2 hafta önde |
+| **faz** | **4 · yeniden kalibrasyon ve doğrulama → KAPANIŞ** — 4.1–4.3 ✅ · 4.4 ✅ (üç parametrenin kovası öğrencide) · 4.5 ✅ (K-219) · kalan: yazılım/yapı denetimi, belge temizliği, kapanış kaydı (§1.1) |
 | simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu tek süreçte ~1 sa, 8 işçide koşu başına 1–2 sa (K-198, K-200) |
-| taban protokoller | **DONDU (K-211), sadakat düzeltmesi K-215:** `AODV-j` · `OLSR-c` · `AOMDV-f`. AODV kural kural RFC'ye sadık (K-208, K-210), başlangıç durumu yerel saatten bağımsız (K-215) · AOMDV'nin RFC tabanı hizalandı, kara delik giderildi (K-210) · U1 K-215'ten sonra yeniden koşulacak |
+| taban protokoller | **DONDU (K-218, 8 Ekim):** `AODV-j` · `OLSR-c` · `AOMDV-f` — U1 yakınsamış kâhinle iki desende U1-U ✅, yere toplamada U1-B ✅ (açıklanmış hücreler K-207 · K-196) |
 | DESPARETE | v0.4.1; birincil hücrede ilk ölçüm PDR 0,700 (AODV 0,556, kâhin 0,813; 4 geliştirme tohumu, K-200) |
-| doğrulama | `976 passed` (6 Ekim, K-215 kodu) · mimari denetimi ihlalsiz · regresyon tabanı **`k215`** (K-216) · R = **0,0142** (K-216) · SINANMAMIŞ 12 · duyarlılık borcu 0 · kapsam ilanı 12 |
-| arkada koşan | **kuyruk B** (6 Ekim 22:32'den ~22 sa): sınırdaki 6 parametre 20 tohumla (3 parti) → protokol kontrolleri → U1 yere toplama → U1 eşler arası → evre kapıları 1c · 2c — `arsiv/teshis/faz4_4_k215_2026-10-06/` (`zaman.txt`, adım başına bir çıktı; ölçütler `beklenti.md`) |
+| doğrulama | `976 passed` (6 Ekim, K-215 kodu) · mimari denetimi ihlalsiz · regresyon tabanı **`k215`** (K-216) · R = **0,0142** (K-216) · SINANMAMIŞ 6 (pencere üçlüsü + 3 öğrenci kararında) · duyarlılık borcu 0 · kapsam ilanı 12 |
+| arkada koşan | yok — öğrenci kararı bekleniyor (gölgeleme hücresi · CBR titreşimi · istasyon tutma); ardından yazılım/yapı denetimi ve belge temizliği (§1.1/5–7) |
 | takvim | mühür ~12 Kasım · teslim 19 Aralık 2026 |
 
 ### 1.1 · Sıradaki iş — Faz 4 kapanışı (yeni ajan buradan başlar)
@@ -24,11 +24,11 @@
    - **a · Kararlar ✅ (öğrenci, K-215):** TTL kaynağa bağlandı → 64 (RFC 1700, ns-3; `02` G17) · kâhinin sönümleme örneği platoya (öneri 48; 6 örnekte yakınsamamış, U1 oranları şişik) · AODV başlangıç çapası düzeltmesi (yamalı kopyada sınandı: saat ofsetine birebir değişmez, Sonuç 8) · kâhin beacon'ı AODV HELLO'suna (1 s · 20 B, RFC 3561) · Rician K: eksen mi dünya tanımı mı · en kısa yol kâhininin eşiği aletin tanımı · görev müfreze sayısı ve GM eğimi kapsam ilanı · G2ç'nin D maddesi (boş kola eşleştirme).
    - **b · Kod tek partide** ✅ (K-215; 976 test, mimari temiz) · regresyon k215 58/58 birebir ✅ (K-216).
    - **c · R yeniden** ✅ 0,0142 (K-216).
-   - **d · Sınırdaki 6 parametre 20 tohumla** (gölgeleme hücresi, mobilite adımı, kanal dilimi, yakalama eşiği, CBR titreşimi, istasyon tutma) — ~7–8 sa, partili.
-   - **e · U1 yeniden** — üç taban protokol + kâhin, iki desen; açıklanmış düşük hücre kayıtları yeniden — ~10 sa.
-   - **f · Evre kapıları** — G2ç düzeltmesiyle 2c yeniden (+ tohum 1003'ün boş kol koşusu) — ~3 sa.
+   - **d · Sınırdaki 6 parametre 20 tohumla** ✅ (K-217): mobilite adımı, kanal dilimi, yakalama eşiği DUYARSIZ; gölgeleme hücresi, CBR titreşimi, istasyon tutma DUYARLI → öğrenci kararı. Protokol kontrolleri ✅: kuyruk, saat sapması DUYARSIZ; saat ofseti AODV-j/AOMDV-f'de birebir.
+   - **e · U1 yeniden** ✅ (K-217, K-218): U1-U altı kayıtta ✅ (eşler arası statik 1001'in aşımı zarfın içinde) · U1-B yere toplamada ✅ (AODV-j 3 · AOMDV-f 1 K-207 gereği bulgu · OLSR 10 K-196 atfıyla, üçü anatomiyle) → taban protokoller yeniden DONDU.
+   - **f · Evre kapıları** ✅ G1ç · G2ç · G4ç GEÇTİ (K-217; K-212'nin teşhisi düzeltildi: kâhinin yakınsamaması).
    - **g · Köken defteri** — duyarlı çıkanlar eksen / kaynak / kapsam; SINANMAMIŞ yalnız pencere üçlüsü (Faz 6).
-4. **Faz 4.5** — eski doğrulama listesinin referans dünyada anlamlı kısmını ayıkla ve bir kez koş.
+4. **Faz 4.5** ✅ (K-219) — referansta anlamlı her kapı geçti; aldatıcı ↔ sürekli kapısı ve G3 referans biçimine taşındı (G3ç); dört eski dünya aleti ayıklandı; Li sabit hızda TUTTU (0,1188).
 5. **Yazılım ve yapı denetimi:** simülatör projenin kapsamına yetiyor mu — ön-kayıdın ve hipotezlerin ölçmek istediği her şey referans dünyada ölçülebiliyor mu (çizelgeli karıştırıcıda evre metrikleri: v1 eldeki veriyle sınanıp geri çekildi, **v2 öğrenci onayında** — `arsiv/teshis/faz4_kapanis_2026-09-30/evre_cizelgeli_oneri.md`); kod: ölü kod, eski dünyaya bağlı aletler, bayat yorum ve adlar (`iletim_menzili_m`); tam takım + regresyon (yeni taban) + mimari denetimi.
 6. **Dosya ve belge temizliği:** bağlam zehirlenmesi yaratacak bayat anlatılar arşive; kod yorumlarındaki tarihçe anlatıları kısaltılır (davranış aynı, regresyonla); belgeler tek kaynak ve güncel; devir istemi.
 7. **Faz 4 kapanış kaydı** (K) → Faz 5.
@@ -50,7 +50,7 @@ Faz 5.0'ın aleti hazır (K-202 ve 29 Eylül gecesi eki: onarım bölümleri, `r
 | 4.2 | doğrulama: Li (sabit hızda tuttu), Bianchi, PER eğrileri, kâhin tavanı | ✅ K-187 |
 | 4.3 | taban protokoller: kara liste ✅ · AOMDV U1–U4 ✅ · evre metriklerinin boş kol kapısı ✅ · OLSR teşhisi ✅ · birincil hücrede §13 (kapalı kalır) ve rota tamponu (bağlamıyor) ✅ K-200 → **U1 yeni kod hâlleriyle** (yere toplama + eşler arası) → **taban protokoller DONAR** | 🟡 |
 | 4.4 | köken defteri referans dünyaya göre ✅ (K-203) · borç 0, 10 keşifsel kol tanımı kapsam ilanı ✅ (K-204) · R ✅ (K-213) · taramalar ✅ (K-214) → kararlar, kod, R, sınırdakiler, U1, evre kapıları (§1.1/3) | 🟡 |
-| 4.5 | doğrulama listesinin referans dünyada anlamlı kısmı bir kez (`DEVIR-PROMPT.md` §5) · iş başına süre (bütçe) | ⏳ |
+| 4.5 | doğrulama listesinin referans dünyada anlamlı kısmı bir kez (`DEVIR-PROMPT.md` §5) · iş başına süre (bütçe) | ✅ K-219 |
 
 ### Faz 5 · DESPARETE — karıştırmayı gerçekten çözen protokol ⏳
 
@@ -69,7 +69,7 @@ Her mekanizma: ablasyon bayrağı · önceden yazılı beklenti · geliştirme t
 
 ### Faz 6 · Ön-kayıt ve mühür ⏳ (~5–12 Kasım)
 
-δ için gürültü ölçümü (3 taban × 20 tohum 1100–1119, birincil hücre) · güç benzetimi ve tohum sayısı · ön-kayıdın kesinleşmesi (`06`): birincil metrik KR-2 🟦, hipotezler, Aile 3 kolları, çekirdek matris, durdurma kuralı · çözünürlük referans dünyada · **mühür**.
+δ için gürültü ölçümü (3 taban × 20 tohum 1100–1119, birincil hücre) · güç benzetimi ve tohum sayısı · ön-kayıdın kesinleşmesi (`06`): birincil metrik KR-2 🟦, hipotezler, Aile 3 kolları, çekirdek matris, durdurma kuralı · çözünürlük referans dünyada · `06` H1.3'ün aldatıcı ↔ sürekli kontrastı referansta yeniden düşünülür (10 W aldatıcı ED'yle bütün ağı susturuyor, Faz 4.5) · Rician K ekseninin keşifsel tekrarı (6 · 15 dB, K-215) · **mühür**.
 
 ### Faz 7 · Ana deney ve yazım ⏳ (12 Kasım–19 Aralık)
 

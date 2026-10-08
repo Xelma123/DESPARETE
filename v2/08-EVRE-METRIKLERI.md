@@ -70,7 +70,7 @@ Var olan beyan kanalını kullanır (gözlem penceresi genişlemez). Boş hipote
 | G1 boş kol | kol ortalaması `sok_derinligi` 0'dan 2 SE içinde · her tohumda `toparlanma_suresi` = 0 · `tespit_gecikmesi` SANSÜRLÜ | 🟢 −0,00125 · 2 SE 0,00204. Kâhinle (beyan etmez → tespit maddesi G1-P'de) |
 | G1-P boş kol, gerçek protokoller (K-196) | referans dünya `statik-yok` yere toplama, AODV · OLSR · AOMDV · DESPARETE × 2 tohum: M4 yanlış tespit ≤ 1/8 · M3 ≠ 0 ≤ 1/8 · M1 2 SE dışında ≤ 1/4 protokol | 🟢 0/8 · 0/8 · 0/4 (aynı koşularda K-196 öncesi kural 6/8 · 3/8 · 2/4) — `arsiv/teshis/evre_g1p_2026-09-28/` |
 | G2 tekdüzelik | şiddet arttıkça hiçbir düşüş iki noktanın birleşik 2 SE'sini aşmaz | 🟢 |
-| G3 ızgara fazı | yarım adım kaydırmada hiçbir karar hata payından fazla değişmez (8 Eylül ρ örnekleme dersinden) | 🟢 en büyük fark 0,00187, band 0,00991 |
+| G3 ızgara fazı | yarım adım kaydırmada hiçbir karar hata payından fazla değişmez (8 Eylül ρ örnekleme dersinden) | 🟢 eski dünyada en büyük fark 0,00187, band 0,00991. Referansta eski çekirdek hücre tabanda (M1 ≈ 1, SE çöküyor) → yerini **G3ç** aldı: birincil hücre, kâhin, 1003 · 1004, \|ΔM1\| 0,0028 · 0,0053 ≤ 2 SE 🟢 (`… 3c`, K-219) |
 | G4 bulanıklık | `gecikme_p99 / S < 1` (aşarsa atfetme kuralı yeniden yazılır) | 🟢 0,021 temiz · 0,029 karıştırılmış |
 
 **05.1 · G1 ilk koşuda kaldı — kusur hata payındaydı.** Wald `SE² = p(1−p)/n`, `p = 1`'de sıfır; karıştırıcısız kolda kâhin PDR'si 1,000 olduğundan band en çok gereken yerde çöküyordu (M3'ün bandını da bozuyordu). Düzeltme **Agresti–Caffo** (iki oranın farkı için standart: her örneğe bir başarı ve bir başarısızlık; serbest parametre yok, band biraz geniş) ve verdikt **kol ortalamasında** (tohum başına 2 SE testi üç tohumda ~%14 rastgele reddeder).
@@ -117,7 +117,7 @@ Sürekli karıştırıcıda dördü ve satır birebir kalır. **Betimleyici teş
 
 **Kapılar (ölçmeden önce):**
 - **G1ç** · birincil hücrenin hareketliliğinde karıştırıcısız kol, hayalet çizelgeyle; AODV · OLSR · AOMDV · DESPARETE × 2 tohum. G1-P kuralları aynen, artı `D = PDR(sessiz) − PDR(TEMİZ)` iki tohumda 2 SE dışında kalan protokol yok. Kalan protokolün M2'si "yorumlanamaz (ÖNCE referansı durağan değil)" diye yazılır.
-- **G2ç** · kâhinde M1 kol ortalamasında 2 SE dışında ve D, kâhinin AYNI tohumdaki karıştırıcısız (hayalet çizelgeli) koşusunun D'sine göre 2 SE içinde (SE iki koşununkinin karelerinin toplamının kökü). İlk tanım (D 0'a göre) K-212'de kaldı: formasyonun topolojisi zamanla kötüleşiyor ve bu iki kolda ortak — öğrenci K-215.
+- **G2ç** · kâhinde M1 kol ortalamasında 2 SE dışında ve D, kâhinin AYNI tohumdaki karıştırıcısız (hayalet çizelgeli) koşusunun D'sine göre 2 SE içinde (SE iki koşununkinin karelerinin toplamının kökü). İlk tanımla (D 0'a göre) 2 Ekim'de kalmıştı (K-212); sebep 6 örnekli kâhinin yakınsamamasıydı, formasyonun topolojisi değil (K-217). Eşleştirme tutucu olarak kaldı (öğrenci K-215). **Durum (K-217): G1ç ✅ · G2ç ✅ · G4ç ✅** — yakınsamış kâhinle D eşleştirmesiz de 2 SE içinde.
 - **G4ç** · `p99 < açık süre` (`bulaniklik_orani_evre < 1`); 1 s profili `p99 ≥ 1 s` ise "bulanık" etiketiyle çizilir.
 
 Öneri ve v1'in neden geri çekildiği: `arsiv/teshis/faz4_kapanis_2026-09-30/evre_cizelgeli_oneri*.md`.

@@ -1,3 +1,22 @@
 R basla 21:17:34
 R bitti 22:31:27 cikis 0
 S1 basla 22:32:14
+S1 bitti 01:37:06 cikis 0
+S2 basla 01:37:06
+S2 bitti 04:41:40 cikis 0
+S3 basla 04:41:40
+S3 bitti 07:46:14 cikis 0
+protokol_kontrol basla 07:46:14
+protokol_kontrol bitti 09:02:47 cikis 0
+U1_yere_toplama basla 09:02:47
+U1_yere_toplama bitti 15:04:17 cikis 0
+U1_esler_arasi basla 15:04:17
+U1_esler_arasi bitti 19:34:57 cikis 0
+G1c basla 19:34:57
+G1c bitti 22:04:33 cikis 0
+G2c basla 22:04:33
+G2c bitti 00:34:24 cikis 0
+zarf basla 00:37:01
+zarf bitti 00:42:37 cikis 0
+anatomi basla 00:42:37
+anatomi bitti 01:37:14

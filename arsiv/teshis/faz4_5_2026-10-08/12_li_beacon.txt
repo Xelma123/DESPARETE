@@ -1,0 +1,3 @@
+kol           tek atlama   11 dugum  H1 orani
+A8-b32             832.8      33.88    0.0407
+A8-arf-b32         354.6      45.04    0.1270

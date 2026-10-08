@@ -1,0 +1,44 @@
+  DUNYA: referans_2026
+  tohum sayisi: 20 (1000–1019)
+====================================================================================================
+DUYARLILIK TARAMASI — senaryo 'formasyon-surekli' · 2 aday · 20 tohum · carpanlar (0.5, 2.0)
+====================================================================================================
+  OLCUT — IKI AYAK, biri yeterse DUYARLI (`cozunurluk.py`):
+    band : etki KENDI hata payindan buyuk mu (istatistiksel)
+    R    : |D| >= 0.0142 mi — deneyin gorebilecegi
+           en kucuk ESLESTIRILMIS fark (pratik)
+  🔴 parmak izi BIREBIR ayniysa 'DUYARSIZ' DEGIL 'OLCULEMEDI'
+
+  toplam kosu: 200  ·  8 isci
+  kosum suresi: 184.4 dk
+
+  TABAN: pdr_etx 0.8907 · pdr_atlama 0.7269 · olcut_bedeli 0.1638
+  🔒 Band artik TOHUM BASINA FARKLARIN yayilimindan; ortalamalarin
+     yayilimindan DEGIL. Esleştirme yapisal oldugu icin tohumlar
+     arasi varyans ortak-mod olarak dusuyor.
+
+  parametre                       carpan  d_pdr_etx   d_atlama    d_bedel   |D|/band    |D|/R        karar
+  kanal_dilimi_s                    0.50   +0.00092   +0.00475   -0.00383       0.5x     0.3R     duyarsiz
+  kanal_dilimi_s                    2.00   +0.00234   +0.00200   +0.00034       0.5x     0.2R     duyarsiz
+  yakalama_esigi_db                 0.50   +0.00388   +0.01184   -0.00796       0.9x     0.8R     duyarsiz
+  yakalama_esigi_db                 2.00   +0.00100   -0.00151   +0.00251       0.3x     0.2R     duyarsiz
+
+====================================================================================================
+OZET
+====================================================================================================
+
+  🔴 GECERSIZ  (0)
+
+  🔴 DUYARLI  (0)
+
+  duyarsiz  (2)
+    · kanal_dilimi_s
+    · yakalama_esigi_db
+
+  OLCULEMEDI  (0)
+
+  🔴 'OLCULEMEDI' AKLAMA DEGILDIR: o parametre bu kolda hesaba
+     hic girmedi. Canli oldugu bir kolda YENIDEN taranmali.
+  ⚠️ 'duyarsiz' = TEK BASINA oynatinca duyarsiz (OAT sinirlamasi)
+     ve YALNIZ calisma noktasi ciktilarina. Protokol SIRALAMASININ
+     duyarliligi gercek protokoller gerektirir — Faz 3.
