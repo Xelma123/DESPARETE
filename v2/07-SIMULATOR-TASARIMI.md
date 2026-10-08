@@ -94,4 +94,4 @@ PDR (doğum kohortu; tüm koşu ve ölçüm penceresi; telemetri/komut ayrı) ·
 ## 11 · Açık
 
 - **Görselleştirme** (sunum için; iz kanalı ölçüme dokunmaz — iz açık/kapalı sonuç satırı birebir olmalı): düğümler ve bağlar, karıştırıcı etki alanı ve hareketi, geçide rotalar, evre çizgili PDR eğrisi. Yazılmadı.
-- `iletim_menzili_m` adı artık bir menzil değil, eski dünyanın güç çapası — ad yanıltıcı.
+- `nominal_bag_m` (K-220'ye kadar `iletim_menzili_m`) bir menzil değil, güç çapasıdır: referansta ortalama SNR'ın `menzil_snr_db` olduğu mesafe (~1,66 km).

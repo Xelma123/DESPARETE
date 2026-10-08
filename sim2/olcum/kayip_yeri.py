@@ -12,7 +12,7 @@ iki kaybı ayırmaya yarar.
 
 🔒 BANTLAR İLETİM MENZİLİNDEN TÜRER
 ===================================
-    [0, R) · [R, 2R) · [2R, ∞)      R = `iletim_menzili_m`
+    [0, R) · [R, 2R) · [2R, ∞)      R = `nominal_bag_m`
 
 Serbest bir mesafe sayısı yok. Mesafe düşüş ANINDA geometrik konumdan ölçülür;
 bu bir teşhistir, protokolün kararına girmez.

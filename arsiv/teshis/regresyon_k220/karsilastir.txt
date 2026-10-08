@@ -1,0 +1,16 @@
+REGRESYON KARSILASTIRMASI — k215 (80 satir) ↔ k220 (80 satir)
+
+  bulgusuz vaka : 80/80
+  (beklenen) kimlik.arac_hash                                 80 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           80 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              80 vakada farkli
+  (beklenen) kimlik.protokol_hash                             11 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         80 vakada farkli
+  (izinli)   kimlik.kurulum_hash                              80 vakada farkli
+  (izinli)   konfig.iletim_menzili_m                          80 vakada farkli
+  (izinli)   konfig.nominal_bag_m                             80 vakada farkli
+  (izinli)   teshis.koken_kovalari.DUNYA_TANIMI               80 vakada farkli
+  (izinli)   teshis.koken_kovalari.DUYARSIZ                   80 vakada farkli
+  (izinli)   teshis.koken_kovalari.SINANMAMIS                 80 vakada farkli
+
+  🟢 BIREBIR (izinli farklar disinda)

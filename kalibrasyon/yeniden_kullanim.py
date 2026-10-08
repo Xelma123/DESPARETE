@@ -46,7 +46,7 @@ YALNIZ *"iki iletim ne kadar uzaktan itibaren aynı anda başarılı olabiliyor"
 İki çift o soruyu saf hâlde sorar.
 
 🔒 Verici gücü α'dan TÜRETİLİR (`yayilim.py`: hedef alınan güç
-`iletim_menzili_m`de eşiğe eşitlenir), dolayısıyla bağ her α'da çalışır ve
+`nominal_bag_m`de eşiğe eşitlenir), dolayısıyla bağ her α'da çalışır ve
 karşılaştırma adildir. Ölçüldü: α = 2 · 3 · 4'te verici sırasıyla
 +0,03 · +24,50 · +48,97 dBm.
 

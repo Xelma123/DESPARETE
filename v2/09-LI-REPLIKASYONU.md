@@ -26,7 +26,7 @@ Zincir bir **ölçüm aletidir**, deney kolu değil: deney matrisine ve ön-kayd
 
 ## 03 · Ölçümden önce bağlanan üç sayı
 
-**03.1 · Aralık = `iletim_menzili_m` = 280 m** (güç çapası; girişimsiz SINR tam eşikte → "bir atlama = bir iletim menzili" yapı gereği). İlk hâli "atlama PDR ≥ 0,99 olan en büyük aralık"tı; ilk ölçümden sonra 8 Eylül'de değişti çünkü gerekçesi yanlıştı — *i±2/i±3* girişimi artefakt değil Li'nin ölçtüğü mekanizmanın kendisi; aralığı büyütmek oranı yapay yükseltirdi. Eski ölçüt kapı olarak kaldı (her bağ ≥ 0,99).
+**03.1 · Aralık = `nominal_bag_m` (K-220'ye kadar `iletim_menzili_m`) = 280 m** (güç çapası; girişimsiz SINR tam eşikte → "bir atlama = bir iletim menzili" yapı gereği). İlk hâli "atlama PDR ≥ 0,99 olan en büyük aralık"tı; ilk ölçümden sonra 8 Eylül'de değişti çünkü gerekçesi yanlıştı — *i±2/i±3* girişimi artefakt değil Li'nin ölçtüğü mekanizmanın kendisi; aralığı büyütmek oranı yapay yükseltirdi. Eski ölçüt kapı olarak kaldı (her bağ ≥ 0,99).
 
 **03.1b · Kapı bir kurulum kusurunu yakaladı.** 200 m'lik ilk denemede N ≥ 3'te teslim sıfırdı. Bağları öldüren sönümleme: statik kolda donmuş tek Rician çekimi, PER uçurumunda derin çekim bağı öldürür (ölü bağ %2–6; K-096'nın istenen özelliği). Li'nin kurulumunda gölgeleme/sönümleme yok → 🔒 **replikasyon ikisi KAPALI koşar** (ön-kayıtlı kapının kendi işi, gevşetme değil). 280 m'de açık kanal: en kötü bağ 0,0000, ortalama 0,8800 · temiz kanal 1,0000 / 1,0000 (kapı geçer). Bedeli beyanlı: kanalın tamamını değil MAC + girişim + uzamsal yeniden kullanımı doğrular; gölgeleme ve sönümleme ayrıca doğrulandı (σ kaynaktan, K-096).
 

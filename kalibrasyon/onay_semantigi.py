@@ -1,6 +1,9 @@
 """
 VERİ ONAYI SEMANTİĞİNİN ETKİSİ — seyirci kredisi kalibrasyon sayılarını ne kadar oynatıyor?
 
+🔒 REFERANS DÜNYADA (Faz 4.5, K-219): ESKİ dünyanın tarihçesi (Y2 mekanizması);
+referans doğrulama listesinde koşulmaz.
+
 Üretici:
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/onay_semantigi.py --kapi [--tohum N]
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/onay_semantigi.py olc <etiket> [--tohum N] [--tam] [--devam]

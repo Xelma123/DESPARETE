@@ -166,5 +166,5 @@ def topoloji_kur(konfig: Konfig, akislar: Akislar) -> Topoloji:
         # 🔒 Geçit sabit istasyonda; iç modelin çekimleri değişmez (Y4).
         mobilite = GecitliMobilite(mobilite, konfig.gecit,
                                    gecit_noktasi(konfig))
-    return Topoloji(mobilite=mobilite, menzil_m=konfig.iletim_menzili_m,
+    return Topoloji(mobilite=mobilite, menzil_m=konfig.nominal_bag_m,
                     dugum_sayisi=konfig.dugum_sayisi)

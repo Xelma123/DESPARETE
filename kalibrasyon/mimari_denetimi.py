@@ -268,7 +268,7 @@ def d8_sayisal_saglik() -> None:
         ("girisim orani > 1 (gizli terminal mumkun)",
          k.girisim_orani > 1.0),
         ("girisim menzili > iletim menzili",
-         k.girisim_menzili_m > k.iletim_menzili_m),
+         k.girisim_menzili_m > k.nominal_bag_m),
         ("DIFS > SIFS", k.difs_s > k.sifs_s),
         ("olcum penceresi kosu icinde",
          k.olcum_penceresi[1] <= k.kosu_bitis_s),

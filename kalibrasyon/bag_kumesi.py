@@ -1028,7 +1028,7 @@ def i_serbestlik_dereceleri() -> None:
                      alan_boy_m=kfg_t.alan_boy_m * lam,
                      irtifa_min_m=kfg_t.irtifa_min_m * lam,
                      irtifa_maks_m=kfg_t.irtifa_maks_m * lam,
-                     iletim_menzili_m=kfg_t.iletim_menzili_m * lam,
+                     nominal_bag_m=kfg_t.nominal_bag_m * lam,
                      golgeleme_hucre_m=kfg_t.golgeleme_hucre_m * lam,
                      gorev_grup_yaricapi_m=kfg_t.gorev_grup_yaricapi_m * lam,
                      karistirici_guc_override_dbm=-15.0 + dB)
@@ -1044,7 +1044,7 @@ def i_serbestlik_dereceleri() -> None:
               f"{len(k):>6} {j:>9.4f}")
     print(f"  {'':>10} {'':>12} "
           f"{('🟢 BIREBIR AYNI' if olcek_ok else '🔴 FARKLI'):>13}")
-    print("  🔒 `iletim_menzili_m` BAGIMSIZ BIR SAYI DEGIL, UZUNLUK BIRIMI.")
+    print("  🔒 `nominal_bag_m` BAGIMSIZ BIR SAYI DEGIL, UZUNLUK BIRIMI.")
     print("     Belirleyici olan `menzil/alan` oranidir ve alan zaten o orani")
     print("     sabitleyen bir olcutle secildi (kopukluk sifirken en buyuk).")
     hepsi &= olcek_ok

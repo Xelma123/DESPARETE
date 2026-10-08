@@ -166,7 +166,7 @@ def test_gecersiz_ornekleme_reddediliyor():
 def test_KALIBRASYON_calisma_noktasi():
     """🔴 BU GRAFİK BİR TEŞHİSTİR — BAĞLANTILILIK MODELİ DEĞİL.
 
-    `Topoloji`nin komşuluk grafiği `iletim_menzili_m` (280 m) yarıçaplı sert
+    `Topoloji`nin komşuluk grafiği `nominal_bag_m` (280 m) yarıçaplı sert
     bir disktir. 280 m, VERİCİ GÜCÜNÜN türetildiği çapadır; veri yolunda
     hiçbir yeri kapamaz. Gerçekte kimin duyacağını girişim menzili, alınıp
     alınmadığını SINR belirler (K-096).
@@ -199,7 +199,7 @@ def test_KALIBRASYON_calisma_noktasi():
     # Elle yazılmış bir sayı DEĞİL — konfigden türer, alan değişince izler.
     kfg = Konfig(kol="t")
     beklenen = ((kfg.dugum_sayisi - 1) * math.pi
-                * kfg.iletim_menzili_m ** 2
+                * kfg.nominal_bag_m ** 2
                 / (kfg.alan_en_m * kfg.alan_boy_m))
     assert 0.60 * beklenen < ort < 1.05 * beklenen, (
         f"🔴 teşhis grafiğinin derecesi {ort:.3f}; kenar etkisiz analitik "

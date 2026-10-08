@@ -123,7 +123,7 @@ def kos(cift: int, tohum: int, ayrim_m: float, bag_m: float = 280.0,
     """K çift, `ayrim_m` aralıklarla dizili → pencere içi toplam verim (pkt/s).
 
     🔒 Verici gücü `alfa`dan TÜRETİLİR (`yayilim.py`: hedef alınan güç
-    `iletim_menzili_m`de eşiğe eşitlenir), dolayısıyla bağ her α'da çalışır
+    `nominal_bag_m`de eşiğe eşitlenir), dolayısıyla bağ her α'da çalışır
     ve α'lar arası karşılaştırma adildir.
     """
     temiz = dict(golgeleme_acik=False, sonumleme_acik=False,
@@ -141,7 +141,7 @@ def kos(cift: int, tohum: int, ayrim_m: float, bag_m: float = 280.0,
         konumlar.append(Nokta3(c * ayrim_m, 0.0, irtifa))
         konumlar.append(Nokta3(c * ayrim_m + bag_m, 0.0, irtifa))
     topoloji = Topoloji(mobilite=Sabit(tuple(konumlar)),
-                        menzil_m=kfg.iletim_menzili_m, dugum_sayisi=n)
+                        menzil_m=kfg.nominal_bag_m, dugum_sayisi=n)
     kanal = Kanal(kfg, topoloji)
     akis_listesi = tuple(Akis(kimlik=c, kaynak=2 * c, hedef=2 * c + 1)
                          for c in range(cift))

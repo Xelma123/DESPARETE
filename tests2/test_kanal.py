@@ -548,13 +548,13 @@ def test_A7_referans_BAG_BUTCESI_ile_AYNI_SAYILAR():
     y = Yayilim(k)
     assert y.verici_gucu_w == pytest.approx(0.1)
     assert lin_to_db(y.gurultu_w * 1e3) == pytest.approx(-93.55, abs=0.02)
-    assert k.iletim_menzili_m == pytest.approx(1650.0, rel=0.03)
+    assert k.nominal_bag_m == pytest.approx(1650.0, rel=0.03)
     assert y.menzilde_yavas_sinr_db() == pytest.approx(k.menzil_snr_db,
                                                         abs=0.05)
     c = cerceve_kur(k, "veri")
     s10 = snr_esigi_db(lambda s: cerceve_per(c, s), 0.10)
     s50 = snr_esigi_db(lambda s: cerceve_per(c, s), 0.50)
-    duyarlilik_menzili = k.iletim_menzili_m * 10 ** (
+    duyarlilik_menzili = k.nominal_bag_m * 10 ** (
         (k.menzil_snr_db - s10) / (10 * k.yol_kaybi_usteli))
     assert duyarlilik_menzili == pytest.approx(5200.0, rel=0.03)
     assert k.sinr_esigi_db == pytest.approx(s50 + 2 * k.golgeleme_sigma_db)
@@ -580,7 +580,7 @@ def test_A7_ESKI_DUNYA_AYNI_ve_TUTARSIZ_referans_REDDEDILIR():
         Konfig(kol="t", verici_eirp_dbm=20.0)
     r = referans_2026(kol="t")
     with pytest.raises(DegismezHatasi):
-        Yayilim(replace(r, iletim_menzili_m=2.0 * r.iletim_menzili_m))
+        Yayilim(replace(r, nominal_bag_m=2.0 * r.nominal_bag_m))
     with pytest.raises(DegismezHatasi):
         referans_2026(kol="t", sinr_esigi_db=10.0)
 

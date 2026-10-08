@@ -1,39 +1,27 @@
 # 12 · DURUM VE YOL HARİTASI
 
-> Projenin durumu ve planı YALNIZ burada tutulur; başka belgeler buraya atıf verir. Güncel: 6 Ekim 2026. Onaylı plan Faz 0–7 (öğrenci, 25 Eylül, K-168). Kararlar `04`, tarihçe `kayit/KARAR-GUNLUGU.md`.
+> Projenin durumu ve planı YALNIZ burada tutulur; başka belgeler buraya atıf verir. Güncel: 8 Ekim 2026. Onaylı plan Faz 0–7 (öğrenci, 25 Eylül, K-168). Kararlar `04`, tarihçe `kayit/KARAR-GUNLUGU.md`.
 
 ## 1 · Nerede duruyoruz
 
 | | |
 |---|---|
-| **faz** | **4 · yeniden kalibrasyon ve doğrulama → KAPANIŞ** — 4.1–4.3 ✅ · 4.4 ✅ (üç parametrenin kovası öğrencide) · 4.5 ✅ (K-219) · kalan: yazılım/yapı denetimi, belge temizliği, kapanış kaydı (§1.1) |
+| **faz** | **5 · DESPARETE** — sıradaki iş 5.0 (kayıp anatomisi, §1.1). **Faz 4 KAPANDI** (K-221, 8 Ekim) |
 | simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu tek süreçte ~1 sa, 8 işçide koşu başına 1–2 sa (K-198, K-200) |
 | taban protokoller | **DONDU (K-218, 8 Ekim):** `AODV-j` · `OLSR-c` · `AOMDV-f` — U1 yakınsamış kâhinle iki desende U1-U ✅, yere toplamada U1-B ✅ (açıklanmış hücreler K-207 · K-196) |
-| DESPARETE | v0.4.1; birincil hücrede ilk ölçüm PDR 0,700 (AODV 0,556, kâhin 0,813; 4 geliştirme tohumu, K-200) |
-| doğrulama | `976 passed` (6 Ekim, K-215 kodu) · mimari denetimi ihlalsiz · regresyon tabanı **`k215`** (K-216) · R = **0,0142** (K-216) · SINANMAMIŞ 6 (pencere üçlüsü + 3 öğrenci kararında) · duyarlılık borcu 0 · kapsam ilanı 12 |
-| arkada koşan | yok — öğrenci kararı bekleniyor (gölgeleme hücresi · CBR titreşimi · istasyon tutma); ardından yazılım/yapı denetimi ve belge temizliği (§1.1/5–7) |
+| DESPARETE | v0.4.1; birincil hücrede ilk ölçüm PDR 0,700 (AODV 0,556, kâhin 0,813; 4 geliştirme tohumu, K-200 — K-215 öncesi kod, 5.0'da yeniden ölçülür) |
+| doğrulama | `976 passed` (8 Ekim) · mimari denetimi ihlalsiz · regresyon tabanı **`k220`** (K-221) · R = **0,0142** (K-216) · SINANMAMIŞ 3 (pencere üçlüsü, Faz 6) · duyarlılık borcu 0 · kapsam ilanı 12 |
+| arkada koşan | yok |
 | takvim | mühür ~12 Kasım · teslim 19 Aralık 2026 |
 
-### 1.1 · Sıradaki iş — Faz 4 kapanışı (yeni ajan buradan başlar)
+### 1.1 · Sıradaki iş — Faz 5.0 (yeni ajan buradan başlar)
 
-> **Kural (öğrenci, 29 Eylül):** Faz 5'e geride iş kalmadan, yazılım ve yapı denetiminden geçmiş bir simülatörle ve güncel, arınmış belgelerle geçilir. Faz 5'le paralel iş yok.
+> **Kural (öğrenci, 29 Eylül):** bir faza geride iş kalmadan, yazılım ve yapı denetiminden geçmiş bir simülatörle ve güncel belgelerle geçilir; fazlar paralel yürümez. Faz 4 bu kapıdan geçti (K-221).
 
-1. ✅ **U1 aracı:** kâhin desen başına bir kez, birden çok protokol tek çağrıda, ara kayıt ve kaldığı yerden sürme (K-202).
-2. ✅ **U1 ve donma** (K-205…K-211): taban protokoller `AODV-i` · `OLSR-c` · `AOMDV-e` DONDU. Ayrıntı `arsiv/teshis/u1_2026-09-29/`, `aodv_sadakat_2026-09-30/`.
-3. **Faz 4.4** — ✅ köken defteri (K-203) · kapsam ilanı (K-204) · R birincil hücrede **0,0188** (K-213) · 19 parametre kâhinle tarandı; TTL, kuyruk ve saat taban protokollerle; kâhinin sönümleme örneği yakınsaması; konum/RSSI birebirliği (K-214). Sonuçlar `arsiv/teshis/faz4_4_2026-09-30/beklenti.md` Sonuç 3–7. Kalan, SIRAYLA:
-   - **a · Kararlar ✅ (öğrenci, K-215):** TTL kaynağa bağlandı → 64 (RFC 1700, ns-3; `02` G17) · kâhinin sönümleme örneği platoya (öneri 48; 6 örnekte yakınsamamış, U1 oranları şişik) · AODV başlangıç çapası düzeltmesi (yamalı kopyada sınandı: saat ofsetine birebir değişmez, Sonuç 8) · kâhin beacon'ı AODV HELLO'suna (1 s · 20 B, RFC 3561) · Rician K: eksen mi dünya tanımı mı · en kısa yol kâhininin eşiği aletin tanımı · görev müfreze sayısı ve GM eğimi kapsam ilanı · G2ç'nin D maddesi (boş kola eşleştirme).
-   - **b · Kod tek partide** ✅ (K-215; 976 test, mimari temiz) · regresyon k215 58/58 birebir ✅ (K-216).
-   - **c · R yeniden** ✅ 0,0142 (K-216).
-   - **d · Sınırdaki 6 parametre 20 tohumla** ✅ (K-217): mobilite adımı, kanal dilimi, yakalama eşiği DUYARSIZ; gölgeleme hücresi, CBR titreşimi, istasyon tutma DUYARLI → öğrenci kararı. Protokol kontrolleri ✅: kuyruk, saat sapması DUYARSIZ; saat ofseti AODV-j/AOMDV-f'de birebir.
-   - **e · U1 yeniden** ✅ (K-217, K-218): U1-U altı kayıtta ✅ (eşler arası statik 1001'in aşımı zarfın içinde) · U1-B yere toplamada ✅ (AODV-j 3 · AOMDV-f 1 K-207 gereği bulgu · OLSR 10 K-196 atfıyla, üçü anatomiyle) → taban protokoller yeniden DONDU.
-   - **f · Evre kapıları** ✅ G1ç · G2ç · G4ç GEÇTİ (K-217; K-212'nin teşhisi düzeltildi: kâhinin yakınsamaması).
-   - **g · Köken defteri** — duyarlı çıkanlar eksen / kaynak / kapsam; SINANMAMIŞ yalnız pencere üçlüsü (Faz 6).
-4. **Faz 4.5** ✅ (K-219) — referansta anlamlı her kapı geçti; aldatıcı ↔ sürekli kapısı ve G3 referans biçimine taşındı (G3ç); dört eski dünya aleti ayıklandı; Li sabit hızda TUTTU (0,1188).
-5. **Yazılım ve yapı denetimi:** simülatör projenin kapsamına yetiyor mu — ön-kayıdın ve hipotezlerin ölçmek istediği her şey referans dünyada ölçülebiliyor mu (çizelgeli karıştırıcıda evre metrikleri: v1 eldeki veriyle sınanıp geri çekildi, **v2 öğrenci onayında** — `arsiv/teshis/faz4_kapanis_2026-09-30/evre_cizelgeli_oneri.md`); kod: ölü kod, eski dünyaya bağlı aletler, bayat yorum ve adlar (`iletim_menzili_m`); tam takım + regresyon (yeni taban) + mimari denetimi.
-6. **Dosya ve belge temizliği:** bağlam zehirlenmesi yaratacak bayat anlatılar arşive; kod yorumlarındaki tarihçe anlatıları kısaltılır (davranış aynı, regresyonla); belgeler tek kaynak ve güncel; devir istemi.
-7. **Faz 4 kapanış kaydı** (K) → Faz 5.
+1. **Faz 5.0 · kayıp anatomisi** — birincil hücrede taban protokoller, kâhin ve DESPARETE v0.4.1: paket nerede ve neden ölüyor; Faz 5'in mekanizma hedefleri buradan çıkar. Alet hazır (`kalibrasyon/kayip_anatomisi.py`, K-202 + onarım bölümleri ve `rota_gecersiz` anında alan durumu). `arsiv/teshis/faz5_0_2026-09-30/`daki kopya ve beklenti K-215 öncesi koda ait → kopya yeniden dondurulur, beklentinin sayıları (kâhin 48 örnek, AODV-j, TTL 64) yeni kodla gözden geçirilir, ölçüt ölçmeden önce yazılır, süre önce hesaplanır.
+2. Sonra 5.1 → 5.7 (§2 tablosu); her mekanizma ablasyon bayrağıyla ve önceden yazılı beklentiyle.
 
-Faz 5.0'ın aleti hazır (K-202 ve 29 Eylül gecesi eki: onarım bölümleri, `rota_gecersiz` anında alan durumu); ölçümü Faz 5'in ilk işi — kopya, beklenti ve karar kuralı `arsiv/teshis/faz5_0_2026-09-30/` (koşulmadı).
+**Faz 4'ün özeti** (K-221; ayrıntı K-185…K-220): referans dünya kalibre edildi · taban protokoller `AODV-j` · `OLSR-c` · `AOMDV-f` olarak dondu (U1 yakınsamış kâhinle, K-218) · köken defteri ölçümle ya da kararla kapandı (R 0,0142; Rician K eksen; üç parametre dünya tanımı; TTL ve beacon kaynağa bağlı) · evre metrikleri v2 dört kapıdan geçti · doğrulama listesi referansta bir kez koşuldu (K-219) · yazılım ve belge temizliği (K-203, K-220). **Faz 6'ya devredilenler** K-221'de.
 
 ## 2 · Fazlar
 
@@ -42,17 +30,17 @@ Faz 5.0'ın aleti hazır (K-202 ve 29 Eylül gecesi eki: onarım bölümleri, `r
 **Faz 2 · Gözlem sözleşmesi v2 ✅** (26 Eylül): RSSI · kulak misafiri · kanal doluluğu · PHY hatası · kendi GPS/INS (K-172, K-179, K-180).
 **Faz 3 · Senaryo eksenleri ✅** (26 Eylül): düğüm kaybı · trafik yoğunluğu · enerji (K-180, K-182).
 
-### Faz 4 · Yeniden kalibrasyon ve doğrulama 🟡
+### Faz 4 · Yeniden kalibrasyon ve doğrulama ✅ (8 Ekim, K-221)
 
 | # | iş | durum |
 |---|---|---|
 | 4.1 | çalışma noktası: alan 33 km, N 40, karıştırıcı rejimi ve birincil hücre, görev yarıçapı 16 km | ✅ K-185…K-188 |
 | 4.2 | doğrulama: Li (sabit hızda tuttu), Bianchi, PER eğrileri, kâhin tavanı | ✅ K-187 |
-| 4.3 | taban protokoller: kara liste ✅ · AOMDV U1–U4 ✅ · evre metriklerinin boş kol kapısı ✅ · OLSR teşhisi ✅ · birincil hücrede §13 (kapalı kalır) ve rota tamponu (bağlamıyor) ✅ K-200 → **U1 yeni kod hâlleriyle** (yere toplama + eşler arası) → **taban protokoller DONAR** | 🟡 |
-| 4.4 | köken defteri referans dünyaya göre ✅ (K-203) · borç 0, 10 keşifsel kol tanımı kapsam ilanı ✅ (K-204) · R ✅ (K-213) · taramalar ✅ (K-214) → kararlar, kod, R, sınırdakiler, U1, evre kapıları (§1.1/3) | 🟡 |
+| 4.3 | taban protokoller: kara liste ✅ · AOMDV U1–U4 ✅ · evre metriklerinin boş kol kapısı ✅ · OLSR teşhisi ✅ · birincil hücrede §13 (kapalı kalır) ve rota tamponu (bağlamıyor) ✅ K-200 → **U1 yeni kod hâlleriyle** (yere toplama + eşler arası) → **taban protokoller DONAR** | ✅ K-218 |
+| 4.4 | köken defteri referans dünyaya göre (K-203) · kapsam ilanı (K-204, K-215) · R 0,0142 · 22 parametre ölçümle ya da kararla kapandı · Rician K eksen · TTL 64 · kâhin 48 örnek · AODV-j | ✅ K-213…K-220 |
 | 4.5 | doğrulama listesinin referans dünyada anlamlı kısmı bir kez (`DEVIR-PROMPT.md` §5) · iş başına süre (bütçe) | ✅ K-219 |
 
-### Faz 5 · DESPARETE — karıştırmayı gerçekten çözen protokol ⏳
+### Faz 5 · DESPARETE — karıştırmayı gerçekten çözen protokol ▶ sıradaki
 
 | # | mekanizma | ne çözer |
 |---|---|---|

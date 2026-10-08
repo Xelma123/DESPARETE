@@ -170,7 +170,7 @@ def test_secilen_calisma_noktasi_VARSAYILAN():
     assert (k.irtifa_min_m, k.irtifa_maks_m) == (20.0, 120.0)
     # 🔒 280 m VERİCİ GÜCÜNÜN ÇAPASIDIR, bağlantılılık yarıçapı değil.
     # Veri yolunda hiçbir yeri kapamaz (K-096).
-    assert k.iletim_menzili_m == 280.0
+    assert k.nominal_bag_m == 280.0
     assert k.yol_kaybi_usteli == 2.0   # hava-hava, serbest uzay (K-097)
     assert k.dugum_sayisi == 40
     assert k.bit_hizi_bps == 2e6 and k.paket_bayt == 512
@@ -227,7 +227,7 @@ def test_girisim_orani_TURETILMIS_elle_yazilmamis():
     k = Konfig(kol="deneme")
     beklenen = (10.0 ** (k.sinr_esigi_db / 10.0)) ** (1.0 / k.yol_kaybi_usteli)
     assert k.girisim_orani == pytest.approx(beklenen, rel=1e-12)
-    assert k.girisim_menzili_m == pytest.approx(k.iletim_menzili_m * beklenen)
+    assert k.girisim_menzili_m == pytest.approx(k.nominal_bag_m * beklenen)
     # Elle yazılmış olsaydı β değişince sessizce yanlış kalırdı.
     k2 = Konfig(kol="deneme", sinr_esigi_db=k.sinr_esigi_db + 3.0)
     assert k2.girisim_orani > k.girisim_orani
@@ -241,7 +241,7 @@ def test_girisim_menzili_iletim_menzilinden_GENIS():
     for esik in (3.0, 10.0, 20.0):
         for ustel in (2.0, 3.0, 4.0):
             k = Konfig(kol="d", sinr_esigi_db=esik, yol_kaybi_usteli=ustel)
-            assert k.girisim_menzili_m > k.iletim_menzili_m
+            assert k.girisim_menzili_m > k.nominal_bag_m
 
 
 def test_tepe_telafisi_TURETILMIS():
@@ -404,7 +404,7 @@ def test_adim3_te_okunan_alanlar_GERCEKTEN_dunyayi_kuruyor():
     """
     dunya = {
         "dugum_sayisi", "alan_en_m", "alan_boy_m",
-        "irtifa_min_m", "irtifa_maks_m", "iletim_menzili_m", "kosu_bitis_s",
+        "irtifa_min_m", "irtifa_maks_m", "nominal_bag_m", "kosu_bitis_s",
         "gm_alfa", "gm_adim_s", "gm_hiz_min_ms", "gm_hiz_maks_ms",
         "gm_hiz_sigma_ms", "gm_azimut_sigma_rad", "gm_pitch_ort_rad",
         "gm_pitch_sigma_rad",

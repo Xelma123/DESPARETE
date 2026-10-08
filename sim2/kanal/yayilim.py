@@ -86,14 +86,14 @@ class Yayilim:
             # Pt, MENZİL TANIMINDAN türetilir — bağımsız bir parametre değil.
             hedef_alinan_w = self.gurultu_w * db_to_lin(konfig.sinr_esigi_db)
             self.verici_gucu_w = hedef_alinan_w * db_to_lin(
-                self.yol_kaybi_db(konfig.iletim_menzili_m))
+                self.yol_kaybi_db(konfig.nominal_bag_m))
         else:
             # 🔒 A7 (K-178): güç GİRDİ (EIRP; anten deseni en büyük kazanca
             # göre normalize — kayıp ≥ 0). Menzil ondan türemiş olmalı:
             # menzilde ortalama SNR `menzil_snr_db` — tutarlılık kapısı.
             self.verici_gucu_w = dbm_to_w(konfig.verici_eirp_dbm)
             snr = lin_to_db(self.verici_gucu_w / db_to_lin(
-                self.yol_kaybi_db(konfig.iletim_menzili_m)
+                self.yol_kaybi_db(konfig.nominal_bag_m)
                 - konfig.alici_anten_kazanci_dbi) / self.gurultu_w)
             dogrula(abs(snr - konfig.menzil_snr_db) < 0.05,
                     f"menzil verici gücüyle tutarsız: menzilde SNR {snr:.3f} "
@@ -262,7 +262,7 @@ class Yayilim:
         kapalı devre kontrol.
         """
         pr = self.verici_gucu_w / db_to_lin(
-            self.yol_kaybi_db(self.konfig.iletim_menzili_m)
+            self.yol_kaybi_db(self.konfig.nominal_bag_m)
             - self.konfig.alici_anten_kazanci_dbi)
         return lin_to_db(pr / self.gurultu_w)
 

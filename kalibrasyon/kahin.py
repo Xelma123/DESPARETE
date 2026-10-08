@@ -4,7 +4,7 @@ KÂHİN YÖNLENDİRİCİLER — kıyas için, protokol değil.
 🔴 NEDEN YENİDEN YAZILDI (5 Eylül 2026, K-096 · K-097)
 ======================================================
 Eski kâhin `Topoloji`nin komşuluk grafiğinde BFS yapıyordu. O grafik
-`iletim_menzili_m` (280 m) yarıçaplı sert bir disktir ve **verici gücünün
+`nominal_bag_m` (280 m) yarıçaplı sert bir disktir ve **verici gücünün
 türetildiği çapadır** — veri yolunda hiçbir yeri kapamaz. Alan 1800 m'ye
 çıkınca o diskin derecesi 2,57'ye indi, yani kâhin **kopuk bir grafikte**
 yönlendirmeye çalışıyordu.

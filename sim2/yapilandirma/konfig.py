@@ -99,10 +99,11 @@ class Konfig:
     irtifa_maks_m: float = 120.0
 
     # Referansta verici gücü GİRDİDİR (`verici_eirp_dbm`) ve
-    # `iletim_menzili_m` o güçle ortalama SNR'ın `menzil_snr_db` olduğu
-    # mesafedir (türetilmiş; adı tarihsel, bir güç çapasıdır). Eski dünyada
-    # ikisi `None`: güç menzilden türer ve menzilde SNR = β.
-    iletim_menzili_m: float = 280.0
+    # `nominal_bag_m` o güçle ortalama SNR'ın `menzil_snr_db` olduğu
+    # mesafedir (türetilmiş nominal bağ; bir menzil değil, güç çapası —
+    # K-220'ye kadar adı `iletim_menzili_m`ydi). Eski dünyada ikisi `None`:
+    # güç bu mesafeden türer ve orada SNR = β.
+    nominal_bag_m: float = 280.0
     # Dünya anahtarı (`v2/15` A7, K-178): 'olcek_1_50' | 'referans_2026'.
     dunya: str = "olcek_1_50"
     verici_eirp_dbm: float | None = None
@@ -169,7 +170,7 @@ class Konfig:
 
     # β: referansta `kanal/dunya.py` türetir — SNR(PER %50, 2 Mb/s, işlem
     # kazancıyla) + 2σ gölgeleme payı ≈ 6 dB; eski dünyada 16 dB.
-    # `iletim_menzili_m` veri yolunda hiçbir şeyi kapamaz: kimin duyacağını
+    # `nominal_bag_m` veri yolunda hiçbir şeyi kapamaz: kimin duyacağını
     # alınan güç, alınıp alınmadığını SINR belirler (K-096).
     sinr_esigi_db: float = 16.0       # β — menzil sınırının tanımlandığı SINR
     gurultu_figuru_db: float = 6.0
@@ -417,7 +418,7 @@ class Konfig:
                 "alan boyutları pozitif olmalı")
         dogrula(0.0 <= self.irtifa_min_m < self.irtifa_maks_m,
                 "irtifa bandı artan ve negatif olmayan olmalı")
-        dogrula(self.iletim_menzili_m > 0, "iletim menzili pozitif olmalı")
+        dogrula(self.nominal_bag_m > 0, "nominal bağ pozitif olmalı")
         dogrula(0.0 <= self.gm_alfa < 1.0, "gm_alfa [0, 1) aralığında olmalı")
         dogrula(self.gm_adim_s > 0.0, "mobilite adımı pozitif olmalı")
         dogrula(0.0 < self.gm_hiz_min_ms <= self.gm_hiz_maks_ms,
@@ -579,7 +580,7 @@ class Konfig:
     @property
     def gercek_capa_km(self) -> float:
         """Güç çapasının gerçek karşılığı."""
-        return self.iletim_menzili_m * self.olcek / 1000.0
+        return self.nominal_bag_m * self.olcek / 1000.0
 
     @property
     def gercek_hiz_araligi_kmh(self) -> tuple[float, float]:
@@ -612,7 +613,7 @@ class Konfig:
 
     @property
     def girisim_menzili_m(self) -> float:
-        return self.iletim_menzili_m * self.girisim_orani
+        return self.nominal_bag_m * self.girisim_orani
 
     @property
     def difs_s(self) -> float:

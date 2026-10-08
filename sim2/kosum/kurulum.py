@@ -169,6 +169,6 @@ def kurulum_yap(konfig: Konfig, tohum: int | None = None) -> Kurulum:
         yayilim_gecikmeli=konfig.yayilim_gecikmesi,
         olum_anlari=olum_anlari(konfig),
         maks_gecikme_s=maks_gecikme_s,
-        kayip_yeri=(KayipYeri(konfig.iletim_menzili_m)
+        kayip_yeri=(KayipYeri(konfig.nominal_bag_m)
                     if konfig.yere_toplama else None),
     )

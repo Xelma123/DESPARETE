@@ -171,7 +171,7 @@ def test_verici_gucu_MENZILDEN_turetiliyor():
 
 def test_menzil_degisince_guc_DA_degisiyor():
     """Elle yazılmış olsaydı menzil ile fizik çelişebilirdi."""
-    uzak = Yayilim(Konfig(kol="t", iletim_menzili_m=560.0))
+    uzak = Yayilim(Konfig(kol="t", nominal_bag_m=560.0))
     fark = w_to_dbm(uzak.verici_gucu_w) - w_to_dbm(Y.verici_gucu_w)
     assert fark == pytest.approx(10.0 * K.yol_kaybi_usteli * math.log10(2.0),
                                  abs=1e-9)
@@ -299,7 +299,7 @@ def test_yavas_sinr_menzilde_ESIGE_esit_temiz_kosulda():
     kapali = Yayilim(Konfig(kol="t", golgeleme_acik=False,
                             anten_deseni_acik=False))
     a = Nokta3(0.0, 0.0, 70.0)
-    b = Nokta3(K.iletim_menzili_m, 0.0, 70.0)   # yatay bağ → yükseliş 0
+    b = Nokta3(K.nominal_bag_m, 0.0, 70.0)   # yatay bağ → yükseliş 0
     assert kapali.yavas_sinr_db(0, 1, a, b) == pytest.approx(K.sinr_esigi_db,
                                                              abs=1e-9)
     assert kapali.bag_kopuk_mu(0, 1, a, b) is False
@@ -309,7 +309,7 @@ def test_menzil_disi_bag_KOPUK():
     kapali = Yayilim(Konfig(kol="t", golgeleme_acik=False,
                             anten_deseni_acik=False))
     a = Nokta3(0.0, 0.0, 70.0)
-    b = Nokta3(K.iletim_menzili_m * 1.5, 0.0, 70.0)
+    b = Nokta3(K.nominal_bag_m * 1.5, 0.0, 70.0)
     assert kapali.bag_kopuk_mu(0, 1, a, b) is True
 
 

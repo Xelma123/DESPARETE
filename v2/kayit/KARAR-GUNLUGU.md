@@ -150,8 +150,10 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-217 | 🟡 KUYRUK B SONUÇLARI — sınırdaki 6'nın 3'ü DUYARSIZ, 3'ü DUYARLI · protokol kontrolleri  | 🟢 geçerli |
 | K-218 | 🟢 U1 HÜKMÜ (K-215 kodu, yakınsamış kâhin) — U1-U üç protokolde iki desende ✅ · U1-B yere | 🟢 geçerli |
 | K-219 | 🟢 FAZ 4.5 — doğrulama listesi referans dünyada bir kez: anlamlı her kapı GEÇTİ · iki kap | 🟢 geçerli |
+| K-220 | 🟢 ÖĞRENCİ KARARLARI (Faz 4 kapanışı) — gölgeleme hücresi · CBR titreşimi · istasyon tutm | 🟢 geçerli |
+| K-221 | 🟢 FAZ 4 KAPANDI — yeniden kalibrasyon ve doğrulama tamam · taban protokoller dondu · kök | 🟢 geçerli |
 
-**130 kayıt · 2 revize · 128 geçerli**
+**132 kayıt · 2 revize · 130 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1656,3 +1658,17 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Li:** sabit hızda H1 **0,1188 TUTTU** (K-187: 0,1270); 32 B beacon'la birebir 0,1270 → fark K-215'in 84 B beacon'ı. A8 (ARF) TUTMADI, K-187 gibi. DEVIR'deki "`li_replikasyonu.py` → 0,127" satırı yanlıştı (o sayı `b_li_ayristirma.py`nin) — düzeltildi.
 - **Ayıklandı (koşulmadı):** adım 9 kapanışı · onay semantiği (eski dünyanın tarihçesi) · kâhin tavanı (yerini U1'in kâhin sütunu tuttu) · karıştırıcı çalışma noktası (yerini K-186 tuttu).
 - 🔵 **Faz 6'ya:** referansta 10 W aldatıcı ED'yle bütün ağı susturuyor (statik-aldatıcıda derece 0) → `06` H1.3'ün aldatıcı ↔ sürekli kontrastı bu dünyada dejenere olabilir.
+# K-220 · 🟢 ÖĞRENCİ KARARLARI (Faz 4 kapanışı) — gölgeleme hücresi · CBR titreşimi · istasyon tutma DÜNYA TANIMI · `iletim_menzili_m` → `nominal_bag_m` · yazılım/belge temizliği
+> 8 Ekim · öğrenci ("önerilerini onaylıyorum") · uygulama ajan
+
+- **Üç DUYARLI parametre → DÜNYA TANIMI** (ölçüm K-217): `golgeleme_hucre_m` (2,5 km; ×0,5'te pdr_atlama +0,030 · pdr_etx +0,014) · `cbr_titresim_s` (50 ms; ×2'de 0,5R, yalnız istatistik bacağı) · `mobilite.py::ISTASYON_TUTMA_S` (2 s; ×2'de pdr_atlama +0,016, pdr_etx +0,001). Sonuçlar bu değerlere koşullu; ölçülen duyarlılık raporun kapsam bölümünde. **SINANMAMIŞ 3** (yalnız pencere üçlüsü, Faz 6).
+- **Ad değişikliği:** `Konfig.iletim_menzili_m` → **`nominal_bag_m`** (bir menzil değil, güç çapası / nominal bağ; değer ve davranış aynı). 18 kod ve test dosyası, `v2/07` · `v2/09`, köken kaydı; arşivdeki Li ayrıştırma betiği iki adı da okur. Doğrulama `976 passed`; regresyon k220 (beklenti `arsiv/teshis/regresyon_k220/beklenti.md`).
+- **Yazılım denetimi:** kullanılmayan üst düzey fonksiyon taraması (sim2 · protokoller · kalibrasyon · analiz) — yalnız `duyarlilik.py::_tohum_ciktilari` ölüydü, kaldırıldı (`sim2/mac/alici.py::sonuc_dogrula` testlerin değişmezi, kalır). Eski dünyaya özgü iki alete (`pdr_tavani.py`, `onay_semantigi.py`) referans dünyadaki durum notu; yorum denetçisi: kod farkı 0. Kalibrasyondaki öteki tarihçe anlatıları tarihli ve "eski dünya" diye işaretli — bırakıldı.
+- **Belgeler:** `v2/04` (köken özeti, AOMDV-f, regresyon tabanı, açık kararlar: pencere üçlüsü ve H1.3/Rician Faz 6'ya) · `v2/06` §9 sayımı · `v2/12` · `v2/08` G3/G3ç · DEVIR doğrulama tablosu.
+# K-221 · 🟢 FAZ 4 KAPANDI — yeniden kalibrasyon ve doğrulama tamam · taban protokoller dondu · köken defterinde SINANMAMIŞ 3 (Faz 6) · regresyon tabanı k220 · Faz 5'e geçiş kapısı açık
+> 8 Ekim 18:50 · ajan · kapı kuralı (öğrenci, 29 Eylül): geride iş yok, yazılım ve yapı denetimi, arınmış belgeler
+
+- **Doğrulama:** tam takım `976 passed` (15 dk 44 s) · mimari denetimi "Yapisal ihlal YOK" · regresyon `k215 → k220` **80/80 birebir** (izinli: alan adı `iletim_menzili_m → nominal_bag_m`, `kurulum_hash`, köken kovaları; `arsiv/teshis/regresyon_k220/`). **Yeni taban k220.** Lint değişikliklerden önceki hâlle aynı.
+- **Faz 4'ün özeti:** 4.1–4.3 (K-185…K-211) · U1 ve donma yakınsamış kâhinle yeniden (K-218: `AODV-j` · `OLSR-c` · `AOMDV-f`) · 4.4 (K-213…K-217, K-220: R 0,0142; 22 parametre ölçümle ya da kararla kapandı; Rician K eksen; TTL 64 ve beacon kaynağa bağlı; kâhin 48 örnek; AODV'nin saat bağımlılığı giderildi) · 4.5 (K-219: referansta anlamlı her kapı geçti) · evre metrikleri v2 (G1ç · G2ç · G3ç · G4ç) · yazılım/belge temizliği (K-203, K-220).
+- **Faz 6'ya devredilenler:** pencere üçlüsü (`isinma_s` · `olcum_bitis_s` · `kosu_bitis_s`) · `06` H1.3'ün aldatıcı ↔ sürekli kontrastı (referansta 10 W aldatıcı ağı susturuyor) · Rician K'nın keşifsel tekrarı (6 · 15 dB) · KR-2 · DESPARETE'nin kuyruk/saat/TTL duyarlılığı son hâliyle.
+- **Faz 5'in ilk işi (5.0, kayıp anatomisi):** aleti hazır (K-202); `arsiv/teshis/faz5_0_2026-09-30/`daki kopya ve beklenti K-215 öncesi koda ait → yeniden dondurulur, beklentinin sayıları (kâhin, AODV) yeni koda göre gözden geçirilir.

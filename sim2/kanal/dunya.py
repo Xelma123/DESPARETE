@@ -7,7 +7,7 @@ Dünyalar — `v2/15` A7 · K-178.
                GİRDİDİR (EIRP 20 dBm); menzil ve eşikler PER modelinden türer:
 
     menzil_snr_db    = SNR(PER %10, 2 Mb/s veri) + 10 dB pay   (`bag_butcesi.py`)
-    iletim_menzili_m = ortalama SNR'ın menzil_snr_db olduğu mesafe (nominal
+    nominal_bag_m = ortalama SNR'ın menzil_snr_db olduğu mesafe (nominal
                        bağ; yerleşim kuralları ve kayıp yeri bantları bunu kullanır)
     sinr_esigi_db β  = SNR(PER %50) + 2σ gölgeleme payı — eski β'nın (16 dB =
                        10 dB çözülebilirlik + 2σ) AYNI tanımı, işlem kazançlı
@@ -74,7 +74,7 @@ REFERANS_TTL = 64
 REFERANS_BEACON_BAYT = 20 + kontrol_kapsulleme_bayt()
 
 # Türetilen alanlar — `ek` ile verilemez.
-_TURETILEN = ("sinr_esigi_db", "menzil_snr_db", "iletim_menzili_m")
+_TURETILEN = ("sinr_esigi_db", "menzil_snr_db", "nominal_bag_m")
 
 
 def snr_esigi_db(per_fn, hedef: float) -> float:
@@ -144,4 +144,4 @@ def referans_2026(**ek) -> Konfig:
             ust = orta
     return Konfig(**{**temel, "sinr_esigi_db": beta,
                      "menzil_snr_db": menzil_snr,
-                     "iletim_menzili_m": 0.5 * (alt + ust)})
+                     "nominal_bag_m": 0.5 * (alt + ust)})

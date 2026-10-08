@@ -26,7 +26,7 @@ burada kurar.
 
 🔒 FAZ 4 (K-183) — `--dunya referans_2026`: aynı düzenek referans dünyanın
 telsiziyle (1:1, işlem kazancı, güç kipi taşıyıcı dinleme, ARF, yayılım
-gecikmesi). Aralık yine `iletim_menzili_m` (referansta 10 dB paylı nominal
+gecikmesi). Aralık yine `nominal_bag_m` (referansta 10 dB paylı nominal
 bağ, 1664 m); duyma kümesi kurulumla TEK türetimden (`duyma_turetimi`).
 
 🔴 KANALDA HİÇBİR ŞEY DEĞİŞMEZ. Aynı yayılım, aynı MAC, aynı girişim, aynı
@@ -179,7 +179,7 @@ def zincir_kurulumu(n: int, aralik_m: float, tohum: int, yuk_hz: float,
     akislar = Akislar(tohum)
     irtifa = 0.5 * (kfg.irtifa_min_m + kfg.irtifa_maks_m)
     konumlar = tuple(Nokta3(i * aralik_m, 0.0, irtifa) for i in range(n))
-    topoloji = Topoloji(mobilite=Sabit(konumlar), menzil_m=kfg.iletim_menzili_m,
+    topoloji = Topoloji(mobilite=Sabit(konumlar), menzil_m=kfg.nominal_bag_m,
                         dugum_sayisi=n)
     kanal = Kanal(kfg, topoloji)
 
@@ -231,7 +231,7 @@ def zincir_kurulumu(n: int, aralik_m: float, tohum: int, yuk_hz: float,
         # görmedi. D1 doğrulama listesinin var oluş sebebi budur.
         # 🔒 İfade `kosum/kurulum.py`dekiyle AYNI tutulur; iki yerde
         # iki farklı kural yazmak, ayrışmayı davet etmek olurdu.
-        kayip_yeri=(KayipYeri(kfg.iletim_menzili_m)
+        kayip_yeri=(KayipYeri(kfg.nominal_bag_m)
                     if kfg.yere_toplama else None))
 
 
@@ -272,7 +272,7 @@ def _baslik(metin: str) -> None:
 def a_aralik(isci: int = 8) -> float:
     """Düğüm aralığı — TÜRETİLİR, ve bir KAPIDAN geçer.
 
-    🔒 Aralık = `iletim_menzili_m`, yani VERİCİ GÜCÜNÜN ÇAPASI. O mesafede
+    🔒 Aralık = `nominal_bag_m`, yani VERİCİ GÜCÜNÜN ÇAPASI. O mesafede
     girişimsiz SINR tam olarak eşiğe eşittir; böylece *"bir atlama = bir
     iletim menzili"* yapı gereği doğrudur ve zincir geometrisi Li'nin
     varsayımıyla (duyma menzili ≈ 2 × iletim menzili) örtüşür.
@@ -288,8 +288,8 @@ def a_aralik(isci: int = 8) -> float:
     from sim2.kanal.cerceve import cerceve_kur as _cer
     _baslik("A - DUGUM ARALIGI  (turetilmis: guc capasi; kapi: her bag >= 0,99)")
     n = 11
-    aralik = DS.konfig(kol="li").iletim_menzili_m
-    print(f"  aralik = iletim_menzili_m = {aralik:.0f} m  (turetilmis capa)")
+    aralik = DS.konfig(kol="li").nominal_bag_m
+    print(f"  aralik = nominal_bag_m = {aralik:.0f} m  (turetilmis capa)")
     print()
     print(f"  {'kanal':<28} {'en kotu bag':>12} {'ortalama':>10} {'kapi':>8}")
     gecti = False
@@ -453,7 +453,7 @@ def d_duyma_menzili(aralik_m: float, isci: int = 8) -> None:
     catlar = (1.0, 1.5, 2.0, 3.0, 4.5, 6.31)
     gorevler = []
     for c in catlar:
-        duyma = c * kfg.iletim_menzili_m
+        duyma = c * kfg.nominal_bag_m
         for n in (2, 11):
             for t in TOHUMLAR:
                 gorevler.append((n, aralik_m, t, 1200.0, 30.0, duyma))
@@ -473,7 +473,7 @@ def d_duyma_menzili(aralik_m: float, isci: int = 8) -> None:
         a, b = ist.mean(tek), ist.mean(uzun)
         oran = b / a if a else 0.0
         icinde = BAND[0] <= oran <= BAND[1]
-        print(f"  {c:>13.2f} {c * kfg.iletim_menzili_m:>9.0f} {a:>11.1f} "
+        print(f"  {c:>13.2f} {c * kfg.nominal_bag_m:>9.0f} {a:>11.1f} "
               f"{b:>10.2f} {oran:>8.4f} "
               f"{'🟢 EVET' if icinde else 'hayir':>13}")
     print()

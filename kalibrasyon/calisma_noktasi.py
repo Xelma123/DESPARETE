@@ -6,7 +6,7 @@
 
 🔴 NEDEN BU ÖLÇÜM VAR
 =====================
-`iletim_menzili_m` veri yolunda **hiçbir yeri kapamıyor**: kimin duyacağını
+`nominal_bag_m` veri yolunda **hiçbir yeri kapamıyor**: kimin duyacağını
 girişim menzili, alınıp alınmadığını SINR belirliyor. O sayı yalnızca verici
 gücünün türetildiği bir ÇAPA ve kalibrasyon betiklerinin topoloji anlık
 görüntüsüdür. β yükseltildiğinde çapa ile fiilen kullanılabilen yarıçap
@@ -229,7 +229,7 @@ def yaricaplar() -> None:
     veri = _veri_cercevesi(kfg)
     beacon = cerceve_kur(kfg, "beacon")
     print(f"  capa (SINR = esik = {kfg.sinr_esigi_db:.0f} dB)   : "
-          f"{kfg.iletim_menzili_m:7.1f} m")
+          f"{kfg.nominal_bag_m:7.1f} m")
     for hedef in (0.10, 0.50):
         print(f"  veri   alim hatasi {hedef:.2f}          : "
               f"{_yaricap(kanal, kfg, veri, hedef):7.1f} m")

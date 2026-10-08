@@ -1,6 +1,10 @@
 """
 PDR TAVANI — saldırı yokken ağ ne kadar teslim EDEBİLİR?
 
+🔒 REFERANS DÜNYADA (Faz 4.5, K-219): ESKİ dünyanın aleti — çekirdek hücreleri
+eski dünyanındır. Referansta kâhin tavanının yerini U1'in kâhin sütunu tuttu
+(statik 0,99–1,00 · hareketli 0,84–0,98; `aodv_uygunluk.py`, K-217).
+
 Üretici:
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/pdr_tavani.py
 

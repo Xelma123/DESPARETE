@@ -115,10 +115,11 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "zarfı içinde); eski dünyada 20 m"),
     "irtifa_maks_m": ("DUNYA_TANIMI",
         "300 m AGL — `irtifa_min_m` ile aynı bant; eski dünyada 120 m"),
-    "iletim_menzili_m": ("TURETILMIS",
-        "referansta `kanal/dunya.py` türetir: ortalama SNR'ın `menzil_snr_db`"
-        " olduğu mesafe (≈ 1,66 km, EIRP 20 dBm). ⚠️ Adı tarihsel: menzil "
-        "değil, güç çapası (`v2/07` §11). Eski dünyada 280 m"),
+    "nominal_bag_m": ("TURETILMIS",
+        "referansta `kanal/dunya.py` türetir: ortalama SNR'ın "
+        "`menzil_snr_db` olduğu mesafe (≈ 1,66 km, EIRP 20 dBm) — nominal "
+        "bağ, bir menzil değil güç çapası (`v2/07` §11). K-220'ye kadar adı "
+        "`iletim_menzili_m`ydi (öğrenci). Eski dünyada 280 m"),
     "gm_alfa": ("TURETILMIS",
         "α = exp(−adım/τ_v), τ_v ≈ 30 s hız korelasyonu — bir ARAÇ DİNAMİĞİ "
         "zamanıdır ve ÖLÇEKLENMEZ. Ölçüldü: Θ'yı değiştirmiyor (5,95 → 5,93)"),
@@ -284,13 +285,13 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "ablasyon için False yapılabilir"),
     "golgeleme_sigma_db": ("DUNYA_TANIMI",
         "σ 3 dB log-normal — `v2/14` §2 (onaylı K-169)"),
-    "golgeleme_hucre_m": ("SINANMAMIS",
-        "2,5 km (eski dünyanın 50 m'si × 50; K-188) — değeri kaynakta yok. "
-        "Faz 4.4'te 20 tohumla DUYARLI: ×0,5 (1,25 km) pdr_atlama +0,030 "
-        "(2,1R), pdr_etx +0,014 (1,0R), bedel −0,016; ×2 duyarsız (0,1R). "
-        "Üretici: `py -3.11 -u kalibrasyon/duyarlilik.py --dunya "
-        "referans_2026 birincil --tohum 20 …` (7 Ekim 2026, K-217; "
-        "yakınsamış kâhin, R 0,0142). Kova kararı öğrencide (K-217)"),
+    "golgeleme_hucre_m": ("DUNYA_TANIMI",
+        "2,5 km (eski dünyanın 50 m'si × 50; K-188) — değeri kaynakta yok · "
+        "DÜNYA TANIMI (öğrenci, K-220): sonuçlar bu değere koşullu, ölçülen "
+        "duyarlılık raporun kapsam bölümünde. Faz 4.4'te 20 tohumla: ×0,5 "
+        "(1,25 km) pdr_atlama +0,030 (2,1R), pdr_etx +0,014 (1,0R); ×2 "
+        "duyarsız (0,1R). Üretici: `py -3.11 -u kalibrasyon/duyarlilik.py "
+        "--dunya referans_2026 birincil --tohum 20 …` (7 Ekim 2026, K-217)"),
     "sonumleme_acik": ("TURETILMIS",
         "açık; ablasyon için False"),
     "sonumleme_uretec": ("TURETILMIS",
@@ -413,13 +414,13 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "TEDAVİ ekseni — trafik yoğunluğu (`v2/15` C2, K-180). Varsayılan 4,0"
         " — `akis_sayisi` ile AYNI kayıt; ikisi tek yükü (10 × 4,0 = 40 "
         "pkt/s) birlikte tanımlar (K-126)"),
-    "cbr_titresim_s": ("SINANMAMIS",
-        "50 ms — periyodik kilitlenmeyi kırar. Faz 4.4'te 20 tohumla ×2'de "
-        "DUYARLI yalnız istatistik bacağıyla: |Δ| 0,0070 (pdr_etx; 0,5R — "
-        "deneyin çözünürlüğünün altında, band 1,2×); ×0,5 duyarsız. "
-        "Üretici: `py -3.11 -u kalibrasyon/duyarlilik.py --dunya "
-        "referans_2026 birincil --tohum 20 …` (7 Ekim 2026, K-217; "
-        "yakınsamış kâhin, R 0,0142). Kova kararı öğrencide (K-217)"),
+    "cbr_titresim_s": ("DUNYA_TANIMI",
+        "50 ms — periyodik kilitlenmeyi kırar (trafik üretecinin tanımı) · "
+        "DÜNYA TANIMI (öğrenci, K-220): ölçülen duyarlılık raporda. Faz "
+        "4.4'te 20 tohumla ×2'de |Δ| 0,0070 (pdr_etx; 0,5R — deneyin "
+        "çözünürlüğünün altında, yalnız istatistik bacağı: band 1,2×); ×0,5 "
+        "duyarsız. Üretici: `py -3.11 -u kalibrasyon/duyarlilik.py --dunya "
+        "referans_2026 birincil --tohum 20 …` (7 Ekim 2026, K-217)"),
     "trafik_deseni": ("TEDAVI",
         "trafik deseni ekseni: `esler_arasi` · `yere_toplama` (`v2/07` §06.2,"
         " §18 Y4; öğrenci onayı 10–11 Eylül 2026)"),
@@ -689,13 +690,14 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "dünyada çift-anların %0,2'sinde (formasyon), bağımsız ve görevde %0 "
         "bağlar. Üretici: `py -3.11 kalibrasyon/bagil_hiz_tabani.py` (30 "
         "Eylül 2026)"),
-    "sim2/dunya/mobilite.py::ISTASYON_TUTMA_S": ("SINANMAMIS",
-        "2 s — istasyon tutma zaman sabiti; görev ve formasyon kolları "
-        "(birincil hücre) ortak. Faz 4.4'te 20 tohumla ×2'de DUYARLI: "
-        "pdr_atlama +0,016 (1,1R, band 1,1×), pdr_etx +0,001; ×0,5 "
-        "duyarsız. Üretici: `py -3.11 -u kalibrasyon/duyarlilik.py --dunya "
-        "referans_2026 birincil --tohum 20 …` (7 Ekim 2026, K-217; "
-        "yakınsamış kâhin, R 0,0142). Kova kararı öğrencide (K-217)"),
+    "sim2/dunya/mobilite.py::ISTASYON_TUTMA_S": ("DUNYA_TANIMI",
+        "2 s — istasyon tutma zaman sabiti; görev ve formasyon kollarının "
+        "(birincil hücre) mobilite tanımı · DÜNYA TANIMI (öğrenci, K-220): "
+        "sonuçlar bu değere koşullu, ölçülen duyarlılık raporda. Faz 4.4'te "
+        "20 tohumla ×2'de pdr_atlama +0,016 (1,1R, band 1,1×), pdr_etx "
+        "+0,001; ×0,5 duyarsız. Üretici: `py -3.11 -u "
+        "kalibrasyon/duyarlilik.py --dunya referans_2026 birincil --tohum "
+        "20 …` (7 Ekim 2026, K-217)"),
     "sim2/olcum/metrikler.py::YUZDELIKLER": ("TURETILMIS",
         "(50, 95, 99) — ortanca + iki kuyruk. Bir DEĞER seçimi değil, sonuç "
         "şemasının kapalı listesi: sonradan eklemek eski satırları "
@@ -971,7 +973,7 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "kapalı), dolayısıyla tohumlar arası varyans yalnız trafik fazından "
         "geliyor ve küçük. Ölçüldü: 2 SE değerleri 0,19–4,68 pkt/s"),
     "kalibrasyon/yeniden_kullanim.py::BAG_M": ("TURETILMIS",
-        "280 m = eski dünyanın `iletim_menzili_m`i — Li replikasyonunun eski "
+        "280 m = eski dünyanın `nominal_bag_m`i — Li replikasyonunun eski "
         "dünya açık sınavı (`09`); ⚠️ elle kopya"),
     "kalibrasyon/yeniden_kullanim.py::AYRIMLAR": ("TEDAVI",
         "çiftler arası mesafe TARAMASININ ekseni; yeniden kullanım mesafesi "
