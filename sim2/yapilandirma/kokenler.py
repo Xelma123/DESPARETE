@@ -68,6 +68,7 @@ KAPSAM_ILANI: frozenset[str] = frozenset({
     "darbe_gorev_cevrimi",
     "gm_pitch_sigma_rad",
     "gorev_grup_sayisi",
+    "gorev_jitter_hiz_ms",
     "darbe_periyodu_s",
     "karistirici_konum",
     "reaktif_esik_dbm",
@@ -120,9 +121,12 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "`menzil_snr_db` olduğu mesafe (≈ 1,66 km, EIRP 20 dBm) — nominal "
         "bağ, bir menzil değil güç çapası (`v2/07` §11). K-220'ye kadar adı "
         "`iletim_menzili_m`ydi (öğrenci). Eski dünyada 280 m"),
-    "gm_alfa": ("TURETILMIS",
+    "gm_alfa": ("SINANMAMIS",
         "α = exp(−adım/τ_v), τ_v ≈ 30 s hız korelasyonu — bir ARAÇ DİNAMİĞİ "
-        "zamanıdır ve ÖLÇEKLENMEZ. Ölçüldü: Θ'yı değiştirmiyor (5,95 → 5,93)"),
+        "zamanıdır ve ölçeklenmez; τ_v'nin kendisi bir SEÇİM (kaynak yok). "
+        "Eski dünyada Θ'yı değiştirmiyordu (5,95 → 5,93). Formasyon kolu "
+        "(birincil hücre) da okur → birincil hücrede ölçülür (denetim "
+        "2026-10-08 D-07)"),
     "gm_adim_s": ("DUYARSIZ",
         "0,5 s mobilite adımı (adımda ≤ 17 m, hız korelasyonu `gm_alfa` ile "
         "korunur). Faz 4.4'te 20 tohumla ölçüldü: en büyük |Δ| = 0,0068 "
@@ -135,8 +139,10 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "(ölçekli)"),
     "gm_hiz_maks_ms": ("DUNYA_TANIMI",
         "120 km/h = 33,3 m/s — `v2/14` §3 (onaylı); eski dünyada 0,75 m/s"),
-    "gm_hiz_sigma_ms": ("TURETILMIS",
-        "azami hızın %10'u; hız zarfıyla orantılı"),
+    "gm_hiz_sigma_ms": ("SINANMAMIS",
+        "azami hızın %10'u — oran bir SEÇİM (kaynak yok). Formasyon kolunun "
+        "(birincil hücre) manevra gürültüsü de buradan → birincil hücrede "
+        "ölçülür (denetim 2026-10-08 D-07)"),
     "gm_azimut_sigma_rad": ("TURETILMIS",
         "koordineli dönüş ω = g·tan(φ)/v. Yerçekimi ÖLÇEKLENMEZ, o yüzden "
         "GERÇEK hızdan: 90 km/h'de 30° banka → 0,226 rad/s → 0,5 s adımda "
@@ -158,8 +164,11 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "referansta 16 km (`kanal/dunya.py::REFERANS_GOREV_YARICAPI_M`, "
         "K-188). Üretici: `python kalibrasyon/calisma_noktasi.py --dunya "
         "referans_2026 --bolum gorev_kolu`; eski dünyada 650 m"),
-    "gorev_jitter_hiz_ms": ("TURETILMIS",
-        "azami hızın ~%7'si; hız zarfıyla orantılı"),
+    "gorev_jitter_hiz_ms": ("KOL_TANIMI",
+        "azami hızın ~%7'si — görev kolunun tanımı; yalnız görev kolu okur "
+        "· KAPSAM (K-222): mobilite kolunun tanımı — o kolun sonucu bu "
+        "değere koşullu; birincil hücrenin kod yoluna girmez (denetim "
+        "2026-10-08 D-07)"),
     "istasyon_kayma_hiz_ms": ("DUNYA_TANIMI",
         "0 — formasyon kolunda istasyonlar sabit (`v2/07` §4, öğrenci onayı "
         "Y6); birincil hücrenin kolu"),
@@ -747,11 +756,13 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
     "kalibrasyon/kahin.py::SONUMLEME_ORNEGI": ("OLCULMUS",
         "48 örnek — kâhinin bağ başına sönümleme KESTİRİMİNİN örneklemi "
         "(sayısal parametre; hareketli kollarda, statikte tek örnek). "
-        "Yakınsama ölçüldü: ETX kâhininin PDR'si 6 · 12 · 24 · 48 örnekte "
-        "birincilde 0,840 · 0,870 · 0,874 · 0,880, bağımsız-yokta 0,790 · "
-        "0,820 · 0,844 · 0,854; plato birincilde 12, bağımsız-yokta 24 (N → "
-        "2N adımında |Δ| < R ve band içinde). Koşu süresi N'den bağımsız → "
-        "48 (öğrenci K-215). Üretici: `kalibrasyon/duyarlilik.py`nin "
+        "Ölçüldü: ETX kâhininin PDR'si 6 · 12 · 24 · 48 örnekte birincilde "
+        "0,840 · 0,870 · 0,874 · 0,880, bağımsız-yokta 0,790 · 0,820 · "
+        "0,844 · 0,854; N → 2N adımı birincilde 12'den, bağımsız-yokta "
+        "24'ten sonra |Δ| < R ve band içinde. Tam yakınsama DEĞİL: 48'de "
+        "kalan artış tahminen ≤ ~0,01 (bağımsız-yokta 24 → 48 hâlâ +0,010; "
+        "96 Faz 6'da, denetim D-15). Koşu süresi N'den bağımsız → 48 "
+        "(öğrenci K-215). Üretici: `kalibrasyon/duyarlilik.py`nin "
         "koşucusuyla "
         "`arsiv/teshis/faz4_4_birincil_2026-10-02/sonumleme_yakinsama.py` "
         "(2 Ekim 2026, K-214). 6 örnekte kâhin yakınsamamıştı"),
@@ -793,13 +804,16 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "`TC_INTERVAL` = 5 s. Birincil belge 8 Eylül 2026'da açıldı, `02` "
         "§R2. Θ'nın PAYDASI budur"),
     "kalibrasyon/duyarlilik.py::R_ESLESTIRILMIS": ("OLCULMUS",
-        "0,0142 — referans dünyanın BİRİNCİL hücresinde eşleştirilmiş "
-        "çözünürlük, yakınsamış kâhinle (48 örnek; 40 tohum, `olcut_bedeli` "
-        "SD 0,0449; kâhin PDR 0,887). Üretici: `py -3.11 -u "
+        "0,0142 — birincil hücrede eşleştirilmiş çözünürlük, KISA PENCERE "
+        "kesitinde (koşu 50 s, ölçüm 10–40 s, karıştırıcı 5. s'de; "
+        "duyarlılık taramasının penceresi) — ana deneyin 270 s'lik "
+        "penceresinin çözünürlüğü DEĞİL; o Faz 6'da δ ölçümüyle aynı "
+        "koşulardan ölçülür ve DUYARSIZ'lar ona karşı yeniden okunur "
+        "(denetim D-03). Yakınsamış kâhinle (48 örnek; 40 tohum, "
+        "`olcut_bedeli` SD 0,0449; kâhin PDR 0,887). Üretici: `py -3.11 -u "
         "kalibrasyon/cozunurluk.py --dunya referans_2026 --hucre birincil "
         "--tohum 40` (6 Ekim 2026, 74 dk, K-216). Önceki: 0,0188 (6 örnekli "
-        "kâhin, K-213) · eski dünya 0,0230; `statik-surekli` hücresinin "
-        "0,0086'sı taban etkisiyle geçersiz"),
+        "kâhin, K-213) · eski dünya 0,0230"),
     "kalibrasyon/calkanti.py::ETKIN_YARICAP_M": ("TURETILMIS",
         "400 m — yalnız `calkanti.py`nin hızlı teşhis taramasında; hiçbir "
         "karar taşımaz (Θ yavaş SINR tanımıyla ölçülür, `theta_kollari.py`)"),

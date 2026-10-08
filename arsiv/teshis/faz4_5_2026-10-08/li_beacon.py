@@ -30,7 +30,9 @@ def _is(is_):
     kol, n, tohum = is_
     from kalibrasyon import li_replikasyonu as L
     from kalibrasyon import dunya_secimi as DS
-    aralik = DS.konfig(kol="li").iletim_menzili_m
+    k = DS.konfig(kol="li")
+    # K-220: alan `nominal_bag_m` oldu; eski kopyalarda `iletim_menzili_m`.
+    aralik = getattr(k, "nominal_bag_m", None) or k.iletim_menzili_m
     s = L._kos(n, aralik, tohum, 1200.0, 30.0, **KOLLAR[kol])
     return kol, n, tohum, s["verim_hz"]
 

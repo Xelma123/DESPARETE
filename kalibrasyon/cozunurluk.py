@@ -122,7 +122,7 @@ def main(isci: int = 8) -> None:
         print(f"  🟢 saklanan sabit TAZE (sapma {sapma:.4f} <= 0,0005)")
     print()
     print(f"  🟢 KULLANILACAK ESIK R = {olculen:.4f} "
-          f"(ESLESTIRILMIS — birincil testin cozunurlugu)")
+          f"(ESLESTIRILMIS — KISA PENCERE kesiti; ana deneyin penceresi icin Faz 6, denetim D-03)")
     print(f"     Tek kol cozunurlukleri karsilastirma icin: "
           f"pdr_etx {sonuc['pdr_etx']:.4f} · "
           f"pdr_atlama {sonuc['pdr_atlama']:.4f}")

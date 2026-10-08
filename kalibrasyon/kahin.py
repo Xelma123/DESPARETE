@@ -140,9 +140,9 @@ def dilim_suresi_s(konfig) -> float:
 
     ⚠️ ELLE 0,5 s YAZILMIŞTI ve bu, mobilite adımına bakarak seçilmişti —
     yanlış büyüklük. Sönümleme örneklemesi eklenince grafik kurulumu
-    961 ms'ye çıktı; 0,5 s'de bir kurmak koşuya %53 eklerdi. Türetilmiş
-    değer bugün ~0,8 s, hızlar 1/50 ölçeğe çekilince ~23 s olur ve maliyet
-    kendiliğinden erir.
+    961 ms'ye çıktı; 0,5 s'de bir kurmak koşuya %53 eklerdi. Referans
+    dünyada 2,5 km / (2 · 33,3 m/s) ≈ 37,5 s → üst sınıra (10 s) kırpılır;
+    karıştırıcının açık/sessiz geçişi grafiği ayrıca yeniler (K-195).
 
     🔒 Alt sınır çerçeve süresinden büyük, üst sınır ölçüm penceresinin
     küçük bir payı olacak biçimde kelepçelenir: kâhinin bilgisi hiçbir

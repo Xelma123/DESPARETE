@@ -262,8 +262,19 @@ def d7_kahin_sizintisi() -> None:
 
 def d8_sayisal_saglik() -> None:
     basliklar("8 - SAYISAL SAGLIK  (turetilenler tutarli mi)")
+    # Denetim 2026-10-08 D-14: iki dünyada da (eski dünyanın maddeleri
+    # etiketiyle kalır; referans dünyada cw_max CANLIDIR ve kökeni KAYNAK).
+    from sim2.kanal.dunya import referans_2026
     from sim2.yapilandirma.konfig import Konfig
-    k = Konfig(kol="denetim")
+    from sim2.yapilandirma.kokenler import KOKENLER
+    for dunya, k in (("eski", Konfig(kol="denetim")),
+                     ("referans", referans_2026(kol="denetim"))):
+        print(f"  [{dunya} dunya]")
+        _d8_kontrol(k, dunya, KOKENLER)
+
+
+def _d8_kontrol(k, dunya: str, kokenler: dict) -> None:
+    en_cok_cw = 2 ** k.yeniden_deneme_siniri * (k.cw_min + 1) - 1
     kontroller = [
         ("girisim orani > 1 (gizli terminal mumkun)",
          k.girisim_orani > 1.0),
@@ -277,8 +288,10 @@ def d8_sayisal_saglik() -> None:
          < 1e-12),
         ("tepe telafisi: d=0,5 -> 3,0103 dB",
          abs(k.tepe_telafisi_db - 3.0103) < 1e-3),
-        ("karistirici gucu None (olculmedi)",
-         k.karistirici_guc_dbm is None),
+        # Eski dünyada güç ölçülmemiş (None); referansta taban güçten türer.
+        ("karistirici gucu " + ("None (eski dunya, olculmedi)" if dunya == "eski"
+                                else f"{k.karistirici_guc_dbm} dBm (taban)"),
+         (k.karistirici_guc_dbm is None) == (dunya == "eski")),
         ("irtifa bandi pozitif genislik",
          k.irtifa_maks_m > k.irtifa_min_m),
         ("sunulan yuk = akis x hiz",
@@ -290,14 +303,18 @@ def d8_sayisal_saglik() -> None:
         # 2^limit·(cw_min+1) − 1 olabiliyor. Bugun 2^4·32 − 1 = 511 < 1023.
         # 🔒 Sinir yukselirse `cw_max` CANLI hale gelir ve o koken kaydi
         # SESSIZCE yanlislasir. Bu satir onu sessiz birakmiyor.
-        (f"cw_max erisilemez (en cok CW = "
-         f"{2 ** k.yeniden_deneme_siniri * (k.cw_min + 1) - 1} < {k.cw_max})",
-         2 ** k.yeniden_deneme_siniri * (k.cw_min + 1) - 1 < k.cw_max),
+        # 🔒 Referans dünyada (sınır 7) cw_max'a erişilir: o zaman kökeni
+        # TÜRETİLMİŞ olamaz — sessiz yanlışlaşmayı bu satır yakalar.
+        ((f"cw_max erisilemez (en cok CW = {en_cok_cw} < {k.cw_max})"
+          if en_cok_cw < k.cw_max else
+          f"cw_max CANLI (en cok CW = {en_cok_cw} >= {k.cw_max}) -> koken "
+          f"{kokenler['cw_max'][0]}"),
+         en_cok_cw < k.cw_max or kokenler["cw_max"][0] != "TURETILMIS"),
     ]
     for ad, sonuc in kontroller:
         print(f"    {'OK ' if sonuc else '🔴 '} {ad}")
         if not sonuc:
-            bulgular.append(f"sayisal saglik: {ad}")
+            bulgular.append(f"sayisal saglik ({dunya}): {ad}")
 
 
 def d9_belirlenimcilik() -> None:
@@ -305,15 +322,20 @@ def d9_belirlenimcilik() -> None:
     from sim2.cekirdek.rng import Akislar
     from sim2.dunya.topoloji import topoloji_kur
     from sim2.yapilandirma.konfig import Konfig
-    for senaryo in ("statik-yok", "bagimsiz-yok", "gorev-yok",
-                    "formasyon-yok"):
-        a = topoloji_kur(Konfig(kol="d", senaryo=senaryo, tohum=7), Akislar(7))
-        b = topoloji_kur(Konfig(kol="d", senaryo=senaryo, tohum=7), Akislar(7))
-        ayni = all(a.anlik(t).konumlar == b.anlik(t).konumlar
-                   for t in (0.0, 111.1, 350.0))
-        print(f"    {'OK ' if ayni else '🔴 '} {senaryo}")
-        if not ayni:
-            bulgular.append(f"belirlenimcilik: {senaryo}")
+    from sim2.kanal.dunya import referans_2026
+    # Denetim 2026-10-08 D-14: iki dünyada da.
+    for dunya, kur in (("eski", Konfig), ("referans", referans_2026)):
+        for senaryo in ("statik-yok", "bagimsiz-yok", "gorev-yok",
+                        "formasyon-yok"):
+            a = topoloji_kur(kur(kol="d", senaryo=senaryo, tohum=7),
+                             Akislar(7))
+            b = topoloji_kur(kur(kol="d", senaryo=senaryo, tohum=7),
+                             Akislar(7))
+            ayni = all(a.anlik(t).konumlar == b.anlik(t).konumlar
+                       for t in (0.0, 111.1, 350.0))
+            print(f"    {'OK ' if ayni else '🔴 '} {dunya} {senaryo}")
+            if not ayni:
+                bulgular.append(f"belirlenimcilik: {dunya} {senaryo}")
     # farkli tohum farkli dunya
     a = topoloji_kur(Konfig(kol="d", senaryo="bagimsiz-yok", tohum=7), Akislar(7))
     b = topoloji_kur(Konfig(kol="d", senaryo="bagimsiz-yok", tohum=8), Akislar(8))
@@ -866,6 +888,47 @@ def d16_tekrarli_tanim() -> None:
     print(f"  bulunan     : {say}")
 
 
+# Denetim 2026-10-08 D-16 · D-04: protokolün okuduğu ölçüm → köken kaydı.
+# Bir protokol bu alanlardan birini OKUMAYA başlarsa ilgili kayıt DUYARSIZ
+# kalamaz ("bugün okuyan yok" gerekçesi düşer) ve gürültü gözlemi bir ölçüm
+# modeline bağlanmadan okunamaz.
+GOZLEM_KOKENLERI: dict[str, tuple[str, ...]] = {
+    "rssi_dbm": ("rssi_olcum_sigma_db",),
+    "kendi_konum": ("gps_dikey_sigma_m",),
+    "kendi_hiz": ("gps_hiz_sigma_ms",),
+    "olculen_gurultu_w": (),          # ölçüm modeli YOK (D-04) — okunamaz
+}
+
+
+def d17_okunan_gozlem_kokenleri() -> None:
+    basliklar("17 - OKUNAN GOZLEM ALANI -> KOKEN  (D-16 · D-04)")
+    from sim2.yapilandirma.kokenler import KOKENLER
+    okunan: dict[str, list[str]] = {}
+    for yol in sorted((KOK / "protokoller").glob("*.py")):
+        agac = ast.parse(yol.read_text(encoding="utf-8"))
+        for n in ast.walk(agac):
+            ad = (n.attr if isinstance(n, ast.Attribute)
+                  else n.id if isinstance(n, ast.Name)
+                  and isinstance(n.ctx, ast.Load) else None)
+            if ad in GOZLEM_KOKENLERI:
+                okunan.setdefault(ad, []).append(
+                    f"{yol.name}:{n.lineno}")
+    for alan, kayitlar in GOZLEM_KOKENLERI.items():
+        yerler = okunan.get(alan, [])
+        print(f"    {alan:<20} okunuyor: {len(yerler)}"
+              + (f" ({', '.join(yerler[:3])})" if yerler else ""))
+        if not yerler:
+            continue
+        if not kayitlar:
+            bulgular.append(f"okunan gozlem: `{alan}` protokolde okunuyor "
+                            f"({yerler[0]}) ama olcum modeli yok (D-04)")
+        for k in kayitlar:
+            if KOKENLER[k][0] == "DUYARSIZ":
+                bulgular.append(f"okunan gozlem: `{alan}` okunuyor "
+                                f"({yerler[0]}) — `{k}` DUYARSIZ kalamaz, "
+                                f"yeniden olculur")
+
+
 def main() -> None:
     d1_katman_yonu()
     d2_ciplak_assert()
@@ -883,6 +946,7 @@ def main() -> None:
     d14_golge_fizik()
     d15_bayat_uretici()
     d16_tekrarli_tanim()
+    d17_okunan_gozlem_kokenleri()
 
     basliklar("SONUC")
     if bulgular:

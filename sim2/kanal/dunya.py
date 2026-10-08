@@ -109,8 +109,8 @@ def referans_2026(**ek) -> Konfig:
         # 🔴 K-188 — A7 ATLAMASI (ajan): eski dünyanın gölgeleme hücresi
         # 1:50 ölçekli uzaydaydı (50 m → gerçekte 2,5 km). Ölçeklenmeden
         # taşınınca 1:1 dünyada gölgeleme 50 kat hızlı değişti ve rota ömrü
-        # yapay olarak çöktü (Θ_OLSR 0,29). Değer SINANMAMIŞ kalır —
-        # duyarlılık ekseni (eski dünyada |Δ| 0,06 PDR, K-133).
+        # yapay olarak çöktü (Θ_OLSR 0,29). Değer kaynaksız: DÜNYA TANIMI,
+        # ölçülen duyarlılığıyla (K-217, K-220).
         golgeleme_hucre_m=v["golgeleme_hucre_m"] * v["olcek"],
         frekans_hz=2.437e9, bant_genisligi_hz=22e6, gurultu_figuru_db=7.0,
         islem_kazanci=True, rician_k_db=10.0, yeniden_deneme_siniri=7,

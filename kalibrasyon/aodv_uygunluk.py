@@ -319,11 +319,10 @@ def _pdr(kfg: Konfig, kahin: bool, protokol: str = "aodv") -> tuple:
     dört saatlik koşumu iki ayrı soru için iki kez koşmak yerine, kapanış
     koşumu iki soruyu birden cevaplar.
 
-    ⚠️ İkinci soru: `rota_tamponu_kapasitesi` (64) ve `rota_tamponu_omru_s`
-    (30 s) NS-2 geleneğinden geldi ve bu projede HİÇ ölçülmedi (ikisi de
-    `SINANMAMIS`). Eğer tampon hiçbir kolda dolmuyor ve hiçbir paket süre
-    tavanından düşmüyorsa, sonuç bu iki parametreye DUYARSIZ demektir ve
-    borç ölçümle kapanır.
+    İkinci soru: `rota_tamponu_kapasitesi` (64) ve `rota_tamponu_omru_s`
+    (30 s) — ns-3 AODV'nin değerleri, köken KAYNAK (K-198); birincil hücrede
+    bağlamadıkları ölçüldü (K-200). Tablo tamponun bu koşumda da dolup
+    dolmadığını gösterir.
     """
     kur = kurulum_yap(kfg)
     if kahin:
@@ -672,8 +671,8 @@ def _degerlendir(sonuc: dict, kollar, tohumlar, sabit, sure_s: float,
     for kol, oranlar in kol_oranlari.items():
         print(f"  {kol:<16}{ist.mean(oranlar):>10.3f}{min(oranlar):>10.3f}")
     print()
-    # 🔒 TAMPON — `SINANMAMIS` iki parametrenin ölçümü (yukarıdaki beyan).
-    print("  ROTA TAMPONU  (kapasite 64 · omur 30 s — ikisi de SINANMAMIS)")
+    # 🔒 TAMPON — bağlıyor mu (yukarıdaki beyan; köken KAYNAK, K-198).
+    print("  ROTA TAMPONU  (kapasite 64 · omur 30 s — ns-3, K-198)")
     print(f"  {'kol':<16}{'tohum':>6}{'giris':>9}{'dusen':>8}{'tepe':>7}")
     tepe_en = 0.0
     dusen_top = 0.0

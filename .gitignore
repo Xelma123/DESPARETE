@@ -11,11 +11,12 @@ ciktilar2/
 DEVIR-PROMPT.md
 DENETIM-PROMPT.md
 
-# Arşiv: notlar, beklenti (ön-kayıt) dosyaları, günlükler ve araçlar İZLENİR,
-# çünkü commit zamanı ölçütün ölçümden önce yazıldığının kanıtıdır.
+# Arşiv: notlar, beklenti (ön-kayıt) dosyaları, günlükler ve araçlar İZLENİR.
+# Ölçüt dosyası koşudan ÖNCE ayrı bir commit'le girer; sonuç ayrı dosyaya
+# yazılır (denetim D-05). Commit zamanı ancak böyle kanıttır.
 # İzlenmeyenler: kod kopyaları (kod zaten git geçmişinde) ve eski dünyanın
 # büyük çıktıları (kodla yeniden üretilir; biri GitHub'ın 100 MB sınırını aşar).
-kopya/
+kopya*/
 yorum_tabani/
 arsiv/ciktilar/
 arsiv/regresyon_tabanlari/

@@ -39,10 +39,10 @@ bile onları atlayamayacağını söyler.
 
 🔒 KOL KİMLİĞİ
 ==============
-Koşu kimliği protokol parametrelerini İÇERMEZ (`sim2/kosum/sonuc.py`:
-`kol` · tohum · kurulum · araç). Her ablasyon kolu kendi `kol` etiketini
-taşımalı; satır, düğümlerin GERÇEKTEN kullandığı bayrakları teşhiste taşır
-ve analiz ikisinin uyuştuğunu denetler.
+Koşu kimliği protokolün parametrelerini İÇERİR (K-171:
+`DESPARETE.kimlik_parametreleri` → `protokol_hash`). Her ablasyon kolu yine
+kendi `kol` etiketini taşır; satır, düğümlerin GERÇEKTEN kullandığı
+bayrakları teşhiste taşır ve analiz ikisinin uyuştuğunu denetler.
 """
 
 from __future__ import annotations
