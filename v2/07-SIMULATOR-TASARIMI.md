@@ -10,7 +10,7 @@
 |---|---|
 | iç tutarlılık — korunum, mutabakat, belirlenimcilik | her koşuda |
 | analitik — yol kaybı, gürültü, çerçeve süreleri, sönümleme momentleri, Bianchi | ✅ |
-| dış çapa — Li vd. çok atlamalı zincir kapasitesi | ✅ referans dünyada sabit hızda H1 = 0,127 bantta (`09`) |
+| dış çapa — Li vd. çok atlamalı zincir kapasitesi | ✅ referans dünyada sabit hızda H1 bantta: 0,1188 (K-219; 84 B beacon'la — 32 B'la 0,1270, K-187) (`09`) |
 | gerçekçilik — karıştırıcısız statik ağda kâhin PDR ≈ 1 | ✅ |
 
 ## 2 · İki dünya
@@ -40,7 +40,7 @@ Bir paketin yolu: trafik üretir → düğüm kuyruğa alır → protokol sonrak
 - **Sürü:** 40 İHA · 33 km alan · 50–300 m irtifa · 40–120 km/h. Alan yere göre sabit bir görev alanıdır: sürü onun üzerinde kalır (bağımsız ve görev kollarında dolaşır, formasyonda istasyon tutar); ortak transiti modellenmez (gelecek çalışma). Karıştırıcılar bu alanda sabit durur ya da kendi yörüngesini izler.
 - **Hareket kolları:** statik (referans; sönümleme donuk) · bağımsız · görev (müfreze + istasyon tutma) · formasyon (istasyon = yerleşim; birincil hücrenin kolu). Kapı: Θ = rota ömrü / 15 s (OLSR `TOP_HOLD_TIME`) ≥ 3; her satır Θ_OLSR ve Θ_AODV'yi taşır.
 - **Kanal:** serbest uzay α = 2 · log-normal gölgeleme σ 3 dB, 2,5 km'lik hücrede korelasyonlu · dipol anten deseni · Rician K 10 dB, Doppler gerçek bağıl hızdan; sönümleme 190 µs'lik parçalarda, durumsuz (her protokol aynı izi görür), referans dünyada blok üreteciyle (K-198) · girişim toplamsal, karıştırıcı alıcıda.
-- **PHY/MAC:** EIRP 20 dBm · işlem kazancı · 1/2/5,5/11 Mb/s ARF · ED −76 dBm · slot 20 µs, SIFS 10 µs, CW 31–1023 · kısa yeniden deneme 7 · yayılım gecikmesi · yakalama. Veri onayı yalnız gönderen alıcı tarafından çözüldüyse sayılır.
+- **PHY/MAC:** EIRP 20 dBm · işlem kazancı · 1/2/5,5/11 Mb/s ARF · ED −76 dBm · slot 20 µs, SIFS 10 µs, CW 31–1023 · en çok 7 iletim denemesi (6 yeniden deneme, K-223) · yayılım gecikmesi · yakalama. Veri onayı yalnız gönderen alıcı tarafından çözüldüyse sayılır.
 
 ## 5 · Tehdit
 

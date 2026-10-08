@@ -563,7 +563,8 @@ def test_A7_referans_BAG_BUTCESI_ile_AYNI_SAYILAR():
         1.0, 33000.0, 50.0, 300.0)
     assert (k.gm_hiz_min_ms * 3.6, k.gm_hiz_maks_ms * 3.6) == pytest.approx(
         (40.0, 120.0))
-    assert (k.yeniden_deneme_siniri, k.cca_s, k.rician_k_db) == (7, 15e-6, 10.0)
+    # K-223: 6 yeniden deneme = 7 iletim denemesi (dot11ShortRetryLimit)
+    assert (k.yeniden_deneme_siniri, k.cca_s, k.rician_k_db) == (6, 15e-6, 10.0)
 
 
 def test_A7_ESKI_DUNYA_AYNI_ve_TUTARSIZ_referans_REDDEDILIR():

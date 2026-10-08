@@ -42,7 +42,7 @@ Kanca niyet demetleri `Beyan` da taşıyabilir (K-134) — kopma, öğrenildiği
 
 ## 03 · Simülatör sözleşmesi (`sim2/kanal/cerceve.py` · `sim2/kosum/kontrol*.py`)
 
-- **03.1 Çerçeve:** `bayt = mesaj + 64` (802.11 MAC başlığı 24 · FCS 4 · LLC/SNAP 8 · IPv4 20 · UDP 8; kökeni SINANMAMIŞ, `02` S5). Süre ve hataya açık bit aynı `cerceve_kur` satırından. `veri`/`onay`/`beacon` boyutları değişmedi.
+- **03.1 Çerçeve:** `bayt = mesaj + 64` (802.11 MAC başlığı 24 · FCS 4 · LLC/SNAP 8 · IPv4 20 · UDP 8; kökeni KAYNAK, `02` G15 · G16). Süre ve hataya açık bit aynı `cerceve_kur` satırından. `veri`/`onay`/`beacon` boyutları değişmedi.
 - **03.2 Kuyruk:** düğüm başına ayrı kontrol FIFO'su (kapasite `kuyruk_kapasitesi`; dolunca `kuyruk_tasmasi`). Öncelik: uçuşta kontrol → uçuşta veri yoksa kuyruktaki kontrol → veri; uçuştaki veri MSDU'sunun yeniden denemeleri kesilmez (NS-2 `PriQueue`). Kontrol, veri korunum defterine girmez.
 - **03.3 MAC:** aynı `Dcf`; unicast onay bekler, `yeniden_deneme_siniri`ne kadar aynı uçuş numarasıyla dener, sonra `unicast_vazgecilen`; yayın onaysız ve tekrarsız. Onay yalnız gönderenin kendisi çözdüğünde sayılır (veri yolunda da, Y2).
 - **03.4 Teslim:** alıcı zinciri başarısız → hiçbir şey · yayın → `kontrol_alindi(yayin=True)` · unicast bu düğüme yeni → onay + teslim · tekrar → onay, teslim yok (`tekrar_bastirilan`) · başkasına adresli → teslim de onay da yok. Tekrar anahtarı `(gönderen, uçuş_no)`.
@@ -80,6 +80,6 @@ Gözlem penceresi 17 · 6 · 6 = 29 alan (P6; `bildirdigi_konum` K-131 ile çık
 | R3 | MAC vazgeçince protokol haberdar edilmiyordu | 🟢 kapandı (§02.5 · §03.6, K-121) |
 | R4 | protokolün rastgelelik kaynağı yoktu (RREQ jitter, `MAXJITTER`) | 🟢 kapandı (§02.2 · §02.3 · §03.7, K-121) |
 | R5 | kapsülleme asimetrisi: veri 512 B toplam, kontrol mesaj + 64 B | açık — `nrl_*`de kontrolü en çok 64 B pahalı gösterir (beyanlı) |
-| R6 | `BEKLEYEN_UYANDIRMA_TAVANI` ve `KONTROL_KAPSULLEME` SINANMAMIŞ | açık — köken borcu |
+| R6 | `BEKLEYEN_UYANDIRMA_TAVANI` ve `KONTROL_KAPSULLEME` SINANMAMIŞ | ✅ kapandı — kapsülleme KAYNAK (G15 · G16, K-203), tavan ÖLÇÜLMÜŞ (tepe ≤ 22/256, K-214) |
 | R7 | tavan bekleyen **sayısını** sınırlar, oranı değil | açık — tepe/ateş sayısı satırda (beyanlı) |
 | R8 | kontrol istatistiklerinin pencere ikizi yoktu | 🟢 kapandı (§03.10, K-115) |

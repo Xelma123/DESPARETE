@@ -121,7 +121,7 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-188 | 🟢 GÖLGELEME BİRİM HATASI DÜZELDİ · referans alanı 33 km · Θ · görev yarıçapı 16 km · ara | 🟢 geçerli |
 | K-189 | 🟢 FAZ 4.3 BAŞLADI (U1 referans dünyada, iki desen) · SINANMAMIŞ 47 → 44 · hücre koşucusu | 🟢 geçerli |
 | K-190 | 🟢 U1 AODV (yere toplama) referans dünyada · koşu süresi 5 kat fazlaydı → yavaş kayıp önb | 🟢 geçerli |
-| K-191 | 🟡 U1 YERE TOPLAMA REFERANS DÜNYADA BİTTİ — üç protokolde U1-B kalıyor, OLSR ağır · AODV  | 🟢 geçerli |
+| **K-191** | 🟡 U1 YERE TOPLAMA REFERANS DÜNYADA BİTTİ — üç protokolde U1-B kalıyor, OLSR ağır · AODV  | 🔄 **REVİZE → K-196**<br>OLSR'ın U1 sayıları (0,642…) §13 açık `OLSR-b` hâline aitti; K-196 §13'ü kapattı (`OLSR-c`) ve düşük hücreleri "açıklanmış, sıralamasız" okudu |
 | K-192 | 🟢 ÖĞRENCİ KARARLARI (28 Eylül) — U1 eşiği DEĞİŞMEZ · KR-1 kapandı · tasarım bedeli açıkl | 🟢 geçerli |
 | K-193 | 🟡 OLSR'IN REFERANS DÜNYADAKİ DÜŞÜKLÜĞÜ: KÖTÜ BAĞ DEĞİL, GEÇİDE ROTANIN ARALIKLI BOŞALMAS | 🟢 geçerli |
 | K-194 | 🟢 AODV §6.8 KARA LİSTE UYGULANIYOR · AOMDV'nin U1–U4 karşılıkları adıyla eşlendi | 🟢 geçerli |
@@ -135,15 +135,15 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-202 | 🟢 U1 ARACI: kâhin desen başına bir kez, ara kayıt · ANATOMİDE ETKİ ALANI · DESPARETE U1' | 🟢 geçerli |
 | K-203 | 🟢 FAZ 4 KAPANIŞ KAPISI ve DENETİMİN KARARLARI — Faz 5'e paralel iş yok · köken defteri r | 🟢 geçerli |
 | K-204 | 🟢 ÖĞRENCİ KARARLARI (30 Eylül) — 10 keşifsel kol tanımı kapsam ilanı · arşiv git'te izle | 🟢 geçerli |
-| K-205 | 🟡 U1 SONUCU (referans dünya, dört protokol) · OLSR K-196'ya atıfla temiz · AODV'DE DÖNGÜ | 🟢 geçerli |
+| **K-205** | 🟡 U1 SONUCU (referans dünya, dört protokol) · OLSR K-196'ya atıfla temiz · AODV'DE DÖNGÜ | 🔄 **REVİZE → K-208**<br>`AODV-g` için "RFC'ye sadık" iddiası **fazlaydı**: kural kural denetimde 11 sapma daha çıktı (`AODV-h`) |
 | K-206 | 🟡 U1 AODV-g SONUCU · AOMDV'NİN KÂHİN AŞIMI ZARF İÇİNDE (K-192 b) · REFERANS DÜNYADA R GE | 🟢 geçerli |
 | K-207 | 🟢 ÖĞRENCİ KARARLARI (30 Eylül) — AODV sadakat şartıyla DONAR, eşik altı hücreler protoko | 🟢 geçerli |
 | K-208 | 🟡 AODV SADAKAT DENETİMİ (RFC 3561 + ns-3) — 11 sapma daha bulundu ve düzeltildi (AODV-h) | 🟢 geçerli |
 | K-209 | 🟡 EVRE METRİKLERİ v2 UYGULANDI (çizelgeli karıştırıcı) — kapılar U1'den sonra | 🟢 geçerli |
 | K-210 | 🟡 AOMDV'DE KARA DELİK: iki kusur bulundu ve düzeltildi — AOMDV'nin kendi işleyicilerinde | 🟢 geçerli |
-| K-211 | 🟢 TABAN PROTOKOLLER DONDU — AODV-i · OLSR-c · AOMDV-e · U1 son hükmü · regresyon tabanı  | 🟢 geçerli |
+| **K-211** | 🟢 TABAN PROTOKOLLER DONDU — AODV-i · OLSR-c · AOMDV-e · U1 son hükmü · regresyon tabanı  | 🔄 **REVİZE → K-218**<br>Donan hâller `AODV-i` · `AOMDV-e` ve U1 hükmü 6 örnekli (yakınsamamış) kâhine aitti; **`AODV-j` · `OLSR-c` · `AOMDV-f`** yakınsamış kâhinle yeniden dondu |
 | **K-212** | 🟡 EVRE METRİKLERİ v2 KAPILARI — G1ç ✅ · G4ç ✅ · G2ç ❌ (bölümleme hatası yok: kâhinin ken | 🔄 **REVİZE → K-217**<br>G2ç'nin kalışı "formasyonun zaman kayması" diye teşhis edilmişti — **yanlış**: sebep 6 örnekli kâhinin yakınsamamasıydı (K-214); 48 örnekte G1ç · G2ç · G4ç **GEÇTİ** |
-| K-213 | 🟡 FAZ 4.4 ÇÖZÜNÜRLÜĞÜ BİRİNCİL HÜCREDE — R = 0,0188 (eşleştirilmiş, 40 tohum) · olasılık | 🟢 geçerli |
+| **K-213** | 🟡 FAZ 4.4 ÇÖZÜNÜRLÜĞÜ BİRİNCİL HÜCREDE — R = 0,0188 (eşleştirilmiş, 40 tohum) · olasılık | 🔄 **REVİZE → K-216**<br>R = 0,0188 6 örnekli kâhinle ölçülmüştü; yakınsamış kâhinle **0,0142** (kısa pencere kesiti — denetim D-03) |
 | K-214 | 🟡 FAZ 4.4 TARAMALARI — 3 güçlü DUYARLI (Rician K · kâhinin sönümleme örneği · en kısa yo | 🟢 geçerli |
 | K-215 | 🟢 ÖĞRENCİ KARARLARI (Faz 4.4) — TTL 64 kaynağa bağlı · kâhin 48 örnek · AODV-j/AOMDV-f · | 🟢 geçerli |
 | K-216 | 🟢 K-215 KODU DOĞRULANDI — regresyon k215 (58/58 birebir + 22 ilanlı) · R = 0,0142 (yakın | 🟢 geçerli |
@@ -152,8 +152,10 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-219 | 🟢 FAZ 4.5 — doğrulama listesi referans dünyada bir kez: anlamlı her kapı GEÇTİ · iki kap | 🟢 geçerli |
 | K-220 | 🟢 ÖĞRENCİ KARARLARI (Faz 4 kapanışı) — gölgeleme hücresi · CBR titreşimi · istasyon tutm | 🟢 geçerli |
 | K-221 | 🟢 FAZ 4 KAPANDI — yeniden kalibrasyon ve doğrulama tamam · taban protokoller dondu · kök | 🟢 geçerli |
+| K-222 | 🟢 BAĞIMSIZ DENETİM (8 Ekim) — öğrenci kararları ve davranışı değiştirmeyen düzeltmeler:  | 🟢 geçerli |
+| K-223 | 🟡 TABAN PROTOKOLLER ÇÖZÜLDÜ (denetim D-02 · D-10 · D-13) — OLSR-d: §8.2.1 RFC'nin harfiy | 🟢 geçerli |
 
-**132 kayıt · 2 revize · 130 geçerli**
+**134 kayıt · 6 revize · 128 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1672,3 +1674,24 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Faz 4'ün özeti:** 4.1–4.3 (K-185…K-211) · U1 ve donma yakınsamış kâhinle yeniden (K-218: `AODV-j` · `OLSR-c` · `AOMDV-f`) · 4.4 (K-213…K-217, K-220: R 0,0142; 22 parametre ölçümle ya da kararla kapandı; Rician K eksen; TTL 64 ve beacon kaynağa bağlı; kâhin 48 örnek; AODV'nin saat bağımlılığı giderildi) · 4.5 (K-219: referansta anlamlı her kapı geçti) · evre metrikleri v2 (G1ç · G2ç · G3ç · G4ç) · yazılım/belge temizliği (K-203, K-220).
 - **Faz 6'ya devredilenler:** pencere üçlüsü (`isinma_s` · `olcum_bitis_s` · `kosu_bitis_s`) · `06` H1.3'ün aldatıcı ↔ sürekli kontrastı (referansta 10 W aldatıcı ağı susturuyor) · Rician K'nın keşifsel tekrarı (6 · 15 dB) · KR-2 · DESPARETE'nin kuyruk/saat/TTL duyarlılığı son hâliyle.
 - **Faz 5'in ilk işi (5.0, kayıp anatomisi):** aleti hazır (K-202); `arsiv/teshis/faz5_0_2026-09-30/`daki kopya ve beklenti K-215 öncesi koda ait → yeniden dondurulur, beklentinin sayıları (kâhin, AODV) yeni koda göre gözden geçirilir.
+# K-222 · 🟢 BAĞIMSIZ DENETİM (8 Ekim) — öğrenci kararları ve davranışı değiştirmeyen düzeltmeler: birincil metrik `PDR_açık` · fark-içinde-fark ve mekanizma kapısı · dayanıklılık hücresi · Faz 5 önceliği ve bütçesi · git süreci · iki serbest oran SINANMAMIŞ
+> 9 Ekim · öğrenci ("hepsini onaylıyorum"; git için (a)) · uygulama ajan · rapor `arsiv/denetim/DENETIM-RAPORU-2026-10-08.md` (24 bulgu, D-01…D-24)
+
+- **D-01 🔴 → birincil metrik `PDR_açık`** (karıştırıcının açık dönemlerinde doğan paketlerin teslim oranı): pencerenin yalnız %33'ü karıştırıcılı ve v0.4.1'in AODV'ye üstünlüğü karıştırıcısız kollarda da var (+0,08…+0,21), açık evrede en küçük (K-200: +0,147 · +0,101 · +0,187). **İkincil test** karıştırıcısız ikizle fark-içinde-fark; **mekanizma kapısı** karıştırmaya özgü mekanizmaların ablasyonu; **iddia dili** ikiye ayrıldı (`06` §0.4.5, `README`). Analiz: `analiz/satir.py::donem_pdr` (ham listeden ikinci gerçekleme, ham denetimine bağlı) · `analiz/hucre.py::fark_icinde_fark_tablosu`; iki test. Ajanın notu: `PDR_açık` tek başına genel üstünlüğü ayıklamaz — "karıştırmaya özgü" iddiasını DiD ve kapı taşır.
+- **D-08 · D-09:** dayanıklılık hücresi (10 s açık · 20 s sessiz) geliştirme setinde ve ön-kayıtlı ikincil test · Faz 5 önceliği 5.1 → 5.3 → 5.4, 5.2 keşifsel · kaba hesap planı (~350 · ~200 · ~960 koşu) ve önceden yazılı düşme sırası (`12` §2–§4).
+- **D-05 · git süreci (öğrenci (a)):** her ölçümün beklenti dosyası koşudan ÖNCE ajanın verdiği komutla öğrencinin ayrı commit'iyle girer; sonuçlar ayrı `sonuc.md`ye, beklentiye dokunulmaz; her ölçümden sonra push. `.gitignore` notu buna göre.
+- **D-02 · D-10 (öğrenci):** OLSR kural kural sadakat denetiminden geçecek, gerekçesiz sapma düzeltilecek; MAC deneme sayısı standarda (7 deneme) çekilecek — ikisi tek partide, ardından U1 ve regresyon.
+- **D-07:** `gm_alfa` · `gm_hiz_sigma_ms` TÜRETİLMİŞ sanılan serbest seçimlerdi, formasyon (birincil hücre) da okuyor → SINANMAMIŞ, birincil hücrede ölçülecek; `gorev_jitter_hiz_ms` → KOL_TANIMI + kapsam ilanı. **SINANMAMIŞ 5 · kapsam ilanı 13**, sayımın tek yeri `04` §9.
+- **Davranışı değiştirmeyen düzeltmeler** (commit `c8b1b44` ve bu kayıt): `.gitignore` `kopya*/` + 684 kopya dosyası git'ten çıktı (D-17) · `li_beacon.py` (D-18) · indekste dört REVİZE: K-191 → K-196 · K-205 → K-208 · K-211 → K-218 · K-213 → K-216 (D-20) · kodda beş bayat ifade (D-21) · mimari D8/D9 iki dünyada (D-14) · mimari D17: okunan gözlem alanı → köken, gürültü modelsiz okunamaz (D-16 · D-04) · taban protokol dosyalarını K-218'e bağlayan test (D-12) · R'nin etiketi "kısa pencere kesiti" (D-03) · kâhin yakınsamasının dili (D-15) · `06` §4.4/3 uygulanan kurala çekildi, §10'a Faz 4'te sonuçtan sonra değişen beş ölçüt (D-06) · bayat belge sayıları `04` `05` `07` `09` `13` `14` `README` `v2/README` (D-19).
+- **Faz 5'e bırakılanlar:** gürültü ölçüm modeli (D-04, 5.1'den önce) · 5.0 beklentisi (D-22) · çoğaltma tanımları (D-23, 5.4'ten önce). **Faz 6'ya:** tam pencere R ve DUYARSIZ'ların yeniden okunması (D-03) · slot (D-11) · kâhin 96 örnek (D-15). **Yapılmadı:** D-24 (ruff yapılandırması — proje ayarı yok, kullanıcı düzeyindeki ayarı ezerdi).
+# K-223 · 🟡 TABAN PROTOKOLLER ÇÖZÜLDÜ (denetim D-02 · D-10 · D-13) — `OLSR-d`: §8.2.1 RFC'nin harfiyen koşulu · MAC en çok 7 iletim denemesi · regresyona çizelgeli evre vakası · kayıp anatomisine tek deneme bandı · ölçümler bekleniyor
+> 9 Ekim · öğrenci (D-02: "sapma çıkarsa OLSR yeniden açılır"; D-10: düzelt; "hepsini onaylıyorum") · uygulama ajan · ölçütler ölçmeden önce `arsiv/teshis/denetim_duzeltme_2026-10-09/beklenti.md`, sonuçlar K-224'e
+
+- **D-02 · OLSR'ın kural kural sadakat denetimi** (`arsiv/teshis/olsr_sadakat_2026-10-09/denetim.md`; K-208'in kalıbı, RFC 3626 §3–§10 · §13 · §14 · §18): **bir gerekçesiz sapma** — §8.2.1 2-atlama kümesini RFC'nin *"L_SYM_time >= current time"* koşuluyla değil, histerezisli simetri tanımıyla güncelliyordu (K-193 farkı ölçmüş, beyan edilmemişti). §14.2 histerezisli tanımı yalnız N_status, MPR kümesi ve rota tablosunun ilk adımları için ister → **düzeltildi, `OLSR-d`** (test `test_K223_IKI_ATLAMA_…`). Beyan tablosuna (`olsr_bicim.py`) girenler: §10 adım 3.2'nin eşitlik tercihi (küçük harf "should", normatif değil; bütün düğümler WILL_DEFAULT) · PSN boşluğunun `MAXJITTER` beklemesi · ilk paketin yalnız kurulum olması · süpürme ızgarası. Öteki kurallar birebir.
+- **D-10 · MAC:** `yeniden_deneme_siniri` YENİDEN deneme sayısıdır (toplam = sınır + 1, `mac/dcf.py`); dot11ShortRetryLimit = 7 ise toplam İLETİM denemesidir (ns-3 `FrameRetryLimit`, G12) → referans dünyada **7 → 6**, yani en çok 7 deneme. Kâhin ve aletler `sınır + 1`'i okuduğu için kendiliğinden uyar. CW 31 → 1023'e yedinci denemede erişilir (mimari D8: cw_max CANLI, köken KAYNAK). Eski dünya değişmedi. Köken kaydı ve `04` §2 düzeltildi.
+- **D-02 · K-193'ün "kötü bağ seçimi değil" hükmü:** kayıp anatomisinin bağ bandı yeniden denemeli başarıdır (tek deneme başarısı ≥ 0,25 olan bağ "iyi"); OLSR'ın HELLO ve TC'si tek denemeyle gider. Alet karar bağlarını artık TEK DENEME bandıyla da basar (`karar_bant_tek`); hüküm yeniden okunacak.
+- **D-13:** regresyona referans dünyada çizelgeli evre yolunu sınayan vaka — `u-birincil-evre-en_guvenilir_kahin` (TEMİZ 10–40 s, karıştırıcı 40 s'de, iki açık/sessiz çevrimi; `pdr_acik` dâhil evre alanları dolar). `_kos` vakanın kendi penceresini genel pencerenin üstüne yazar.
+- **D-21 artığı:** kapsam ilanında rota tamponunun kaynağı "NS-2 geleneği, SINANMAMIS" yazıyordu → ns-3 AODV `RequestQueue`, KAYNAK (K-198). Satırın `kapsam` alanı değişir.
+- **Taban protokoller ÇÖZÜLDÜ** — K-218'in donması bilinçli olarak açıldı: OLSR'ın kodu değişti; `AODV-j` ve `AOMDV-f`nin kodu aynı, ama MAC üçünü ve kâhini etkiler. Donma testi `OLSR-d`ye bağlandı. **Yeniden donma koşulu:** regresyon k220 → k223 yalnız beyanlı farklarla · U1 iki desende üç protokolle (U1-U ✅; U1-B'nin düşük hücreleri açıklanmış ya da bulgu) · R yeniden · evre kapıları G1ç · G2ç · G3ç.
+- **D-07'nin ikinci önerisi — TÜRETİLMİŞ kovasının taraması** (23 kayıt; serbest oran/pay/seçim sözcükleri): `komut_akis_sayisi` (4) türetilmiş değil, referans dünyanın trafik tanımı (`v2/14`, K-169; birincil hücre K-186) → **DÜNYA TANIMI**. Pay taşıyan iki kayıt (`menzil_snr_db` +10 dB · `sinr_esigi_db` +2σ) referans dünyada veri yoluna girmez — kopma sayımı (Θ), kayıp yeri bölmeleri ve teşhis birimi (`nominal_bag_m`) tanımlar; TÜRETİLMİŞ kalır, tanımları gerekçelerinde. Öteki kayıtlar gerçekten türetilmiş.
+- **Doğrulama (kod):** değişen modüllerin testleri 179/179 · mimari denetimi ihlalsiz (SINANMAMIŞ 5, K-222) · tam takım `981 passed` (14 dk 54 s; kova değişikliğinden sonra köken, duyarlılık ve donma testleri 62/62 yeniden). Lint: yalnız karar indeksinde dosyanın kendi kalıbının (örtük dize birleştirme) dört yeni örneği.

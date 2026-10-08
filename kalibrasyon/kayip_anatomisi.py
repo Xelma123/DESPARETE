@@ -533,17 +533,23 @@ def _is(is_) -> dict:
     deneme = kfg.yeniden_deneme_siniri + 1
     onbellek: dict[tuple[int, int, int], float] = {}
 
-    def p_atlama(i: int, j: int, dilim: int, t_s: float) -> float:
+    def p_tek(i: int, j: int, dilim: int, t_s: float) -> float:
         anahtar = (i, j, dilim)
         p = onbellek.get(anahtar)
         if p is None:
             p = onbellek[anahtar] = grafik._tek_deneme_basarisi(i, j, t_s)
-        return 1.0 - (1.0 - p) ** deneme
+        return p
+
+    def p_atlama(i: int, j: int, dilim: int, t_s: float) -> float:
+        return 1.0 - (1.0 - p_tek(i, j, dilim, t_s)) ** deneme
 
     def mesafe_km(i: int, j: int, t_s: float) -> float:
         return kur.topoloji.mesafe(i, j, t_s) / 1e3
 
     karar_bant: Counter = Counter()
+    # Denetim 2026-10-08 D-02: yayın (HELLO · TC) TEK denemeyle gider; yeniden
+    # denemeli bant onu göremez (tek deneme başarısı 0,25 olan bağ "iyi"dir).
+    karar_bant_tek: Counter = Counter()
     karar_mesafe: list[tuple[float, int]] = []
     ed_w = dbm_to_w(kfg.ed_esigi_dbm)
     alan_onbellek: dict[tuple[int, int], str] = {}
@@ -561,6 +567,7 @@ def _is(is_) -> dict:
     for (i, j, dilim, evre), n in kararlar.items():
         t_orta = 0.0 if donuk else (dilim + 0.5) * BAG_DILIMI_S
         karar_bant[_bant(p_atlama(i, j, dilim, t_orta))] += n
+        karar_bant_tek[_bant(p_tek(i, j, dilim, t_orta))] += n
         karar_mesafe.append((mesafe_km(i, j, t_orta), n))
         if kar is not None:
             karar_alan[f"{evre}|{alan(j, t_orta)}"] += n
@@ -652,6 +659,7 @@ def _is(is_) -> dict:
             "tablo": {f"{s}|{b}": v for (s, b), v in tablo.items()},
             "isinmada": dict(isinmada),
             "karar_bant": dict(karar_bant),
+            "karar_bant_tek": dict(karar_bant_tek),
             "karar_mesafe_km": _yuzdelik(karar_mesafe),
             "basarisiz_bant": dict(basarisiz_bant),
             "basarisiz_mesafe_km": _yuzdelik([(d, 1) for d in
@@ -879,6 +887,9 @@ def main() -> int:
                            ("acik", "sessiz", "once"))))
             print(f"      karar bağı kâhin bandı: {_oranlar(r['karar_bant'])}"
                   f" · mesafe km {r['karar_mesafe_km']}")
+            if r.get("karar_bant_tek"):
+                print(f"      karar bağı TEK deneme (yayın) bandı: "
+                      f"{_oranlar(r['karar_bant_tek'])}")
             print(f"      başarısız bağ bandı:   "
                   f"{_oranlar(r['basarisiz_bant'])} · mesafe km "
                   f"{r['basarisiz_mesafe_km']} · {r['basarisiz_bag_sayisi']}"

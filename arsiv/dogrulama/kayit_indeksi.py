@@ -102,10 +102,24 @@ SUPERSEDE: dict[str, tuple[str, str]] = {
               "AODV kapanışının U1 tablosu `AODV-c` hâline aitti; RFC §6.11 öncül "
               "kuralı davranışı değiştirdi (K-143) ve kapanış `AODV-e` ile yeniden "
               "koşuldu (K-145). Açıklanmış düşük hücre 4 → **2**"),
+    "K-191": ("K-196",
+              "OLSR'ın U1 sayıları (0,642…) §13 açık `OLSR-b` hâline aitti; K-196 "
+              "§13'ü kapattı (`OLSR-c`) ve düşük hücreleri \"açıklanmış, "
+              "sıralamasız\" okudu"),
+    "K-205": ("K-208",
+              "`AODV-g` için \"RFC'ye sadık\" iddiası **fazlaydı**: kural kural "
+              "denetimde 11 sapma daha çıktı (`AODV-h`)"),
+    "K-211": ("K-218",
+              "Donan hâller `AODV-i` · `AOMDV-e` ve U1 hükmü 6 örnekli "
+              "(yakınsamamış) kâhine aitti; **`AODV-j` · `OLSR-c` · `AOMDV-f`** "
+              "yakınsamış kâhinle yeniden dondu"),
     "K-212": ("K-217",
               "G2ç'nin kalışı \"formasyonun zaman kayması\" diye teşhis edilmişti — "
               "**yanlış**: sebep 6 örnekli kâhinin yakınsamamasıydı (K-214); 48 "
               "örnekte G1ç · G2ç · G4ç **GEÇTİ**"),
+    "K-213": ("K-216",
+              "R = 0,0188 6 örnekli kâhinle ölçülmüştü; yakınsamış kâhinle "
+              "**0,0142** (kısa pencere kesiti — denetim D-03)"),
 }
 
 

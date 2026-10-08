@@ -380,13 +380,17 @@ KOKENLER: dict[str, tuple[str, str]] = {
     "cw_min": ("KAYNAK",
         "31 — `02` G12 (`wifi-mac.cc`, 802.11b)"),
     "cw_max": ("KAYNAK",
-        "1023 — `02` G12 (`wifi-mac.cc`, 802.11b). Yeniden deneme 7'de 5. "
-        "denemede erişilir (31→…→1023)"),
+        "1023 — `02` G12 (`wifi-mac.cc`, 802.11b). Referansta 7 denemede "
+        "(31 → 63 → 127 → 255 → 511 → 1023) 6. denemede erişilir; eski "
+        "dünyada (5 deneme) erişilemez — mimari D8 iki dünyada sınar"),
     "yeniden_deneme_siniri": ("KAYNAK",
-        "REFERANS DÜNYADA 7 — kısa yeniden deneme sınırı, `02` G12 (ns-3) ve "
-        "G13 (Linux cfg80211) bağımsız iki uygulama; 512 B'lık çerçeve RTS "
-        "eşiğinin altında. Eski dünyanın 4'ü (uzun sınır) tarihsel; etkisi "
-        "ölçülmüştü: yok (K-189)"),
+        "REFERANS DÜNYADA 6 yeniden deneme = 7 İLETİM DENEMESİ — "
+        "dot11ShortRetryLimit 7 *maximum number of transmission attempts* "
+        "(`02` G12, ns-3 `FrameRetryLimit`; G13 Linux `retry_short = 7`); "
+        "512 B'lık çerçeve RTS eşiğinin altında. Alan YENİDEN deneme "
+        "sayısıdır (toplam = sınır + 1); K-223'e kadar 7 yazılıydı, yani 8 "
+        "deneme yapılıyordu (denetim D-10). Eski dünyanın 4'ü (uzun sınır) "
+        "tarihsel; etkisi ölçülmüştü: yok (K-189)"),
     "onay_bayt": ("KAYNAK",
         "14 B = başlık 10 B + FCS 4 B — `02` G15 (`wifi-mac-header.cc`, "
         "`wifi-standard-constants.h`)"),
@@ -465,11 +469,13 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "3,0'da cokuyor). ⚠️ `02` §S4 kaynak boslugu KAPANMADI — 1,0 hala "
         "literatur capasi tasimiyor; degisen sey olculmus bir UST SINIRI ve "
         "beyan edilmis bir gerekcesi olmasidir"),
-    "komut_akis_sayisi": ("TURETILMIS",
-        "4 — çift yönlü yolları sınar, yükteki payı küçük. 🔒 Sayı 40 pkt/s "
-        "DENGESİNİ kuran yerdir: 39×1,0 + 4×0,25 = 40,0 ve `esler_arasi` da "
-        "10×4,0 = 40,0 sunar. Ayrı bir seçim değil, o eşitliğin parçası "
-        "(K-126)"),
+    "komut_akis_sayisi": ("DUNYA_TANIMI",
+        "4 — referans dünyanın trafik tanımı (`v2/14` §trafik: *geçitten 4 "
+        "düğüme komut 0,25 pkt/s*; K-169, birincil hücre K-186). Çift yönlü "
+        "yolları sınar, yükteki payı küçük; 39×1,0 + 4×0,25 = 40,0 pkt/s ve "
+        "`esler_arasi` da 10×4,0 = 40,0 sunar (K-126). TÜRETİLMİŞ "
+        "kovasındaydı; sayı eşitlikten değil tanımdan gelir (denetim D-07 "
+        "taraması, K-223)"),
     "komut_paket_hizi_hz": ("TEDAVI",
         "TEDAVİ ekseni — trafik yoğunluğu (`v2/15` C2, K-180). Varsayılan "
         "0,25 — telemetriye ORANLA gider (telemetri × 0,25) ve C3 taramasında"

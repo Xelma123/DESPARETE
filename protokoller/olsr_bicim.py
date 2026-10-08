@@ -53,6 +53,14 @@ s13=True)` eski `OLSR-b`yi birebir üretir.
 | MID · HNA | §5 · §12 | — | tek arayüz, dış ağ yok | hayır (uygulanamaz) |
 | `TC_REDUNDANCY` > 0 · `MPR_COVERAGE` > 1 | §15 · §16 | — | RFC varsayılanı 0 ve 1 | hayır — varsayılan |
 | kısmi HELLO/TC | §6.2 · §9.3 | — | mesaj boyu sınırı yok | hayır |
+| rota tablosunda eşitlik bozma (istek, MPR seçici öne) | §10 adım 3.2 | küçük harf "should" (normatif değil) | eşitlikte küçük kimlik — belirlenimci | ihmal edilebilir: bütün düğümler `WILL_DEFAULT`; eşit uzunlukta yollardan biri |
+
+**Gerçekleme ayrıntıları — RFC'nin anlamını korur, beyan edilir** (K-223):
+- **PSN boşluğu `MAXJITTER` kadar beklenir** (§14.3 kayıp sayımı): kontrol düzleminde titreşim PSN verildikten SONRA uygulandığı için havada sıra değişebilir; RFC'nin modelinde değişmez. Bekleme sırayı geri kurar (`olsr.py` başlığı).
+- **Histerezisin ilk duyuluşu** (§14.3): ilk paket alanları kurar (kalite = `HYST_SCALING`, bekleyen); kararlılık kuralı sonraki paketten itibaren — RFC iki adımın sırasını söylemiyor.
+- **Süpürme ızgarası** `HELLO_INTERVAL / 2` = 1 s: RFC periyot tanımlamaz; uzun sessizlik ve süresi dolan girdiler için; yönlendirme kararı ızgaraya bağlı değil (tembel süzme).
+
+**Denetimde düzeltilen** (`arsiv/teshis/olsr_sadakat_2026-10-09/denetim.md`, K-223): §8.2.1 2-atlama güncellemesi histerezisli simetri tanımını kullanıyordu; RFC'nin koşulu bağ girdisinin `L_SYM_time`ı (K-193'te ölçülmüş, beyan edilmemiş okuma farkıydı — denetim D-02).
 
 ⚠️ UYGULANAN SHOULD'LAR — kural gereği: bağ histerezisi (§14) · titreşim hem
 üretimde hem iletmede (§3.5) · ANSN'nin eklemede de artması (§9.2) · boş

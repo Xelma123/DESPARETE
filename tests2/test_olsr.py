@@ -144,6 +144,21 @@ def test_HISTEREZIS_titresim_SIRA_DEGISIMI_KAYIP_DEGILDIR():
     assert p._sayac["hist_kayip_psn"] == 0, "geç gelen paket kayıp sayıldı"
 
 
+def test_K223_IKI_ATLAMA_kumesi_L_SYM_TIME_ile_histerezisten_bagimsiz():
+    """§8.2.1 harfiyen: bağ girdisinin L_SYM_time'ı dolmamışsa 2-atlama kaydı
+    yazılır — histerezis bağı henüz kurmamış olsa da (`OLSR-d`). Kayıt ancak
+    komşu histerezisle simetrik olunca MPR ve rota tablosunda kullanılır."""
+    p = OLSR(0)
+    y = _hello(1, 1, {bag_kodu(NOT_NEIGH, ASYM_LINK): [0],
+                      bag_kodu(SYM_NEIGH, SYM_LINK): [5]})
+    p.kontrol_alindi(_gozlem(0, 1.0), 1, "HELLO", y, True)
+    assert p._hist[1].bekleyen and not p._simetrik_mi(1, 1.0)
+    assert p._bag[1].sym_bitis >= 1.0
+    assert (1, 5) in p._iki, "L_SYM_time geçerliyken 2-atlama yazılmadı"
+    p._guncelle(1.0)
+    assert 5 not in p._rota and 1 not in p._mpr, "bekleyen komşu kullanıldı"
+
+
 # ==========================================================================
 # §8.3.1 · MPR BULUŞSALI
 # ==========================================================================

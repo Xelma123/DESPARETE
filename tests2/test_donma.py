@@ -20,12 +20,12 @@ if str(KOK) not in sys.path:
 
 from sim2.cekirdek.kimlik import dosya_hash  # noqa: E402
 
-# K-218 (8 Ekim 2026): AODV-j · OLSR-c · AOMDV-f + koşum protokolleri.
+# K-218 (8 Ekim 2026): AODV-j · AOMDV-f + koşum protokolleri; OLSR-d K-223.
 DONMUS: dict[str, str] = {
     "aodv.py": "1d39ba7da14c91f8931556742ca9a806",
     "aodv_bicim.py": "73ba004bad94deac158e5ea48b80db66",
-    "olsr.py": "db89ed2b46ed07173a4fded20e1eb70b",
-    "olsr_bicim.py": "95e6810ba2101087003652d027e95321",
+    "olsr.py": "f5a93933860a05221ee8866d6df455ed",
+    "olsr_bicim.py": "b813f12cad77454da1e134af4a45c151",
     "aomdv.py": "3d2d037a012431b21ab1381e22d3882f",
     "aomdv_bicim.py": "ca9c20feaafb51dac524c9af14238a48",
     "kosum_kosumu.py": "e175ba6cc74a80a5cca9c7789ac39ac7",

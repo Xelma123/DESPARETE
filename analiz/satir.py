@@ -140,6 +140,52 @@ def yuzdelik(ornekler: Sequence[float], p: int) -> float | None:
     return s[alt] if alt == ust else s[alt] + (k - alt) * (s[ust] - s[alt])
 
 
+def donem_araliklari(acilma_s: float, bas_s: float, bitis_s: float,
+                     acik_s: float, sessiz_s: float, acik: bool = True
+                     ) -> tuple[tuple[float, float], ...]:
+    """Çizelgenin açık (ya da sessiz) dönemleri, ölçüm penceresine
+    kırpılmış — `olcum/evre.py::Evreler.donemler`in İKİNCİ gerçeklemesi
+    (ayrı gövde; ham denetimi ikisini karşılaştırır)."""
+    periyot = acik_s + sessiz_s
+    dogrula(periyot > 0.0, "çizelge periyodu pozitif olmalı")
+    cikti: list[tuple[float, float]] = []
+    k = 0
+    while acilma_s + k * periyot < bitis_s:
+        t0 = acilma_s + k * periyot
+        a, b = (t0, t0 + acik_s) if acik else (t0 + acik_s, t0 + periyot)
+        a, b = max(a, bas_s), min(b, bitis_s)
+        if b > a:
+            cikti.append((a, b))
+        k += 1
+    return tuple(cikti)
+
+
+def donem_pdr(satir: dict, acik: bool = True,
+              cizelge: Sequence[float] | None = None) -> float | None:
+    """Karıştırıcının açık (ya da sessiz) dönemlerinde DOĞAN paketlerin
+    teslim oranı, satırın `ham`ından (K-222, denetim D-01).
+
+    `cizelge` verilmezse satırın kendi çizelgesi (`metrikler.evre_cizelge_s`)
+    kullanılır; karıştırıcısız ikiz hücrede aynı çizelge HAYALET olarak
+    verilir — aynı zaman dilimleri, karıştırıcı yok. Paydası boşsa `None`."""
+    bas, bitis = alan(satir, "kapsam.olcum_penceresi_s")
+    if cizelge is None:
+        cizelge = satir["metrikler"].get("evre_cizelge_s")
+        dogrula(cizelge is not None,
+                "satırda çizelge yok — karıştırıcısız kolda `cizelge` ver")
+    acilma = alan(satir, "konfig.karistirici_baslangic_s")
+    araliklar = donem_araliklari(acilma, bas, bitis, *cizelge, acik=acik)
+    ham = satir["ham"]
+
+    def icinde(t: float) -> bool:
+        return any(a <= t < b for a, b in araliklar)
+
+    dogan = sum(1 for d in ham["dogum_s"] if icinde(d))
+    if not dogan:
+        return None
+    return sum(1 for d in ham["teslim_dogum_s"] if icinde(d)) / dogan
+
+
 def ham_denetimi(satir: dict) -> dict[str, tuple]:
     """Satırdaki metrikleri `ham`dan yeniden üretir: `{ad: (satır, ham,
     tutuyor_mu)}`. Karşılaştırma TAM eşitliktir — aynı işlem aynı sırayla."""
@@ -162,6 +208,11 @@ def ham_denetimi(satir: dict) -> dict[str, tuple]:
         ad = f"gecikme_p{p}_s_pencere"
         h = yuzdelik(gecikme, p)
         cikti[ad] = (m.get(ad), h, m.get(ad) == h)
+    # K-222: çizelgeli satırda açık/sessiz PDR'si de ikinci gerçeklemeyle.
+    for ad, acik in (("pdr_acik", True), ("pdr_sessiz", False)):
+        if m.get(ad) is not None and m.get("evre_cizelge_s") is not None:
+            h = donem_pdr(satir, acik=acik)
+            cikti[ad] = (m[ad], h, m[ad] == h)
     if "gorev_teslim_orani_pencere" in m:
         plan = (dogan + sum(1 for d in ham.get("olu_hedefe_dogum_s", ())
                             if icinde(d))

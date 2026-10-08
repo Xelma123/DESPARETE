@@ -144,6 +144,14 @@ REFERANS_VAKALARI: dict[str, tuple[str, str, int, dict]] = {
     "u-gorev-surekli-aomdv-esler_arasi": (
         "gorev-surekli", "aomdv", 1010, {"trafik_deseni": "esler_arasi"}),
     "u-statik-yok-desparete": ("statik-yok", "desparete", 1010, _YT),
+    # Denetim 2026-10-08 D-13: kısa pencerede TEMİZ evre boş kalıyor ve
+    # çizelgeli evre yolu (M1 · M2 · M4, `pdr_acik` — K-222'nin birincil
+    # metriği) regresyonda hiç sınanmıyordu. Bu vaka kendi penceresini taşır:
+    # TEMİZ 10–40 s, karıştırıcı 40 s'de açılır, iki açık/sessiz çevrim.
+    "u-birincil-evre-en_guvenilir_kahin": (
+        "formasyon-surekli", "en_guvenilir_kahin", 1003,
+        {**_BIRINCIL, "karistirici_baslangic_s": 40.0, "isinma_s": 10.0,
+         "olcum_bitis_s": 100.0, "kosu_bitis_s": 110.0}),
 }
 
 
@@ -388,8 +396,8 @@ def _kos(vaka: tuple[str, str, str, int, bool]) -> dict:
         from sim2.kanal.dunya import referans_2026
         ek = REFERANS_VAKALARI[kimlik][3]
         kur = kurulum_yap(referans_2026(kol="regresyon", senaryo=senaryo,
-                                        tohum=tohum, not_=kimlik, **pencere,
-                                        **ek))
+                                        tohum=tohum, not_=kimlik,
+                                        **{**pencere, **ek}))
         kosu = Kosu(kur, _fabrika(protokol, kur))
         kosu.kostur()
         return sonuc_satiri(kur, kosu.dugumler, protokol)

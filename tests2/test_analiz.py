@@ -190,3 +190,61 @@ def test_HUCRE_aile2_tablosu_HUKUM_ve_HOLM():
     kapisiz = aile2_tablosu(ozgun, rakip, "metrikler.pdr_pencere", delta,
                             False)
     assert all(s.hukum == "ayirt_edilemedi" for s in kapisiz)
+
+
+# --------------------------------- K-222 · açık evre PDR'si ve fark-içinde-fark
+def test_K222_DONEM_PDR_evre_sozluguyle_BIREBIR():
+    """Satırın `ham`ından açık/sessiz dönem PDR'si — simülatörün evre
+    sözlüğüyle TAM eşit (ikinci gerçekleme); bozulunca ham denetimi konuşur."""
+    sys.path.insert(0, str(KOK / "tests2"))
+    from test_evre import _defter, _duzgun
+
+    from sim2.olcum.evre import evre_sozlugu
+    from sim2.olcum.rota_olaylari import RotaDefteri
+    dogum = _duzgun(hiz_hz=10.0)
+    acik_mi = lambda t: t >= 150.0 and ((t - 150.0) % 30.0) < 15.0
+    teslim = [k for k, t in dogum if (k % 3 if acik_mi(t) else k % 10)]
+    d = _defter(dogum, teslim)
+    e = evre_sozlugu(d, RotaDefteri(), bas_s=50.0, acilma_s=150.0,
+                     bitis_s=320.0, gecikme_p99_s=0.001, cizelge=(15.0, 15.0))
+    ham = d.ham_sozluk()
+    satir = {"kapsam": {"olcum_penceresi_s": [50.0, 320.0]},
+             "konfig": {"karistirici_baslangic_s": 150.0},
+             "metrikler": {"evre_cizelge_s": [15.0, 15.0],
+                           "pdr_acik": e["pdr_acik"],
+                           "pdr_sessiz": e["pdr_sessiz"],
+                           "pdr_pencere": None},
+             "ham": {k: list(v) if isinstance(v, tuple) else v
+                     for k, v in ham.items()}}
+    sonuc = ham_denetimi(satir)
+    assert sonuc["pdr_acik"][2] and sonuc["pdr_sessiz"][2], sonuc
+    assert sonuc["pdr_acik"][0] < sonuc["pdr_sessiz"][0]
+    from analiz.satir import donem_pdr
+    assert donem_pdr(satir, True, cizelge=(15.0, 15.0)) == e["pdr_acik"]
+
+
+def test_K222_FARK_ICINDE_FARK_karistirmaya_ozgu_kazanci_AYIRIR(monkeypatch):
+    """Özgün protokol her hücrede rakipten 0,10 iyi (karıştırmadan bağımsız
+    üstünlük) → DiD ≈ 0, anlamlı değil; birincilde ek 0,05 → DiD > 0."""
+    from analiz import hucre as H
+    from analiz.hucre import fark_icinde_fark_tablosu
+
+    tohumlar = range(2000, 2040)
+
+    def satirlar(fn):
+        return [{**_satir(t, 0.5), "turetilen_deger": fn(t)} for t in tohumlar]
+
+    monkeypatch.setattr(H, "donem_pdr",
+                        lambda s, acik=True, cizelge=None: s["turetilen_deger"])
+    gurultu = lambda t: ((t * 7) % 5) / 100.0
+    D_b = satirlar(lambda t: 0.60 + gurultu(t))
+    R_b = satirlar(lambda t: 0.50 + gurultu(t))
+    D_i = satirlar(lambda t: 0.90 + gurultu(t))
+    R_i = satirlar(lambda t: 0.80 + gurultu(t))
+    sifir = fark_icinde_fark_tablosu(D_b, {"aodv": R_b}, D_i,
+                                     {"aodv": R_i}, (15.0, 15.0))
+    assert abs(sifir[0].ort) < 1e-9 and sifir[0].p_holm > 0.05
+    D_b2 = satirlar(lambda t: 0.65 + gurultu(t) + ((t * 3) % 4) / 200.0)
+    ozgu = fark_icinde_fark_tablosu(D_b2, {"aodv": R_b}, D_i,
+                                    {"aodv": R_i}, (15.0, 15.0))
+    assert ozgu[0].ort > 0.04 and ozgu[0].p_holm < 0.05

@@ -113,7 +113,10 @@ def referans_2026(**ek) -> Konfig:
         # ölçülen duyarlılığıyla (K-217, K-220).
         golgeleme_hucre_m=v["golgeleme_hucre_m"] * v["olcek"],
         frekans_hz=2.437e9, bant_genisligi_hz=22e6, gurultu_figuru_db=7.0,
-        islem_kazanci=True, rician_k_db=10.0, yeniden_deneme_siniri=7,
+        # K-223 (denetim D-10): alan YENİDEN deneme sayısıdır (toplam deneme
+        # = sınır + 1, `mac/dcf.py`); dot11ShortRetryLimit = 7 ise toplam
+        # İLETİM DENEMESİDİR (ns-3 `FrameRetryLimit`, G12) → 6.
+        islem_kazanci=True, rician_k_db=10.0, yeniden_deneme_siniri=6,
         tasiyici_dinleme="guc", hiz_uyarlamasi=True,          # A8 · K-181
         yayilim_gecikmesi=True, karistirici_gercekci=True,
         sonumleme_uretec="blok",                                # K-198

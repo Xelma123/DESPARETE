@@ -1,5 +1,7 @@
 """
-OLSR — RFC 3626'ya sadık gerçekleme. Aşama 2'nin ikinci taban protokolü.
+OLSR — RFC 3626'ya sadık gerçekleme (`OLSR-d`: §13 kapalı K-196 · §8.2.1'in
+harfiyen koşulu K-223 · kural kural denetim
+`arsiv/teshis/olsr_sadakat_2026-10-09/denetim.md`).
 
 🔒 KÂHİN ERİŞİMİ YOK
 ====================
@@ -532,8 +534,13 @@ class OLSR:
                 b.bitis = b.sym_bitis + NEIGHB_HOLD_TIME_S
             break
         b.bitis = max(b.bitis, b.asym_bitis)
-        # §8.2.1 · 2-atlama kümesi — yalnız SİMETRİK komşunun HELLO'sundan.
-        if self._simetrik_mi(ni, simdi_s):
+        # §8.2.1 · 2-atlama kümesi — L_SYM_time'ı dolmamış bağı olan komşunun
+        # HELLO'sundan. 🔒 RFC'nin harfiyen koşulu (`OLSR-d`, K-223): §14.2'nin
+        # histerezisli "simetrik bağ" tanımı yalnız N_status, MPR kümesi ve
+        # rota tablosunun ilk adımları içindir ("This section does not modify
+        # the function of any other fields"). Küme yalnız histerezisli simetrik
+        # komşu üzerinden kullanılır (MPR · §10).
+        if b.sym_bitis >= simdi_s:
             for adres, kt, _bt in liste:
                 if kt in (SYM_NEIGH, MPR_NEIGH):
                     if adres != self.kimlik:

@@ -1,6 +1,6 @@
 # 09 · Lİ vd. REPLİKASYONU — aletin TEK dış çapası
 
-> **Durum: 🟢 tamamlandı** — eski dünyada H1 tutmadı, H2 ve H3 tuttu; mekanizma üç α'da doğrulandı. **Referans dünyada sabit hızda H1 = 0,127 TUTTU** (K-187, belgenin sonu). Ön-kayıt (§03–§06) 8 Eylül'de ölçümden önce yazıldı ve değiştirilmez; özgün metin birebir `v2/arsiv/09-LI-REPLIKASYONU-2026-09-25.md`, bu öz sürüm ön-kaydın içeriğini değiştirmez. Bölüm numaraları kodda atıflı, korunur. Şartname `07` §10 seviye 3 · kaynak `02` A5b ✅.
+> **Durum: 🟢 tamamlandı** — eski dünyada H1 tutmadı, H2 ve H3 tuttu; mekanizma üç α'da doğrulandı. **Referans dünyada sabit hızda H1 TUTTU** — 0,1270 (K-187), kâhin beacon'ı AODV HELLO'suna eşitlendikten sonra 0,1188 (K-219), ikisi de bantta (belgenin sonu). Ön-kayıt (§03–§06) 8 Eylül'de ölçümden önce yazıldı ve değiştirilmez; özgün metin birebir `v2/arsiv/09-LI-REPLIKASYONU-2026-09-25.md`, bu öz sürüm ön-kaydın içeriğini değiştirmez. Bölüm numaraları kodda atıflı, korunur. Şartname `07` §10 seviye 3 · kaynak `02` A5b ✅.
 > Üretici: `python -u kalibrasyon/li_replikasyonu.py` (~2 dk; son koşum **25 Eylül 2026**, çıktı `arsiv/teshis/belge_guncelleme_2026-09-25/li_replikasyonu_cikti.txt`) · iki çift probu `kalibrasyon/iki_cift.py` · α taraması `python -u kalibrasyon/yeniden_kullanim.py` (9 Eylül).
 > Sayılar Y2 (veri onayı düzeltmesi, 11 Eylül, K-115) sonrası; 9–10 Eylül tablosu (H1 0,0861, 11 düğüm 0,0739) arşivde.
 
@@ -121,5 +121,6 @@ Aynı ön-kayıt, aynı zincir aleti, referans dünyanın (`14`, K-181) bütün 
 | yayılım gecikmesi kapalı | 840,9 | 34,22 | 0,0407 |
 | ARF ve güç kipi kapalı | 354,6 | 32,69 | 0,0922 |
 
+- **K-219 (8 Ekim):** beacon 32 → 84 B'tan sonra (K-215) sabit hızda **0,1188 ✓ bantta**, ARF açık 0,0409 ✗; 32 B'la 0,1270 birebir geri geldi (`arsiv/teshis/faz4_5_2026-10-08/li_beacon.py`) — fark beacon'ın havadaki süresi.
 - Li'nin koşulunda (sabit hız) oran bandın içinde: işlem kazancı ve güce dayalı taşıyıcı dinleme girişim/iletim oranını düşürdü (`14` §9 öngörü 1 ✓). Aletin tek dış çapası ilk kez **sayıyla** geçti.
 - Bütün anahtarlar açıkken H1'i bozan **ARF**: çok atlamalı çekişmede çarpışmayı kanal hatası sanıp hızı düşürüyor (literatürde bilinen ARF zaafı; ns-3 ARF'nin kendisi, `02` G14). Referans dünyada ARF açık kalır — gerçek telsiz böyle davranır ve bütün protokollere aynı MAC'le eşit etki eder.

@@ -155,9 +155,9 @@ def kapsam_bolumu(konfig) -> dict[str, object]:
         "rota_tamponu": {
             "kapasite_paket": konfig.rota_tamponu_kapasitesi,
             "omur_s": konfig.rota_tamponu_omru_s,
-            "kaynak": "NS-2 `aodv_rqueue` geleneği (64 paket · 30 s); bu "
-                      "projede ÖLÇÜLMEDİ — ikisi de SINANMAMIS ve Aşama 2'de "
-                      "gerçek taban protokolle kapanacak",
+            "kaynak": "ns-3 AODV `RequestQueue` varsayılanları (64 paket · "
+                      "30 s), köken KAYNAK (K-198); birincil hücrede "
+                      "bağlamıyor (K-200)",
         },
         # 🔒 Y5b — karıştırıcı kümesinin biçimi ve ailenin sınırları (K-119).
         "tehdit_senaryosu": konfig.tehdit_senaryosu,

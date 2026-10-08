@@ -15,11 +15,13 @@ Bir İHA sürüsünde düğümler birbirinin paketini taşır: telemetri yer ist
 1. Yaygın yönlendirme protokolleri (AODV · OLSR · AOMDV) bu koşullarda **nasıl ve ne kadar** bozuluyor?
 2. Öğrencinin protokolü **DESPARETE** karıştırmayı gerçek bir telsizin ölçebildikleriyle fark edip ondan kaçınarak daha iyisini yapabilir mi?
 
+İkinci soru iki ayrı iddia olarak sınanır: **karıştırma altında daha yüksek teslim** (birincil test, karıştırıcının açık dönemlerinde doğan paketlerin teslim oranıyla) ve bu kazancın **karıştırmaya özgü** olması (karıştırıcısız ikiz hücreyle fark-içinde-fark ve mekanizmaların ablasyonu) — [`v2/06`](v2/06-ON-KAYIT.md) §0.4.5.
+
 Çalışma bir **tasarım projesidir**: çözüm kurulur ve kontrollü bir ortamda ölçülerek savunulur. Önceden ilan edilmiş bir yanlışlanma koşulu tetiklenirse sonuç, iyi teşhis edilmiş bir negatif sonuç olarak raporlanır.
 
-## Durum — 28 Eylül 2026
+## Durum — 9 Ekim 2026
 
-Simülatör gerçek ölçekli referans dünyaya taşındı ve doğrulandı. Taban protokollerin son kalibrasyonu sürüyor; ardından DESPARETE'nin karıştırmaya özgü mekanizmaları geliştirilecek, ön-kayıt mühürlenecek (~12 Kasım) ve ana deney koşulacak. Teslim: 19 Aralık 2026. Güncel durum ve plan: [`v2/12-YOL-HARITASI.md`](v2/12-YOL-HARITASI.md).
+Simülatör gerçek ölçekli referans dünyada kalibre edildi ve doğrulandı; taban protokoller kaynaklarına sadakat denetiminden geçip donduruldu (Faz 4). Bağımsız bir denetimin (8 Ekim) bulguları kapatılıyor; ardından DESPARETE'nin karıştırmaya özgü mekanizmaları geliştirilecek (Faz 5), ön-kayıt mühürlenecek (~12 Kasım) ve ana deney koşulacak. Teslim: 19 Aralık 2026. Güncel durum ve plan: [`v2/12-YOL-HARITASI.md`](v2/12-YOL-HARITASI.md).
 
 ---
 
@@ -54,7 +56,7 @@ Tasarımın dürüstlük güvenceleri koda yapısal olarak gömülüdür:
 - **Kâhin bilgisi karara giremez.** Protokoller yalnız gerçek bir telsizin ve otopilotun verebileceği gözlem penceresini görür; sızıntı testle denetlenir.
 - **Hiçbir paket sessizce kaybolmaz.** Her koşuda `üretilen = teslim + düşen + kuyrukta + uçuşta` denetlenir.
 - **Aynı tohum, aynı dünya.** Kanal rastgeleliği protokolden bağımsızdır; aynı tohumda her protokol birebir aynı dünyayı, trafiği ve kanalı görür — karşılaştırmalar eşleştirilmiştir.
-- **Her parametrenin kökeni kayıtlı:** türetilmiş · ölçülmüş · kaynak · duyarsız · tedavi · kol tanımı · sınanmamış; mimari denetimi sayar.
+- **Her parametrenin kökeni kayıtlı:** türetilmiş · ölçülmüş · kaynak · duyarsız · tedavi · kol tanımı · dünya tanımı · sınanmamış; kapsamı daraltan kararlar "kapsam ilanı" olarak ayrıca; mimari denetimi sayar.
 
 Doğrulama dört seviyededir: analitik karşılaştırma, korunum kontrolleri, iç tutarlılık ve yayımlanmış bir sonucun (Li vd., çok atlamalı zincir kapasitesi) yeniden üretilmesi. Ayrıntı: [`v2/07`](v2/07-SIMULATOR-TASARIMI.md).
 
@@ -93,7 +95,7 @@ Gereksinimler: **Python 3.11**, `numpy`, `scipy`, `pytest` (geliştirme: Python 
 pip install numpy scipy pytest
 ```
 
-Komutlar depo kökünden çalıştırılır; Windows konsolunda `PYTHONIOENCODING=utf-8` gerekir.
+Komutlar depo kökünden çalıştırılır; Windows konsolunda `PYTHONIOENCODING=utf-8` gerekir. Windows'ta birden çok Python kuruluysa `python` yerine `py -3.11` kullanın.
 
 ```bash
 PYTHONIOENCODING=utf-8 python -m pytest tests2 -q            # test takımı, 15–30 dk

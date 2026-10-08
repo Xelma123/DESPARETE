@@ -1,23 +1,24 @@
 # 12 · DURUM VE YOL HARİTASI
 
-> Projenin durumu ve planı YALNIZ burada tutulur; başka belgeler buraya atıf verir. Güncel: 8 Ekim 2026. Onaylı plan Faz 0–7 (öğrenci, 25 Eylül, K-168). Kararlar `04`, tarihçe `kayit/KARAR-GUNLUGU.md`.
+> Projenin durumu ve planı YALNIZ burada tutulur; başka belgeler buraya atıf verir. Güncel: 9 Ekim 2026. Onaylı plan Faz 0–7 (öğrenci, 25 Eylül, K-168). Kararlar `04`, tarihçe `kayit/KARAR-GUNLUGU.md`.
 
 ## 1 · Nerede duruyoruz
 
 | | |
 |---|---|
-| **faz** | **5 · DESPARETE** — sıradaki iş 5.0 (kayıp anatomisi, §1.1). **Faz 4 KAPANDI** (K-221, 8 Ekim) |
+| **faz** | **Faz 5'e geçiş kapısı** — bağımsız denetimin (8 Ekim, `arsiv/denetim/DENETIM-RAPORU-2026-10-08.md`) düzeltmeleri: kararlar ve davranışı değiştirmeyenler ✅ (K-222) · davranışı değiştirenler kodda ✅ (K-223), ölçümleri §1.1'de. Faz 4 KAPANDI (K-221) |
 | simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu tek süreçte ~1 sa, 8 işçide koşu başına 1–2 sa (K-198, K-200) |
-| taban protokoller | **DONDU (K-218, 8 Ekim):** `AODV-j` · `OLSR-c` · `AOMDV-f` — U1 yakınsamış kâhinle iki desende U1-U ✅, yere toplamada U1-B ✅ (açıklanmış hücreler K-207 · K-196) |
+| taban protokoller | **ÇÖZÜLDÜ (K-223, 9 Ekim):** `AODV-j` · `OLSR-d` · `AOMDV-f`, MAC en çok 7 deneme — yeniden donma ölçümlerle (§1.1). Son donma K-218 (`OLSR-c`, 8 deneme) |
 | DESPARETE | v0.4.1; birincil hücrede ilk ölçüm PDR 0,700 (AODV 0,556, kâhin 0,813; 4 geliştirme tohumu, K-200 — K-215 öncesi kod, 5.0'da yeniden ölçülür) |
-| doğrulama | `976 passed` (8 Ekim) · mimari denetimi ihlalsiz · regresyon tabanı **`k220`** (K-221) · R = **0,0142** (K-216) · SINANMAMIŞ 3 (pencere üçlüsü, Faz 6) · duyarlılık borcu 0 · kapsam ilanı 12 |
-| arkada koşan | yok |
+| doğrulama | `976 passed` (8 Ekim) · mimari denetimi ihlalsiz · regresyon tabanı **`k220`** (K-221) · R = **0,0142** (K-216) · köken sayımı `04` §9 |
+| arkada koşan | kuyruk A (K-223; 9 Ekim 00:11'den ~2,5 sa, `arsiv/teshis/denetim_duzeltme_2026-10-09/kuyruk_a.sh`, `kopya_a`) |
 | takvim | mühür ~12 Kasım · teslim 19 Aralık 2026 |
 
 ### 1.1 · Sıradaki iş — Faz 5.0 (yeni ajan buradan başlar)
 
 > **Kural (öğrenci, 29 Eylül):** bir faza geride iş kalmadan, yazılım ve yapı denetiminden geçmiş bir simülatörle ve güncel belgelerle geçilir; fazlar paralel yürümez. Faz 4 bu kapıdan geçti (K-221).
 
+0. **Önce — denetim düzeltmelerinin ölçümleri** (K-223; ölçütler `arsiv/teshis/denetim_duzeltme_2026-10-09/beklenti.md`): kuyruk A (regresyon k223 · R · OLSR anatomisi, ~2,5 sa) → R güncellenir → kuyruk B (D-07 duyarlılığı · U1 iki desen · evre kapıları, ~17 sa) → K-224: taban protokoller yeniden donar · tam takım · DEVIR. Faz 5.0 bundan sonra.
 1. **Faz 5.0 · kayıp anatomisi** — birincil hücrede taban protokoller, kâhin ve DESPARETE v0.4.1: paket nerede ve neden ölüyor; Faz 5'in mekanizma hedefleri buradan çıkar. Alet hazır (`kalibrasyon/kayip_anatomisi.py`, K-202 + onarım bölümleri ve `rota_gecersiz` anında alan durumu). `arsiv/teshis/faz5_0_2026-09-30/`daki kopya ve beklenti K-215 öncesi koda ait → kopya yeniden dondurulur, beklentinin sayıları (kâhin 48 örnek, AODV-j, TTL 64) yeni kodla gözden geçirilir, ölçüt ölçmeden önce yazılır, süre önce hesaplanır.
 2. Sonra 5.1 → 5.7 (§2 tablosu); her mekanizma ablasyon bayrağıyla ve önceden yazılı beklentiyle.
 
@@ -53,7 +54,9 @@
 | 5.6 | **canlılık ve yük** — periyodik DFSN, onarım kotası, sabitler köken defterine | canlılık |
 | 5.7 | **kapanış** — profil v0.5 donar · resmi U1 + U3 · tasarım paketi güncellenir 🟦 | protokolün çıkışı |
 
-Her mekanizma: ablasyon bayrağı · önceden yazılı beklenti · geliştirme tohumları 1003–1010 · birincil hücre + bir yer karıştırıcılı aile.
+Her mekanizma: ablasyon bayrağı · önceden yazılı beklenti (iki ölçütle: birincil hücrede `PDR_açık` artışı **ve** karıştırıcısız kolda zarar yok) · geliştirme tohumları 1003–1010 · birincil hücre + **dayanıklılık hücresi** (10 s açık · 20 s sessiz; zaman sabitleri tek çizelgeye ayarlanmasın) + bir yer karıştırıcılı aile (K-222, denetim D-08).
+**Öncelik (K-222):** karıştırmaya özgü olanlar önce — 5.1 → 5.3 → 5.4; **5.2 keşifsel** (formasyonda bağ hareketle kopmuyor, Θ tanımsız — birincil testte kazanç gösteremez; bağımsız/görev kollarında); 5.5 · 5.6 yalnız kontrol yükü ya da canlılık sorun çıkarırsa.
+**Önkoşullar:** 5.0'ın beklentisi `PDR_açık`a göre yeniden yazılır (5 kol: AODV · AOMDV · OLSR · DESPARETE · kâhin; önce/açık/sessiz; açık evre kaybının bölgesi ve sebebi — denetim D-22) · 5.1'den önce `olculen_gurultu_w` bir ölçüm modeline bağlanır (D-04; mimari D17 o güne kadar okunmasını engeller) · 5.4'ten önce çoğaltmanın PDR, korunum ve fatura tanımları yazılır (D-23).
 
 ### Faz 6 · Ön-kayıt ve mühür ⏳ (~5–12 Kasım)
 
@@ -65,13 +68,24 @@ Ana deney 40 tohum (birincil hücre + Aile 1 hücreleri + Aile 3 kolları; keşi
 
 ## 3 · Hesap bütçesi
 
-Ölçülen (K-200, birincil hücre, 350 s, 8 işçi aynı anda): kâhin 50–60 dk · OLSR 52–90 dk · AOMDV 95–130 dk · AODV 105–140 dk · DESPARETE 115–130 dk koşu başına; 32 koşu 7,1 sa. Tek süreçte bir koşu ~1 sa. Ana deney (40 tohum × ~5 kol ≈ 200 koşu) ~40–45 sa kesintisiz. Statik karıştırıcısız koşu ~15 dk.
+Ölçülen (K-200, birincil hücre, 350 s, 8 işçi aynı anda): kâhin 50–60 dk · OLSR 52–90 dk · AOMDV 95–130 dk · AODV 105–140 dk · DESPARETE 115–130 dk koşu başına; 32 koşu 7,1 sa (≈ 4,5 koşu/sa). Statik karıştırıcısız koşu ~15 dk. Tek makine.
+
+**Kaba plan** (denetim D-09; birim süreler yukarıdan):
+
+| iş | koşu | süre |
+|---|---|---|
+| Faz 5: 5.0 (~20) · 5.1 · 5.3 · 5.4 × (açık/kapalı × 8 tohum × 3 hücre) × ~2 deneme · 5.7 (U1, U3) | ~350 | ~80 sa |
+| Faz 6: δ gürültüsü (3 taban × 20) · pencere üçlüsü · tam pencere R ve DUYARSIZ'ların yeniden okunması · Rician 6 · 15 dB · kâhin 96 örnek | ~200 | ~45 sa |
+| Faz 7: birincil 5 kol × 40 · karıştırıcısız ikiz 5 × 40 · dayanıklılık hücresi 5 × 40 · Aile 3 (≤ 3 kol × 40) · Aile 1 (≤ 2 hücre × 3 protokol × 40) | ~960 | ~210 sa |
+
+Faz 7'nin hesabı tek başına ~9 gün kesintisiz → Faz 7 mühürden hemen sonra başlar, yazım hesapla paralel yürür.
 
 ## 4 · Riskler
 
 - **Yeni dünya yönlendirmeye iş bırakmazsa** (ağ tek atlamaya iner ya da hep bölünür): geometri kaynaklı zarf içinde ayarlanır, öğrenciye sorulur.
 - **Mekanizmalar kazanç göstermezse:** dürüst negatif sonuç; neden çalışmadığı ölçülür.
-- **Takvim:** Aralık başında ~1 hafta tampon. Düşme sırası: keşifsel eksenler → görselleştirmenin zenginliği → Aile 3 kol sayısı → çekirdek hücre sayısı. Korunanlar: birincil hücre, üç taban protokol, DESPARETE, 40 tohum.
+- **Takvim ve hesap:** Aralık başında ~1 hafta tampon. Düşme sırası (önceden yazıldı, K-222): keşifsel eksenler (20 tohumla yetinilir: Rician 6 · 15 dB, eşler arası, hava eşlik) → görselleştirmenin zenginliği → Aile 1 hücreleri (en çok 2) → Aile 3 kol sayısı (en çok 3) → dayanıklılık hücresi 20 tohuma. Güç benzetimi n > 40 isterse önce Aile 1 düşer, sonra dayanıklılık hücresi. Korunanlar: birincil hücre ve karıştırıcısız ikizi, üç taban protokol, DESPARETE, 40 tohum.
+- **Tek makine:** her ölçümden sonra commit + push (denetim D-05); elektrik kesintisinde uzun kuyruk biten adımları atlayarak sürer.
 
 ## 5 · Gelecek çalışma olarak beyan edilecekler
 

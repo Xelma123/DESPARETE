@@ -18,7 +18,7 @@ Jüri sorusu: *"Protokolünüz karıştırıcının nerede olduğunu nereden bil
 |---|---|
 | `dugum` | kendi adresi (802.11 MAC adresi) |
 | `saat_s` | kendi saati — ofset ve sapmalı (§3.2) |
-| `olculen_gurultu_w` | anteninde ölçülen gürültü + girişim gücü (sürücünün gürültü tabanı raporu). Mutlak değeri serbest bir ölçek (K-110 EK-4): sezim oranla ya da değişimle yapılır, mutlak eşikle değil |
+| `olculen_gurultu_w` | anteninde ölçülen gürültü + girişim gücü (sürücünün gürültü tabanı raporu). Mutlak değeri serbest bir ölçek (K-110 EK-4): sezim oranla ya da değişimle yapılır, mutlak eşikle değil. ⚠️ **Bugün anlık, hatasız ve sürekli değerli** (bir sürücü tazeleme aralığıyla, ortalanmış, tamsayı dBm verir) — Faz 5.1 okumadan önce bir ölçüm modeline bağlanır (denetim D-04); o güne kadar mimari denetimi okunmasını engeller (D17) |
 | `kanal_mesgul_mu` | CCA göstergesi (G2: mod 1/2/3; güç kipinde önbelge kilidi ya da ED, K-174) |
 | `kuyruk_uzunlugu` · `kuyruk_kapasitesi` | kendi arayüz kuyruğu |
 | `son_iletim_sonucu` · `son_iletim_hedefi` | MAC'in gönderim durumu raporu: onay · zaman aşımı. "Cevap gelmedi" bir gözlemdir, bayta mal olmaz |
@@ -35,13 +35,13 @@ Yeni beş alan (GPS/INS ve telsiz sayaçları) §3.3b'de, çerçeve başına RSS
 - `kaynak_sira` **eklendi** (K-157, öğrenci): paketin kaynağın kendi ürettikleri arasındaki sırası; kimlik `(kaynak, kaynak_sira)`. Gerçek karşılığı IPv4 kimlik alanı ve DESPARETE'nin Data Sequence'i (`19` §4), başlıkla ödenir (`veri_baslik_bayt`). Gerekçe: onarım tamponundaki paketi tanımak (`21` §2.4 kotası, K-156). Küresel paket kimliği bilerek açılmadı — iki kimlik farkı bütün ağın ürettiğini söylerdi.
 - **Bilgi yokluğu sıfır değildir** (K-131): beacon'a konmayan alan komşu kaydında `None` döner, `0` değil.
 
-**3.3a Çözdüğü her çerçeveden (K-172):** isteğe bağlı `cerceve_duyuldu` kancası — bana ya da başkasına adresli her çözülen çerçevenin gönderen komşusu (802.11 başlığındaki verici adresi), türü, adreslendiği düğüm, veri çerçevesinde paket başlığı ve RSSI (kilitlenilen güç + σ 2 dB hata, tamsayı dBm; σ SINANMAMIŞ, kaynak aranıyor). Gerçek karşılığı: telsizin izleme kipi ve sürücünün çerçeve başına RSSI raporu. Niyet döndürmez; karıştırıcı çerçevesi gelmez. "Bu paket bana hangi komşudan geldi" bilgisi buradan gelir.
+**3.3a Çözdüğü her çerçeveden (K-172):** isteğe bağlı `cerceve_duyuldu` kancası — bana ya da başkasına adresli her çözülen çerçevenin gönderen komşusu (802.11 başlığındaki verici adresi), türü, adreslendiği düğüm, veri çerçevesinde paket başlığı ve RSSI (kilitlenilen güç + σ 2 dB hata, tamsayı dBm; σ kaynaksız — bugün okuyan protokol olmadığı için DUYARSIZ (K-214); bir protokol okumaya başlarsa mimari denetimi kaydı yeniden açar, D17). Gerçek karşılığı: telsizin izleme kipi ve sürücünün çerçeve başına RSSI raporu. Niyet döndürmez; karıştırıcı çerçevesi gelmez. "Bu paket bana hangi komşudan geldi" bilgisi buradan gelir.
 
 **3.3b Kendi GPS/INS'i ve telsiz sayaçları (K-179):**
 
 | alan | gerçek karşılığı | model |
 |---|---|---|
-| `kendi_konum` · `kendi_hiz` | otopilotun GPS/INS çözümü | gerçek + hata: yatay 1,5 m CEP (G7), dikey σ 2 m, hız σ 0,1 m/s (ikisi SINANMAMIŞ), 1 Hz dilimde sabit |
+| `kendi_konum` · `kendi_hiz` | otopilotun GPS/INS çözümü | gerçek + hata: yatay 1,5 m CEP (G7), dikey σ 2 m, hız σ 0,1 m/s (ikisi kaynaksız; okuyan yok → DUYARSIZ, K-214; okunursa mimari D17 yeniden açar), 1 Hz dilimde sabit |
 | `mesgul_sure_s` | sürücünün "channel busy time" sayacı (802.11k kanal yükü) | CCA'nın meşgul kaldığı toplam süre, olay güdümlü tam integral; yalnız `kanal_dolulugu_ister` diyen protokole, ötekinde `None` |
 | `phy_hata` | CRC hatalı çerçeve sayacı | kilitlenip gövdesi çözülemeyen çerçeve. Önbelgesi hiç kilitlenmeyen uzak zayıf çerçeveler sayılmaz — gerçek telsiz onları sezmez |
 | `alinan_cerceve` | alınan çerçeve sayacı | başarıyla çözülen her çerçeve |

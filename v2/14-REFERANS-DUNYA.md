@@ -15,7 +15,7 @@
 | alım eşiği | SINR 16 dB, işlem kazancı yok | 2 Mb/s'te SNR +1,2 dB (22 MHz), işlem kazancı dâhil |
 | girişim | karıştırıcı ve öteki çerçeveler ~10,4 dB fazla zararlı | gürültü gibi, işlem kazancıyla (G1, G2) |
 | taşıyıcı dinleme | geometrik (1767 m = bütün alan) | güce dayalı önbelge sezme + enerji sezme (ED) |
-| 802.11 zamanlaması | yayılım gecikmesi ihmal (gerçekte slottan uzundu) | modellenir; 1–2 km'lik bağda ≤ ~7 µs < 20 µs slot → standart zamanlama geçerli |
+| 802.11 zamanlaması | yayılım gecikmesi ihmal (gerçekte slottan uzundu) | modellenir; 33 km'lik alanda tipik bağ ~9 km → ~30 µs, slottan (20 µs) UZUN: ACK zaman aşımı en büyük gecikmeyle genişletildi, slot ve kapsama sınıfı standart kaldı (beyan; duyarlılığı Faz 6, denetim D-11) |
 
 ## 1 · Telsiz — 802.11b DSSS
 
@@ -40,7 +40,7 @@
 |---|---|---|
 | hava–hava yol kaybı | serbest uzay, α = 2 (iki-ışın kırılma mesafesi 100 m irtifada ~325 km) | fizik · **ölçümler 1,92–2,6, 802.11a'da 2,03** (G10) · G8 aynı varsayım |
 | gölgeleme | log-normal, σ 3 dB, korelasyonlu | bugünkü (ÖLÇÜLMÜŞ) |
-| hızlı sönümleme | Rician, **K referans 10 dB, aralık 6–15 dB** · Doppler gerçek hızdan. Hava–hava için doğrudan ölçüm erişilemedi; dolaylı kanıt: alçak irtifa yer–hava 2–10 dB, güçlü görüş hattı ~12 dB (L bandı) – ~30 dB (C bandı). Hava–hava bağında yer saçılması daha az → alçak irtifa yer–hava değerlerinin altında olmamalı. **Faz 4'te 6 · 10 · 15 dB duyarlılığı ölçülür:** sonuca etkisi çözünürlüğün altındaysa DUYARSIZ, değilse eksen | G11 (dolaylı) · öneri (ajan) · S1 |
+| hızlı sönümleme | Rician, **K referans 10 dB, aralık 6–15 dB** — Faz 4.4'te DUYARLI ölçüldü → **EKSEN** (K-215: birincil test 10 dB, 6 ve 15 dB keşifsel) · Doppler gerçek hızdan. Hava–hava için doğrudan ölçüm erişilemedi; dolaylı kanıt: alçak irtifa yer–hava 2–10 dB, güçlü görüş hattı ~12 dB (L bandı) – ~30 dB (C bandı). Hava–hava bağında yer saçılması daha az → alçak irtifa yer–hava değerlerinin altında olmamalı. **Faz 4'te 6 · 10 · 15 dB duyarlılığı ölçülür:** sonuca etkisi çözünürlüğün altındaysa DUYARSIZ, değilse eksen | G11 (dolaylı) · öneri (ajan) · S1 |
 | **yer–hava** (yerdeki karıştırıcı → İHA) | Al-Hourani: PL = FSPL + η; P(LoS, θ) = 1/(1 + a·exp(−b[θ − a])); **banliyö** parametreleri (η_LoS 0,1 · η_NLoS 21 dB) — makalede açık kırsal yok, en yakını banliyö (beyan) | G6 |
 | yayılım gecikmesi | d / c | fizik |
 
@@ -74,7 +74,7 @@ Yere toplama (birincil): her düğümden geçide telemetri **1 pkt/s × 512 B �
 
 ## 6 · MAC zamanlaması
 
-- **Standarttan ya da iki bağımsız uygulamadan (G12 ns-3, G13 Linux):** slot 20 µs · SIFS 10 µs · CWmin 31, CWmax 1023 · uzun önbelge 144 + 48 µs = 192 µs · **kısa yeniden deneme sınırı 7** (RTS varsayılanda kapalı, 512 B'lık çerçeveler kısa sınıfta; bugünkü 4 "uzun" sınırdı).
+- **Standarttan ya da iki bağımsız uygulamadan (G12 ns-3, G13 Linux):** slot 20 µs · SIFS 10 µs · CWmin 31, CWmax 1023 · uzun önbelge 144 + 48 µs = 192 µs · **kısa yeniden deneme sınırı 7** — toplam İLETİM DENEMESİ (ns-3 `FrameRetryLimit`); simülatörün alanı yeniden deneme sayısı olduğu için 6 (K-223) (RTS varsayılanda kapalı, 512 B'lık çerçeveler kısa sınıfta; eski dünyanın 4'ü "uzun" sınırdı).
 - **Boer'den (G2):** Tx↔Rx dönüşleri 10 / 5 µs · ED süresi 15 µs.
 - **Model:** ACK zaman aşımı yayılım gecikmesini kapsar. ACK 14 B (alan toplamı; standardın metniyle doğrulanmadı).
 
@@ -97,7 +97,7 @@ Yere toplama (birincil): her düğümden geçide telemetri **1 pkt/s × 512 B �
 
 ## 9 · Öngörüler — ölçmeden önce yazıldı · sonuçları
 
-Sonuç: 1 ✅ Li zinciri sabit hızda banda girdi, 0,127 (K-187) · 2 ✅ ED kilidi referans dünyada gözlendi (K-181; kayıp anatomisinde `ed` bölgesi) · 3 🟡 U1 yeni kod hâlleriyle yeniden koşulacak (`12`).
+Sonuç: 1 ✅ Li zinciri sabit hızda banda girdi, 0,127 (K-187) → 0,1188 (K-219, 84 B beacon) · 2 ✅ ED kilidi referans dünyada gözlendi (K-181; kayıp anatomisinde `ed` bölgesi) · 3 ✅ taban protokoller referans dünyada yeniden kabul edildi ve dondu (U1, K-218).
 
 1. **Uzamsal yeniden kullanım artar.** 2 Mb/s'te gereken SIR 16 dB → +1,2 dB. Eşit güçlü bir girişimcinin bağı bozmadığı mesafe oranı 6,31 → ~1,15 (α = 2, `10^(β/20)`). Önbelge sezme / iletim menzili ≈ 10^((−92,4 + 97,0)/20) ≈ 1,7. → Li replikasyonunda oran 0,0871'den yukarı, bandına (0,10–0,20) doğru kayar.
 2. **Karıştırıcının iki etkisi ayrışır:** uzakta alıcı SINR'ı, yakında ED-CCA ile vericinin susması. Karıştırıcı yakınındaki düğümlerin kuyruğu dolar; kayıp anatomisinde "kanal erişim kilidi" diye görünür.
@@ -110,7 +110,7 @@ Sonuç: 1 ✅ Li zinciri sabit hızda banda girdi, 0,127 (K-187) · 2 ✅ ED kil
 | a–c | verici gücü, sürü, tehdit rejimi | 🟢 onaylandı (25 Eylül) |
 | d | 802.11 MAC sabitleri — standardın kendisi erişilemedi (ücretli); standarda atıf veren iki bağımsız açık uygulamadan alındı (G12, G13) | 🟢 25 Eylül |
 | e | Doodle Labs veri sayfası | 🟢 G7 |
-| f | Hava–hava Rician K — Goddemeier & Wietfeld 2015 ücretli, erişilemedi; açık taramalardan dolaylı aralık (G10, G11) + Faz 4 duyarlılık ölçümü | 🟡 aralıkla kapandı |
+| f | Hava–hava Rician K — Goddemeier & Wietfeld 2015 ücretli, erişilemedi; açık taramalardan dolaylı aralık (G10, G11); Faz 4.4'te DUYARLI → eksen (K-214, K-215) | 🟡 aralık + eksen |
 | g | NATO sınıflandırması | 🟢 G9 |
 | h | GPS hatası (G7) · telsiz enerjisi (G7) | 🟢 · telemetri akış hızı (S4) ⏳ |
 | i | **alan (§3)** — Faz 4.1a (26 Eylül): referans telsizle bağ 1 Mb/s'te ~9–10 km; 7 km'de derece 37,4, çiftlerin %96'sı tek atlama. Onaylı ölçüt (kopukluk %0, derinlik en büyük) **35 km** seçiyor: derece 8,82, derin çift %31,9 (eski dünyanın noktası 8,67 · %31,0). §3'ün ~6–8 km'si 10 dB paylı nominal bağa (1,65 km) dayanıyordu. `arsiv/teshis/faz4_2026-09-26/a_calisma_noktasi_sonuc.md` | 🟢 K-185/K-188: 33 km (öğrenci: gerçekçilik önce, karar ajanın) |

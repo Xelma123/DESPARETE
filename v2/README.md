@@ -1,6 +1,6 @@
 # v2 — PROJE BELGELERİ
 
-> Her bilgi tek yerde. Durum yalnız `12`de, geçerli kararlar yalnız `04`te. Güncel: 28 Eylül 2026 (belge temizliği; önceki hâllerin hepsi `arsiv/`de, git dışı).
+> Her bilgi tek yerde. Durum yalnız `12`de, geçerli kararlar yalnız `04`te. Güncel: 9 Ekim 2026. Önceki hâller `arsiv/`de (git'te izlenir).
 
 | # | belge | ne anlatır |
 |---|---|---|
