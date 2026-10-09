@@ -58,7 +58,7 @@
 - **Evre metrikleri (`08`):** şok derinliği · toparlanma tamlığı · toparlanma süresi · tespit gecikmesi. Hata payı kümelenmeye dayanıklı; tespitin boş dağılımı negatif binom (K-196). Boş kol kapısı gerçek protokollerle geçti (G1-P).
 - **Kâhinler:** ETX kâhini (U1 paydası) kesin tavan değildir; üst referans = üç kâhinin tohum başına zarfı (K-110). Kâhin grafiği karıştırıcının açık/sessiz çizelgesini görür (K-195). *Kâhin − protokol = körlüğün bedeli.*
 - **Kayıp anatomisi** (`kalibrasyon/kayip_anatomisi.py`): düşüş sebebi × karıştırıcı bölgesi (alıcıda) × açık/sessiz evre × bağ kalitesi bandı; Faz 5 hedefleri buradan çıkar. Bölge anlık güçle, ayrıca **etki alanı** (karıştırıcı açık olsaydı alınacak ortalama güç) evre × alan tablolarıyla (K-202).
-- **Çözünürlük:** eşleştirilmiş R = 0,0142 (K-216; birincil hücre, yakınsamış kâhin) — 50 s'lik KISA PENCERE kesitinde; ana deneyin penceresinde Faz 6'da δ ölçümüyle (denetim D-03). Eski dünyada 0,023.
+- **Çözünürlük:** eşleştirilmiş R = 0,0126 (K-224; 7 iletim denemesiyle — 8 denemede 0,0142, K-216; birincil hücre, yakınsamış kâhin) — 50 s'lik KISA PENCERE kesitinde; ana deneyin penceresinde Faz 6'da δ ölçümüyle (denetim D-03). Eski dünyada 0,023.
 
 ## 8 · Deney tasarımı ve istatistik (`06`)
 

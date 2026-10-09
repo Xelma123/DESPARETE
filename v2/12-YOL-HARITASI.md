@@ -10,7 +10,7 @@
 | simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu tek süreçte ~1 sa, 8 işçide koşu başına 1–2 sa (K-198, K-200) |
 | taban protokoller | **ÇÖZÜLDÜ (K-223, 9 Ekim):** `AODV-j` · `OLSR-d` · `AOMDV-f`, MAC en çok 7 deneme — yeniden donma ölçümlerle (§1.1). Son donma K-218 (`OLSR-c`, 8 deneme) |
 | DESPARETE | v0.4.1; birincil hücrede ilk ölçüm PDR 0,700 (AODV 0,556, kâhin 0,813; 4 geliştirme tohumu, K-200 — K-215 öncesi kod, 5.0'da yeniden ölçülür) |
-| doğrulama | `976 passed` (8 Ekim) · mimari denetimi ihlalsiz · regresyon tabanı **`k220`** (K-221) · R = **0,0142** (K-216) · köken sayımı `04` §9 |
+| doğrulama | `976 passed` (8 Ekim) · mimari denetimi ihlalsiz · regresyon tabanı **`k220`** (K-221) · R = **0,0126** (K-224, 7 deneme) · köken sayımı `04` §9 |
 | arkada koşan | kuyruk A (K-223; 9 Ekim 00:11'den ~2,5 sa, `arsiv/teshis/denetim_duzeltme_2026-10-09/kuyruk_a.sh`, `kopya_a`) |
 | takvim | mühür ~12 Kasım · teslim 19 Aralık 2026 |
 

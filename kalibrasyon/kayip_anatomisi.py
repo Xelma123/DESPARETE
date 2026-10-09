@@ -372,8 +372,9 @@ def _olsr_2atlama_lsym():
     HARFİYEN koşuluyla güncellenir — HELLO'nun göndereniyle bağ demetinin
     `L_SYM_time`ı dolmamışsa. §14.2 histerezisli simetri tanımını yalnız
     komşu durumu, MPR ve rota hesabının ilk adımı için ister ve *"Apart from
-    the above, what has been described previously does not interfere"* der;
-    bugünkü gerçekleme bu güncellemeyi histerezisli tanıma bağlıyor."""
+    the above, what has been described previously does not interfere"* der.
+    K-223'ten (`OLSR-d`) beri taban `olsr` ile AYNI davranış — K-193
+    komutları yeniden üretilebilsin diye duruyor."""
     from protokoller.olsr import OLSR
 
     class OLSR2AtlamaLsym(OLSR):

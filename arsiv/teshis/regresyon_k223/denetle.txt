@@ -1,0 +1,39 @@
+1 · referans vakalarinda konfig farki (16 vaka)
+  OK  r-referans-bagimsiz-surekli-dogrudan_komsu   fark ['yeniden_deneme_siniri'] · PDR 0.009181969949916527 → 0.009181969949916527 (Δ +0.0000)
+  OK  r-referans-statik-surekli-aodv               fark ['yeniden_deneme_siniri'] · PDR 0.0 → 0.0 (Δ +0.0000)
+  OK  r-referans-statik-yok-dogrudan_komsu         fark ['yeniden_deneme_siniri'] · PDR 0.11352253756260434 → 0.11018363939899833 (Δ -0.0033)
+  OK  u-bagimsiz-surekli-olsr-dugum_kaybi          fark ['yeniden_deneme_siniri'] · PDR 0.0 → 0.0 (Δ +0.0000)
+  OK  u-birincil-aodv                              fark ['yeniden_deneme_siniri'] · PDR 0.5166944908180301 → 0.4749582637729549 (Δ -0.0417)
+  OK  u-birincil-aomdv                             fark ['yeniden_deneme_siniri'] · PDR 0.5075125208681135 → 0.4741235392320534 (Δ -0.0334)
+  OK  u-birincil-desparete                         fark ['yeniden_deneme_siniri'] · PDR 0.6928213689482471 → 0.5759599332220368 (Δ -0.1169)
+  OK  u-birincil-en_guvenilir_kahin                fark ['yeniden_deneme_siniri'] · PDR 0.7921535893155259 → 0.7679465776293823 (Δ -0.0242)
+  OK  u-birincil-olsr                              fark ['yeniden_deneme_siniri'] · PDR 0.3297161936560935 → 0.4699499165275459 (Δ +0.1402)
+  OK  u-gorev-surekli-aomdv-esler_arasi            fark ['yeniden_deneme_siniri'] · PDR 0.0993322203672788 → 0.0993322203672788 (Δ +0.0000)
+  OK  u-statik-aldatici-aodv                       fark ['yeniden_deneme_siniri'] · PDR 0.0 → 0.0 (Δ +0.0000)
+  OK  u-statik-reaktif-aodv                        fark ['yeniden_deneme_siniri'] · PDR 0.6777685262281432 → 0.6194837635303914 (Δ -0.0583)
+  OK  u-statik-surekli-aodv-cephe_hatti            fark ['yeniden_deneme_siniri'] · PDR 0.6419650291423813 → 0.6819317235636969 (Δ +0.0400)
+  OK  u-statik-surekli_darbeli-aodv                fark ['yeniden_deneme_siniri'] · PDR 0.4612822647793505 → 0.43713572023313907 (Δ -0.0241)
+  OK  u-statik-taramali-aodv                       fark ['yeniden_deneme_siniri'] · PDR 0.46711074104912575 → 0.4546211490424646 (Δ -0.0125)
+  OK  u-statik-yok-desparete                       fark ['yeniden_deneme_siniri'] · PDR 0.8534554537885096 → 0.9167360532889259 (Δ +0.0633)
+
+2 · yeni evre vakasi u-birincil-evre-en_guvenilir_kahin
+  OK  gecerli
+  OK  cizelge 15/15
+  OK  pencere 10-100, acilma 40
+  OK  pdr_temiz dolu
+  OK  pdr_acik dolu
+  OK  pdr_sessiz dolu
+  OK  sok_derinligi dolu
+  OK  acik_n + sessiz_n = dogan (2400)
+  OK  ham_denetimi pdr_pencere (0.8136628714246043 = 0.8136628714246043)
+  OK  ham_denetimi gecikme_p50_s_pencere (0.03783767845800412 = 0.03783767845800412)
+  OK  ham_denetimi gecikme_p95_s_pencere (0.1940403885176593 = 0.1940403885176593)
+  OK  ham_denetimi gecikme_p99_s_pencere (0.4768673598862385 = 0.4768673598862385)
+  OK  ham_denetimi pdr_acik (0.7055879899916597 = 0.7055879899916597)
+  OK  ham_denetimi pdr_sessiz (0.8734388009991674 = 0.8734388009991674)
+  OK  ham_denetimi gorev_teslim_orani_pencere (0.8136628714246043 = 0.8136628714246043)
+  PDR temiz 0.861781848459617 · acik 0.7055879899916597 · sessiz 0.8734388009991674
+
+🔴 KALDI:
+  |ΔPDR| > 0,10 u-birincil-desparete: -0.1169 (teshis gerekir)
+  |ΔPDR| > 0,10 u-birincil-olsr: +0.1402 (teshis gerekir)

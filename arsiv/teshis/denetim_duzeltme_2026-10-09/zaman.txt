@@ -1,0 +1,12 @@
+kopya_a donduruldu 09.10 00:11:33 · arac_hash 960a7e301459edf2d64f905924f605de
+A1_uret basla 00:11:36
+A1_uret bitti 00:55:52 cikis 0
+A1_karsilastir basla 00:55:52
+A1_karsilastir bitti 00:55:54 cikis 0
+A1_denetle basla 00:55:54
+A1_denetle bitti 00:55:55 cikis 0
+A2_R basla 00:55:55
+A2_R bitti 02:04:31 cikis 0
+A3_anatomi basla 02:04:32
+A3_anatomi bitti 02:19:34 cikis 0
+kuyruk A bitti 02:19:34

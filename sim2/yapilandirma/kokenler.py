@@ -810,16 +810,18 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "`TC_INTERVAL` = 5 s. Birincil belge 8 Eylül 2026'da açıldı, `02` "
         "§R2. Θ'nın PAYDASI budur"),
     "kalibrasyon/duyarlilik.py::R_ESLESTIRILMIS": ("OLCULMUS",
-        "0,0142 — birincil hücrede eşleştirilmiş çözünürlük, KISA PENCERE "
+        "0,0126 — birincil hücrede eşleştirilmiş çözünürlük, KISA PENCERE "
         "kesitinde (koşu 50 s, ölçüm 10–40 s, karıştırıcı 5. s'de; "
         "duyarlılık taramasının penceresi) — ana deneyin 270 s'lik "
         "penceresinin çözünürlüğü DEĞİL; o Faz 6'da δ ölçümüyle aynı "
         "koşulardan ölçülür ve DUYARSIZ'lar ona karşı yeniden okunur "
-        "(denetim D-03). Yakınsamış kâhinle (48 örnek; 40 tohum, "
-        "`olcut_bedeli` SD 0,0449; kâhin PDR 0,887). Üretici: `py -3.11 -u "
-        "kalibrasyon/cozunurluk.py --dunya referans_2026 --hucre birincil "
-        "--tohum 40` (6 Ekim 2026, 74 dk, K-216). Önceki: 0,0188 (6 örnekli "
-        "kâhin, K-213) · eski dünya 0,0230"),
+        "(denetim D-03). Yakınsamış kâhinle (48 örnek), en çok 7 iletim "
+        "denemesiyle (K-223); 40 tohum, `olcut_bedeli` SD 0,0400; kâhin PDR "
+        "0,8675. Üretici: `py -3.11 -u kalibrasyon/cozunurluk.py --dunya "
+        "referans_2026 --hucre birincil --tohum 40` (9 Ekim 2026, 69 dk, "
+        "K-224). DUYARSIZ kayıtlarının en büyük |Δ|'sı 0,0118 < 0,0126 — "
+        "hiçbiri dönmedi. Önceki: 0,0142 (8 deneme, K-216) · 0,0188 (6 "
+        "örnekli kâhin, K-213) · eski dünya 0,0230"),
     "kalibrasyon/calkanti.py::ETKIN_YARICAP_M": ("TURETILMIS",
         "400 m — yalnız `calkanti.py`nin hızlı teşhis taramasında; hiçbir "
         "karar taşımaz (Θ yavaş SINR tanımıyla ölçülür, `theta_kollari.py`)"),

@@ -160,13 +160,14 @@ CARPANLAR = (0.5, 2.0)
 # mantığında KULLANILIR.
 #     Üretici : `py -3.11 -u kalibrasyon/cozunurluk.py --dunya referans_2026
 #               --hucre birincil --tohum 40`
-#     Ölçüldü : 6 Ekim 2026 (Faz 4.4, K-216) · referans dünya, BİRİNCİL hücre
-#               (formasyon-sürekli · yere_toplama · derin_sizma) ·
-#               eşleştirilmiş `olcut_bedeli` · yakınsamış kâhin (48 örnek,
-#               K-215), PDR 0,887 (taban değil).
-#     Önceki değerler arşivde: 0,0188 (2 Ekim, 6 örnekli kâhin, K-213) ·
-#               eski dünyanın 0,0230'u (15 Eylül, K-128) —
-#               `arsiv/teshis/faz4_4_2026-09-30/beklenti.md`.
+#     Ölçüldü : 9 Ekim 2026 (K-223 kodu: en çok 7 iletim denemesi, `OLSR-d`;
+#               `arsiv/teshis/denetim_duzeltme_2026-10-09/A2_cozunurluk.txt`)
+#               · referans dünya, BİRİNCİL hücre (formasyon-sürekli ·
+#               yere_toplama · derin_sizma) · eşleştirilmiş `olcut_bedeli` ·
+#               yakınsamış kâhin (48 örnek, K-215), PDR 0,8675 (taban değil).
+#     Önceki değerler arşivde: 0,0142 (6 Ekim, 8 deneme, K-216) · 0,0188
+#               (2 Ekim, 6 örnekli kâhin, K-213) · eski dünyanın 0,0230'u
+#               (15 Eylül, K-128) — `arsiv/teshis/faz4_4_2026-09-30/beklenti.md`.
 # ⚠️ EŞLEŞTİRİLMİŞ olan seçildi, en gevşek olan değil: ön-kayıttaki birincil
 # test de (Wilcoxon, `06` §7), bu aletin kendi farkı da (`_esli_fark`)
 # eşleştirilmiştir. Tek kol çözünürlüğü (0,0316) buraya YAZILSAYDI aklamalar
@@ -175,7 +176,7 @@ CARPANLAR = (0.5, 2.0)
 # 🔒 BAYATLIK KAPISI `cozunurluk.py`dedir: o alet R'yi yeniden ölçer ve bu
 # sabitle karşılaştırır; ayrışırsa kırmızı yanar. Sabit burada durur çünkü
 # `cozunurluk.py` bu modülü içe aktarıyor — ters yön bir döngü olurdu.
-R_ESLESTIRILMIS: float = 0.0142
+R_ESLESTIRILMIS: float = 0.0126
 
 # 🔒 KISA PENCERE, TAMAMEN KARIŞTIRILMIŞ EVREDE. Sorulan şey çalışma
 # noktasındaki bir DEĞER değil, bir parametrenin çıktıyı oynatıp

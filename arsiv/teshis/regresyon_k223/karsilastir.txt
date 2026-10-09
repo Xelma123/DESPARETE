@@ -1,0 +1,33 @@
+REGRESYON KARSILASTIRMASI — k220 (80 satir) ↔ k223 (81 satir)
+  (yeni vaka) yalniz k223: u-birincil-evre-en_guvenilir_kahin · gecerli=True
+  (ilan edilmis degisen vaka) k-statik-surekli-olsr · 150 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) r-referans-bagimsiz-surekli-dogrudan_komsu · 86 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) r-referans-statik-surekli-aodv · 147 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) r-referans-statik-yok-dogrudan_komsu · 91 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-bagimsiz-surekli-olsr-dugum_kaybi · 77 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-aodv · 193 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-aomdv · 191 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-desparete · 221 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-en_guvenilir_kahin · 110 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-olsr · 187 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-gorev-surekli-aomdv-esler_arasi · 166 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-aldatici-aodv · 164 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-reaktif-aodv · 192 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-surekli-aodv-cephe_hatti · 185 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-surekli_darbeli-aodv · 196 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-taramali-aodv · 183 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-yok-desparete · 214 alan farkli · gecerli=True
+
+  bulgusuz vaka : 63/63 (+17 ilan edilmis degisen)
+  (beklenen) kimlik.arac_hash                                 63 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           63 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              63 vakada farkli
+  (beklenen) kimlik.protokol_hash                             58 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         63 vakada farkli
+  (izinli)   kapsam.rota_tamponu.kaynak                       63 vakada farkli
+  (izinli)   teshis.koken_kovalari.DUNYA_TANIMI               63 vakada farkli
+  (izinli)   teshis.koken_kovalari.KOL_TANIMI                 63 vakada farkli
+  (izinli)   teshis.koken_kovalari.SINANMAMIS                 63 vakada farkli
+  (izinli)   teshis.koken_kovalari.TURETILMIS                 63 vakada farkli
+
+  🟢 BIREBIR (izinli farklar disinda)
