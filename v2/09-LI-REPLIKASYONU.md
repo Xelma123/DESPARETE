@@ -97,7 +97,7 @@ Eğri (280 m · temiz kanal · 5 tohum · doygun · tek atlama 356,1 pkt/s · 25
 
 | | Li (yer tabanlı, ns-2) | bu proje |
 |---|---|---|
-| α | ~4 (iki-ışın) | **2,0** (hava-hava serbest uzay, `07` §04) |
+| α | ~4 (iki-ışın) | **2,0** (hava-hava serbest uzay, `07` §4) |
 | girişim/iletim | 2,5 | 6,31 |
 | yeniden kullanım | ~4 atlama | 8 atlama |
 | zincir oranı | 1/7 = 0,143 | ~0,076 |

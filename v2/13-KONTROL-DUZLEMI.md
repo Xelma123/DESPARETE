@@ -1,6 +1,6 @@
 # 13 · KONTROL DÜZLEMİ — protokolün YAPABİLECEKLERİ
 
-> **Durum: sözleşme uygulandı; kod bu belgeyle birebir.** Güncel 25 Eylül 2026 (öz sürüm; tarihçe ve kapanmış risklerin ayrıntısı `v2/arsiv/13-KONTROL-DUZLEMI-2026-09-25.md`). Bölüm numaraları kodda atıflı, korunur (testlerdeki "§09" = §05). Karar K-112 · kapılar `tests2/test_kontrol_duzlemi.py` (bağlayıcı) · `python -u kalibrasyon/kontrol_duzlemi_kapilari.py` (40 düğümde kanıt).
+> **Durum: sözleşme uygulandı; kod bu belgeyle birebir.** Güncel 10 Ekim 2026 (öz sürüm; tarihçe ve kapanmış risklerin ayrıntısı `v2/arsiv/13-KONTROL-DUZLEMI-2026-09-25.md`). Bölüm numaraları kodda atıflı, korunur (testlerdeki "§09" = §05). Karar K-112 · kapılar `tests2/test_kontrol_duzlemi.py` (bağlayıcı) · `python -u kalibrasyon/kontrol_duzlemi_kapilari.py` (40 düğümde kanıt).
 
 ---
 

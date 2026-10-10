@@ -67,12 +67,12 @@ Tek geçerli plan **Faz 0–7** (`12`): 0 referans dünya · 1–3 simülatörü
 
 | kısıt | değer |
 |---|---|
-| süre | 19 Aralık 2026; yazıma ~5 hafta, kısaltılmaz (`12` §11) |
+| süre | 19 Aralık 2026; yazıma ~5 hafta, kısaltılmaz (`12` §2, Faz 7) |
 | platform | Windows, kişisel bilgisayar |
 | işlemci | deneyler çekirdeklerin yaklaşık yarısıyla (havuz 8 işçi); makine kullanılabilir kalmalı |
 | donanım | yok |
 | anlaşılabilirlik | jüri önünde savunulamayacak hiçbir yöntem ya da iddia kullanılmaz |
-| doğrulama | kendi simülatörünün bedeli: dört seviyeli doğrulama (`03` §5, `07` §10) |
+| doğrulama | kendi simülatörünün bedeli: dört seviyeli doğrulama (`03` §4, `07` §1) |
 
 Kısıt, gerekçesi ayakta olduğu sürece geçerli; ölçüm gerekçeyi çürütürse tarihiyle revize edilir — "sonuç beğenilmedi" gerekçe değildir.
 

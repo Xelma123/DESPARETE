@@ -77,7 +77,7 @@ Var olan beyan kanalını kullanır (gözlem penceresi genişlemez). Boş hipote
 
 **05.2 · G2'nin "kesin monoton artış"ı sınanamazdı** — gerçek değeri eşit iki noktada gürültü %50 düşüş gösterir; düzeltilen tanım, eşik değil. Ölçüm (kâhin, 3 tohum, şok derinliği ± SE): −30 dBm −0,00069 ± 0,00069 · −21 −0,00125 ± 0,00042 · **−15 +0,03707 ± 0,00618** · −9 +0,18742 ± 0,01540. Yan bulgu: çalışma noktasında mükemmel yönlendirmeyle şok derinliği yalnız 0,037 — ayırt edici güç protokolün körlüğünden gelmek zorunda (K-103).
 
-**05.3 · Tek α** (`06` §7, K-123, `07` §18 Y10): modülde yalnız `ALFA = 0,05`; M3'ün z'si (1,95996) ve M4'ün eşiği ondan türer. Eski iki sabit (M3 2,0 SE · M4 pencere başına 0,01) gerekçesizdi ve M4 ~170 pencereyi taradığı için aile düzeyi yanlış alarm çok büyüktü. Sentetik boş hipotez (homojen Poisson beyan, 4 000 deneme/hücre, ± 2 SE):
+**05.3 · Tek α** (`06` §7, K-123): modülde yalnız `ALFA = 0,05`; M3'ün z'si (1,95996) ve M4'ün eşiği ondan türer. Eski iki sabit (M3 2,0 SE · M4 pencere başına 0,01) gerekçesizdi ve M4 ~170 pencereyi taradığı için aile düzeyi yanlış alarm çok büyüktü. Sentetik boş hipotez (homojen Poisson beyan, 4 000 deneme/hücre, ± 2 SE):
 
 | beyan hızı (1/s) | eski kural | bugünkü (0,05 / ~170) |
 |---|---|---|

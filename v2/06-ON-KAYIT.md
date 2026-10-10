@@ -1,6 +1,6 @@
 # 06 · ÖN-KAYIT TASLAĞI
 
-> **Durum:** taslak — mühürlenmedi; mühür Faz 6'da (~12 Kasım, `12`). Bağlayıcı hükümler (§0.2, §0.4.1–0.4.2, §4.4, §7) değişmez; mühürden sonraki her değişiklik §10'a tarihiyle yazılır. Güncel: 9 Ekim 2026 — birincil metrik `PDR_açık`a, karıştırmaya özgü kazanç ve mekanizma kapısı §0.4.5'e (K-222, denetim D-01); §4.4/3 uygulanan kurala çekildi ve Faz 4'te sonuçtan sonra değişen ölçütler §10'a yazıldı (D-06). Önceki sürümler `arsiv/06-ON-KAYIT-*.md`.
+> **Durum:** taslak — mühürlenmedi; mühür Faz 6'da (~12 Kasım, `12`). Bağlayıcı hükümler (§0.2, §0.4.1–0.4.2, §4.4, §7) değişmez; mühürden sonraki her değişiklik §10'a tarihiyle yazılır. Güncel: 10 Ekim 2026 (son içerik değişikliği K-222: birincil metrik `PDR_açık`, §0.4.5). Önceki sürümler `arsiv/06-ON-KAYIT-*.md`.
 
 ---
 
@@ -37,7 +37,7 @@ Yalnız Aile 2 (üstünlük) ve Aile 3 (mekanizma) için; Aile 1 yalnız taban p
 
 δ koşulu Wilcoxon'un anlamlılığından ayrıdır (sıra testi çarpık dağılımda küçük ortalama farkı da anlamlı bulabilir).
 
-**0.4.3 · Güç yöntemi** (Aşama 4 başında): (1) gürültü dağılımı = §0.4.2'nin `d_XY(s)` farkları, her çift kendi ortalamasından arındırılmış; DESPARETE'nin geliştirme farkları varsa YALNIZ yayılımları havuza girer, ortalama farkı hiçbir yerde kullanılmaz · (2) her Δ için `B = 2 000` örneklem: gürültüden yerine koyarak `n` fark, Δ eklenir, çift yönlü Wilcoxon, ret `p < α / m` (muhafazakâr); güç = ret oranı · (3) çıktı `MDE₈₀` ve δ'daki güç · (4) **tohum kuralı:** `MDE₈₀ > Δ_hedef` ise mühürden ÖNCE `n' = ⌈n · (MDE₈₀ / Δ_hedef)²⌉`, sonra yeniden · (5) tümü sıfır farklar için NaN tuzağı denetlenir. *Ön tahmin — eski dünyada* (normal gürültüyle, `n = 40`, `α/m = 0,05/3`): güç δ'da 0,31, 1,7·δ'da 0,81 → `MDE₈₀ ≈ 1,7 · δ`; eşleştirilmiş çözünürlükle (~0,023) `MDE₈₀ ≈ 0,039 < Δ_hedef`. Referans dünyada Faz 6'da yeniden. Üretici: `python arsiv/teshis/guc_on_tahmin_2026-09-23/guc.py`.
+**0.4.3 · Güç yöntemi** (Faz 6'da): (1) gürültü dağılımı = §0.4.2'nin `d_XY(s)` farkları, her çift kendi ortalamasından arındırılmış; DESPARETE'nin geliştirme farkları varsa YALNIZ yayılımları havuza girer, ortalama farkı hiçbir yerde kullanılmaz · (2) her Δ için `B = 2 000` örneklem: gürültüden yerine koyarak `n` fark, Δ eklenir, çift yönlü Wilcoxon, ret `p < α / m` (muhafazakâr); güç = ret oranı · (3) çıktı `MDE₈₀` ve δ'daki güç · (4) **tohum kuralı:** `MDE₈₀ > Δ_hedef` ise mühürden ÖNCE `n' = ⌈n · (MDE₈₀ / Δ_hedef)²⌉`, sonra yeniden · (5) tümü sıfır farklar için NaN tuzağı denetlenir. *Ön tahmin — eski dünyada* (normal gürültüyle, `n = 40`, `α/m = 0,05/3`): güç δ'da 0,31, 1,7·δ'da 0,81 → `MDE₈₀ ≈ 1,7 · δ`; eşleştirilmiş çözünürlükle (~0,023) `MDE₈₀ ≈ 0,039 < Δ_hedef`. Referans dünyada Faz 6'da yeniden. Üretici: `python arsiv/teshis/guc_on_tahmin_2026-09-23/guc.py`.
 
 **0.4.4 · Aday birincil hücre** (kararlar 23 ve 26 Eylül, gerekçesi 28 Eylül — K-153, K-186, K-192): **`formasyon · yere_toplama · derin_sizma · sürekli`, karıştırıcı 10 W toplam ortalama · birincil metrik `PDR_açık` (§3; K-222) · `Δ_hedef = 0,05`.** Pencere PDR'si betimleyici kalır: ölçüm penceresinin yalnız %33'ünde karıştırıcı açık ve DESPARETE v0.4.1'in üstünlüğü karıştırıcısız kollarda da var (denetim D-01). Araç yalnız sessizken taşınır; ölçüm penceresinde ~1,3 km → fiilen merkezde, 15 s açık · 15 s sessiz, açıkken 20 W. Sınanan: periyodik açılıp kapanmaya zamansal uyum ve kısmi karıştırmada dolaşma. İlk aday (23 Eylül, eski dünya) `hava_eslik`ti; referans dünyada kaynaklı gücünde (1–5 W) sürüyü her geometride böldüğü için bırakıldı, keşifsel eksen. Δ_hedef eski dünyanın taban protokol farklarından seçildi; Faz 6'da referans dünyanın δ ve gücüyle birlikte yeniden değerlendirilir.
 
@@ -136,6 +136,7 @@ Analiz birimi tohumdur; havuzlanmış okuma yalnız betimleyici.
 | düzeltme | Holm–Bonferroni, aile içinde, yalnız birincil testlere |
 | α | tek α = 0,05; evre metriklerinin anlamlılık sabiti buradan (`08`) |
 | raporlama | etki büyüklüğü + güven aralığı; negatif sonuçta dışlanan etki ve ulaşılan güç |
+| ölçütün önceliği | sonucu ya da bir kararı etkileyen her ölçümün ölçütü koşudan önce ayrı bir commit'le girer; sonuç ayrı dosyaya yazılır, ölçüt dosyasına dokunulmaz (K-222, denetim D-05). Commit zamanı ölçütün önce yazıldığının kanıtıdır |
 | güç | §0.4.3; tohum mühürden önce artırılabilir, sonra artırılamaz |
 | durdurma kuralı | mühürde mutlak birimle yazılır (eski göreli kural sıfıra yakın farklarda tanımsızdı) |
 
@@ -153,7 +154,8 @@ Analiz birimi tohumdur; havuzlanmış okuma yalnız betimleyici.
 ## 9 · Mühürden önce kapanması gerekenler
 
 - [x] Taban protokoller dondu (K-224: `AODV-j` · `OLSR-d` · `AOMDV-f`, en çok 7 iletim denemesi; OLSR kural kural sadakat denetiminden geçti, K-223; U1 iki desende, yakınsamış kâhinle). U2–U4 AODV ve OLSR'da geçti · AOMDV'nin U1–U4 karşılıkları geçti (K-194)
-- [ ] çözünürlük R ve DUYARSIZ hükümleri ana deneyin penceresinde (bugünküler 50 s'lik kesitte, denetim D-03) · Faz 7 hesap bütçesi ve düşme sırası (D-09)
+- [ ] çözünürlük R ve DUYARSIZ hükümleri ana deneyin penceresinde (bugünküler 50 s'lik kesitte, denetim D-03; Faz 6)
+- [x] Faz 7 hesap bütçesi ve önceden yazılı düşme sırası (K-222, `12` §3–§4)
 - [ ] SINANMAMIŞ = 0 ve duyarlılık borcu = 0 — ya da borçlular eksen olarak ilan edilir (bugünkü sayım `04` §9'da)
 - [x] §0.3'ün eşik formülü, güç yöntemi, aday birincil hücre (K-153)
 - [x] düğüm kaybında birincil metrik (K-182) · referans dünyanın alanı ve birincil hücrenin sabitleri (K-185…K-188)
@@ -178,11 +180,11 @@ Analiz birimi tohumdur; havuzlanmış okuma yalnız betimleyici.
 | 25 Eyl 2026 | bağımsız denetimin soruları §9'a (K-166); U1 tüm koşu PDR'si ve taban protokollerin yere toplamada sınanması kararları (K-167) · belge özlendi, hükümler değişmedi | taslak |
 | 28 Eyl 2026 | belge temizliği: hükümler değişmedi; eski dünyanın anlatıları ayıklandı, §9 güncellendi | taslak |
 | 26–28 Eyl 2026 | referans dünyada aday birincil hücre `derin_sizma` 10 W'a geçti (K-186; sebep fizik: hava karıştırıcısı sürüyü bölüyor — DESPARETE referans dünyada hiç koşmamıştı), gerekçesi düzeltildi (K-192) · KR-1 kapandı, U1 eşiği referans dünyada değişmez (K-192) · Δ_hedef (0,05) ve §0.4.3 güç ön tahmini eski dünyanın; δ ve güç Faz 6'da referans dünyada ölçülür | taslak |
-
 | 28 Eyl 2026 | U1-B: OLSR'ın düşük hücreleri sıralama koşulu sağlanmadan "açıklanmış, sıralamasız" (K-196) | **sonuçtan sonra** — §4.4/3 |
 | 30 Eyl 2026 | U1-B: kaynağına sadık protokolün eşik altı kalması, RFC kurallarından doğan geçici döngüler dâhil, protokolün kendi sınırı (K-207) | **sonuçtan sonra** — §4.4/3 |
 | 2–6 Eki 2026 | evre kapısı G2ç'nin D maddesi kâhinin karıştırıcısız koşusuna eşlendi (K-212 → K-215); asıl sebep yakınsamamış kâhindi, yakınsamış kâhinle özgün ölçütle de geçti (K-217) | **sonuçtan sonra** — `08` §08 |
 | 8 Eki 2026 | örnekleme denetimi C (aldatıcı ↔ sürekli) referansta ED dışarıda sorulur, 0/270 → 270/270 · G3 → G3ç, eski çekirdek hücre tabanda (K-219) | **sonuçtan sonra** — kapının referans biçimi |
 | 9 Eki 2026 | birincil metrik pencere PDR'sinden `PDR_açık`a; fark-içinde-fark ikincil test; Aile 3 mekanizma kapısı; iddia dili; dayanıklılık hücresi (K-222, denetim D-01 · D-08) | **DESPARETE'nin K-200 koşularından sonra**; yön DESPARETE aleyhine tutucu (v0.4.1'in farkı açık evrede en küçük) |
+| 10 Eki 2026 | ölçütün önceliği commit zamanıyla kanıtlanır (§7; K-222, D-05) · belge üslubu (işaretler ve ses, K-225) | yöntem; hükümler değişmedi |
 
 Mühürden sonraki her değişiklik tarihiyle buraya yazılır ve ilgili hipotez keşifsel etiketlenir.
