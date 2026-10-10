@@ -1,6 +1,6 @@
 # 09 · Lİ vd. REPLİKASYONU — aletin TEK dış çapası
 
-> **Durum: 🟢 tamamlandı** — eski dünyada H1 tutmadı, H2 ve H3 tuttu; mekanizma üç α'da doğrulandı. **Referans dünyada sabit hızda H1 TUTTU** — 0,1270 (K-187), kâhin beacon'ı AODV HELLO'suna eşitlendikten sonra 0,1188 (K-219), ikisi de bantta (belgenin sonu). Ön-kayıt (§03–§06) 8 Eylül'de ölçümden önce yazıldı ve değiştirilmez; özgün metin birebir `v2/arsiv/09-LI-REPLIKASYONU-2026-09-25.md`, bu öz sürüm ön-kaydın içeriğini değiştirmez. Bölüm numaraları kodda atıflı, korunur. Şartname `07` §10 seviye 3 · kaynak `02` A5b ✅.
+> **Durum: tamamlandı** — eski dünyada H1 tutmadı, H2 ve H3 tuttu; mekanizma üç α'da doğrulandı. **Referans dünyada sabit hızda H1 TUTTU** — 0,1270 (K-187), kâhin beacon'ı AODV HELLO'suna eşitlendikten sonra 0,1188 (K-219), MAC en çok 7 iletim denemesine çekildikten sonra 0,1250 (K-226) — üçü de bantta (belgenin sonu). Ön-kayıt (§03–§06) 8 Eylül'de ölçümden önce yazıldı ve değiştirilmez; özgün metin birebir `v2/arsiv/09-LI-REPLIKASYONU-2026-09-25.md`, bu öz sürüm ön-kaydın içeriğini değiştirmez. Bölüm numaraları kodda atıflı, korunur. Şartname `07` §10 seviye 3 · kaynak `02` A5b ✓.
 > Üretici: `python -u kalibrasyon/li_replikasyonu.py` (~2 dk; son koşum **25 Eylül 2026**, çıktı `arsiv/teshis/belge_guncelleme_2026-09-25/li_replikasyonu_cikti.txt`) · iki çift probu `kalibrasyon/iki_cift.py` · α taraması `python -u kalibrasyon/yeniden_kullanim.py` (9 Eylül).
 > Sayılar Y2 (veri onayı düzeltmesi, 11 Eylül, K-115) sonrası; 9–10 Eylül tablosu (H1 0,0861, 11 düğüm 0,0739) arşivde.
 
@@ -22,19 +22,19 @@ Mekanizma: *i* iletirken *i±1* (alıcı/verici), *i±2* (taşıyıcı dinleme) 
 
 ## 02 · Kurulum
 
-Zincir bir **ölçüm aletidir**, deney kolu değil: deney matrisine ve ön-kayda girmez, `kalibrasyon/` altında kendi dünyasını kurar. `Sabit` mobilite, tek eksende eşit aralık · sabit zincir yönlendiricisi · tek doygun akış `0 → N−1` · 🔒 **kanal değişmez** (aynı yayılım, MAC, girişim — replikasyon deneydeki aleti sınamalı).
+Zincir bir **ölçüm aletidir**, deney kolu değil: deney matrisine ve ön-kayda girmez, `kalibrasyon/` altında kendi dünyasını kurar. `Sabit` mobilite, tek eksende eşit aralık · sabit zincir yönlendiricisi · tek doygun akış `0 → N−1` · **kanal değişmez** (aynı yayılım, MAC, girişim — replikasyon deneydeki aleti sınamalı).
 
 ## 03 · Ölçümden önce bağlanan üç sayı
 
 **03.1 · Aralık = `nominal_bag_m` (K-220'ye kadar `iletim_menzili_m`) = 280 m** (güç çapası; girişimsiz SINR tam eşikte → "bir atlama = bir iletim menzili" yapı gereği). İlk hâli "atlama PDR ≥ 0,99 olan en büyük aralık"tı; ilk ölçümden sonra 8 Eylül'de değişti çünkü gerekçesi yanlıştı — *i±2/i±3* girişimi artefakt değil Li'nin ölçtüğü mekanizmanın kendisi; aralığı büyütmek oranı yapay yükseltirdi. Eski ölçüt kapı olarak kaldı (her bağ ≥ 0,99).
 
-**03.1b · Kapı bir kurulum kusurunu yakaladı.** 200 m'lik ilk denemede N ≥ 3'te teslim sıfırdı. Bağları öldüren sönümleme: statik kolda donmuş tek Rician çekimi, PER uçurumunda derin çekim bağı öldürür (ölü bağ %2–6; K-096'nın istenen özelliği). Li'nin kurulumunda gölgeleme/sönümleme yok → 🔒 **replikasyon ikisi KAPALI koşar** (ön-kayıtlı kapının kendi işi, gevşetme değil). 280 m'de açık kanal: en kötü bağ 0,0000, ortalama 0,8800 · temiz kanal 1,0000 / 1,0000 (kapı geçer). Bedeli beyanlı: kanalın tamamını değil MAC + girişim + uzamsal yeniden kullanımı doğrular; gölgeleme ve sönümleme ayrıca doğrulandı (σ kaynaktan, K-096).
+**03.1b · Kapı bir kurulum kusurunu yakaladı.** 200 m'lik ilk denemede N ≥ 3'te teslim sıfırdı. Bağları öldüren sönümleme: statik kolda donmuş tek Rician çekimi, PER uçurumunda derin çekim bağı öldürür (ölü bağ %2–6; K-096'nın istenen özelliği). Li'nin kurulumunda gölgeleme/sönümleme yok → **replikasyon ikisi KAPALI koşar** (ön-kayıtlı kapının kendi işi, gevşetme değil). 280 m'de açık kanal: en kötü bağ 0,0000, ortalama 0,8800 · temiz kanal 1,0000 / 1,0000 (kapı geçer). Bedeli beyanlı: kanalın tamamını değil MAC + girişim + uzamsal yeniden kullanımı doğrular; gölgeleme ve sönümleme ayrıca doğrulandı (σ kaynaktan, K-096).
 
 **03.2 · Zincir uzunluğu N = 1…10 atlama taranır** — tek nokta tesadüfen tutabilir; Li'nin iddiası bir şekil.
 
 **03.3 · Doygunluk ölçülür:** sunulan yük, N = 1'de ölçülen tek atlama kapasitesinin 2 katı; kuyruk boş kalmamalı.
 
-## 04 · 🔴 Ön-kayıt (8 Eylül, değiştirilmez)
+## 04 · Ön-kayıt (8 Eylül, değiştirilmez)
 
 | # | hipotez | beklenen | başarısızlık |
 |---|---|---|---|
@@ -72,7 +72,7 @@ Eğri (280 m · temiz kanal · 5 tohum · doygun · tek atlama 356,1 pkt/s · 25
 | verim (pkt/s) | 356,07 | 101,23 | 72,98 | 60,87 | 50,59 | 44,46 | 35,16 | 32,19 | 29,62 | 27,02 |
 | tek atlamaya oran | 1,0000 | 0,2843 | 0,2050 | 0,1709 | 0,1421 | 0,1249 | 0,0987 | 0,0904 | 0,0832 | 0,0759 |
 
-**H1 = 0,0871** (8–11 düğüm ortalaması) → 🔴 band dışı · **H2** 🟢 düşüyor ve düzleşiyor · **H3** 🟢 1/4'ün altında.
+**H1 = 0,0871** (8–11 düğüm ortalaması) → ✗ band dışı · **H2** ✓ düşüyor ve düzleşiyor · **H3** ✓ 1/4'ün altında.
 
 **Sebep arandı** — `oran × atlama ≈ 0,7` ve N ≥ 5'ten sonra sabit, yani verim atlamayla ters orantılı gibi. İki hipotez çürüdü:
 - *Taşıyıcı dinleme çok geniş* (duyma/iletim = 6,31; Li ~2): duyma menzili tarandı — 1,0 → 0,0277 · 1,5 → 0,0277 · 2,0 → 0,0664 · 3,0 → 0,0858 · 4,5 → 0,0816 · 6,31 → 0,0759. Daraltmak kötüleştiriyor (gizli terminal); hiçbir değer banda girmiyor.
@@ -121,6 +121,7 @@ Aynı ön-kayıt, aynı zincir aleti, referans dünyanın (`14`, K-181) bütün 
 | yayılım gecikmesi kapalı | 840,9 | 34,22 | 0,0407 |
 | ARF ve güç kipi kapalı | 354,6 | 32,69 | 0,0922 |
 
+- **K-226 (10 Ekim):** MAC en çok 7 iletim denemesiyle (K-223) sabit hızda **0,1250 ✓ bantta**, ARF açık 0,0415 ✗; aracın kendi H1'i ≈ 0,042 (`arsiv/teshis/denetim_duzeltme_2026-10-09/D2_li.txt`, `D3_li_sabit_hiz.txt`).
 - **K-219 (8 Ekim):** beacon 32 → 84 B'tan sonra (K-215) sabit hızda **0,1188 ✓ bantta**, ARF açık 0,0409 ✗; 32 B'la 0,1270 birebir geri geldi (`arsiv/teshis/faz4_5_2026-10-08/li_beacon.py`) — fark beacon'ın havadaki süresi.
 - Li'nin koşulunda (sabit hız) oran bandın içinde: işlem kazancı ve güce dayalı taşıyıcı dinleme girişim/iletim oranını düşürdü (`14` §9 öngörü 1 ✓). Aletin tek dış çapası ilk kez **sayıyla** geçti.
 - Bütün anahtarlar açıkken H1'i bozan **ARF**: çok atlamalı çekişmede çarpışmayı kanal hatası sanıp hızı düşürüyor (literatürde bilinen ARF zaafı; ns-3 ARF'nin kendisi, `02` G14). Referans dünyada ARF açık kalır — gerçek telsiz böyle davranır ve bütün protokollere aynı MAC'le eşit etki eder.

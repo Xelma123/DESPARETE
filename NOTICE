@@ -1,0 +1,23 @@
+DESPARETE
+Copyright 2026 Xelma123
+
+Bu depodaki özgün kaynak kodu ve belgeler Apache License 2.0 ile
+lisanslanmıştır (bkz. LICENSE).
+
+Üçüncü taraf malzeme
+--------------------
+protokol_kaynaklari/ dizinindeki aşağıdaki dosyalar başvuru amacıyla
+tutulur. Apache License 2.0 kapsamında değildir; her biri kendi lisansı
+ve telif hakkıyla dağıtılır:
+
+- protokol_kaynaklari/uygulama_kaynaklari/ns-3/ : ns-3 ağ simülatörünün
+  kaynak dosyaları (GPL-2.0-only; telif sahipleri dosya başlıklarında).
+- protokol_kaynaklari/uygulama_kaynaklari/linux/ : Linux çekirdeğinin
+  kablosuz yapılandırma arayüzünden bir dosya (GPL-2.0-only).
+- protokol_kaynaklari/rfc*.txt : IETF RFC metinleri (IETF Trust).
+- protokol_kaynaklari/*.pdf ve *.png : yayımlanmış makaleler, bir veri
+  sayfası ve makalelerden şekiller; hakları yazarlarına ve yayıncılarına
+  aittir.
+
+Simülatör ve protokoller (sim2/, protokoller/, kalibrasyon/, analiz/) bu
+dosyaları içe aktarmaz; davranışları kaynaklarına atıfla yeniden yazılmıştır.

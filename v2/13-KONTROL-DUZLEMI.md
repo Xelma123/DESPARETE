@@ -1,6 +1,6 @@
 # 13 · KONTROL DÜZLEMİ — protokolün YAPABİLECEKLERİ
 
-> **Durum: 🟢 sözleşme uygulandı; kod bu belgeyle birebir.** Güncel 25 Eylül 2026 (öz sürüm; tarihçe ve kapanmış risklerin ayrıntısı `v2/arsiv/13-KONTROL-DUZLEMI-2026-09-25.md`). Bölüm numaraları kodda atıflı, korunur (testlerdeki "§09" = §05). Karar K-112 · kapılar `tests2/test_kontrol_duzlemi.py` (bağlayıcı) · `python -u kalibrasyon/kontrol_duzlemi_kapilari.py` (40 düğümde kanıt).
+> **Durum: sözleşme uygulandı; kod bu belgeyle birebir.** Güncel 25 Eylül 2026 (öz sürüm; tarihçe ve kapanmış risklerin ayrıntısı `v2/arsiv/13-KONTROL-DUZLEMI-2026-09-25.md`). Bölüm numaraları kodda atıflı, korunur (testlerdeki "§09" = §05). Karar K-112 · kapılar `tests2/test_kontrol_duzlemi.py` (bağlayıcı) · `python -u kalibrasyon/kontrol_duzlemi_kapilari.py` (40 düğümde kanıt).
 
 ---
 
@@ -8,7 +8,7 @@
 
 Kapsam yalnız MEKANİZMA; protokol gerçeklemeleri `protokoller/`de. `05` protokolün ne GÖRECEĞİNİ kilitler, bu belge ne YAPABİLECEĞİNİ — gözlem penceresini genişletmez.
 
-## 01 · Öğrencinin beş kararı
+## 01 · Beş tasarım kararı
 
 | # | karar | uygulandığı yer |
 |---|---|---|
@@ -20,10 +20,10 @@ Kapsam yalnız MEKANİZMA; protokol gerçeklemeleri `protokoller/`de. `05` proto
 
 ## 02 · API — protokole görünen (`sim2/gozlem/`)
 
-🔒 Protokol **çağırmaz, niyet döndürür**; tipler donmuş, simülatöre geri referans yok (P6).
+Protokol **çağırmaz, niyet döndürür**; tipler donmuş, simülatöre geri referans yok (P6).
 
 - **02.1 `MesajBicimi(ad, alanlar, tekrarli=())`** — `alanlar` `(ad, bit)` demeti (sabit genişlik), `tekrarli` sayı demeti taşıyan alanlar; adlar tekil. Boyut, projede TEK hesap: `bayt(yuk) = ⌈(Σ sabit bit + Σ len·bit) / 8⌉`.
-- **02.2 `KontrolIstegi.kur(hedef, bicim, yuk, jitter_s=0.0)`** — `hedef` `None` (yayın) ya da düğüm (unicast) · `yuk` tam olarak biçimin alanları · `int` `0 ≤ v < 2^bit`, `bool` her genişlikte, `float` yalnız 32 bitlik alanda · tekrarlı alan demet · `jitter_s ≥ 0`. 🔒 Taşınan bilgi ödenen bitten fazla olamaz.
+- **02.2 `KontrolIstegi.kur(hedef, bicim, yuk, jitter_s=0.0)`** — `hedef` `None` (yayın) ya da düğüm (unicast) · `yuk` tam olarak biçimin alanları · `int` `0 ≤ v < 2^bit`, `bool` her genişlikte, `float` yalnız 32 bitlik alanda · tekrarlı alan demet · `jitter_s ≥ 0`. Taşınan bilgi ödenen bitten fazla olamaz.
 - **02.3 `Uyandirma(gecikme_s, etiket, jitter_s=0.0)`** — dinamik zamanlayıcı; `gecikme_s > 0`, alt sınır ve tavan simülatörde.
 - **02.4 `Karar.niyetler`** — `KontrolIstegi | Uyandirma`; `Beyan` buraya giremez (`Karar.beyan` ayrı alan).
 - **02.5 Kancalar** (`KontrolluProtokol`, **hepsi ya da hiçbiri**; her biri bir `Gozlem` alır — düğüm kimliği ve yerel saat içinde; `gozlem.paket` `None`):
@@ -75,11 +75,11 @@ Gözlem penceresi 17 · 6 · 6 = 29 alan (P6; `bildirdigi_konum` K-131 ile çık
 
 | # | risk | durum |
 |---|---|---|
-| R1 | veri onayı onu çözen HERHANGİ bir düğümü kredilendiriyordu (seyirci kredisi) | 🟢 kapandı — yalnız gönderen çözünce (Y2, K-114 ölçüm, K-115) |
-| R2 | koşum beacon'ı kapatılamıyordu (çift komşu trafiği) | 🟢 kapandı (§03.8, K-121) |
-| R3 | MAC vazgeçince protokol haberdar edilmiyordu | 🟢 kapandı (§02.5 · §03.6, K-121) |
-| R4 | protokolün rastgelelik kaynağı yoktu (RREQ jitter, `MAXJITTER`) | 🟢 kapandı (§02.2 · §02.3 · §03.7, K-121) |
+| R1 | veri onayı onu çözen HERHANGİ bir düğümü kredilendiriyordu (seyirci kredisi) | kapandı — yalnız gönderen çözünce (Y2, K-114 ölçüm, K-115) |
+| R2 | koşum beacon'ı kapatılamıyordu (çift komşu trafiği) | kapandı (§03.8, K-121) |
+| R3 | MAC vazgeçince protokol haberdar edilmiyordu | kapandı (§02.5 · §03.6, K-121) |
+| R4 | protokolün rastgelelik kaynağı yoktu (RREQ jitter, `MAXJITTER`) | kapandı (§02.2 · §02.3 · §03.7, K-121) |
 | R5 | kapsülleme asimetrisi: veri 512 B toplam, kontrol mesaj + 64 B | açık — `nrl_*`de kontrolü en çok 64 B pahalı gösterir (beyanlı) |
-| R6 | `BEKLEYEN_UYANDIRMA_TAVANI` ve `KONTROL_KAPSULLEME` SINANMAMIŞ | ✅ kapandı — kapsülleme KAYNAK (G15 · G16, K-203), tavan ÖLÇÜLMÜŞ (tepe ≤ 22/256, K-214) |
+| R6 | `BEKLEYEN_UYANDIRMA_TAVANI` ve `KONTROL_KAPSULLEME` SINANMAMIŞ | kapandı — kapsülleme KAYNAK (G15 · G16, K-203), tavan ÖLÇÜLMÜŞ (tepe ≤ 22/256, K-214) |
 | R7 | tavan bekleyen **sayısını** sınırlar, oranı değil | açık — tepe/ateş sayısı satırda (beyanlı) |
-| R8 | kontrol istatistiklerinin pencere ikizi yoktu | 🟢 kapandı (§03.10, K-115) |
+| R8 | kontrol istatistiklerinin pencere ikizi yoktu | kapandı (§03.10, K-115) |

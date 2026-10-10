@@ -5,17 +5,17 @@ atıf ve alıntı için buradan kullanılır. Her belgenin künyesi, nereden
 alındığı, özeti (SHA-256) ve hangi denetimlerden geçtiği aşağıda. Doğrulanmış
 kaynakların tam listesi ve projedeki kullanımları: `v2/02-DOGRULANMIS-KAYNAKLAR.md`.
 
-🔒 **Kural (öğrenci, 19 Eylül 2026):** bir belge buraya ancak **tamamı
-okunduktan** ve gerçek olduğu, içinde yapay zekâya yönelik talimat benzeri bir
-şey olmadığı denetlendikten sonra girer.
+**Kural (19 Eylül 2026):** bir belge buraya ancak **tamamı okunduktan** ve
+gerçek olduğu, içinde gömülü talimat benzeri bir metin ya da etkin içerik
+olmadığı denetlendikten sonra girer.
 
-**Bu klasördeki iki DIŞ KAYNAK OLMAYAN klasör** — öğrencinin kendi çalışmasıdır,
+**Bu klasördeki iki DIŞ KAYNAK OLMAYAN klasör** — bu çalışmanın kendi ürünüdür,
 yukarıdaki indirme kuralına tabi değildir:
 
 | klasör | içerik |
 |---|---|
-| `DESPARETE_TASARIM_PAKETI/` | öğrencinin protokol tasarımı, v0.1 (40 dosya: dizin + 39 tasarım belgesi — 23 Eylül'de sayıldı, önceki "41" yanlıştı; tek okuma `36`). İnceleme ve kararlar `v2/04` K-150 |
-| `literatur_taramasi_2026-08-31/` | öğrencinin ikinci literatür taraması (20 dosya) — 23 Eylül'de `v2/`den taşındı. ⚠️ İçindeki atıflar kullanılmadan önce birincil kaynaktan doğrulanır (`v2/02`) |
+| `DESPARETE_TASARIM_PAKETI/` | DESPARETE'nin ilk tasarımı, v0.1 (40 dosya: dizin + 39 tasarım belgesi — 23 Eylül'de sayıldı, önceki "41" yanlıştı; tek okuma `36`). İnceleme ve kararlar `v2/04` K-150 |
+| `literatur_taramasi_2026-08-31/` | ikinci literatür taraması (20 dosya) — 23 Eylül'de `v2/`den taşındı. İçindeki atıflar kullanılmadan önce birincil kaynaktan doğrulanır (`v2/02`) |
 
 ---
 
@@ -26,7 +26,7 @@ yukarıdaki indirme kuralına tabi değildir:
 | **künye** | M. K. Marina, S. R. Das, *"On-demand Multipath Distance Vector Routing in Ad Hoc Networks"*, Proceedings of the IEEE International Conference on Network Protocols (ICNP), s. 14–23, 2001 |
 | **genişletilmiş dergi sürümü** | M. K. Marina, S. R. Das, *"Ad hoc on-demand multipath distance vector routing"*, Wireless Communications and Mobile Computing 6(7):969–988, Kasım 2006 · DOI 10.1002/wcm.432 (ücretli; künye Edinburgh Üniversitesi kurum sayfasından doğrulandı) |
 | **alındığı yer** | `https://www3.cs.stonybrook.edu/~samir/Pubs/icnp-01.pdf` — ortak yazar Samir R. Das'ın kendi üniversite sayfası |
-| **alınma tarihi** | 19 Eylül 2026 (öğrenci izniyle) |
+| **alınma tarihi** | 19 Eylül 2026 |
 | **boyut · SHA-256** | 127 110 bayt · `e41c5df42170b723180867ba9a72d37ec7a4ca1923b0921503ed77a350f123e6` |
 
 **Gerçeklik denetimi:**
@@ -37,21 +37,21 @@ yukarıdaki indirme kuralına tabi değildir:
   özet ve 35 maddelik kaynakça AOMDV hakkında bilinenlerle tutarlı
 - Metin kaynakçayla bitiyor; sonrasında hiçbir şey yok
 
-**Güvenlik denetimi (öğrencinin isteği — istem enjeksiyonuna karşı):**
+**Güvenlik denetimi (gömülü talimat ve etkin içerik taraması):**
 
-- Metinde yapay zekâya yönelik talimat kalıbı taraması: **eşleşme yok**
+- Metinde gömülü talimat kalıbı taraması: **eşleşme yok**
   (yalnız kaynakçadaki iki ns-2 ve IETF bağlantısı)
 - PDF yapısında etkin içerik (`/JavaScript`, `/OpenAction`, `/Launch`,
   `/URI`, `/EmbeddedFile`, `/AA`): **sıfır**
 - Görünmez metin (render kipi 3): **sıfır**
 
-⚠️ **Bilinen sınır:** makale 2001 dönemi dvips çıktısıdır; matematik simgeleri
+**Bilinen sınır:** makale 2001 dönemi dvips çıktısıdır; matematik simgeleri
 **Type 3 bit eşlem yazı tiplerinde** (`/a0 … /a255`) ve metin olarak
 çıkarılamıyor. Etkilenen kısımlar: Şekil 1 (AODV güncelleme kuralı), Şekil 3
 (**AOMDV rota güncelleme kuralı**) ve bölüm 3.2'deki `k` değeri.
 
-🟢 **Görsel olarak okundu (19 Eylül 2026):** öğrenci PDF'i açıp iki bölgenin
-ekran görüntüsünü verdi; ikisi de bu klasörde:
+**Görsel olarak okundu (19 Eylül 2026):** PDF açılıp iki bölgenin ekran
+görüntüsü alındı; ikisi de bu klasörde:
 
 | dosya | içerik | SHA-256 |
 |---|---|---|
@@ -89,15 +89,15 @@ metinde bozuk; tanım düz yazıda açık.)
 kopyasına, ilk atlamalarından bağımsız olarak"* cevap verir; *"deneylerimizde
 k = 3 kullandık"*.
 
-⚠️ **Bu sürümde OLMAYANLAR:** ICNP makalesinin 3. bölümü `k` paragrafıyla
+**Bu sürümde OLMAYANLAR:** ICNP makalesinin 3. bölümü `k` paragrafıyla
 biter. Rota bakımı (bir yol kopunca ne yapılır, RERR), verinin hangi yoldan
 gönderileceği ve yol başına zaman aşımları ayrı bir bölüm olarak YOK —
 büyük olasılıkla dergi sürümünde (ücretli). ns-2.35'teki AOMDV kodu yazarların DEĞİL (Marcello Caleffi, 2008) —
-boşluklar öğrenci kararıyla (22 Eylül) makale + RFC 3561'den doldurulur,
+boşluklar karar gereği (22 Eylül) makale + RFC 3561'den doldurulur,
 belirtilmemiş seçimler `protokoller/aomdv.py` başlığında beyanlı
 (`v2/02-DOGRULANMIS-KAYNAKLAR.md` §R4.1).
 
-⚠️ **Dağıtım:** yazarın kendi sayfasında yayımladığı kopyadır ve bu depoda
+**Dağıtım:** yazarın kendi sayfasında yayımladığı kopyadır ve bu depoda
 özel araştırma kullanımı içindir. Depo herkese açık yapılacaksa yeniden
 dağıtım hakkı ayrıca denetlenmelidir.
 
@@ -109,7 +109,7 @@ dağıtım hakkı ayrıca denetlenmelidir.
 |---|---|
 | **künye** | C. Perkins, E. Belding-Royer, S. Das, *"Ad hoc On-Demand Distance Vector (AODV) Routing"*, RFC 3561, Temmuz 2003, kategori: Experimental |
 | **alındığı yer** | `https://www.rfc-editor.org/rfc/rfc3561.txt` — RFC Editor, kanonik metin |
-| **alınma tarihi** | 19 Eylül 2026 (öğrenci izniyle) |
+| **alınma tarihi** | 19 Eylül 2026 |
 | **boyut · SHA-256** | 90 356 bayt · `b3294169ed3e0cf87c1acc1d99ac8b428eec279c563d64fb10cc1c902a60d579` |
 
 ## rfc3626_olsr.txt — OLSR
@@ -118,7 +118,7 @@ dağıtım hakkı ayrıca denetlenmelidir.
 |---|---|
 | **künye** | T. Clausen, P. Jacquet (ed.), *"Optimized Link State Routing Protocol (OLSR)"*, RFC 3626, Ekim 2003, kategori: Experimental |
 | **alındığı yer** | `https://www.rfc-editor.org/rfc/rfc3626.txt` — RFC Editor, kanonik metin |
-| **alınma tarihi** | 19 Eylül 2026 (öğrenci izniyle) |
+| **alınma tarihi** | 19 Eylül 2026 |
 | **boyut · SHA-256** | 161 265 bayt · `722a7b5838ac29fe71aa48fa91ae619ab1ef8c128a754a84a98d705cefe17580` |
 
 **İki RFC için denetim — ne yapıldığı TAM OLARAK:**
@@ -129,22 +129,22 @@ dağıtım hakkı ayrıca denetlenmelidir.
 - Projede bugüne kadar alıntılanan cümleler indirilen metinlerde kelimesi
   kelimesine geçiyor: §6.9 *"Hello messages or otherwise"* · §6.11 *"have a
   non-empty precursor list"* · §18.9 *"MAXJITTER = HELLO_INTERVAL / 4"*.
-- Tam metin taramasında yapay zekâya yönelik talimat kalıbı: **yok**.
+- Tam metin taramasında gömülü talimat kalıbı: **yok**.
 
-⚠️ **Dürüst sınır:** RFC'lerin HER satırı okunmadı. Protokolle ilgili bölümler
+**Dürüst sınır:** RFC'lerin HER satırı okunmadı. Protokolle ilgili bölümler
 okundu (AODV §5, §6, §10 · OLSR §3–§10, §13–§14, §18–§19) ve metnin tamamı
 kalıp taramasından geçti. Kaynak RFC Editor'ün kendisi olduğu için risk
 çok düşük; yine de "tamamı okundu" demek doğru olmazdı.
 
-🔒 RFC metinleri IETF Trust'ın lisansıyla serbestçe dağıtılabilir.
+RFC metinleri IETF Trust'ın lisansıyla serbestçe dağıtılabilir.
 
 ---
 
-## Gerçekçilik kaynakları — 25 Eylül 2026 (öğrenci izniyle, her biri ayrı; K-168, `v2/12` Faz 0)
+## Gerçekçilik kaynakları — 25 Eylül 2026 (her biri ayrı; K-168, `v2/12` Faz 0)
 
 Hepsi önce geçici alana indirildi, denetlendi, sonra buraya alındı. **Ortak denetim** (`pdftotext` ile metin + ham PDF taraması):
 - etkin içerik (`/JavaScript`, `/Launch`, `/EmbeddedFile`, `/AA`, `/XFA` …) yok. İki arXiv dosyasında birer `/OpenAction` var; ikisi de yalnız `/GoTo … /Fit` (ilk sayfayı sığdırarak aç).
-- yapay zekâya yönelik talimat kalıbı yok. Tek eşleşme RFC 8966'da, protokol metni: *"receiver MUST ignore any TLV"*.
+- gömülü talimat kalıbı yok. Tek eşleşme RFC 8966'da, protokol metni: *"receiver MUST ignore any TLV"*.
 
 | dosya | künye | alındığı yer | boyut · SHA-256 | okunan |
 |---|---|---|---|---|
@@ -163,9 +163,9 @@ Hepsi önce geçici alana indirildi, denetlendi, sonra buraya alındı. **Ortak 
 - **MAVLink:** mesaj 8–263 B (v1), yaşam sinyali ~1 Hz.
 - **Karıştırma tespiti:** gürültü gücü, kanal meşgul oranı, çerçeveler arası süre, sinyal gücü ve teslim oranı birlikte kullanılıyor (Puñal vd., taramanın [83]'ü). Hız uyarlaması düşük güçlü girişimde etkili, yüksek güçlü sürekli karıştırmada etkisiz (Pelechrinis vd., [79]–[80]).
 
-⚠️ **Dağıtım:** arXiv ve ns-3 belgeleri yazarların herkese açık kopyalarıdır; depo herkese açık yapılacaksa yeniden dağıtım hakkı ayrıca denetlenmelidir. IEEE 802.11-2016'nın kendisi burada yok — yalnız IEEE GET programından, IEEE hesabıyla (öğrenci) alınabilir.
+**Dağıtım:** arXiv ve ns-3 belgeleri yazarların herkese açık kopyalarıdır; depo herkese açık yapılacaksa yeniden dağıtım hakkı ayrıca denetlenmelidir. IEEE 802.11-2016'nın kendisi burada yok — yalnız IEEE GET programından, IEEE hesabıyla alınabilir.
 
-### Öğrencinin indirdikleri — 25 Eylül 2026 akşamı (ajan denetledi)
+### Elle indirilenler — 25 Eylül 2026 akşamı (denetlendi)
 
 Aynı ortak denetim; geçici kopyalar üzerinde. Etkin içerik yok. İki yanlış alarm çözüldü: Goddemeier dosyasındaki `/JS` bir DOI'nin parçası (`…/JSAC.2012.120610`); NATO belgesindeki `/AA` sıkıştırılmış akışta rastgele bayt. Gömülü tek dosya IEEE'nin PDF üretim ayarı (`CMW_Acr8_V1.joboptions`). Talimat kalıbı yok; Al-Hourani'deki "disregard" teknik cümle (*"we can disregard hRX"*).
 
@@ -173,11 +173,11 @@ Aynı ortak denetim; geçici kopyalar üzerinde. Etkin içerik yok. İki yanlı�
 |---|---|---|---|---|
 | `al_hourani_2014_optimal_lap_altitude.pdf` | A. Al-Hourani, S. Kandeepan, S. Lardner, *"Optimal LAP Altitude for Maximum Coverage"*, IEEE Wireless Communications Letters, 2014 (4 s.) | 667 334 B · `657c893e7840749967599974f4c19bd54d61323a8d2c14f2bacf49bb2bee40ee` | **tamamı** | yer–hava modeli: PL = FSPL + η; P(LoS, θ) = 1 / (1 + a·exp(−b[θ − a])); (η_LoS, η_NLoS) banliyö (0,1; 21) · kentsel (1,0; 20) · yoğun kentsel (1,6; 23) · yüksek yapılı (2,3; 34) dB; a, b Tablo I–II polinomlarından |
 | `doodlelabs_rm2450_veri_sayfasi_2021.pdf` | Doodle Labs, *Smart Radio RM-2450 Datasheet* (2×2 MIMO Mesh Rider, 2 400–2 482 MHz), 20 Aralık 2021 (10 s.) | 354 100 B · `1c4a76b492e1eccf955f602a5bc5c6ab0c63b14f5fa45af665a826e8f47b178c` | **tamamı** | çıkış Pro 27 dBm · Xtreme 33 dBm (MCS 0) · ABD 4 W EIRP, **Avrupa 100 mW EIRP** · DC güç Tx ≤ 10,6 W (Pro) / 14 W (Xtreme), Rx 2 W, uyku 1,2 W · tümleşik GPS **1,5 m CEP** · duyarlılık OFDM MCS 0: 3 MHz −100, 5 MHz −98 dBm · 802.11b/g/n uyumlu |
-| `goddemeier_daniel_wietfeld_2012_jsac_a2g.pdf` | N. Goddemeier, K. Daniel, C. Wietfeld, *"Role-Based Connectivity Management with Realistic Air-to-Ground Channels for Cooperative UAVs"*, IEEE JSAC 30(5):951–963, Haziran 2012 (13 s.) | 1 648 920 B · `1d80f6c8ae0dc45fe6335743d6a1e06cf3cd87ed70a4b432bf51485582c034a3` | kanal bölümü (V) | ⚠️ **istenen makale değil** (istenen: Goddemeier & Wietfeld, GLOBECOM Wi-UAV 2015, hava–hava Rice modeli). Hava–hava için "basit serbest uzay" varsayar; yer–hava için yüksekliğe bağlı yol kaybı üsteli. ⚠️ Kopyada *"Authorized licensed use limited to: Universitaetsbibliothek der RWTH Aachen"* damgası var — yalnız araştırma kopyası, yeniden dağıtılmaz |
+| `goddemeier_daniel_wietfeld_2012_jsac_a2g.pdf` | N. Goddemeier, K. Daniel, C. Wietfeld, *"Role-Based Connectivity Management with Realistic Air-to-Ground Channels for Cooperative UAVs"*, IEEE JSAC 30(5):951–963, Haziran 2012 (13 s.) | 1 648 920 B · `1d80f6c8ae0dc45fe6335743d6a1e06cf3cd87ed70a4b432bf51485582c034a3` | kanal bölümü (V) | **istenen makale değil** (istenen: Goddemeier & Wietfeld, GLOBECOM Wi-UAV 2015, hava–hava Rice modeli). Hava–hava için "basit serbest uzay" varsayar; yer–hava için yüksekliğe bağlı yol kaybı üsteli. Kopyada *"Authorized licensed use limited to: Universitaetsbibliothek der RWTH Aachen"* damgası var — yalnız araştırma kopyası, yeniden dağıtılmaz |
 
 **Depoya alınmayanlar:**
-- **NATO SPCoE kitabı:** Yzb. (TUR GEND) Yüksel Kütük, *"UAS (Unmanned Aircraft Systems): The Force Multiplier for Law Enforcement Agencies and the Potential Contributor to Stability Policing"*, NATO SPCoE, 2025, ISBN 979-12-5539-066-4. Kaynak: `https://nllp.jallc.nato.int/iks/sharing%20public/uas-unmanned-aircraft-systems.pdf`. 3 639 808 B · `160b3e547ccddb228f6a24b1f87c94b97ed386291428e6a55bfca0f7bd6404e3` (63 s.). Yalnız §1.4.3 okundu: NATO sınıflandırması, NATO ATP-3.3.8.1 Ed. B v1, 2019'dan — **Sınıf I "küçük" (>15 kg): taktik birlik, ≤ 5 000 ft AGL, görev yarıçapı 50 km (görüş hattı), ör. ScanEagle**. Web okumasında araç tarafından kendiliğinden kaydedildi, öğrencinin izniyle kullanıldı. Yayıncının izinsiz elektronik saklama yasağı nedeniyle kopyası depoya alınmadı.
-### Ücretli iki kaynağın açık alternatifleri — 25 Eylül 2026 gecesi (öğrenci seçimi ajana bıraktı: *"hangilerinin kaliteli ve güvenilir olduğunu düşünüyorsan onları indir"*)
+- **NATO SPCoE kitabı:** Yzb. (TUR GEND) Yüksel Kütük, *"UAS (Unmanned Aircraft Systems): The Force Multiplier for Law Enforcement Agencies and the Potential Contributor to Stability Policing"*, NATO SPCoE, 2025, ISBN 979-12-5539-066-4. Kaynak: `https://nllp.jallc.nato.int/iks/sharing%20public/uas-unmanned-aircraft-systems.pdf`. 3 639 808 B · `160b3e547ccddb228f6a24b1f87c94b97ed386291428e6a55bfca0f7bd6404e3` (63 s.). Yalnız §1.4.3 okundu: NATO sınıflandırması, NATO ATP-3.3.8.1 Ed. B v1, 2019'dan — **Sınıf I "küçük" (>15 kg): taktik birlik, ≤ 5 000 ft AGL, görev yarıçapı 50 km (görüş hattı), ör. ScanEagle**. Web okuması sırasında kaydedildi. Yayıncının izinsiz elektronik saklama yasağı nedeniyle kopyası depoya alınmadı.
+### Ücretli iki kaynağın açık alternatifleri — 25 Eylül 2026 gecesi
 
 Ortak denetim; etkin içerik yok (1801.01656'daki `/JS` sıkıştırılmış akışta rastgele bayt, `/OpenAction` yalnız `/GoTo … /Fit`), talimat kalıbı yok.
 
@@ -196,9 +196,9 @@ Ortak denetim; etkin içerik yok (1801.01656'daki `/JS` sıkıştırılmış ak�
 | `ns-3/wifi-phy.cc` | 802.11b yapılandırması (SIFS, slot, PIFS = SIFS + slot) | `27425b912e3dd322ea35b8d24082548c91683f6282492ae8ef6ee8a773b5c924` |
 | `ns-3/dsss-phy.cc` | 1 / 2 / 5,5 / 11 Mb/s · uzun önbelge 144 µs + başlık 48 µs (kısa: 72 + 24 µs) | `d5239ede9c5793808db4541beebf62602dc1d2227bf2cb2355b89bc6053f196d` |
 | `ns-3/dsss-error-rate-model.cc` | G1'in (Pei & Henderson) BER formüllerinin güncel kodu · CCK 5,5/11 Mb/s: Pursley–Royster sembol hatası (GSL sürümü) — A4'ün hata modeli | `e7274c4a98eb7be8e5732f4b4ce51cbadcf8a9ea3f777777a903dca86659f66f` |
-| `ns-3/arf-wifi-manager.cc` · `.h` | ARF hız uyarlaması (Kamerman & Monteban 1997'ye atıflı; zaman sayacı yerine paket sayacı): en düşük hızdan başla · **10** art arda başarı ya da **15** iletimlik sayaç → bir hız yukarı ve kurtarma kipi · kurtarmada ilk başarısızlık, normalde art arda **2** başarısızlık → bir hız aşağı. 26 Eylül 2026 indirildi (öğrenci izniyle, 8 353 B + 2 621 B), tamamı okundu | `723572f3502109ca4cf8d17950ddae78a1f74c6f297d60af7e7c614704fa86c0` · `d52e373873f0b29676f37621c0d85d2c18605b1cb98ea85ee687c9eb6e811d78` |
-| `ns-3/aodv-routing-protocol.cc` · `aodv-rqueue.cc` · `.h` | AODV rota tamponu: `MaxQueueLen` **64**, `MaxQueueTime` **30 s**; kuyruk dolunca *"Drop the most aged packet"*, süresi dolan `Purge`da düşer. Başlık: *"Based on NS-2 AODV model developed by the CMU/MONARCH group and optimized and tuned by Samir Das and Mahesh Marina"*. 28 Eylül 2026 indirildi (öğrenci izniyle, 86 436 B · 3 405 B · 6 649 B), ilgili kısımlar okundu — `rota_tamponu_*` köken kaydı (K-198) | `104dbf6352b70949a114f4db3d3e21c6deb176082cc0b3138ff8025848eeb6b0` · `c66643b64d8131f9194f26b8192752f6c1923399a3f534a3ed7beec45a3aa678` · `d9651df51f082472bab64752617d2939d24cc3b09d8945e81f7e764e80a7eb1e` |
-| `ns-3/wifi-mac-header.cc` | çerçeve başlık boyları: veri **2 + 2 + 6 + 6 + 6 + 2 = 24 B**, onay (ACK) **2 + 2 + 6 = 10 B** (FCS hariç; FCS **4 B** `wifi-standard-constants.h`de `WIFI_MAC_FCS_LENGTH`) → onay çerçevesi 14 B. 30 Eylül 2026 (öğrenci izniyle, K-203), 29 777 B, `GetSize` okundu | `cbe9061a40a65ae4467a7df8cbfa44f95c05125e8f7d68ef6dfc3d45cfc13f6e` |
+| `ns-3/arf-wifi-manager.cc` · `.h` | ARF hız uyarlaması (Kamerman & Monteban 1997'ye atıflı; zaman sayacı yerine paket sayacı): en düşük hızdan başla · **10** art arda başarı ya da **15** iletimlik sayaç → bir hız yukarı ve kurtarma kipi · kurtarmada ilk başarısızlık, normalde art arda **2** başarısızlık → bir hız aşağı. 26 Eylül 2026 indirildi (8 353 B + 2 621 B), tamamı okundu | `723572f3502109ca4cf8d17950ddae78a1f74c6f297d60af7e7c614704fa86c0` · `d52e373873f0b29676f37621c0d85d2c18605b1cb98ea85ee687c9eb6e811d78` |
+| `ns-3/aodv-routing-protocol.cc` · `aodv-rqueue.cc` · `.h` | AODV rota tamponu: `MaxQueueLen` **64**, `MaxQueueTime` **30 s**; kuyruk dolunca *"Drop the most aged packet"*, süresi dolan `Purge`da düşer. Başlık: *"Based on NS-2 AODV model developed by the CMU/MONARCH group and optimized and tuned by Samir Das and Mahesh Marina"*. 28 Eylül 2026 indirildi (86 436 B · 3 405 B · 6 649 B), ilgili kısımlar okundu — `rota_tamponu_*` köken kaydı (K-198) | `104dbf6352b70949a114f4db3d3e21c6deb176082cc0b3138ff8025848eeb6b0` · `c66643b64d8131f9194f26b8192752f6c1923399a3f534a3ed7beec45a3aa678` · `d9651df51f082472bab64752617d2939d24cc3b09d8945e81f7e764e80a7eb1e` |
+| `ns-3/wifi-mac-header.cc` | çerçeve başlık boyları: veri **2 + 2 + 6 + 6 + 6 + 2 = 24 B**, onay (ACK) **2 + 2 + 6 = 10 B** (FCS hariç; FCS **4 B** `wifi-standard-constants.h`de `WIFI_MAC_FCS_LENGTH`) → onay çerçevesi 14 B. 30 Eylül 2026 (K-203), 29 777 B, `GetSize` okundu | `cbe9061a40a65ae4467a7df8cbfa44f95c05125e8f7d68ef6dfc3d45cfc13f6e` |
 | `ns-3/llc-snap-header.cc` | LLC/SNAP başlığı `LLC_SNAP_HEADER_LENGTH` (değeri RFC 1042: 8 oktet). 30 Eylül, 1 767 B, tamamı | `6a89e53e5b3bce433056a72a45d1c65226d2847f6a8a008a3c7a542a47ae93cd` |
 | `ns-3/wifi-mac-queue.cc` | MAC kuyruğu varsayılanı **`MaxSize` 500 paket · `MaxDelay` 500 ms** (bizde 50 paket, süre sınırı yok — NS-2 `ifqlen` geleneği; değer farklı → duyarlılık ölçülür, Faz 4.4). 30 Eylül, 15 544 B, öznitelikler okundu | `dc5c27e1343510d027ae01bc90aef4d267ff0c81ff963df1f2270b53b68ca2f0` |
 | `ns-3/simple-frame-capture-model.cc` · `frame-capture-model.cc` | yakalama: yeni çerçeve süren çerçeveden **5 dB** güçlüyse ve önbelge sezildikten sonraki **16 µs**'lik pencerede ise alım yeni çerçeveye geçer (bizde 10 dB · 192 µs; model ayrıntısı farklı → duyarlılık ölçülür, Faz 4.4). 30 Eylül, 1 823 B · 1 046 B, tamamı | `06a33f211d82f2c271cfb0bc82ab78e63156ae43ce5d94e79c0ba6b46e95c170` · `17909434a659c3899420bedc2fce4f6bf22c52d3f7791fca24bdd732caae0573` |
@@ -206,7 +206,7 @@ Ortak denetim; etkin içerik yok (1801.01656'daki `/JS` sıkıştırılmış ak�
 
 30 Eylül'de indirilen `wifi-mac-trailer.h` FCS sabitini taşımadığı için `arsiv/kaynak_elenen/`e taşındı (sabit zaten `wifi-standard-constants.h`de). Denetim: talimat kalıbı yok; dosyalar GPL-2.0-only başlığını taşıyor.
 
-### RFC'ler — kontrol kapsüllemesi (30 Eylül 2026, öğrenci izniyle, K-203)
+### RFC'ler — kontrol kapsüllemesi (30 Eylül 2026, K-203)
 
 | dosya | künye | alındığı yer | boyut · SHA-256 | okunan |
 |---|---|---|---|---|
@@ -214,7 +214,7 @@ Ortak denetim; etkin içerik yok (1801.01656'daki `/JS` sıkıştırılmış ak�
 | `rfc768.txt` | J. Postel, *"User Datagram Protocol"*, RFC 768, Ağustos 1980 | `https://www.rfc-editor.org/rfc/rfc768.txt` | 5 896 B · `7dc8880e1ecef9c3f9da0db4b876a16e96bfa4f0953cc9d977d414f8f680c2f0` | tamamı: başlık kaynak/hedef kapısı, uzunluk, sağlama — **8 oktet** |
 | `rfc1042.txt` | J. Postel, J. Reynolds, *"A Standard for the Transmission of IP Datagrams over IEEE 802 Networks"*, RFC 1042, Şubat 1988 | `https://www.rfc-editor.org/rfc/rfc1042.txt` | 34 359 B · `e8737abe7f7b80ae2e84b8cada0ea02d8cc3c4ad2414e902cc055e6953a01c55` | başlık bölümü: *"The total length of the LLC Header and the SNAP header is 8-octets"* |
 
-### RFC 1700 ve ns-3 IPv4 — veri paketinin varsayılan TTL'i (6 Ekim 2026, öğrenci izniyle, K-215)
+### RFC 1700 ve ns-3 IPv4 — veri paketinin varsayılan TTL'i (6 Ekim 2026, K-215)
 
 | dosya | künye | alındığı yer | boyut · SHA-256 | okunan |
 |---|---|---|---|---|

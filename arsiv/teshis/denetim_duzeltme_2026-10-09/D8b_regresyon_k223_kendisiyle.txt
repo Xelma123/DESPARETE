@@ -1,0 +1,5 @@
+REGRESYON KARSILASTIRMASI — k223 (81 satir) ↔ k223 (81 satir)
+
+  bulgusuz vaka : 81/81
+
+  🟢 BIREBIR (izinli farklar disinda)

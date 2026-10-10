@@ -32,3 +32,24 @@ kopya_c donduruldu 10.10 11:13:42 · HEAD 5733adb · arac_hash 818d34fb1480d34d6
 C1_gm_alfa basla 11:13:42
 C1_gm_alfa bitti 11:42:48 cikis 0
 C2_gm_alfa_20 basla 11:43:07
+C2_gm_alfa_20 bitti 13:33:52 cikis 0
+kopya_d donduruldu 10.10 13:34:48 · HEAD 4028dc5 · arac_hash 3671e5d1c7e08ac2ce19233f76b82975
+D1_bag_kumesi basla 13:34:48
+D1_bag_kumesi bitti 13:34:54 cikis 0
+D2_li basla 13:34:54
+D2_li bitti 13:39:02 cikis 0
+D3_li_sabit_hiz basla 13:39:02
+D3_li_sabit_hiz bitti 13:41:39 cikis 0
+D4_kontrol_duzlemi basla 13:41:39
+D4_kontrol_duzlemi bitti 13:59:40 cikis 0
+D5_denetim_ornekleme basla 13:59:40
+D5_denetim_ornekleme bitti 14:04:57 cikis 0
+D5c_denetim_C basla 14:04:57
+D5c_denetim_C bitti 14:06:18 cikis 0
+D6_ust_referans basla 14:06:18
+D6_ust_referans bitti 14:08:07 cikis 0
+D7_evre basla 14:08:07
+D7_evre bitti 15:06:23 cikis 0
+D8_uretici_duman basla 15:06:23
+D8_uretici_duman bitti 15:35:42 cikis 0
+kuyruk D bitti 15:35:42

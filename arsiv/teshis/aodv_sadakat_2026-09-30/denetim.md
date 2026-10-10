@@ -1,7 +1,7 @@
 # AODV sadakat denetimi — RFC 3561 ve ns-3'e karşı, kural kural (K-207 şartı)
 
-> 30 Eylül 2026 öğleden sonra · ajan · öğrenci: *"aodv donabilir … eğer aodv kesinlikle gerçeğine birebir yapıldıysa"*. Kaynaklar yerel: `protokol_kaynaklari/rfc3561_aodv.txt`, `protokol_kaynaklari/uygulama_kaynaklari/ns-3/aodv-routing-protocol.cc`.
-> ⚠️ K-205'te "`AODV-g` RFC'ye sadık" denmişti; bu denetim bunun fazla iddialı olduğunu gösterdi — aşağıda 10 sapma daha.
+> 30 Eylül 2026 · donma şartı (K-207): AODV ancak kaynağına kural kural sadık olduğu gösterilirse donar. Kaynaklar yerel: `protokol_kaynaklari/rfc3561_aodv.txt`, `protokol_kaynaklari/uygulama_kaynaklari/ns-3/aodv-routing-protocol.cc`.
+> K-205'te "`AODV-g` RFC'ye sadık" denmişti; bu denetim bunun fazla iddialı olduğunu gösterdi — aşağıda 10 sapma daha.
 
 ## İlke
 
@@ -62,7 +62,7 @@ AOMDV, AODV'nin `sonraki_atlama`, keşif başlatma ve yeniden deneme (`_kesif_ba
 
 **Kusur:** AOMDV'nin kendi `_rrep_isle`'sinde RFC §6.7'nin son paragrafı yoktu (ters yolun ömrü ve hedefe doğru komşunun öncülü). Ara düğüm cevabında §6.6.2'nin ters rota öncülü yoktu. RERR yukarı ulaşamıyor, kara delik oluşuyordu. Eski kodun RFC dışı "ara düğüm kendi keşfini yapar" davranışı (H8) bunu örtüyordu.
 
-⚠️ Bir iddia düzeltmesi: öğrenciye "makalede her yolun kendi zaman aşımı var" denmişti. Makalenin Şekil 2'sinde zaman aşımı **girdi başına tek**; yol başına zaman aşımı ns-2 gerçeklemesinde. Kodumuz bu noktada makaleye sadık (`marina_das_metin.txt`).
+Bir iddia düzeltmesi: daha önce "makalede her yolun kendi zaman aşımı var" denmişti. Makalenin Şekil 2'sinde zaman aşımı **girdi başına tek**; yol başına zaman aşımı ns-2 gerçeklemesinde. Kodumuz bu noktada makaleye sadık (`marina_das_metin.txt`).
 
 **`AOMDV-d` — RFC tabanı, makalenin sustuğu yerlerde AODV-h'nin kuralı:**
 - öncül ve ters yol ömrü (§6.7, §6.6.2)

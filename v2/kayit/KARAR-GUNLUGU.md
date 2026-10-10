@@ -155,8 +155,10 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-222 | 🟢 BAĞIMSIZ DENETİM (8 Ekim) — öğrenci kararları ve davranışı değiştirmeyen düzeltmeler:  | 🟢 geçerli |
 | K-223 | 🟡 TABAN PROTOKOLLER ÇÖZÜLDÜ (denetim D-02 · D-10 · D-13) — OLSR-d: §8.2.1 RFC'nin harfiy | 🟢 geçerli |
 | K-224 | 🟢 TABAN PROTOKOLLER YENİDEN DONDU — AODV-j · OLSR-d · AOMDV-f, en çok 7 iletim denemesi  | 🟢 geçerli |
+| K-225 | 🟢 DENETİMİN SON İKİ İŞİ VE YAYIN HAZIRLIĞI — gm_hiz_sigma_ms DÜNYA TANIMI · gm_alfa DUYA | 🟢 geçerli |
+| K-226 | 🟢 FAZ 5'E GEÇİŞ KAPISI KAPANDI — Faz 4.5 doğrulama listesi son kodla geçti (Li sabit hız | 🟢 geçerli |
 
-**135 kayıt · 7 revize · 128 geçerli**
+**137 kayıt · 7 revize · 130 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1707,3 +1709,20 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Taban protokoller DONDU** (K-218'in yerine): `AODV-j` · `OLSR-d` · `AOMDV-f`; `tests2/test_donma.py` bu hâle bağlı.
 - **D-07:** `gm_hiz_sigma_ms` **DUYARLI** (×2'de |Δ| 0,027 = 2,2R, band 2,9×) → öğrencinin kararı (kaynak · DÜNYA TANIMI · eksen · kapsam). `gm_alfa`'nın ölçümü **geçersiz**: duyarlılık aracı α'yı çarpıyordu (×2 aralık dışı, ×0,5 τ'yu 29 s'den 0,7 s'ye indiriyor) → araç korelasyon katsayısını zaman sabitinden oynatacak şekilde düzeltildi (τ×c ⇔ α^(1/c); test), yeniden ölçüm ek ölçütle (`beklenti_ek.md`).
 - **Faz 5.0 için not** (G2ç'nin tam pencere satırları, 1003 · 1004): açık evre PDR'si DESPARETE v0.4.1 0,476 · 0,538, AODV 0,401 · 0,536, kâhin 0,734 · 0,827 — v0.4.1'in açık evredeki üstünlüğü küçük (D-01).
+# K-225 · 🟢 DENETİMİN SON İKİ İŞİ VE YAYIN HAZIRLIĞI — `gm_hiz_sigma_ms` DÜNYA TANIMI · `gm_alfa` DUYARSIZ · SINANMAMIŞ 3 · lisans Apache 2.0 · belgelerin bilimsel üslubu
+> 10 Ekim · öğrenci (kararlar: `gm_hiz_sigma_ms` DÜNYA TANIMI, `gm_alfa` DUYARLI çıkarsa aynısı; lisans Apache 2.0, telif "Xelma123"; üçüncü taraf dosyalar depoda kalır; üslup temizliği belgelerde, kod yorumları sonra) · uygulama ajan · ölçütler `arsiv/teshis/denetim_duzeltme_2026-10-09/beklenti_ek.md` (commit `5733adb`)
+
+- **`gm_hiz_sigma_ms` → DÜNYA TANIMI** (K-220'nin emsali): birincil hücrede DUYARLI (×2'de |Δ| 0,027 = 2,2R, band 2,9×; K-224); ölçülen duyarlılığı köken kaydında ve raporda.
+- **`gm_alfa` → DUYARSIZ:** duyarlılık aracı korelasyon katsayısını artık zaman sabitinden oynatıyor (τ×c ⇔ α^(1/c)); 5 tohumda sınırda (0,9R) → ön-kayıtlı kural gereği 20 tohum: en büyük |Δ| 0,0024 (0,2R, band 0,6×). Üretici `duyarlilik.py --dunya referans_2026 birincil --tohum 20 gm_alfa` (`C2_gm_alfa_20.txt`).
+- **Köken defteri:** SINANMAMIŞ 5 → **3** (pencere üçlüsü, Faz 6) · DUYARSIZ 11 · kapsam ilanı 13; sayımın tek yeri `04` §9.
+- **Lisans:** `LICENSE` (Apache License 2.0'ın resmî metni; MD5 `3b83ef96387f14655fc854ddc3c6bd57`, yereldeki bir Python paketinin kopyasından — indirme yok) · `NOTICE` (Copyright 2026 Xelma123; `protokol_kaynaklari/`deki ns-3 ve Linux kaynakları GPL-2.0, RFC'ler IETF Trust, makaleler yayıncılarının — Apache kapsamında değil) · README'nin lisans bölümü. Projenin kodu bu dosyaları içe aktarmıyor (tarandı). Ajanın notu: yayıncı PDF'lerinin herkese açık depoda dağıtımı ayrı bir telif sorusu olarak öğrenciye iletildi; öğrenci dosyaları tutmayı seçti.
+- **Belgelerin üslubu** (öğrenci: belgeler yapay zekâyla konuşma izlenimi vermesin, bilimsel olsun): README · `v2/01`–`v2/16` · `v2/README` · `protokol_kaynaklari/README.md` · iki sadakat denetimi — emojiler kaldırıldı ya da düz işaretlere (✓ ✗ ~ ○) çevrildi; "öğrencinin protokolü", "öğrenci onayı", "ajan" ifadeleri nesnel dile ("önerilen protokol", "karar K-xxx") çevrildi; README'deki yapay zekâ kullanımı beyanı birinci tekil şahısla korundu. Teknik içerik ve ön-kayıt ölçütleri değişmedi (yalnız işaret ve ses). Karar günlüğü tarihsel kayıt olarak yeniden yazılmadı; kod yorumlarının temizliği ayrı iş (donmuş protokol dosyalarının özetleri değişeceği için yeniden doğrulama ister).
+- **Faz 4.5 doğrulama listesi** son kodla (7 deneme) yeniden koşuluyor — ölçütler `beklenti_dogrulama.md` (commit `4028dc5`), sonuçlar K-226'ya.
+# K-226 · 🟢 FAZ 5'E GEÇİŞ KAPISI KAPANDI — Faz 4.5 doğrulama listesi son kodla geçti (Li sabit hızda 0,1250) · tam takım 982 · devir belgesi
+> 10 Ekim · ajan · faz geçiş kuralı (öğrenci, 29 Eylül) · ölçütler `arsiv/teshis/denetim_duzeltme_2026-10-09/beklenti_dogrulama.md` (commit `4028dc5`), sonuçlar `sonuc.md`
+
+- **Faz 4.5 listesi 7 denemeyle, `OLSR-d`yle** (`kopya_d` = `4028dc5`, 2 sa 1 dk): bağ kümesi G-a · G-b ✓ · Li aracı H1 ≈ 0,042 TUTMADI (beklendiği gibi) · **Li sabit hızda H1 = 0,1250 ✓ bantta** (8 denemeyle 0,1188) — dış çapa ayakta · kontrol düzlemi 21/21 ✓ · örnekleme 4/4 ve C 270/270 ✓ · üst referans ✓ · evre G1 · G1-P · G2 · G4 ✓ (G3 referansta anlamsız, yerine G3ç ✓, K-224) · üretici dumanı bütün kesitler ✓, biri hariç: regresyonun kendisiyle karşılaştırması dondurulmuş kopyada taban dosyası olmadığı için çalışamadı; aynı komut ana ağaçta k215 ve k223 ile çıkış 0, kesit güncel tabana (k223) çekildi (`uretici_duman.py`).
+- **Doğrulama:** tam takım `982 passed` (15 dk 26 s) · mimari denetimi ihlalsiz (SINANMAMIŞ 3, borç 0, kapsam ilanı 13) · kayıt indeksi güncel · lint: işin başından bu yana yalnız karar indeksinin kendi kalıbında beş yeni örnek (örtük dize birleştirme) ve arşivdeki ölçüm betikleri (ölçümü üreten hâlleriyle bırakıldı).
+- **Belgeler:** `07` · `09` · `14` Li sayısı 0,1250; `12` durum; devir belgesi yeniden yazıldı (önceki `arsiv/DEVIR-PROMPT-2026-10-08.md`; kullanılmış denetim istemi `arsiv/denetim/DENETIM-PROMPT-2026-10-08.md`).
+- **Denetimin (8 Ekim) kapanışı:** 24 bulgunun kararları ve düzeltmeleri K-222…K-226'da; Faz 5'e bırakılanlar (D-04 gürültü ölçüm modeli 5.1'den önce · D-22 5.0 beklentisi · D-23 çoğaltma tanımları 5.4'ten önce) `12` §2'de; Faz 6'ya bırakılanlar (D-03 tam pencere R · D-11 slot · D-15 kâhin 96 örnek) K-222'de. Ayrıca bekleyen: kod yorumlarının üslup temizliği (K-225).
+- **Faz 5'e geçiş kapısı KAPANDI.** Sıradaki iş Faz 5.0 (`12` §1.1).

@@ -1,6 +1,6 @@
 # 07 · SİMÜLATÖR — `sim2/` ne, nasıl çalışır
 
-> Bugünkü simülatörün anlatımı. Referans dünyanın sayıları ve kaynakları `14`de, kararlar `04`te. Güncel: 28 Eylül 2026. Önceki sürüm (eski dünyanın tabloları, yapım planı Y0–Y10, uygulama tarihçesi, öğrenci kararlarının tarihli listesi): `arsiv/07-SIMULATOR-TASARIMI-2026-09-28-temizlik.md` — koddaki eski `§` atıfları oraya gider.
+> Bugünkü simülatörün anlatımı. Referans dünyanın sayıları ve kaynakları `14`de, kararlar `04`te. Güncel: 10 Ekim 2026. Önceki sürüm (eski dünyanın tabloları, yapım planı Y0–Y10, uygulama tarihçesi, kararların tarihli listesi): `arsiv/07-SIMULATOR-TASARIMI-2026-09-28-temizlik.md` — koddaki eski `§` atıfları oraya gider.
 
 ## 1 · Ne ölçüyor, neden kendi simülatörü
 
@@ -9,9 +9,9 @@
 | sınav | durum |
 |---|---|
 | iç tutarlılık — korunum, mutabakat, belirlenimcilik | her koşuda |
-| analitik — yol kaybı, gürültü, çerçeve süreleri, sönümleme momentleri, Bianchi | ✅ |
-| dış çapa — Li vd. çok atlamalı zincir kapasitesi | ✅ referans dünyada sabit hızda H1 bantta: 0,1188 (K-219; 84 B beacon'la — 32 B'la 0,1270, K-187) (`09`) |
-| gerçekçilik — karıştırıcısız statik ağda kâhin PDR ≈ 1 | ✅ |
+| analitik — yol kaybı, gürültü, çerçeve süreleri, sönümleme momentleri, Bianchi | ✓ |
+| dış çapa — Li vd. çok atlamalı zincir kapasitesi | ✓ referans dünyada sabit hızda H1 bantta: 0,1250 (K-226; en çok 7 iletim denemesi, 84 B beacon — 8 denemeyle 0,1188, K-219; 32 B'la 0,1270, K-187) (`09`) |
+| gerçekçilik — karıştırıcısız statik ağda kâhin PDR ≈ 1 | ✓ |
 
 ## 2 · İki dünya
 
@@ -73,7 +73,7 @@ Yere toplama (birincil): geçit düğüm 0, batı kenarının ortasında sabit r
 
 ## 8 · Metrikler
 
-PDR (doğum kohortu; tüm koşu ve ölçüm penceresi; telemetri/komut ayrı) · PSR (bağ düzeyi, öğrencinin tanımı) · gecikme yüzdelikleri (ortak alt küme) · kontrol yükü (çerçeve, bayt, kanal süresi; veri başlığı dâhil) · kopma sayaçları, rota kurtarma gecikmesi Δ ve COR · evre metrikleri (`08`) · Θ · enerji · kayıp yeri (düşüş sebebi × geçide mesafe).
+PDR (doğum kohortu; tüm koşu ve ölçüm penceresi; telemetri/komut ayrı) · PSR (bağ düzeyi, bu çalışmanın tanımı) · gecikme yüzdelikleri (ortak alt küme) · kontrol yükü (çerçeve, bayt, kanal süresi; veri başlığı dâhil) · kopma sayaçları, rota kurtarma gecikmesi Δ ve COR · evre metrikleri (`08`) · Θ · enerji · kayıp yeri (düşüş sebebi × geçide mesafe).
 
 ## 9 · Parametre disiplini ve kapsam
 
@@ -89,7 +89,7 @@ PDR (doğum kohortu; tüm koşu ve ölçüm penceresi; telemetri/komut ayrı) ·
 | yeni rastgelelik | önce hash alanı; sıralı akış yalnız durum gerekiyorsa |
 | yeni sayaç | sayaç kütüğüne; pencere ikizi otomatik |
 | yeni mekanizma | boş geçmeyen bir test: mekanizma devredeyken kanıt > 0 |
-| büyük tasarım değişikliği | öğrenciye önce anlatılır |
+| büyük tasarım değişikliği | önce gerekçesiyle yazılır ve karar kaydına geçer |
 
 ## 11 · Açık
 

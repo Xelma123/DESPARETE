@@ -13,15 +13,15 @@ TÜBİTAK 2204-A Lise Öğrencileri Araştırma Projeleri · Yazılım / Bilgisa
 Bir İHA sürüsünde düğümler birbirinin paketini taşır: telemetri yer istasyonuna, komutlar ters yönde gider. Karıştırıcı devreye girdiğinde bağlar rastgele değil **yapılı** biçimde bozulur — karıştırıcı bir yerde durur ya da hareket eder, sürekli ya da aralıklı yayın yapar, alıcıyı sağırlaştırır ya da yakınındaki vericiyi susturur. Proje iki soruya cevap arıyor:
 
 1. Yaygın yönlendirme protokolleri (AODV · OLSR · AOMDV) bu koşullarda **nasıl ve ne kadar** bozuluyor?
-2. Öğrencinin protokolü **DESPARETE** karıştırmayı gerçek bir telsizin ölçebildikleriyle fark edip ondan kaçınarak daha iyisini yapabilir mi?
+2. Bu çalışmada önerilen **DESPARETE** protokolü, karıştırmayı gerçek bir telsizin ölçebildikleriyle fark edip ondan kaçınarak daha iyisini yapabilir mi?
 
 İkinci soru iki ayrı iddia olarak sınanır: **karıştırma altında daha yüksek teslim** (birincil test, karıştırıcının açık dönemlerinde doğan paketlerin teslim oranıyla) ve bu kazancın **karıştırmaya özgü** olması (karıştırıcısız ikiz hücreyle fark-içinde-fark ve mekanizmaların ablasyonu) — [`v2/06`](v2/06-ON-KAYIT.md) §0.4.5.
 
 Çalışma bir **tasarım projesidir**: çözüm kurulur ve kontrollü bir ortamda ölçülerek savunulur. Önceden ilan edilmiş bir yanlışlanma koşulu tetiklenirse sonuç, iyi teşhis edilmiş bir negatif sonuç olarak raporlanır.
 
-## Durum — 9 Ekim 2026
+## Durum — 10 Ekim 2026
 
-Simülatör gerçek ölçekli referans dünyada kalibre edildi ve doğrulandı; taban protokoller kaynaklarına sadakat denetiminden geçip donduruldu (Faz 4). Bağımsız bir denetimin (8 Ekim) bulguları kapatılıyor; ardından DESPARETE'nin karıştırmaya özgü mekanizmaları geliştirilecek (Faz 5), ön-kayıt mühürlenecek (~12 Kasım) ve ana deney koşulacak. Teslim: 19 Aralık 2026. Güncel durum ve plan: [`v2/12-YOL-HARITASI.md`](v2/12-YOL-HARITASI.md).
+Simülatör gerçek ölçekli referans dünyada kalibre edildi ve doğrulandı (Faz 4). Bağımsız bir denetimin (8 Ekim) bulguları kapatıldı; taban protokoller kural kural sadakat denetiminden geçirilip son hâlleriyle yeniden donduruldu. Sıradaki aşamada DESPARETE'nin karıştırmaya özgü mekanizmaları geliştirilecek (Faz 5), ardından ön-kayıt mühürlenecek (~12 Kasım) ve ana deney koşulacak. Teslim: 19 Aralık 2026. Güncel durum ve plan: [`v2/12-YOL-HARITASI.md`](v2/12-YOL-HARITASI.md).
 
 ---
 
@@ -83,7 +83,7 @@ Tasarım paketi: [`protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/`](protokol_kayn
 - **Ablasyon.** Özgün protokolün mekanizmaları ayrı yapılandırma bayraklarıyla açılıp kapanır; bir kazancın hangi mekanizmadan geldiği ölçülür.
 - **Kararlar** konu konu [`v2/04-KARARLAR.md`](v2/04-KARARLAR.md), tarihçesi [`v2/kayit/KARAR-GUNLUGU.md`](v2/kayit/KARAR-GUNLUGU.md).
 
-> **Bir şeyi iddia etmeden önce ölç. Ölçemiyorsan iddia etme.**
+> **Ölçülmemiş hiçbir şey iddia edilmez.**
 
 ---
 
@@ -132,8 +132,8 @@ Bu çalışma bir kavram kanıtıdır. Kullanılan yayılım ve karıştırma mo
 
 ## Yapay zekâ kullanımı
 
-Proje fikri, kapsam ve gerçekçilik kararları ve DESPARETE'nin tasarımı öğrenciye aittir; yapay zekâ danışman ve uygulayıcı olarak kullanıldı. Kararlar tarihli olarak kayıtlıdır ve bir mekanizmanın katkısı ablasyonla ölçülür.
+Proje fikri, kapsam ve gerçekçilik kararları ve DESPARETE'nin tasarımı bana aittir; yapay zekâ araçları danışman ve kod uygulayıcısı olarak kullanılmıştır. Kararlar tarihli olarak kayıtlıdır ([`v2/kayit/KARAR-GUNLUGU.md`](v2/kayit/KARAR-GUNLUGU.md)) ve bir mekanizmanın katkısı ablasyonla ölçülür.
 
 ## Lisans
 
-Henüz bir lisans seçilmedi. [`protokol_kaynaklari/`](protokol_kaynaklari) içindeki üçüncü taraf belgelerin hakları sahiplerine aittir.
+Özgün kaynak kodu ve belgeler [Apache License 2.0](LICENSE) ile lisanslanmıştır — Copyright 2026 Xelma123. [`protokol_kaynaklari/`](protokol_kaynaklari) içindeki üçüncü taraf malzeme (ns-3 ve Linux kaynak dosyaları, RFC metinleri, makaleler) bu lisansın kapsamında değildir; her biri kendi lisansı ve telif hakkıyla dağıtılır ([`NOTICE`](NOTICE)).

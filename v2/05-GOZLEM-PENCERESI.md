@@ -1,6 +1,6 @@
 # 05 · GÖZLEM PENCERESİ — protokolün görebildiği her şey
 
-> **Güncel:** 26 Eylül 2026 (öz sürüm; son içerik değişikliği K-180) · **Türü:** sözleşme — öğrenci kararı: genişletilmez, gerekçeli değişikliğin yolu §7. Kod `sim2/gozlem/pencere.py` · yüzey testi `tests2/test_kontrol_duzlemi.py` (P6). Protokolün **yapabilecekleri** `13`te. Önceki sürümler `v2/arsiv/05-GOZLEM-PENCERESI-*.md`. Bölüm numaraları kodda atıflı, korunur (10 Eylül öncesinin A1–A4'ü = §3.1–3.5).
+> **Güncel:** 10 Ekim 2026 (öz sürüm; son içerik değişikliği K-222) · **Türü:** sözleşme — genişletilmez, gerekçeli değişikliğin yolu §7. Kod `sim2/gozlem/pencere.py` · yüzey testi `tests2/test_kontrol_duzlemi.py` (P6). Protokolün **yapabilecekleri** `13`te. Önceki sürümler `v2/arsiv/05-GOZLEM-PENCERESI-*.md`. Bölüm numaraları kodda atıflı, korunur (10 Eylül öncesinin A1–A4'ü = §3.1–3.5).
 
 ## 1 · Neden var
 
@@ -8,7 +8,7 @@ Jüri sorusu: *"Protokolünüz karıştırıcının nerede olduğunu nereden bil
 
 ## 2 · Temel ilke
 
-> 🔒 Protokolün bildiği her şey ya **aldığı bir paketten** ya da **kendi donanımının fiziksel olarak yapabileceği bir ölçümden** gelir. Simülatörden bedava okuma yok. Şüphede: *"Gerçek bir İHA'daki gerçek bir telsiz bunu ölçebilir mi?"*
+> Protokolün bildiği her şey ya **aldığı bir paketten** ya da **kendi donanımının fiziksel olarak yapabileceği bir ölçümden** gelir. Simülatörden bedava okuma yok. Şüphede: *"Gerçek bir İHA'daki gerçek bir telsiz bunu ölçebilir mi?"*
 
 ## 3 · Görebilecekleri
 
@@ -18,7 +18,7 @@ Jüri sorusu: *"Protokolünüz karıştırıcının nerede olduğunu nereden bil
 |---|---|
 | `dugum` | kendi adresi (802.11 MAC adresi) |
 | `saat_s` | kendi saati — ofset ve sapmalı (§3.2) |
-| `olculen_gurultu_w` | anteninde ölçülen gürültü + girişim gücü (sürücünün gürültü tabanı raporu). Mutlak değeri serbest bir ölçek (K-110 EK-4): sezim oranla ya da değişimle yapılır, mutlak eşikle değil. ⚠️ **Bugün anlık, hatasız ve sürekli değerli** (bir sürücü tazeleme aralığıyla, ortalanmış, tamsayı dBm verir) — Faz 5.1 okumadan önce bir ölçüm modeline bağlanır (denetim D-04); o güne kadar mimari denetimi okunmasını engeller (D17) |
+| `olculen_gurultu_w` | anteninde ölçülen gürültü + girişim gücü (sürücünün gürültü tabanı raporu). Mutlak değeri serbest bir ölçek (K-110 EK-4): sezim oranla ya da değişimle yapılır, mutlak eşikle değil. **Bugün anlık, hatasız ve sürekli değerli** (bir sürücü tazeleme aralığıyla, ortalanmış, tamsayı dBm verir) — Faz 5.1 okumadan önce bir ölçüm modeline bağlanır (denetim D-04); o güne kadar mimari denetimi okunmasını engeller (D17) |
 | `kanal_mesgul_mu` | CCA göstergesi (G2: mod 1/2/3; güç kipinde önbelge kilidi ya da ED, K-174) |
 | `kuyruk_uzunlugu` · `kuyruk_kapasitesi` | kendi arayüz kuyruğu |
 | `son_iletim_sonucu` · `son_iletim_hedefi` | MAC'in gönderim durumu raporu: onay · zaman aşımı. "Cevap gelmedi" bir gözlemdir, bayta mal olmaz |
@@ -32,7 +32,7 @@ Yeni beş alan (GPS/INS ve telsiz sayaçları) §3.3b'de, çerçeve başına RSS
 
 **3.3 Aldığı paketlerden:** başlıktaki her şey, üç koşulla — (1) her alan **bayt olarak ödenir** ve çerçeveyi uzatır, bedel kanalda da ödenir (K-111; kontrol mesajlarında `13` §02.1) · (2) bilgi gönderildiği anındır (bayat) · (3) paket kaybolabilir. Komşunun girişimi, kuyruğu, konumu ve hareketi ancak başlığa konup ödenirse gelir.
 - `bildirdigi_konum` **kaldırıldı** (K-131): koşucu hiç doldurmuyordu (110 605 komşu kaydının %100'ü `None`); doldurmak "konum beacon'da taşınır" kararını protokol adına vermek olurdu.
-- `kaynak_sira` **eklendi** (K-157, öğrenci): paketin kaynağın kendi ürettikleri arasındaki sırası; kimlik `(kaynak, kaynak_sira)`. Gerçek karşılığı IPv4 kimlik alanı ve DESPARETE'nin Data Sequence'i (`19` §4), başlıkla ödenir (`veri_baslik_bayt`). Gerekçe: onarım tamponundaki paketi tanımak (`21` §2.4 kotası, K-156). Küresel paket kimliği bilerek açılmadı — iki kimlik farkı bütün ağın ürettiğini söylerdi.
+- `kaynak_sira` **eklendi** (K-157): paketin kaynağın kendi ürettikleri arasındaki sırası; kimlik `(kaynak, kaynak_sira)`. Gerçek karşılığı IPv4 kimlik alanı ve DESPARETE'nin Data Sequence'i (`19` §4), başlıkla ödenir (`veri_baslik_bayt`). Gerekçe: onarım tamponundaki paketi tanımak (`21` §2.4 kotası, K-156). Küresel paket kimliği bilerek açılmadı — iki kimlik farkı bütün ağın ürettiğini söylerdi.
 - **Bilgi yokluğu sıfır değildir** (K-131): beacon'a konmayan alan komşu kaydında `None` döner, `0` değil.
 
 **3.3a Çözdüğü her çerçeveden (K-172):** isteğe bağlı `cerceve_duyuldu` kancası — bana ya da başkasına adresli her çözülen çerçevenin gönderen komşusu (802.11 başlığındaki verici adresi), türü, adreslendiği düğüm, veri çerçevesinde paket başlığı ve RSSI (kilitlenilen güç + σ 2 dB hata, tamsayı dBm; σ kaynaksız — bugün okuyan protokol olmadığı için DUYARSIZ (K-214); bir protokol okumaya başlarsa mimari denetimi kaydı yeniden açar, D17). Gerçek karşılığı: telsizin izleme kipi ve sürücünün çerçeve başına RSSI raporu. Niyet döndürmez; karıştırıcı çerçevesi gelmez. "Bu paket bana hangi komşudan geldi" bilgisi buradan gelir.

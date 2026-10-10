@@ -1,6 +1,6 @@
 # 01 · PROBLEM, AMAÇ VE İŞ AKIŞI
 
-> Projenin ne olduğu ve neyi başarı sayacağı. Durum ve takvim `12` · kararlar `04`. Güncel: 28 Eylül 2026; önceki sürümler `arsiv/01-PROBLEM-VE-AMAC-*.md` (10 Eylül sürümünde TÜBİTAK kriter matrisi).
+> Projenin ne olduğu ve neyi başarı sayacağı. Durum ve takvim `12` · kararlar `04`. Güncel: 10 Ekim 2026; önceki sürümler `arsiv/01-PROBLEM-VE-AMAC-*.md` (10 Eylül sürümünde TÜBİTAK kriter matrisi).
 
 ---
 
@@ -11,11 +11,11 @@
 | yarışma | TÜBİTAK 2204-A Lise Öğrencileri Araştırma Projeleri · Yazılım / Bilgisayar Bilimleri |
 | son teslim | **19 Aralık 2026** |
 | konu | karıştırma (jamming) altındaki taktik İHA mesh ağlarında yönlendirme |
-| ürün | **öğrencinin kendi protokolü (DESPARETE)**; AODV · OLSR · AOMDV kıyas tabanı |
+| ürün | **önerilen protokol DESPARETE**; AODV · OLSR · AOMDV kıyas tabanı |
 | ölçüm ortamı | projenin kendi kesikli-olay simülatörü `sim2/` (K-001, K-090) |
-| kim | bir lise öğrencisi (kapsam, gerçekçilik ve ön-kayıt kararları onun); yapay zekâ danışman ve uygulayıcı, protokolü öğrenciyle birlikte geliştirir |
+| yürütücü | Xelma123 (lise öğrencisi); kapsam, gerçekçilik ve ön-kayıt kararları yürütücüye aittir. Yapay zekâ araçları danışman ve kod uygulayıcısı olarak kullanılmıştır (`README` · *Yapay zekâ kullanımı*) |
 
-Resmî TÜBİTAK rehberi şimdilik iş planına girmiyor (öğrenci, 10 Eylül): odak projenin kendisi.
+Resmî TÜBİTAK rehberi bu aşamada iş planına alınmamıştır; odak projenin kendisidir (10 Eylül).
 
 ## 2 · Problem
 
@@ -33,14 +33,14 @@ Sürüde düğümler birbirinin paketini taşır. Karıştırıcı bağ kalitesi
 
 **Literatürdeki iki boşluk** (tarama `protokol_kaynaklari/literatur_taramasi_2026-08-31/`): **A** — değişen karıştırma şiddetinde AODV/OLSR'nin raporlanmış PDR ve gecikme düşüşü · **B** — RF karıştırmada saniye ölçeğinde rota kurtarma gecikmesi. İkisini de bu proje ölçer; taban protokolleri bu eksende ölçmek tek başına bir katkıdır.
 
-**Alan kalabalık:** bir derleme 13 Q-öğrenme tabanlı FANET protokolü sayıyor → "ilk", "eşi yok" savunulamaz; savunulabilir olan "hangi koşulda ne olduğunu ölçtük". Ödüllerde karıştırma terimi yok iddiası taramanın matrisine dayanır: 11 protokolün 9'unda "açık jamming: hayır" (öğrenci, 1 Eylül; `02` §B). Küçük ağlarda (N ≤ ~40) tablo tabanlı yöntem uygun; büyük ağdaki boyut sorunu raporda yazılır.
+**Alan kalabalık:** bir derleme 13 Q-öğrenme tabanlı FANET protokolü sayıyor → "ilk", "eşi yok" savunulamaz; savunulabilir olan "hangi koşulda ne olduğunu ölçtük". Ödüllerde karıştırma terimi yok iddiası taramanın matrisine dayanır: 11 protokolün 9'unda "açık jamming: hayır" (1 Eylül; `02` §B). Küçük ağlarda (N ≤ ~40) tablo tabanlı yöntem uygun; büyük ağdaki boyut sorunu raporda yazılır.
 
 ## 3 · Kapsam
 
-> **"Kontrollü bir deney ortamında routing protokolünün jamming karşısındaki davranışını izole etmek."** — öğrenci, 8 Eylül 2026
+> **"Kontrollü bir deney ortamında routing protokolünün jamming karşısındaki davranışını izole etmek."** — kapsam tanımı, 8 Eylül 2026
 
 - Karıştırma tedavidir; geri kalan her şey kontrol değişkeni.
-- Gerçekçilik esas (öğrenci, 25 Eylül): 1:1 kaynaklı taktik sürü, gerçek telsizin verdiği gözlem (`14`). Kurulum bir taban protokolü haksız zayıflatmamalı; tehdit modeli sahaya paralel olmalı — karıştırıcılar birden fazla ve hareketli olabilir.
+- Gerçekçilik esastır (K-168, 25 Eylül): 1:1 kaynaklı taktik sürü, gerçek telsizin verdiği gözlem (`14`). Kurulum bir taban protokolü haksız zayıflatmamalı; tehdit modeli sahaya paralel olmalı — karıştırıcılar birden fazla ve hareketli olabilir.
 - Tam harp senaryosu (arazi, manevra, kara–hava harekâtı) kapsam dışı.
 
 | dışarıda | neden |
@@ -50,7 +50,7 @@ Sürüde düğümler birbirinin paketini taşır. Karıştırıcı bağ kalitesi
 | kriptografi, GPS spoofing, video kodlama | ayrı alanlar |
 | frekans çevikliği / çoklu kanal | öncül: çözüm yönlendirme katmanında aranıyor |
 | GPSR | komşu konumunu ister (bedava verilmez); asıl zafiyeti GPS spoofing (1 Eylül) |
-| derin öğrenme (DQN vb.) | öğrenci kararı, SWaP; tablo tabanlı öğrenme bu kapsamda değil |
+| derin öğrenme (DQN vb.) | SWaP kısıtı; tablo tabanlı öğrenme bu kapsamda değil |
 | çok-etmenli oyun kuramı / MARL | kararsızlık riski |
 
 ## 4 · Amaç ve özgünlük
@@ -68,10 +68,10 @@ Tek geçerli plan **Faz 0–7** (`12`): 0 referans dünya · 1–3 simülatörü
 | kısıt | değer |
 |---|---|
 | süre | 19 Aralık 2026; yazıma ~5 hafta, kısaltılmaz (`12` §11) |
-| platform | Windows, öğrencinin kişisel makinesi |
+| platform | Windows, kişisel bilgisayar |
 | işlemci | deneyler çekirdeklerin yaklaşık yarısıyla (havuz 8 işçi); makine kullanılabilir kalmalı |
 | donanım | yok |
-| anlaşılabilirlik | öğrenci jüri önünde savunamadığı hiçbir şeyi tutmaz |
+| anlaşılabilirlik | jüri önünde savunulamayacak hiçbir yöntem ya da iddia kullanılmaz |
 | doğrulama | kendi simülatörünün bedeli: dört seviyeli doğrulama (`03` §5, `07` §10) |
 
 Kısıt, gerekçesi ayakta olduğu sürece geçerli; ölçüm gerekçeyi çürütürse tarihiyle revize edilir — "sonuç beğenilmedi" gerekçe değildir.

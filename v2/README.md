@@ -1,12 +1,12 @@
 # v2 — PROJE BELGELERİ
 
-> Her bilgi tek yerde. Durum yalnız `12`de, geçerli kararlar yalnız `04`te. Güncel: 9 Ekim 2026. Önceki hâller `arsiv/`de (git'te izlenir).
+> Her bilgi tek yerde. Durum yalnız `12`de, geçerli kararlar yalnız `04`te. Güncel: 10 Ekim 2026. Önceki hâller `arsiv/`de (git'te izlenir).
 
 | # | belge | ne anlatır |
 |---|---|---|
 | 01 | `01-PROBLEM-VE-AMAC.md` | problem · kapsam · özgünlük · başarı ölçütü · simülasyon–gerçeklik beyanı |
 | 02 | `02-DOGRULANMIS-KAYNAKLAR.md` | tek tek açılıp okunmuş kaynaklar · literatürün projeye verdikleri (§L) · doğrulanmayı bekleyenler |
-| 03 | `03-YONTEM-KURALLARI.md` | bilimsel ilkeler · işe yarayan düşünme alışkanlıkları · bilinen tuzaklar |
+| 03 | `03-YONTEM-KURALLARI.md` | bilimsel ilkeler · deneyimden çıkan çalışma ilkeleri · bilinen tuzaklar |
 | 04 | `04-KARARLAR.md` | **bugün geçerli bütün kararlar**, konu konu |
 | 05 | `05-GOZLEM-PENCERESI.md` | protokolün görebildiği her şey — sözleşme |
 | 06 | `06-ON-KAYIT.md` | ön-kayıt taslağı: aileler · tohumlar · metrikler · uygunluk · eşik · istatistik |
@@ -21,4 +21,4 @@
 
 **Koddaki eski atıflar:** `` `04` K-xxx `` → `kayit/KARAR-GUNLUGU.md` · `` `07` §18 Yn ``, `` `07` §15 `` gibi bölüm atıfları → `arsiv/07-SIMULATOR-TASARIMI-2026-09-28-temizlik.md` · `` `15` `` (yapı paketi, tamamlandı) → `arsiv/15-GERCEKCILIK-YAPI-PAKETI-2026-09-28-tamamlandi.md` · `` `10` `` → `02` §L. Numara boşlukları (00, 10, 11, 15) emekli belgelerden.
 
-**Diğer:** `../protokol_kaynaklari/` — RFC'ler, makaleler, uygulama kaynakları (künye ve SHA-256 `README.md`de) · DESPARETE tasarım paketi (öğrencinin; özet `36`) · literatür taraması.
+**Diğer:** `../protokol_kaynaklari/` — RFC'ler, makaleler, uygulama kaynakları (künye ve SHA-256 `README.md`de) · DESPARETE tasarım paketi (ilk taslak; özet `36`) · literatür taraması.

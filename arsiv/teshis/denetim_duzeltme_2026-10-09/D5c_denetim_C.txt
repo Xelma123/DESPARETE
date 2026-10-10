@@ -1,0 +1,21 @@
+
+==============================================================================
+C · SINIFLARIN ORNEK ANLARINDAKI DURUMU
+==============================================================================
+  🔒 `_acik_orani` SUREKLI bir tarama yapar (150→350 s, 10 ms).
+     Ama rho SADECE dokuz anda okunur. Iki soru AYRIDIR:
+     'sinif ne kadar acik' ile 'orneklendigi anda acik miydi'.
+
+              sinif   ornek anlarinda ACIK        desen
+            surekli             9/9 an    111111111
+    surekli_darbeli             4/9 an    100110001
+            reaktif             0/9 an    000000000
+           aldatici             9/9 an    111111111
+           taramali             3/9 an    111000000
+
+  Ayrica: `aldatici` ile `surekli` KENAR KUMELERI birebir ayni mi?
+    (bilgi) ED dahil birebir: 0/270 — aldatici ED'yi tetikler (K-183)
+    kapi ED DISARIDA birakilarak:
+    birebir ayni: 270/270 (tohum x an) GECTI
+
+  🔒 KAPI OZETI: 1/1 GECTI

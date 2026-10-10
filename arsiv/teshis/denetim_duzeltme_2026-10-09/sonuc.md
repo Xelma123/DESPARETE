@@ -75,3 +75,19 @@ A1 (T0 ile) ✅ · U1-U iki desende ✅ · U1-B yere toplamada ✅ · evre kapı
 
 - **5 tohum** (10 Ekim 11:13–11:42; τ×0,5 → α 0,9663 · τ×2 → 0,9915): ×0,5 en büyük |Δ| 0,0110 (pdr_atlama; 0,9R, band 0,7×) · ×2 0,0048 (0,4R) → **duyarsız ama sınırda** (≥ 0,7R) → ön-kayıtlı kural: 20 tohum (11:43'ten).
 - **Öğrencinin kararı (10 Ekim, K-225):** `gm_hiz_sigma_ms` → **DÜNYA TANIMI** (ölçülen duyarlılığı raporda); `gm_alfa` 20 tohumda DUYARLI çıkarsa aynısı.
+- **20 tohum** (11:43–13:33, 120 koşu): ×0,5 en büyük |Δ| 0,0024 (pdr_etx; 0,2R, band 0,6×) · ×2 0,0022 (0,2R, band 0,6×) → **DUYARSIZ**; 5 tohumluğun yerine geçer (5 tohumdaki 0,9R tohum gürültüsüydü). Köken DUYARSIZ (K-225). **SINANMAMIŞ 5 → 3** (yalnız pencere üçlüsü, Faz 6).
+
+## Faz 4.5 doğrulama listesi — son kodla (10 Ekim 13:34–15:35) · ölçüt `beklenti_dogrulama.md` (commit `4028dc5`) · kopya `kopya_d` = `4028dc5` (138 dosya birebir)
+
+| # | sonuç | süre |
+|---|---|---|
+| D1 bağ kümesi | ✓ G-a · G-b | 6 s |
+| D2 Li aracı | H1 ≈ 0,042 (A8, ARF) TUTMADI — beklendiği gibi (K-187 0,0426 · K-219 0,0427) | 4 dk |
+| D3 Li sabit hız | **A8-arf H1 = 0,1250 ✓ bantta** (8 denemeyle 0,1188, K-219); A8 0,0415 TUTMADI — dış çapa iddiası 7 denemeyle de ayakta | 3 dk |
+| D4 kontrol düzlemi | ✓ 21/21 | 18 dk |
+| D5 örnekleme | ✓ 4/4 · C (ED dışarıda) 270/270 | 5 + 1 dk |
+| D6 üst referans | ✓ üç kapı | 2 dk |
+| D7 evre (1 · 1p · 2 · 3 · 4) | ✓ G1 · G1-P · G2 · G4; G3 kaldı — ölçütte önceden yazıldığı gibi referansta anlamsız, yerine G3ç (B3'te ✓) | 58 dk |
+| D8 üretici dumanı | ✓ bütün kesitler, biri hariç: `regresyon_satirlari.py karsilastir k215 k215` dondurulmuş kopyada taban dosyası olmadığı için çalışamadı (FileNotFoundError; K-219'da kopyanın çıktı dizininde k215 vardı). Aynı komut ana ağaçta k215 ve k223 ile çıkış 0 (`D8b_regresyon_k223_kendisiyle.txt`); kesit güncel tabana (k223) çekildi | 29 dk |
+
+**Hüküm:** doğrulama listesi son kodla (7 deneme, `OLSR-d`) geçti; D8'in tek kalan kesiti ortam farkı, üretici ana ağaçta çalışıyor.

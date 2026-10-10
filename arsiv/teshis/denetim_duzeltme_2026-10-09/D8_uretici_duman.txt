@@ -1,0 +1,29 @@
+==============================================================================
+URETICI DUMAN KOSUCUSU — defterin andigi komutlar kosuyor mu?
+==============================================================================
+  defterin andigi betik : 11
+  duman kesiti tanimli  : 14
+  ⚠️ defterde ANILMAYAN     : ['anlamlilik_sabitleri.py', 'bag_kumesi.py', 'calkanti.py'] (kesit tanimli ama hicbir kayit gostermiyor)
+
+  ⚠️ zaman asimi: 30 dk/betik. Tamami BANT 40–60 dk (olculdu: 45,6 dk).
+
+  betik                      kesit                              sure_s      sonuc
+  anlamlilik_sabitleri.py    tamamı — zaten bir kapı              12.3      GECTI
+  aodv_uygunluk.py           tek kol × tek tohum × KISA PENCERE — SAYIYI ÜRETMEZ     36.3      GECTI
+  bag_kumesi.py              yalnız kapılar (a)                    6.3      GECTI
+  bagil_hiz_tabani.py        tamamı                                1.7      GECTI
+  calisma_noktasi.py         iki ucuz bölüm — SAYIYI ÜRETMEZ      37.0      GECTI
+  calkanti.py                tamamı                                7.4      GECTI
+  cozunurluk.py              tamamı                              478.1      GECTI
+  dugum_sayisi.py            tamamı                               59.3      GECTI
+  duyarlilik.py              tek parametre — TARAMA DEĞİL        221.9      GECTI
+  karistirici_gucu.py        tamamı                              103.0      GECTI
+  regresyon_satirlari.py     taban kendisiyle karşılaştırma        1.4    🔴 KALDI
+  sonumleme_onbellegi.py     yalnız bölüm 2                      748.9      GECTI
+  theta_kollari.py           tamamı                               11.5      GECTI
+  yere_toplama_yuku.py       tek hız × tek tohum — SAYIYI ÜRETMEZ     33.2      GECTI
+
+==============================================================================
+🔴 1 URETICI KOSMUYOR — kayitlari bir HAYALETI gosteriyor:
+   · regresyon_satirlari.py  (cikis 1)
+       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\Xelma123\\Desktop\\desparete_pls\\arsiv\\t

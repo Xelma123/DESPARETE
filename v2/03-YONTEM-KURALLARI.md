@@ -1,6 +1,6 @@
 # 03 · YÖNTEM — ilkeler ve bilinen tuzaklar
 
-> Bir pusula, kural listesi değil: bir ilke bir durumda yanlış görünüyorsa gerekçesine bakılır, durum ölçülür, sonuç karar günlüğüne yazılır. Çalışma anlaşmaları (git, dil, uzun koşu vb.) `DEVIR-PROMPT.md` §2'de. Güncel: 28 Eylül 2026; önceki sürüm `arsiv/03-YONTEM-KURALLARI-2026-09-28-temizlik.md`.
+> Bir pusula, kural listesi değil: bir ilke bir durumda yanlış görünüyorsa gerekçesine bakılır, durum ölçülür, sonuç karar günlüğüne yazılır. Güncel: 10 Ekim 2026; önceki sürüm `arsiv/03-YONTEM-KURALLARI-2026-09-28-temizlik.md`.
 
 ## 1 · Bilimsel ilkeler
 
@@ -14,19 +14,19 @@
 | **Özgünlük iddiası kod ve ablasyon koluyla** gösterilir | tasarlanmış ama uygulanmamış bir özellik iddia edilemez |
 | **Beklenmeyen sonuçta önce sebep ölçülür;** parametre oynatılıp sonuç tutturulmaz | literatürden hikâye uydurmak kurulumu denetlemekten kolaydır |
 | **Durum tutan her bileşende başlangıç koşulu sorulur** | ısınma hataları bu alanın en sinsi sınıfıdır |
-| **Derin öğrenme kullanılmaz** (öğrenci) | SWaP kısıtı; tablo tabanlı öğrenme serbest |
+| **Derin öğrenme kullanılmaz** | SWaP kısıtı; tablo tabanlı öğrenme serbest |
 
-## 2 · İşe yarayan düşünme alışkanlıkları
+## 2 · Deneyimden çıkan çalışma ilkeleri
 
-- Bir ölçüm aletine, ölçtüğü şeye güvendiğinden daha az güven — bulunan kusurların çoğu modelde değil aletlerdeydi.
-- Tabloda değişmeyen sütuna bak: 20 dB güç farkına rağmen aynı çıkan satırlar kapalı bir karıştırıcıyı ölçüyordu.
-- "Ölçtüm, etkisi yok" ile "hesaba hiç girmedi" ayrıdır.
-- Gürültü üreten kapı bozuktur; doğru işi kırmızıya boyayan bir kapı kapıyı görmezden gelmeyi öğretir.
-- Bir kapının "X yapmaz" sonucunu sınarken X'e bağlı kapıları da sor.
+- Bir ölçüm aletine, ölçtüğü olguya duyulandan daha az güvenilir: bulunan kusurların çoğu modelde değil aletlerdeydi.
+- Tabloda değişmeyen sütun incelenir: 20 dB güç farkına rağmen aynı çıkan satırlar kapalı bir karıştırıcıyı ölçüyordu.
+- "Ölçüldü, etkisi yok" ile "hesaba hiç girmedi" ayrı sonuçlardır.
+- Gürültü üreten kapı bozuktur; doğru sonucu da başarısız gösteren bir kapı zamanla görmezden gelinir.
+- Bir kapının "X yapmaz" sonucu sınanırken X'e bağlı kapılar da sorgulanır.
 - Kısa pencere zamanla biriken etkiyi göremez; profil kararları uzun pencerede verilir.
-- Ölçeklenen bir dünyada her sabitin birimini sor (gölgeleme hücresi ölçeklenmemişti, K-188).
-- Tek tohumlu küçük farklar yörünge gürültüsüdür; bir mekanizmanın bedeli aynı tohumlarda eşli A/B ile, birden çok tohumla ölçülür.
-- Öğrencinin verdiği sayılar yaklaşıktır, cevabı ölçüm verir; kapsam ve gerçekçilik kararları ise öğrencinindir.
+- Ölçeklenen bir dünyada her sabitin birimi sorgulanır (gölgeleme hücresi ölçeklenmemişti, K-188).
+- Tek tohumlu küçük farklar yörünge gürültüsüdür; bir mekanizmanın bedeli aynı tohumlarda eşli A/B ile, birden çok tohumla ölçülür (kısa pencerede tek tohumun PDR'si ±0,15 oynayabilir, K-224).
+- Ön tahminler yaklaşıktır, cevabı ölçüm verir; kapsam ve gerçekçilik ise ölçümle değil kararla belirlenir ve kayda geçer (`04`).
 
 ## 3 · Bilinen tuzaklar
 
@@ -44,4 +44,4 @@
 
 ## 4 · Simülatörün doğrulama seviyeleri
 
-1 analitik (yol kaybı, gürültü, çerçeve süreleri, sönümleme momentleri, Bianchi) · 2 korunum (hiçbir paket sessizce kaybolmaz; her koşuda) · 3 iç tutarlılık (uç durumlar; aynı tohum → birebir aynı sonuç) · 4 literatür replikasyonu (Li vd. zincir kapasitesi, `09`). Dördüncüsü "öğrenci bir simülasyon yazdı"yı "öğrenci bir araştırma aleti geliştirdi ve doğruladı"ya taşır.
+1 analitik (yol kaybı, gürültü, çerçeve süreleri, sönümleme momentleri, Bianchi) · 2 korunum (hiçbir paket sessizce kaybolmaz; her koşuda) · 3 iç tutarlılık (uç durumlar; aynı tohum → birebir aynı sonuç) · 4 literatür replikasyonu (Li vd. zincir kapasitesi, `09`). Dördüncü seviye simülatörü bir yazılım ürünü olmaktan çıkarıp doğrulanmış bir araştırma aleti hâline getirir.

@@ -121,15 +121,17 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "`menzil_snr_db` olduğu mesafe (≈ 1,66 km, EIRP 20 dBm) — nominal "
         "bağ, bir menzil değil güç çapası (`v2/07` §11). K-220'ye kadar adı "
         "`iletim_menzili_m`ydi (öğrenci). Eski dünyada 280 m"),
-    "gm_alfa": ("SINANMAMIS",
-        "α = exp(−adım/τ_v), τ_v ≈ 30 s hız korelasyonu — bir ARAÇ DİNAMİĞİ "
-        "zamanıdır ve ölçeklenmez; τ_v'nin kendisi bir SEÇİM (kaynak yok). "
-        "Formasyon kolu (birincil hücre) da okur (denetim D-07). İlk ölçüm "
-        "(9 Ekim, K-224) geçersiz: araç α'yı çarpıyordu (×2 aralık dışı, "
-        "×0,5 τ'yu 40 kat küçültüyor); oynatma τ'dan yapılacak şekilde "
-        "düzeltildi (`duyarlilik.py::KORELASYON_KATSAYILARI`), yeniden "
-        "ölçülecek "
-        "(`arsiv/teshis/denetim_duzeltme_2026-10-09/beklenti_ek.md`)"),
+    "gm_alfa": ("DUYARSIZ",
+        "α = exp(−adım/τ_v), τ_v ≈ 30 s hız korelasyonu (araç dinamiği "
+        "zamanı, ölçeklenmez; τ_v kaynaksız bir seçim). Formasyon kolu "
+        "(birincil hücre) da okur. Birincil hücrede τ'dan oynatılarak "
+        "ölçüldü (τ×0,5 → α 0,9663 · τ×2 → 0,9915; "
+        "`duyarlilik.py::KORELASYON_KATSAYILARI`), 20 tohum, R 0,0126: en "
+        "büyük |Δ| = 0,0024 (pdr_etx; 0,2R, band 0,6×). 5 tohumda 0,0110 "
+        "(0,9R) sınırdaydı. Üretici: `py -3.11 -u kalibrasyon/duyarlilik.py "
+        "--dunya referans_2026 birincil --tohum 20 gm_alfa` (10 Ekim 2026, "
+        "K-225; "
+        "`arsiv/teshis/denetim_duzeltme_2026-10-09/C2_gm_alfa_20.txt`)"),
     "gm_adim_s": ("DUYARSIZ",
         "0,5 s mobilite adımı (adımda ≤ 17 m, hız korelasyonu `gm_alfa` ile "
         "korunur). Faz 4.4'te 20 tohumla ölçüldü: en büyük |Δ| = 0,0068 "
