@@ -479,22 +479,37 @@ def _dogum_evresi(kayit, teslim_kimlik: set, bas: float, bitis: float,
 
     Dönüş: `sebep|doğum evresi|etki alanı` → adet (yalnız pencerede doğan
     paketler; alan düşüş anında, bölgeyle aynı düğüm kuralıyla) · atfsız
-    düşüşler (sebep → adet) · çelişki: aynı paket iki kez düştü ya da hem
-    teslim edildi hem düştü. Çelişki > 0 düşen paketin yanlış bulunduğunu
-    gösterir; o koşunun doğum evresi tablosu kullanılamaz.
+    düşüşler (sebep → adet) · çelişki: aynı eş iki kez düştü ya da (kopyasız
+    koşuda) paket hem teslim edildi hem düştü. Çelişki > 0 düşen paketin
+    yanlış bulunduğunu gösterir; o koşunun doğum evresi tablosu kullanılamaz.
+
+    🔒 D-23 · K-231 — kopyalı koşuda bir paketin birden çok eşi düşebilir:
+    teslim edilmiş paketin düşen eşleri kayıp DEĞİLDİR (atlanır), teslim
+    edilmemiş paketin kaybı SON düşen eşine atfedilir. Kopyasız koşuda her
+    paketin en çok bir düşüşü vardır; sonuç eskisinin aynısıdır.
     """
-    dusen: Counter = Counter()
     atfsiz: Counter = Counter()
-    goruldu: set[int] = set()
+    goruldu: set[tuple[int, int]] = set()
     celiski = 0
+    kopyali = any(p is not None and p[1] > 0 for *_, p in kayit)
+    son: dict[int, tuple] = {}
     for n, sebep, t, j, p in kayit:
         if p is None:
             atfsiz[sebep] += 1
             continue
-        kimlik, dogum = p
-        if kimlik in goruldu or kimlik in teslim_kimlik:
+        kimlik, kopya, dogum = p
+        if (kimlik, kopya) in goruldu:
             celiski += 1
-        goruldu.add(kimlik)
+        goruldu.add((kimlik, kopya))
+        if kimlik in teslim_kimlik:
+            if kopyali:
+                continue
+            celiski += 1
+        onceki = son.get(kimlik)
+        if onceki is None or t >= onceki[2]:
+            son[kimlik] = (n, sebep, t, j, dogum)
+    dusen: Counter = Counter()
+    for n, sebep, t, j, dogum in son.values():
         if bas <= dogum < bitis:
             yer = j if sebep == "iletim_basarisiz" and j is not None else n
             dusen[f"{sebep}|{evre_adi(dogum)}|{alan(yer, t)}"] += 1
@@ -536,7 +551,7 @@ def _is(is_) -> dict:
                 else "sessiz")
 
     kayit: list[tuple[int, str, float, int | None,
-                      tuple[int, float] | None]] = []
+                      tuple[int, int, float] | None]] = []
     son_hedef: dict[int, int | None] = {}
     kararlar: Counter = Counter()
     donuk = (not kur.topoloji.hareketli) and kur.kanal.karistirici is None
@@ -553,7 +568,7 @@ def _is(is_) -> dict:
         p = _dusen_paket(sebep, self.kimlik, sys._getframe(1), son_karar,
                          son_ucus)
         kayit.append((self.kimlik, sebep, self.kur.olaylar.simdi, j,
-                      None if p is None else (p.kimlik, p.dogum_s)))
+                      None if p is None else (p.kimlik, p.kopya, p.dogum_s)))
         return asil_yer(self, sebep)
 
     def indir(self):

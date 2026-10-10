@@ -79,4 +79,5 @@ def dugum_oldur(kosu, n: int) -> None:
         d.bekleyenler.popleft()
         d.dus("dugum_kaybi", nereden="kuyruk")
     d._tampon_son_tarih.clear()
+    d._kopya_sonraki.clear()                            # D-23 · K-231
     d.alici.kapat(t)

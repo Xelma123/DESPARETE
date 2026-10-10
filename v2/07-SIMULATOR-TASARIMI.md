@@ -73,7 +73,7 @@ Yere toplama (birincil): geçit düğüm 0, batı kenarının ortasında sabit r
 
 ## 8 · Metrikler
 
-PDR (doğum kohortu; tüm koşu ve ölçüm penceresi; telemetri/komut ayrı) · `PDR_açık` (birincil metrik: karıştırıcının açık dönemlerinde doğanlar, K-222) · PSR (bağ düzeyi, bu çalışmanın tanımı) · gecikme yüzdelikleri (ortak alt küme) · kontrol yükü (çerçeve, bayt, kanal süresi; veri başlığı dâhil) · kopma sayaçları, rota kurtarma gecikmesi Δ ve COR · evre metrikleri (`08`) · Θ · enerji · kayıp yeri (düşüş sebebi × geçide mesafe).
+PDR (doğum kohortu; tüm koşu ve ölçüm penceresi; telemetri/komut ayrı; kopyada ilk varan eş — `13` §07) · `PDR_açık` (birincil metrik: karıştırıcının açık dönemlerinde doğanlar, K-222) · PSR (bağ düzeyi, bu çalışmanın tanımı) · gecikme yüzdelikleri (ortak alt küme) · kontrol yükü (çerçeve, bayt, kanal süresi; veri başlığı dâhil) · kopma sayaçları, rota kurtarma gecikmesi Δ ve COR · evre metrikleri (`08`) · Θ · enerji · kayıp yeri (düşüş sebebi × geçide mesafe).
 
 ## 9 · Parametre disiplini ve kapsam
 

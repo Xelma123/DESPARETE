@@ -102,6 +102,10 @@ class PaketDefteri:
         self._teslim.append(TeslimKaydi(kimlik, akis, dogum, teslim_s))
         self._teslim_kimlikleri.add(kimlik)
 
+    def teslim_edildi_mi(self, kimlik: int) -> bool:
+        """D-23 · K-231 — eşi önce varan paket ikinci kez teslim edilmez."""
+        return kimlik in self._teslim_kimlikleri
+
     # ---------------------------------------------------------- sorgular
     def _penceredeyse(self, dogum_s: float) -> bool:
         return self.pencere_bas_s <= dogum_s < self.pencere_bitis_s

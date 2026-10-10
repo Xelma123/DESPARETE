@@ -84,8 +84,23 @@ class Karar:
     # bekletemez.
     beklet: bool = False
 
+    # 🔒 UÇTAN UCA KOPYA — D-23 · K-231 (`13` §07). Gönderilen paketin eşleri
+    # bu komşulara da gider: her eş düğümün kuyruğunun SONUNA girer ve kuyruk
+    # başına gelince protokole yeniden sorulmadan o komşuya iletilir (karar
+    # kopya anında verildi). Hedefte ilk varan teslim sayılır; eşlerin yayın
+    # süresi VERİ yüküdür. Varsayılan BOŞ: kopya istemeyen protokolün
+    # davranışı ve sonuç satırı birebir aynı.
+    kopyalar: tuple[int, ...] = ()
+
     def __post_init__(self) -> None:
         niyetleri_dogrula(self.niyetler)
+        if self.kopyalar:
+            dogrula(self.sonraki is not None and not self.beklet,
+                    "`kopyalar` yalnız gönderilen pakette verilir "
+                    "(`sonraki` dolu, `beklet` değil)")
+            dogrula(len(set(self.kopyalar)) == len(self.kopyalar)
+                    and self.sonraki not in self.kopyalar,
+                    "kopya komşuları tekil ve `sonraki`den farklı olmalı")
         # 🔴 "Hem gönder hem beklet" bir NİYET DEĞİLDİR. İzin verilseydi
         # çağıranın hangisini uygulayacağı belirsiz kalırdı ve belirsizliği
         # MAC katmanı kendi seçimiyle kapatırdı — yani yönlendirme kararını

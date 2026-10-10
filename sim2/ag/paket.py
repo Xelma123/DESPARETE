@@ -27,6 +27,11 @@ tarafından türetilir. Burada bir süre hesabı YOKTUR — kusur 1'in kuralı.
 `kaynak_sira` (K-157) — paketin, kaynağın KENDİ ürettiği paketler arasındaki
 sırası. Başlıkta yazar (IPv4 kimlik alanı, DESPARETE Data Sequence); gözlem
 penceresine açılan kimlik budur, küresel `kimlik` DEĞİL (`v2/05` §3.3).
+`kopya` (D-23 · K-231) — 0 asıl paket; ≥ 1, protokolün `Karar.kopyalar` ile
+istediği uçtan uca eş. Eşin kimliği AYNIDIR: hedefte ilk varan teslim
+sayılır, sonraki eşler bastırılır (`kosum/teslim.py`). Gözlem penceresine
+açılmaz.
+
 ⚠️ Varsayılan 0 yalnız trafik üreticisini kullanmayan kalibrasyon ve test
 kurucuları içindir: orada her paket aynı sırayı taşır ve paket kimliğine
 dayanan bir protokol mantığı bu kurucularla ölçülemez.
@@ -53,6 +58,7 @@ class Paket:
     boyut_bayt: int
     ttl_kalan: int
     kaynak_sira: int = 0
+    kopya: int = 0
 
     def __post_init__(self) -> None:
         dogrula(self.kaynak != self.hedef,
@@ -60,6 +66,7 @@ class Paket:
         dogrula(self.boyut_bayt > 0, "paket boyutu pozitif olmalı")
         dogrula(self.ttl_kalan >= 0, "TTL negatif olamaz")
         dogrula(self.kaynak_sira >= 0, "kaynak sırası negatif olamaz")
+        dogrula(self.kopya >= 0, "kopya numarası negatif olamaz")
 
     # ------------------------------------------------------------------
     def ttl_azalt(self) -> "Paket":

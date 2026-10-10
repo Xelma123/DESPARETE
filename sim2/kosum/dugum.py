@@ -33,6 +33,7 @@ from __future__ import annotations
 import math
 
 from collections import deque
+from dataclasses import replace
 
 from sim2.ag.paket import Paket
 from sim2.cekirdek.degismezler import dogrula
@@ -68,7 +69,7 @@ class Dugum:
                  "hiz_denetcisi", "_alinan_cerceve", "_phy_hata",
                  "_doluluk", "_mesgul_toplam_s", "_mesgul_son_s",
                  "_gps_dilim", "_gps_hata", "olu", "olum_s",
-                 "_gonderim_s", "son_gonderim_bitis_s")
+                 "_gonderim_s", "son_gonderim_bitis_s", "_kopya_sonraki")
 
     def __init__(self, kimlik: int, kur: Kurulum, protokol) -> None:
         self.kimlik = kimlik
@@ -157,6 +158,9 @@ class Dugum:
         # paket tavanı hiç görmez, yani süre tavanı diye ilan edilen şey
         # uygulanmamış olurdu.
         self._tampon_son_tarih: dict[int, float] = {}
+        # D-23 · K-231 — kuyruktaki eşin (kimlik, kopya) → kopya anında
+        # verilmiş sonraki atlama. Kopya istemeyen protokolde hep boş.
+        self._kopya_sonraki: dict[tuple[int, int], int] = {}
 
     # ==================================================================
     # GÖZLEM — protokolün gördüğü tek yüzey
@@ -617,6 +621,28 @@ class Dugum:
         self.kur.sayaclar.artir("kuyruk_tasmasi")
         self._kayip_yeri("kuyruk_tasmasi")
         return False
+
+    def kopya_kuyruga_al(self, paket: Paket, sonraki: int,
+                         kopya_no: int) -> bool:
+        """D-23 · K-231 — protokolün istediği eşi kuyruğun SONUNA koyar.
+
+        Eş kuyruk başına gelince protokole yeniden sorulmadan `sonraki`ye
+        gider: karar kopya anında verildi. Kuyruk doluysa eş, asıl paket
+        gibi `kuyruk_tasmasi` ile düşer.
+        """
+        self.kur.korunum.kopya_uret()
+        es = replace(paket, kopya=kopya_no)
+        if not self.kuyruga_al(es, uretim=False):
+            return False
+        self._kopya_sonraki[(es.kimlik, es.kopya)] = sonraki
+        return True
+
+    def kopya_sonraki_al(self, paket: Paket) -> int | None:
+        """Kuyruk başındaki eşin önceden verilmiş sonraki atlaması;
+        asıl pakette `None` (D-23 · K-231)."""
+        if not self._kopya_sonraki:
+            return None
+        return self._kopya_sonraki.pop((paket.kimlik, paket.kopya), None)
 
     def dus(self, sebep: str, nereden: str) -> None:
         self.kur.korunum.dus(sebep, nereden=nereden)

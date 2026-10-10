@@ -242,3 +242,56 @@ Denetim: talimat kalıbı yok (RFC 1700'deki "Claude" geçişleri kayıt sahibi 
 Sonuç: bildirilen gürültü ısıl tabanın üstündeki artışı yalnız nominalin 6 dB üstünden itibaren, çipe göre en çok +44 dB (AR9300) ya da +9 dB (AR9280) gösterir ve olağan kipte 30 s'de bir okunan 5 ölçümün ortancasıdır.
 
 - **`arsiv/kaynak_elenen/ieee_80211_2016_kesit_madde21_IPR2023-01414.pdf`:** IEEE Std 802.11-2016'nın yalnız 9 sayfası, madde 21 (VHT/802.11ac, s. 2538–2580). Bir ABD patent davasının delil dosyası (*"IPR2023-01414 · Patent Owner · EX 2003"*), üçüncü kişinin lisans damgasıyla. İhtiyaç duyulan 802.11b maddeleri (15–16) ve MAC zamanlaması (madde 10) yok → kaynak olarak kullanılmadı, arşive taşındı.
+
+### OLSRv2 · DSR · JarmRout — yeni rakiplerin kaynakları (11 Ekim 2026, K-229 · K-230)
+
+İndirme yürütücünün izniyle. RFC'ler rfc-editor.org'un kanonik metinleri; RFC 7181 ve 6130'u güncelleyen dört RFC (7183 · 7187 · 7188 · 7466) davranışı etkileyebileceği için alındı; RFC 5444'ün güncellemeleri (7631 · 8245) yalnız adlandırma ve tasarım kuralı olduğu için alınmadı. Denetim: talimat kalıbı yok.
+
+| dosya | künye | alındığı yer | boyut · SHA-256 | sağladığı |
+|---|---|---|---|---|
+| `rfc7181_olsrv2.txt` | T. Clausen, C. Dearlove, P. Jacquet, U. Herberg, *"The Optimized Link State Routing Protocol Version 2"*, RFC 7181, Nisan 2014, Standards Track | `https://www.rfc-editor.org/rfc/rfc7181.txt` | 253 538 B · `a5eaa55facce5496a0aabf1dc583fc69d831b93c95bba56114922ebd40a197fc` | OLSRv2'nin kendisi: MPR (yayın ve rota ayrı), TC, rota hesabı, bağ metriği çerçevesi (metrik tanımlamaz), parametreler §5 |
+| `rfc6130_nhdp.txt` | T. Clausen, C. Dearlove, J. Dean, *"Mobile Ad Hoc Network (MANET) Neighborhood Discovery Protocol (NHDP)"*, RFC 6130, Nisan 2011 | `https://www.rfc-editor.org/rfc/rfc6130.txt` | 190 678 B · `7555e7aaafdccd36088082e798ab87deda5fa772e72b287979788165246c473a` | komşuluk keşfi (HELLO), bağ durumu, 2-atlama komşuluğu; OLSRv2'nin altındaki katman |
+| `rfc5444_paket_bicimi.txt` | T. Clausen, C. Dearlove, J. Dean, C. Adjih, *"Generalized Mobile Ad Hoc Network (MANET) Packet/Message Format"*, RFC 5444, Şubat 2009 | `https://www.rfc-editor.org/rfc/rfc5444.txt` | 139 048 B · `07097bf766b0197c4b8f110bba3cd90d3d8319a8869f0f1a9ccafc15b73639cd` | paket/mesaj/TLV biçimi — kontrol mesajlarının bayt boyu buradan |
+| `rfc5497_zaman_tlv.txt` | T. Clausen, C. Dearlove, *"Representing Multi-Value Time in MANETs"*, RFC 5497, Mart 2009 | `https://www.rfc-editor.org/rfc/rfc5497.txt` | 30 653 B · `5c4d63d8029095106a7f2dba09531287688efeb2623e341231f5510b779d52c6` | VALIDITY_TIME · INTERVAL_TIME TLV'lerinin 8 bitlik kodlaması |
+| `rfc5148_titresim.txt` | T. Clausen, C. Dearlove, B. Adamson, *"Jitter Considerations in MANETs"*, RFC 5148, Şubat 2008 | `https://www.rfc-editor.org/rfc/rfc5148.txt` | 26 379 B · `d09c66dd0060a5684cb639d2c9fc257ed8cb4d7314fc0182c30d9767b5afd36a` | kontrol mesajı titreşimi (MAXJITTER) |
+| `rfc7779_dat_metrigi.txt` | H. Rogge, E. Baccelli, *"Directional Airtime Metric Based on Packet Sequence Numbers for OLSRv2"*, RFC 7779, Nisan 2016, Experimental | `https://www.rfc-editor.org/rfc/rfc7779.txt` | 43 953 B · `055d0d84633fbe88f7105d1cf2320ac3f6b083cd672f7e60ce66c61a029632a9` | OLSRv2'nin bağ metriği (DAT): paket sıra numarasından kayıp, hızla yayın süresi |
+| `rfc7183_butunluk.txt` | U. Herberg, C. Dearlove, T. Clausen, *"Integrity Protection for NHDP and OLSRv2"*, RFC 7183, Nisan 2014 | `https://www.rfc-editor.org/rfc/rfc7183.txt` | 32 730 B · `8279d878ba11726d4b1fd9ff770a2d1ca70234568b8764d20da6f80cd8761534` | 7181 · 6130'u günceller: bütünlük koruması (ICV TLV) — güvenlik, kapsam dışı (beyan) |
+| `rfc7187_rota_mpr.txt` | C. Dearlove, T. Clausen, *"Routing Multipoint Relay Optimization for OLSRv2"*, RFC 7187, Nisan 2014 | `https://www.rfc-editor.org/rfc/rfc7187.txt` | 9 341 B · `9b9b16cbd310432bd512a13d9919a5b3d5a815dd749ce90c1b88a73d95098264` | 7181'i günceller: rota MPR'si seçimi |
+| `rfc7188_uzanti_tlv.txt` | C. Dearlove, T. Clausen, *"OLSRv2 and NHDP Extension TLVs"*, RFC 7188, Nisan 2014 | `https://www.rfc-editor.org/rfc/rfc7188.txt` | 36 174 B · `d2f5239548f6b2b1c03d70f594029a39d3e105b5177f696666d492815f79b97e` | 7181 · 6130'u günceller: TLV genişletmeleri |
+| `rfc7466_nhdp_iyilestirme.txt` | C. Dearlove, T. Clausen, *"An Optimization for the MANET Neighborhood Discovery Protocol (NHDP)"*, RFC 7466, Mart 2015 | `https://www.rfc-editor.org/rfc/rfc7466.txt` | 17 949 B · `b6375b33eaf5642a1448ed0e176e9d87b65a38e47ee9b979944e628db97e945e` | 6130'u (dolayısıyla 7181'i) günceller: 2-atlama kümesinin bakımı |
+| `rfc4728_dsr.txt` | D. Johnson, Y. Hu, D. Maltz, *"The Dynamic Source Routing Protocol (DSR) for Mobile Ad Hoc Networks for IPv4"*, RFC 4728, Şubat 2007, Experimental | `https://www.rfc-editor.org/rfc/rfc4728.txt` | 265 706 B · `e848d726866f3ec6b1b67c80f2e97a211ab97d469454b63036d200a28b993abd` | JarmRout'un temeli: rota keşfi, kaynak rotası başlığı, rota hatası — makalenin sustuğu yerde hakem |
+| `pu_2018_jarmrout_ieee_access.pdf` | C. Pu, *"Jamming-Resilient Multipath Routing Protocol for Flying Ad Hoc Networks"*, IEEE Access 6:68472–68486, 2018, DOI 10.1109/ACCESS.2018.2879758 (açık erişim; IEEE Xplore 8523684) | `https://congpu.github.io/document/paper/ieee_access_2018.pdf` (yazarın sayfası; yayıncı sürümüyle aynı) | 6 504 878 B · `828f08118160d8544761e93e5061464367a16d582a01417a1d980e1fbfa446a8` | §III bağ kalitesi (RSSI varyansı, Eş. 1–5) · trafik yükü (NAV + kuyruk, Eş. 6–8) · mekânsal uzaklık (Eş. 9–12) · çift önceliği (Eş. 13; ağırlıklar 0,2 · 0,2 · 0,6) · Şekil 4 sözde kod · §VI.B: aynı veri paketi iki yoldan gönderilir. Tablo 4 (yayıncı sayfasında görüntü, okundu): 1000 × 1000 m², 50–100 düğüm, 30 m/s rastgele yol noktası, menzil 300 m, karıştırıcı 1–6, kanal hata oranı %10, 2 Mb/s, 1–3 pkt/s × 512 B, 3 000 s. **Protokolün iç parametreleri (Eş. 6–8'in filtre sabitleri, RSSI örnek sayısı, hedefin bekleme süresi `t_wait`) makalede yok.** |
+
+**Uygulama kaynağı — olsrd2 (OONF)** (`uygulama_kaynaklari/olsrd2/`, BSD-3 — `LICENSE`): olsr.org'un OLSRv2 başvuru gerçeklemesi, `github.com/OLSR/OONF` commit `477e716110ee210f9ce03a75ecacd55a06fd600f` (6 Ağustos 2026). NHDP, MPR seçimi, OLSRv2 (TC, rota) ve DAT metriği dosyaları; RFC'nin sustuğu yerde hakem (AODV'de ns-3'ün rolü).
+
+| dosya | boyut · SHA-256 |
+|---|---|
+| `include/oonf/nhdp/ff_dat_metric/ff_dat_metric.h` | 2 536 B · `69b44b938dd2fc8a8bdb202c62a92e3bc4c39b7572feed0146624d9b0189a120` |
+| `include/oonf/nhdp/mpr/neighbor-graph.h` | 4 552 B · `ad8b5b51a9e44f4b12f2850109851024924fcb12acf6ac766f4043e508c35093` |
+| `include/oonf/nhdp/nhdp/nhdp.h` | 3 433 B · `3bb73d0bdd478ba73f75c239ae0cc14cc9b8ce7f293883af35498e35d0768133` |
+| `include/oonf/nhdp/nhdp/nhdp_db.h` | 17 830 B · `d3e418b9efede4a41c138b82e625bb0ab5ed3ac7a46700b19b6b2b3b4d3922bb` |
+| `include/oonf/nhdp/nhdp/nhdp_domain.h` | 13 666 B · `a0bf69bb7502b9d1f054ce7d64a12cf8e8b53776191d73f8c2680e285fff60e4` |
+| `include/oonf/nhdp/nhdp/nhdp_interfaces.h` | 10 587 B · `50e15e79af6e6ad75a1d7d5669eb0a142fa5db3036824833616929cfbe3d6a46` |
+| `include/oonf/olsrv2/olsrv2/olsrv2.h` | 3 536 B · `047bef8a5ef0d78b36ba44941149b04e244339e8f3f967168f7daa83924056ad` |
+| `include/oonf/olsrv2/olsrv2/olsrv2_routing.h` | 6 757 B · `2d62e808483bee79cb22ca4720ddb75c76f398663badc423e631266ae1826c52` |
+| `include/oonf/olsrv2/olsrv2/olsrv2_tc.h` | 8 054 B · `7368459d075676a9b95eee5d19403b98ccb2641838edf6047e12d4063d43a19a` |
+| `LICENSE` | 1 750 B · `0d77f73d23a4fabcda9d32429ba28040f1259fe2575dbd9b21be16906ea83e9d` |
+| `src/nhdp/ff_dat_metric/ff_dat_metric.c` | 38 794 B · `680d29d97e108bdaf70bafaa8b9186f73b8571679d96ab47e927140253674793` |
+| `src/nhdp/mpr/mpr.c` | 9 324 B · `5ec9f571a4d47cdd4e719c30f43adb1771527e797c006a6449f83681982f10ee` |
+| `src/nhdp/mpr/neighbor-graph-flooding.c` | 10 243 B · `c013bdbf28844a9a150a8971cb6ec16b11cf6febfb7f1f33471a6115f7339d9b` |
+| `src/nhdp/mpr/neighbor-graph-routing.c` | 11 777 B · `ca135bdf6dc322aef76db1d2d70faa431cdb6cc30178f5cc204e2ed1d1a1a0e7` |
+| `src/nhdp/mpr/neighbor-graph.c` | 9 169 B · `bb3c2f6e9828a90457a568dca82833ad165347bccab7f7637a109d246b910a85` |
+| `src/nhdp/mpr/selection-rfc7181.c` | 14 951 B · `d999a1991c908b8872877f07817e21b8e378364a41088df8ddc06e6e8a9c2bd1` |
+| `src/nhdp/nhdp/nhdp.c` | 14 942 B · `d62dc938844a35795b7ea953eabafd7bf0da843cd83b30f11cdb2fd348a35ef7` |
+| `src/nhdp/nhdp/nhdp_db.c` | 30 092 B · `68a7d255b62ba3f2bb4ee325bd15c332ba547147e093d1a426a765f97dfa4951` |
+| `src/nhdp/nhdp/nhdp_domain.c` | 40 672 B · `6a30f09a88ddeab1c44182b902af44f5503eaf54129e6b7061c36cc7369a386c` |
+| `src/nhdp/nhdp/nhdp_hysteresis.c` | 4 250 B · `56ce0f9f02847d826acc142d02ec4281d9b6f48a2fcc60fab71fc0f032d8010c` |
+| `src/nhdp/nhdp/nhdp_interfaces.c` | 18 808 B · `1e2398a403ee50d5e39adb44f8a6598f90bdcd7aa9186aaea3390f6a74af2f2c` |
+| `src/nhdp/nhdp/nhdp_reader.c` | 33 064 B · `acd880f2cf3969d37624d3898085d57ef882f20aa16e170140b0f2ba9810a9d1` |
+| `src/nhdp/nhdp/nhdp_writer.c` | 19 055 B · `796aa8d6ebe6aa9acbeea4f71fa76892abd05da0b910ae5a360e19d6b559d0e3` |
+| `src/olsrv2/olsrv2/olsrv2.c` | 22 144 B · `65ddf86b834ca15613278aedabadbdbd2875267d20b78d4dd328bcc53718af93` |
+| `src/olsrv2/olsrv2/olsrv2_originator.c` | 7 920 B · `e7514fca9c63b9134fada77a21ae772178acd6f67d6216cca17320b56b04c5cc` |
+| `src/olsrv2/olsrv2/olsrv2_reader.c` | 19 815 B · `140cd57491cf2f85398fd286ae70cfeaa8d7be677f9e7d422e95a45843e7d4ae` |
+| `src/olsrv2/olsrv2/olsrv2_routing.c` | 38 260 B · `595859cb7a4f0bd4d178f74ddf08a9a9230f5936c537691d205a0ed75f78cbc8` |
+| `src/olsrv2/olsrv2/olsrv2_tc.c` | 15 877 B · `e95fe36ba8e97a5784b043710f623d3bca9a92ddf69cb6e5add84a49059e91b6` |
+| `src/olsrv2/olsrv2/olsrv2_writer.c` | 19 635 B · `23484f9a3c0f219035e91fd1561fde649baa0c9489991547b1c3ab8ca7a5c3c2` |

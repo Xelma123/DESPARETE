@@ -17,6 +17,8 @@ ve telif hakkıyla dağıtılır:
   (GPL-2.0-only).
 - protokol_kaynaklari/uygulama_kaynaklari/linux/ath9k/ : Linux ath9k
   sürücüsünden dosyalar (ISC; Atheros Communications, Qualcomm Atheros).
+- protokol_kaynaklari/uygulama_kaynaklari/olsrd2/ : olsr.org Network
+  Framework (OONF) kaynak dosyaları (BSD-3-Clause; the olsr.org team).
 - protokol_kaynaklari/rfc*.txt : IETF RFC metinleri (IETF Trust).
 - protokol_kaynaklari/*.pdf ve *.png : yayımlanmış makaleler, bir veri
   sayfası ve makalelerden şekiller; hakları yazarlarına ve yayıncılarına

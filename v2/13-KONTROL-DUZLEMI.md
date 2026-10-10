@@ -1,6 +1,6 @@
 # 13 · KONTROL DÜZLEMİ — protokolün YAPABİLECEKLERİ
 
-> **Durum: sözleşme uygulandı; kod bu belgeyle birebir.** Güncel 10 Ekim 2026 (öz sürüm; tarihçe ve kapanmış risklerin ayrıntısı `v2/arsiv/13-KONTROL-DUZLEMI-2026-09-25.md`). Bölüm numaraları kodda atıflı, korunur (testlerdeki "§09" = §05). Karar K-112 · kapılar `tests2/test_kontrol_duzlemi.py` (bağlayıcı) · `python -u kalibrasyon/kontrol_duzlemi_kapilari.py` (40 düğümde kanıt).
+> **Durum: sözleşme uygulandı; kod bu belgeyle birebir.** Güncel 11 Ekim 2026 (öz sürüm; §07 kopya K-231; tarihçe ve kapanmış risklerin ayrıntısı `v2/arsiv/13-KONTROL-DUZLEMI-2026-09-25.md`). Bölüm numaraları kodda atıflı, korunur (testlerdeki "§09" = §05). Karar K-112 · kapılar `tests2/test_kontrol_duzlemi.py` (bağlayıcı) · `python -u kalibrasyon/kontrol_duzlemi_kapilari.py` (40 düğümde kanıt).
 
 ---
 
@@ -83,3 +83,15 @@ Gözlem penceresi 17 · 6 · 6 = 29 alan (P6; `bildirdigi_konum` K-131 ile çık
 | R6 | `BEKLEYEN_UYANDIRMA_TAVANI` ve `KONTROL_KAPSULLEME` SINANMAMIŞ | kapandı — kapsülleme KAYNAK (G15 · G16, K-203), tavan ÖLÇÜLMÜŞ (tepe ≤ 22/256, K-214) |
 | R7 | tavan bekleyen **sayısını** sınırlar, oranı değil | açık — tepe/ateş sayısı satırda (beyanlı) |
 | R8 | kontrol istatistiklerinin pencere ikizi yoktu | kapandı (§03.10, K-115) |
+
+## 07 · Uçtan uca kopya — D-23 · K-231
+
+JarmRout her veri paketini iki düğüm-ayrık yoldan gönderir (Pu 2018 §VI.B; K-230); DESPARETE'nin PROTECT'i (Faz 5.4) de kopyaya dayanır. Tanımlar ölçmeden önce (denetim D-23):
+
+- **İstek:** `Karar(sonraki=j, kopyalar=(k, …))` — paket `j`ye, eşleri `k`lere. `kopyalar` yalnız gönderilen pakette; tekil ve `sonraki`den farklı. Eş düğümün kuyruğunun sonuna girer ve kuyruk başına gelince protokole yeniden sorulmadan o komşuya iletilir (karar kopya anında verildi). Kuyruk doluysa eş `kuyruk_tasmasi` ile düşer.
+- **Kimlik:** eş aynı paketin kopya numaralı eşidir (`Paket.kopya` ≥ 1, ağ genelinde tekil); kimliği aynıdır, gözlem penceresine açılmaz.
+- **PDR:** hedefte ilk varan eş teslim sayılır (gecikme onun anıyla); sonraki eşler `kopya_bastir` ile defterden çıkar, ikinci kez teslim SAYILMAZ. Paket düzeyi PDR paket defterindedir.
+- **Korunum:** `üretilen + kopya_üretilen = teslim + kopya_bastırılan + düşen + kuyrukta + uçuşta`; mutabakat eşleri de sayar. Kopya varsa `düşen` eş düzeyindedir (eşi teslim edilmiş paketin düşen eşi de sayılır); kayıp anatomisi teslim edilmemiş paketin kaybını SON düşen eşine atfeder.
+- **Fatura:** eşler VERİ çerçevesidir; yayın süresi ve MAC sayaçları veri yükünde, kontrol yükünde (`nrl_*`) değil.
+- **U1 ve kâhin:** kâhin kopyalamaz; kopyalayan protokolün kâhine oranı aynı tanımla (paket düzeyi PDR) hesaplanır, kopyanın bedeli veri yükünde raporlanır.
+- **Değişmeyen:** kopya istemeyen protokolde hiçbir olay eklenmez ve sonuç satırına alan girmez (`kopya_uretilen` · `kopya_bastirilan` yalnız kopya kullanılınca); regresyon birebir. Testler `tests2/test_kopya.py`.

@@ -90,6 +90,10 @@ class KorunumDefteri:
     teslim: int = 0
     kuyrukta: int = 0
     ucusta: int = 0
+    # D-23 · K-231 — uçtan uca kopya: üretilen eş · hedefte bastırılan eş.
+    # Kopya yoksa ikisi 0 kalır ve rapora girmez (satır birebir).
+    kopya_uretilen: int = 0
+    kopya_bastirilan: int = 0
     dusen: dict[str, int] = field(
         default_factory=lambda: {s: 0 for s in DUSME_SEBEPLERI})
 
@@ -115,6 +119,20 @@ class KorunumDefteri:
         """Paket nihai hedefine ulaştı."""
         self.ucusta -= adet
         self.teslim += adet
+        self._dogrula_negatif()
+
+    def kopya_uret(self, adet: int = 1) -> None:
+        """Protokol gönderilen paketin eşini istedi → eş, düğümün kuyruğuna
+        girdi (D-23 · K-231). Eş bundan sonra asıl paketle aynı geçişlerden
+        geçer; düşerse `dus`, hedefe ilk o varırsa `teslim_et`."""
+        self.kopya_uretilen += adet
+        self.kuyrukta += adet
+
+    def kopya_bastir(self, adet: int = 1) -> None:
+        """Eş hedefe vardı ama paket zaten teslim edilmişti → havadan
+        çıkar, ikinci kez TESLİM SAYILMAZ (D-23 · K-231)."""
+        self.ucusta -= adet
+        self.kopya_bastirilan += adet
         self._dogrula_negatif()
 
     def dus(self, sebep: str, nereden: str, adet: int = 1) -> None:
@@ -145,8 +163,10 @@ class KorunumDefteri:
         return sum(self.dusen.values())
 
     def denklem_tutuyor_mu(self) -> bool:
-        return self.uretilen == (self.teslim + self.dusen_toplam
-                                 + self.kuyrukta + self.ucusta)
+        # D-23 · K-231: kopya yoksa iki terim 0'dır — denklem eskisinin aynısı.
+        return (self.uretilen + self.kopya_uretilen
+                == self.teslim + self.kopya_bastirilan + self.dusen_toplam
+                + self.kuyrukta + self.ucusta)
 
     def kontrol(self) -> dict[str, object]:
         """Sonuç satırına yazılacak korunum raporu.
@@ -155,17 +175,27 @@ class KorunumDefteri:
         `korunum_tamam=False` ile işaretlenir ve analiz o satırı **dışlar**.
         Böylece bozuk bir koşu sessizce ortalamaya karışmaz.
         """
-        sag = (self.teslim + self.dusen_toplam + self.kuyrukta + self.ucusta)
-        return {
-            "korunum_tamam": self.uretilen == sag,
+        sag = (self.teslim + self.kopya_bastirilan + self.dusen_toplam
+               + self.kuyrukta + self.ucusta)
+        sol = self.uretilen + self.kopya_uretilen
+        rapor = {
+            "korunum_tamam": sol == sag,
             "uretilen": self.uretilen,
             "teslim": self.teslim,
             "dusen_toplam": self.dusen_toplam,
             "dusen": dict(self.dusen),
             "kuyrukta": self.kuyrukta,
             "ucusta": self.ucusta,
-            "fark": self.uretilen - sag,
+            "fark": sol - sag,
         }
+        # 🔒 D-23 · K-231: kopya kullanılmadıysa alan EKLENMEZ — kopya
+        # istemeyen protokolün satırı birebir aynı kalır. Kopya varsa
+        # `dusen_toplam` EŞ düzeyindedir (eşi teslim edilmiş paketin düşen
+        # eşi de sayılır); paket düzeyi PDR paket defterindedir.
+        if self.kopya_uretilen:
+            rapor["kopya_uretilen"] = self.kopya_uretilen
+            rapor["kopya_bastirilan"] = self.kopya_bastirilan
+        return rapor
 
     # ------------------------------------------------------------ mutabakat
     def mutabakat(self, kuyrukta_gercek: int, ucusta_gercek: int

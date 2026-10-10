@@ -171,11 +171,11 @@ def test_DOGUM_EVRESI_atif_kalan_ve_celiski():
         return "once" if t < 20 else ("acik" if t < 35 else "sessiz")
 
     kayit = [
-        (1, "rota_gecersiz", 36.0, None, (10, 30.0)),     # açıkta doğdu
-        (2, "iletim_basarisiz", 31.0, 7, (11, 30.5)),     # alan alıcıda
-        (3, "kuyruk_tasmasi", 15.0, None, (12, 15.0)),    # önce
+        (1, "rota_gecersiz", 36.0, None, (10, 0, 30.0)),  # açıkta doğdu
+        (2, "iletim_basarisiz", 31.0, 7, (11, 0, 30.5)),  # alan alıcıda
+        (3, "kuyruk_tasmasi", 15.0, None, (12, 0, 15.0)), # önce
         (4, "dugum_kaybi", 40.0, None, None),             # atfsız
-        (5, "ttl", 5.0, None, (13, 5.0)),                 # pencere dışı
+        (5, "ttl", 5.0, None, (13, 0, 5.0)),              # pencere dışı
     ]
     dusen, atfsiz, celiski = _dogum_evresi(
         kayit, {20, 21}, 10.0, 50.0, evre, lambda d, t: f"a{d}")
@@ -184,8 +184,8 @@ def test_DOGUM_EVRESI_atif_kalan_ve_celiski():
                              "kuyruk_tasmasi|once|a3": 1})
     assert atfsiz == Counter({"dugum_kaybi": 1}) and celiski == 0
     _, _, c = _dogum_evresi(
-        kayit + [(6, "ttl", 45.0, None, (10, 30.0)),      # iki kez düştü
-                 (7, "ttl", 45.0, None, (20, 30.0))],     # teslim edilmişti
+        kayit + [(6, "ttl", 45.0, None, (10, 0, 30.0)),   # aynı eş iki kez
+                 (7, "ttl", 45.0, None, (20, 0, 30.0))],  # teslim edilmişti
         {20, 21}, 10.0, 50.0, evre, lambda d, t: "x")
     assert c == 2
     dogan = Counter({"acik": 10})
@@ -193,3 +193,25 @@ def test_DOGUM_EVRESI_atif_kalan_ve_celiski():
     assert o["teslim"] == 0.6 and o["rota_gecersiz"] == 0.1
     assert abs(o["kalan"] - 0.2) < 1e-12
     assert abs(sum(o.values()) - 1.0) < 1e-12
+
+
+def test_DOGUM_EVRESI_kopyali_kosuda_son_dusus_ve_teslimli_es():
+    """D-23 · K-231: kopyalı koşuda teslim edilmiş paketin düşen eşi kayıp
+    değildir; teslim edilmemiş paketin kaybı SON düşen eşine yazılır."""
+    from collections import Counter
+
+    from kalibrasyon.kayip_anatomisi import _dogum_evresi
+
+    kayit = [
+        (1, "iletim_basarisiz", 31.0, 7, (10, 0, 30.0)),  # eşi teslim edildi
+        (2, "rota_gecersiz", 32.0, None, (11, 0, 30.0)),  # ilk eş düştü
+        (3, "kuyruk_tasmasi", 33.0, None, (11, 1, 30.0)), # son eş düştü
+    ]
+    dusen, atfsiz, celiski = _dogum_evresi(
+        kayit, {10}, 10.0, 50.0, lambda t: "acik", lambda d, t: "uzak")
+    assert dusen == Counter({"kuyruk_tasmasi|acik|uzak": 1})
+    assert not atfsiz and celiski == 0
+    _, _, c = _dogum_evresi(kayit + [(4, "ttl", 34.0, None, (11, 1, 30.0))],
+                            {10}, 10.0, 50.0, lambda t: "acik",
+                            lambda d, t: "uzak")
+    assert c == 1                                       # aynı eş iki kez

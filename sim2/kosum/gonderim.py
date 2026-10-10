@@ -228,6 +228,15 @@ def iletime_basla(kosu, d: Dugum) -> None:
         veri_gonder(kosu, d, d.ucustaki, d.ucus_hedefi)
         return
     while not d.kuyruk.bos_mu:
+        # 🔒 D-23 · K-231 — eşin sonraki atlaması kopya anında verildi; eş
+        # protokole yeniden SORULMAZ.
+        zorunlu = d.kopya_sonraki_al(d.kuyruk.bak())
+        if zorunlu is not None:
+            kosu.kur.korunum.kuyruktan_al()
+            kosu.kur.sayaclar.artir("mac_gonderim_istegi")
+            d.ucusa_al(d.kuyruk.al(), zorunlu)
+            veri_gonder(kosu, d, d.ucustaki, zorunlu)
+            return
         karar = d.sonraki_atlama(d.kuyruk.bak(), kosu.olaylar.simdi)
         if karar.beklet:
             d.beklemeye_al(d.kuyruk.al(), kosu.olaylar.simdi, kosu.olaylar)
@@ -254,6 +263,10 @@ def iletime_basla(kosu, d: Dugum) -> None:
         kosu.kur.korunum.kuyruktan_al()
         kosu.kur.sayaclar.artir("mac_gonderim_istegi")
         d.ucusa_al(d.kuyruk.al(), karar.sonraki)
+        for komsu in karar.kopyalar:                     # D-23 · K-231
+            no = kosu.kopya_no.get(d.ucustaki.kimlik, 0) + 1
+            kosu.kopya_no[d.ucustaki.kimlik] = no
+            d.kopya_kuyruga_al(d.ucustaki, komsu, no)
         veri_gonder(kosu, d, d.ucustaki, karar.sonraki)
         return
     # 🔒 Kuyruğun tamamı tampona geçti: gönderilecek veri YOK. DCF'den

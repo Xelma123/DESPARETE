@@ -59,6 +59,12 @@ def _yerlestir(kosu, d: Dugum, paket) -> None:
     mutabakatı kırar; ikisi de her koşuda otomatik denetlenir.
     """
     if paket.hedef == d.kimlik:
+        if kosu.kur.paket_defteri.teslim_edildi_mi(paket.kimlik):
+            # 🔒 D-23 · K-231 — eşi önce vardı: ikinci kez TESLİM SAYILMAZ.
+            # Kopya istemeyen protokolde bu dal hiç ateşlenmez (aynı paketin
+            # iki teslimi zaten `paket_defteri`nde hatadır).
+            kosu.kur.korunum.kopya_bastir()
+            return
         kosu.kur.korunum.teslim_et()
         kosu.kur.sayaclar.artir("teslim_paket")
         kosu.kur.paket_defteri.teslim_edildi(paket.kimlik, kosu.olaylar.simdi)

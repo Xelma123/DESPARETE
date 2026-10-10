@@ -59,7 +59,7 @@ class Kosu:
 
     __slots__ = ("kur", "dugumler", "olaylar", "_temizleme_s",
                  "_cerceve_onbellegi", "veri_cercevesi", "veri_baslik_bayt",
-                 "veri_baslik_sure_s")
+                 "veri_baslik_sure_s", "kopya_no")
 
     def __init__(self, kur: Kurulum, protokol_fabrikasi) -> None:
         self.kur = kur
@@ -76,6 +76,9 @@ class Kosu:
         self._temizleme_s = 2.0 * self.veri_cercevesi.sure_s
         # Yuk boyutuna gore beacon cercevesi onbellegi — SAF memo.
         self._cerceve_onbellegi: dict = {}
+        # D-23 · K-231 — paket kimliği → verilen son kopya numarası (eşler
+        # ağ genelinde tekil numaralanır).
+        self.kopya_no: dict[int, int] = {}
 
     def kostur(self) -> None:
         k = self.kur.konfig
