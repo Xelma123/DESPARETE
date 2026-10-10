@@ -30,7 +30,7 @@
 | keşifsel verici | taktik mesh telsizi: 27 dBm (Doodle Labs Pro) · 33 dBm (Xtreme), MCS 0 | G7 |
 | anten | yarım dalga dipol, 2,15 dBi, dikey (bugünkü desen modeli) | bugünkü model |
 | ED eşiği | iletilen >100 mW → −80 · >50 mW → −76 · ≤50 mW → −70 dBm → 61 mW'ta **−76 dBm**; ED süresi 15 µs | G2 |
-| hız uyarlaması | basit kaynaklı kural (ARF benzeri), bütün protokollerde aynı MAC | onaylı öneri · düşük güçlü girişimde etkili, güçlü karıştırmada etkisiz (G5) |
+| hız uyarlaması | ARF (ns-3'ün gerçeklemesi, paket sayaçlı; K-181), bütün protokollerde aynı MAC | G14 · düşük güçlü girişimde etkili, güçlü karıştırmada etkisiz (G5) |
 
 **Menzil (serbest uzay, 2 Mb/s, betik):** EIRP 20 dBm'de sönümsüz 5,2 km · 10 dB payla **1,65 km** · 20 dB payla 0,52 km. Doodle Labs Pro'da (27 dBm + dipol) 14,9 · 4,7 · 1,5 km; Xtreme'de 29,8 · 9,4 · 3,0 km.
 
@@ -39,8 +39,8 @@
 | | değer | köken |
 |---|---|---|
 | hava–hava yol kaybı | serbest uzay, α = 2 (iki-ışın kırılma mesafesi 100 m irtifada ~325 km) | fizik · **ölçümler 1,92–2,6, 802.11a'da 2,03** (G10) · G8 aynı varsayım |
-| gölgeleme | log-normal, σ 3 dB, korelasyonlu | bugünkü (ÖLÇÜLMÜŞ) |
-| hızlı sönümleme | Rician, **K referans 10 dB, aralık 6–15 dB** — Faz 4.4'te DUYARLI ölçüldü → **EKSEN** (K-215: birincil test 10 dB, 6 ve 15 dB keşifsel) · Doppler gerçek hızdan. Hava–hava için doğrudan ölçüm erişilemedi; dolaylı kanıt: alçak irtifa yer–hava 2–10 dB, güçlü görüş hattı ~12 dB (L bandı) – ~30 dB (C bandı). Hava–hava bağında yer saçılması daha az → alçak irtifa yer–hava değerlerinin altında olmamalı. **Faz 4'te 6 · 10 · 15 dB duyarlılığı ölçülür:** sonuca etkisi çözünürlüğün altındaysa DUYARSIZ, değilse eksen | G11 (dolaylı) · öneri · S1 |
+| gölgeleme | log-normal, σ 3 dB, 2,5 km'lik hücrede korelasyonlu | σ ÖLÇÜLMÜŞ · hücre DÜNYA TANIMI, ölçülen duyarlılığıyla (K-220) |
+| hızlı sönümleme | Rician, **K referans 10 dB, aralık 6–15 dB** — Faz 4.4'te DUYARLI ölçüldü → **EKSEN** (K-215: birincil test 10 dB, 6 ve 15 dB keşifsel) · Doppler gerçek hızdan. Hava–hava için doğrudan ölçüm erişilemedi; dolaylı kanıt: alçak irtifa yer–hava 2–10 dB, güçlü görüş hattı ~12 dB (L bandı) – ~30 dB (C bandı). Hava–hava bağında yer saçılması daha az → alçak irtifa yer–hava değerlerinin altında olmamalı. | G11 (dolaylı) · öneri · S1 |
 | **yer–hava** (yerdeki karıştırıcı → İHA) | Al-Hourani: PL = FSPL + η; P(LoS, θ) = 1/(1 + a·exp(−b[θ − a])); **banliyö** parametreleri (η_LoS 0,1 · η_NLoS 21 dB) — makalede açık kırsal yok, en yakını banliyö (beyan) | G6 |
 | yayılım gecikmesi | d / c | fizik |
 
@@ -49,7 +49,7 @@
 | | değer | köken |
 |---|---|---|
 | sınıf | NATO Sınıf I küçük: ≤ 5 000 ft AGL (~1 520 m), görev yarıçapı ≤ 50 km (LOS) | G9 |
-| düğüm sayısı | **40**; Faz 4'te C1 ölçütleriyle yeniden doğrulanır | onaylı |
+| düğüm sayısı | **40** (Faz 4.1'de çalışma noktasıyla doğrulandı, K-185…K-188) | onaylı |
 | alan | **33 km kare** (K-185 → K-188: gölgeleme birimi düzeltilince 35 km kopuyordu; altındaki her alanın geçtiği en büyük 33 km, derece 9,67, derin çift %26,9) — ilk öneri ~6–8 km'ydi ve 10 dB paylı nominal bağa (1,65 km) dayanıyordu; simülatörün kanalında bağ 1 Mb/s'te ~9–10 km, 7 km'lik sürü tam örgü (derece 37,4). 35 km ağın hiç kopmadığı en büyük alan (derece 8,82, derin çift %31,9). Gerçekçilik önceliğiyle seçildi (K-185) | ölçüldü · G9 zarfı (≤ 50 km) |
 | irtifa | **50–300 m AGL** | onaylı (G9 zarfı içinde) |
 | hız | **40–120 km/h** — dört kol (statik, bağımsız, görev, formasyon) gerçek hızlarla | onaylı |
