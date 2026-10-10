@@ -10,3 +10,21 @@ A2_R bitti 02:04:31 cikis 0
 A3_anatomi basla 02:04:32
 A3_anatomi bitti 02:19:34 cikis 0
 kuyruk A bitti 02:19:34
+teshis basla 07:30:42
+teshis bitti 08:57:10 cikis 0
+kopya_b donduruldu 09.10 08:57:51 · HEAD 5b054fb · arac_hash 173e8a071e31cf94221adec125a9b882
+B1_duyarlilik basla 08:57:52
+B1_duyarlilik bitti 09:32:42 cikis 0
+B2_U1_yere_toplama basla 09:32:42
+B2_U1_yere_toplama bitti 15:32:15 cikis 0
+B2_U1_esler_arasi basla 15:32:15
+B2_U1_esler_arasi bitti 19:47:18 cikis 0
+B3_G1c basla 19:47:18
+B3_G1c bitti 21:29:58 cikis 0
+B3_G2c basla 21:29:58
+B3_G2c bitti 23:48:48 cikis 0
+B3_G3c basla 23:48:48
+B3_G3c bitti 00:17:10 cikis 0
+kuyruk B bitti 00:17:10
+B2_anatomi basla 00:18:47
+B2_anatomi bitti 01:23:15

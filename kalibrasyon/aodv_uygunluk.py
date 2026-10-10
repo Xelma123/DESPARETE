@@ -249,35 +249,47 @@ ACIKLANMIS_DUSUK: dict[str, dict[tuple[str, int], str]] = {"aodv": {
 # (K-192 c). OLSR K-196'ya atıfla girer ("açıklanmış, sıralamasız";
 # mekanizma yere toplamada ölçüldü, K-193). Eşler arası keşifseldir: oradaki
 # düşük hücre açıklanmamış BULGU kalır, donmayı durdurmaz.
-_OLSR_K196 = ("OLSR-c · aciklanmis, siralamasiz (K-196): gecide rotanin "
-              "aralikli bosalmasi, gecici donguler (K-193); kusur adaylari "
-              "elendi. U1 30 Eylul 2026")
-# K-218: yakınsamış kâhinle (K-215) eşiğin altına inen üç hücre; anatomisi
-# ölçüldü — en büyük düşüş `rota_gecersiz`, karar bağlarının %100'ü iyi
-# (`arsiv/teshis/faz4_4_k215_2026-10-06/anatomi_*.txt`).
-_OLSR_K218 = ("OLSR-c · K-196 atfi, anatomi olculdu (K-218): rota_gecersiz "
-              "en buyuk dusus %33-40, karar baglarinin %100'u iyi. Esigin "
-              "altina yakinsamis kahinle indi. U1 7 Ekim 2026")
+# K-224 (9–10 Ekim 2026): `OLSR-d` ve en çok 7 iletim denemesiyle yeniden;
+# anatomi her düşük hücrede ölçüldü (`arsiv/teshis/denetim_duzeltme_2026-10-09/
+# A3_anatomi_statik.txt`, `B2_anatomi_*.txt`; PDR'ler U1 kaydıyla birebir).
+# Statik kolda düşüş `rota_gecersiz` ile iyi bağdaki iletim başarısızlığı
+# (girişim) arasında bölünüyor; hareketli kollarda en büyük düşüş
+# `rota_gecersiz`. Karar bağları her hücrede yeniden denemeli bantta iyi; tek
+# deneme bandında (HELLO · TC'nin gördüğü) statikte %94–95, hareketlide
+# %75–84 iyi — RFC'nin yayınları onaysızdır, kusur değil.
+_OLSR_K224_STATIK = ("OLSR-d · K-196 atfi (aciklanmis, siralamasiz); anatomi "
+                     "K-224: rota_gecersiz %6-17 + iyi bagda iletim_basarisiz "
+                     "%10-14 (basarisiz baglarin %85-92'si iyi), karar "
+                     "baglari yeniden denemeli %99-100 · tek deneme %94-95 "
+                     "iyi. U1 9 Ekim 2026, 7 deneme")
+_OLSR_K224_HAREKETLI = ("OLSR-d · K-196 atfi (aciklanmis, siralamasiz); "
+                        "anatomi K-224: en buyuk dusus rota_gecersiz %28-50 "
+                        "(iletim_basarisiz %12-16), karar baglari yeniden "
+                        "denemeli %100 · tek deneme %75-84 iyi. U1 9 Ekim "
+                        "2026, 7 deneme")
 # `AODV-j` ve `AOMDV-f`ninkiler K-207'ye atıfla: kaynağına kural kural sadık
 # (K-208, K-210, K-215) ve yine eşik altındaysa protokolün KENDİ sınırıdır —
-# bulgu, kusur değil. K-215'ten sonra yakınsamış kâhinle yeniden koşuldu.
+# bulgu, kusur değil. K-224'te 7 denemeyle yeniden koşuldu; kodları K-218'den
+# beri aynı.
 _AODV_K207 = ("AODV-j · sadakat denetiminden gecti (RFC 3561 + ns-3, H1-H11, "
               "K-208, K-210, K-215); esik alti protokolun kendi siniri "
-              "(ogrenci, K-207). U1 7 Ekim 2026, yakinsamis kahin")
+              "(ogrenci, K-207). U1 9 Ekim 2026, 7 deneme (K-224)")
 _AOMDV_K207 = ("AOMDV-f · Marina-Das + RFC 3561 tabani (K-210, K-215); esik "
                "alti protokolun kendi siniri (K-207 kurali, K-215 on-kaydi). "
-               "U1 7 Ekim 2026: 0,569")
+               "U1 9 Ekim 2026, 7 deneme (K-224): bagimsiz 1000 0,588 · "
+               "statik 1000 0,899 · statik 1002 0,891")
 ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
     "aodv": {("yere_toplama", kol, t): _AODV_K207 for kol, t in (
         ("statik-yok", 1000), ("statik-yok", 1002), ("bagimsiz-yok", 1000))},
-    "aomdv": {("yere_toplama", "bagimsiz-yok", 1000): _AOMDV_K207},
+    "aomdv": {("yere_toplama", kol, t): _AOMDV_K207 for kol, t in (
+        ("statik-yok", 1000), ("statik-yok", 1002), ("bagimsiz-yok", 1000))},
     "desparete": {},
-    "olsr": {**{("yere_toplama", kol, t): _OLSR_K196 for kol, t in (
-        ("statik-yok", 1000), ("statik-yok", 1001), ("statik-yok", 1002),
-        ("bagimsiz-yok", 1000), ("gorev-yok", 1000),
-        ("formasyon-yok", 1000), ("formasyon-yok", 1002))},
-             **{("yere_toplama", kol, t): _OLSR_K218 for kol, t in (
-        ("bagimsiz-yok", 1001), ("bagimsiz-yok", 1002), ("gorev-yok", 1001))}},
+    "olsr": {**{("yere_toplama", "statik-yok", t): _OLSR_K224_STATIK
+                for t in (1000, 1001, 1002)},
+             **{("yere_toplama", kol, t): _OLSR_K224_HAREKETLI for kol, t in (
+        ("bagimsiz-yok", 1000), ("gorev-yok", 1000), ("gorev-yok", 1001),
+        ("gorev-yok", 1002), ("formasyon-yok", 1000),
+        ("formasyon-yok", 1002))}},
 }
 
 # 🔒 K-192 (b) · KÂHİN AŞIMI OTOMATİK RET DEĞİL, PROSEDÜR: aşım çözünürlükten
@@ -285,18 +297,16 @@ ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
 # bakılır; protokol zarfın İÇİNDEYSE "ETX kâhini bu hücrede üst sınır değil"
 # beyan edilir ve kayıt buraya girer. Zarfı da aşan hücre kayda giremez —
 # yazılım hatası aranır. Anahtar (desen, kol, tohum); ölü kayıt taraması aynı.
-# K-218: AOMDV'nin eşler arası üç eski kaydı yakınsamış kâhinle (K-215) ÖLDÜ
-# — o aşımlar 6 örnekli kâhinin iziydi; arşiv K-206 · K-211.
-_ZARF_K218 = ("{p} 7 Ekim · ETX kahini 0,9898 · zarf 0,9998 (en olasi "
-              "teslim kahini; en kisa yol 0,9675). Statik kahin tek ornekli; "
-              "asim kahinin beacon'i 84 B'a agirlasinca (K-215). K-192 b · "
-              "K-218, `arsiv/teshis/faz4_4_k215_2026-10-06/zarf.txt`")
+# Kapı her aşımı (oran > 1) kayıt ister; R'den küçük aşım zarf adımı istemez,
+# kaydı ölçümü yazar. K-224: AOMDV'nin eşler arası kaydı ÖLDÜ (0,9814 <
+# 0,9827); AODV'nin aşımı 0,0002 < R — çözünürlük içinde. Arşiv K-206 ·
+# K-211 · K-218.
 KAHIN_ASIMI_ACIKLANMIS: dict[str, dict[tuple[str, str, int], str]] = {
-    "olsr": {}, "desparete": {},
+    "olsr": {}, "desparete": {}, "aomdv": {},
     "aodv": {("esler_arasi", "statik-yok", 1001):
-             _ZARF_K218.format(p="AODV-j 0,9906")},
-    "aomdv": {("esler_arasi", "statik-yok", 1001):
-              _ZARF_K218.format(p="AOMDV-f 0,9923")},
+             "AODV-j 0,9829 · ETX kahini 0,9827 (9 Ekim, 7 deneme, K-224): "
+             "asim 0,0002 < R 0,0126 — cozunurluk icinde, zarf adimi "
+             "gerekmez (K-192 b). 7 Ekim'in zarfi 0,9998 (8 deneme, K-218)"},
 }
 
 DUMAN_KOLLARI: tuple[str, ...] = ("statik-yok",)

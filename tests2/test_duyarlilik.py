@@ -27,6 +27,19 @@ def test_OLASILIK_ESIGI_kayip_payindan_oynatilir():
     assert D._oynat(ad, 2.0) == pytest.approx(0.80)
 
 
+def test_KORELASYON_KATSAYISI_zaman_sabitinden_oynatilir():
+    """K-224: α = exp(−adım/τ); τ×c ⇔ α^(1/c), değer [0, 1)'de kalır."""
+    import math
+
+    import pytest
+    a = D._oynat("gm_alfa", 1.0)
+    tau = -0.5 / math.log(a)
+    for c in (0.5, 2.0):
+        yeni = D._oynat("gm_alfa", c)
+        assert 0.0 <= yeni < 1.0
+        assert -0.5 / math.log(yeni) == pytest.approx(c * tau)
+
+
 def test_MODUL_SABITI_yamasi_GERI_ALINIR(monkeypatch):
     """`_kos` hata verse bile sabit eski değerine döner (try/finally)."""
     import kalibrasyon.kahin as K

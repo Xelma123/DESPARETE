@@ -4,7 +4,7 @@ D-12: `protokol_hash` paket düzeyindedir — DESPARETE'nin bir dosyası değiş
 taban protokol satırlarının kimliği de değişir, yani satır kimliği "taban
 protokoller dondu" iddiasını kanıtlayamaz. Bu test dosyaların kendisini
 bağlar: bir taban protokol dosyası değişirse kırılır ve yeni bir K kaydı,
-U1 ve regresyon ister (`v2/04` §5). Değerler K-218'in donmuş hâli.
+U1 ve regresyon ister (`v2/04` §5). Değerler K-224'ün donmuş hâli.
 
 D-16: protokol bir ölçüm alanını okumaya başlarsa mimari denetimi o alanın
 köken kaydını DUYARSIZ bırakmaz.
@@ -20,7 +20,8 @@ if str(KOK) not in sys.path:
 
 from sim2.cekirdek.kimlik import dosya_hash  # noqa: E402
 
-# K-218 (8 Ekim 2026): AODV-j · AOMDV-f + koşum protokolleri; OLSR-d K-223.
+# K-224 (10 Ekim 2026): AODV-j · AOMDV-f (K-218'den beri aynı) · OLSR-d (K-223)
+# + koşum protokolleri.
 DONMUS: dict[str, str] = {
     "aodv.py": "1d39ba7da14c91f8931556742ca9a806",
     "aodv_bicim.py": "73ba004bad94deac158e5ea48b80db66",

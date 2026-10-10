@@ -1,0 +1,47 @@
+  DUNYA: referans_2026
+  tohum sayisi: 5 (1000–1004)
+====================================================================================================
+DUYARLILIK TARAMASI — senaryo 'formasyon-surekli' · 2 aday · 5 tohum · carpanlar (0.5, 2.0)
+====================================================================================================
+  OLCUT — IKI AYAK, biri yeterse DUYARLI (`cozunurluk.py`):
+    band : etki KENDI hata payindan buyuk mu (istatistiksel)
+    R    : |D| >= 0.0126 mi — deneyin gorebilecegi
+           en kucuk ESLESTIRILMIS fark (pratik)
+  🔴 parmak izi BIREBIR ayniysa 'DUYARSIZ' DEGIL 'OLCULEMEDI'
+
+  toplam kosu: 50  ·  8 isci
+  kosum suresi: 34.8 dk
+
+  TABAN: pdr_etx 0.8572 · pdr_atlama 0.7227 · olcut_bedeli 0.1345
+  🔒 Band artik TOHUM BASINA FARKLARIN yayilimindan; ortalamalarin
+     yayilimindan DEGIL. Esleştirme yapisal oldugu icin tohumlar
+     arasi varyans ortak-mod olarak dusuyor.
+
+  parametre                       carpan  d_pdr_etx   d_atlama    d_bedel   |D|/band    |D|/R        karar
+  gm_alfa                           0.50   +0.00067   -0.00917   +0.00984       1.5x     0.8R    🔴 DUYARLI
+  gm_alfa                           2.00          —          —          —               —     GECERSIZ
+  gm_hiz_sigma_ms                   0.50   +0.00885   +0.00433   +0.00451       1.0x     0.7R     duyarsiz
+  gm_hiz_sigma_ms                   2.00   -0.01084   -0.02736   +0.01652       2.9x     2.2R    🔴 DUYARLI
+
+====================================================================================================
+OZET
+====================================================================================================
+
+  🔴 GECERSIZ  (1)
+    · gm_alfa
+
+  🔴 DUYARLI  (1)
+    · gm_hiz_sigma_ms
+
+  duyarsiz  (0)
+
+  OLCULEMEDI  (0)
+
+  GECERSIZ OYNATMA (1) — bastirilmadi:
+    · gm_alfa x2.0: DegismezHatasi: gm_alfa [0, 1) aralığında olmalı
+
+  🔴 'OLCULEMEDI' AKLAMA DEGILDIR: o parametre bu kolda hesaba
+     hic girmedi. Canli oldugu bir kolda YENIDEN taranmali.
+  ⚠️ 'duyarsiz' = TEK BASINA oynatinca duyarsiz (OAT sinirlamasi)
+     ve YALNIZ calisma noktasi ciktilarina. Protokol SIRALAMASININ
+     duyarliligi gercek protokoller gerektirir — Faz 3.

@@ -117,6 +117,10 @@ SUPERSEDE: dict[str, tuple[str, str]] = {
               "G2ç'nin kalışı \"formasyonun zaman kayması\" diye teşhis edilmişti — "
               "**yanlış**: sebep 6 örnekli kâhinin yakınsamamasıydı (K-214); 48 "
               "örnekte G1ç · G2ç · G4ç **GEÇTİ**"),
+    "K-218": ("K-224",
+              "Donan `OLSR-c` ve 8 iletim denemesiydi; OLSR'ın §8.2.1 düzeltmesi "
+              "(`OLSR-d`, K-223) ve standarttaki 7 denemeyle U1 yeniden — "
+              "**`AODV-j` · `OLSR-d` · `AOMDV-f`** dondu"),
     "K-213": ("K-216",
               "R = 0,0188 6 örnekli kâhinle ölçülmüştü; yakınsamış kâhinle "
               "**0,0142** (kısa pencere kesiti — denetim D-03)"),

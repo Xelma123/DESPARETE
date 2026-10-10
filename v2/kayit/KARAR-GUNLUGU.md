@@ -148,14 +148,15 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-215 | 🟢 ÖĞRENCİ KARARLARI (Faz 4.4) — TTL 64 kaynağa bağlı · kâhin 48 örnek · AODV-j/AOMDV-f · | 🟢 geçerli |
 | K-216 | 🟢 K-215 KODU DOĞRULANDI — regresyon k215 (58/58 birebir + 22 ilanlı) · R = 0,0142 (yakın | 🟢 geçerli |
 | K-217 | 🟡 KUYRUK B SONUÇLARI — sınırdaki 6'nın 3'ü DUYARSIZ, 3'ü DUYARLI · protokol kontrolleri  | 🟢 geçerli |
-| K-218 | 🟢 U1 HÜKMÜ (K-215 kodu, yakınsamış kâhin) — U1-U üç protokolde iki desende ✅ · U1-B yere | 🟢 geçerli |
+| **K-218** | 🟢 U1 HÜKMÜ (K-215 kodu, yakınsamış kâhin) — U1-U üç protokolde iki desende ✅ · U1-B yere | 🔄 **REVİZE → K-224**<br>Donan `OLSR-c` ve 8 iletim denemesiydi; OLSR'ın §8.2.1 düzeltmesi (`OLSR-d`, K-223) ve standarttaki 7 denemeyle U1 yeniden — **`AODV-j` · `OLSR-d` · `AOMDV-f`** dondu |
 | K-219 | 🟢 FAZ 4.5 — doğrulama listesi referans dünyada bir kez: anlamlı her kapı GEÇTİ · iki kap | 🟢 geçerli |
 | K-220 | 🟢 ÖĞRENCİ KARARLARI (Faz 4 kapanışı) — gölgeleme hücresi · CBR titreşimi · istasyon tutm | 🟢 geçerli |
 | K-221 | 🟢 FAZ 4 KAPANDI — yeniden kalibrasyon ve doğrulama tamam · taban protokoller dondu · kök | 🟢 geçerli |
 | K-222 | 🟢 BAĞIMSIZ DENETİM (8 Ekim) — öğrenci kararları ve davranışı değiştirmeyen düzeltmeler:  | 🟢 geçerli |
 | K-223 | 🟡 TABAN PROTOKOLLER ÇÖZÜLDÜ (denetim D-02 · D-10 · D-13) — OLSR-d: §8.2.1 RFC'nin harfiy | 🟢 geçerli |
+| K-224 | 🟢 TABAN PROTOKOLLER YENİDEN DONDU — AODV-j · OLSR-d · AOMDV-f, en çok 7 iletim denemesi  | 🟢 geçerli |
 
-**134 kayıt · 6 revize · 128 geçerli**
+**135 kayıt · 7 revize · 128 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1695,3 +1696,14 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Taban protokoller ÇÖZÜLDÜ** — K-218'in donması bilinçli olarak açıldı: OLSR'ın kodu değişti; `AODV-j` ve `AOMDV-f`nin kodu aynı, ama MAC üçünü ve kâhini etkiler. Donma testi `OLSR-d`ye bağlandı. **Yeniden donma koşulu:** regresyon k220 → k223 yalnız beyanlı farklarla · U1 iki desende üç protokolle (U1-U ✅; U1-B'nin düşük hücreleri açıklanmış ya da bulgu) · R yeniden · evre kapıları G1ç · G2ç · G3ç.
 - **D-07'nin ikinci önerisi — TÜRETİLMİŞ kovasının taraması** (23 kayıt; serbest oran/pay/seçim sözcükleri): `komut_akis_sayisi` (4) türetilmiş değil, referans dünyanın trafik tanımı (`v2/14`, K-169; birincil hücre K-186) → **DÜNYA TANIMI**. Pay taşıyan iki kayıt (`menzil_snr_db` +10 dB · `sinr_esigi_db` +2σ) referans dünyada veri yoluna girmez — kopma sayımı (Θ), kayıp yeri bölmeleri ve teşhis birimi (`nominal_bag_m`) tanımlar; TÜRETİLMİŞ kalır, tanımları gerekçelerinde. Öteki kayıtlar gerçekten türetilmiş.
 - **Doğrulama (kod):** değişen modüllerin testleri 179/179 · mimari denetimi ihlalsiz (SINANMAMIŞ 5, K-222) · tam takım `981 passed` (14 dk 54 s; kova değişikliğinden sonra köken, duyarlılık ve donma testleri 62/62 yeniden). Lint: yalnız karar indeksinde dosyanın kendi kalıbının (örtük dize birleştirme) dört yeni örneği.
+# K-224 · 🟢 TABAN PROTOKOLLER YENİDEN DONDU — `AODV-j` · `OLSR-d` · `AOMDV-f`, en çok 7 iletim denemesi · regresyon tabanı k223 · R 0,0126 · K-193'ün hükmü tek deneme bandında da ayakta · `gm_hiz_sigma_ms` DUYARLI · `gm_alfa` ölçümü aletin hatasıyla geçersiz
+> 9–10 Ekim · ajan · ölçütler ölçmeden önce `arsiv/teshis/denetim_duzeltme_2026-10-09/beklenti.md` (commit `90b400e`) · `teshis_beklenti.md` (`5b054fb`) · sonuçlar `sonuc.md` · kod `4fbc5fd` / `5b054fb` (kopyalar commit'le 138 dosya birebir)
+
+- **Regresyon k220 → k223:** eski dünyanın 63 vakası izinli farklar dışında BİREBİR; 16 referans vakasında konfig farkı yalnız `yeniden_deneme_siniri`; yeni evre vakası her denetimi geçti (`pdr_acik` ham listeden birebir). Önceden yazılı büyüklük kuralı (|ΔPDR| > 0,10) birincil hücrede iki satırda tetiklendi (DESPARETE −0,117 · OLSR +0,140; kısa pencere, tek tohum) → **teşhis:** kimlik kapısı 16 basamak birebir (eski kod + eski deneme sayısı = k220; yeni = k223) → beyan edilmemiş fark yok; 8 tohumda deneme sayısının etkisi küçük ve aynı yönde (DESPARETE −0,027 ± 0,028 · AODV −0,039 ± 0,011 · OLSR −0,031 ± 0,038), §8.2.1 +0,026 ± 0,023; iki fark tek tohumun salınımı. **Yeni taban k223.**
+- **R = 0,0126** (8 denemede 0,0142; `olcut_bedeli` SD 0,0400, kâhin PDR 0,8675). R küçüldü → DUYARSIZ kayıtlarının en büyük |Δ|'sı 0,0118 (`yakalama_esigi_db`) < 0,0126 — hiçbiri dönmedi.
+- **K-193'ün "kötü bağ seçimi değil" hükmü (D-02):** statik-yok'ta karar bağları yeniden denemeli bantta %99–100, **tek deneme bandında %94–95** iyi → yayın düzlemi için de ayakta. Hareketli kollarda tek deneme bandında %75–84 (OLSR'ın HELLO/TC'si seçtiği bağların bir kısmında kayıplı; RFC'nin onaysız yayını, kusur değil). Düşüş imzası `OLSR-d` ve 7 denemeyle değişti: statikte `rota_gecersiz` ile iyi bağdaki iletim başarısızlığı (girişim) arasında bölünüyor; hareketlide en büyük düşüş yine `rota_gecersiz` (%28–50).
+- **U1 (iki desen, üç protokol):** U1-U altı kayıtta ✅. U1-B yere toplamada üç protokolde ✅ TEMİZ: `AODV-j` 3 düşük hücre (aynı) · `AOMDV-f` 3 (yeni statik 1000 0,899 · 1002 0,891 — kod değişmedi, K-207, BULGU) · `OLSR-d` 9 (görev 1002 yeni, anatomisi kural 4'ü sağlıyor; bağımsız 1001 · 1002 artık geçiyor, kayıtları silindi). Öteki beş OLSR hücresinin anatomisi de `OLSR-d`yle yenilendi (aynı ölçüt, hepsi sağlıyor). Eşler arası: AOMDV'nin zarf kaydı öldü (silindi), AODV'nin aşımı 0,0002 < R; OLSR'ın 9 düşük hücresi keşifsel desende BULGU. Kayıtlar `kalibrasyon/aodv_uygunluk.py`, U1 dosyaları `ciktilar2/aodv_uygunluk/*_20261009_*.json`.
+- **Evre kapıları:** G1ç · G2ç · G3ç · G4ç ✅ (7 denemeyle, `OLSR-d`yle).
+- **Taban protokoller DONDU** (K-218'in yerine): `AODV-j` · `OLSR-d` · `AOMDV-f`; `tests2/test_donma.py` bu hâle bağlı.
+- **D-07:** `gm_hiz_sigma_ms` **DUYARLI** (×2'de |Δ| 0,027 = 2,2R, band 2,9×) → öğrencinin kararı (kaynak · DÜNYA TANIMI · eksen · kapsam). `gm_alfa`'nın ölçümü **geçersiz**: duyarlılık aracı α'yı çarpıyordu (×2 aralık dışı, ×0,5 τ'yu 29 s'den 0,7 s'ye indiriyor) → araç korelasyon katsayısını zaman sabitinden oynatacak şekilde düzeltildi (τ×c ⇔ α^(1/c); test), yeniden ölçüm ek ölçütle (`beklenti_ek.md`).
+- **Faz 5.0 için not** (G2ç'nin tam pencere satırları, 1003 · 1004): açık evre PDR'si DESPARETE v0.4.1 0,476 · 0,538, AODV 0,401 · 0,536, kâhin 0,734 · 0,827 — v0.4.1'in açık evredeki üstünlüğü küçük (D-01).

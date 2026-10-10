@@ -124,9 +124,12 @@ KOKENLER: dict[str, tuple[str, str]] = {
     "gm_alfa": ("SINANMAMIS",
         "α = exp(−adım/τ_v), τ_v ≈ 30 s hız korelasyonu — bir ARAÇ DİNAMİĞİ "
         "zamanıdır ve ölçeklenmez; τ_v'nin kendisi bir SEÇİM (kaynak yok). "
-        "Eski dünyada Θ'yı değiştirmiyordu (5,95 → 5,93). Formasyon kolu "
-        "(birincil hücre) da okur → birincil hücrede ölçülür (denetim "
-        "2026-10-08 D-07)"),
+        "Formasyon kolu (birincil hücre) da okur (denetim D-07). İlk ölçüm "
+        "(9 Ekim, K-224) geçersiz: araç α'yı çarpıyordu (×2 aralık dışı, "
+        "×0,5 τ'yu 40 kat küçültüyor); oynatma τ'dan yapılacak şekilde "
+        "düzeltildi (`duyarlilik.py::KORELASYON_KATSAYILARI`), yeniden "
+        "ölçülecek "
+        "(`arsiv/teshis/denetim_duzeltme_2026-10-09/beklenti_ek.md`)"),
     "gm_adim_s": ("DUYARSIZ",
         "0,5 s mobilite adımı (adımda ≤ 17 m, hız korelasyonu `gm_alfa` ile "
         "korunur). Faz 4.4'te 20 tohumla ölçüldü: en büyük |Δ| = 0,0068 "
@@ -141,8 +144,13 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "120 km/h = 33,3 m/s — `v2/14` §3 (onaylı); eski dünyada 0,75 m/s"),
     "gm_hiz_sigma_ms": ("SINANMAMIS",
         "azami hızın %10'u — oran bir SEÇİM (kaynak yok). Formasyon kolunun "
-        "(birincil hücre) manevra gürültüsü de buradan → birincil hücrede "
-        "ölçülür (denetim 2026-10-08 D-07)"),
+        "(birincil hücre) manevra gürültüsü de buradan. Birincil hücrede "
+        "ölçüldü (5 tohum, R 0,0126): ×0,5 en büyük |Δ| 0,0089 (0,7R, band "
+        "1,0×) · ×2 0,0274 (pdr_atlama; 2,2R, band 2,9×) → DUYARLI. "
+        "Üretici: `py -3.11 -u kalibrasyon/duyarlilik.py --dunya "
+        "referans_2026 birincil gm_alfa gm_hiz_sigma_ms` (9 Ekim 2026, "
+        "K-224). Öğrencinin kararı bekleniyor: kaynak · DÜNYA TANIMI · "
+        "eksen · kapsam"),
     "gm_azimut_sigma_rad": ("TURETILMIS",
         "koordineli dönüş ω = g·tan(φ)/v. Yerçekimi ÖLÇEKLENMEZ, o yüzden "
         "GERÇEK hızdan: 90 km/h'de 30° banka → 0,226 rad/s → 0,5 s adımda "

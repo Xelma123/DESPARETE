@@ -1,0 +1,392 @@
+{
+ "kaynak": "tam kosum",
+ "protokol": "aodv",
+ "desen": "esler_arasi",
+ "kahin": "desen basina ortak kosu",
+ "hucreler": [
+  {
+   "kol": "statik-yok",
+   "tohum": 1000,
+   "kahin": false,
+   "olcum": {
+    "pdr": 0.99906242675209,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 56.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 3
+    },
+    "sure": 341.8916892000125
+   },
+   "hata": null
+  },
+  {
+   "kol": "statik-yok",
+   "tohum": 1000,
+   "kahin": true,
+   "olcum": {
+    "pdr": 0.9999218688960075,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 0.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 0.0
+    },
+    "sure": 344.82486459997017
+   },
+   "hata": null
+  },
+  {
+   "kol": "statik-yok",
+   "tohum": 1001,
+   "kahin": false,
+   "olcum": {
+    "pdr": 0.9828892882256426,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 407.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 6
+    },
+    "sure": 600.5143321999931
+   },
+   "hata": null
+  },
+  {
+   "kol": "statik-yok",
+   "tohum": 1001,
+   "kahin": true,
+   "olcum": {
+    "pdr": 0.9827330260176577,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 0.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 0.0
+    },
+    "sure": 402.37333879998187
+   },
+   "hata": null
+  },
+  {
+   "kol": "statik-yok",
+   "tohum": 1002,
+   "kahin": false,
+   "olcum": {
+    "pdr": 0.9846863036174701,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 392.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 6
+    },
+    "sure": 582.4597104999702
+   },
+   "hata": null
+  },
+  {
+   "kol": "statik-yok",
+   "tohum": 1002,
+   "kahin": true,
+   "olcum": {
+    "pdr": 0.997968591296195,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 0.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 0.0
+    },
+    "sure": 309.15250790002756
+   },
+   "hata": null
+  },
+  {
+   "kol": "bagimsiz-yok",
+   "tohum": 1000,
+   "kahin": false,
+   "olcum": {
+    "pdr": 0.8952261895460583,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 3546.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 40
+    },
+    "sure": 2702.9044543000055
+   },
+   "hata": null
+  },
+  {
+   "kol": "bagimsiz-yok",
+   "tohum": 1000,
+   "kahin": true,
+   "olcum": {
+    "pdr": 0.9649972654113602,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 0.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 0.0
+    },
+    "sure": 1565.6306971999584
+   },
+   "hata": null
+  },
+  {
+   "kol": "bagimsiz-yok",
+   "tohum": 1001,
+   "kahin": false,
+   "olcum": {
+    "pdr": 0.7749042893976091,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 12603.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 60
+    },
+    "sure": 4243.030816500017
+   },
+   "hata": null
+  },
+  {
+   "kol": "bagimsiz-yok",
+   "tohum": 1001,
+   "kahin": true,
+   "olcum": {
+    "pdr": 0.9334322993983905,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 0.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 0.0
+    },
+    "sure": 1929.934443999955
+   },
+   "hata": null
+  },
+  {
+   "kol": "bagimsiz-yok",
+   "tohum": 1002,
+   "kahin": false,
+   "olcum": {
+    "pdr": 0.6732557231033675,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 13624.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 41
+    },
+    "sure": 4630.8758394999895
+   },
+   "hata": null
+  },
+  {
+   "kol": "bagimsiz-yok",
+   "tohum": 1002,
+   "kahin": true,
+   "olcum": {
+    "pdr": 0.8787405266036409,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 0.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 0.0
+    },
+    "sure": 2115.0693091999856
+   },
+   "hata": null
+  },
+  {
+   "kol": "gorev-yok",
+   "tohum": 1000,
+   "kahin": false,
+   "olcum": {
+    "pdr": 0.8931947808422533,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 4337.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 37
+    },
+    "sure": 2416.7598219999927
+   },
+   "hata": null
+  },
+  {
+   "kol": "gorev-yok",
+   "tohum": 1000,
+   "kahin": true,
+   "olcum": {
+    "pdr": 0.9612469724197202,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 0.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 0.0
+    },
+    "sure": 1384.2531572000007
+   },
+   "hata": null
+  },
+  {
+   "kol": "gorev-yok",
+   "tohum": 1001,
+   "kahin": false,
+   "olcum": {
+    "pdr": 0.529885147277131,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 25739.0,
+     "tampon_dusen": 11.0,
+     "en_yuksek_tampon": 64
+    },
+    "sure": 5288.254116099968
+   },
+   "hata": null
+  },
+  {
+   "kol": "gorev-yok",
+   "tohum": 1001,
+   "kahin": true,
+   "olcum": {
+    "pdr": 0.8403000234393312,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 0.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 0.0
+    },
+    "sure": 2389.608728000021
+   },
+   "hata": null
+  },
+  {
+   "kol": "gorev-yok",
+   "tohum": 1002,
+   "kahin": false,
+   "olcum": {
+    "pdr": 0.6139542151730604,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 24029.0,
+     "tampon_dusen": 455.0,
+     "en_yuksek_tampon": 64
+    },
+    "sure": 4054.6335284999805
+   },
+   "hata": null
+  },
+  {
+   "kol": "gorev-yok",
+   "tohum": 1002,
+   "kahin": true,
+   "olcum": {
+    "pdr": 0.8392061879834362,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 0.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 0.0
+    },
+    "sure": 2361.809087700036
+   },
+   "hata": null
+  },
+  {
+   "kol": "formasyon-yok",
+   "tohum": 1000,
+   "kahin": false,
+   "olcum": {
+    "pdr": 0.9625752011875928,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 1231.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 37
+    },
+    "sure": 1953.9824442000245
+   },
+   "hata": null
+  },
+  {
+   "kol": "formasyon-yok",
+   "tohum": 1000,
+   "kahin": true,
+   "olcum": {
+    "pdr": 0.9855457457613876,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 0.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 0.0
+    },
+    "sure": 1464.920010300004
+   },
+   "hata": null
+  },
+  {
+   "kol": "formasyon-yok",
+   "tohum": 1001,
+   "kahin": false,
+   "olcum": {
+    "pdr": 0.8148292835377764,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 7524.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 51
+    },
+    "sure": 4060.525404999964
+   },
+   "hata": null
+  },
+  {
+   "kol": "formasyon-yok",
+   "tohum": 1001,
+   "kahin": true,
+   "olcum": {
+    "pdr": 0.942417376357528,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 0.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 0.0
+    },
+    "sure": 1936.0851568999933
+   },
+   "hata": null
+  },
+  {
+   "kol": "formasyon-yok",
+   "tohum": 1002,
+   "kahin": false,
+   "olcum": {
+    "pdr": 0.862020470349246,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 4688.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 39
+    },
+    "sure": 3558.3563861000002
+   },
+   "hata": null
+  },
+  {
+   "kol": "formasyon-yok",
+   "tohum": 1002,
+   "kahin": true,
+   "olcum": {
+    "pdr": 0.9563247128681929,
+    "gecerli": true,
+    "tampon": {
+     "tampon_giris": 0.0,
+     "tampon_dusen": 0.0,
+     "en_yuksek_tampon": 0.0
+    },
+    "sure": 1864.9409768999903
+   },
+   "hata": null
+  }
+ ]
+}

@@ -1,0 +1,53 @@
+  DUNYA: referans_2026
+==============================================================================
+U1 — HUKUM KIPI  (olcmez, kayitli olcume bugunku kodu uygular)
+==============================================================================
+  kayit  : arsiv\teshis\denetim_duzeltme_2026-10-09\u1_kayitlari\olsr_referans_2026_yere_toplama_son.json
+  protokol: olsr
+  desen  : yere_toplama
+  kaynak : tam kosum
+  🔒 OLCUT: statik oran >= 0.90 · hareketli oran >= 0.60
+
+  kol              tohum     OLSR  ETX kahin    oran   esik             karar
+  statik-yok        1000   0.6511     0.9905   0.657   0.90DUSUK (aciklanmis)
+  statik-yok        1001   0.8037     0.9868   0.814   0.90DUSUK (aciklanmis)
+  statik-yok        1002   0.7412     0.9945   0.745   0.90DUSUK (aciklanmis)
+  bagimsiz-yok      1000   0.3182     0.8204   0.388   0.60DUSUK (aciklanmis)
+  bagimsiz-yok      1001   0.5581     0.8882   0.628   0.60             GECTI
+  bagimsiz-yok      1002   0.5084     0.8334   0.610   0.60             GECTI
+  gorev-yok         1000   0.4036     0.9078   0.445   0.60DUSUK (aciklanmis)
+  gorev-yok         1001   0.4917     0.8679   0.567   0.60DUSUK (aciklanmis)
+  gorev-yok         1002   0.5222     0.8998   0.580   0.60DUSUK (aciklanmis)
+  formasyon-yok     1000   0.4044     0.9602   0.421   0.60DUSUK (aciklanmis)
+  formasyon-yok     1001   0.6916     0.9467   0.731   0.60             GECTI
+  formasyon-yok     1002   0.5627     0.9495   0.593   0.60DUSUK (aciklanmis)
+
+  kol               oran ort  en dusuk
+  statik-yok           0.739     0.657
+  bagimsiz-yok         0.542     0.388
+  gorev-yok            0.530     0.445
+  formasyon-yok        0.581     0.421
+
+  ROTA TAMPONU  (kapasite 64 · omur 30 s — ns-3, K-198)
+  kol              tohum    giris   dusen   tepe
+  statik-yok        1000        0       0      0
+  statik-yok        1001        0       0      0
+  statik-yok        1002        0       0      0
+  bagimsiz-yok      1000        0       0      0
+  bagimsiz-yok      1001        0       0      0
+  bagimsiz-yok      1002        0       0      0
+  gorev-yok         1000        0       0      0
+  gorev-yok         1001        0       0      0
+  gorev-yok         1002        0       0      0
+  formasyon-yok     1000        0       0      0
+  formasyon-yok     1001        0       0      0
+  formasyon-yok     1002        0       0      0
+  → en yuksek doluluk 0/64 · toplam sure tavanindan dusen 0
+
+  toplam 24 kosum · 0 s
+
+==============================================================================
+  U1-U uygunluk : GECTI 🟢   (kalirsa protokol KABUL EDILMEZ)
+  U1-B basarim  : TEMIZ 🟢   (aciklanmamis dusuk / olu aciklama yok mu)
+  🟡 aciklanmis dusuk hucre: 9 — BULGU olarak raporlanir, kusur DEGIL
+==============================================================================

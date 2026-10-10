@@ -6,19 +6,19 @@
 
 | | |
 |---|---|
-| **faz** | **Faz 5'e geçiş kapısı** — bağımsız denetimin (8 Ekim, `arsiv/denetim/DENETIM-RAPORU-2026-10-08.md`) düzeltmeleri: kararlar ve davranışı değiştirmeyenler ✅ (K-222) · davranışı değiştirenler kodda ✅ (K-223), ölçümleri §1.1'de. Faz 4 KAPANDI (K-221) |
+| **faz** | **Faz 5'e geçiş kapısı** — bağımsız denetimin (8 Ekim, `arsiv/denetim/DENETIM-RAPORU-2026-10-08.md`) düzeltmeleri ✅ (K-222 · K-223 · K-224); kalan iki iş §1.1/0. Faz 4 KAPANDI (K-221) |
 | simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu tek süreçte ~1 sa, 8 işçide koşu başına 1–2 sa (K-198, K-200) |
-| taban protokoller | **ÇÖZÜLDÜ (K-223, 9 Ekim):** `AODV-j` · `OLSR-d` · `AOMDV-f`, MAC en çok 7 deneme — yeniden donma ölçümlerle (§1.1). Son donma K-218 (`OLSR-c`, 8 deneme) |
+| taban protokoller | **DONDU (K-224, 10 Ekim):** `AODV-j` · `OLSR-d` · `AOMDV-f`, en çok 7 iletim denemesi — U1-U iki desende ✅, yere toplamada U1-B ✅ (açıklanmış hücreler K-207 · K-196, anatomiyle) |
 | DESPARETE | v0.4.1; birincil hücrede ilk ölçüm PDR 0,700 (AODV 0,556, kâhin 0,813; 4 geliştirme tohumu, K-200 — K-215 öncesi kod, 5.0'da yeniden ölçülür) |
-| doğrulama | `976 passed` (8 Ekim) · mimari denetimi ihlalsiz · regresyon tabanı **`k220`** (K-221) · R = **0,0126** (K-224, 7 deneme) · köken sayımı `04` §9 |
-| arkada koşan | kuyruk A (K-223; 9 Ekim 00:11'den ~2,5 sa, `arsiv/teshis/denetim_duzeltme_2026-10-09/kuyruk_a.sh`, `kopya_a`) |
+| doğrulama | `976 passed` (8 Ekim) · mimari denetimi ihlalsiz · regresyon tabanı **`k223`** (K-224) · R = **0,0126** (K-224, 7 deneme) · köken sayımı `04` §9 |
+| arkada koşan | yok |
 | takvim | mühür ~12 Kasım · teslim 19 Aralık 2026 |
 
 ### 1.1 · Sıradaki iş — Faz 5.0 (yeni ajan buradan başlar)
 
 > **Kural (öğrenci, 29 Eylül):** bir faza geride iş kalmadan, yazılım ve yapı denetiminden geçmiş bir simülatörle ve güncel belgelerle geçilir; fazlar paralel yürümez. Faz 4 bu kapıdan geçti (K-221).
 
-0. **Önce — denetim düzeltmelerinin ölçümleri** (K-223; ölçütler `arsiv/teshis/denetim_duzeltme_2026-10-09/beklenti.md`): kuyruk A (regresyon k223 · R · OLSR anatomisi, ~2,5 sa) → R güncellenir → kuyruk B (D-07 duyarlılığı · U1 iki desen · evre kapıları, ~17 sa) → K-224: taban protokoller yeniden donar · tam takım · DEVIR. Faz 5.0 bundan sonra.
+0. **Önce — denetimin son iki işi** (sonuçlar `arsiv/teshis/denetim_duzeltme_2026-10-09/sonuc.md`, K-224): `gm_alfa`'nın düzeltilmiş oynatmayla duyarlılığı (ek ölçüt `beklenti_ek.md`, ~20 dk) · `gm_hiz_sigma_ms` DUYARLI → öğrencinin kararı (kaynak · DÜNYA TANIMI · eksen · kapsam). Ardından tam takım · DEVIR. Faz 5.0 bundan sonra.
 1. **Faz 5.0 · kayıp anatomisi** — birincil hücrede taban protokoller, kâhin ve DESPARETE v0.4.1: paket nerede ve neden ölüyor; Faz 5'in mekanizma hedefleri buradan çıkar. Alet hazır (`kalibrasyon/kayip_anatomisi.py`, K-202 + onarım bölümleri ve `rota_gecersiz` anında alan durumu). `arsiv/teshis/faz5_0_2026-09-30/`daki kopya ve beklenti K-215 öncesi koda ait → kopya yeniden dondurulur, beklentinin sayıları (kâhin 48 örnek, AODV-j, TTL 64) yeni kodla gözden geçirilir, ölçüt ölçmeden önce yazılır, süre önce hesaplanır.
 2. Sonra 5.1 → 5.7 (§2 tablosu); her mekanizma ablasyon bayrağıyla ve önceden yazılı beklentiyle.
 

@@ -1,0 +1,88 @@
+TESHIS — 56 kosu (0 ara kayitta) · kok C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\denetim_duzeltme_2026-10-09\kopya_a
+       olsr@6 1003 · PDR 0.4699 · gecerli True · 250.2 s
+       olsr@7 1003 · PDR 0.4541 · gecerli True · 252.9 s
+     olsr_c@7 1003 · PDR 0.3297 · gecerli True · 341.4 s
+  desparete@6 1003 · PDR 0.5760 · gecerli True · 787.7 s
+  desparete@7 1004 · PDR 0.6127 · gecerli True · 908.3 s
+       aodv@7 1003 · PDR 0.5167 · gecerli True · 916.8 s
+       aodv@6 1003 · PDR 0.4750 · gecerli True · 924.8 s
+  desparete@7 1003 · PDR 0.6928 · gecerli True · 927.6 s
+  desparete@6 1004 · PDR 0.7262 · gecerli True · 947.2 s
+       aodv@7 1004 · PDR 0.5576 · gecerli True · 980.0 s
+     olsr_c@7 1004 · PDR 0.5209 · gecerli True · 376.8 s
+       aodv@6 1004 · PDR 0.5526 · gecerli True · 1016.0 s
+       olsr@7 1004 · PDR 0.4766 · gecerli True · 625.8 s
+       olsr@6 1004 · PDR 0.3247 · gecerli True · 515.4 s
+       olsr@6 1005 · PDR 0.4537 · gecerli True · 370.5 s
+       olsr@7 1005 · PDR 0.3003 · gecerli True · 487.4 s
+     olsr_c@7 1005 · PDR 0.3236 · gecerli True · 384.8 s
+  desparete@6 1005 · PDR 0.6230 · gecerli True · 1000.6 s
+  desparete@7 1005 · PDR 0.6372 · gecerli True · 1105.5 s
+       aodv@6 1005 · PDR 0.3828 · gecerli True · 1129.2 s
+       aodv@7 1005 · PDR 0.4204 · gecerli True · 1197.7 s
+  desparete@7 1006 · PDR 0.7702 · gecerli True · 1010.0 s
+       olsr@7 1006 · PDR 0.5712 · gecerli True · 530.0 s
+       olsr@6 1006 · PDR 0.5179 · gecerli True · 483.2 s
+  desparete@6 1006 · PDR 0.7569 · gecerli True · 903.4 s
+     olsr_c@7 1006 · PDR 0.5396 · gecerli True · 469.6 s
+       aodv@7 1006 · PDR 0.5604 · gecerli True · 1091.2 s
+       aodv@6 1006 · PDR 0.5520 · gecerli True · 1078.8 s
+       olsr@7 1007 · PDR 0.5254 · gecerli True · 387.7 s
+       olsr@6 1007 · PDR 0.4537 · gecerli True · 389.7 s
+     olsr_c@7 1007 · PDR 0.5646 · gecerli True · 356.7 s
+  desparete@7 1007 · PDR 0.8257 · gecerli True · 837.1 s
+  desparete@6 1007 · PDR 0.6947 · gecerli True · 845.8 s
+       aodv@7 1007 · PDR 0.6597 · gecerli True · 941.2 s
+       aodv@6 1007 · PDR 0.5513 · gecerli True · 984.2 s
+       olsr@7 1008 · PDR 0.4604 · gecerli True · 312.1 s
+       olsr@6 1008 · PDR 0.2806 · gecerli True · 329.8 s
+     olsr_c@7 1008 · PDR 0.4255 · gecerli True · 367.7 s
+  desparete@7 1008 · PDR 0.6811 · gecerli True · 909.8 s
+  desparete@6 1008 · PDR 0.6511 · gecerli True · 931.2 s
+       aodv@7 1008 · PDR 0.5545 · gecerli True · 881.8 s
+       aodv@6 1008 · PDR 0.5296 · gecerli True · 888.5 s
+       olsr@7 1009 · PDR 0.4270 · gecerli True · 439.0 s
+       olsr@6 1009 · PDR 0.4579 · gecerli True · 462.4 s
+  desparete@7 1009 · PDR 0.6314 · gecerli True · 1028.3 s
+     olsr_c@7 1009 · PDR 0.3078 · gecerli True · 431.8 s
+  desparete@6 1009 · PDR 0.6639 · gecerli True · 993.0 s
+       aodv@7 1009 · PDR 0.5822 · gecerli True · 1009.3 s
+       olsr@6 1010 · PDR 0.4971 · gecerli True · 260.7 s
+       aodv@6 1009 · PDR 0.5321 · gecerli True · 1031.4 s
+       olsr@7 1010 · PDR 0.4863 · gecerli True · 276.4 s
+     olsr_c@7 1010 · PDR 0.4813 · gecerli True · 256.7 s
+  desparete@7 1010 · PDR 0.6678 · gecerli True · 843.1 s
+  desparete@6 1010 · PDR 0.6137 · gecerli True · 763.8 s
+       aodv@7 1010 · PDR 0.5454 · gecerli True · 732.0 s
+       aodv@6 1010 · PDR 0.5104 · gecerli True · 653.5 s
+
+T0 · KIMLIK (1003, regresyon satirlariyla birebir)
+  OK  desparete@7 0.6928213689482471 = 0.6928213689482471
+  OK  aodv@7 0.5166944908180301 = 0.5166944908180301
+  OK  olsr_c@7 0.3297161936560935 = 0.3297161936560935
+  OK  desparete@6 0.5759599332220368 = 0.5759599332220368
+  OK  aodv@6 0.4749582637729549 = 0.4749582637729549
+  OK  olsr@6 0.4699499165275459 = 0.4699499165275459
+
+T1 · DENEME SAYISI  Δ = PDR(6) − PDR(7)  (8 tohum)
+  desparete: ort -0.0267 · SE 0.0278 · tohumlar -0.117 +0.114 -0.014 -0.013 -0.131 -0.030 +0.033 -0.054
+       aodv: ort -0.0389 · SE 0.0114 · tohumlar -0.042 -0.005 -0.038 -0.008 -0.108 -0.025 -0.050 -0.035
+       olsr: ort -0.0307 · SE 0.0380 · tohumlar +0.016 -0.152 +0.153 -0.053 -0.072 -0.180 +0.031 +0.011
+  DESPARETE − AODV (fark-farki): ort +0.0122 · SE 0.0219
+
+T2 · §8.2.1  Δ = PDR(OLSR-d@7) − PDR(OLSR-c@7)  (8 tohum)
+  ort +0.0261 · SE 0.0234 · tohumlar +0.124 -0.044 -0.023 +0.032 -0.039 +0.035 +0.119 +0.005
+
+T3 · 1003'te OLSR farkinin ayrismasi
+  deneme +0.0159 · §8.2.1 +0.1244 · toplam +0.1402
+
+TOHUM BASINA PDR
+  desparete@7: 0.693 0.613 0.637 0.770 0.826 0.681 0.631 0.668 · ort 0.6899
+  desparete@6: 0.576 0.726 0.623 0.757 0.695 0.651 0.664 0.614 · ort 0.6632
+       aodv@7: 0.517 0.558 0.420 0.560 0.660 0.555 0.582 0.545 · ort 0.5496
+       aodv@6: 0.475 0.553 0.383 0.552 0.551 0.530 0.532 0.510 · ort 0.5107
+       olsr@7: 0.454 0.477 0.300 0.571 0.525 0.460 0.427 0.486 · ort 0.4627
+       olsr@6: 0.470 0.325 0.454 0.518 0.454 0.281 0.458 0.497 · ort 0.4319
+     olsr_c@7: 0.330 0.521 0.324 0.540 0.565 0.425 0.308 0.481 · ort 0.4366
+
+🟢 T0 GECTI

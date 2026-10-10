@@ -152,8 +152,7 @@ Tasarım öğrencinin (`protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/`, tek okum
 
 ## 9 · Mühürden önce kapanması gerekenler
 
-- [x] Taban protokoller dondu (K-218: `AODV-j` · `OLSR-c` · `AOMDV-f`; U1 iki desende, yakınsamış kâhinle). U2–U4 AODV ve OLSR'da 🟢 · AOMDV'nin U1–U4 karşılıkları 🟢 (K-194)
-- [ ] OLSR'ın kural kural sadakat denetimi (denetim D-02, `OLSR-d`) ve MAC deneme sayısının 7'ye düzeltilmesi (D-10) — kod K-223'te ✅ → regresyon · U1 · R · evre kapıları; ardından taban protokoller yeniden donar
+- [x] Taban protokoller dondu (K-224: `AODV-j` · `OLSR-d` · `AOMDV-f`, en çok 7 iletim denemesi; OLSR kural kural sadakat denetiminden geçti, K-223; U1 iki desende, yakınsamış kâhinle). U2–U4 AODV ve OLSR'da 🟢 · AOMDV'nin U1–U4 karşılıkları 🟢 (K-194)
 - [ ] çözünürlük R ve DUYARSIZ hükümleri ana deneyin penceresinde (bugünküler 50 s'lik kesitte, denetim D-03) · Faz 7 hesap bütçesi ve düşme sırası (D-09)
 - [ ] SINANMAMIŞ = 0 ve duyarlılık borcu = 0 — ya da borçlular eksen olarak ilan edilir (bugünkü sayım `04` §9'da)
 - [x] §0.3'ün eşik formülü, güç yöntemi, aday birincil hücre (K-153)

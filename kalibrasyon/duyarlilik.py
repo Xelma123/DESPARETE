@@ -225,6 +225,11 @@ def _taban_degeri(ad: str, varsayilan):
 OLASILIK_SABITLERI: frozenset[str] = frozenset({
     "kalibrasyon/kahin.py::ATLAMA_ESIGI",
 })
+# 🔴 KORELASYON KATSAYILARI — zaman sabiti üzerinden oynatılır (K-224, 10
+# Ekim 2026). α = exp(−adım/τ) ve [0, 1)'e bağlı; α'yı çarpmak τ'yu ×0,5'te
+# 29 s'den 0,7 s'ye indiriyor (40 kat), ×2'de α'yı aralık dışına taşıyordu
+# (GEÇERSİZ). τ×c ⇔ α^(1/c): "×0,5" τ'nun yarısı, "×2" iki katı.
+KORELASYON_KATSAYILARI: frozenset[str] = frozenset({"gm_alfa"})
 
 
 def _modul_sabiti(ad: str):
@@ -260,6 +265,8 @@ def _oynat(ad: str, carpan: float):
     # varsayılanına göre DEĞİL. `PENCERE` üç zaman alanını eziyor; onları
     # varsayılana göre oynatmak "x0,5" etiketiyle 2,5 kat büyütmek demekti.
     varsayilan = PENCERE.get(ad, _taban_degeri(ad, alan.default))
+    if ad in KORELASYON_KATSAYILARI:
+        return varsayilan ** (1.0 / carpan)
     tip = str(alan.type)
     if tip == "bool":
         return not varsayilan
