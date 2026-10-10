@@ -124,6 +124,10 @@ SUPERSEDE: dict[str, tuple[str, str]] = {
     "K-213": ("K-216",
               "R = 0,0188 6 örnekli kâhinle ölçülmüştü; yakınsamış kâhinle "
               "**0,0142** (kısa pencere kesiti — denetim D-03)"),
+    "K-229": ("K-230",
+              "Verici 27 dBm maddesi **geri alındı** (ağ 1–2 atlamaya iniyordu; "
+              "güç yalnız mesafeyi ölçekler); rakip değişikliği (AODV · OLSRv2 · "
+              "JarmRout) **geçerli**, K-230'da yeniden yazıldı"),
 }
 
 

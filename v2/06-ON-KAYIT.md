@@ -75,6 +75,7 @@ Her hipotezin tek birincil testi (hücresi) vardır; diğer hücreler betimleyic
 | PDR | ölçüm penceresinde doğan paketlerin teslim oranı (doğum kohortu). U1 tüm koşu PDR'sini kullanır (25 Eylül) |
 | **PDR_açık** | **birincil metrik** (K-222): karıştırıcının açık dönemlerinde doğan paketlerin teslim oranı, ölçüm penceresinde (evre sözlüğünün `pdr_acik`ı; `analiz/satir.py::donem_pdr` ham listeden ikinci gerçekleme). Karıştırıcısız ikizde aynı çizelgenin hayalet dönemleriyle |
 | PSR | bağ düzeyi: hedef alıcının CRC'den geçirdiği veri iletimi / veri iletim denemesi (bu çalışmanın tanımı; K-115) |
+| temas kaybı | betimleyici (K-230): İHA başına telemetrinin T s'den uzun gelmediği aralıkların toplamı · temas kaybı yaşayan İHA sayısı; tanım ve T (otopilot kaynağından) mühürden önce |
 | gecikme | **ortak alt küme** üzerinden; p50 · p95 · p99; kesişim oranı her zaman raporlanır (hayatta kalan yanlılığı) |
 | kontrol yükü | bayt ve kanal süresi; NRL (çerçeve · bayt · airtime) pencere ikiziyle. İkiz `[pencere başı, pencere SONU)` — sayaçlar pencerede donar (K-130; boşalmayı sayan eski tanım NRL'yi aileye göre farklı ~%10 şişiriyordu). `nrl_bayt/airtime` payı = kontrol + protokolün **veri başlığı** (K-151) |
 | kopma | fiziksel · protokolün algıladığı · rota geçersizleşmesi; algılama duyarlılığı (fiziksel sayım çalkantıyı ölçer, karıştırmayı değil) |
@@ -186,6 +187,7 @@ Analiz birimi tohumdur; havuzlanmış okuma yalnız betimleyici.
 | 8 Eki 2026 | örnekleme denetimi C (aldatıcı ↔ sürekli) referansta ED dışarıda sorulur, 0/270 → 270/270 · G3 → G3ç, eski çekirdek hücre tabanda (K-219) | **sonuçtan sonra** — kapının referans biçimi |
 | 9 Eki 2026 | birincil metrik pencere PDR'sinden `PDR_açık`a; fark-içinde-fark ikincil test; Aile 3 mekanizma kapısı; iddia dili; dayanıklılık hücresi (K-222, denetim D-01 · D-08) | **DESPARETE'nin K-200 koşularından sonra**; yön DESPARETE aleyhine tutucu (v0.4.1'in farkı açık evrede en küçük) |
 | 10 Eki 2026 | rakipler AODV · OLSR · AOMDV → AODV · OLSRv2 · JarmRout; referans dünyanın vericisi 27 dBm (K-229, yürütücü) | **DESPARETE'nin K-200 ve K-228 koşularından sonra**; yön DESPARETE aleyhine tutucu (bağ ölçülü ve karıştırmaya dayanıklı rakipler eklendi, eskilerden biri kaldı); DESPARETE yeni rakiplere karşı hiç koşulmadı |
+| 11 Eki 2026 | verici 27 dBm kararı geri alındı (K-230) · temas kaybı betimleyici metrik olarak eklendi | birincil metrik ve testler değişmedi |
 | 10 Eki 2026 | ölçütün önceliği commit zamanıyla kanıtlanır (§7; K-222, D-05) · belge üslubu (işaretler ve ses, K-225) | yöntem; hükümler değişmedi |
 
 Mühürden sonraki her değişiklik tarihiyle buraya yazılır ve ilgili hipotez keşifsel etiketlenir.

@@ -31,7 +31,7 @@ Sürüde düğümler birbirinin paketini taşır. Karıştırıcı bağ kalitesi
 | çok atlamalı 802.11 zincirinde verim tek atlamanın ~1/7'si | yayımlanmış (Li vd.) | aletin dış çapası (`09`) |
 | "AODV/OLSR karıştırmada < %50 PDR" | birincil kaynak yok | iddia edilmez; projenin ölçeceği şey |
 
-**Literatürdeki iki boşluk** (tarama `protokol_kaynaklari/literatur_taramasi_2026-08-31/`): **A** — gerçekçi kanalda, hareketli ve çizelgeli karıştırıcı altında taban protokollerin PDR ve gecikme düşüşü (daraltıldı, K-229: JarmRout makalesi OLSR ve DSR'nin PDR'sini karıştırıcı sayısına göre iki-ışın kanalda, 1 km'lik alanda raporluyor) · **B** — RF karıştırmada saniye ölçeğinde rota kurtarma gecikmesi. İkisini de bu proje ölçer; taban protokolleri bu eksende ölçmek tek başına bir katkıdır.
+**Literatürdeki iki boşluk** (tarama `protokol_kaynaklari/literatur_taramasi_2026-08-31/`): **A** — değişen karıştırma şiddetinde taban protokollerin PDR ve gecikme düşüşü, gerçekçi kanalda ve taktik ölçekte. En yakın çalışma Pu 2018 (JarmRout) OLSR ve DSR'nin PDR'sini karıştırıcı sayısına göre raporluyor, ama 1 km²'lik alanda, sönümlemesiz iki-ışın kanalla, sabit ve sürekli karıştırıcılarla (OMNeT++); gerçekçi kanal, taktik ölçek, hareketli ve çizelgeli karıştırıcı yok · **B** — RF karıştırmada saniye ölçeğinde rota kurtarma gecikmesi. İkisini de bu proje ölçer; taban protokolleri bu eksende ölçmek tek başına bir katkıdır.
 
 **Alan kalabalık:** bir derleme 13 Q-öğrenme tabanlı FANET protokolü sayıyor → "ilk", "eşi yok" savunulamaz; savunulabilir olan "hangi koşulda ne olduğunu ölçtük". Ödüllerde karıştırma terimi yok iddiası taramanın matrisine dayanır: 11 protokolün 9'unda "açık jamming: hayır" (1 Eylül; `02` §B). Küçük ağlarda (N ≤ ~40) tablo tabanlı yöntem uygun; büyük ağdaki boyut sorunu raporda yazılır.
 
@@ -50,6 +50,7 @@ Sürüde düğümler birbirinin paketini taşır. Karıştırıcı bağ kalitesi
 | kriptografi, GPS spoofing, video kodlama | ayrı alanlar |
 | frekans çevikliği / çoklu kanal | öncül: çözüm yönlendirme katmanında aranıyor |
 | GPSR | komşu konumunu ister (bedava verilmez); asıl zafiyeti GPS spoofing (1 Eylül) |
+| içeriden saldırılar (seçici iletim, kara delik, sahte rota) | ele geçirilmiş düğüm; güven ve kimlik doğrulama alanı (K-230) |
 | derin öğrenme (DQN vb.) | SWaP kısıtı; tablo tabanlı öğrenme bu kapsamda değil |
 | çok-etmenli oyun kuramı / MARL | kararsızlık riski |
 

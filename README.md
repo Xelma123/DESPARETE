@@ -46,7 +46,7 @@ Betiklerin ürettiği sonuç dosyaları depoya dahil değildir; her makinede yer
 Hazır bir ağ simülatörü yerine projenin kendi simülatörü yazıldı: karşılaştırmanın her varsayımı görünür, sınanabilir ve jüri önünde savunulabilir olsun diye.
 
 - **Referans dünya (1:1):** 40 İHA, 33 km'lik alan, 50–300 m irtifa, 40–120 km/h; dört hareketlilik kolu — statik · bağımsız · görev · formasyon. Her sayı kaynaklı ya da ölçülmüş ([`v2/14`](v2/14-REFERANS-DUNYA.md)).
-- **Telsiz ve kanal:** 802.11b DSSS (işlem kazancı, 1–11 Mb/s hız uyarlaması, enerji sezmeli taşıyıcı dinleme), 20 dBm EIRP (K-229 ile iletilen 27 dBm'e geçiyor); serbest uzay yol kaybı, gölgeleme, Rician hızlı sönümleme, yer–hava kanalı; parça başına SINR → paket hata olasılığı.
+- **Telsiz ve kanal:** 802.11b DSSS (işlem kazancı, 1–11 Mb/s hız uyarlaması, enerji sezmeli taşıyıcı dinleme), 20 dBm EIRP; serbest uzay yol kaybı, gölgeleme, Rician hızlı sönümleme, yer–hava kanalı; parça başına SINR → paket hata olasılığı.
 - **MAC:** IEEE 802.11 DCF, onay ve yeniden deneme, yakalama etkisi.
 - **Tehdit:** beş karıştırıcı sınıfı (sürekli · darbeli · reaktif · aldatıcı · taramalı) ve beş tehdit ailesi (tek merkez · cephe hattı · derin sızma · hedef koruma · hava eşlik).
 - **Trafik:** yere toplama (telemetri + komut) ve eşler arası.

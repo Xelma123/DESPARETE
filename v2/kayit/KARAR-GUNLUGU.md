@@ -159,9 +159,10 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-226 | 🟢 FAZ 5'E GEÇİŞ KAPISI KAPANDI — Faz 4.5 doğrulama listesi son kodla geçti (Li sabit hız | 🟢 geçerli |
 | K-227 | 🟢 GÜRÜLTÜ GÖZLEMİ KİLİTLİ KALIR (denetim D-04) — gerçek sürücü gürültüyü yavaş, ortancay | 🟢 geçerli |
 | K-228 | 🟢 FAZ 5.0 KAPANDI — DESPARETE'nin karıştırmaya özgü fazla kaybı tamamen "rota yok"ta (ar | 🟢 geçerli |
-| K-229 | 🟡 TABAN PROTOKOLLER VE REFERANS DÜNYA YENİDEN AÇILDI — rakipler AODV · OLSRv2 · JarmRout | 🟢 geçerli |
+| **K-229** | 🟡 TABAN PROTOKOLLER VE REFERANS DÜNYA YENİDEN AÇILDI — rakipler AODV · OLSRv2 · JarmRout | 🔄 **REVİZE → K-230**<br>Verici 27 dBm maddesi **geri alındı** (ağ 1–2 atlamaya iniyordu; güç yalnız mesafeyi ölçekler); rakip değişikliği (AODV · OLSRv2 · JarmRout) **geçerli**, K-230'da yeniden yazıldı |
+| K-230 | 🟢 VERİCİ 20 dBm'DE KALIR (K-229'un verici maddesi geri alındı) · rakipler AODV · OLSRv2  | 🟢 geçerli |
 
-**140 kayıt · 7 revize · 133 geçerli**
+**141 kayıt · 8 revize · 133 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1758,3 +1759,14 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Kaynak indirme izni** (yürütücü): OLSRv2 RFC'leri (7181 · 6130 · 5444 · 5497 · 5148 · 7779), olsrd2 (OONF) kodu (RFC'nin sustuğu yerde hakem), JarmRout makalesi.
 - **Takvim tahmini:** kalibrasyon 3–4 gün ve protokoller ~9 gün (kod işi hesapla paralel), U1 ve donma ~2 gün → Faz 5 ~28 Ekim; mühür ~25 Kasım–1 Aralık; önceden yazılı düşme sırası (K-222) büyük olasılıkla kullanılır.
 - Güncellenen: `01` · `04` §1 · §2 · §5 · §8 · §10 · `06` §0.4.1 · §4.1 · §10 · `12`.
+# K-230 · 🟢 VERİCİ 20 dBm'DE KALIR (K-229'un verici maddesi geri alındı) · rakipler AODV · OLSRv2 · JarmRout geçerli · JarmRout kopyalar → kopya defteri Faz 4b'de · temas kaybı metriği · içeriden saldırılar kapsam dışı
+> 11 Ekim · yürütücü (kararlar) · JarmRout makalesinin ikinci okuması
+
+- **Verici:** 27 dBm'de bağlar ~2,9 kat uzar. G9 zarfı içindeki en büyük alanda (~44 km) karıştırıcısız ağ en çok iki atlama olur; eski taramanın eşdeğer ~16 km'lik satırı derece 24,5, ≥ 3 atlama %0 (`arsiv/teshis/faz4_2026-09-26/a_calisma_noktasi.txt`). Serbest uzayda güç yalnız mesafeyi ölçekler: 33 km · 20 dBm dünyası taktik güçteki daha geniş bir sürünün ölçekli karşılığıdır. Kalibre edilmiş dünya korunur (EIRP 20 dBm · ED −76 dBm · alan 33 km · karıştırıcı 10 W). K-228'in Faz 5.0 sonucu ve mekanizma sırası geçerli kalır.
+- **Rakipler (K-229) geçerli:** AODV · OLSRv2 · JarmRout; OLSR v1 ve AOMDV listeden çıktı, GPSR kapsam dışı.
+- **JarmRout aynı veri paketini iki düğüm-ayrık yoldan gönderir** (makale §VI.B: *"the same data packets are transmitted along another forwarding path"*). Kopya defteri (denetim D-23) JarmRout'tan önce, Faz 4b'de kurulur: hedefte ilk teslim sayılır, kopya `tekrar_bastirilan` olur, korunum kopyayı kapatır, kopyanın yayın süresi veri yüküne yazılır. Anahtar arkasında, varsayılan kapalı; mevcut satırlar birebir.
+- **Temas kaybı** (betimleyici; tanımı ve T eşiği mühürden önce, T bir otopilot kaynağından): İHA başına telemetrinin T s'den uzun gelmediği aralıkların toplamı · temas kaybı yaşayan İHA sayısı. Paket defterinden hesaplanır; simülatör ve birincil metrik değişmez.
+- **Kapsam dışı:** içeriden saldırılar (seçici iletim, kara delik, sahte rota) — ele geçirilmiş düğüm, güven ve kimlik doğrulama alanıdır.
+- **Boşluk A daraltılmadı** (K-229'un ifadesi düzeltildi): `01` boşluğu tam yazar, JarmRout'u en yakın küçük ölçekli çalışma olarak anar (1 km², iki-ışın kanal, sabit sürekli karıştırıcı, OMNeT++).
+- **Faz 5 için tasarım notu:** JarmRout'un ilkesi — iki yol mekânsal olarak ayrık olmalı, aksi hâlde tek karıştırıcı ikisini birden keser; yedek ardılın tasarımında sorulur.
+- Güncellenen: `01` §3 · `04` §1 · §2 · §5 · §6 · §7 · §10 · `06` §3 · §10 · `12` · README; indekste K-229 → K-230.

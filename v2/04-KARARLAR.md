@@ -7,13 +7,13 @@
 
 - **Soru:** karıştırma altındaki taktik İHA sürüsünde yönlendirme. Ürün, bu çalışmada önerilen DESPARETE protokolüdür; kıyas tabanı AODV · OLSRv2 · JarmRout (K-229; AODV ve OLSRv2 normal koşul, JarmRout karıştırma altındaki karşılaştırma). Taban protokollerin karıştırma altındaki ölçümü ikinci, bağımsız katkı (`01`).
 - **Yön (K-168, 25 Eylül):** önce gerçekçilik (1:1, kaynaklı taktik sürü; gözlem = gerçek telsiz ve otopilotun verdiği), sonra DESPARETE'nin karıştırmayı gerçekten çözmesi. Bir ölçütle gerçekçilik çatışırsa gerçekçi olan seçilir (K-185).
-- **Kapsam dışı:** gerçek RF/SDR/uçuş · frekans çevikliği ve çoklu kanal (öncül: çözüm yönlendirmede) · GPSR · derin öğrenme (SWaP) · GPS karıştırması · RTS/CTS · protokol farkında karıştırıcı · ~2 000 s'lik uzun koşu (`12` §5).
+- **Kapsam dışı:** gerçek RF/SDR/uçuş · frekans çevikliği ve çoklu kanal (öncül: çözüm yönlendirmede) · GPSR · derin öğrenme (SWaP) · GPS karıştırması · RTS/CTS · protokol farkında karıştırıcı · içeriden saldırılar (seçici iletim, kara delik, sahte rota; K-230) · ~2 000 s'lik uzun koşu (`12` §5).
 - **Negatif sonuç** raporlanır; önceden ilan edilen bir yanlışlanma tetiklenirse iyi teşhis edilmiş bir negatif sonuç olur.
 
 ## 2 · Referans dünya — deneylerin dünyası (`14`, K-169…K-181, K-185…K-188)
 
 - `sim2/kanal/dunya.py::referans_2026()` bütün gerçekçilik anahtarlarını açar. **`Konfig()` varsayılanı eski 1:50 dünyadır** (eski regresyon vakaları ve eski ölçümler onunla birebir); araçlar dünyayı `kalibrasyon/dunya_secimi` üzerinden seçer (`--dunya referans_2026` ya da `DESPARETE_DUNYA`), bir AST testi bunu zorlar (K-183).
-- **Telsiz:** 802.11b DSSS, kanal 6, 22 MHz · EIRP 20 dBm → **iletilen 27 dBm** (taktik telsiz, G7; ED eşiği −80 dBm — K-229, uygulanması ve yeniden kalibrasyon bekliyor) · dipol 2,15 dBi · işlem kazancı (Eb/N0 = SNR·B/R) · ARF hız uyarlaması 1/2/5,5/11 Mb/s (ns-3) · güce dayalı taşıyıcı dinleme + ED-CCA −76 dBm, 15 µs · yayılım gecikmesi · en çok 7 iletim denemesi (6 yeniden deneme; dot11ShortRetryLimit, K-223) · CW 31/1023 · veri onayı yalnız gönderen çözdüyse (K-115) · veri paketinin IP TTL'i 64 (RFC 1700, ns-3; K-215).
+- **Telsiz:** 802.11b DSSS, kanal 6, 22 MHz · EIRP 20 dBm (serbest uzayda güç yalnız mesafeyi ölçekler: taktik telsiz gücündeki daha geniş bir sürünün ölçekli karşılığı, K-230) · dipol 2,15 dBi · işlem kazancı (Eb/N0 = SNR·B/R) · ARF hız uyarlaması 1/2/5,5/11 Mb/s (ns-3) · güce dayalı taşıyıcı dinleme + ED-CCA −76 dBm, 15 µs · yayılım gecikmesi · en çok 7 iletim denemesi (6 yeniden deneme; dot11ShortRetryLimit, K-223) · CW 31/1023 · veri onayı yalnız gönderen çözdüyse (K-115) · veri paketinin IP TTL'i 64 (RFC 1700, ns-3; K-215).
 - **Kanal:** serbest uzay α = 2 · gölgeleme σ 3 dB, hücre 2,5 km · Rician K 10 dB — **EKSEN** (K-215): birincil test 10 dB'de, 6 ve 15 dB'de keşifsel tekrar (Faz 4.4'te DUYARLI, K-214) · yer–hava kanalı Al-Hourani (banliyö) · sönümleme durumsuz FIR, referans dünyada blok üreteciyle (K-198; statikte bağ başına donuk tek çekim).
 - **Sürü:** N = 40 · alan 33 km (K-188) · irtifa 50–300 m · 40–120 km/h · dört hareket kolu: statik · bağımsız · görev · formasyon · kendi konumu GPS/INS 1,5 m CEP.
 - **Trafik:** yere toplama birincil — her düğümden geçide 1 pkt/s × 512 B telemetri + geçitten 4 düğüme 0,25 pkt/s komut (K-126); eşler arası keşifsel. Ana deney aleti deseni açıkça vermeli (`Konfig` varsayılanı `esler_arasi`).
@@ -34,7 +34,7 @@
 
 ## 5 · Taban protokoller — YENİDEN AÇILDI (K-229): `AODV-j` · OLSRv2 · JarmRout
 
-- **K-229:** rakipler AODV (donmuş `AODV-j`), OLSRv2 (RFC 7181 + NHDP RFC 6130 + RFC 5444, bağ metriği RFC 7779) ve JarmRout (Pu 2018). OLSRv2 ve JarmRout yazılacak, kaynağa sadakat denetiminden ve U1'den geçip yeni referans dünyada (27 dBm) donacak. `OLSR-d` ve `AOMDV-f` rakip listesinden çıktı; aşağıdaki maddeler Faz 4'ün kaydıdır.
+- **K-229:** rakipler AODV (donmuş `AODV-j`), OLSRv2 (RFC 7181 + NHDP RFC 6130 + RFC 5444, bağ metriği RFC 7779) ve JarmRout (Pu 2018). OLSRv2 ve JarmRout yazılacak, kaynağa sadakat denetiminden ve U1'den geçip donacak. JarmRout her veri paketini iki yoldan gönderir → kopya defteri (D-23) ondan önce (K-230). `OLSR-d` ve `AOMDV-f` rakip listesinden çıktı; aşağıdaki maddeler Faz 4'ün kaydıdır.
 
 - Kaynağına sadık, parametreler RFC varsayılanı, hiçbiri senaryoya göre ayarlanmaz; her protokol kendi HELLO'sunu kullanır, HELLO aralıkları eşitlenmez (`06` §4.2).
 - **Kural:** SHOULD uygulanır, MAY beyan edilir (19 Eylül). Sapmalar her protokolün biçim dosyasında gerekçesiyle (`protokoller/*_bicim.py`, `aomdv.py`).
@@ -50,13 +50,14 @@
 - **Bugünkü kod hâli v0.4.1:** bayrak profili `PROFIL_V02` (yalın) + `SECENEK_V041` (V1 · V5 · V7 · V8 · V10 · V11 komut geri izi). Sekiz ablasyon bayrağı; güvenlik değişmezleri bayrakla kapanmaz (K-159…K-172).
 - **Komutlar:** DESPARETE yalnız geçit alanı kurar; komut V11 geri iziyle taşınır; trafik herkes için aynıdır (K-160, K-172).
 - **Birincil hücrede ölçüm — Faz 5.0** (K-228; 1003–1006, bugünkü kod — ana deney değil): `PDR_açık` DESPARETE 0,551 · AODV 0,444 · AOMDV 0,429 · OLSR 0,230 · kâhin 0,780. Karıştırmaya özgü kayıp (doğum evresine göre açık − önce) DESPARETE −0,204 · AODV −0,138 · kâhin −0,134: v0.4.1'in üstünlüğü karıştırmadan bağımsızdır, karıştırıcı açılınca DESPARETE daha çok kaybeder. Fazla kaybın tamamı "rota yok" (`rota_gecersiz`): ardılı karıştırılan alan onarıma girer, paket kota (%52) ya da ulaşılamaz alan (%48, girişi çoğunlukla açlık) yüzünden düşer, çoğu karıştırıcıdan uzak rölelerde. (K-200'ün pencere PDR'si 0,700 eski koddu; birincil metrik K-222'den beri `PDR_açık`.)
-- **Faz 5'in sırası (K-228, yürütücü):** önce yedek ardıl — 5.4'ün çoğaltmasız kısmı: önceden doğrulanmış ikinci uygulanabilir ardıl, ardıl kopunca onarıma girmeden geçiş — ve aynı A/B'de ayrı bayrakla açlıkta tur isteği; sonra 5.1 (karıştırma kanıtıyla erken geçiş), sonra 5.3 (postür) ve 5.4'ün çoğaltması (D-23 tanımlarından sonra). K-222'nin sırasının (5.1 → 5.3 → 5.4) yerine. Eski dünyanın ölçümüne dayanır; yeni dünyada (K-229) 5.0'dan sonra yeniden değerlendirilir.
+- **Faz 5'in sırası (K-228, yürütücü):** önce yedek ardıl — 5.4'ün çoğaltmasız kısmı: önceden doğrulanmış ikinci uygulanabilir ardıl, ardıl kopunca onarıma girmeden geçiş — ve aynı A/B'de ayrı bayrakla açlıkta tur isteği; sonra 5.1 (karıştırma kanıtıyla erken geçiş), sonra 5.3 (postür) ve 5.4'ün çoğaltması (D-23 tanımlarından sonra). K-222'nin sırasının (5.1 → 5.3 → 5.4) yerine.
 - **Eksikler — Faz 5'in konusu:** karıştırmaya özgü kanıt (C_jam) · öngörülü kaçınma · kanıta dayalı postür · PROTECT'in çok yolu ve çoğaltması · pasif dinleme (`12` Faz 5).
 
 ## 7 · Ölçüm
 
 - **Metrikler üçlü sunulur:** teslim · gecikme · kontrol yükü; tek metrikle sıralama yok. **Birincil metrik `PDR_açık`:** karıştırıcının açık dönemlerinde doğan paketlerin teslim oranı (K-222); pencere PDR'si (ölçüm penceresinde doğan paketler) betimleyicidir. Gecikme ortak alt küme üzerinden. Kontrol yükü bayt ve kanal süresiyle; protokolün veri başlığı dâhil (K-151).
 - **Evre metrikleri (`08`):** şok derinliği · toparlanma tamlığı · toparlanma süresi · tespit gecikmesi. Hata payı kümelenmeye dayanıklı; tespitin boş dağılımı negatif binom (K-196). Boş kol kapısı gerçek protokollerle geçti (G1-P).
+- **Temas kaybı (betimleyici, K-230):** İHA başına telemetrinin T s'den uzun gelmediği aralıkların toplamı · temas kaybı yaşayan İHA sayısı; tanımı ve T (otopilot kaynağından) mühürden önce.
 - **Kâhinler:** ETX kâhini (U1 paydası) kesin tavan değildir; üst referans = üç kâhinin tohum başına zarfı (K-110). Kâhin grafiği karıştırıcının açık/sessiz çizelgesini görür (K-195). *Kâhin − protokol = körlüğün bedeli.*
 - **Kayıp anatomisi** (`kalibrasyon/kayip_anatomisi.py`): düşüş sebebi × karıştırıcı bölgesi (alıcıda) × açık/sessiz evre × bağ kalitesi bandı; Faz 5 hedefleri buradan çıkar. Bölge anlık güçle, ayrıca **etki alanı** (karıştırıcı açık olsaydı alınacak ortalama güç) evre × alan tablolarıyla (K-202).
 - **Çözünürlük:** eşleştirilmiş R = 0,0126 (K-224; 7 iletim denemesiyle — 8 denemede 0,0142, K-216; birincil hücre, yakınsamış kâhin) — 50 s'lik KISA PENCERE kesitinde; ana deneyin penceresinde Faz 6'da δ ölçümüyle (denetim D-03). Eski dünyada 0,023.
@@ -82,6 +83,7 @@
 |---|---|---|
 | KR-2 · birincil metrikte komutlar (öneri: birincil telemetri, bütün trafik ikincil) | karar | Faz 6 |
 | KR-D · Faz 5 mekanizmalarının tasarım paketine yansıması | karar | Faz 5 |
+| temas kaybı metriğinin tanımı ve T eşiği (otopilot kaynağı, K-230) | kaynak, ardından karar | mühür |
 | KR-3 · rakiplerin rolü ön-kayıtta: AODV/OLSRv2 normal koşul, JarmRout karıştırma altı — hangi hücrede hangi test birincil (K-229) | karar | mühür, DESPARETE yeni rakiplere karşı koşulmadan önce |
 | pencere üçlüsü (ısınma · ölçüm bitişi · koşu bitişi): koşu uzunluğundan bağımsızlık, birincil hücrede, taban protokollerle | ölçüm, ardından karar | Faz 6 |
 | `06` H1.3'ün aldatıcı ↔ sürekli kontrastı referansta (10 W aldatıcı ED'yle ağı susturuyor, K-219) · Rician K ekseninin keşifsel tekrarı (6 · 15 dB) | öneri, ardından karar | Faz 6 |
