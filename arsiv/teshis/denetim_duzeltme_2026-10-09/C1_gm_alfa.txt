@@ -1,0 +1,41 @@
+  DUNYA: referans_2026
+  tohum sayisi: 5 (1000–1004)
+====================================================================================================
+DUYARLILIK TARAMASI — senaryo 'formasyon-surekli' · 1 aday · 5 tohum · carpanlar (0.5, 2.0)
+====================================================================================================
+  OLCUT — IKI AYAK, biri yeterse DUYARLI (`cozunurluk.py`):
+    band : etki KENDI hata payindan buyuk mu (istatistiksel)
+    R    : |D| >= 0.0126 mi — deneyin gorebilecegi
+           en kucuk ESLESTIRILMIS fark (pratik)
+  🔴 parmak izi BIREBIR ayniysa 'DUYARSIZ' DEGIL 'OLCULEMEDI'
+
+  toplam kosu: 30  ·  8 isci
+  kosum suresi: 29.0 dk
+
+  TABAN: pdr_etx 0.8572 · pdr_atlama 0.7227 · olcut_bedeli 0.1345
+  🔒 Band artik TOHUM BASINA FARKLARIN yayilimindan; ortalamalarin
+     yayilimindan DEGIL. Esleştirme yapisal oldugu icin tohumlar
+     arasi varyans ortak-mod olarak dusuyor.
+
+  parametre                       carpan  d_pdr_etx   d_atlama    d_bedel   |D|/band    |D|/R        karar
+  gm_alfa                           0.50   +0.00033   +0.01102   -0.01069       0.7x     0.9R     duyarsiz
+  gm_alfa                           2.00   -0.00150   -0.00483   +0.00333       0.3x     0.4R     duyarsiz
+
+====================================================================================================
+OZET
+====================================================================================================
+
+  🔴 GECERSIZ  (0)
+
+  🔴 DUYARLI  (0)
+
+  duyarsiz  (1)
+    · gm_alfa
+
+  OLCULEMEDI  (0)
+
+  🔴 'OLCULEMEDI' AKLAMA DEGILDIR: o parametre bu kolda hesaba
+     hic girmedi. Canli oldugu bir kolda YENIDEN taranmali.
+  ⚠️ 'duyarsiz' = TEK BASINA oynatinca duyarsiz (OAT sinirlamasi)
+     ve YALNIZ calisma noktasi ciktilarina. Protokol SIRALAMASININ
+     duyarliligi gercek protokoller gerektirir — Faz 3.

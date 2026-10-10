@@ -70,3 +70,8 @@ Not (Faz 5.0 için, tam pencere, 1003 · 1004): açık evre PDR'si kâhin 0,734 
 ### Hüküm
 
 A1 (T0 ile) ✅ · U1-U iki desende ✅ · U1-B yere toplamada ✅ · evre kapıları ✅ → **taban protokoller yeniden DONDU: `AODV-j` · `OLSR-d` · `AOMDV-f`, en çok 7 iletim denemesi** (K-224). Açık: `gm_alfa` yeniden ölçümü · `gm_hiz_sigma_ms` kararı (öğrenci).
+
+## `gm_alfa` yeniden (ek ölçüt `beklenti_ek.md`, commit `5733adb`; kopya `kopya_c`)
+
+- **5 tohum** (10 Ekim 11:13–11:42; τ×0,5 → α 0,9663 · τ×2 → 0,9915): ×0,5 en büyük |Δ| 0,0110 (pdr_atlama; 0,9R, band 0,7×) · ×2 0,0048 (0,4R) → **duyarsız ama sınırda** (≥ 0,7R) → ön-kayıtlı kural: 20 tohum (11:43'ten).
+- **Öğrencinin kararı (10 Ekim, K-225):** `gm_hiz_sigma_ms` → **DÜNYA TANIMI** (ölçülen duyarlılığı raporda); `gm_alfa` 20 tohumda DUYARLI çıkarsa aynısı.

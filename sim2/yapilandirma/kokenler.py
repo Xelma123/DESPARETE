@@ -142,15 +142,17 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "(ölçekli)"),
     "gm_hiz_maks_ms": ("DUNYA_TANIMI",
         "120 km/h = 33,3 m/s — `v2/14` §3 (onaylı); eski dünyada 0,75 m/s"),
-    "gm_hiz_sigma_ms": ("SINANMAMIS",
-        "azami hızın %10'u — oran bir SEÇİM (kaynak yok). Formasyon kolunun "
-        "(birincil hücre) manevra gürültüsü de buradan. Birincil hücrede "
-        "ölçüldü (5 tohum, R 0,0126): ×0,5 en büyük |Δ| 0,0089 (0,7R, band "
-        "1,0×) · ×2 0,0274 (pdr_atlama; 2,2R, band 2,9×) → DUYARLI. "
+    "gm_hiz_sigma_ms": ("DUNYA_TANIMI",
+        "azami hızın %10'u (referansta 3,33 m/s) — kaynaksız bir seçim; "
+        "formasyon kolunun (birincil hücre) manevra gürültüsü de buradan. "
+        "Öğrencinin kararıyla referans dünyanın tanımı (10 Ekim 2026, "
+        "K-225; K-220'nin emsali). Ölçülen duyarlılığı raporda yazılır: "
+        "birincil hücrede (5 tohum, R 0,0126) ×0,5 en büyük |Δ| 0,0089 "
+        "(0,7R) · ×2 0,0274 (pdr_atlama; 2,2R, band 2,9×) → DUYARLI. "
         "Üretici: `py -3.11 -u kalibrasyon/duyarlilik.py --dunya "
         "referans_2026 birincil gm_alfa gm_hiz_sigma_ms` (9 Ekim 2026, "
-        "K-224). Öğrencinin kararı bekleniyor: kaynak · DÜNYA TANIMI · "
-        "eksen · kapsam"),
+        "K-224; "
+        "`arsiv/teshis/denetim_duzeltme_2026-10-09/B1_duyarlilik.txt`)"),
     "gm_azimut_sigma_rad": ("TURETILMIS",
         "koordineli dönüş ω = g·tan(φ)/v. Yerçekimi ÖLÇEKLENMEZ, o yüzden "
         "GERÇEK hızdan: 90 km/h'de 30° banka → 0,226 rad/s → 0,5 s adımda "
