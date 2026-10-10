@@ -19,11 +19,11 @@
 
 Yalnız Aile 2 (üstünlük) ve Aile 3 (mekanizma) için; Aile 1 yalnız taban protokolleri kapsar.
 
-**0.4.1 · Birincil testler.** Rakip başına bir: **H2.a** DESPARETE ↔ AODV · **H2.b** ↔ OLSR · **H2.c** ↔ AOMDV — `m = 3`, Holm aile içinde. Her biri birincil hücrede, birincil metrikte, 40 ana deney tohumunda eşleştirilmiş, çift yönlü Wilcoxon. Gecikme ve kontrol yükü betimleyici (güven aralığıyla).
+**0.4.1 · Birincil testler.** Rakip başına bir: **H2.a** DESPARETE ↔ AODV · **H2.b** ↔ OLSRv2 · **H2.c** ↔ JarmRout (K-229; ilk yazımda OLSR · AOMDV) — `m = 3`, Holm aile içinde. Her biri birincil hücrede, birincil metrikte, 40 ana deney tohumunda eşleştirilmiş, çift yönlü Wilcoxon. Gecikme ve kontrol yükü betimleyici (güven aralığıyla).
 
 **0.4.2 · Eşiğin türetme formülü — serbest sabit yok.** Birincil hücrede, yalnız taban protokollerle, geliştirme tohumlarında (`G` = 1100–1119; ana deneyle kesişmez):
 
-    d_XY(s) = M_X(s) − M_Y(s)          X, Y ∈ {AODV, OLSR, AOMDV}, s ∈ G
+    d_XY(s) = M_X(s) − M_Y(s)          X, Y ∈ {AODV, OLSRv2, JarmRout}, s ∈ G
     SD_ref  = max( SD(d_AODV,OLSR) , SD(d_AODV,AOMDV) , SD(d_OLSR,AOMDV) )
     δ       = 2 · SD_ref / √n          n = ana deney tohum sayısı (40)
 
@@ -85,7 +85,7 @@ Analiz birimi tohumdur; havuzlanmış okuma yalnız betimleyici.
 
 ## 4 · Taban protokoller ve uygunluk
 
-**4.1** AODV (reaktif, tek yol) · OLSR (proaktif, bağ durumu) · AOMDV (reaktif, çok yol). GPSR kapsam dışı (`01` §3). AOMDV öngörüsü yeni tehdit modeline göre mühürden önce yeniden yazılır.
+**4.1** AODV (RFC 3561; reaktif, tek yol, atlama sayısı) · OLSRv2 (RFC 7181; proaktif, bağ durumu, bağ metriği RFC 7779) · JarmRout (Pu 2018; reaktif, iki düğüm-ayrık yol, karıştırmaya dayanıklı) — K-229; ilk yazımda OLSR (RFC 3626) · AOMDV. GPSR kapsam dışı (`01` §3). §4.2'nin OLSR ve AOMDV parametreleri yeni rakiplerin kaynak varsayılanlarıyla mühürden önce yeniden yazılır.
 
 **4.2 · Parametreler — RFC varsayılanı.** AODV (RFC 3561): HELLO_INTERVAL 1,0 s · ALLOWED_HELLO_LOSS 2 · ACTIVE_ROUTE_TIMEOUT 3,0 s · RREQ_RETRIES 2 · NODE_TRAVERSAL_TIME 40 ms · NET_DIAMETER 35. OLSR (RFC 3626): HELLO_INTERVAL 2,0 s · NEIGHB_HOLD_TIME 6,0 s · TC_INTERVAL 5,0 s · TOP_HOLD_TIME 15,0 s · WILLINGNESS 3 · MAXJITTER HELLO_INTERVAL/4. HELLO aralıkları eşitlenmez; kontrol yükü farkı raporlanır. Her protokol kendi HELLO'sunu kullanır.
 
@@ -185,6 +185,7 @@ Analiz birimi tohumdur; havuzlanmış okuma yalnız betimleyici.
 | 2–6 Eki 2026 | evre kapısı G2ç'nin D maddesi kâhinin karıştırıcısız koşusuna eşlendi (K-212 → K-215); asıl sebep yakınsamamış kâhindi, yakınsamış kâhinle özgün ölçütle de geçti (K-217) | **sonuçtan sonra** — `08` §08 |
 | 8 Eki 2026 | örnekleme denetimi C (aldatıcı ↔ sürekli) referansta ED dışarıda sorulur, 0/270 → 270/270 · G3 → G3ç, eski çekirdek hücre tabanda (K-219) | **sonuçtan sonra** — kapının referans biçimi |
 | 9 Eki 2026 | birincil metrik pencere PDR'sinden `PDR_açık`a; fark-içinde-fark ikincil test; Aile 3 mekanizma kapısı; iddia dili; dayanıklılık hücresi (K-222, denetim D-01 · D-08) | **DESPARETE'nin K-200 koşularından sonra**; yön DESPARETE aleyhine tutucu (v0.4.1'in farkı açık evrede en küçük) |
+| 10 Eki 2026 | rakipler AODV · OLSR · AOMDV → AODV · OLSRv2 · JarmRout; referans dünyanın vericisi 27 dBm (K-229, yürütücü) | **DESPARETE'nin K-200 ve K-228 koşularından sonra**; yön DESPARETE aleyhine tutucu (bağ ölçülü ve karıştırmaya dayanıklı rakipler eklendi, eskilerden biri kaldı); DESPARETE yeni rakiplere karşı hiç koşulmadı |
 | 10 Eki 2026 | ölçütün önceliği commit zamanıyla kanıtlanır (§7; K-222, D-05) · belge üslubu (işaretler ve ses, K-225) | yöntem; hükümler değişmedi |
 
 Mühürden sonraki her değişiklik tarihiyle buraya yazılır ve ilgili hipotez keşifsel etiketlenir.

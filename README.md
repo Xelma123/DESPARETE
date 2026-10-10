@@ -4,7 +4,7 @@
 
 TÜBİTAK 2204-A Lise Öğrencileri Araştırma Projeleri · Yazılım / Bilgisayar Bilimleri
 
-> *In English:* DESPARETE is a high-school research project (TÜBİTAK 2204-A) that designs a routing protocol for tactical UAV mesh networks under RF jamming. The repository contains a purpose-built discrete-event simulator with a 1:1 reference world (802.11b radio, realistic jammers), faithful implementations of three baseline protocols (AODV, OLSR, AOMDV), and the measurement tooling used to compare them. Documentation is in Turkish.
+> *In English:* DESPARETE is a high-school research project (TÜBİTAK 2204-A) that designs a routing protocol for tactical UAV mesh networks under RF jamming. The repository contains a purpose-built discrete-event simulator with a 1:1 reference world (802.11b radio, realistic jammers), faithful implementations of the baseline protocols (AODV; OLSRv2 and the jamming-resilient JarmRout are being added, replacing OLSR and AOMDV), and the measurement tooling used to compare them. Documentation is in Turkish.
 
 ---
 
@@ -12,7 +12,7 @@ TÜBİTAK 2204-A Lise Öğrencileri Araştırma Projeleri · Yazılım / Bilgisa
 
 Bir İHA sürüsünde düğümler birbirinin paketini taşır: telemetri yer istasyonuna, komutlar ters yönde gider. Karıştırıcı devreye girdiğinde bağlar rastgele değil **yapılı** biçimde bozulur — karıştırıcı bir yerde durur ya da hareket eder, sürekli ya da aralıklı yayın yapar, alıcıyı sağırlaştırır ya da yakınındaki vericiyi susturur. Proje iki soruya cevap arıyor:
 
-1. Yaygın yönlendirme protokolleri (AODV · OLSR · AOMDV) bu koşullarda **nasıl ve ne kadar** bozuluyor?
+1. Yönlendirme protokolleri — altın standart AODV, güncel bağ durumu standardı OLSRv2 ve karıştırmaya dayanıklı JarmRout — bu koşullarda **nasıl ve ne kadar** bozuluyor? (Rakip seti K-229'da yenilendi; OLSRv2 ve JarmRout yazılıyor.)
 2. Bu çalışmada önerilen **DESPARETE** protokolü, karıştırmayı gerçek bir telsizin ölçebildikleriyle fark edip ondan kaçınarak daha iyisini yapabilir mi?
 
 İkinci soru iki ayrı iddia olarak sınanır: **karıştırma altında daha yüksek teslim** (birincil test, karıştırıcının açık dönemlerinde doğan paketlerin teslim oranıyla) ve bu kazancın **karıştırmaya özgü** olması (karıştırıcısız ikiz hücreyle fark-içinde-fark ve mekanizmaların ablasyonu) — [`v2/06`](v2/06-ON-KAYIT.md) §0.4.5.
@@ -30,7 +30,7 @@ Simülatör gerçek ölçekli referans dünyada kalibre edildi ve doğrulandı (
 | dizin | içerik |
 |---|---|
 | [`sim2/`](sim2) | kesikli-olay simülatörü |
-| [`protokoller/`](protokoller) | AODV (RFC 3561) · OLSR (RFC 3626) · AOMDV (Marina & Das 2001) · DESPARETE (`desparete*.py`) |
+| [`protokoller/`](protokoller) | AODV (RFC 3561) · DESPARETE (`desparete*.py`) · Faz 4'ün eski rakipleri OLSR (RFC 3626) ve AOMDV (Marina & Das 2001); OLSRv2 ve JarmRout yazılıyor (K-229) |
 | [`kalibrasyon/`](kalibrasyon) | ölçüm, kalibrasyon ve kabul kapısı araçları — belgelerdeki sayıların üreticileri |
 | [`analiz/`](analiz) | ön-kaydın istatistik planı (Wilcoxon, Holm, eşik, güç) |
 | [`tests2/`](tests2) | test takımı (pytest) |
@@ -46,7 +46,7 @@ Betiklerin ürettiği sonuç dosyaları depoya dahil değildir; her makinede yer
 Hazır bir ağ simülatörü yerine projenin kendi simülatörü yazıldı: karşılaştırmanın her varsayımı görünür, sınanabilir ve jüri önünde savunulabilir olsun diye.
 
 - **Referans dünya (1:1):** 40 İHA, 33 km'lik alan, 50–300 m irtifa, 40–120 km/h; dört hareketlilik kolu — statik · bağımsız · görev · formasyon. Her sayı kaynaklı ya da ölçülmüş ([`v2/14`](v2/14-REFERANS-DUNYA.md)).
-- **Telsiz ve kanal:** 802.11b DSSS (işlem kazancı, 1–11 Mb/s hız uyarlaması, enerji sezmeli taşıyıcı dinleme), 20 dBm EIRP; serbest uzay yol kaybı, gölgeleme, Rician hızlı sönümleme, yer–hava kanalı; parça başına SINR → paket hata olasılığı.
+- **Telsiz ve kanal:** 802.11b DSSS (işlem kazancı, 1–11 Mb/s hız uyarlaması, enerji sezmeli taşıyıcı dinleme), 20 dBm EIRP (K-229 ile iletilen 27 dBm'e geçiyor); serbest uzay yol kaybı, gölgeleme, Rician hızlı sönümleme, yer–hava kanalı; parça başına SINR → paket hata olasılığı.
 - **MAC:** IEEE 802.11 DCF, onay ve yeniden deneme, yakalama etkisi.
 - **Tehdit:** beş karıştırıcı sınıfı (sürekli · darbeli · reaktif · aldatıcı · taramalı) ve beş tehdit ailesi (tek merkez · cephe hattı · derin sızma · hedef koruma · hava eşlik).
 - **Trafik:** yere toplama (telemetri + komut) ve eşler arası.

@@ -158,8 +158,10 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-225 | 🟢 DENETİMİN SON İKİ İŞİ VE YAYIN HAZIRLIĞI — gm_hiz_sigma_ms DÜNYA TANIMI · gm_alfa DUYA | 🟢 geçerli |
 | K-226 | 🟢 FAZ 5'E GEÇİŞ KAPISI KAPANDI — Faz 4.5 doğrulama listesi son kodla geçti (Li sabit hız | 🟢 geçerli |
 | K-227 | 🟢 GÜRÜLTÜ GÖZLEMİ KİLİTLİ KALIR (denetim D-04) — gerçek sürücü gürültüyü yavaş, ortancay | 🟢 geçerli |
+| K-228 | 🟢 FAZ 5.0 KAPANDI — DESPARETE'nin karıştırmaya özgü fazla kaybı tamamen "rota yok"ta (ar | 🟢 geçerli |
+| K-229 | 🟡 TABAN PROTOKOLLER VE REFERANS DÜNYA YENİDEN AÇILDI — rakipler AODV · OLSRv2 · JarmRout | 🟢 geçerli |
 
-**138 kayıt · 7 revize · 131 geçerli**
+**140 kayıt · 7 revize · 133 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1734,3 +1736,25 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Karar:** `olculen_gurultu_w` simülatörde anlık ve hatasızdır; protokol kararına girmez. Mimari denetimi okunmasını engellemeyi sürdürür (D17). Sürücü modeli yazılmadı: bu çizelgede bilgi taşımayacağı kaynaktan görülüyor ve kod, köken ve regresyon bedeli bir kararı değiştirmiyor. D-04 böylece kapandı.
 - **Faz 5.1'e sonucu:** karıştırma kanıtı gerçek telsizin hızlı verdiği gözlemlerden kurulur — kanal doluluğu (`mesgul_sure_s`, sürücünün donanım sayaçlı "channel busy time"ı), PHY hatası, MAC sonucu, komşu başına RSSI × teslim tutarlılığı. Not: karıştırıcı ED eşiğinin (−76 dBm) altında kaldığı girişim alanında kanal doluluğunu artırmaz; orada kanıt PHY hatası, MAC sonucu ve RSSI'dir. RSSI'nin σ 2 dB'si bugün DUYARSIZ (okuyan yok); 5.1 okuyunca mimari D17 kaydı yeniden açar, duyarlılığı ölçülür.
 - Güncellenen: `04` §4 · `05` §3.1 · `12` §2 · `02` G18 · `protokol_kaynaklari/README.md` · `NOTICE`.
+# K-228 · 🟢 FAZ 5.0 KAPANDI — DESPARETE'nin karıştırmaya özgü fazla kaybı tamamen "rota yok"ta (ardılı karıştırılan alanın onarımı) · kayıp anatomisine doğum evresi · Faz 5'in sırası: önce yedek ardıl
+> 10 Ekim · ölçüt `arsiv/teshis/faz5_0_2026-10-10/beklenti.md` (commit `075ce8a`, koşudan önce) · koşu 4 sa 31 dk, kopya `075ce8a` ile 138 dosya birebir · sonuç `sonuc.md` · sıra kararı yürütücünün (seçenek "önce yedek ardıl")
+
+- **Alet:** kayıp anatomisi düşen her paketi doğduğu evreye atfeder (`_dusen_paket`, `_dogum_evresi`; simülatöre dokunmaz); evre evre `doğan = teslim + Σ düşen + kalan`, açık − önce farkı karıştırmaya özgü kaybı sebeplere tam ayırır. Tam takım `985 passed` (3 yeni test; 14 dk 26 s) · mimari denetimi ihlalsiz. Geçerlilik: korunum 20/20, çelişki 0, atfsız yok, açık PDR satırla 20/20 ve G2ç ile 10/10 birebir.
+- **Ölçüm** (birincil hücre, 1003–1006): `PDR_açık` DESPARETE 0,551 · AODV 0,444 · AOMDV 0,429 · OLSR 0,230 · kâhin 0,780. Karıştırmaya özgü kayıp DESPARETE −0,204 · AODV −0,138 · AOMDV −0,166 · OLSR −0,274 · kâhin −0,134.
+- **Karar kuralı:** DESPARETE'nin fazladan kaybı kâhine göre `E` = 0,071 (tohum başına 0,093 · 0,128 · 0,028 · 0,033), AODV'ye göre 0,066; payın %100'ü R (rota yok; kâhine göre R +0,165, İ −0,095) → ilk hedef ardılı karıştırılan alanın hızlı geçişi. Alt ayrım: açık evre `rota_gecersiz`inin %52'si kota dolu, %48'i ulaşılamaz alan (onarım girişleri %64 açlık). Döngü yok (TTL ve hop sınırı 0). Öngörülerden `E` ≈ 0,11 ve "İ ikinci" tutmadı.
+- **Kuraldan sonra (karar girdisi değil):** R kaybı karıştırıcının alanında değil, uzak rölelerde (açık evrede doğanlarda `rota_gecersiz` uzak 0,191 ↔ önce 0,042): onarım geçide giden yol boyunca yayılıyor. Kâhin "rota yok" yaşamaz; kaybı tamamen iletim başarısızlığı.
+- **Faz 5'in sırası (yürütücü, K-222'nin sırasının yerine):** önce 5.4'ün yedek ardılı (çoğaltmasız) ve aynı A/B'de ayrı bayrakla açlıkta tur isteği → 5.1 (kanıtla erken geçiş) → 5.3 ve 5.4'ün çoğaltması (D-23'ten sonra). Gerekçe: kayıp onarım dinamiğinde ve karıştırıcıdan uzakta; yerel karıştırma kanıtı tek başına onu kapatamaz.
+- Güncellenen: `04` §6 · `12` §1–§2.
+# K-229 · 🟡 TABAN PROTOKOLLER VE REFERANS DÜNYA YENİDEN AÇILDI — rakipler AODV · OLSRv2 · JarmRout · verici 27 dBm (taktik telsiz) · DSSS kalır · Faz 5 durur
+> 10 Ekim · yürütücü (kararlar) · gerekçe: K-228'in ölçümü ve kaynak taraması (JarmRout makalesi, OLSRv2 RFC'leri)
+
+- **Neden — rakipler:** AODV (RFC 3561), OLSR (RFC 3626, 2003) ve AOMDV (2001) atlama sayısına bakar, bağ kalitesi ölçüsü yoktur. K-228'de DESPARETE'nin üstünlüğünün karıştırmadan bağımsız olduğu ölçüldü (karıştırıcısız evrede de var); yalnız bu rakiplerle karşılaştırma "zayıf rakip" itirazına açıktır.
+- **Yeni rakipler (m = 3):** **AODV** (donmuş `AODV-j`; literatürün altın standart referansı; normal koşul karşılaştırması) · **OLSRv2** (RFC 7181 + NHDP RFC 6130 + paket biçimi RFC 5444, bağ metriği RFC 7779 DAT; RFC 3626 OLSR'ın yerine; normal koşul karşılaştırması) · **JarmRout** (C. Pu, *"Jamming-Resilient Multipath Routing Protocol for Flying Ad Hoc Networks"*, IEEE Access 6, 2018; FANET için karıştırmaya dayanıklı çok yollu yönlendirme; karıştırma altındaki karşılaştırma; AOMDV'nin yerine). `OLSR-d` ve `AOMDV-f` rakip listesinden çıkar; kodları, U1'leri ve ölçümleri Faz 4'ün kaydı olarak kalır. GPSR kapsam dışı kalır. Rollerin ön-kayda yansıması (hangi hücrede hangi test birincil) mühürde, DESPARETE yeni rakiplere karşı koşulmadan önce yazılır; `06` §0.4.1'in rakip listesi bu kayıtla değişti (`06` §10).
+- **Neden — verici:** referans dünyanın EIRP'i 20 dBm'di (AB/TR 2,4 GHz sivil ISM sınırı). Taktik askerî sürü bu sınıra bağlı değildir; kaynaktaki taktik mesh telsizi 27 dBm (Pro) · 33 dBm (Xtreme) iletir (G7). Düşük güç bağları menzil sınırına itiyor ve bağ ölçüsüz protokolleri ayrıca zayıflatıyordu.
+- **Verici: iletilen 27 dBm** (Doodle Labs RM-2450 Pro, G7) + dipol 2,15 dBi ≈ 29,15 dBm EIRP. Yan etki, kaynaklı: ED eşiği iletilen güce bağlıdır (G2: > 100 mW → −80 dBm) → −76 → **−80 dBm**. Referans dünya yeniden kalibre edilir: alan (K-185 · K-188'in ölçütüyle; bağlar ~2,8 kat uzar), birincil hücrenin karıştırıcı rejimi (K-186: kısmi karıştırma), regresyon tabanı, R, U1 (eşik aynı, yeniden koşulur), evre kapıları. Faz 5.0 (K-228) yeni dünyada yeniden koşulur; K-228'in mekanizma sırası o sonuca göre yeniden değerlendirilir.
+- **802.11b DSSS kalır:** kaynaklı ve doğrulanmış model; iddialar göreli, birincil hücre kısmi karıştırmaya kalibre; OFDM gelecek çalışma.
+- **Sıra (yürütücü):** Faz 5 durur. Önce referans dünyanın yeniden kalibrasyonu ve yeni taban protokoller (kod, kaynağa sadakat denetimi, U1, donma); ikisi aynı yeniden açılmış fazın işidir. Sonra Faz 5.
+- **Literatür iddiası:** JarmRout makalesi OLSR ve DSR'nin PDR'sini karıştırıcı sayısına göre raporluyor (iki-ışın kanal, 1 km alan) → `01`'deki boşluk A daraltıldı.
+- **Kaynak indirme izni** (yürütücü): OLSRv2 RFC'leri (7181 · 6130 · 5444 · 5497 · 5148 · 7779), olsrd2 (OONF) kodu (RFC'nin sustuğu yerde hakem), JarmRout makalesi.
+- **Takvim tahmini:** kalibrasyon 3–4 gün ve protokoller ~9 gün (kod işi hesapla paralel), U1 ve donma ~2 gün → Faz 5 ~28 Ekim; mühür ~25 Kasım–1 Aralık; önceden yazılı düşme sırası (K-222) büyük olasılıkla kullanılır.
+- Güncellenen: `01` · `04` §1 · §2 · §5 · §8 · §10 · `06` §0.4.1 · §4.1 · §10 · `12`.

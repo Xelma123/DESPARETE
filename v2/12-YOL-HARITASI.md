@@ -6,20 +6,27 @@
 
 | | |
 |---|---|
-| **faz** | **5 · DESPARETE** — sıradaki iş 5.0 (§1.1). Faz 5'e geçiş kapısı KAPANDI (K-226, 10 Ekim): bağımsız denetimin (8 Ekim, `arsiv/denetim/DENETIM-RAPORU-2026-10-08.md`) kararları ve düzeltmeleri K-222…K-226. Faz 4 KAPANDI (K-221) |
+| **faz** | **4b · taban protokoller ve referans dünya yeniden açıldı** (K-229) — Faz 5 durdu (5.0 ✓ K-228, eski dünyada); sıradaki iş §1.1. Faz 5'e geçiş kapısı KAPANDI (K-226, 10 Ekim): bağımsız denetimin (8 Ekim, `arsiv/denetim/DENETIM-RAPORU-2026-10-08.md`) kararları ve düzeltmeleri K-222…K-226. Faz 4 KAPANDI (K-221) |
 | simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu tek süreçte ~1 sa, 8 işçide koşu başına 1–2 sa (K-198, K-200) |
-| taban protokoller | **DONDU (K-224, 10 Ekim):** `AODV-j` · `OLSR-d` · `AOMDV-f`, en çok 7 iletim denemesi — U1-U iki desende geçti, yere toplamada U1-B temiz (açıklanmış hücreler K-207 · K-196, anatomiyle) |
-| DESPARETE | v0.4.1; birincil hücrede ilk ölçüm pencere PDR'si 0,700 (AODV 0,556, kâhin 0,813; 4 geliştirme tohumu, K-200 — eski kod, 5.0'da yeniden ölçülür); açık evrede AODV'ye üstünlüğü küçük (K-224) |
-| doğrulama | `982 passed` (10 Ekim) · mimari denetimi ihlalsiz · regresyon tabanı **`k223`** (K-224) · R = **0,0126** (K-224, 7 deneme) · köken sayımı `04` §9 |
-| arkada koşan | Faz 5.0 kayıp anatomisi — 10 Ekim 17:33'ten, ~5 sa (`arsiv/teshis/faz5_0_2026-10-10/`, beklenti commit `075ce8a`) |
-| takvim | mühür ~12 Kasım · teslim 19 Aralık 2026 |
+| taban protokoller | **YENİDEN AÇILDI (K-229):** rakipler `AODV-j` · OLSRv2 · JarmRout; `OLSR-d` · `AOMDV-f` listeden çıktı (Faz 4'te K-224 ile donmuşlardı) |
+| DESPARETE | v0.4.1; birincil hücrede `PDR_açık` 0,551 (AODV 0,444, kâhin 0,780; 1003–1006, K-228); karıştırmaya özgü kaybı AODV'ninkinden büyük (−0,204 ↔ −0,138), fazlası ardılı karıştırılan alanın onarımında |
+| doğrulama | `985 passed` (10 Ekim, K-228) · mimari denetimi ihlalsiz · regresyon tabanı **`k223`** (K-224) · R = **0,0126** (K-224, 7 deneme) · köken sayımı `04` §9 |
+| arkada koşan | yok |
+| takvim | mühür ~25 Kasım–1 Aralık (K-229'dan sonra tahmin) · teslim 19 Aralık 2026 |
 
-### 1.1 · Sıradaki iş — Faz 5.0
+### 1.1 · Sıradaki iş — Faz 4b (K-229)
 
-> **Kural (29 Eylül):** bir faza geride iş kalmadan, yazılım ve yapı denetiminden geçmiş bir simülatörle ve güncel belgelerle geçilir; fazlar paralel yürümez. Faz 4 bu kapıdan geçti (K-221); Faz 5'e geçiş bağımsız denetimden ve düzeltmelerinden sonra (K-226).
+> **Kural (29 Eylül):** bir faza geride iş kalmadan, yazılım ve yapı denetiminden geçmiş bir simülatörle ve güncel belgelerle geçilir; fazlar paralel yürümez. Faz 4 bu kapıdan geçti (K-221); Faz 5'e geçiş bağımsız denetimden ve düzeltmelerinden sonra (K-226). Faz 4b de aynı kapıdan geçer (K-229).
 
-1. **Faz 5.0 · kayıp anatomisi** — birincil hücrede taban protokoller, kâhin ve DESPARETE v0.4.1: paket nerede ve neden ölüyor; Faz 5'in mekanizma hedefleri buradan çıkar. Alet hazır (`kalibrasyon/kayip_anatomisi.py`, K-202 + onarım bölümleri ve `rota_gecersiz` anında alan durumu). `arsiv/teshis/faz5_0_2026-09-30/`daki kopya ve beklenti K-215 öncesi koda ve pencere PDR'sine ait → beklenti `PDR_açık`a göre yeniden yazılır (önkoşullar §2), kopya bugünkü koddan (K-224) yeniden dondurulur, ölçüt ölçmeden önce commit'le girer, süre önce hesaplanır.
-2. Sonra 5.1 → 5.7 (§2 tablosu); her mekanizma ablasyon bayrağıyla ve önceden yazılı beklentiyle.
+1. **Referans dünya, verici 27 dBm:** `referans_2026` (iletilen 27 dBm, ED −80 dBm; köken G7 · G2) · regresyon (bütün referans satırları değişir; beklenen fark önceden yazılır) · çalışma noktası yeniden (alan, K-185 · K-188'in ölçütüyle) · birincil hücrenin karıştırıcı rejimi (kısmi karıştırma, K-186) · `14` güncellenir. Her ölçümün beklentisi önce commit'le.
+2. **OLSRv2** (RFC 7181 · 6130 · 5444 · 5497 · 5148 · 7779; olsrd2 hakem) ve **JarmRout** (Pu 2018): kaynakların indirilmesi, kod, kural kural sadakat denetimi (AODV'nin K-208 kalıbı), beyan tabloları (`*_bicim.py`). Kod işi 1'in hesabıyla paralel yürür.
+3. Yeni dünyada U1 (AODV · OLSRv2 · JarmRout, iki desen; eşik aynı) · R · evre kapıları G1ç · G2ç · G3ç · **donma** (yeni K) · tam takım · mimari denetimi.
+4. Faz 5'e dönüş: 5.0 yeni dünyada yeniden (K-228'in beklentisi ve aleti); mekanizma sırası (K-228) o sonuca göre yeniden değerlendirilir.
+
+### 1.2 · Faz 5 — durdu (K-229); dönüşte gözden geçirilecek plan
+
+1. **Faz 5.0 ✓ eski dünyada** (K-228, `arsiv/teshis/faz5_0_2026-10-10/sonuc.md`): DESPARETE'nin karıştırmaya özgü fazla kaybı (kâhine göre 0,071, AODV'ye göre 0,066) tamamen "rota yok" grubunda. Yeni dünyada (27 dBm) yeniden koşulur.
+2. K-228'in sırası — önce yedek ardıl (5.4'ün çoğaltmasız kısmı) ve açlıkta tur isteği, sonra 5.1 → 5.3 ve 5.4'ün çoğaltması (D-23'ten sonra) — yeni 5.0'ın sonucuyla yeniden değerlendirilir. Her mekanizma ablasyon bayrağıyla ve önceden yazılı beklentiyle; birincil + ikiz + dayanıklılık hücresi, 1003–1010.
 
 ## 2 · Fazlar
 
@@ -42,7 +49,7 @@
 
 | # | mekanizma | ne çözer |
 |---|---|---|
-| 5.0 | **kayıp anatomisi** — birincil hücrede taban protokoller, kâhin, v0.4.1: paket nerede, neden ölüyor (ilk ölçüm K-200; etki alanı ve DESPARETE sayaçları K-202) | hedefleri ölçümle koyar |
+| 5.0 ✓ | **kayıp anatomisi** — birincil hücrede taban protokoller, kâhin, v0.4.1: paket nerede, neden ölüyor (K-228) | hedefleri ölçümle koyar |
 | 5.1 | **karıştırma kanıtı** (taslaktaki C_jam) — komşu başına RSSI × teslim tutarlılığı, kanal doluluğu, PHY hatası; komşununki ilanda, bedeli ödenerek. "Karıştırıcı tespiti" iddiası yok | karıştırılan bağdan kopmadan önce kaçmak |
 | 5.2 | **öngörülü kaçınma** — konum/hızdan bağ ömrü tahmini | hareketle kopan bağı önceden bırakmak |
 | 5.3 | **kanıta dayalı postür** — CAUTION/PROTECT kanıtla, histerezisle; yanlış kriz oranı ölçülür | savunma modunun doğru anda açılması |
@@ -52,10 +59,10 @@
 | 5.7 | **kapanış** — profil v0.5 donar · resmi U1 + U3 · tasarım paketi güncellenir | protokolün çıkışı |
 
 Her mekanizma: ablasyon bayrağı · önceden yazılı beklenti (iki ölçütle: birincil hücrede `PDR_açık` artışı **ve** karıştırıcısız kolda zarar yok) · geliştirme tohumları 1003–1010 · birincil hücre + **dayanıklılık hücresi** (10 s açık · 20 s sessiz; zaman sabitleri tek çizelgeye ayarlanmasın) + bir yer karıştırıcılı aile (K-222, denetim D-08).
-**Öncelik (K-222):** karıştırmaya özgü olanlar önce — 5.1 → 5.3 → 5.4; **5.2 keşifsel** (formasyonda bağ hareketle kopmuyor, Θ tanımsız — birincil testte kazanç gösteremez; bağımsız/görev kollarında); 5.5 · 5.6 yalnız kontrol yükü ya da canlılık sorun çıkarırsa.
-**Önkoşullar:** 5.0'ın beklentisi `PDR_açık`a göre yeniden yazılır (5 kol: AODV · AOMDV · OLSR · DESPARETE · kâhin; önce/açık/sessiz; açık evre kaybının bölgesi ve sebebi — denetim D-22) · gürültü gözlemi kilitli kalır, 5.1'in kanıtı kanal doluluğu, PHY hatası, MAC sonucu ve RSSI'den (K-227; D-04 kapandı) · 5.4'ten önce çoğaltmanın PDR, korunum ve fatura tanımları yazılır (D-23).
+**Öncelik (K-228, K-222'nin yerine):** önce 5.4'ün yedek ardılı (çoğaltmasız) ve açlıkta tur isteği → 5.1 → 5.3 ve 5.4'ün çoğaltması; **5.2 keşifsel** (formasyonda bağ hareketle kopmuyor, Θ tanımsız — birincil testte kazanç gösteremez; bağımsız/görev kollarında); 5.5 · 5.6 yalnız kontrol yükü ya da canlılık sorun çıkarırsa.
+**Önkoşullar:** 5.0'ın beklentisi `PDR_açık`a göre yeniden yazıldı ve koşuldu (denetim D-22; K-228) ✓ · gürültü gözlemi kilitli kalır, 5.1'in kanıtı kanal doluluğu, PHY hatası, MAC sonucu ve RSSI'den (K-227; D-04 kapandı) · 5.4'ten önce çoğaltmanın PDR, korunum ve fatura tanımları yazılır (D-23).
 
-### Faz 6 · Ön-kayıt ve mühür (~5–12 Kasım)
+### Faz 6 · Ön-kayıt ve mühür (K-229'dan sonra ~25 Kasım–1 Aralık)
 
 δ için gürültü ölçümü (3 taban × 20 tohum 1100–1119, birincil hücre) · güç benzetimi ve tohum sayısı · ön-kayıdın kesinleşmesi (`06`): birincil metrik KR-2 (karar), hipotezler, Aile 3 kolları, çekirdek matris, durdurma kuralı, fark-içinde-fark eşiği · pencere üçlüsü (ısınma · ölçüm bitişi · koşu bitişi; SINANMAMIŞ 3) · ana deneyin penceresinde R ve DUYARSIZ hükümlerinin yeniden okunması (δ koşularından, denetim D-03) · uzun bağlarda slot zamanlamasının duyarlılığı (D-11) · kâhinin 96 sönümleme örneğiyle yakınsaması (D-15) · `06` H1.3'ün aldatıcı ↔ sürekli kontrastı referansta yeniden düşünülür (10 W aldatıcı ED'yle bütün ağı susturuyor, K-219) · Rician K ekseninin keşifsel tekrarı (6 · 15 dB, K-215) · **mühür**.
 

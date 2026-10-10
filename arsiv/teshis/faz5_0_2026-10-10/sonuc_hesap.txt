@@ -1,0 +1,93 @@
+== 0 · GEÇERLİLİK ==
+  desparete            1003 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.4757 satır 0.4757 birebir
+  desparete            1004 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.5382 satır 0.5382 birebir
+  desparete            1005 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.5065 satır 0.5065 birebir
+  desparete            1006 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.6838 satır 0.6838 birebir
+  aodv                 1003 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.4009 satır 0.4009 birebir
+  aodv                 1004 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.5365 satır 0.5365 birebir
+  aodv                 1005 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.3566 satır 0.3566 birebir
+  aodv                 1006 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.4810 satır 0.4810 birebir
+  aomdv                1003 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.3475 satır 0.3475 birebir
+  aomdv                1004 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.5207 satır 0.5207 birebir
+  aomdv                1005 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.3563 satır 0.3563 birebir
+  aomdv                1006 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.4935 satır 0.4935 birebir
+  olsr                 1003 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.2583 satır 0.2583 birebir
+  olsr                 1004 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.1929 satır 0.1929 birebir
+  olsr                 1005 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.1002 satır 0.1002 birebir
+  olsr                 1006 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.3670 satır 0.3670 birebir
+  en_guvenilir_kahin   1003 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.7342 satır 0.7342 birebir
+  en_guvenilir_kahin   1004 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.8274 satır 0.8274 birebir
+  en_guvenilir_kahin   1005 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.7370 satır 0.7370 birebir
+  en_guvenilir_kahin   1006 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.8211 satır 0.8211 birebir
+  G2ç ile (1003 · 1004):
+    desparete            1003 0.475674 ↔ 0.475674 birebir
+    desparete            1004 0.538163 ↔ 0.538163 birebir
+    aodv                 1003 0.400890 ↔ 0.400890 birebir
+    aodv                 1004 0.536497 ↔ 0.536497 birebir
+    aomdv                1003 0.347512 ↔ 0.347512 birebir
+    aomdv                1004 0.520677 ↔ 0.520677 birebir
+    olsr                 1003 0.258271 ↔ 0.258271 birebir
+    olsr                 1004 0.192895 ↔ 0.192895 birebir
+    en_guvenilir_kahin   1003 0.734223 ↔ 0.734223 birebir
+    en_guvenilir_kahin   1004 0.827366 ↔ 0.827366 birebir
+
+== PDR_açık tohum başına (önce · açık · sessiz) ==
+  desparete            1003: 0.727 0.476 0.726 | 1004: 0.802 0.538 0.804 | 1005: 0.699 0.507 0.638 | 1006: 0.792 0.684 0.837
+  aodv                 1003: 0.593 0.401 0.548 | 1004: 0.678 0.536 0.622 | 1005: 0.461 0.357 0.458 | 1006: 0.596 0.481 0.579
+  aomdv                1003: 0.557 0.348 0.527 | 1004: 0.733 0.521 0.662 | 1005: 0.456 0.356 0.415 | 1006: 0.638 0.493 0.587
+  olsr                 1003: 0.596 0.258 0.446 | 1004: 0.482 0.193 0.449 | 1005: 0.317 0.100 0.425 | 1006: 0.618 0.367 0.624
+  en_guvenilir_kahin   1003: 0.893 0.734 0.886 | 1004: 0.964 0.827 0.967 | 1005: 0.902 0.737 0.902 | 1006: 0.896 0.821 0.903
+  ortalama PDR_açık (tohum ortalaması) · DESPARETE − kol, tohum başına:
+    desparete            0.551
+    aodv                 0.444 · D − kol +0.075 +0.002 +0.150 +0.203
+    aomdv                0.429 · D − kol +0.128 +0.017 +0.150 +0.190
+    olsr                 0.230 · D − kol +0.217 +0.345 +0.406 +0.317
+    en_guvenilir_kahin   0.780 · D − kol -0.259 -0.289 -0.230 -0.137
+
+== Karıştırmaya özgü kayıp (açık − önce), havuzlanmış ==
+  desparete            ΔPDR -0.204 · R +0.171 · I +0.033 · K +0.000 · T +0.000 · kalan +0.000
+  aodv                 ΔPDR -0.138 · R +0.103 · I +0.035 · K +0.000 · T +0.000 · kalan +0.000
+  aomdv                ΔPDR -0.166 · R +0.135 · I +0.031 · K +0.000 · T +0.000 · kalan +0.000
+  olsr                 ΔPDR -0.274 · R +0.238 · I +0.033 · K +0.001 · T +0.001 · kalan +0.000
+  en_guvenilir_kahin   ΔPDR -0.134 · R +0.006 · I +0.127 · K +0.000 · T +0.000 · kalan +0.000
+
+== Karar kuralı: DESPARETE − kâhin (E) ve DESPARETE − AODV ==
+  − en_guvenilir_kahin E +0.071 · R +0.165 (pay 100%) · I -0.095 (pay 0%) · K +0.000 (pay 0%) · T +0.000 (pay 0%)
+  − aodv               E +0.066 · R +0.068 (pay 100%) · I -0.003 (pay 0%) · K +0.000 (pay 0%) · T +0.000 (pay 0%)
+
+  tohum başına (DESPARETE − kâhin; açık − önce):
+    1003: E_kâhin +0.093 (R +0.247 · İ -0.154) · E_AODV +0.059 (R +0.104 · İ -0.045)
+    1004: E_kâhin +0.128 (R +0.221 · İ -0.093) · E_AODV +0.122 (R +0.132 · İ -0.010)
+    1005: E_kâhin +0.028 (R +0.149 · İ -0.121) · E_AODV +0.088 (R +0.052 · İ +0.036)
+    1006: E_kâhin +0.033 (R +0.044 · İ -0.010) · E_AODV -0.006 (R -0.015 · İ +0.009)
+
+== Güvenlik: T ve DESPARETE'nin hop sınırı ==
+  1003: veri_hop_siniri 0 · ttl düşen 0
+  1004: veri_hop_siniri 0 · ttl düşen 0
+  1005: veri_hop_siniri 0 · ttl düşen 0
+  1006: veri_hop_siniri 0 · ttl düşen 0
+
+== R'nin alt ayrımı (DESPARETE) ==
+  rota_gecersiz anında alan (evre|durum): {'acik|REPAIRING': 1636, 'acik|UNREACHABLE': 1514, 'once|REPAIRING': 577, 'once|UNREACHABLE': 326, 'sessiz|REPAIRING': 734, 'sessiz|UNREACHABLE': 268}
+    acik: REPAIRING (kota dolu) 52% · UNREACHABLE 48%
+    sessiz: REPAIRING (kota dolu) 73% · UNREACHABLE 27%
+  onarım bölümleri (evre, giriş, ulaşılamaz oldu mu): {'acik|aclik|-': 3499, 'acik|aclik|U': 119, 'acik|adaysiz|-': 1945, 'acik|adaysiz|U': 63, 'once|aclik|-': 3165, 'once|aclik|U': 28, 'once|adaysiz|-': 1248, 'once|adaysiz|U': 16, 'sessiz|aclik|-': 2548, 'sessiz|aclik|U': 23, 'sessiz|adaysiz|-': 973, 'sessiz|adaysiz|U': 11}
+
+== Karar payı, etki alanına göre (açık evre; ed · girişim · uzak) ==
+  desparete            once   ed 2.7% · girisim 17.0% · uzak 80.3%
+  desparete            acik   ed 1.2% · girisim 11.2% · uzak 87.6%
+  aodv                 once   ed 2.1% · girisim 17.2% · uzak 80.6%
+  aodv                 acik   ed 1.3% · girisim 11.9% · uzak 86.8%
+  aomdv                once   ed 2.4% · girisim 14.6% · uzak 82.9%
+  aomdv                acik   ed 1.2% · girisim 10.5% · uzak 88.3%
+  olsr                 once   ed 1.4% · girisim 15.0% · uzak 83.7%
+  olsr                 acik   ed 2.0% · girisim 15.1% · uzak 82.9%
+  en_guvenilir_kahin   once   ed 2.8% · girisim 14.6% · uzak 82.7%
+  en_guvenilir_kahin   acik   ed 1.5% · girisim 10.1% · uzak 88.4%
+
+== Açık evrede doğan, düşen × etki alanı (doğana oran) ==
+  desparete            rota_gecersiz     açık 0.002 / 0.032 / 0.191 · önce 0.001 / 0.014 / 0.042
+  desparete            iletim_basarisiz  açık 0.009 / 0.052 / 0.157 · önce 0.004 / 0.053 / 0.129
+  aodv                 rota_gecersiz     açık 0.000 / 0.023 / 0.293 · önce 0.004 / 0.033 / 0.177
+  aodv                 iletim_basarisiz  açık 0.008 / 0.053 / 0.179 · önce 0.006 / 0.049 / 0.150
+  en_guvenilir_kahin   iletim_basarisiz  açık 0.036 / 0.055 / 0.123 · önce 0.002 / 0.017 / 0.067
