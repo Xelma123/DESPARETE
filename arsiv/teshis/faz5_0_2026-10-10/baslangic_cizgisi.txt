@@ -1,0 +1,16 @@
+PDR_acik: birincil | ikiz (hayalet cizelge) | karistirma kaybi
+    en_guvenilir_kahin 1003  0.734 | 0.902 | -0.168
+    en_guvenilir_kahin 1004  0.827 | 0.955 | -0.128
+                  aodv 1003  0.401 | 0.602 | -0.201
+                  aodv 1004  0.536 | 0.698 | -0.161
+                 aomdv 1003  0.348 | 0.585 | -0.238
+                 aomdv 1004  0.521 | 0.782 | -0.261
+                  olsr 1003  0.258 | 0.525 | -0.266
+                  olsr 1004  0.193 | 0.518 | -0.326
+             desparete 1003  0.476 | 0.757 | -0.281
+             desparete 1004  0.538 | 0.786 | -0.248
+fark-icinde-fark: [D - R]_birincil - [D - R]_ikiz
+  desparete - aodv                 1003 -0.080  1004 -0.086
+  desparete - aomdv                1003 -0.043  1004 +0.014
+  desparete - olsr                 1003 -0.015  1004 +0.078
+  desparete - en_guvenilir_kahin   1003 -0.113  1004 -0.120

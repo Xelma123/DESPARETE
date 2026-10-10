@@ -69,6 +69,16 @@ düşüşünde alanın durumu (onarımda: tampon kotası dolu · ulaşılamaz) �
 sayılır — kaybın bölümün UZUNLUĞUNDAN mı kotadan mı geldiğini ayırır.
 Yalnız sayar, davranış aynı.
 
+🔒 10 Ekim · DOĞUM EVRESİ (Faz 5.0): birincil metrik `PDR_açık` (K-222)
+paketin DOĞDUĞU evreye göredir; düşüş başka evrede olabilir (onarımda ya da
+tamponda bekleyen paket). Her düşüşün paketi bulunur (`_dusen_paket`) ve
+pencerede doğan paketin akıbeti doğduğu evreye yazılır: evre evre
+`doğan = teslim + Σ düşen + kalan`. Açık − önce farkı (aynı koşu; ikizde
+açık ≈ önce, G1ç) karıştırmaya özgü kaybı sebeplere TAM ayırır. Aynı paket
+iki kez akıbet bulursa (çelişki) ya da `dugum_kaybi` dışında paketi
+bulunamayan düşüş olursa rapor işaretler; açık evre PDR'si satırın
+`pdr_acik`ıyla çapraz denetlenir.
+
 🔒 K-193 · TOHUM BAŞINA: sonuçlar tohum başına da basılır; tohumlar tek
 çağrıda paralel koşar (eskiden ayrı ayrı koşuluyordu çünkü toplanıyordu).
 
@@ -427,6 +437,70 @@ def _konfig_farklari(metin: str) -> dict:
     return cikti
 
 
+# DOĞUM EVRESİ (10 Ekim, baştaki açıklama): simülatör düşen paketi
+# `_kayip_yeri`ne vermez — davranışa dokunmadan yol yol bulunur.
+_KARAR_DUSUSU = ("rota_gecersiz", "hedef_yok", "politika")
+
+
+def _dusen_paket(sebep: str, dugum: int, cagiran, son_karar: dict,
+                 son_ucus: dict):
+    """`_kayip_yeri`ni doğuran düşüşün paketi; bulunamazsa `None`.
+
+      kuyruk_tasmasi       `kuyruga_al`ın `paket`i (`cagiran`)
+      rota_gecersiz · hedef_yok · politika
+                           düğümün son `sonraki_atlama` paketi: gönderim
+                           döngüsü kararı baş pakete sorar, onu kuyruktan
+                           alıp düşürür (`kosum/gonderim.py`)
+      iletim_basarisiz     düğümün son uçuştan indirilen paketi: `vazgec`
+                           önce indirir, sonra düşürür
+      tampon_asimi         `beklemeye_al`ın `eski`si (taşma) ya da `paket`i
+                           (süresi dolmuş) · süre olayında `p`
+      ttl                  `_yerlestir`in `paket`i
+      dugum_kaybi          bulunmaz (kuyruk boşaltılırken paket bağlanmıyor;
+                           birincil hücrede düğüm kaybı yok) → atfsız
+    """
+    if sebep == "kuyruk_tasmasi":
+        return cagiran.f_locals.get("paket")
+    if sebep in _KARAR_DUSUSU:
+        return son_karar.get(dugum)
+    if sebep == "iletim_basarisiz":
+        return son_ucus.get(dugum)
+    if sebep in ("tampon_asimi", "ttl") and cagiran.f_back is not None:
+        yerel = cagiran.f_back.f_locals
+        for ad in ("eski", "p", "paket"):
+            if ad in yerel:
+                return yerel[ad]
+    return None
+
+
+def _dogum_evresi(kayit, teslim_kimlik: set, bas: float, bitis: float,
+                  evre_adi, alan) -> tuple[Counter, Counter, int]:
+    """Düşüşleri paketin DOĞUM evresine atfeder.
+
+    Dönüş: `sebep|doğum evresi|etki alanı` → adet (yalnız pencerede doğan
+    paketler; alan düşüş anında, bölgeyle aynı düğüm kuralıyla) · atfsız
+    düşüşler (sebep → adet) · çelişki: aynı paket iki kez düştü ya da hem
+    teslim edildi hem düştü. Çelişki > 0 düşen paketin yanlış bulunduğunu
+    gösterir; o koşunun doğum evresi tablosu kullanılamaz.
+    """
+    dusen: Counter = Counter()
+    atfsiz: Counter = Counter()
+    goruldu: set[int] = set()
+    celiski = 0
+    for n, sebep, t, j, p in kayit:
+        if p is None:
+            atfsiz[sebep] += 1
+            continue
+        kimlik, dogum = p
+        if kimlik in goruldu or kimlik in teslim_kimlik:
+            celiski += 1
+        goruldu.add(kimlik)
+        if bas <= dogum < bitis:
+            yer = j if sebep == "iletim_basarisiz" and j is not None else n
+            dusen[f"{sebep}|{evre_adi(dogum)}|{alan(yer, t)}"] += 1
+    return dusen, atfsiz, celiski
+
+
 def _is(is_) -> dict:
     """Havuz işçisi — bir (protokol, tohum) koşusu ve anatomisi."""
     from kalibrasyon.aodv_uygunluk import _fabrika
@@ -461,10 +535,14 @@ def _is(is_) -> dict:
         return ("acik" if any(u.devrede_mi(t_s) for u in uyeler)
                 else "sessiz")
 
-    kayit: list[tuple[int, str, float, int | None]] = []
+    kayit: list[tuple[int, str, float, int | None,
+                      tuple[int, float] | None]] = []
     son_hedef: dict[int, int | None] = {}
     kararlar: Counter = Counter()
     donuk = (not kur.topoloji.hareketli) and kur.kanal.karistirici is None
+    # Doğum evresi (`_dusen_paket`): düğüm başına son karar ve son uçuş paketi.
+    son_karar: dict[int, object] = {}
+    son_ucus: dict[int, object] = {}
 
     asil_yer = Dugum._kayip_yeri
     asil_indir = Dugum.ucustan_indir
@@ -472,14 +550,20 @@ def _is(is_) -> dict:
 
     def izle(self, sebep):
         j = son_hedef.get(self.kimlik) if sebep == "iletim_basarisiz" else None
-        kayit.append((self.kimlik, sebep, self.kur.olaylar.simdi, j))
+        p = _dusen_paket(sebep, self.kimlik, sys._getframe(1), son_karar,
+                         son_ucus)
+        kayit.append((self.kimlik, sebep, self.kur.olaylar.simdi, j,
+                      None if p is None else (p.kimlik, p.dogum_s)))
         return asil_yer(self, sebep)
 
     def indir(self):
         son_hedef[self.kimlik] = self._ucus_hedefi
-        return asil_indir(self)
+        paket = asil_indir(self)
+        son_ucus[self.kimlik] = paket
+        return paket
 
     def karar_izle(self, paket, t_s):
+        son_karar[self.kimlik] = paket
         karar = asil_karar(self, paket, t_s)
         if karar.sonraki is not None:
             dilim = 0 if donuk else int(t_s / BAG_DILIMI_S)
@@ -574,7 +658,7 @@ def _is(is_) -> dict:
             karar_alan[f"{evre}|{alan(j, t_orta)}"] += n
 
     isinmada: Counter = Counter()          # ölçüm penceresinden ÖNCE düşen
-    for _n, sebep, t, _j in kayit:
+    for _n, sebep, t, _j, _p in kayit:
         if t < kfg.olcum_penceresi[0]:
             isinmada[sebep] += 1
     tablo: Counter = Counter()
@@ -583,7 +667,7 @@ def _is(is_) -> dict:
     basarisiz_bag: Counter = Counter()
     verici_bolge: Counter = Counter()
     evre_alan_dusen: Counter = Counter()
-    for n, sebep, t, j in kayit:
+    for n, sebep, t, j, _p in kayit:
         if kar is not None:
             yer = j if sebep == "iletim_basarisiz" and j is not None else n
             evre_alan_dusen[f"{sebep}|{evre_adi(t)}|{alan(yer, t)}"] += 1
@@ -600,7 +684,7 @@ def _is(is_) -> dict:
     # Düşüşün yoğunlaştığı düğümler — sebep başına en çok beş (düğüm, adet,
     # geçide mesafe km, t = 0'da).
     dugum_dusen: dict[str, Counter] = {}
-    for n, sebep, _t, _j in kayit:
+    for n, sebep, _t, _j, _p in kayit:
         dugum_dusen.setdefault(sebep, Counter())[n] += 1
     gecit = kfg.gecit
     yogun = {s: [[n, v, round(kur.topoloji.mesafe(n, gecit, 0.0) / 1e3, 1)]
@@ -611,7 +695,7 @@ def _is(is_) -> dict:
     # gibi) evreye ayrılır — sessiz evrede PDR'nin temize dönüp dönmediği,
     # protokolün çizelgeye zamansal uyumudur (K-192 §4).
     evre_dusen: Counter = Counter()
-    for _n, sebep, t, _j in kayit:
+    for _n, sebep, t, _j, _p in kayit:
         evre_dusen[f"{sebep}|{evre_adi(t)}"] += 1
     bas, bitis = kfg.olcum_penceresi
     evre_dogan: Counter = Counter()
@@ -639,6 +723,11 @@ def _is(is_) -> dict:
             "pdr": (evre_teslim[e] / evre_dogan[e] if evre_dogan[e]
                     else None)}
         for e in ("once", "acik", "sessiz")}
+    # Doğum evresi: evre evre `doğan = teslim + Σ düşen + kalan` (kalan:
+    # koşu sonunda kuyrukta, tamponda ya da uçuşta).
+    dogum_dusen, atfsiz, celiski = _dogum_evresi(
+        kayit, {kd.kimlik for kd in kur.paket_defteri.kayitlar()}, bas,
+        bitis, evre_adi, alan if kar is not None else (lambda _d, _t: "uzak"))
 
     teshis: Counter = Counter()
     for dt in satir["teshis"]["dugum"]:
@@ -681,6 +770,10 @@ def _is(is_) -> dict:
             "olsr_s13": s13 if geri_olsr is not None else None,
             "karistirici_evresi": karistirici_evresi,
             "evre_dusen": dict(evre_dusen),
+            "dogum_evre_dusen": dict(dogum_dusen),
+            "dogum_atfsiz": dict(atfsiz),
+            "dogum_celiski": celiski,
+            "pdr_acik_satir": m.get("pdr_acik"),
             "evre_alan_paket": {a: [alan_dogan[a], alan_teslim[a]]
                                 for a in alan_dogan},
             "evre_alan_karar": dict(karar_alan),
@@ -753,6 +846,103 @@ def _evre_alan_raporu(rs: list[dict], sebepler: list[str]) -> None:
                  if any(dusen[f"{s}|{e}|{b}"] for b in BOLGELER)]
         if parca:
             print(f"      {s:<18}" + " · ".join(parca))
+
+
+def _dogum_sayimi(rs: list[dict]) -> tuple[Counter, Counter, Counter]:
+    """Doğum evresine göre sayımlar, tohumlar toplanmış: evre → doğan ·
+    evre → teslim · `sebep|evre|alan` → düşen."""
+    dogan: Counter = Counter()
+    teslim: Counter = Counter()
+    dusen: Counter = Counter()
+    for r in rs:
+        for e in EVRELER:
+            dogan[e] += r["karistirici_evresi"][e]["dogan"]
+            teslim[e] += r["karistirici_evresi"][e]["teslim"]
+        dusen.update(r["dogum_evre_dusen"])
+    return dogan, teslim, dusen
+
+
+def _evre_orani(dogan: Counter, teslim: Counter, dusen: Counter,
+                e: str) -> dict[str, float]:
+    """Bir evrede doğanların akıbeti, doğana oran: sebep başına düşen ·
+    `teslim` (= o evrenin PDR'si) · `kalan` (koşu sonunda yolda)."""
+    sebep: Counter = Counter()
+    for k, v in dusen.items():
+        s, ee, _a = k.split("|")
+        if ee == e:
+            sebep[s] += v
+    o = {s: v / dogan[e] for s, v in sebep.items()}
+    o["teslim"] = teslim[e] / dogan[e]
+    o["kalan"] = (dogan[e] - teslim[e] - sum(sebep.values())) / dogan[e]
+    return o
+
+
+def _dogum_evre_raporu(rs: list[dict]) -> dict | None:
+    """Doğum evresine göre akıbet — tohumlar toplanmış (Faz 5.0). Dönüş:
+    açık − önce farkları; toplamları sıfır (Δteslim = −Σ Δsebep − Δkalan),
+    yani karıştırmaya özgü kayıp sebeplere TAM ayrılır. Önce ya da açık
+    evrede doğan yoksa (kısa pencere) `None`."""
+    for r in rs:
+        uyari = []
+        if r["dogum_celiski"]:
+            uyari.append(f"ÇELİŞKİ {r['dogum_celiski']} (düşen paket yanlış "
+                         f"bulunuyor — tablo kullanılamaz)")
+        if r["dogum_atfsiz"]:
+            uyari.append(f"atfsız {r['dogum_atfsiz']}")
+        if uyari:
+            print(f"    🔴 tohum {r['tohum']} doğum evresi: "
+                  + " · ".join(uyari))
+    dogan, teslim, dusen = _dogum_sayimi(rs)
+    oran = {e: _evre_orani(dogan, teslim, dusen, e)
+            for e in EVRELER if dogan[e]}
+    sebepler = sorted({k.split("|")[0] for k in dusen})
+    print("    doğum evresine göre akıbet (doğana oran, tohumlar toplanmış):")
+    print(f"      {'evre':<8}{'doğan':>8}{'teslim':>9}" + "".join(
+        f"{s[:16]:>18}" for s in sebepler) + f"{'kalan':>9}")
+    for e, o in oran.items():
+        print(f"      {e:<8}{dogan[e]:>8}{o['teslim']:>9.3f}" + "".join(
+            f"{o.get(s, 0.0):>18.3f}" for s in sebepler)
+            + f"{o['kalan']:>9.3f}")
+    fark = None
+    if "once" in oran and "acik" in oran:
+        adlar = set(oran["once"]) | set(oran["acik"])
+        fark = {a: oran["acik"].get(a, 0.0) - oran["once"].get(a, 0.0)
+                for a in adlar}
+        print(f"      {'açık−önce':<16}{fark['teslim']:>+9.3f}" + "".join(
+            f"{fark.get(s, 0.0):>+18.3f}" for s in sebepler)
+            + f"{fark['kalan']:>+9.3f}")
+    for e in ("acik", "once"):
+        if not dogan[e]:
+            continue
+        parca = []
+        for s in sebepler:
+            v = [dusen.get(f"{s}|{e}|{b}", 0) for b in BOLGELER]
+            if sum(v):
+                parca.append(f"{s} " + " / ".join(
+                    f"{x / dogan[e]:.1%}" for x in v))
+        print(f"      {e} evrede doğan, düşen × etki alanı (ed / girisim / "
+              f"uzak): " + (" · ".join(parca) or "—"))
+    return fark
+
+
+def _ozel_kayip_tablosu(ozel: dict[str, dict]) -> None:
+    """KARIŞTIRMAYA ÖZGÜ KAYIP — doğum evresine göre açık − önce, doğana
+    oran; satır toplamı sıfır. DESPARETE varsa öteki kollarla farkı da."""
+    adlar = sorted({a for f in ozel.values() for a in f} - {"teslim", "kalan"})
+    sutun = ["teslim", *adlar, "kalan"]
+    print("\n  KARIŞTIRMAYA ÖZGÜ KAYIP — doğum evresine göre açık − önce "
+          "(doğana oran, tohumlar toplanmış; satır toplamı 0)")
+    print(f"    {'kol':<28}" + "".join(f"{a[:16]:>18}" for a in sutun))
+    for p, f in ozel.items():
+        print(f"    {p:<28}" + "".join(f"{f.get(a, 0.0):>+18.3f}"
+                                       for a in sutun))
+    d = ozel.get("desparete")
+    if d is not None:
+        for p, f in ozel.items():
+            if p == "desparete":
+                continue
+            print(f"    {'desparete − ' + p:<28}" + "".join(
+                f"{d.get(a, 0.0) - f.get(a, 0.0):>+18.3f}" for a in sutun))
 
 
 def _oranlar(sayac: dict) -> str:
@@ -837,6 +1027,7 @@ def main() -> int:
     sebepler = sorted({k.split("|")[0] for r in sonuc for k in r["tablo"]})
     kahin = {r["tohum"]: r for r in sonuc
              if r["protokol"] == "en_guvenilir_kahin"}
+    ozel: dict[str, dict] = {}            # protokol → açık − önce farkları
     for p in protokoller:
         rs = sorted((r for r in sonuc if r["protokol"] == p),
                     key=lambda r: r["tohum"])
@@ -880,6 +1071,11 @@ def main() -> int:
                           f"{e} {ke[e]['pdr']:.3f} ({ke[e]['dogan']})"
                           if ke[e]["pdr"] is not None else f"{e} —"
                           for e in ("once", "acik", "sessiz")))
+                a, b = ke["acik"]["pdr"], r.get("pdr_acik_satir")
+                if b is not None:
+                    print("      açık PDR, satırın `pdr_acik`ıyla: "
+                          + ("birebir" if a is not None and abs(a - b) < 1e-12
+                             else f"🔴 UYUŞMUYOR ({a} ↔ {b})"))
                 ed = r["evre_dusen"]
                 print("      düşen evreye göre (açık/sessiz/önce): " + " · ".join(
                     f"{s} {ed.get(s + '|acik', 0)}/{ed.get(s + '|sessiz', 0)}"
@@ -932,6 +1128,9 @@ def main() -> int:
                         "hist_kayip_sessiz", "erken_tc")))
         if sinif != "yok":
             _evre_alan_raporu(rs, sebepler)
+            fark = _dogum_evre_raporu(rs)
+            if fark is not None:
+                ozel[p] = fark
         print(f"    {'sebep':<18}" + "".join(f"{b:>10}" for b in BOLGELER)
               + f"{'toplam':>10}{'üretilene':>11}")
         for s in sebepler:
@@ -944,6 +1143,8 @@ def main() -> int:
         kuyrukta = sum(r["kuyrukta"] for r in rs)
         print(f"    {'(koşu sonu kuyrukta)':<18}{kuyrukta:>40}"
               f"{kuyrukta / uretilen:>10.1%}")
+    if ozel:
+        _ozel_kayip_tablosu(ozel)
     print("\n  bolge: ed = karistirici >= ED esigi (kanal erisim kilidi) · "
           "girisim = gurultunun ustu · uzak = karistiricidan bagimsiz")
     print("  etki alani: karistirici o an ACIK olsaydi alinacak ORTALAMA guc "

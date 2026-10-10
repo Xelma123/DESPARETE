@@ -107,3 +107,89 @@ def test_DESPARETE_ONARIM_BOLUMLERI_aclik_adaysiz_ve_sonlari():
                              "acik|aclik|yeni_tur": 1,
                              "acik|adaysiz|kosu_sonu+U": 1}
     assert ozet["sure"]["acik|kosu_sonu+U"] == [20.0, 20.0, 20.0]
+
+
+def test_DOGUM_EVRESI_dusen_paket_yollari():
+    """Faz 5.0 (10 Ekim): düşen paket, düşüşün yoluna göre bulunur."""
+    from types import SimpleNamespace as N
+
+    from kalibrasyon.kayip_anatomisi import _dusen_paket
+    P = [object() for _ in range(7)]
+    kuyruk = N(f_locals={"self": 0, "paket": P[0], "uretim": True},
+               f_back=None)
+    assert _dusen_paket("kuyruk_tasmasi", 5, kuyruk, {}, {}) is P[0]
+    dus = N(f_locals={"sebep": "x"}, f_back=None)
+    for s in ("rota_gecersiz", "hedef_yok", "politika"):
+        assert _dusen_paket(s, 5, dus, {5: P[1], 6: P[2]}, {}) is P[1]
+    assert _dusen_paket("iletim_basarisiz", 5, dus, {5: P[1]},
+                        {5: P[3]}) is P[3]
+    tasma = N(f_locals={}, f_back=N(f_locals={"paket": P[4], "eski": P[5]}))
+    assert _dusen_paket("tampon_asimi", 5, tasma, {}, {}) is P[5]
+    suresi = N(f_locals={}, f_back=N(f_locals={"paket": P[4]}))
+    assert _dusen_paket("tampon_asimi", 5, suresi, {}, {}) is P[4]
+    olay = N(f_locals={}, f_back=N(f_locals={"paket_kimligi": 7, "p": P[6]}))
+    assert _dusen_paket("tampon_asimi", 5, olay, {}, {}) is P[6]
+    assert _dusen_paket("ttl", 5, suresi, {}, {}) is P[4]
+    assert _dusen_paket("dugum_kaybi", 5, suresi, {5: P[1]}, {5: P[3]}) is None
+
+
+def test_DOGUM_EVRESI_simulatorun_dusus_yollari_degismedi():
+    """`_dusen_paket` simülatörün düşüş yollarındaki yerel adlara dayanır;
+    bir ad değişirse bu test kırılır (atıf sessizce yanlış paketi bulmasın).
+    Sıra "eski" → "p" → "paket": taşma yolunda `eski` düşer, `paket` değil."""
+    from sim2.kosum import gonderim, teslim
+    from sim2.kosum.dugum import Dugum
+
+    def yerel(f):
+        return set(f.__code__.co_varnames)
+
+    assert {"paket", "eski"} <= yerel(Dugum.beklemeye_al)
+    assert "p" not in yerel(Dugum.beklemeye_al)
+    assert {"paket_kimligi", "p"} <= yerel(Dugum.tampon_suresi_doldu)
+    assert "eski" not in yerel(Dugum.tampon_suresi_doldu)
+    assert "paket" in yerel(teslim._yerlestir)
+    assert not {"eski", "p"} & yerel(teslim._yerlestir)
+    assert "paket" in yerel(Dugum.kuyruga_al)
+    # Karar düşüşü: kararın sorulduğu baş paket düşer; iletim başarısızlığı:
+    # önce uçuştan indirilir, sonra düşer.
+    import inspect
+    kaynak = inspect.getsource(gonderim)
+    assert "d.sonraki_atlama(d.kuyruk.bak()" in kaynak
+    vazgec = inspect.getsource(gonderim.vazgec)
+    assert vazgec.index("d.ucustan_indir()") < vazgec.index(
+        'd.dus("iletim_basarisiz"')
+
+
+def test_DOGUM_EVRESI_atif_kalan_ve_celiski():
+    """Akıbet doğum evresine yazılır; evre başına oranların toplamı 1;
+    aynı paket iki kez ya da teslimden sonra düşerse çelişki."""
+    from collections import Counter
+
+    from kalibrasyon.kayip_anatomisi import _dogum_evresi, _evre_orani
+
+    def evre(t):
+        return "once" if t < 20 else ("acik" if t < 35 else "sessiz")
+
+    kayit = [
+        (1, "rota_gecersiz", 36.0, None, (10, 30.0)),     # açıkta doğdu
+        (2, "iletim_basarisiz", 31.0, 7, (11, 30.5)),     # alan alıcıda
+        (3, "kuyruk_tasmasi", 15.0, None, (12, 15.0)),    # önce
+        (4, "dugum_kaybi", 40.0, None, None),             # atfsız
+        (5, "ttl", 5.0, None, (13, 5.0)),                 # pencere dışı
+    ]
+    dusen, atfsiz, celiski = _dogum_evresi(
+        kayit, {20, 21}, 10.0, 50.0, evre, lambda d, t: f"a{d}")
+    assert dusen == Counter({"rota_gecersiz|acik|a1": 1,
+                             "iletim_basarisiz|acik|a7": 1,
+                             "kuyruk_tasmasi|once|a3": 1})
+    assert atfsiz == Counter({"dugum_kaybi": 1}) and celiski == 0
+    _, _, c = _dogum_evresi(
+        kayit + [(6, "ttl", 45.0, None, (10, 30.0)),      # iki kez düştü
+                 (7, "ttl", 45.0, None, (20, 30.0))],     # teslim edilmişti
+        {20, 21}, 10.0, 50.0, evre, lambda d, t: "x")
+    assert c == 2
+    dogan = Counter({"acik": 10})
+    o = _evre_orani(dogan, Counter({"acik": 6}), dusen, "acik")
+    assert o["teslim"] == 0.6 and o["rota_gecersiz"] == 0.1
+    assert abs(o["kalan"] - 0.2) < 1e-12
+    assert abs(sum(o.values()) - 1.0) < 1e-12
