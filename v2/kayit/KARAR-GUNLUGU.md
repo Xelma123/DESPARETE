@@ -157,8 +157,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-224 | 🟢 TABAN PROTOKOLLER YENİDEN DONDU — AODV-j · OLSR-d · AOMDV-f, en çok 7 iletim denemesi  | 🟢 geçerli |
 | K-225 | 🟢 DENETİMİN SON İKİ İŞİ VE YAYIN HAZIRLIĞI — gm_hiz_sigma_ms DÜNYA TANIMI · gm_alfa DUYA | 🟢 geçerli |
 | K-226 | 🟢 FAZ 5'E GEÇİŞ KAPISI KAPANDI — Faz 4.5 doğrulama listesi son kodla geçti (Li sabit hız | 🟢 geçerli |
+| K-227 | 🟢 GÜRÜLTÜ GÖZLEMİ KİLİTLİ KALIR (denetim D-04) — gerçek sürücü gürültüyü yavaş, ortancay | 🟢 geçerli |
 
-**137 kayıt · 7 revize · 130 geçerli**
+**138 kayıt · 7 revize · 131 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1726,3 +1727,10 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Belgeler:** `07` · `09` · `14` Li sayısı 0,1250; `12` durum; devir belgesi yeniden yazıldı (önceki `arsiv/DEVIR-PROMPT-2026-10-08.md`; kullanılmış denetim istemi `arsiv/denetim/DENETIM-PROMPT-2026-10-08.md`).
 - **Denetimin (8 Ekim) kapanışı:** 24 bulgunun kararları ve düzeltmeleri K-222…K-226'da; Faz 5'e bırakılanlar (D-04 gürültü ölçüm modeli 5.1'den önce · D-22 5.0 beklentisi · D-23 çoğaltma tanımları 5.4'ten önce) `12` §2'de; Faz 6'ya bırakılanlar (D-03 tam pencere R · D-11 slot · D-15 kâhin 96 örnek) K-222'de. Ayrıca bekleyen: kod yorumlarının üslup temizliği (K-225).
 - **Faz 5'e geçiş kapısı KAPANDI.** Sıradaki iş Faz 5.0 (`12` §1.1).
+# K-227 · 🟢 GÜRÜLTÜ GÖZLEMİ KİLİTLİ KALIR (denetim D-04) — gerçek sürücü gürültüyü yavaş, ortancayla ve kırparak verir · Faz 5.1'in karıştırma kanıtı kanal doluluğu, PHY hatası, MAC sonucu ve RSSI'den
+> 10 Ekim · yürütücü (seçenek "kilitli kalsın"; kaynak indirme izni) · kaynak G18 (`protokol_kaynaklari/uygulama_kaynaklari/linux/ath9k/`, Linux v6.6, ISC)
+
+- **Kaynak (G18):** ath9k sürücüsünde bildirilen gürültü `−95 dBm + max(0, NF − nominal − 6)`, tamsayı dBm; NF son 5 okumanın ortancası, çipin üst sınırına kırpılır (AR9300'de rapor en çok −51 dBm, AR9280'de −86 dBm); NF yalnız uzun kalibrasyonda okunur — olağan kipte 30 s'de bir, "takılı beacon" girişim kipinde 1 s'de bir. 15 s açık · 15 s sessiz çizelgede rapor açılıp kapanmayı hemen hiç göstermez.
+- **Karar:** `olculen_gurultu_w` simülatörde anlık ve hatasızdır; protokol kararına girmez. Mimari denetimi okunmasını engellemeyi sürdürür (D17). Sürücü modeli yazılmadı: bu çizelgede bilgi taşımayacağı kaynaktan görülüyor ve kod, köken ve regresyon bedeli bir kararı değiştirmiyor. D-04 böylece kapandı.
+- **Faz 5.1'e sonucu:** karıştırma kanıtı gerçek telsizin hızlı verdiği gözlemlerden kurulur — kanal doluluğu (`mesgul_sure_s`, sürücünün donanım sayaçlı "channel busy time"ı), PHY hatası, MAC sonucu, komşu başına RSSI × teslim tutarlılığı. Not: karıştırıcı ED eşiğinin (−76 dBm) altında kaldığı girişim alanında kanal doluluğunu artırmaz; orada kanıt PHY hatası, MAC sonucu ve RSSI'dir. RSSI'nin σ 2 dB'si bugün DUYARSIZ (okuyan yok); 5.1 okuyunca mimari D17 kaydı yeniden açar, duyarlılığı ölçülür.
+- Güncellenen: `04` §4 · `05` §3.1 · `12` §2 · `02` G18 · `protokol_kaynaklari/README.md` · `NOTICE`.

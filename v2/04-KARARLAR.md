@@ -30,6 +30,7 @@
 - **Gözlem sözleşmesi (`05`):** protokol yalnız gerçek bir telsizin ve otopilotun verebileceğini görür — RSSI, gürültü, kanal doluluğu, PHY hatası, kulak misafiri çerçeveler, kendi konum/hız; karıştırıcıyı, gerçek bağ kalitesini ve topolojiyi göremez. Yüzey 29 alan; sızıntı testle kapalı.
 - **Kontrol düzlemi (`13`):** protokol çağırmaz, niyet döndürür; her kontrol baytı kanalda ödenir; unicast sonucu ve iletim başarısızlığı kancalarla bildirilir; bekleme tamponu simülatörde (64 paket · 30 s, taşmada en eski düşer — ns-3 AODV ile aynı, K-198; birincil hücrede bağlamıyor: 256 paket ve 60 s birebir aynı sonuç, K-200).
 - **Kâhin bilgisi hiçbir protokol kararına girmez.** Kâhinler yalnız ölçüm aleti ve referanstır.
+- **Gürültü gözlemi protokol kararına girmez (K-227, denetim D-04):** simülatörde anlık ve hatasızdır; gerçek sürücü onu 30 s'de bir, 5 ölçümün ortancasıyla ve kırparak verir (`02` G18). Mimari denetimi okunmasını engeller. Karıştırma kanıtı kanal doluluğu, PHY hatası, MAC sonucu ve RSSI'den kurulur.
 
 ## 5 · Taban protokoller — DONDU: `AODV-j` · `OLSR-d` · `AOMDV-f` (K-224)
 

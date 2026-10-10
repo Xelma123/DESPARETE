@@ -90,6 +90,8 @@ Vu Khanh Quy, Nguyen Tien Ban, Nguyen Dinh Han, *"A High-Performance Routing Pro
 
 **G17 · IP veri paketinin varsayılan TTL'i** ✓ RFC 1700 (Reynolds & Postel, *"Assigned Numbers"*, STD 2, Ekim 1994; RFC 3232 ile tarihsel, kayıtlar IANA'da çevrimiçi), "IP TIME TO LIVE PARAMETER": *"The current recommended default time to live (TTL) for the Internet Protocol (IP) is 64."* Bağımsız uygulama kaynağı: ns-3-dev `ipv4-l3-protocol.cc` `DefaultTtl` = **64**. RFC 791 (G16) TTL'in anlamını verir, değer vermez; RFC 3626 OLSR'ın TTL'i yalnız kendi kontrol mesajlarınındır. 6 Ekim 2026 (K-215).
 
+**G18 · Sürücünün gürültü tabanı raporu (uygulama kaynağı)** ~ Linux v6.6 ath9k (ISC), 10 Ekim 2026 — gürültü işleme ve kalibrasyon zamanlaması okundu (`calib.c` · `ar9003_calib.c` · `link.c`; sınırlar `ar9003_phy.h` · `ar9002_phy.h`). Bildirilen gürültü **−95 dBm + max(0, NF − nominal − 6)**, tamsayı dBm · NF son **5** okumanın ortancası, çipin üst sınırına kırpılır (AR9300'de nominalin +50 dB üstü → rapor en çok −51 dBm; AR9280'de +15 dB → en çok −86 dBm) · NF yalnız uzun kalibrasyonda okunur: olağan kipte **30 s**'de bir, "takılı beacon" girişim kipinde 1 s'de bir. Bir sürücü örneğidir, standart değil. Denetim D-04'ün (protokole verilen gürültü gözlemi idealleştirilmiş) kaynağı.
+
 **G5 · Karıştırma taraması** ✓ Pirayesh & Zeng, arXiv:2101.00292v1, 2021 (dergi sürümü IEEE COMST 2022). Sürekli, aldatıcı, reaktif, taramalı saldırılar; reaktif karıştırıcı < 4 µs geçiş ister · karıştırma tespiti gürültü, kanal meşgul oranı, çerçeveler arası süre, sinyal gücü, teslim oranıyla (Puñal vd.) · hız uyarlaması düşük güçlü girişimde etkili, yüksek güçlü sürekli karıştırmada etkisiz (Pelechrinis vd.).
 
 ## S · Doğrulanmayı bekleyen kaynak soruları

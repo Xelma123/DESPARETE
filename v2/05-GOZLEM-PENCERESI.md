@@ -1,6 +1,6 @@
 # 05 · GÖZLEM PENCERESİ — protokolün görebildiği her şey
 
-> **Güncel:** 10 Ekim 2026 (öz sürüm; son içerik değişikliği K-222) · **Türü:** sözleşme — genişletilmez, gerekçeli değişikliğin yolu §7. Kod `sim2/gozlem/pencere.py` · yüzey testi `tests2/test_kontrol_duzlemi.py` (P6). Protokolün **yapabilecekleri** `13`te. Önceki sürümler `v2/arsiv/05-GOZLEM-PENCERESI-*.md`. Bölüm numaraları kodda atıflı, korunur (10 Eylül öncesinin A1–A4'ü = §3.1–3.5).
+> **Güncel:** 10 Ekim 2026 (öz sürüm; son içerik değişikliği K-227) · **Türü:** sözleşme — genişletilmez, gerekçeli değişikliğin yolu §7. Kod `sim2/gozlem/pencere.py` · yüzey testi `tests2/test_kontrol_duzlemi.py` (P6). Protokolün **yapabilecekleri** `13`te. Önceki sürümler `v2/arsiv/05-GOZLEM-PENCERESI-*.md`. Bölüm numaraları kodda atıflı, korunur (10 Eylül öncesinin A1–A4'ü = §3.1–3.5).
 
 ## 1 · Neden var
 
@@ -18,7 +18,7 @@ Jüri sorusu: *"Protokolünüz karıştırıcının nerede olduğunu nereden bil
 |---|---|
 | `dugum` | kendi adresi (802.11 MAC adresi) |
 | `saat_s` | kendi saati — ofset ve sapmalı (§3.2) |
-| `olculen_gurultu_w` | anteninde ölçülen gürültü + girişim gücü (sürücünün gürültü tabanı raporu). Mutlak değeri serbest bir ölçek (K-110 EK-4): sezim oranla ya da değişimle yapılır, mutlak eşikle değil. **Bugün anlık, hatasız ve sürekli değerli** (bir sürücü tazeleme aralığıyla, ortalanmış, tamsayı dBm verir) — Faz 5.1 okumadan önce bir ölçüm modeline bağlanır (denetim D-04); o güne kadar mimari denetimi okunmasını engeller (D17) |
+| `olculen_gurultu_w` | anteninde ölçülen gürültü + girişim gücü (sürücünün gürültü tabanı raporu). Mutlak değeri serbest bir ölçek (K-110 EK-4): sezim oranla ya da değişimle yapılır, mutlak eşikle değil. **Simülatörde anlık, hatasız ve sürekli değerli.** Gerçek sürücü (ath9k, `02` G18) onu olağan kipte 30 s'de bir okur, son 5 ölçümün ortancasını alır, −95 dBm tabanından ve yonganın üst sınırında kırparak tamsayı dBm verir. Bu yüzden **protokol kararına girmez**: mimari denetimi okunmasını engeller (D17; K-227, denetim D-04) |
 | `kanal_mesgul_mu` | CCA göstergesi (G2: mod 1/2/3; güç kipinde önbelge kilidi ya da ED, K-174) |
 | `kuyruk_uzunlugu` · `kuyruk_kapasitesi` | kendi arayüz kuyruğu |
 | `son_iletim_sonucu` · `son_iletim_hedefi` | MAC'in gönderim durumu raporu: onay · zaman aşımı. "Cevap gelmedi" bir gözlemdir, bayta mal olmaz |

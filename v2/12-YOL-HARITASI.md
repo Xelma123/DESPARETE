@@ -11,7 +11,7 @@
 | taban protokoller | **DONDU (K-224, 10 Ekim):** `AODV-j` · `OLSR-d` · `AOMDV-f`, en çok 7 iletim denemesi — U1-U iki desende geçti, yere toplamada U1-B temiz (açıklanmış hücreler K-207 · K-196, anatomiyle) |
 | DESPARETE | v0.4.1; birincil hücrede ilk ölçüm pencere PDR'si 0,700 (AODV 0,556, kâhin 0,813; 4 geliştirme tohumu, K-200 — eski kod, 5.0'da yeniden ölçülür); açık evrede AODV'ye üstünlüğü küçük (K-224) |
 | doğrulama | `982 passed` (10 Ekim) · mimari denetimi ihlalsiz · regresyon tabanı **`k223`** (K-224) · R = **0,0126** (K-224, 7 deneme) · köken sayımı `04` §9 |
-| arkada koşan | yok |
+| arkada koşan | Faz 5.0 kayıp anatomisi — 10 Ekim 17:33'ten, ~5 sa (`arsiv/teshis/faz5_0_2026-10-10/`, beklenti commit `075ce8a`) |
 | takvim | mühür ~12 Kasım · teslim 19 Aralık 2026 |
 
 ### 1.1 · Sıradaki iş — Faz 5.0
@@ -53,7 +53,7 @@
 
 Her mekanizma: ablasyon bayrağı · önceden yazılı beklenti (iki ölçütle: birincil hücrede `PDR_açık` artışı **ve** karıştırıcısız kolda zarar yok) · geliştirme tohumları 1003–1010 · birincil hücre + **dayanıklılık hücresi** (10 s açık · 20 s sessiz; zaman sabitleri tek çizelgeye ayarlanmasın) + bir yer karıştırıcılı aile (K-222, denetim D-08).
 **Öncelik (K-222):** karıştırmaya özgü olanlar önce — 5.1 → 5.3 → 5.4; **5.2 keşifsel** (formasyonda bağ hareketle kopmuyor, Θ tanımsız — birincil testte kazanç gösteremez; bağımsız/görev kollarında); 5.5 · 5.6 yalnız kontrol yükü ya da canlılık sorun çıkarırsa.
-**Önkoşullar:** 5.0'ın beklentisi `PDR_açık`a göre yeniden yazılır (5 kol: AODV · AOMDV · OLSR · DESPARETE · kâhin; önce/açık/sessiz; açık evre kaybının bölgesi ve sebebi — denetim D-22) · 5.1'den önce `olculen_gurultu_w` bir ölçüm modeline bağlanır (D-04; mimari D17 o güne kadar okunmasını engeller) · 5.4'ten önce çoğaltmanın PDR, korunum ve fatura tanımları yazılır (D-23).
+**Önkoşullar:** 5.0'ın beklentisi `PDR_açık`a göre yeniden yazılır (5 kol: AODV · AOMDV · OLSR · DESPARETE · kâhin; önce/açık/sessiz; açık evre kaybının bölgesi ve sebebi — denetim D-22) · gürültü gözlemi kilitli kalır, 5.1'in kanıtı kanal doluluğu, PHY hatası, MAC sonucu ve RSSI'den (K-227; D-04 kapandı) · 5.4'ten önce çoğaltmanın PDR, korunum ve fatura tanımları yazılır (D-23).
 
 ### Faz 6 · Ön-kayıt ve mühür (~5–12 Kasım)
 

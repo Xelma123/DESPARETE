@@ -12,8 +12,11 @@ ve telif hakkıyla dağıtılır:
 
 - protokol_kaynaklari/uygulama_kaynaklari/ns-3/ : ns-3 ağ simülatörünün
   kaynak dosyaları (GPL-2.0-only; telif sahipleri dosya başlıklarında).
-- protokol_kaynaklari/uygulama_kaynaklari/linux/ : Linux çekirdeğinin
-  kablosuz yapılandırma arayüzünden bir dosya (GPL-2.0-only).
+- protokol_kaynaklari/uygulama_kaynaklari/linux/net_wireless_core.c :
+  Linux çekirdeğinin kablosuz yapılandırma arayüzünden bir dosya
+  (GPL-2.0-only).
+- protokol_kaynaklari/uygulama_kaynaklari/linux/ath9k/ : Linux ath9k
+  sürücüsünden dosyalar (ISC; Atheros Communications, Qualcomm Atheros).
 - protokol_kaynaklari/rfc*.txt : IETF RFC metinleri (IETF Trust).
 - protokol_kaynaklari/*.pdf ve *.png : yayımlanmış makaleler, bir veri
   sayfası ve makalelerden şekiller; hakları yazarlarına ve yayıncılarına

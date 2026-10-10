@@ -202,6 +202,7 @@ Ortak denetim; etkin içerik yok (1801.01656'daki `/JS` sıkıştırılmış ak�
 | `ns-3/llc-snap-header.cc` | LLC/SNAP başlığı `LLC_SNAP_HEADER_LENGTH` (değeri RFC 1042: 8 oktet). 30 Eylül, 1 767 B, tamamı | `6a89e53e5b3bce433056a72a45d1c65226d2847f6a8a008a3c7a542a47ae93cd` |
 | `ns-3/wifi-mac-queue.cc` | MAC kuyruğu varsayılanı **`MaxSize` 500 paket · `MaxDelay` 500 ms** (bizde 50 paket, süre sınırı yok — NS-2 `ifqlen` geleneği; değer farklı → duyarlılık ölçülür, Faz 4.4). 30 Eylül, 15 544 B, öznitelikler okundu | `dc5c27e1343510d027ae01bc90aef4d267ff0c81ff963df1f2270b53b68ca2f0` |
 | `ns-3/simple-frame-capture-model.cc` · `frame-capture-model.cc` | yakalama: yeni çerçeve süren çerçeveden **5 dB** güçlüyse ve önbelge sezildikten sonraki **16 µs**'lik pencerede ise alım yeni çerçeveye geçer (bizde 10 dB · 192 µs; model ayrıntısı farklı → duyarlılık ölçülür, Faz 4.4). 30 Eylül, 1 823 B · 1 046 B, tamamı | `06a33f211d82f2c271cfb0bc82ab78e63156ae43ce5d94e79c0ba6b46e95c170` · `17909434a659c3899420bedc2fce4f6bf22c52d3f7791fca24bdd732caae0573` |
+| `linux/net_wireless_core.c` | *"Initialize wiphy parameters to IEEE 802.11 MIB default values"*: `retry_short = 7`, `retry_long = 4`, RTS kapalı | `a1e6ebc52f7634585e5c7e8cb29b2e106de5af12da68cf9e5ed0794ad94fcb9a` |
 | `ns-3/wifi-utils.h` | yardımcı bildirimler (ACK boyu "FCS dâhil" hesaplanır). 30 Eylül, 8 584 B, taramada | `76454b3f2d9f0de839c8fb838a6bf3cdc1e0ad621ae11372cdb8a52e623720b2` |
 
 30 Eylül'de indirilen `wifi-mac-trailer.h` FCS sabitini taşımadığı için `arsiv/kaynak_elenen/`e taşındı (sabit zaten `wifi-standard-constants.h`de). Denetim: talimat kalıbı yok; dosyalar GPL-2.0-only başlığını taşıyor.
@@ -222,6 +223,22 @@ Ortak denetim; etkin içerik yok (1801.01656'daki `/JS` sıkıştırılmış ak�
 | `uygulama_kaynaklari/ns-3/ipv4-l3-protocol.cc` | ns-3-dev `src/internet/model/ipv4-l3-protocol.cc` (GPL-2.0-only) | `https://gitlab.com/nsnam/ns-3-dev/-/raw/master/src/internet/model/ipv4-l3-protocol.cc` | 58 517 B · `faa5c2a9c5fdb800fda076bab33cb42b8b5dec5b208d46cd10a13d10e5b146ef` | öznitelik `DefaultTtl`: *"The TTL value set by default on all outgoing packets generated on this node"*, **64** |
 
 Denetim: talimat kalıbı yok (RFC 1700'deki "Claude" geçişleri kayıt sahibi adları).
-| `linux/net_wireless_core.c` | *"Initialize wiphy parameters to IEEE 802.11 MIB default values"*: `retry_short = 7`, `retry_long = 4`, RTS kapalı | `a1e6ebc52f7634585e5c7e8cb29b2e106de5af12da68cf9e5ed0794ad94fcb9a` |
+
+### Linux ath9k — sürücünün gürültü tabanı raporu (10 Ekim 2026, Faz 5.1 önkoşulu, denetim D-04)
+
+`uygulama_kaynaklari/linux/ath9k/` — Linux v6.6 (LTS) etiketi, `https://raw.githubusercontent.com/torvalds/linux/v6.6/drivers/net/wireless/ath/ath9k/<dosya>`. Lisans **ISC** (Atheros Communications / Qualcomm Atheros; dosya başlıklarında), GPL değil. Atheros 802.11a/b/g/n yonga ailesinin açık sürücüsü; gerçek bir telsizin protokole verebileceği gürültü bilgisinin örneği (standart değil, uygulama kaynağı). Denetim: talimat kalıbı yok.
+
+| dosya | sağladığı | boyut · SHA-256 |
+|---|---|---|
+| `calib.c` | gürültü tabanı (NF) işleme: her okuma çipin sınırlarına kırpılır (`ath9k_hw_nf_sanitize`: üstte **max**, altta nominale) · son **5** okumanın ortancası (`ath9k_hw_get_nf_hist_mid`) · ortanca da **max**'a kırpılır (çip "takılı beacon" girişim kipinde değilse) · bildirilen gürültü `ath9k_hw_getchan_noise`: **−95 dBm + max(0, NF − 6 − nominal)**, tamsayı | 12 936 B · `f4ae3ffbada0ea19a19cd88dec90ab592fb793fcd16bbabfbf1dbc6aba9674e6` |
+| `calib.h` | `ATH9K_NF_CAL_HIST_MAX` **5** · `ATH9K_NF_CAL_NOISE_THRESH` **6** | 3 619 B · `f4316b58727cb50f7ce6d7c2ad827700a899cb329857c0d44b0e9f5e69d2121d` |
+| `hw.h` | `ATH_DEFAULT_NOISE_FLOOR` **−95** · `struct ath_nf_limits` (max · min · nominal) | 36 270 B · `e8d59af29f0e60ecdf59c4e02b81b42e61794bbcd718ca8ce68b9b34b556808c` |
+| `ath9k.h` | kalibrasyon aralıkları: uzun **30 s** (`ATH_LONG_CALINTERVAL`), girişim kipinde **1 s** (`_INT`); kısa 1 s (istasyon) · 100 ms (erişim noktası) | 31 766 B · `253bd71ae31a4867529dfb40c0a0aff174402151aaa0e34e1076593000d6cd4e` |
+| `link.c` | `ath_ani_calibrate`: uzun kalibrasyon zamanlayıcısı; girişim bayrağı (`NFCAL_INTF`) varken 1 s | 14 315 B · `5c4d3a73da811688fd2762d758147a278d1df41fa642beb4306324e23f334a48` |
+| `ar9003_calib.c` | *"Do NF cal only at longer intervals"*: NF yalnız uzun kalibrasyonda okunur | 47 135 B · `84421fd00033bd692ea0626dd489e877ba895d0c5b834e270e49fdb21b4ef034` |
+| `ar9003_phy.c` · `ar9003_phy.h` | AR9300 sınırları, 2 GHz: nominal **−110** · min −125 · max **−60** (iç ölçek) | 62 977 B · `f7b1dd55d778578726128536bc2744f3058e9e7aa45908eb0b94ba275ecfc7b9` · 59 573 B · `52ad4dbd3d8b317ee0f397a5d541858f23e9203634c335e08892464767671f66` |
+| `ar9002_phy.c` · `ar9002_phy.h` | AR9280 sınırları, 2 GHz: nominal **−112** · min −127 · max **−97**; AR5416 −90 · −100 · −80 | 17 430 B · `a4fe2b040163d5700607657d9c14d200d046b90ca20a39eeda1c0ba6838abe5b` · 23 901 B · `d2cceaa4340087d8bd961f9704d4361d9e22e737d038076294f1b172deb8f5fd` |
+
+Sonuç: bildirilen gürültü ısıl tabanın üstündeki artışı yalnız nominalin 6 dB üstünden itibaren, çipe göre en çok +44 dB (AR9300) ya da +9 dB (AR9280) gösterir ve olağan kipte 30 s'de bir okunan 5 ölçümün ortancasıdır.
 
 - **`arsiv/kaynak_elenen/ieee_80211_2016_kesit_madde21_IPR2023-01414.pdf`:** IEEE Std 802.11-2016'nın yalnız 9 sayfası, madde 21 (VHT/802.11ac, s. 2538–2580). Bir ABD patent davasının delil dosyası (*"IPR2023-01414 · Patent Owner · EX 2003"*), üçüncü kişinin lisans damgasıyla. İhtiyaç duyulan 802.11b maddeleri (15–16) ve MAC zamanlaması (madde 10) yok → kaynak olarak kullanılmadı, arşive taşındı.
