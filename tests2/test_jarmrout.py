@@ -92,6 +92,44 @@ def test_TRAFIK_YUKU_es_8_tablo_2():
     assert round(trafik_yuku(7.1257, 10), 4) == 8.9054                # n_c
 
 
+def test_YUK_SUZGECI_yalniz_kendi_erisiminde():
+    """Eş. 6 · 7 — ölçüm "son ortama erişimden" (K-234). Atılan RREQ
+    erişim değildir, süzgeci güncellemez; yeniden yayın günceller. Taşınan
+    T_ld süzgeçlerin yayından önceki hâlinden (makale: "current traffic
+    load")."""
+    from types import SimpleNamespace
+
+    def gozlem(t, mesgul_s, kuyruk):
+        return SimpleNamespace(saat_s=t, mesgul_sure_s=mesgul_s,
+                               kuyruk_uzunlugu=kuyruk, paket=None,
+                               kendi_konum=(100.0, 200.0, 50.0))
+
+    def rreq(sira, ara):
+        return tuple({"kaynak": 1, "hedef": 9, "pkt_seq": sira,
+                      "c_hop": len(ara), "l_qt": 0.0, "t_ld": 0.0,
+                      "h_route": ara, "x": (0,) * len(ara),
+                      "y": (0,) * len(ara)}.items())
+
+    def t_ld(niyet):
+        assert len(niyet) == 1
+        return dict(niyet[0].yuk)["t_ld"]
+
+    j = JarmRout(5)
+    # İlk erişim: süzgeçler boş → T_ld 0; ölçümün başlangıcı (meşgul 100 ms).
+    assert t_ld(j.kontrol_alindi(gozlem(1.0, 0.100, 4), 2, "RREQ",
+                                 rreq(7, (2,)), True)) == 0.0
+    # Yinelenen, C_hop'u büyük RREQ atılır — erişim yok, süzgeç aynı.
+    assert j.kontrol_alindi(gozlem(1.002, 0.101, 4), 6, "RREQ",
+                            rreq(7, (3, 4, 6)), True) == ()
+    # İkinci erişim: T_ld bugünkü süzgeçten (T 0 · Q 2) → 1,04; sonra ölçüm
+    # önceki erişimden bu yana 10 ms (atılan RREQ araya girmedi).
+    assert t_ld(j.kontrol_alindi(gozlem(2.0, 0.110, 0), 2, "RREQ",
+                                 rreq(8, (2,)), True)) == pytest.approx(1.04)
+    # Üçüncü: T 0,5·10 = 5 ms · Q 0,5·2 = 1 → TL 3,12.
+    assert t_ld(j.kontrol_alindi(gozlem(3.0, 0.120, 0), 2, "RREQ",
+                                 rreq(9, (2,)), True)) == pytest.approx(3.12)
+
+
 # ---------------------------------------------------------------- uçtan uca
 _V = Konfig(kol="t")
 _N = 14

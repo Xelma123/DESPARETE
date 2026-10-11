@@ -30,7 +30,7 @@ Tablo 1–3 ve Şekil 3 yürütücünün ekran görüntülerinden okundu (11 Eki
 | J8 | Kaynak RREP'lerdeki tam rotaları önbelleğe alır ve **aynı veri paketini iki yoldan gönderir** (§VI.B) | `Karar(rota=X, kopyalar=(Y[0],), kopya_rotalari=(Y,))` — kopya defteri K-231 |
 | J9 | Bir düğüm sonraki atlamaya teslimde sürekli başarısız olursa bağı kopmuş sayar ve kaynağa kopan bağla RERR yollar. Kaynak o bağı içeren yolu siler; tek yol kalırsa onu kullanır, ikisi de giderse yeniden keşfeder | "sürekli başarısız" = MAC'in vazgeçmesi (7 deneme; `iletim_basarisiz`); RERR paketin taşıdığı kaynak rotasının tersinden |
 | J10 | Bağ kalitesi = komşudan alınan paketlerin RSSI'larının varyansı (Eş. 1–5); küçük = kararlı; L_qt yoldaki en büyük | RSSI `cerceve_duyuldu`dan (gerçek telsizin çerçeve başına RSSI'ı, σ 2 dB, tamsayı dBm) |
-| J11 | Trafik yükü: T_busy = NAV'ın (ms) alçak geçiren süzgeci (Eş. 6), Q_buf = kuyruk uzunluğunun süzgeci (Eş. 7), TL = Eş. 8 | **beyanlı sapma:** MAC'te RTS/CTS yok, yani NAV yok. Karşılığı son güncellemeden bu yana CCA'nın meşgul kaldığı süre, ms (`mesgul_sure_s`, sürücünün "channel busy time"ı) |
+| J11 | Trafik yükü: T_busy = NAV'ın (ms) alçak geçiren süzgeci (Eş. 6), Q_buf = kuyruk uzunluğunun süzgeci (Eş. 7), TL = Eş. 8 | **beyanlı sapma:** MAC'te RTS/CTS yok, yani NAV yok. Karşılığı düğümün her kendi erişiminde, önceki erişimden bu yana CCA'nın meşgul kaldığı süre, ms (`mesgul_sure_s`, sürücünün "channel busy time"ı; örnekleme K-234) |
 | J12 | Mekânsal uzaklık 2B konumlarla (Eş. 9–12); konum RREQ'da taşınır | kendi GPS/INS konumu (1,5 m CEP), yatay izdüşüm (makale 2B varsayıyor) |
 | J13 | Veri kaynak rotasıyla taşınır (DSR) | **simülatöre kaynak rotası** (§3) |
 
@@ -54,9 +54,9 @@ Reddedilen seçenek: kaynak rotası yerine RREP'in kurduğu atlama atlama durum.
 | Eş. 8'in kazancı γ ve düzeltme çarpanı ε | Tablo 2'nin örneğinden çözüldü: γ 0,5 · ε 0,02 |
 | Eş. 6–7'nin süzgeç sabitleri | makalede değer yok → seçim 0,5 + SINANMAMIŞ |
 | RSSI örnek sayısı N_rssi | Tablo 1'in örneği: 4 (doğrulandı) |
-| beklenen RSSI (eşitlikte ayırıcı) −55 dBm | makalenin örneği (yalnız eşitlik bozmada) |
+| beklenen RSSI (eşitlikte ayırıcı) −55 dBm | kullanılmaz: JarmRout komşu sıralamaz (K-234) |
 | `t_wait` | makalede yok, DSR'de karşılığı yok → seçim + SINANMAMIŞ |
-| RREQ yeniden denemesi, titreşim, rota önbelleği ömrü, RREP/RERR biçimi | DSR (RFC 4728 §9: RequestPeriod 500 ms, MaxRequestPeriod 10 s, MaxRequestRexmt 16, BroadcastJitter 10 ms, RouteCacheTimeout 300 s; §6.3 · §6.4) |
+| RREQ yeniden denemesi, titreşim, rota önbelleği ömrü, RREP/RERR biçimi | DSR (RFC 4728 §9: RequestPeriod 500 ms, MaxRequestPeriod 10 s, MaxRequestRexmt 16, BroadcastJitter 10 ms, RouteCacheTimeout 300 s, DiscoveryHopLimit 255; §6.3 · §6.4) |
 
 ## 5 · Makalenin kendi içinde dikkat isteyen yerler (harfiyen uygulanır, beyan edilir)
 

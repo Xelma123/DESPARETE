@@ -38,15 +38,15 @@ Boyutlar `tests2/test_jarmrout.py` ile bağlı.
 =====================================================
 | konu | makale | gerçekleme | kaynak |
 |---|---|---|---|
-| trafik yükünün kanal terimi | son erişimdeki NAV, ms (RTS/CTS'in sanal taşıyıcı dinlemesi, Eş. 6; Tablo 2: T_busy ≈ 7 ms) | son güncellemeden bu yana CCA'nın meşgul kaldığı süre, ms (`mesgul_sure_s`, sürücünün "channel busy time"ı) | simülatörde RTS/CTS yok (`04` §1); NAV ortamın meşgul tutulduğu süredir, CCA meşgul süresi aynı büyüklüğün fiziksel ölçüsü — beyanlı sapma |
-| bağ kopması | "sürekli teslim edemezse" (örtük/açık onay yok) | MAC'in vazgeçmesi (7 deneme, `iletim_basarisiz`) | makale + RFC 4728 §3.3 (bağ katmanı onayı) |
-| RREQ önbelleği anahtarı | `pkt_seq` | `(S_id, pkt_seq)` | RFC 4728 §3.3.2 Route Request Table (başlatıcı + kimlik); farklı kaynaklar aynı sırayı taşıyabilir |
-| RREQ yeniden denemesi | yok | RequestPeriod 0,5 s, iki katına, en çok 10 s, en çok 16 kez | RFC 4728 §3.3.2 · §9 |
+| trafik yükünün kanal terimi | son erişimdeki NAV, ms (RTS/CTS'in sanal taşıyıcı dinlemesi, Eş. 6; Tablo 2: T_busy ≈ 7 ms) | düğümün her kendi erişiminde, önceki erişimden bu yana CCA'nın meşgul kaldığı süre, ms (`mesgul_sure_s`, sürücünün "channel busy time"ı); Eş. 7'nin kuyruk ölçümü aynı anlarda (K-234) | simülatörde RTS/CTS yok (`04` §1); NAV ortamın meşgul tutulduğu süredir, CCA meşgul süresi aynı büyüklüğün fiziksel ölçüsü — beyanlı sapma |
+| bağ kopması | "sürekli teslim edemezse" (örtük/açık onay yok) | MAC'in vazgeçmesi (7 deneme, `iletim_basarisiz`) | makale + RFC 4728 §8.3.1 (bağ katmanı onayı) · §8.3.4 (RERR paketin kaynağına) |
+| RREQ önbelleği anahtarı | `pkt_seq` | `(S_id, pkt_seq)` | RFC 4728 §4.3 · §8.2.2 Route Request Table (başlatıcı + kimlik); farklı kaynaklar aynı sırayı taşıyabilir |
+| RREQ yeniden denemesi | yok | RequestPeriod 0,5 s, iki katına, en çok 10 s, en çok 16 kez | RFC 4728 §8.2 · §4.3 · §9 |
 | yayın titreşimi | yok | 0–10 ms tekdüze | RFC 4728 §9 BroadcastJitter |
 | rota önbelleği ömrü | yok | 300 s (RERR'e kadar) | RFC 4728 §9 RouteCacheTimeout |
 | keşif sürerken veri | yok (Şekil 4: "broadcast RREQ") | simülatörün ortak bekleme tamponu (64 paket · 30 s, herkes için aynı) | RFC 4728 §9 SendBufferTimeout 30 s; tampon ortak (`06` §8 koşul 3) |
 | RSSI örnek sayısı N_rssi | Tablo 1'in örneği: komşudan en son dört paket (R_x … R_x+3) | 4 | makalenin örneği |
-| eşitlik bozan beklenen RSSI | örnek −55 dBm | −55 dBm | makalenin örneği |
+| eşitlik bozan beklenen RSSI | eşit LQ'lu iki komşudan son paketi −55 dBm'e yakın olan (§III.B örneği) | kullanılmaz | JarmRout komşu sıralamaz; yolu hedef Eş. 13'le seçer (K-234) |
 | `t_wait` | değer yok | SEÇİM — bkz. `T_WAIT_S` | makale ve DSR susuyor |
 | Eş. 8'in kazancı γ ve düzeltme çarpanı ε | metinde değer yok | γ = 0,5 · ε = 0,02 | Tablo 2'nin örneğinden çözüldü: TL = (γ+ε)·T_busy + (1−γ+ε)·Q_buf, n_b ve n_c'den iki katsayı 0,52 → γ 0,5, ε 0,02; n_a ile sağlama 11,6282 |
 | Eş. 6 · 7'nin süzgeç sabitleri | değer yok | SEÇİM 0,5 — bkz. `YUK_*_SUZGECI` | makale susuyor; Tablo 2 ortalamaları verir, süzgeç geçmişini vermez |
@@ -63,7 +63,7 @@ from sim2.gozlem.kontrol import MesajBicimi
 __all__ = [
     "RREQ", "RREP", "RERR", "VERI_BASLIK_BAYT", "ROTA_ADRES_BAYT",
     "AGIRLIK_BAG", "AGIRLIK_YUK", "AGIRLIK_UZAKLIK", "N_RSSI",
-    "BEKLENEN_RSSI_DBM", "REQUEST_PERIOD_S", "MAX_REQUEST_PERIOD_S",
+    "REQUEST_PERIOD_S", "MAX_REQUEST_PERIOD_S",
     "MAX_REQUEST_REXMT", "BROADCAST_JITTER_S", "ROUTE_CACHE_TIMEOUT_S",
     "T_WAIT_S", "YUK_KANAL_SUZGECI", "YUK_KUYRUK_SUZGECI",
     "YUK_KANAL_AGIRLIGI", "YUK_DUZELTME", "KONUM_BIT",
@@ -120,7 +120,6 @@ AGIRLIK_BAG: float = 0.2        # Eş. 13 α
 AGIRLIK_YUK: float = 0.2        # Eş. 13 β
 AGIRLIK_UZAKLIK: float = 0.6    # Eş. 13 γ
 N_RSSI: int = 4                 # Tablo 1'in örneği: R_x … R_x+3
-BEKLENEN_RSSI_DBM: float = -55.0  # §III.B'nin örneği (eşitlik bozma)
 
 # ---------------------------------------------------------------- DSR §9
 REQUEST_PERIOD_S: float = 0.5

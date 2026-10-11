@@ -144,13 +144,13 @@ class JarmRout:
         self._son_t: float | None = None
         self._son_mesgul: float | None = None
         self._sira = 0
-        # RFC 4728 §3.3.2 Route Request Table: başlatıcı → (pkt_seq, C_hop).
+        # RFC 4728 §4.3 Route Request Table: başlatıcı → (pkt_seq, C_hop).
         self._istek: dict[int, deque] = {}
         # Hedef: (S, pkt_seq) → kayıtlı yollar; seçimden sonra `None`.
         self._hedef_kayit: dict[tuple[int, int], list | None] = {}
         # Kaynak: hedef → [(ara düğümler, son geçerlilik)] (en çok iki).
         self._rotalar: dict[int, list[tuple[tuple[int, ...], float]]] = {}
-        # Kaynak: hedef → [deneme, periyot] (RFC 4728 §3.3.2).
+        # Kaynak: hedef → [deneme, periyot] (RFC 4728 §8.2 · §4.3).
         self._kesif: dict[int, list] = {}
         # Sonraki atlama → son gönderilen paketin (S, D, rota) — RERR'in
         # kime ve hangi yoldan döneceği (J9).
@@ -177,11 +177,16 @@ class JarmRout:
         d.append(float(rssi_dbm))
 
     def _yuk_guncelle(self, gozlem: Gozlem) -> None:
-        """Eş. 6 · 7 — ortamın meşgul süresi ve kuyruk uzunluğu süzgeçleri;
-        her ortama erişimde ve RREQ işlenirken güncellenir.
+        """Eş. 6 · 7 — ortamın meşgul süresi ve kuyruk uzunluğu süzgeçleri.
 
-        Makalenin ölçümü son erişimdeki NAV, birimi milisaniye (Tablo 2:
-        T_busy ≈ 7 ms). Simülatörde RTS/CTS yok; karşılığı son güncellemeden
+        🔒 Yalnız düğümün KENDİ ortama erişiminde güncellenir (makale: "the
+        measurement from the most recent medium access"): kuyruk başındaki
+        veri iletim kararı ve ürettiği ya da ilettiği her kontrol çerçevesi.
+        Alım erişim değildir (K-234: RREQ selinde birkaç ms arayla gelen
+        kopyalar ölçümü sıfıra çekiyordu).
+
+        Makalenin ölçümü erişimdeki NAV, birimi milisaniye (Tablo 2:
+        T_busy ≈ 7 ms). Simülatörde RTS/CTS yok; karşılığı önceki erişimden
         bu yana CCA'nın meşgul kaldığı süre, ms (beyanlı sapma)."""
         t = float(gozlem.saat_s)
         m = gozlem.mesgul_sure_s
@@ -193,6 +198,12 @@ class JarmRout:
         self._q_buf = b * self._q_buf + (1.0 - b) * gozlem.kuyruk_uzunlugu
         self._son_t, self._son_mesgul = t, m
 
+    def _erisimse_guncelle(self, gozlem: Gozlem, niyet: tuple) -> tuple:
+        """Niyet bir kontrol çerçevesi gönderiyorsa bu bir erişimdir."""
+        if any(isinstance(n, KontrolIstegi) for n in niyet):
+            self._yuk_guncelle(gozlem)
+        return niyet
+
     # ==================================================================
     # VERİ — J1 · J8 · J13
     # ==================================================================
@@ -200,7 +211,6 @@ class JarmRout:
         p = gozlem.paket
         if p is None:
             return Karar()
-        self._yuk_guncelle(gozlem)
         simdi = float(gozlem.saat_s)
         if p.kaynak != self.kimlik:
             # J13 — başlıktaki kaynak rotası.
@@ -210,12 +220,14 @@ class JarmRout:
             i = p.rota.index(self.kimlik)
             j = p.rota[i + 1] if i + 1 < len(p.rota) else p.hedef
             self._son_iletim[j] = (p.kaynak, p.hedef, p.rota)
+            self._yuk_guncelle(gozlem)                  # veri erişimi
             return Karar(sonraki=j)
         rotalar = self._gecerli_rotalar(p.hedef, simdi)
         if not rotalar:
             # J1 — rota yok: tampona, keşif başlar (yoksa).
-            return Karar(beklet=True,
-                         niyetler=self._kesif_baslat(p.hedef, simdi))
+            return Karar(beklet=True, niyetler=self._erisimse_guncelle(
+                gozlem, self._kesif_baslat(p.hedef, simdi)))
+        self._yuk_guncelle(gozlem)                      # veri erişimi
         x = rotalar[0]
         j = x[0] if x else p.hedef
         self._son_iletim[j] = (p.kaynak, p.hedef, x)
@@ -236,7 +248,7 @@ class JarmRout:
         return lst
 
     # ==================================================================
-    # KEŞİF — J1 · J2 (RFC 4728 §3.3.2 yeniden deneme)
+    # KEŞİF — J1 · J2 (RFC 4728 §8.2 · §9 yeniden deneme)
     # ==================================================================
     def _kesif_baslat(self, hedef: int, simdi: float) -> tuple:
         if hedef in self._kesif:
@@ -292,10 +304,11 @@ class JarmRout:
                 self._sayac["kesif_basarisiz"] += 1
                 return ()
             k[1] = min(2.0 * k[1], MAX_REQUEST_PERIOD_S)
-            return self._rreq_gonder(hedef)
+            return self._erisimse_guncelle(gozlem, self._rreq_gonder(hedef))
         if etiket.startswith(_TWAIT):
             kaynak, sira = (int(x) for x in etiket[len(_TWAIT):].split(":"))
-            return self._yol_sec(kaynak, sira)
+            return self._erisimse_guncelle(gozlem,
+                                           self._yol_sec(kaynak, sira))
         return ()                                    # _TAMPON
 
     # ==================================================================
@@ -303,22 +316,24 @@ class JarmRout:
     # ==================================================================
     def kontrol_alindi(self, gozlem: Gozlem, gonderen: int, bicim: str,
                        yuk, yayin: bool) -> tuple:
-        self._yuk_guncelle(gozlem)
         simdi = float(gozlem.saat_s)
         y = dict(yuk)
         if bicim == "RREQ":
+            # TL, süzgeçlerin bugünkü hâlinden (makale: "its current traffic
+            # load"); yeniden yayın yeni erişimdir, ölçümü ondan sonra girer.
             niyet = self._rreq_isle(gozlem, gonderen, y)
         elif bicim == "RREP":
             niyet = self._rrep_isle(y, simdi)
         else:
             niyet = self._rerr_isle(y)
+        self._erisimse_guncelle(gozlem, niyet)
         beyan, self._beyan = tuple(self._beyan), []
         return niyet + beyan
 
     def _rreq_isle(self, gozlem: Gozlem, gonderen: int, y: dict) -> tuple:
         kaynak, hedef, sira = y["kaynak"], y["hedef"], y["pkt_seq"]
         if kaynak == self.kimlik or self.kimlik in y["h_route"]:
-            # Kendi isteği · rota kaydında kendisi var (RFC 4728 §3.3.3).
+            # Kendi isteği · rota kaydında kendisi var (RFC 4728 §8.2.2).
             self._sayac["rreq_atilan"] += 1
             return ()
         if hedef == self.kimlik:
@@ -329,7 +344,8 @@ class JarmRout:
         elif y["c_hop"] > c_onceki:
             self._sayac["rreq_atilan"] += 1                         # J4
             return ()
-        if y["c_hop"] >= 255:                       # C_hop 8 bit (Şekil 2)
+        # C_hop 8 bit (Şekil 2) · RFC 4728 §9 DiscoveryHopLimit 255.
+        if y["c_hop"] >= 255:
             self._sayac["rreq_atilan"] += 1
             return ()
         lq = bag_kalitesi(self._rssi.get(gonderen, ()))
@@ -478,6 +494,7 @@ class JarmRout:
         donus = tuple(reversed(tam[1:k]))
         ilk = donus[0] if donus else kaynak
         self._sayac["rerr_uretilen"] += 1
+        self._yuk_guncelle(gozlem)                      # RERR erişimi
         return beyan + (KontrolIstegi.kur(ilk, RERR, {
             "dsr_baslik": 0, "rerr_secenek": 0, "hata_kaynagi": self.kimlik,
             "hata_hedefi": kaynak, "ulasilamaz": hedef,

@@ -164,8 +164,10 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-231 | 🟢 UÇTAN UCA KOPYA DEFTERİ (denetim D-23) — protokol paketin eşlerini başka komşulara da  | 🟢 geçerli |
 | K-232 | 🟢 KAYNAK ROTASI (DSR ailesi) — protokol ara düğümleri paketin başlığına yazabilir · adre | 🟢 geçerli |
 | K-233 | 🟢 JarmRout'UN İLK GERÇEKLEMESİ (Pu 2018) — makalenin dört çözümlü örneği birim testi ve  | 🟢 geçerli |
+| K-234 | 🟢 JarmRout KURAL KURAL SADAKAT DENETİMİNDEN GEÇTİ — tek gerekçesiz sapma (Eş. 6 · 7'nin  | 🟢 geçerli |
+| K-235 | 🟢 OLSRv2'NİN GERÇEKLEMESİ VE SADAKAT DENETİMİ — RFC 7181 + NHDP (RFC 6130) + DAT (RFC 77 | 🟢 geçerli |
 
-**144 kayıt · 8 revize · 136 geçerli**
+**146 kayıt · 8 revize · 138 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1800,3 +1802,24 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Tam takım:** `1006 passed` (15 dk 33 s; ilk koşuda kırılan tek test yukarıdaki kapı testiydi, düzeltilip yeniden koşuldu).
 - **Durum:** kural kural sadakat denetimi, regresyon vakaları, U1 ve donma sırada (`12` §1.1); kod denetimden geçene kadar değişebilir.
 - Güncellenen: `04` §5 · §9 · `12`.
+# K-234 · 🟢 JarmRout KURAL KURAL SADAKAT DENETİMİNDEN GEÇTİ — tek gerekçesiz sapma (Eş. 6 · 7'nin örnekleme anı) düzeltildi → `JarmRout-b` · RFC 4728 atıfları düzeltildi · Faz 4b'ye belge ve kod temizliği adımı
+> 11 Ekim · K-208'in kalıbıyla (AODV) · denetim `arsiv/teshis/jarmrout_sadakat_2026-10-11/denetim.md` (K-233'ün hâli üzerinde) · temizlik adımı yürütücünün
+
+- **Kapsam:** makalenin §III.A–E kuralları, Şekil 2–4, Tablo 1–3 tek tek koda karşı; makalenin sustuğu yerde RFC 4728'in kuralları (Route Request Table, rota kaydında döngü, titreşim, yeniden deneme, hop sınırı, RERR, rota önbelleği, kurtarma).
+- **Sapma (düzeltildi):** Eş. 6'nın ölçümü makalede "son ortama erişimden"dir. Kod trafik yükü süzgeçlerini her alınan kontrol paketinde de güncelliyordu; RREQ selinde birkaç ms arayla gelen kopyalar ölçümü sıfıra çekiyor, taşınan T_ld'yi alımların sıklığına bağlıyordu. Süzgeçler artık yalnız düğümün kendi erişimlerinde güncellenir: kuyruk başındaki veri iletim kararı ve ürettiği ya da ilettiği her kontrol çerçevesi; RREQ'ya yazılan yük süzgeçlerin yayından önceki hâlidir ("its current traffic load"). Test `test_YUK_SUZGECI_yalniz_kendi_erisiminde`: aynı girdilerle eski kod T_ld 1,04 · 3,25 · 4,225, yeni kod 0 · 1,04 · 3,12.
+- **Beyan:** makalenin eşitlik bozan beklenen RSSI'ı (−55 dBm) kullanılmaz — JarmRout komşu sıralamaz, yolu hedef Eş. 13'le seçer; kullanılmayan sabit kaldırıldı. DSR'nin kurtarması (§8.3.6, SHOULD) eklenmez: makale kopmadaki işlemi kendisi tanımlar, ara düğümde rota önbelleği yok. RREP iletiminin başarısızlığı yok sayılır (RERR'i rota tutmayan hedefe giderdi); kaynak RREQ'yu yeniden dener.
+- **Atıf düzeltmesi:** beyan tablosu ve kod yorumları RFC 4728'in §3.3'ünü (ek keşif özellikleri) gösteriyordu; doğruları Route Request Table §4.3 · §8.2.2, yeniden deneme §8.2 · §9, bağ onayı ve RERR §8.3.1 · §8.3.4, hop sınırı §9 DiscoveryHopLimit 255.
+- **Doğrulama:** `tests2/test_jarmrout.py` 13/13 · ilgili testler (donma, kaynak rotası, kopya) 23/23 · mimari denetimi ihlalsiz. JarmRout regresyon matrisinde değil; taban protokollerin satırları değişmez.
+- **Faz 4b'ye adım (yürütücü):** JarmRout ve OLSRv2'den sonra, Faz 5'e dönmeden önce belge ve kod temizliği — rakip listesinden çıkan OLSR (RFC 3626) · AOMDV · GPSR'ın bayat kalıntıları eksiksiz taranır, yürürlükteki her yer yeni rakiplere göre yazılır (`12` §1.1 adım 4).
+- Güncellenen: `04` §5 · `12` §1.1.
+# K-235 · 🟢 OLSRv2'NİN GERÇEKLEMESİ VE SADAKAT DENETİMİ — RFC 7181 + NHDP (RFC 6130) + DAT (RFC 7779), tel biçimi RFC 5444 bayt bayt · gerekçesiz sapma yok → `OLSRv2-a`
+> 11 Ekim · tetik K-229 · K-230 · kaynaklar `protokol_kaynaklari/` (`02` R5), hakem olsrd2 (commit `477e716`) · tasarım `arsiv/teshis/olsrv2_2026-10-11/tasarim.md` · denetim `arsiv/teshis/olsrv2_sadakat_2026-10-11/denetim.md`
+
+- **Kod:** `protokoller/olsrv2.py` (NHDP bağ/komşu/2-atlama kümeleri, MPR taşması, TC, rota kümesi, DAT) · `olsrv2_rfc5444.py` (RFC 5444 kodlayıcı ve çözücü, RFC 5497 zaman kodu, RFC 7181 §6.2 metrik kodu) · `olsrv2_bicim.py` (sabitler — RFC 6130 §15, RFC 7181 §20, RFC 7779 §7 — ve beyan tablosu).
+- **Tel biçimi:** paket RFC 5444'e göre gerçekten kodlanır ve simülatörün biçim sözleşmesinde tekrarlı 8 bitlik tek alanla taşınır; ödenen bayt gerçek tel boyutudur, alıcı aynı baytları çözer. Kodlayıcı RFC 6130 Ek B'nin iki örnek HELLO'sunu (45 · 29 bayt) bayt bayt üretir.
+- **Kararlar** (RFC'nin seçeneğe bıraktığı yerler, hakem olsrd2): bağ metriği DAT; bayrak MPR'leri metrikli (§18.4 A); yalnız yönlendirme MPR seçicileri ilan edilir; simetrik olmayan göndericinin TC'si işlenir; 2-atlama rota kenarları yalnız başka yolu olmayan hedefe; HELLO/TC yalnız periyodik, RFC 5148 titreşimiyle; MPR seçimi Ek B harfiyen (istek önce). DAT'ın gelen hızı sabit 1 Mbit/s (RFC 7779 §8'in sabit yapılandırması; gözlemde komşu başına hız yok; tek değer Dijkstra'yı değiştirmez).
+- **Uygulanmayanlar** (beyan): RFC 7183 bütünlük koruması (tehdit modelinde mesaj sahteciliği yok, öteki rakipler de imzasız, olsrd2'de varsayılan kapalı) · RFC 7187 · RFC 7466 · bağ kalitesi · değişime yanıt mesajlar (hepsi MAY ya da seçenek).
+- **RFC metninin iki iç tutarsızlığı** normatif bağlamla ve hakemle çözüldü: §18.5'te yönlendirme MPR'lerinin d2'si N2_in_metric (metin "out" yazıyor, aynı paragrafın izin koşulu ve §4.6 "in" diyor) · Ek C.7'de 2-atlama rotasının metriği N2_out_metric (§19.1'in kenar metriği).
+- **Doğrulama:** `tests2/test_olsrv2.py` 49/49 (tel biçimi, kodlar, gidiş-dönüş ve iletmede yalnız hop alanları, 40 rastgele grafikte §18.3, DAT formülü, iki düğümde simetrik bağ kurulumu ve 6 s'de düşmesi, TC'nin ANSN sırası, 14 düğümde uçtan uca korunum ve tam rota) · ilgili testler 103/103 · mimari denetimi ihlalsiz. 40 düğüm, 60 s, durağan duman koşusu: korunum tamam, düğüm başına ~7 bayrak MPR'si (metrikli seçimin doğal sonucu: her 2-atlama komşusunun en ucuz aracısı korunur).
+- **Durum:** Faz 4b'nin kod adımı tamam (JarmRout-b · OLSRv2-a); sırada regresyon vakaları, U1, R, evre kapıları ve donma (`12` §1.1 adım 3).
+- Güncellenen: `04` §5 · `12` §1.1.
