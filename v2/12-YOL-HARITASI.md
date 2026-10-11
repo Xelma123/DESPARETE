@@ -10,7 +10,7 @@
 | simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu tek süreçte ~1 sa, 8 işçide koşu başına 1–2 sa (K-198, K-200) |
 | taban protokoller | **YENİDEN AÇILDI (K-229):** rakipler `AODV-j` · OLSRv2 · JarmRout; `OLSR-d` · `AOMDV-f` listeden çıktı (Faz 4'te K-224 ile donmuşlardı) |
 | DESPARETE | v0.4.1; birincil hücrede `PDR_açık` 0,551 (AODV 0,444, kâhin 0,780; 1003–1006, K-228); karıştırmaya özgü kaybı AODV'ninkinden büyük (−0,204 ↔ −0,138), fazlası ardılı karıştırılan alanın onarımında |
-| doğrulama | `985 passed` (10 Ekim, K-228) · mimari denetimi ihlalsiz · regresyon tabanı **`k223`** (K-224) · R = **0,0126** (K-224, 7 deneme) · köken sayımı `04` §9 |
+| doğrulama | `985 passed` (10 Ekim, K-228) · mimari denetimi ihlalsiz · regresyon tabanı **`k231`** (K-231) · R = **0,0126** (K-224, 7 deneme) · köken sayımı `04` §9 |
 | arkada koşan | yok |
 | takvim | mühür ~20 Kasım (K-230'dan sonra tahmin) · teslim 19 Aralık 2026 |
 
@@ -18,7 +18,7 @@
 
 > **Kural (29 Eylül):** bir faza geride iş kalmadan, yazılım ve yapı denetiminden geçmiş bir simülatörle ve güncel belgelerle geçilir; fazlar paralel yürümez. Faz 4 bu kapıdan geçti (K-221); Faz 5'e geçiş bağımsız denetimden ve düzeltmelerinden sonra (K-226). Faz 4b de aynı kapıdan geçer (K-229).
 
-1. **Kopya defteri (denetim D-23):** JarmRout her veri paketini iki yoldan gönderir (K-230). Hedefte ilk teslim sayılır, kopya `tekrar_bastirilan`; korunum kopyayı kapatır; kopyanın yayın süresi veri yüküne. Anahtar arkasında, varsayılan kapalı — regresyon `k223` ile birebir beklenir; test ve mimari denetimi.
+1. ✓ **Kopya defteri (denetim D-23, K-231):** JarmRout her veri paketini iki yoldan gönderir (K-230). Hedefte ilk teslim sayılır, kopya `tekrar_bastirilan`; korunum kopyayı kapatır; kopyanın yayın süresi veri yüküne. Anahtar arkasında, varsayılan kapalı — regresyon `k223` ile birebir beklenir; test ve mimari denetimi.
 2. **OLSRv2** (RFC 7181 · 6130 · 5444 · 5497 · 5148 · 7779; olsrd2 hakem) ve **JarmRout** (Pu 2018): kaynakların indirilmesi, kod, kural kural sadakat denetimi (AODV'nin K-208 kalıbı), beyan tabloları (`*_bicim.py`).
 3. U1 (AODV · OLSRv2 · JarmRout, iki desen; eşik aynı) · R · evre kapıları G1ç · G2ç · G3ç · **donma** (yeni K) · regresyona yeni protokollerin vakaları · tam takım · mimari denetimi.
 4. Faz 5'e dönüş, K-228'in sırasıyla (§1.2).

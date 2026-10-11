@@ -18,6 +18,8 @@ metotların nereden geldiğini göremezdi. Açık bir argüman bunu görünür y
 
 from __future__ import annotations
 
+from dataclasses import replace
+
 from sim2.cekirdek.degismezler import dogrula
 from sim2.kanal.cerceve import cerceve_kur
 from sim2.kanal.girisim import Iletim
@@ -25,7 +27,22 @@ from sim2.kosum.dugum import Dugum
 from sim2.yapilandirma.konfig import HIZLAR_BPS
 
 __all__ = ["alim_say", "beacon_cercevesi", "beacon_gonder", "gonder",
-           "veri_gonder", "veri_cercevesi_kur", "iletime_basla", "vazgec"]
+           "veri_gonder", "veri_cercevesi_kur", "iletime_basla", "vazgec",
+           "rota_adres_bayti"]
+
+
+def rota_adres_bayti(dugumler) -> int:
+    """K-232 — protokolün kaynak rotasında adres başına baytı (yoksa 0).
+
+    DSR ailesinde rota veri paketinin başlığında taşınır; her adres çerçeveyi
+    uzatır ve yönlendirme ek yüküne sayılır (`veri_baslik_bayt`'ın yanında).
+    """
+    degerler = {int(getattr(d.protokol, "rota_adres_bayt", 0))
+                for d in dugumler}
+    dogrula(len(degerler) == 1, "düğümlerin rota adres baytı farklı")
+    deger = degerler.pop()
+    dogrula(deger >= 0, "rota adres baytı negatif olamaz")
+    return deger
 
 
 def veri_cercevesi_kur(kur, dugumler) -> tuple:
@@ -57,18 +74,31 @@ def veri_cercevesi_kur(kur, dugumler) -> tuple:
     return cerceve, baslik, cerceve.sure_s - kur.veri_cercevesi.sure_s
 
 
-def _hizda_veri_cerceveleri(kosu, hiz: float) -> tuple:
+def _hizda_veri_cerceveleri(kosu, hiz: float, ek: int = 0) -> tuple:
     """A4 (K-177): verilen hızda `(başlıklı çerçeve, yük çerçevesi)` —
-    önbellekli (saf memo)."""
-    anahtar = ("veri", hiz)
+    önbellekli (saf memo). `ek` kaynak rotasının baytı (K-232)."""
+    anahtar = ("veri", hiz) if not ek else ("veri", hiz, ek)
     c = kosu._cerceve_onbellegi.get(anahtar)
     if c is None:
         k = kosu.kur.konfig
         yuk = cerceve_kur(k, "veri", hiz_bps=hiz)
-        baslikli = (cerceve_kur(k, "veri", bayt=k.paket_bayt
-                                + kosu.veri_baslik_bayt, hiz_bps=hiz)
-                    if kosu.veri_baslik_bayt else yuk)
+        baslik = kosu.veri_baslik_bayt + ek
+        baslikli = (cerceve_kur(k, "veri", bayt=k.paket_bayt + baslik,
+                                hiz_bps=hiz)
+                    if baslik else yuk)
         c = kosu._cerceve_onbellegi[anahtar] = (baslikli, yuk)
+    return c
+
+
+def _rotali_cerceve(kosu, ek: int):
+    """K-232 — hız uyarlaması kapalıyken kaynak rotalı veri çerçevesi
+    (saf memo)."""
+    anahtar = ("veri_rota", ek)
+    c = kosu._cerceve_onbellegi.get(anahtar)
+    if c is None:
+        k = kosu.kur.konfig
+        c = kosu._cerceve_onbellegi[anahtar] = cerceve_kur(
+            k, "veri", bayt=k.paket_bayt + kosu.veri_baslik_bayt + ek)
     return c
 
 
@@ -181,10 +211,23 @@ def veri_gonder(kosu, d: Dugum, paket, hedef: int) -> None:
     """
     cerceve, yuk = kosu.veri_cercevesi, kosu.kur.veri_cercevesi
     baslik_s = kosu.veri_baslik_sure_s
+    baslik = kosu.veri_baslik_bayt
+    # 🔒 K-232 — kaynak rotasının adresleri başlıktadır: çerçeveyi uzatır,
+    # yönlendirme ek yüküne sayılır. Rota taşımayan protokolde `ek` 0 ve
+    # aşağıdaki yol eskisinin aynısıdır.
+    ek = kosu.rota_adres_bayt * len(paket.rota)
     if d.hiz_denetcisi is not None:                      # A4 (K-177)
-        cerceve, yuk = _hizda_veri_cerceveleri(kosu,
-                                               d.hiz_denetcisi.hiz(hedef))
+        cerceve, yuk = _hizda_veri_cerceveleri(
+            kosu, d.hiz_denetcisi.hiz(hedef), ek)
         baslik_s = cerceve.sure_s - yuk.sure_s
+    elif ek:
+        cerceve = _rotali_cerceve(kosu, ek)
+        baslik_s = cerceve.sure_s - yuk.sure_s
+    if ek:
+        baslik += ek
+        # İletim defterinin budama penceresi koşunun en uzun çerçevesini
+        # kapsamalı (`kosu.py`); uzun rota çerçeveyi uzatınca pencere büyür.
+        kosu._temizleme_s = max(kosu._temizleme_s, 2.0 * cerceve.sure_s)
     iletim = Iletim(d.kimlik, cerceve, kosu.olaylar.simdi,
                     kosu.kur.kanal.yayilim.verici_gucu_w)
     s = kosu.kur.sayaclar
@@ -194,8 +237,8 @@ def veri_gonder(kosu, d: Dugum, paket, hedef: int) -> None:
     # ve sayılan değerler eskisiyle BİREBİR aynıdır.
     s.ekle("veri_bayt", yuk.bayt)
     s.ekle("veri_airtime_s", yuk.sure_s)
-    if kosu.veri_baslik_bayt:
-        s.ekle("veri_baslik_bayt", kosu.veri_baslik_bayt)
+    if baslik:
+        s.ekle("veri_baslik_bayt", baslik)
         s.ekle("veri_baslik_airtime_s", baslik_s)
     d.dcf.gonderime_basladi()
     d.dcf.onay_bekle()
@@ -262,11 +305,16 @@ def iletime_basla(kosu, d: Dugum) -> None:
             return
         kosu.kur.korunum.kuyruktan_al()
         kosu.kur.sayaclar.artir("mac_gonderim_istegi")
-        d.ucusa_al(d.kuyruk.al(), karar.sonraki)
-        for komsu in karar.kopyalar:                     # D-23 · K-231
-            no = kosu.kopya_no.get(d.ucustaki.kimlik, 0) + 1
-            kosu.kopya_no[d.ucustaki.kimlik] = no
-            d.kopya_kuyruga_al(d.ucustaki, komsu, no)
+        paket = d.kuyruk.al()
+        if karar.rota is not None:                       # K-232
+            paket = replace(paket, rota=karar.rota)
+        d.ucusa_al(paket, karar.sonraki)
+        for i, komsu in enumerate(karar.kopyalar):       # D-23 · K-231
+            no = kosu.kopya_no.get(paket.kimlik, 0) + 1
+            kosu.kopya_no[paket.kimlik] = no
+            d.kopya_kuyruga_al(paket, komsu, no,
+                               karar.kopya_rotalari[i]
+                               if karar.kopya_rotalari else None)
         veri_gonder(kosu, d, d.ucustaki, karar.sonraki)
         return
     # 🔒 Kuyruğun tamamı tampona geçti: gönderilecek veri YOK. DCF'den

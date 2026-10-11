@@ -32,6 +32,11 @@ istediği uçtan uca eş. Eşin kimliği AYNIDIR: hedefte ilk varan teslim
 sayılır, sonraki eşler bastırılır (`kosum/teslim.py`). Gözlem penceresine
 açılmaz.
 
+`rota` (K-232) — kaynak rotası (DSR ailesi, RFC 4728 §6.7): paketin
+başlığında yazan ara düğümler. Protokol `Karar.rota` ile koyar; başlıkta
+yazdığı için gözlem penceresinde görünür ve adres başına bayt olarak
+çerçeveyi uzatır (`kosum/gonderim.py`). Rota taşımayan protokolde boş.
+
 ⚠️ Varsayılan 0 yalnız trafik üreticisini kullanmayan kalibrasyon ve test
 kurucuları içindir: orada her paket aynı sırayı taşır ve paket kimliğine
 dayanan bir protokol mantığı bu kurucularla ölçülemez.
@@ -59,6 +64,7 @@ class Paket:
     ttl_kalan: int
     kaynak_sira: int = 0
     kopya: int = 0
+    rota: tuple[int, ...] = ()
 
     def __post_init__(self) -> None:
         dogrula(self.kaynak != self.hedef,
@@ -67,6 +73,8 @@ class Paket:
         dogrula(self.ttl_kalan >= 0, "TTL negatif olamaz")
         dogrula(self.kaynak_sira >= 0, "kaynak sırası negatif olamaz")
         dogrula(self.kopya >= 0, "kopya numarası negatif olamaz")
+        dogrula(len(set(self.rota)) == len(self.rota),
+                "kaynak rotası bir düğümü iki kez içeremez")
 
     # ------------------------------------------------------------------
     def ttl_azalt(self) -> "Paket":

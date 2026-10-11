@@ -270,7 +270,8 @@ class Dugum:
         return PaketGorunumu(
             hedef=paket.hedef, kaynak=paket.kaynak, ttl=paket.ttl_kalan,
             atlama_sayisi=self.kur.konfig.ttl_baslangic - paket.ttl_kalan,
-            bayt=paket.boyut_bayt, kaynak_sira=paket.kaynak_sira)
+            bayt=paket.boyut_bayt, kaynak_sira=paket.kaynak_sira,
+            rota=paket.rota)
 
     def kanal_mesgul_mu(self, t_s: float,
                         ayni_an_haric: bool = False) -> bool:
@@ -622,16 +623,18 @@ class Dugum:
         self._kayip_yeri("kuyruk_tasmasi")
         return False
 
-    def kopya_kuyruga_al(self, paket: Paket, sonraki: int,
-                         kopya_no: int) -> bool:
+    def kopya_kuyruga_al(self, paket: Paket, sonraki: int, kopya_no: int,
+                         rota: tuple[int, ...] | None = None) -> bool:
         """D-23 · K-231 — protokolün istediği eşi kuyruğun SONUNA koyar.
 
         Eş kuyruk başına gelince protokole yeniden sorulmadan `sonraki`ye
         gider: karar kopya anında verildi. Kuyruk doluysa eş, asıl paket
-        gibi `kuyruk_tasmasi` ile düşer.
+        gibi `kuyruk_tasmasi` ile düşer. `rota` verilirse eşin başlığındaki
+        kaynak rotası odur (K-232), verilmezse asılınki.
         """
         self.kur.korunum.kopya_uret()
-        es = replace(paket, kopya=kopya_no)
+        es = replace(paket, kopya=kopya_no,
+                     rota=paket.rota if rota is None else rota)
         if not self.kuyruga_al(es, uretim=False):
             return False
         self._kopya_sonraki[(es.kimlik, es.kopya)] = sonraki

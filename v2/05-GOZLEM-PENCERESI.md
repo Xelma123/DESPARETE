@@ -1,6 +1,6 @@
 # 05 · GÖZLEM PENCERESİ — protokolün görebildiği her şey
 
-> **Güncel:** 10 Ekim 2026 (öz sürüm; son içerik değişikliği K-227) · **Türü:** sözleşme — genişletilmez, gerekçeli değişikliğin yolu §7. Kod `sim2/gozlem/pencere.py` · yüzey testi `tests2/test_kontrol_duzlemi.py` (P6). Protokolün **yapabilecekleri** `13`te. Önceki sürümler `v2/arsiv/05-GOZLEM-PENCERESI-*.md`. Bölüm numaraları kodda atıflı, korunur (10 Eylül öncesinin A1–A4'ü = §3.1–3.5).
+> **Güncel:** 10 Ekim 2026 (öz sürüm; son içerik değişikliği K-232) · **Türü:** sözleşme — genişletilmez, gerekçeli değişikliğin yolu §7. Kod `sim2/gozlem/pencere.py` · yüzey testi `tests2/test_kontrol_duzlemi.py` (P6). Protokolün **yapabilecekleri** `13`te. Önceki sürümler `v2/arsiv/05-GOZLEM-PENCERESI-*.md`. Bölüm numaraları kodda atıflı, korunur (10 Eylül öncesinin A1–A4'ü = §3.1–3.5).
 
 ## 1 · Neden var
 
@@ -33,6 +33,7 @@ Yeni beş alan (GPS/INS ve telsiz sayaçları) §3.3b'de, çerçeve başına RSS
 **3.3 Aldığı paketlerden:** başlıktaki her şey, üç koşulla — (1) her alan **bayt olarak ödenir** ve çerçeveyi uzatır, bedel kanalda da ödenir (K-111; kontrol mesajlarında `13` §02.1) · (2) bilgi gönderildiği anındır (bayat) · (3) paket kaybolabilir. Komşunun girişimi, kuyruğu, konumu ve hareketi ancak başlığa konup ödenirse gelir.
 - `bildirdigi_konum` **kaldırıldı** (K-131): koşucu hiç doldurmuyordu (110 605 komşu kaydının %100'ü `None`); doldurmak "konum beacon'da taşınır" kararını protokol adına vermek olurdu.
 - `kaynak_sira` **eklendi** (K-157): paketin kaynağın kendi ürettikleri arasındaki sırası; kimlik `(kaynak, kaynak_sira)`. Gerçek karşılığı IPv4 kimlik alanı ve DESPARETE'nin Data Sequence'i (tasarım paketi `19` §4), başlıkla ödenir (`veri_baslik_bayt`). Gerekçe: onarım tamponundaki paketi tanımak (tasarım paketi `21` §2.4 kotası, K-156). Küresel paket kimliği bilerek açılmadı — iki kimlik farkı bütün ağın ürettiğini söylerdi.
+- `rota` **eklendi** (K-232): kaynak rotası — DSR ailesinde veri paketinin başlığında yazan ara düğümler (RFC 4728 §6.7). Gerçek karşılığı DSR'nin kaynak rotası seçeneği; bedeli adres başına bayt olarak çerçeveyi uzatır ve yönlendirme ek yüküne sayılır. Gerekçe: JarmRout'un (Pu 2018) DSR'ye dayanan iletimine sadakat. Rota taşımayan protokolde boş; önceki sonuçlar değişmez (regresyon).
 - **Bilgi yokluğu sıfır değildir** (K-131): beacon'a konmayan alan komşu kaydında `None` döner, `0` değil.
 
 **3.3a Çözdüğü her çerçeveden (K-172):** isteğe bağlı `cerceve_duyuldu` kancası — bana ya da başkasına adresli her çözülen çerçevenin gönderen komşusu (802.11 başlığındaki verici adresi), türü, adreslendiği düğüm, veri çerçevesinde paket başlığı ve RSSI (kilitlenilen güç + σ 2 dB hata, tamsayı dBm; σ kaynaksız — bugün okuyan protokol olmadığı için DUYARSIZ (K-214); bir protokol okumaya başlarsa mimari denetimi kaydı yeniden açar, D17). Gerçek karşılığı: telsizin izleme kipi ve sürücünün çerçeve başına RSSI raporu. Niyet döndürmez; karıştırıcı çerçevesi gelmez. "Bu paket bana hangi komşudan geldi" bilgisi buradan gelir.
@@ -67,7 +68,7 @@ Komşunun konumu ve hareketi hâlâ YOK — yalnız bedeli ödenmiş mesajla (§
 ## 5 · Nasıl zorlanıyor
 
 - **Yapısal ayrım:** protokol donmuş bir görünüm alır; `protokoller/` yalnız `gozlem/`i içe aktarabilir (kaçamaklar dâhil taranır — `tests2/test_kosum.py`).
-- **Yüzey testi:** izin listesi dışındaki alan testi kırar. Bugün **17 gözlem + 6 komşu + 6 paket = 29 alan** (K-131'de 23, K-157'de 24, K-179'da 29: B3'ün beş alanı).
+- **Yüzey testi:** izin listesi dışındaki alan testi kırar. Bugün **17 gözlem + 6 komşu + 7 paket = 30 alan** (K-131'de 23, K-157'de 24, K-179'da 29: B3'ün beş alanı, K-232'de 30: kaynak rotası).
 - **Pencere her kancada sunulur** (K-131): önceden yalnız veri gönderme kararında üretiliyordu. Yüzey büyümedi; değişen sunulma anı.
 - **Geri referans yok:** niyet tipleri dâhil hiçbir görünüm simülatöre ulaşan nesne taşımaz (`13` P6).
 

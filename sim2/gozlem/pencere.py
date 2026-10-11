@@ -114,6 +114,9 @@ class PaketGorunumu:
     atlama_sayisi: int
     bayt: int
     kaynak_sira: int
+    # K-232 — kaynak rotası (DSR ailesi): başlıkta yazan ara düğümler, bedeli
+    # adres başına bayt olarak ödenir. Rota taşımayan protokolde boş.
+    rota: tuple[int, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -192,6 +195,7 @@ IZINLI_KOMSU_ALANLARI: frozenset[str] = frozenset({
 
 IZINLI_PAKET_ALANLARI: frozenset[str] = frozenset({
     "hedef", "kaynak", "ttl", "atlama_sayisi", "bayt", "kaynak_sira",
+    "rota",                                             # K-232
 })
 
 # 🔴 Bu tiplerden birine gözlem penceresinden ULAŞILABİLİYORSA sözleşme

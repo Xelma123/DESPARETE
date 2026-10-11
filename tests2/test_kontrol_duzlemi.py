@@ -435,7 +435,9 @@ def test_P6_gozlem_penceresi_BUYUMEDI():
     assert len(IZINLI_KOMSU_ALANLARI) == 6
     # 🔴 5 → 6: `kaynak_sira` eklendi (23 Eylül 2026, K-157). Başlıkta yazar
     # ve bedeli ödenir; küresel paket kimliği bilerek açılmadı (`v2/05` §3.3).
-    assert len(IZINLI_PAKET_ALANLARI) == 6
+    # 🔴 6 → 7: `rota` eklendi (11 Ekim 2026, K-232) — DSR ailesinin kaynak
+    # rotası başlıkta yazar, bedeli adres başına bayt (JarmRout'un sadakati).
+    assert len(IZINLI_PAKET_ALANLARI) == 7
 
 
 def test_P6_niyet_tiplerinde_GERI_REFERANS_YOK():

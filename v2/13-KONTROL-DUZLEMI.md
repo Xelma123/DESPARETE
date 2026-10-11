@@ -56,7 +56,7 @@ Kanca niyet demetleri `Beyan` da taşıyabilir (K-134) — kopma, öğrenildiği
 
 ## 04 · Değişmeyenler — bağlayıcı
 
-Gözlem penceresi 17 · 6 · 6 = 29 alan (P6; `bildirdigi_konum` K-131 ile çıktı, `kaynak_sira` K-157 ile girdi, B3'ün beş alanı K-179 ile girdi — `05` §5) · `veri`/`onay`/`beacon` boyutları · sayaç şeması (beyan kanalı genişledi ama üç kopma sayacı aynı) · `gonderilen_bayt`, `son_iletim_sonucu` ve `mac_*` yalnız veriyi yansıtır · kontrol düzlemini kullanmayan protokolün satırı birebir aynı.
+Gözlem penceresi 17 · 6 · 7 = 30 alan (P6; `bildirdigi_konum` K-131 ile çıktı, `kaynak_sira` K-157 ile girdi, B3'ün beş alanı K-179 ile girdi, kaynak rotası `rota` K-232 ile girdi — `05` §5) · `veri`/`onay`/`beacon` boyutları · sayaç şeması (beyan kanalı genişledi ama üç kopma sayacı aynı) · `gonderilen_bayt`, `son_iletim_sonucu` ve `mac_*` yalnız veriyi yansıtır · kontrol düzlemini kullanmayan protokolün satırı birebir aynı.
 
 ## 05 · P1–P8 — kapılar (bağımsız gözlemle, boş geçmez)
 
@@ -94,4 +94,5 @@ JarmRout her veri paketini iki düğüm-ayrık yoldan gönderir (Pu 2018 §VI.B;
 - **Korunum:** `üretilen + kopya_üretilen = teslim + kopya_bastırılan + düşen + kuyrukta + uçuşta`; mutabakat eşleri de sayar. Kopya varsa `düşen` eş düzeyindedir (eşi teslim edilmiş paketin düşen eşi de sayılır); kayıp anatomisi teslim edilmemiş paketin kaybını SON düşen eşine atfeder.
 - **Fatura:** eşler VERİ çerçevesidir; yayın süresi ve MAC sayaçları veri yükünde, kontrol yükünde (`nrl_*`) değil.
 - **U1 ve kâhin:** kâhin kopyalamaz; kopyalayan protokolün kâhine oranı aynı tanımla (paket düzeyi PDR) hesaplanır, kopyanın bedeli veri yükünde raporlanır.
+- **Kaynak rotası (K-232):** `Karar(rota=…, kopya_rotalari=…)` paketin ve eşlerinin başlığına ara düğümleri yazar (DSR, RFC 4728 §6.7); protokol sınıfı `rota_adres_bayt` bildirir, çerçeve adres başına o kadar uzar ve bayt `veri_baslik_bayt`'a (yönlendirme ek yükü) sayılır. Başlıkta yazdığı için gözlem penceresinde `PaketGorunumu.rota`. Testler `tests2/test_kaynak_rotasi.py`.
 - **Değişmeyen:** kopya istemeyen protokolde hiçbir olay eklenmez ve sonuç satırına alan girmez (`kopya_uretilen` · `kopya_bastirilan` yalnız kopya kullanılınca); regresyon birebir. Testler `tests2/test_kopya.py`.

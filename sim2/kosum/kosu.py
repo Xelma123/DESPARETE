@@ -46,7 +46,8 @@ from __future__ import annotations
 from sim2.kanal.girisim import Iletim
 from sim2.kosum import alim, kayip, kontrol
 from sim2.kosum.dugum import Dugum
-from sim2.kosum.gonderim import (beacon_gonder, iletime_basla, vazgec,
+from sim2.kosum.gonderim import (beacon_gonder, iletime_basla,
+                                 rota_adres_bayti, vazgec,
                                  veri_cercevesi_kur)
 from sim2.kosum.kurulum import Kurulum
 from sim2.olcum.kopma import fiziksel_kopma_say
@@ -59,7 +60,7 @@ class Kosu:
 
     __slots__ = ("kur", "dugumler", "olaylar", "_temizleme_s",
                  "_cerceve_onbellegi", "veri_cercevesi", "veri_baslik_bayt",
-                 "veri_baslik_sure_s", "kopya_no")
+                 "veri_baslik_sure_s", "kopya_no", "rota_adres_bayt")
 
     def __init__(self, kur: Kurulum, protokol_fabrikasi) -> None:
         self.kur = kur
@@ -69,6 +70,8 @@ class Kosu:
         # 🔒 Y2 · K-151 — protokolün veri başlığı (`gonderim.py`).
         (self.veri_cercevesi, self.veri_baslik_bayt,
          self.veri_baslik_sure_s) = veri_cercevesi_kur(kur, self.dugumler)
+        # 🔒 K-232 — kaynak rotasında adres başına bayt (rotasız protokolde 0).
+        self.rota_adres_bayt = rota_adres_bayti(self.dugumler)
         # Havadaki iletim defterini budama gecikmesi. Sürmekte olan bir alımın
         # girişim penceresi en çok bir veri çerçevesi kadar geriye bakar; daha
         # erken budamak girişim hesabından iletim düşürürdü. Budanmasaydı

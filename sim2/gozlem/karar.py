@@ -92,6 +92,14 @@ class Karar:
     # davranışı ve sonuç satırı birebir aynı.
     kopyalar: tuple[int, ...] = ()
 
+    # 🔒 KAYNAK ROTASI — K-232 (DSR ailesi, RFC 4728 §6.7). `rota` verilirse
+    # gönderilen paketin başlığındaki kaynak rotası odur; `kopya_rotalari`
+    # (boş ya da `kopyalar` kadar) eşlerinkini verir. Başlıkta yazan adres
+    # başına bayt çerçeveyi uzatır ve yönlendirme ek yüküne sayılır. Varsayılan
+    # `None`: paketin rotası değişmez — rota taşımayan protokol birebir aynı.
+    rota: tuple[int, ...] | None = None
+    kopya_rotalari: tuple[tuple[int, ...], ...] = ()
+
     def __post_init__(self) -> None:
         niyetleri_dogrula(self.niyetler)
         if self.kopyalar:
@@ -101,6 +109,12 @@ class Karar:
             dogrula(len(set(self.kopyalar)) == len(self.kopyalar)
                     and self.sonraki not in self.kopyalar,
                     "kopya komşuları tekil ve `sonraki`den farklı olmalı")
+        if self.rota is not None:
+            dogrula(self.sonraki is not None and not self.beklet,
+                    "`rota` yalnız gönderilen pakette verilir")
+        if self.kopya_rotalari:
+            dogrula(len(self.kopya_rotalari) == len(self.kopyalar),
+                    "`kopya_rotalari` her eş için bir rota vermeli")
         # 🔴 "Hem gönder hem beklet" bir NİYET DEĞİLDİR. İzin verilseydi
         # çağıranın hangisini uygulayacağı belirsiz kalırdı ve belirsizliği
         # MAC katmanı kendi seçimiyle kapatırdı — yani yönlendirme kararını

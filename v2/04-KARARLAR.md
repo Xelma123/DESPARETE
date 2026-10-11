@@ -27,7 +27,7 @@
 
 ## 4 · Protokolün gördüğü ve yapabildiği
 
-- **Gözlem sözleşmesi (`05`):** protokol yalnız gerçek bir telsizin ve otopilotun verebileceğini görür — RSSI, gürültü, kanal doluluğu, PHY hatası, kulak misafiri çerçeveler, kendi konum/hız; karıştırıcıyı, gerçek bağ kalitesini ve topolojiyi göremez. Yüzey 29 alan; sızıntı testle kapalı.
+- **Gözlem sözleşmesi (`05`):** protokol yalnız gerçek bir telsizin ve otopilotun verebileceğini görür — RSSI, gürültü, kanal doluluğu, PHY hatası, kulak misafiri çerçeveler, kendi konum/hız; karıştırıcıyı, gerçek bağ kalitesini ve topolojiyi göremez. Yüzey 30 alan (K-232: DSR ailesinin kaynak rotası); sızıntı testle kapalı.
 - **Kontrol düzlemi (`13`):** protokol çağırmaz, niyet döndürür; her kontrol baytı kanalda ödenir; unicast sonucu ve iletim başarısızlığı kancalarla bildirilir; bekleme tamponu simülatörde (64 paket · 30 s, taşmada en eski düşer — ns-3 AODV ile aynı, K-198; birincil hücrede bağlamıyor: 256 paket ve 60 s birebir aynı sonuç, K-200).
 - **Uçtan uca kopya (K-231, denetim D-23):** protokol gönderdiği paketin eşlerini başka komşulara da yollayabilir (`13` §07); hedefte ilk varan teslim sayılır, eşlerin yayın süresi veri yüküdür.
 - **Kâhin bilgisi hiçbir protokol kararına girmez.** Kâhinler yalnız ölçüm aleti ve referanstır.

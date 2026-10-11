@@ -161,8 +161,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-228 | 🟢 FAZ 5.0 KAPANDI — DESPARETE'nin karıştırmaya özgü fazla kaybı tamamen "rota yok"ta (ar | 🟢 geçerli |
 | **K-229** | 🟡 TABAN PROTOKOLLER VE REFERANS DÜNYA YENİDEN AÇILDI — rakipler AODV · OLSRv2 · JarmRout | 🔄 **REVİZE → K-230**<br>Verici 27 dBm maddesi **geri alındı** (ağ 1–2 atlamaya iniyordu; güç yalnız mesafeyi ölçekler); rakip değişikliği (AODV · OLSRv2 · JarmRout) **geçerli**, K-230'da yeniden yazıldı |
 | K-230 | 🟢 VERİCİ 20 dBm'DE KALIR (K-229'un verici maddesi geri alındı) · rakipler AODV · OLSRv2  | 🟢 geçerli |
+| K-231 | 🟢 UÇTAN UCA KOPYA DEFTERİ (denetim D-23) — protokol paketin eşlerini başka komşulara da  | 🟢 geçerli |
 
-**141 kayıt · 8 revize · 133 geçerli**
+**142 kayıt · 8 revize · 134 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1770,3 +1771,11 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Boşluk A daraltılmadı** (K-229'un ifadesi düzeltildi): `01` boşluğu tam yazar, JarmRout'u en yakın küçük ölçekli çalışma olarak anar (1 km², iki-ışın kanal, sabit sürekli karıştırıcı, OMNeT++).
 - **Faz 5 için tasarım notu:** JarmRout'un ilkesi — iki yol mekânsal olarak ayrık olmalı, aksi hâlde tek karıştırıcı ikisini birden keser; yedek ardılın tasarımında sorulur.
 - Güncellenen: `01` §3 · `04` §1 · §2 · §5 · §6 · §7 · §10 · `06` §3 · §10 · `12` · README; indekste K-229 → K-230.
+# K-231 · 🟢 UÇTAN UCA KOPYA DEFTERİ (denetim D-23) — protokol paketin eşlerini başka komşulara da yollayabilir · ilk varan teslim, eşler bastırılır, veri yüküne faturalanır · regresyon k223 → k231 birebir · JarmRout ve rakiplerin kaynakları depoda
+> 11 Ekim · uygulama ajan · tetik K-230 (JarmRout her paketi iki yoldan gönderir) · ölçüt `arsiv/teshis/regresyon_k231/beklenti.md` (commit `862fb5c`, koşudan önce) · sonuç `sonuc.md`
+
+- **Tanımlar** (`13` §07, ölçmeden önce): `Karar.kopyalar` — paket `sonraki`ye, eşleri başka komşulara; eş kuyruğun sonuna girer ve protokole yeniden sorulmadan o komşuya gider. `Paket.kopya` ≥ 1, kimlik aynı. Hedefte ilk varan teslim, sonrakiler `kopya_bastir`. Korunum `üretilen + kopya_üretilen = teslim + kopya_bastırılan + düşen + kuyrukta + uçuşta`; eşler veri çerçevesi (yayın süresi veri yükünde). Kopya yoksa satıra alan girmez.
+- **Kayıp anatomisi:** kopyalı koşuda teslim edilmiş paketin düşen eşi kayıp sayılmaz; teslim edilmemiş paketin kaybı son düşen eşine atfedilir (kopyasız koşuda sonuç eskisinin aynısı).
+- **Doğrulama:** `tests2/test_kopya.py` 4/4 (küçük ağda kaynakta kopyalayan sınav protokolüyle uçtan uca defter ve mutabakat) · dokunulan modüllerin testleri 310/310 · mimari denetimi ihlalsiz · **regresyon k223 → k231: 81/81 bulgusuz** (farklar yalnız kod özetleri ve izinli köken kovaları, K-225). Yeni taban **k231**.
+- **Kaynaklar** (yürütücünün izniyle): OLSRv2 ailesi RFC 7181 · 6130 · 5444 · 5497 · 5148 · 7779 ve güncelleyenleri 7183 · 7187 · 7188 · 7466 · DSR RFC 4728 · olsrd2 (OONF, BSD-3, commit `477e716`) · JarmRout makalesi (Tablo 4, Şekil 2 · 4 yayıncı sayfasından okundu; protokolün iç parametreleri makalede yok). `protokol_kaynaklari/README.md` · `02` R5–R7 · NOTICE.
+- **JarmRout'a sadakat ilkesi** (yürütücü, "yüzde yüz sadık"): makalede yazan her kural harfiyen, DSR yalnız makalenin sustuğu yerde, her dolgu beyan tablosunda; makalenin çözümlü örnekleri birim testi (`arsiv/teshis/jarmrout_2026-10-11/tasarim.md`).
