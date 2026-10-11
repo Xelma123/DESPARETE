@@ -1,0 +1,10 @@
+REGRESYON KARSILASTIRMASI — k231 (81 satir) ↔ k232 (81 satir)
+
+  bulgusuz vaka : 81/81
+  (beklenen) kimlik.arac_hash                                 81 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           81 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              81 vakada farkli
+  (beklenen) kimlik.protokol_hash                             3 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         81 vakada farkli
+
+  🟢 BIREBIR (izinli farklar disinda)

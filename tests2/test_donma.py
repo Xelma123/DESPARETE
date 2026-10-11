@@ -42,8 +42,14 @@ def test_TABAN_PROTOKOLLER_DONMUS():
 
 
 def test_OKUNAN_GOZLEM_KOKENI_kapisi_ates_ediyor(tmp_path, monkeypatch):
-    """Bir protokol `kendi_konum` okursa `gps_dikey_sigma_m` DUYARSIZ kalamaz."""
+    """Bir protokol `kendi_konum` okursa `gps_dikey_sigma_m` DUYARSIZ kalamaz.
+
+    Kayıt bugün SINANMAMIŞ (K-233: JarmRout konum okuyor); kapı kaydın
+    DUYARSIZ hâliyle sınanır, defterin bugünkü durumundan bağımsız."""
     from kalibrasyon import mimari_denetimi as M
+    from sim2.yapilandirma import kokenler
+    monkeypatch.setitem(kokenler.KOKENLER, "gps_dikey_sigma_m",
+                        ("DUYARSIZ", "sınama"))
     (tmp_path / "protokoller").mkdir()
     (tmp_path / "protokoller" / "deneme.py").write_text(
         "def f(gozlem):\n    return gozlem.kendi_konum\n", encoding="utf-8")

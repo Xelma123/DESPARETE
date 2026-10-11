@@ -346,9 +346,11 @@ KOKENLER: dict[str, tuple[str, str]] = {
     "gps_yatay_cep_m": ("KAYNAK",
         "1,5 m CEP — `02` G7 (Doodle Labs veri sayfası, yerleşik GPS); "
         "`v2/14` §3"),
-    "gps_dikey_sigma_m": ("DUYARSIZ",
-        "2 m (`v2/15` B3, onaylı K-170; kaynak yok). Bugün hiçbir protokol "
-        "konum okumuyor (kodda). Faz 4.4'te ölçüldü: kâhinle ×0,5 · ×2'de "
+    "gps_dikey_sigma_m": ("SINANMAMIS",
+        "2 m (`v2/15` B3, onaylı K-170; kaynak yok). 🔴 11 Ekim 2026 (K-233): "
+        "JarmRout konum okuyor (RREQ'nun P_coord'u; makale 2B, dikey "
+        "kullanılmıyor) → DUYARSIZ hükmü düştü, JarmRout'la yeniden ölçülür. "
+        "Önceki hüküm: hiçbir protokol konum okumuyordu (kodda). Faz 4.4'te ölçüldü: kâhinle ×0,5 · ×2'de "
         "ve DESPARETE'yle ×2'de |Δ| = 0,0000 (iz birebir). Üretici: `py "
         "-3.11 -u kalibrasyon/duyarlilik.py --dunya referans_2026 birincil "
         "…` ve `kalibrasyon/duyarlilik.py`nin oynatmasıyla "
@@ -364,9 +366,12 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "Ekim 2026, K-214). Faz 5'te bir mekanizma okursa yeniden ölçülür"),
     "gps_tazeleme_s": ("TURETILMIS",
         "1 s — `v2/15` B3 (1 Hz tazeleme), onaylı K-170"),
-    "rssi_olcum_sigma_db": ("DUYARSIZ",
-        "σ 2 dB (`v2/15` B2, onaylı K-170; kaynak yok). Bugün hiçbir "
-        "protokol RSSI okumuyor (DESPARETE'nin kancası argümanı "
+    "rssi_olcum_sigma_db": ("SINANMAMIS",
+        "σ 2 dB (`v2/15` B2, onaylı K-170; kaynak yok). 🔴 11 Ekim 2026 "
+        "(K-233): JarmRout RSSI okuyor — bağ kalitesi RSSI örneklerinin "
+        "varyansı (Pu 2018 Eş. 5), ölçüm hatası doğrudan girer → DUYARSIZ "
+        "hükmü düştü; kaynak aranır ve JarmRout'la yeniden ölçülür. Önceki "
+        "hüküm: hiçbir protokol RSSI okumuyordu (DESPARETE'nin kancası argümanı "
         "kullanmıyor). Faz 4.4'te ölçüldü: kâhinle ve DESPARETE'yle |Δ| = "
         "0,0000 (iz birebir). Üretici: `py -3.11 -u "
         "kalibrasyon/duyarlilik.py --dunya referans_2026 birincil …` ve "

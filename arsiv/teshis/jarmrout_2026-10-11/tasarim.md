@@ -14,7 +14,7 @@
 - Tablo 3: yollar arası uzaklık, Şekil 1'in koordinatları
 - Şekil 3'ün çift önceliği (7,4638 · 6,8831 · 7,7095)
 
-Tablo 1–3 yayıncı sayfasında görüntü; IEEE Xplore 11 Ekim gecesi geçici olarak kapalıydı, yeniden okunacak.
+Tablo 1–3 ve Şekil 3 yürütücünün ekran görüntülerinden okundu (11 Ekim); dördü de `tests2/test_jarmrout.py`de birebir tutuyor.
 
 ## 2 · Kural tablosu (makale → gerçekleme)
 
@@ -26,11 +26,11 @@ Tablo 1–3 yayıncı sayfasında görüntü; IEEE Xplore 11 Ekim gecesi geçici
 | J4 | Ara düğüm, yinelenen RREQ: C_hop önbellektekinden büyükse atar; değilse J3'ün işlemiyle yeniden yayınlar (önbellekteki atlama güncellenmez) | aynı, harfiyen (DSR'den farklı: DSR yineleneni atar) |
 | J5 | Ara düğüm önbellekten RREP veremez | aynı |
 | J6 | Hedef, ilk RREQ: kaydeder. Sonrakiler: kayıtlı yollardan biriyle ortak düğüm (kaynak/hedef hariç) yoksa kaydeder, varsa atar. İlk RREQ'dan sonra `t_wait` bekler | aynı (kayıt varış sırasına göre, açgözlü) |
-| J7 | `t_wait` dolunca her yol çifti için P_prio = α(L_qt^p + L_qt^q) + β(T_ld^p + T_ld^q) + γ·e^(−δ(p,q)), α·β·γ = 0,2 · 0,2 · 0,6 (Eş. 13); en küçük P_prio'lu çift seçilir, iki yoldan iki RREP gider | tek yol kayıtlıysa tek RREP (makalenin kısıt tartışması) |
+| J7 | `t_wait` dolunca her yol çifti için P_prio = α(L_qt^p + L_qt^q) + β(T_ld^p + T_ld^q) + γ·e^(1/Υ(p,q)), α·β·γ = 0,2 · 0,2 · 0,6 (Eş. 13; üs Şekil 3'ün örneğiyle doğrulandı); en küçük P_prio'lu çift seçilir, iki yoldan iki RREP gider | tek yol kayıtlıysa tek RREP (makalenin kısıt tartışması) |
 | J8 | Kaynak RREP'lerdeki tam rotaları önbelleğe alır ve **aynı veri paketini iki yoldan gönderir** (§VI.B) | `Karar(rota=X, kopyalar=(Y[0],), kopya_rotalari=(Y,))` — kopya defteri K-231 |
 | J9 | Bir düğüm sonraki atlamaya teslimde sürekli başarısız olursa bağı kopmuş sayar ve kaynağa kopan bağla RERR yollar. Kaynak o bağı içeren yolu siler; tek yol kalırsa onu kullanır, ikisi de giderse yeniden keşfeder | "sürekli başarısız" = MAC'in vazgeçmesi (7 deneme; `iletim_basarisiz`); RERR paketin taşıdığı kaynak rotasının tersinden |
 | J10 | Bağ kalitesi = komşudan alınan paketlerin RSSI'larının varyansı (Eş. 1–5); küçük = kararlı; L_qt yoldaki en büyük | RSSI `cerceve_duyuldu`dan (gerçek telsizin çerçeve başına RSSI'ı, σ 2 dB, tamsayı dBm) |
-| J11 | Trafik yükü: T_busy = NAV'ın alçak geçiren süzgeci (Eş. 6), Q_buf = kuyruk uzunluğunun süzgeci (Eş. 7), TL = Eş. 8 | **beyanlı sapma:** MAC'te RTS/CTS yok, yani NAV yok. NAV'ın ölçtüğü kanalın meşgul payı, CCA meşgul süresiyle (`mesgul_sure_s`, sürücünün "channel busy time"ı) ölçülür |
+| J11 | Trafik yükü: T_busy = NAV'ın (ms) alçak geçiren süzgeci (Eş. 6), Q_buf = kuyruk uzunluğunun süzgeci (Eş. 7), TL = Eş. 8 | **beyanlı sapma:** MAC'te RTS/CTS yok, yani NAV yok. Karşılığı son güncellemeden bu yana CCA'nın meşgul kaldığı süre, ms (`mesgul_sure_s`, sürücünün "channel busy time"ı) |
 | J12 | Mekânsal uzaklık 2B konumlarla (Eş. 9–12); konum RREQ'da taşınır | kendi GPS/INS konumu (1,5 m CEP), yatay izdüşüm (makale 2B varsayıyor) |
 | J13 | Veri kaynak rotasıyla taşınır (DSR) | **simülatöre kaynak rotası** (§3) |
 
@@ -51,14 +51,15 @@ Reddedilen seçenek: kaynak rotası yerine RREP'in kurduğu atlama atlama durum.
 | parametre | durum |
 |---|---|
 | α · β · γ (Eş. 13) = 0,2 · 0,2 · 0,6 | makale |
-| Eş. 6–7'nin süzgeç sabitleri · Eş. 8'in katsayısı ve düzeltme çarpanı | makalede değer yok → Tablo 2'nin örneğinden geriye çözülmeye çalışılır; olmazsa seçim + SINANMAMIŞ |
-| RSSI örnek sayısı N_rssi | Tablo 1'in örneği (son dört örnek görünüyor) → doğrulanacak |
+| Eş. 8'in kazancı γ ve düzeltme çarpanı ε | Tablo 2'nin örneğinden çözüldü: γ 0,5 · ε 0,02 |
+| Eş. 6–7'nin süzgeç sabitleri | makalede değer yok → seçim 0,5 + SINANMAMIŞ |
+| RSSI örnek sayısı N_rssi | Tablo 1'in örneği: 4 (doğrulandı) |
 | beklenen RSSI (eşitlikte ayırıcı) −55 dBm | makalenin örneği (yalnız eşitlik bozmada) |
 | `t_wait` | makalede yok, DSR'de karşılığı yok → seçim + SINANMAMIŞ |
 | RREQ yeniden denemesi, titreşim, rota önbelleği ömrü, RREP/RERR biçimi | DSR (RFC 4728 §9: RequestPeriod 500 ms, MaxRequestPeriod 10 s, MaxRequestRexmt 16, BroadcastJitter 10 ms, RouteCacheTimeout 300 s; §6.3 · §6.4) |
 
 ## 5 · Makalenin kendi içinde dikkat isteyen yerler (harfiyen uygulanır, beyan edilir)
 
-- Eş. 13'ün mekânsal terimi e^(−δ). δ metre cinsinden yüzlerce/binlerce olunca terim ~0'dır; seçimi bağ kalitesi ve yük belirler, düğüm-ayrıklık zaten zorunlu. Birim, Şekil 1 · 3'ün örnekleriyle (Tablo 3) sınanacak.
-- Eş. 8 yük payını kesir (T_busy) ile paket sayısını (Q_buf) toplar. Makalenin örneği de böyle (TL 7,7–11,6).
+- Eş. 13'ün mekânsal terimi γ·e^(1/Υ) (PDF'in çıkarılmış metni bozuk; Şekil 3'ün örneğiyle doğrulandı). Υ metre cinsinden binlerce olunca terim ~γ'dır; seçimi çoğunlukla bağ kalitesi ve yük belirler, düğüm-ayrıklık zaten zorunlu.
+- Eş. 8 milisaniyeyi (T_busy) paket sayısıyla (Q_buf) toplar. Makalenin örneği de böyle (Tablo 2: T_busy ≈ 7 ms, Q_buf 8–15 paket, TL 7,7–11,6).
 - Gözlem: RSSI okunduğu için mimari D17, `rssi_olcum_sigma_db`nin DUYARSIZ kaydını yeniden açar. JarmRout'la duyarlılığı ölçülür.

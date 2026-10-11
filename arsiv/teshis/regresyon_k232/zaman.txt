@@ -1,0 +1,5 @@
+uret basla 10:36:17
+uret bitti 11:23:53 cikis 0
+karsilastir basla 11:23:53
+karsilastir bitti 11:23:54 cikis 0
+kosu bitti 11:23:54

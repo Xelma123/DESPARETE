@@ -162,8 +162,10 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | **K-229** | 🟡 TABAN PROTOKOLLER VE REFERANS DÜNYA YENİDEN AÇILDI — rakipler AODV · OLSRv2 · JarmRout | 🔄 **REVİZE → K-230**<br>Verici 27 dBm maddesi **geri alındı** (ağ 1–2 atlamaya iniyordu; güç yalnız mesafeyi ölçekler); rakip değişikliği (AODV · OLSRv2 · JarmRout) **geçerli**, K-230'da yeniden yazıldı |
 | K-230 | 🟢 VERİCİ 20 dBm'DE KALIR (K-229'un verici maddesi geri alındı) · rakipler AODV · OLSRv2  | 🟢 geçerli |
 | K-231 | 🟢 UÇTAN UCA KOPYA DEFTERİ (denetim D-23) — protokol paketin eşlerini başka komşulara da  | 🟢 geçerli |
+| K-232 | 🟢 KAYNAK ROTASI (DSR ailesi) — protokol ara düğümleri paketin başlığına yazabilir · adre | 🟢 geçerli |
+| K-233 | 🟢 JarmRout'UN İLK GERÇEKLEMESİ (Pu 2018) — makalenin dört çözümlü örneği birim testi ve  | 🟢 geçerli |
 
-**142 kayıt · 8 revize · 134 geçerli**
+**144 kayıt · 8 revize · 136 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1779,3 +1781,22 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Doğrulama:** `tests2/test_kopya.py` 4/4 (küçük ağda kaynakta kopyalayan sınav protokolüyle uçtan uca defter ve mutabakat) · dokunulan modüllerin testleri 310/310 · mimari denetimi ihlalsiz · **regresyon k223 → k231: 81/81 bulgusuz** (farklar yalnız kod özetleri ve izinli köken kovaları, K-225). Yeni taban **k231**.
 - **Kaynaklar** (yürütücünün izniyle): OLSRv2 ailesi RFC 7181 · 6130 · 5444 · 5497 · 5148 · 7779 ve güncelleyenleri 7183 · 7187 · 7188 · 7466 · DSR RFC 4728 · olsrd2 (OONF, BSD-3, commit `477e716`) · JarmRout makalesi (Tablo 4, Şekil 2 · 4 yayıncı sayfasından okundu; protokolün iç parametreleri makalede yok). `protokol_kaynaklari/README.md` · `02` R5–R7 · NOTICE.
 - **JarmRout'a sadakat ilkesi** (yürütücü, "yüzde yüz sadık"): makalede yazan her kural harfiyen, DSR yalnız makalenin sustuğu yerde, her dolgu beyan tablosunda; makalenin çözümlü örnekleri birim testi (`arsiv/teshis/jarmrout_2026-10-11/tasarim.md`).
+# K-232 · 🟢 KAYNAK ROTASI (DSR ailesi) — protokol ara düğümleri paketin başlığına yazabilir · adres başına bayt çerçeveye ve yönlendirme ek yüküne · gözlem yüzeyi 30 alan · regresyon k231 → k232 birebir
+> 11 Ekim · tetik K-230 · K-231 (JarmRout DSR üzerine kurulu, veri kaynak rotasıyla taşınır; `arsiv/teshis/jarmrout_2026-10-11/tasarim.md` §3) · ölçüt `arsiv/teshis/regresyon_k232/beklenti.md` (commit `8c6bfd3`, koşudan önce) · sonuç `sonuc.md`
+
+- **Tanımlar** (`13` §07 · `05` §3.3, ölçmeden önce): `Karar.rota` · `Karar.kopya_rotalari` (kaynakta) · `Paket.rota` (ara düğümler, tekrarsız) · `PaketGorunumu.rota` (gözlem penceresi 29 → 30 alan; gerekçe: paketin başlığında yazan). Çerçeve paket başına `veri_baslik_bayt` + `rota_adres_bayt` × ara düğüm uzar; bu baytlar yönlendirme ek yüküne sayılır. Rota vermeyen protokolde alan boş, çerçeve aynı.
+- **Reddedilen seçenek:** RREP'in kurduğu atlama atlama durum. Uçuştaki paketin eski rotası, başlık baytı ve RERR'in dönüş yolu DSR'den ayrışırdı.
+- **Doğrulama:** `tests2/test_kaynak_rotasi.py` 4/4 (başlık baytı her veri iletiminde adres başına 4 bayt, birebir) · gözlem yüzeyi testi P6 (paket alanı 6 → 7) · mimari denetimi ihlalsiz · **regresyon k231 → k232: 81/81 bulgusuz**, izinsiz (farklar yalnız kod özetlerinde; `protokol_hash` 3 vaka, sınav protokolünün dosyası). Yeni taban **k232**.
+- Güncellenen: `04` §4 · `05` §3.3 · `13` §07 · `12`.
+# K-233 · 🟢 JarmRout'UN İLK GERÇEKLEMESİ (Pu 2018) — makalenin dört çözümlü örneği birim testi ve birebir · Eş. 8'in katsayıları Tablo 2'den · iki seçim SINANMAMIŞ · RSSI ve konum okunduğu için iki köken kaydı DUYARSIZ → SINANMAMIŞ
+> 11 Ekim · tetik K-229 · K-230 · kaynak `protokol_kaynaklari/pu_2018_jarmrout_ieee_access.pdf`; Tablo 1–3 ve Şekil 3 yürütücünün yayıncı sayfasından aldığı görüntülerden · tasarım `arsiv/teshis/jarmrout_2026-10-11/tasarim.md`
+
+- **Kod:** `protokoller/jarmrout.py` · `protokoller/jarmrout_bicim.py` (biçimler, sabitler, beyan tablosu). Kural tablosu J1–J13 tasarım notunda. RREQ rota kaydını, konumları ve yolun en kötü bağ kalitesiyle yükünü taşır (Şekil 2; 19 + 8n bayt). Ara düğüm yinelenen RREQ'yu, C_hop'u önbellektekinden büyük değilse yeniden yayar (makale; DSR'den farklı). Hedef düğüm-ayrık yolları `t_wait` boyunca toplar ve Eş. 13'ün en küçük P_prio'lu çiftine iki RREP döner. Kaynak aynı paketi iki yoldan gönderir (kopya defteri K-231, kaynak rotası K-232). MAC vazgeçince RERR gider, kaynak o yolu siler.
+- **Sadakatin ölçüsü** (`tests2/test_jarmrout.py` 12/12): Tablo 1 bağ kalitesi 7,1875 · 7,25 · 7,25 · Tablo 2 trafik yükü 11,6282 · 7,7468 · 8,9054 · Tablo 3 yol uzaklığı 10,0 · 6,4 · 6,4 · Şekil 3 çift önceliği 7,4638 · 6,8831 · 7,7095 (seçilen çift X–Z) · RREQ/RREP/RERR boyutları · küçük ağda uçtan uca korunum ve mutabakat.
+- **Kaynaktan çıkarılanlar:** Eş. 13'ün mekânsal terimi γ·e^(1/Υ) (PDF'in metni bozuk; Şekil 3 yalnız bu biçimle tutuyor) · Eş. 8'in kazancı γ = 0,5 ve düzeltme çarpanı ε = 0,02 (Tablo 2'nin iki örneğinden çözüldü, üçüncüsüyle sağlandı) · T_busy ms cinsinden · RSSI örnek sayısı 4 (Tablo 1).
+- **Beyanlı sapma:** NAV yerine CCA'nın meşgul süresi (ms). Simülatörün MAC'inde RTS/CTS yok; meşgul süre aynı büyüklüğün fiziksel ölçüsüdür (sürücünün "channel busy time"ı). **DSR dolguları** (makalenin sustuğu yerde, RFC 4728 §9): RequestPeriod 0,5 s · MaxRequestPeriod 10 s · MaxRequestRexmt 16 · BroadcastJitter 10 ms · RouteCacheTimeout 300 s · RREP/RERR biçimi · RREQ önbelleğinin anahtarı (başlatıcı, sıra).
+- **Seçimler** (makale ve DSR susuyor; duyarlılık mühürden önce ölçülür): `t_wait` 0,1 s · Eş. 6–7'nin süzgeç sabitleri 0,5.
+- **Köken defteri:** JarmRout RSSI'ı (Eş. 5) ve kendi konumunu (RREQ'nun P_coord'u) okuyor. Mimari denetiminin kuralı gereği `rssi_olcum_sigma_db` ve `gps_dikey_sigma_m` DUYARSIZ'dan SINANMAMIŞ'a geçti (eski hükümlerin gerekçesi "hiçbir protokol okumuyor"du; JarmRout konumun yalnız yatay bileşenini kullanır). Sayım: SINANMAMIŞ 3 → 5 · DUYARSIZ 11 → 9. Mimari denetimi ihlalsiz; kapının testi (`tests2/test_donma.py`) kaydın DUYARSIZ hâliyle sınanır, defterin bugünkü durumundan bağımsız.
+- **Tam takım:** `1006 passed` (15 dk 33 s; ilk koşuda kırılan tek test yukarıdaki kapı testiydi, düzeltilip yeniden koşuldu).
+- **Durum:** kural kural sadakat denetimi, regresyon vakaları, U1 ve donma sırada (`12` §1.1); kod denetimden geçene kadar değişebilir.
+- Güncellenen: `04` §5 · §9 · `12`.
