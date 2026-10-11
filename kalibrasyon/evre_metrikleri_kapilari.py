@@ -351,7 +351,10 @@ def g4_bulaniklik() -> bool:
 # ==========================================================================
 # G1ç · G2ç · G4ç — ÇİZELGELİ KARIŞTIRICI (K-209, `v2/08` §08)
 # ==========================================================================
-CIZ_PROTOKOLLER: tuple[str, ...] = ("aodv", "olsr", "aomdv", "desparete")
+# Faz 4b (K-229 · K-236): rakip kümesi AODV · OLSRv2 · JarmRout; metrikler
+# bu protokollere uygulanacağı için çizelgeli kapılar onlarla koşar.
+CIZ_PROTOKOLLER: tuple[str, ...] = ("aodv", "olsrv2", "jarmrout",
+                                    "desparete")
 CIZ_TOHUMLAR: tuple[int, ...] = (1003, 1004)
 
 

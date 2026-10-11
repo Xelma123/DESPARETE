@@ -23,7 +23,8 @@
    Duyarlılık borcu (mühürden önce): JarmRout'un seçimleri (`t_wait`, Eş. 6–7 süzgeçleri) · `rssi_olcum_sigma_db` · `gps_dikey_sigma_m` (K-233).
 3. U1 (AODV · OLSRv2 · JarmRout, iki desen; eşik aynı) · R · evre kapıları G1ç · G2ç · G3ç · **donma** (yeni K) · regresyona yeni protokollerin vakaları (K-233'ün köken değişimi satırların `teshis.koken_kovalari`nı oynatır, karşılaştırmada izinli) · tam takım · mimari denetimi.
 4. **Belge ve kod temizliği** (yürütücü, 11 Ekim): rakip listesinden çıkan OLSR (RFC 3626) · AOMDV · GPSR'ın ve eski rakip düzeninin bayat kalıntıları kodda, testlerde, araçlarda ve belgelerde eksiksiz taranır; yürürlükteki her yer yeni rakiplere (AODV · OLSRv2 · JarmRout) göre yazılır, Faz 4'ün kaydı olarak kalanlar tarihçede ve arşivde kalır. Faz 5'in geçiş kapısının parçası.
-5. Faz 5'e dönüş, K-228'in sırasıyla (§1.2).
+5. **Derin blok denetimi** (yürütücü, 11 Ekim): temizlikten sonra simülatör ve rakip protokoller ayrı ayrı, blok blok denetlenir — o anki hâllerinin TÜBİTAK projesine uygunluğu, bilimsel gerçekçiliği ve kullanımda sorun çıkarıp çıkarmayacağı. Simülatörü ve rakipleri ayrı denetçiler inceler. Bulgular kapanmadan Faz 5'e geçilmez.
+6. Faz 5'e dönüş, K-228'in sırasıyla (§1.2).
 
 ### 1.2 · Faz 5 — durdu (K-229); dönüşteki plan
 

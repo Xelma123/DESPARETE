@@ -125,6 +125,8 @@ from protokoller.aodv import AODV  # noqa: E402
 from protokoller.olsr import OLSR  # noqa: E402
 from protokoller.aomdv import AOMDV  # noqa: E402
 from protokoller.desparete import DESPARETE  # noqa: E402
+from protokoller.jarmrout import JarmRout  # noqa: E402
+from protokoller.olsrv2 import OLSRv2  # noqa: E402
 from protokoller.desparete_bayrak import PROFIL_V02, SECENEK_V041  # noqa: E402
 from sim2.kosum.kosu import Kosu  # noqa: E402
 from sim2.kosum.kurulum import kurulum_yap  # noqa: E402
@@ -137,7 +139,9 @@ __all__ = ["U1_ESIK_STATIK", "U1_ESIK_HAREKETLI", "KOLLAR", "TOHUMLAR", "u1",
 
 # Kapının sınadığı protokoller — ad → sınıf.
 PROTOKOLLER = {"aodv": AODV, "olsr": OLSR, "aomdv": AOMDV,
-               "desparete": DESPARETE}
+               "desparete": DESPARETE,
+               # Faz 4b'nin rakipleri (K-229 · K-235 · K-236).
+               "jarmrout": JarmRout, "olsrv2": OLSRv2}
 # 🔒 DESPARETE v0.1 tek-sink işletme profilidir: U1'i YERE TOPLAMADA koşulur
 # (`04` K-150 §4 · K-160); kâhin AYNI desende koşar, oran aynı dünyanın
 # oranıdır. Taban protokollerin U1'i eşler arası desende geçerli kalır.
@@ -228,7 +232,7 @@ ACIKLANMIS_DUSUK: dict[str, dict[tuple[str, int], str]] = {"aodv": {
     ("gorev-yok", 1001):
         "esiksiz en kisa yol 0,2502 (kolun en dusugu; 1000'de 0,5519). "
         "Ag hicbir anda bolunmuyor. K-137 §4",
-}, "olsr": {}, "desparete": {}, "aomdv": {
+}, "olsr": {}, "desparete": {}, "jarmrout": {}, "olsrv2": {}, "aomdv": {
     # 🔒 AOMDV, AODV'nin atlama sayısıyla yönlendirmesini miras alır; bağ
     # kalitesi kabul eşiği YOKTUR. Ölçüm tam pencerede, bu hücrede yapıldı
     # (22 Eylül 2026; `arsiv/teshis/aomdv_gorev1001_2026-09-22/`, ön-kayıtlı
@@ -283,7 +287,7 @@ ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
         ("statik-yok", 1000), ("statik-yok", 1002), ("bagimsiz-yok", 1000))},
     "aomdv": {("yere_toplama", kol, t): _AOMDV_K207 for kol, t in (
         ("statik-yok", 1000), ("statik-yok", 1002), ("bagimsiz-yok", 1000))},
-    "desparete": {},
+    "desparete": {}, "jarmrout": {}, "olsrv2": {},
     "olsr": {**{("yere_toplama", "statik-yok", t): _OLSR_K224_STATIK
                 for t in (1000, 1001, 1002)},
              **{("yere_toplama", kol, t): _OLSR_K224_HAREKETLI for kol, t in (
@@ -302,7 +306,7 @@ ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
 # 0,9827); AODV'nin aşımı 0,0002 < R — çözünürlük içinde. Arşiv K-206 ·
 # K-211 · K-218.
 KAHIN_ASIMI_ACIKLANMIS: dict[str, dict[tuple[str, str, int], str]] = {
-    "olsr": {}, "desparete": {}, "aomdv": {},
+    "olsr": {}, "desparete": {}, "aomdv": {}, "jarmrout": {}, "olsrv2": {},
     "aodv": {("esler_arasi", "statik-yok", 1001):
              "AODV-j 0,9829 · ETX kahini 0,9827 (9 Ekim, 7 deneme, K-224): "
              "asim 0,0002 < R 0,0126 — cozunurluk icinde, zarf adimi "
