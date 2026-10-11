@@ -165,9 +165,10 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-232 | 🟢 KAYNAK ROTASI (DSR ailesi) — protokol ara düğümleri paketin başlığına yazabilir · adre | 🟢 geçerli |
 | K-233 | 🟢 JarmRout'UN İLK GERÇEKLEMESİ (Pu 2018) — makalenin dört çözümlü örneği birim testi ve  | 🟢 geçerli |
 | K-234 | 🟢 JarmRout KURAL KURAL SADAKAT DENETİMİNDEN GEÇTİ — tek gerekçesiz sapma (Eş. 6 · 7'nin  | 🟢 geçerli |
-| K-235 | 🟢 OLSRv2'NİN GERÇEKLEMESİ VE SADAKAT DENETİMİ — RFC 7181 + NHDP (RFC 6130) + DAT (RFC 77 | 🟢 geçerli |
+| **K-235** | 🟢 OLSRv2'NİN GERÇEKLEMESİ VE SADAKAT DENETİMİ — RFC 7181 + NHDP (RFC 6130) + DAT (RFC 77 | 🔄 **REVİZE → K-236**<br>OLSRv2'nin bayrak MPR'leri metrikliydi (§18.4 A) — olsrd2'nin bayrak alanı atlama sayısıyla kurulur, **B'ye düzeltildi**; K-235'in geri kalanı geçerli |
+| K-236 | 🟢 OLSRv2'NİN BAYRAK MPR'LERİ ATLAMA SAYISIYLA (§18.4 B) — olsrd2'nin bayrak alanı "Hopco | 🟢 geçerli |
 
-**146 kayıt · 8 revize · 138 geçerli**
+**147 kayıt · 9 revize · 138 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1823,3 +1824,11 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Doğrulama:** `tests2/test_olsrv2.py` 49/49 (tel biçimi, kodlar, gidiş-dönüş ve iletmede yalnız hop alanları, 40 rastgele grafikte §18.3, DAT formülü, iki düğümde simetrik bağ kurulumu ve 6 s'de düşmesi, TC'nin ANSN sırası, 14 düğümde uçtan uca korunum ve tam rota) · ilgili testler 103/103 · mimari denetimi ihlalsiz. 40 düğüm, 60 s, durağan duman koşusu: korunum tamam, düğüm başına ~7 bayrak MPR'si (metrikli seçimin doğal sonucu: her 2-atlama komşusunun en ucuz aracısı korunur).
 - **Durum:** Faz 4b'nin kod adımı tamam (JarmRout-b · OLSRv2-a); sırada regresyon vakaları, U1, R, evre kapıları ve donma (`12` §1.1 adım 3).
 - Güncellenen: `04` §5 · `12` §1.1.
+# K-236 · 🟢 OLSRv2'NİN BAYRAK MPR'LERİ ATLAMA SAYISIYLA (§18.4 B) — olsrd2'nin bayrak alanı "Hopcount metric" · K-235'in A seçimi düzeltildi → `OLSRv2-b` · DAT'ın sabit hızı ve RFC 7183'süz kurulum gerekçeleriyle kalır
+> 11 Ekim · yürütücü ("o 3 karar eğer projenin verilerini etkileyecek kadar önemliyse mantıklı olanı yapabilirsin") · K-235'in üç beyanlı kararı yeniden tartıldı
+
+- **Bayrak MPR'leri (değişti):** K-235 metrikli seçimi (A) olsrd2'ye dayandırmıştı. Hakemin kodu yeniden okundu: bayrak alanı sabit "Hopcount metric"le kurulur ve hiç değişmez (`nhdp_domain.c`: `_flooding_domain.metric = &_no_metric`); olsrd2 bayrak MPR'lerini atlama sayısıyla seçer. §18.4 B'ye geçildi (bilinmeyen metrikli bağ ve 2-atlama demeti yine dışarıda). Veriye etkisi: 40 düğüm · 60 s durağan duman koşusunda düğüm başına bayrak MPR'si 7,3 → 5,1, TC başına iletme 27,6 → 18,4, kontrol baytı 2,01 → 1,43 MB (−%29), teslim 797 → 787 / 864. Yönlendirme MPR'leri ve rotalar metrikli kalır.
+- **DAT'ın gelen hızı (kalır, sabit 1 Mbit/s):** referans dünyada ARF açık, tek-yayın hızları 1–11 Mbit/s. Ama hız yalnız komşunun bana gönderdiği tek-yayın veriden ölçülebilir (sürücünün rx bitrate'i). Ölçülse yalnız zaten kullanılan bağlar ucuzlar, kullanılmayanlar bilinmez kalır; sonuç daha iyi rota seçimi değil, rotanın yapışkanlığı olurdu. Sabit hız RFC 7779 §8'de açıkça izinli; olsrd2 sürücüden hız alamayınca ETX'e iner — aynı davranış. Simülatöre yeni gözlem eklenmedi.
+- **Bütünlük koruması (kalır, kullanılmaz):** açılsa her mesaja ~40 bayt ekler. Yük yalnız OLSRv2'ye biner ve tehdit modelinde karşılığı yoktur (mesaj sahteciliği yok, öteki rakipler imzasız).
+- **Doğrulama:** `tests2/test_olsrv2.py` 50/50 (yeni: bayrak MPR'si eşitlikte küçük kimlik, metrikten bağımsız; yönlendirme MPR'si metrikle) · mimari denetimi ihlalsiz.
+- Güncellenen: `04` §5 · `12` §1.1 · beyan tablosu (`olsrv2_bicim.py`) · tasarım ve denetim notları; indekste K-235 → K-236.

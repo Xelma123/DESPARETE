@@ -64,7 +64,7 @@
 | §17.5 | AR dolunca kaynağın topoloji demetleri silinir | MUST | `_temizle` | ✓ |
 | §17.6 · §18.6 | MPR'ler koşullar değişince yeniden; her zaman yeniden hesap MAY | MUST · MAY | her değişimde yeniden | ✓ |
 | §18.3 | MPR kümesi: WILL_ALWAYS içinde; her 2-atlama kapsanır, en kısa uzaklık korunur | MUST | `mpr_sec` | ✓ 40 rastgele grafikte testle |
-| §18.4 | bayrak MPR'leri arayüz başına, A (metrikli) ya da B | MUST · seçim | A (olsrd2) | ✓ beyan |
+| §18.4 | bayrak MPR'leri arayüz başına, A (metrikli) ya da B | MUST · seçim | B, atlama sayısı (olsrd2'nin bayrak alanı "Hopcount metric") | ✓ beyan · K-236'da düzeltildi (bu denetimde A yazıyordu: hakemin kodu yanlış okunmuştu) |
 | §18.5 | yönlendirme MPR'leri gelen komşu metriğiyle | MUST | d2 için N2_in_metric — metindeki "N2_out_metric" aynı paragrafın izin koşuluyla ve §4.6'yla çelişiyor; olsrd2 gelen | ✓ beyan |
 | §18.1 · Ek B | istek SHOULD dikkate alınır; Ek B: WILL_ALWAYS → tek kapsayan → W, R, D; adım 4 İSTEĞE BAĞLI | SHOULD · MAY | W → R → D → küçük adres; adım 4 yok | ✓ |
 | §19 · Ek C | omurga üzerinde en küçük toplam metrik; eşit metrikte az atlama (SHOULD); Ek C.1 tercihi | MUST · SHOULD | `_rota_hesapla` (Dijkstra) | ✓ |
@@ -90,3 +90,7 @@ RFC 7183 bütünlük koruması (tehdit modelinde mesaj sahteciliği yok; öteki 
 ## 6 · Sonuç
 
 Gerekçesiz sapma yok. RFC metninin kendi içindeki iki tutarsızlık (§18.5'in d2'si, Ek C.7'nin metriği) normatif bağlamla ve hakemle çözüldü, beyan tablosunda. Doğrulama `tests2/test_olsrv2.py` 49/49: tel biçimi bayt bayt, zaman ve metrik kodları, gidiş-dönüş ve iletmede yalnız hop alanlarının değişmesi, 40 rastgele grafikte MPR özellikleri, DAT formülü, iki düğümde HELLO'yla simetrik bağ kurulumu ve 6 s'de düşmesi, TC'nin ANSN sırası, küçük ağda uçtan uca korunum ve tam rota. Kod hâli **`OLSRv2-a`**.
+
+## 7 · Sonradan (K-236)
+
+Hakemin bayrak alanı yeniden okundu: olsrd2 bayrak MPR'lerini atlama sayısıyla seçiyor (`nhdp_domain.c`, `_flooding_domain.metric = &_no_metric`, hiç değişmiyor). §18.4 B'ye geçildi → **`OLSRv2-b`**. 40 düğüm · 60 s duman koşusunda düğüm başına bayrak MPR'si 7,3 → 5,1, TC başına iletme 27,6 → 18,4, kontrol baytı −%29, teslim aynı düzeyde. Test `test_BAYRAK_MPR_atlama_sayisiyla_YONLENDIRME_MPR_metrikle`.

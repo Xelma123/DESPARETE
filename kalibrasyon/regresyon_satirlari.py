@@ -68,7 +68,10 @@ değişikliğinden önce ve sonra koşar.
     dünyasında gerçek protokoller — birincil hücre × dört protokol + ETX
     kâhini · dört karıştırıcı sınıfı · yer karıştırıcısı ailesi · düğüm kaybı
     · eşler arası · karıştırıcısız DESPARETE; kısa pencere. Anahtarlar
-    addan değil `REFERANS_VAKALARI` tablosundan (`_kos`)
+    addan değil `REFERANS_VAKALARI` tablosundan (`_kos`). Faz 4b'nin
+    rakipleri (K-236): JarmRout ve OLSRv2 birincil hücrede, JarmRout eşler
+    arası hareketli kolda (keşif, RERR, kopya, kaynak rotası), OLSRv2 düğüm
+    kaybında (komşu ve topoloji demetlerinin dolması)
 
 Vaka başına duvar saati basılır ama satıra yazılmaz; sonraki koşumun bandı
 bu sayılardan verilir.
@@ -144,6 +147,16 @@ REFERANS_VAKALARI: dict[str, tuple[str, str, int, dict]] = {
     "u-gorev-surekli-aomdv-esler_arasi": (
         "gorev-surekli", "aomdv", 1010, {"trafik_deseni": "esler_arasi"}),
     "u-statik-yok-desparete": ("statik-yok", "desparete", 1010, _YT),
+    # Faz 4b (K-233 · K-235 · K-236): yeni rakipler.
+    **{f"u-birincil-{p}": ("formasyon-surekli", p, 1003, _BIRINCIL)
+       for p in ("jarmrout", "olsrv2")},
+    "u-bagimsiz-surekli-jarmrout-esler_arasi": (
+        "bagimsiz-surekli", "jarmrout", 1010,
+        {"trafik_deseni": "esler_arasi"}),
+    "u-bagimsiz-surekli-olsrv2-dugum_kaybi": (
+        "bagimsiz-surekli", "olsrv2", 1010,
+        {"kayip_dugum_sayisi": 5, "kayip_bas_s": 15.0, "kayip_bitis_s": 35.0,
+         **_YT}),
     # Denetim 2026-10-08 D-13: kısa pencerede TEMİZ evre boş kalıyor ve
     # çizelgeli evre yolu (M1 · M2 · M4, `pdr_acik` — K-222'nin birincil
     # metriği) regresyonda hiç sınanmıyordu. Bu vaka kendi penceresini taşır:
@@ -379,6 +392,12 @@ def _fabrika(protokol: str, kur):
         from protokoller.olsr import OLSR
         tip = {"aodv": AODV, "olsr": OLSR, "aomdv": AOMDV}[protokol]
         return lambda i: tip(i)
+    if protokol == "jarmrout":
+        from protokoller.jarmrout import JarmRout
+        return lambda i: JarmRout(i)
+    if protokol == "olsrv2":
+        from protokoller.olsrv2 import OLSRv2
+        return lambda i: OLSRv2(i)
     if protokol == "desparete":
         from protokoller.desparete import DESPARETE
         from protokoller.desparete_bayrak import PROFIL_V02, SECENEK_V041

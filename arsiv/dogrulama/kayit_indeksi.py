@@ -128,6 +128,10 @@ SUPERSEDE: dict[str, tuple[str, str]] = {
               "Verici 27 dBm maddesi **geri alındı** (ağ 1–2 atlamaya iniyordu; "
               "güç yalnız mesafeyi ölçekler); rakip değişikliği (AODV · OLSRv2 · "
               "JarmRout) **geçerli**, K-230'da yeniden yazıldı"),
+    "K-235": ("K-236",
+              "OLSRv2'nin bayrak MPR'leri metrikliydi (§18.4 A) — olsrd2'nin "
+              "bayrak alanı atlama sayısıyla kurulur, **B'ye düzeltildi**; "
+              "K-235'in geri kalanı geçerli"),
 }
 
 

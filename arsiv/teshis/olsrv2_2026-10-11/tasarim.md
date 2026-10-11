@@ -59,7 +59,7 @@ Simülatörün biçim sözleşmesi (`MesajBicimi`) sabit ve tekrarlı alanlardan
 | bağ kalitesi (NHDP §14) | MAY | yok; §15.4 değerleri | metrik DAT'ta; olsrd2 de varsayılan histerezissiz |
 | simetrik olmayan göndericinin TC'sini işlemek (§14.2 adım 1) | İSTEĞE BAĞLI | işlenir | olsrd2 işler |
 | ilan edilen komşular (§17.3 madde 5) | MAY | yalnız yönlendirme MPR seçicileri | olsrd2; SHOULD "gereksiz değişimden kaçın" |
-| bayrak MPR'lerinde metrik (§18.4 A/B) | serbest | A: giden bağ metriği | olsrd2 |
+| bayrak MPR'lerinde metrik (§18.4 A/B) | serbest | B: atlama sayısı (K-236; ilk hâlde A) | olsrd2'nin bayrak alanı sabit "Hopcount metric"le kurulur |
 | MPR algoritması | Ek B örnek | Ek B harfiyen: W → R → D → küçük adres; adım 4 (fazlayı atma) yok | §18.1 istek SHOULD dikkate alınır (olsrd2 istek adımını atlıyor) |
 | RFC 7187 yönlendirme MPR iyileştirmesi | MAY | yok | olsrd2'de yok |
 | 2-atlama rota kenarları (§19.1 · Ek C.7) | İSTEĞE BAĞLI | var, yalnız başka yol yoksa (RFC: tercih edilmez) | olsrd2 kullanır |

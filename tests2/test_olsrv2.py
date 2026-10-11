@@ -129,6 +129,25 @@ def test_MPR_tek_kapsayan_ve_kisa_yol_korunur():
     assert mpr_sec(n1, {101: None, 102: None}, d2) == {1, 2}
 
 
+def test_BAYRAK_MPR_atlama_sayisiyla_YONLENDIRME_MPR_metrikle():
+    """§18.4 B (olsrd2'nin bayrak alanı "Hopcount metric") · §18.5 gelen
+    metrik. 10'a hem 1 hem 2 üzerinden erişilir; 2'nin bağı çok ucuz.
+    Bayrak: eşitlikte küçük kimlik → 1. Yönlendirme: d = 1 + 1 < 1000 + 1
+    → 2."""
+    from protokoller.olsrv2 import _Bag, _Komsu
+    p = OLSRv2(0)
+    for n, m in ((1, 1000), (2, 1)):
+        p._bag[n] = _Bag(heard_bitis=50.0, sym_bitis=50.0, bitis=60.0,
+                         in_metrik=m, out_metrik=m, durum=1)
+        p._komsu[n] = _Komsu(simetrik=True, kaynak=n,
+                             will_flooding=WILL_DEFAULT,
+                             will_routing=WILL_DEFAULT)
+        p._iki[(n, 10)] = [50.0, 1, 1]
+    p._mpr_hesapla(1.0)
+    assert [n for n, k in p._komsu.items() if k.flooding_mpr] == [1]
+    assert [n for n, k in p._komsu.items() if k.routing_mpr] == [2]
+
+
 # ---------------------------------------------------------------- DAT
 def test_DAT_METRIGI_RFC7779_10_2():
     """L_in_metric = (2^24/8)·min(toplam/alınan, 8)/(hız/1000); kayıp HELLO

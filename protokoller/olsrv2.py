@@ -376,17 +376,19 @@ class OLSRv2:
     # ==================================================================
     def _mpr_hesapla(self, simdi: float) -> None:
         self._sayac["mpr_hesap"] += 1
-        # §18.4 · bayrak MPR'leri, A: giden bağ metriği.
-        ulasilir = {n: b.out_metrik for n, b in self._bag.items()
+        # §18.4 · bayrak MPR'leri, B: metrik yerine 1 (atlama sayısı) —
+        # olsrd2'nin bayrak alanı sabit "Hopcount metric"le kurulur
+        # (`nhdp_domain.c` `_flooding_domain.metric = &_no_metric`). Bilinmeyen
+        # metrikli bağ ve 2-atlama demeti yine KULLANILMAZ (§18.4).
+        ulasilir = {n for n, b in self._bag.items()
                     if self._durum(b, simdi) == SYMMETRIC
                     and b.out_metrik is not None}
-        n1 = {n: (self._komsu[n].will_flooding, m)
-              for n, m in ulasilir.items()
+        n1 = {n: (self._komsu[n].will_flooding, 1) for n in ulasilir
               if n in self._komsu
               and self._komsu[n].will_flooding > WILL_NEVER}
-        d2 = {(x, y): v[2] for (x, y), v in self._iki.items()
+        d2 = {(x, y): 1 for (x, y), v in self._iki.items()
               if x in n1 and v[2] is not None}
-        n2 = {y: ulasilir.get(y) for (_x, y) in d2}
+        n2 = {y: (1 if y in ulasilir else None) for (_x, y) in d2}
         bayrak = mpr_sec(n1, n2, d2)
         # §18.5 · yönlendirme MPR'leri: gelen komşu metriği. 🔴 d2 için
         # N2_in_metric: §18.5'in metni "N2_out_metric" yazıyor ama izin

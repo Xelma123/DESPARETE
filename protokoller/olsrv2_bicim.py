@@ -23,12 +23,12 @@ adresi), TC başlığı 12 bayt (kaynak · hop limit · hop count · sıra).
 | adres modeli | serbest | tek arayüz, tek adres; kaynak adresi = arayüz adresi (RFC 7181 §7 izinli); düğüm k → 10.0.0.0 + k + 1 | simülatörde her İHA'nın tek telsizi var |
 | bağ kalitesi (NHDP §14) | MAY | yok; HYST_ACCEPT 1 · HYST_REJECT 0 · INITIAL_QUALITY 1 · INITIAL_PENDING false (NHDP §15.4) | metrik DAT'ta; olsrd2 varsayılanı histerezissiz |
 | bağ metriği | dış süreç (RFC 7181 §8.1) | DAT (RFC 7779) | `v2/02` R5 |
-| DAT gelen hız L_DAT_rx_bitrate | dış süreç; sabit yapılandırma açıkça izinli (RFC 7779 §8) | sabit 1 Mbit/s (802.11b temel hızı) | gözlemde komşu başına alınan hız yok; tek değer Dijkstra'nın sonucunu değiştirmez; olsrd2'nin `ffdat_airtime=false` kipi aynı (ETX'e iner) |
+| DAT gelen hız L_DAT_rx_bitrate | dış süreç; sabit yapılandırma açıkça izinli (RFC 7779 §8) | sabit 1 Mbit/s (802.11b temel hızı) | hız yalnız komşunun bana gönderdiği tek-yayın veriden ölçülebilir (sürücünün rx bitrate'i); ölçülse yalnız zaten kullanılan bağları ucuzlatır, kullanılmayanı bilinmez bırakırdı. Tek değer Dijkstra'nın sonucunu değiştirmez; olsrd2 sürücüden hız alamayınca ETX'e iner — aynı davranış (K-236) |
 | DAT kayıp histerezisi, hız süzgeci | bilgilendirici (RFC 7779 Ek C · D) | yok | normatif değil |
 | yayın ↔ tek-yayın alım olasılığı | RFC 7779 §3 uyarısı | 802.11b yayını temel hızda: kayıp tahmini tek-yayın için iyimser | simülatörün MAC'i değişmez |
 | simetrik olmayan göndericinin TC'si (§14.2 adım 1) | İSTEĞE BAĞLI | işlenir | olsrd2 işler |
 | ilan edilen komşular (§17.3 madde 5) | MAY | yalnız yönlendirme MPR seçicileri | olsrd2; SHOULD "gereksiz değişimden kaçın" |
-| bayrak MPR'lerinde metrik (§18.4) | A ya da B | A: giden bağ metriği | olsrd2 |
+| bayrak MPR'lerinde metrik (§18.4) | A ya da B | B: metrik yerine 1 (atlama sayısı); bilinmeyen metrikli bağ ve 2-atlama demeti yine dışarıda | olsrd2'nin bayrak alanı sabit "Hopcount metric"le kurulur (`nhdp_domain.c`: `_flooding_domain.metric = &_no_metric`); K-236 (K-235'te A seçilmişti) |
 | MPR algoritması (§18 · Ek B) | Ek B örnek | Ek B harfiyen: WILL_ALWAYS → tek kapsayan → W, R, D, küçük adres; adım 4 yok (İSTEĞE BAĞLI) | §18.1: istek SHOULD dikkate alınır (olsrd2 istek adımını atlıyor) |
 | yönlendirme MPR'lerinde d2(x, y) (§18.5) | metin "N2_out_metric" | N2_in_metric | RFC'nin kendi içinde çelişki: aynı paragrafın izin koşulu N2_in_metric'e, §4.6 "routing MPRs use incoming neighbor metrics" der; olsrd2 gelen metriği kullanır |
 | RFC 7187 yönlendirme MPR iyileştirmesi | MAY | yok | olsrd2'de yok |
