@@ -167,8 +167,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-234 | 🟢 JarmRout KURAL KURAL SADAKAT DENETİMİNDEN GEÇTİ — tek gerekçesiz sapma (Eş. 6 · 7'nin  | 🟢 geçerli |
 | **K-235** | 🟢 OLSRv2'NİN GERÇEKLEMESİ VE SADAKAT DENETİMİ — RFC 7181 + NHDP (RFC 6130) + DAT (RFC 77 | 🔄 **REVİZE → K-236**<br>OLSRv2'nin bayrak MPR'leri metrikliydi (§18.4 A) — olsrd2'nin bayrak alanı atlama sayısıyla kurulur, **B'ye düzeltildi**; K-235'in geri kalanı geçerli |
 | K-236 | 🟢 OLSRv2'NİN BAYRAK MPR'LERİ ATLAMA SAYISIYLA (§18.4 B) — olsrd2'nin bayrak alanı "Hopco | 🟢 geçerli |
+| K-237 | 🟢 REGRESYON k232 → k236 BİREBİR — yeni rakipler matriste (85 vaka), regresyon tabanı k23 | 🟢 geçerli |
 
-**147 kayıt · 9 revize · 138 geçerli**
+**148 kayıt · 9 revize · 139 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1832,3 +1833,10 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Bütünlük koruması (kalır, kullanılmaz):** açılsa her mesaja ~40 bayt ekler. Yük yalnız OLSRv2'ye biner ve tehdit modelinde karşılığı yoktur (mesaj sahteciliği yok, öteki rakipler imzasız).
 - **Doğrulama:** `tests2/test_olsrv2.py` 50/50 (yeni: bayrak MPR'si eşitlikte küçük kimlik, metrikten bağımsız; yönlendirme MPR'si metrikle) · mimari denetimi ihlalsiz.
 - Güncellenen: `04` §5 · `12` §1.1 · beyan tablosu (`olsrv2_bicim.py`) · tasarım ve denetim notları; indekste K-235 → K-236.
+# K-237 · 🟢 REGRESYON k232 → k236 BİREBİR — yeni rakipler matriste (85 vaka), regresyon tabanı k236 · Faz 4b kapanış ölçümleri başladı · Faz 5'ten önce derin blok denetimi
+> 11 Ekim · ölçüt `arsiv/teshis/regresyon_k236/beklenti.md` (commit `88d0064`, koşudan önce) · sonuç `sonuc.md` · kapanış ölçümlerinin ölçütü `arsiv/teshis/faz4b_kapanis_2026-10-11/beklenti.md` (commit `65c2e3b`) · denetim adımı yürütücünün
+
+- **Regresyon:** eski 81 vaka bulgusuz; farklar yalnız kod özetlerinde ve izinli köken kovalarında (her satırda DUYARSIZ 11 → 9, SINANMAMIŞ 3 → 5, K-233). Matrise dört vaka girdi ve geçerli: JarmRout ve OLSRv2 birincil hücrede, JarmRout eşler arası hareketli kolda, OLSRv2 düğüm kaybında; JarmRout vakalarında kopya defteri işliyor. Yeni taban **k236**.
+- **Kapanış ölçümleri** (dondurulmuş kopya `65c2e3b`, ~12 sa): U1 JarmRout · OLSRv2 iki desende, çizelgeli evre kapıları G1ç · G2ç + G4ç yeni rakip kümesiyle (AODV · OLSRv2 · JarmRout · DESPARETE). R ve G3ç protokolden bağımsız, simülatör K-224'ten beri aynı: yeniden koşulmaz.
+- **Faz 5'ten önce derin blok denetimi** (yürütücü): belge ve kod temizliğinden sonra simülatör ve rakip protokoller ayrı denetçilerce blok blok — TÜBİTAK projesine uygunluk, bilimsel gerçekçilik, kullanımda sorun; bulgular kapanmadan Faz 5'e geçilmez (`12` §1.1 adım 5).
+- Güncellenen: `12` §1.

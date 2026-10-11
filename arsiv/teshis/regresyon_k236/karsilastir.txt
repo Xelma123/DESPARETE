@@ -1,0 +1,16 @@
+REGRESYON KARSILASTIRMASI — k232 (81 satir) ↔ k236 (85 satir)
+  (yeni vaka) yalniz k236: u-bagimsiz-surekli-jarmrout-esler_arasi · gecerli=True
+  (yeni vaka) yalniz k236: u-bagimsiz-surekli-olsrv2-dugum_kaybi · gecerli=True
+  (yeni vaka) yalniz k236: u-birincil-jarmrout · gecerli=True
+  (yeni vaka) yalniz k236: u-birincil-olsrv2 · gecerli=True
+
+  bulgusuz vaka : 81/81
+  (beklenen) kimlik.arac_hash                                 81 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           81 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              81 vakada farkli
+  (beklenen) kimlik.protokol_hash                             76 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         81 vakada farkli
+  (izinli)   teshis.koken_kovalari.DUYARSIZ                   81 vakada farkli
+  (izinli)   teshis.koken_kovalari.SINANMAMIS                 81 vakada farkli
+
+  🟢 BIREBIR (izinli farklar disinda)
