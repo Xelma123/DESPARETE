@@ -1,0 +1,12 @@
+sure 1484 s · bitis 100.0
+teshis {'rreq_uretilen': 2056, 'rreq_iletilen': 143834, 'rreq_atilan': 387192, 'rrep_uretilen': 2114, 'rrep_iletilen': 6120, 'rerr_uretilen': 1425, 'rerr_iletilen': 2183, 'tek_yol': 1018, 'iki_yol': 548, 'kesif_basarisiz': 0, 'rotasiz_paket': 0, 'yol_silinen': 1184, 'rota_hedefi': 33, 'suren_kesif': 0}
+kontrol_cerceve 202605.0 yayin 145823.0 airtime_s 218.0
+kesif (S,D) sayisi 43 · toplam RREQ uretimi 2056
+deneme no dagilimi [(1, 906), (2, 594), (3, 308), (4, 135), (5, 61), (6, 24), (7, 11), (8, 7), (9, 4), (10, 3), (11, 1), (12, 1), (13, 1)]
+RREQ basina yeniden yayin: ort 78.1 · medyan 66 · p90 137 · max 836
+bir dugumun ayni RREQ'yu yayma sayisi dagilimi [(1, 32594), (2, 11184), (3, 5547), (4, 2884), (5, 1788), (6, 1169), (7, 768), (8, 524), (9, 425), (10, 292), (11, 229), (12, 172), (13, 154), (14, 120), (15, 99)]
+hedefe varan kopya: ort 6.2 · max 85
+t_wait sonunda kayitli yol sayisi [(1, 1018), (2, 432), (3, 92), (4, 18), (5, 6)]
+kesif->ilk RREP sure: n 906 · medyan 0.772 · p90 2.848 · max 85.744
+
+[exited with code 0]

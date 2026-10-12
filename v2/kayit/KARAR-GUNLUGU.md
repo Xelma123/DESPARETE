@@ -168,8 +168,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | **K-235** | 🟢 OLSRv2'NİN GERÇEKLEMESİ VE SADAKAT DENETİMİ — RFC 7181 + NHDP (RFC 6130) + DAT (RFC 77 | 🔄 **REVİZE → K-236**<br>OLSRv2'nin bayrak MPR'leri metrikliydi (§18.4 A) — olsrd2'nin bayrak alanı atlama sayısıyla kurulur, **B'ye düzeltildi**; K-235'in geri kalanı geçerli |
 | K-236 | 🟢 OLSRv2'NİN BAYRAK MPR'LERİ ATLAMA SAYISIYLA (§18.4 B) — olsrd2'nin bayrak alanı "Hopco | 🟢 geçerli |
 | K-237 | 🟢 REGRESYON k232 → k236 BİREBİR — yeni rakipler matriste (85 vaka), regresyon tabanı k23 | 🟢 geçerli |
+| K-238 | 🟡 JarmRout'UN RREQ SELİ — makaleye birebir sadık, çöküş protokolün kuralından · harfiyen | 🟢 geçerli |
 
-**148 kayıt · 9 revize · 139 geçerli**
+**149 kayıt · 9 revize · 140 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1840,3 +1841,21 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Kapanış ölçümleri** (dondurulmuş kopya `65c2e3b`, ~12 sa): U1 JarmRout · OLSRv2 iki desende, çizelgeli evre kapıları G1ç · G2ç + G4ç yeni rakip kümesiyle (AODV · OLSRv2 · JarmRout · DESPARETE). R ve G3ç protokolden bağımsız, simülatör K-224'ten beri aynı: yeniden koşulmaz.
 - **Faz 5'ten önce derin blok denetimi** (yürütücü): belge ve kod temizliğinden sonra simülatör ve rakip protokoller ayrı denetçilerce blok blok — TÜBİTAK projesine uygunluk, bilimsel gerçekçilik, kullanımda sorun; bulgular kapanmadan Faz 5'e geçilmez (`12` §1.1 adım 5).
 - Güncellenen: `12` §1.
+# K-238 · 🟡 JarmRout'UN RREQ SELİ — makaleye birebir sadık, çöküş protokolün kuralından · harfiyen kalır, ölçek sınırı bulgu olarak raporlanır · U1'in açıklama kuralı mekanizma çalışmasıyla · kopya gönderen protokolde kâhin aşımı kuralı · OLSRv2 U1 temiz
+> 12 Ekim · yürütücü (kararlar: "harfiyen kalsın, bulgu raporlansın" · "mekanizma çalışması + temsilci" · "kopya kuralı"; önce "bir şeyi kaçırıyor olabiliriz, simülasyonda sıkıntı olmadığını kesinleştirmeliyiz") · ilk kuyruk `arsiv/teshis/faz4b_kapanis_2026-10-11/` · inceleme `arsiv/teshis/jarmrout_sel_2026-10-12/inceleme.md` · ikinci kuyruğun ölçütü `arsiv/teshis/faz4b_kapanis2_2026-10-12/beklenti.md`
+
+- **İlk kuyruk:** U1 iki desende bitti (25 sa; JarmRout'un hareketli koşuları tek başına 6–11 sa).
+  - **OLSRv2:** temiz geçti; yere toplamada oranlar 0,76–0,96, eşler arasında 0,79–0,97.
+  - **JarmRout:** yere toplamada 12 hücrenin 11'i eşik altında (0,30–0,55); eşler arasında 5 düşük hücre ve iki hücrede kâhin aşımı (1,013 · 1,008).
+  - G1ç ve G2ç yürütücünün kararıyla durduruldu. Zaman kaydındaki "bitti cikis 0" satırları sonuç değildir; kayda not düşüldü.
+- **İnceleme** (teşhis; kod değişmedi):
+  - **Kaçırılan kural yok:** makalenin sözde kodu (Şekil 4, IEEE Xplore) yinelenen RREQ'yu `C_hop > cache_hop` değilse yeniden yayar; `cache_hop` yalnız ilk alışta yazılır. Gerçekleme birebir aynı.
+  - **Selin kaynağı:** selin ~%90'ı bu kuraldan. Tekilleştiren varyantta PDR 0,599'dan 0,914'e çıkar. Metnin öteki okuması (önbellekte en küçük hop) ve RFC 4728 yeniden deneme dolgusu seli ancak ~%25 azaltır.
+  - **Simülatör seli büyütmüyor:** çarpışmasız ideal kanal sayımı kuralın büyütmesini RREQ başına 508 (DSR 38) verir; simülatörde 70–78 ölçüldü, gerçek MAC kopyaları bastırıyor. Ağ makaleninki kadar sığ (geçide ort. 2,33 atlama ↔ makalede 2,4).
+  - **Eşik:** aynı ağda PDR 1 akışta 1,000, 5 akışta 0,996, 10 akışta 0,995, 20 akışta 0,653. Yere toplamanın 43 keşif çifti eşiğin üstünde. Makale tek CBR kaynağıyla değerlendirilmiş; kontrol yükü ölçüsü yalnız kurulan yolların paketlerini sayar.
+- **Kararlar:**
+  - JarmRout makaledeki hâliyle kalır; toplu akıştaki çöküş, ölçülmüş ölçek sınırı olarak raporda yazılır.
+  - U1'in düşük hücreleri için hücre başına anatomi (~20+ sa) yerine: bu mekanizma çalışması, her kolda en düşük oranlı hücreye temsilci anatomi ve öteki hücrelerde U1 kaydındaki çöküş izi. Ön-kayıtlı kuralın değişikliği, ölçmeden önce.
+  - Kopya gönderen protokolde kâhin aşımı şu iki şart sağlanınca açıklanmış sayılır: mimari denetimi kâhin sızıntısı bulmuyor ve yalnız kopyayla teslim edilen paketler çıkarılınca oran ≤ 1 + R.
+- **Hesap notu:** JarmRout'un toplu akışlı karıştırıcısız hücrelerde tek koşusu 6–11 sa. Faz 7'ye etkisi mühürden önce hesaplanır.
+- Güncellenen: `04` §5 · `12` §1.

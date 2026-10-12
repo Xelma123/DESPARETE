@@ -11,7 +11,7 @@
 | taban protokoller | **YENİDEN AÇILDI (K-229):** rakipler `AODV-j` · OLSRv2 · JarmRout; `OLSR-d` · `AOMDV-f` listeden çıktı (Faz 4'te K-224 ile donmuşlardı). JarmRout-b (K-233, K-234) · OLSRv2-b (K-235 · K-236) yazıldı ve sadakat denetiminden geçti; U1 ve donma sırada |
 | DESPARETE | v0.4.1; birincil hücrede `PDR_açık` 0,551 (AODV 0,444, kâhin 0,780; 1003–1006, K-228); karıştırmaya özgü kaybı AODV'ninkinden büyük (−0,204 ↔ −0,138), fazlası ardılı karıştırılan alanın onarımında |
 | doğrulama | `1006 passed` (11 Ekim, K-233) · mimari denetimi ihlalsiz · regresyon tabanı **`k236`** (K-237; 85 vaka, yeni rakipler dâhil) · R = **0,0126** (K-224, 7 deneme) · köken sayımı `04` §9 |
-| arkada koşan | Faz 4b kapanış ölçümleri — U1 (JarmRout · OLSRv2, iki desen) · G1ç · G2ç + G4ç; 11 Ekim 14:00'ten, ~12 sa (`arsiv/teshis/faz4b_kapanis_2026-10-11/`) |
+| arkada koşan | yok — ilk kapanış kuyruğu U1'den sonra durduruldu (K-238); ikinci kuyruk (`arsiv/teshis/faz4b_kapanis2_2026-10-12/`, ~16 sa) commit'ten sonra |
 | takvim | mühür ~20 Kasım (K-230'dan sonra tahmin) · teslim 19 Aralık 2026 |
 
 ### 1.1 · Sıradaki iş — Faz 4b (K-229)
@@ -21,7 +21,7 @@
 1. ✓ **Kopya defteri (denetim D-23, K-231):** JarmRout her veri paketini iki yoldan gönderir (K-230). Hedefte ilk teslim sayılır, eşler `kopya_bastirilan`; korunum eşleri kapatır; eşlerin yayın süresi veri yüküne. Kopya kullanmayan protokolde satır aynı: regresyon k223 → k231 birebir.
 2. **JarmRout** (Pu 2018) ve **OLSRv2** (RFC 7181 · 6130 · 5444 · 5497 · 5148 · 7779; olsrd2 hakem): kaynaklar depoda ✓ (K-231) · simülatörde kaynak rotası ✓ (K-232, regresyon k232 birebir) · JarmRout kodu ve beyan tablosu ✓ (K-233; makalenin dört çözümlü örneği birim testi) · JarmRout'un kural kural sadakat denetimi ✓ (K-234, `JarmRout-b`) · OLSRv2 kodu (RFC 5444 tel biçimi bayt bayt), beyan tablosu ve sadakat denetimi ✓ (K-235 · K-236, `OLSRv2-b`).
    Duyarlılık borcu (mühürden önce): JarmRout'un seçimleri (`t_wait`, Eş. 6–7 süzgeçleri) · `rssi_olcum_sigma_db` · `gps_dikey_sigma_m` (K-233).
-3. Regresyona yeni protokollerin vakaları ✓ (K-237, taban k236) → U1 (OLSRv2 · JarmRout, iki desen; eşik aynı; AODV-j'ninki K-224'ten geçerli) · çizelgeli evre kapıları G1ç · G2ç + G4ç yeni rakip kümesiyle (R ve G3ç protokolden bağımsız, geçerli) → **donma** (yeni K) · tam takım · mimari denetimi.
+3. Regresyona yeni protokollerin vakaları ✓ (K-237, taban k236) · U1 iki desende ✓ (K-238: OLSRv2 temiz; JarmRout'un toplu akış çöküşü incelendi — makaleye birebir sadık, ölçek sınırı bulgu) → ikinci kuyruk: kopya kuralıyla kâhin aşımı · temsilci anatomiler · çizelgeli evre kapıları G1ç · G2ç + G4ç yeni rakip kümesiyle (R ve G3ç protokolden bağımsız, geçerli) → **donma** (yeni K) · tam takım · mimari denetimi.
 4. **Belge ve kod temizliği** (yürütücü, 11 Ekim): rakip listesinden çıkan OLSR (RFC 3626) · AOMDV · GPSR'ın ve eski rakip düzeninin bayat kalıntıları kodda, testlerde, araçlarda ve belgelerde eksiksiz taranır; yürürlükteki her yer yeni rakiplere (AODV · OLSRv2 · JarmRout) göre yazılır, Faz 4'ün kaydı olarak kalanlar tarihçede ve arşivde kalır. Faz 5'in geçiş kapısının parçası.
 5. **Derin blok denetimi** (yürütücü, 11 Ekim): temizlikten sonra simülatör ve rakip protokoller ayrı ayrı, blok blok denetlenir — o anki hâllerinin TÜBİTAK projesine uygunluğu, bilimsel gerçekçiliği ve kullanımda sorun çıkarıp çıkarmayacağı. Simülatörü ve rakipleri ayrı denetçiler inceler. Bulgular kapanmadan Faz 5'e geçilmez.
 6. Faz 5'e dönüş, K-228'in sırasıyla (§1.2).

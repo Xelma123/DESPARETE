@@ -1,0 +1,4 @@
+N 40 · gecit 0 · ort derece (P>=0,5) 8.0 · gecide ort atlama 2.33 · en uzak 4
+harfiyen  RREQ basina yeniden yayin: ort   508.0 · medyan    295 · en cok   8849 · hedefe varan kopya ort   97.3 · sinir asimi 0
+enkucuk   RREQ basina yeniden yayin: ort   139.7 · medyan    133 · en cok    296 · hedefe varan kopya ort   25.6 · sinir asimi 0
+dsr       RREQ basina yeniden yayin: ort    38.0 · medyan     38 · en cok     38 · hedefe varan kopya ort    6.8 · sinir asimi 0

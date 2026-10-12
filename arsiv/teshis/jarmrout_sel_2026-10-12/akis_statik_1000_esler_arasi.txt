@@ -1,0 +1,4 @@
+akis   1 · sure     4 s · PDR 1.000 · rreq uretim 1 · ilet 104 (RREQ basina 104) · rerr 1 · kontrol airtime 0 s
+akis   5 · sure    68 s · PDR 0.996 · rreq uretim 14 · ilet 1176 (RREQ basina 84) · rerr 12 · kontrol airtime 3 s
+akis  10 · sure   132 s · PDR 0.995 · rreq uretim 35 · ilet 3130 (RREQ basina 89) · rerr 21 · kontrol airtime 7 s
+akis  20 · sure  1569 s · PDR 0.653 · rreq uretim 1829 · ilet 121299 (RREQ basina 66) · rerr 2396 · kontrol airtime 190 s

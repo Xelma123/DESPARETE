@@ -1,0 +1,4 @@
+bugun     sure   1697 s · PDR(kosu) 0.599 · rreq uretim 2056 · ilet 143834 · rerr 1425 · iki_yol 548/1566 · kontrol airtime 218 s
+dsr       sure    354 s · PDR(kosu) 0.914 · rreq uretim 429 · ilet 14684 · rerr 341 · iki_yol 204/387 · kontrol airtime 28 s
+enkucuk   sure   1317 s · PDR(kosu) 0.703 · rreq uretim 1553 · ilet 105817 · rerr 1098 · iki_yol 498/1243 · kontrol airtime 160 s
+periyot1  sure   1342 s · PDR(kosu) 0.688 · rreq uretim 1413 · ilet 110493 · rerr 1166 · iki_yol 532/1142 · kontrol airtime 167 s
