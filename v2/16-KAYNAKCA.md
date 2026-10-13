@@ -1,6 +1,6 @@
 # 16 · KAYNAKÇA — rapor için (IEEE biçimi)
 
-> **Güncel:** 10 Ekim 2026. Projede kullanılan bütün kaynakların rapora girecek biçimi. Doğrulama ayrıntısı `v2/02`de (sütundaki kimlik), dosya kopyaları ve SHA-256'lar `protokol_kaynaklari/README.md`de.
+> **Güncel:** 13 Ekim 2026. Projede kullanılan bütün kaynakların rapora girecek biçimi. Doğrulama ayrıntısı `v2/02`de (sütundaki kimlik), dosya kopyaları ve SHA-256'lar `protokol_kaynaklari/README.md`de.
 > **Kural (`02`):** açılıp okunmamış bir kaynak rapora giremez. Durum sütunu:
 > - ✓ açıldı, okundu (tamamı ya da ilgili bölüm);
 > - ~ kısmen, ya da iddia kaynağın söylediğinden farklı;
@@ -15,8 +15,17 @@
 | # | künye | `02` | durum |
 |---|---|---|---|
 | [1] | C. Perkins, E. Belding-Royer, S. Das, "Ad hoc On-Demand Distance Vector (AODV) Routing," IETF RFC 3561, Jul. 2003. | R1 | ✓ |
-| [2] | T. Clausen, P. Jacquet (Eds.), "Optimized Link State Routing Protocol (OLSR)," IETF RFC 3626, Oct. 2003. | R2 | ✓ |
-| [3] | M. K. Marina, S. R. Das, "On-demand Multipath Distance Vector Routing in Ad Hoc Networks," in *Proc. IEEE ICNP*, 2001, pp. 14–23. | R4 | ✓ |
+| [2] | T. Clausen, P. Jacquet (Eds.), "Optimized Link State Routing Protocol (OLSR)," IETF RFC 3626, Oct. 2003. | R2 | ✓ · Faz 4'ün rakibi; raporda evre penceresinin (`L` = 15 s) kaynağı |
+| [3] | M. K. Marina, S. R. Das, "On-demand Multipath Distance Vector Routing in Ad Hoc Networks," in *Proc. IEEE ICNP*, 2001, pp. 14–23. | R4 | ✓ · Faz 4'ün rakibi; raporda atıf alırsa |
+| [44] | T. Clausen, C. Dearlove, P. Jacquet, U. Herberg, "The Optimized Link State Routing Protocol Version 2," IETF RFC 7181, Apr. 2014. | R5 | ✓ |
+| [45] | T. Clausen, C. Dearlove, J. Dean, "Mobile Ad Hoc Network (MANET) Neighborhood Discovery Protocol (NHDP)," IETF RFC 6130, Apr. 2011. | R5 | ✓ |
+| [46] | T. Clausen, C. Dearlove, J. Dean, C. Adjih, "Generalized Mobile Ad Hoc Network (MANET) Packet/Message Format," IETF RFC 5444, Feb. 2009. | R5 | ✓ |
+| [47] | T. Clausen, C. Dearlove, "Representing Multi-Value Time in Mobile Ad Hoc Networks (MANETs)," IETF RFC 5497, Mar. 2009. | R5 | ✓ |
+| [48] | T. Clausen, C. Dearlove, B. Adamson, "Jitter Considerations in Mobile Ad Hoc Networks (MANETs)," IETF RFC 5148, Feb. 2008. | R5 | ✓ |
+| [49] | H. Rogge, E. Baccelli, "Directional Airtime Metric Based on Packet Sequence Numbers for Optimized Link State Routing Version 2 (OLSRv2)," IETF RFC 7779, Apr. 2016. | R5 | ✓ |
+| [50] | OLSR.org, OONF (olsrd2), commit 477e716, BSD-3, erişim 11 Eki. 2026. [Online]. Available: https://github.com/OLSR/OONF | R5 | uyg. |
+| [51] | C. Pu, "Jamming-Resilient Multipath Routing Protocol for Flying Ad Hoc Networks," *IEEE Access*, vol. 6, pp. 68472–68486, 2018, doi: 10.1109/ACCESS.2018.2879758. | R6 | ✓ |
+| [52] | D. Johnson, Y. Hu, D. Maltz, "The Dynamic Source Routing Protocol (DSR) for Mobile Ad Hoc Networks for IPv4," IETF RFC 4728, Feb. 2007. | R7 | ~ (ilgili bölümler) |
 | [4] | J. Chroboczek, D. Schinazi, "The Babel Routing Protocol," IETF RFC 8966, Jan. 2021. | G3 | ✓ (§1–2) |
 | [5] | Vu Khanh Quy, Nguyen Tien Ban, Nguyen Dinh Han, "A High-Performance Routing Protocol for Multimedia Applications in MANETs," *Journal of Communications*, vol. 14, no. 4, Apr. 2019. | D | ✓ |
 

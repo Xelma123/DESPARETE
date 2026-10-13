@@ -1,22 +1,22 @@
 # 07 · SİMÜLATÖR — `sim2/` ne, nasıl çalışır
 
-> Bugünkü simülatörün anlatımı. Referans dünyanın sayıları ve kaynakları `14`de, kararlar `04`te. Güncel: 10 Ekim 2026. Önceki sürüm (eski dünyanın tabloları, yapım planı Y0–Y10, uygulama tarihçesi, kararların tarihli listesi): `arsiv/07-SIMULATOR-TASARIMI-2026-09-28-temizlik.md` — koddaki eski `§` atıfları oraya gider.
+> Bugünkü simülatörün anlatımı. Referans dünyanın sayıları ve kaynakları `14`de, kararlar `04`te. Güncel: 13 Ekim 2026. Eski dünyanın tabloları, yapım planı ve koddaki eski `§` atıfları: `arsiv/07-SIMULATOR-TASARIMI-2026-09-28-temizlik.md`.
 
 ## 1 · Ne ölçüyor, neden kendi simülatörü
 
-*Karıştırma altında bir yönlendirme protokolü AODV, OLSR ve AOMDV'ye göre hangi metrikte ne kadar farklı davranır?* Hazır bir simülatör yerine proje kendi simülatörünü yazdı: her varsayım görünür, sınanabilir ve jüri önünde savunulabilir olsun diye. Karşılığı, aletin kendisinin doğrulanmasıdır:
+Soru: karıştırma altında bir yönlendirme protokolü taban protokollere (AODV · OLSRv2 · üçüncü rakip, `04` §1) göre hangi metrikte ne kadar farklı davranır? Hazır bir simülatör yerine proje kendi simülatörünü yazdı; amaç her varsayımın görünür ve sınanabilir olması. Bunun karşılığı aletin kendisinin doğrulanmasıdır:
 
 | sınav | durum |
 |---|---|
 | iç tutarlılık — korunum, mutabakat, belirlenimcilik | her koşuda |
 | analitik — yol kaybı, gürültü, çerçeve süreleri, sönümleme momentleri, Bianchi | ✓ |
-| dış çapa — Li vd. çok atlamalı zincir kapasitesi | ✓ referans dünyada sabit hızda H1 bantta: 0,1250 (K-226; en çok 7 iletim denemesi, 84 B beacon — 8 denemeyle 0,1188, K-219; 32 B'la 0,1270, K-187) (`09`) |
+| dış çapa — Li vd. çok atlamalı zincir kapasitesi | ✓ referans dünyada sabit hızda H1 bantta: 0,1250 (K-226) (`09`) |
 | gerçekçilik — karıştırıcısız statik ağda kâhin PDR ≈ 1 | ✓ |
 
 ## 2 · İki dünya
 
 - **Referans dünya** (`sim2/kanal/dunya.py::referans_2026()`): 1:1 gerçek birimler, bütün gerçekçilik mekanizmaları açık. **Deneyler burada koşar.**
-- **Eski dünya** (`Konfig()` varsayılanı, 1:50 ölçek): Aşama 1–2'nin ölçümleri ve eski regresyon vakaları onunla birebir. Yeni ölçümde kullanılmaz.
+- **Eski dünya** (`Konfig()` varsayılanı, 1:50 ölçek): 25 Eylül öncesi ölçümler ve eski regresyon vakaları onunla birebir. Yeni ölçümde kullanılmaz.
 - Araçlar dünyayı `kalibrasyon/dunya_secimi` üzerinden seçer; bir test bunu zorlar.
 
 ## 3 · Katmanlar
@@ -38,7 +38,7 @@ Bir paketin yolu: trafik üretir → düğüm kuyruğa alır → protokol sonrak
 ## 4 · Dünya, kanal ve MAC (referans dünyada)
 
 - **Sürü:** 40 İHA · 33 km alan · 50–300 m irtifa · 40–120 km/h. Alan yere göre sabit bir görev alanıdır: sürü onun üzerinde kalır (bağımsız ve görev kollarında dolaşır, formasyonda istasyon tutar); ortak transiti modellenmez (gelecek çalışma). Karıştırıcılar bu alanda sabit durur ya da kendi yörüngesini izler.
-- **Hareket kolları:** statik (referans; sönümleme donuk) · bağımsız · görev (müfreze + istasyon tutma) · formasyon (istasyon = yerleşim; birincil hücrenin kolu). Kapı: Θ = rota ömrü / 15 s (OLSR `TOP_HOLD_TIME`) ≥ 3; her satır Θ_OLSR ve Θ_AODV'yi taşır.
+- **Hareket kolları:** statik (referans; sönümleme donuk) · bağımsız · görev (müfreze + istasyon tutma) · formasyon (istasyon = yerleşim; birincil hücrenin kolu). Kapı: Θ = rota ömrü / 15 s (RFC 3626 `TOP_HOLD_TIME`) ≥ 3; her satır Θ_OLSR ve Θ_AODV'yi taşır.
 - **Kanal:** serbest uzay α = 2 · log-normal gölgeleme σ 3 dB, 2,5 km'lik hücrede korelasyonlu · dipol anten deseni · Rician K 10 dB, Doppler gerçek bağıl hızdan; sönümleme 190 µs'lik parçalarda, durumsuz (her protokol aynı izi görür), referans dünyada blok üreteciyle (K-198) · girişim toplamsal, karıştırıcı alıcıda.
 - **PHY/MAC:** EIRP 20 dBm · işlem kazancı · 1/2/5,5/11 Mb/s ARF · ED −76 dBm · slot 20 µs, SIFS 10 µs, CW 31–1023 · en çok 7 iletim denemesi (6 yeniden deneme, K-223) · yayılım gecikmesi · yakalama. Veri onayı yalnız gönderen alıcı tarafından çözüldüyse sayılır.
 
@@ -69,7 +69,7 @@ Yere toplama (birincil): geçit düğüm 0, batı kenarının ortasında sabit r
 ## 7 · Protokol yüzeyi ve kâhinler
 
 - Protokol yalnız gözlem penceresini görür (`05`) ve niyet döndürür (`13`); her taban protokol kendi HELLO'sunu kullanır, simülatörün beacon'ı onlarda kapalıdır.
-- **Kâhinler ölçüm aletidir,** protokol girdisi değil: ETX kâhini (U1'in paydası; kesin tavan değil), en kısa yol kâhini, teslim olasılığı kâhini; üst referans = tohum başına üçünün zarfı. Kâhin grafiği hareket diliminde ve karıştırıcının açık/sessiz geçişinde yenilenir. *ETX kâhini − atlama kâhini = ölçütün bedeli · kâhin − protokol = körlüğün bedeli.*
+- **Kâhinler ölçüm aletidir,** protokol girdisi değil: ETX kâhini (U1'in paydası; kesin tavan değil), en kısa yol kâhini, teslim olasılığı kâhini; üst referans = tohum başına üçünün zarfı. Kâhin grafiği hareket diliminde ve karıştırıcının açık/sessiz geçişinde yenilenir. ETX kâhini ile atlama kâhini arasındaki fark bağ ölçütünün katkısını, kâhin ile protokol arasındaki fark protokolün gözlem kısıtının bedelini gösterir.
 
 ## 8 · Metrikler
 

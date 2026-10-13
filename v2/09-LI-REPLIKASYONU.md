@@ -1,8 +1,7 @@
 # 09 · Lİ vd. REPLİKASYONU — aletin TEK dış çapası
 
-> **Durum: tamamlandı** — eski dünyada H1 tutmadı, H2 ve H3 tuttu; mekanizma üç α'da doğrulandı. **Referans dünyada sabit hızda H1 TUTTU** — 0,1270 (K-187), kâhin beacon'ı AODV HELLO'suna eşitlendikten sonra 0,1188 (K-219), MAC en çok 7 iletim denemesine çekildikten sonra 0,1250 (K-226) — üçü de bantta (belgenin sonu). Ön-kayıt (§03–§06) 8 Eylül'de ölçümden önce yazıldı ve değiştirilmez; özgün metin birebir `v2/arsiv/09-LI-REPLIKASYONU-2026-09-25.md`, bu öz sürüm ön-kaydın içeriğini değiştirmez. Bölüm numaraları kodda atıflı, korunur. Doğrulama seviyesi 4 (`03` §4) · kaynak `02` A5b ✓.
-> Üretici: `python -u kalibrasyon/li_replikasyonu.py` (~2 dk; son koşum **25 Eylül 2026**, çıktı `arsiv/teshis/belge_guncelleme_2026-09-25/li_replikasyonu_cikti.txt`) · iki çift probu `kalibrasyon/iki_cift.py` · α taraması `python -u kalibrasyon/yeniden_kullanim.py` (9 Eylül).
-> Sayılar Y2 (veri onayı düzeltmesi, 11 Eylül, K-115) sonrası; 9–10 Eylül tablosu (H1 0,0861, 11 düğüm 0,0739) arşivde.
+> **Durum: tamamlandı.** Eski dünyada H1 tutmadı, H2 ve H3 tuttu; mekanizma üç α'da doğrulandı. Referans dünyada sabit hızda H1 bantta: 0,1250 (K-226; belgenin sonu). Ön-kayıt (§03–§06) 8 Eylül'de ölçümden önce yazıldı ve değiştirilmez; özgün metin `v2/arsiv/09-LI-REPLIKASYONU-2026-09-25.md`. Bölüm numaraları kodda atıflı, korunur. Doğrulama seviyesi 4 (`03` §4) · kaynak `02` A5b ✓. Güncel: 13 Ekim 2026.
+> Üretici: `python -u kalibrasyon/li_replikasyonu.py` (~2 dk) · iki çift probu `kalibrasyon/iki_cift.py` · α taraması `python -u kalibrasyon/yeniden_kullanim.py`.
 
 ---
 

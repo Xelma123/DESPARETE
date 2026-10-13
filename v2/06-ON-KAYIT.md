@@ -1,6 +1,6 @@
 # 06 · ÖN-KAYIT TASLAĞI
 
-> **Durum:** taslak — mühürlenmedi; mühür Faz 6'da (~12 Kasım, `12`). Bağlayıcı hükümler (§0.2, §0.4.1–0.4.2, §4.4, §7) değişmez; mühürden sonraki her değişiklik §10'a tarihiyle yazılır. Güncel: 10 Ekim 2026 (son içerik değişikliği K-222: birincil metrik `PDR_açık`, §0.4.5). Önceki sürümler `arsiv/06-ON-KAYIT-*.md`.
+> **Durum:** taslak — mühürlenmedi; mühür Faz 6'da (~20 Kasım, `12`). Bağlayıcı hükümler (§0.2, §0.4.1–0.4.2, §4.4, §7) değişmez; sonuçtan sonra değişen her ölçüt ve mühürden sonraki her değişiklik §10'a tarihiyle yazılır. Güncel: 13 Ekim 2026 (rakip adları K-229'a göre düzeltildi; üçüncü rakip açık karar, K-240). Önceki sürümler `arsiv/06-ON-KAYIT-*.md`.
 
 ---
 
@@ -19,12 +19,12 @@
 
 Yalnız Aile 2 (üstünlük) ve Aile 3 (mekanizma) için; Aile 1 yalnız taban protokolleri kapsar.
 
-**0.4.1 · Birincil testler.** Rakip başına bir: **H2.a** DESPARETE ↔ AODV · **H2.b** ↔ OLSRv2 · **H2.c** ↔ JarmRout (K-229; ilk yazımda OLSR · AOMDV) — `m = 3`, Holm aile içinde. Her biri birincil hücrede, birincil metrikte, 40 ana deney tohumunda eşleştirilmiş, çift yönlü Wilcoxon. Gecikme ve kontrol yükü betimleyici (güven aralığıyla).
+**0.4.1 · Birincil testler.** Rakip başına bir: **H2.a** DESPARETE ↔ AODV · **H2.b** ↔ OLSRv2 · **H2.c** ↔ üçüncü rakip (K-229'da JarmRout; K-240'tan beri açık karar; ilk yazımda OLSR · AOMDV) — `m` = rakip sayısı (bugün 3), Holm aile içinde. Her biri birincil hücrede, birincil metrikte, 40 ana deney tohumunda eşleştirilmiş, çift yönlü Wilcoxon. Gecikme ve kontrol yükü betimleyici (güven aralığıyla).
 
 **0.4.2 · Eşiğin türetme formülü — serbest sabit yok.** Birincil hücrede, yalnız taban protokollerle, geliştirme tohumlarında (`G` = 1100–1119; ana deneyle kesişmez):
 
-    d_XY(s) = M_X(s) − M_Y(s)          X, Y ∈ {AODV, OLSRv2, JarmRout}, s ∈ G
-    SD_ref  = max( SD(d_AODV,OLSR) , SD(d_AODV,AOMDV) , SD(d_OLSR,AOMDV) )
+    d_XY(s) = M_X(s) − M_Y(s)          X, Y ∈ taban protokoller (AODV, OLSRv2, üçüncü rakip), s ∈ G
+    SD_ref  = max over X ≠ Y of SD(d_XY)
     δ       = 2 · SD_ref / √n          n = ana deney tohum sayısı (40)
 
 `M` birincil metrik. δ, projenin çözünürlük tanımının (`R = 2 · SD / √n`) gerçek rakiplerle eşleştirilmiş hâli; en gürültülü çift alınır. Özgün protokolün hiçbir koşusu δ'ya girmez.
@@ -86,28 +86,33 @@ Analiz birimi tohumdur; havuzlanmış okuma yalnız betimleyici.
 
 ## 4 · Taban protokoller ve uygunluk
 
-**4.1** AODV (RFC 3561; reaktif, tek yol, atlama sayısı) · OLSRv2 (RFC 7181; proaktif, bağ durumu, bağ metriği RFC 7779) · JarmRout (Pu 2018; reaktif, iki düğüm-ayrık yol, karıştırmaya dayanıklı) — K-229; ilk yazımda OLSR (RFC 3626) · AOMDV. GPSR kapsam dışı (`01` §3). §4.2'nin OLSR ve AOMDV parametreleri yeni rakiplerin kaynak varsayılanlarıyla mühürden önce yeniden yazılır.
+**4.1** AODV (RFC 3561; reaktif, tek yol, atlama sayısı) · OLSRv2 (RFC 7181; proaktif, bağ durumu, bağ metriği RFC 7779) · üçüncü rakip açık karar (K-240; kodlanmış ve donmuş aday JarmRout, Pu 2018: reaktif, iki düğüm-ayrık yol, karıştırmaya dayanıklı olarak tasarlanmış). İlk yazımda OLSR (RFC 3626) · AOMDV (K-229 öncesi). GPSR kapsam dışı (`01` §3).
 
-**4.2 · Parametreler — RFC varsayılanı.** AODV (RFC 3561): HELLO_INTERVAL 1,0 s · ALLOWED_HELLO_LOSS 2 · ACTIVE_ROUTE_TIMEOUT 3,0 s · RREQ_RETRIES 2 · NODE_TRAVERSAL_TIME 40 ms · NET_DIAMETER 35. OLSR (RFC 3626): HELLO_INTERVAL 2,0 s · NEIGHB_HOLD_TIME 6,0 s · TC_INTERVAL 5,0 s · TOP_HOLD_TIME 15,0 s · WILLINGNESS 3 · MAXJITTER HELLO_INTERVAL/4. HELLO aralıkları eşitlenmez; kontrol yükü farkı raporlanır. Her protokol kendi HELLO'sunu kullanır.
+**4.2 · Parametreler — kaynak varsayılanı.** Tek kaynak her protokolün beyan tablosudur (`protokoller/*_bicim.py`); özet:
+- **AODV (RFC 3561):** HELLO_INTERVAL 1,0 s · ALLOWED_HELLO_LOSS 2 · ACTIVE_ROUTE_TIMEOUT 3,0 s · RREQ_RETRIES 2 · NODE_TRAVERSAL_TIME 40 ms · NET_DIAMETER 35.
+- **OLSRv2 (RFC 7181 §5, RFC 6130):** HELLO_INTERVAL 2 s · H_HOLD_TIME 6 s · TC_INTERVAL 5 s · T_HOLD_TIME 15 s · titreşim HELLO_INTERVAL/4 · WILL_DEFAULT 7 · DAT (RFC 7779) varsayılanları.
+- **JarmRout (Pu 2018 + RFC 4728 §9):** Eş. 13 ağırlıkları 0,2 · 0,2 · 0,6 · RequestPeriod 0,5 s · MaxRequestPeriod 10 s · MaxRequestRexmt 16 · RouteCacheTimeout 300 s. Makalenin vermediği `t_wait` (0,1 s) ve Eş. 6–7 süzgeçleri (0,5) seçimdir; duyarlılıkları mühürden önce ölçülür.
+
+HELLO aralıkları eşitlenmez; kontrol yükü farkı raporlanır. Her protokol kendi HELLO'sunu kullanır.
 
 **4.3 · Dört uygunluk testi**
 
 | # | test | beklenen |
 |---|---|---|
 | U1 | karıştırıcısız, bağlı ağ | kâhin referansına oran (aşağıda) |
-| U2 | tek bağ koptuğunda | AODV RERR + yeni RREQ; OLSR NEIGHB_HOLD_TIME dolunca günceller |
-| U3 | karıştırma ve hareket yok | OLSR yükü periyodik; AODV yükü yalnız keşifte |
+| U2 | tek bağ koptuğunda | reaktif protokol (AODV, JarmRout) RERR + yeni keşif; OLSRv2 bağ tutma süresi (L_HOLD_TIME 6 s) dolunca günceller |
+| U3 | karıştırma ve hareket yok | OLSRv2 yükü periyodik; reaktif protokolün yükü yalnız keşifte |
 | U4 | olay izleri | RFC'nin mesaj sırası ve zamanlayıcıları |
 
 **U1 ölçüsü** (K-136): `oran = PDR(protokol) / PDR(EnGuvenilirKahin)`, AYNI konfigürasyonda; **statik ≥ 0,90 · hareketli ≥ 0,60**. Oran biçimi "bağlı ağ" ön koşulunu nötrler. **Eşik ölçüm görüldükten SONRA seçildi** — U1 bir kabul kapısıdır, hipotez testi değil; eşik üç taban protokolü birden bağlar. Kapının yapı yarısı `tests2/` (kâhin aşılmıyor, defter kapanıyor), sayısal yarısı `kalibrasyon/aodv_uygunluk.py` (dört `-yok` kolu × 1000–1002, tam pencere; verdikt çıkış kodunda). Karıştırıcısız kâhin tavanı referans dünyada statikte 0,99–1,00, hareketlide 0,84–0,98 (yakınsamış kâhin, K-217; eski dünyada 0,996–1,000 · 0,84–0,92).
 
-**U3 bulgusu** (K-144, bulgu olarak raporlanır; eski dünyada): "AODV yükü yalnız keşifte" tutmadı — 60 → 120 s kontrol oranı AODV 2,070 · OLSR 2,130 · AOMDV 2,310 (`python -u kalibrasyon/aodv_uygunluk.py u3`). Kayıplı, yüklü ağda tepkisel ailenin "rotayı bulunca susar" avantajı kayboluyor (H1.1 için bulgu).
+**U3'ün eski ölçümü** (K-144; eski dünyada, Faz 4'ün rakipleriyle): "AODV yükü yalnız keşifte" tutmadı; 60 → 120 s kontrol oranı AODV 2,070 · OLSR 2,130 · AOMDV 2,310 (`python -u kalibrasyon/aodv_uygunluk.py u3`). U2–U4 yeni rakiplerle mühürden önce koşulur (§9).
 
 ### 4.4 · Sadakat protokolü
 
 1. RFC parametreleri önceden yazılır (§4.2). 2. Hiçbir parametre senaryoya göre değiştirilmez.
-3. U1–U4 koşulur. **U1 iki parçadır** (K-137): **U1-U · uygunluk** — keşif tamamlanıyor · çok atlamalı teslim · korunum kapanıyor · kâhin aşılmıyor → kalırsa protokol KABUL EDİLMEZ. **U1-B · başarım** — oran eşiği → protokol reddedilmez ama eşik altı hücre **ölçümle açıklanmadan geçilemez** (kayıp yazılım kusurundan değil mekanizmadan). Açıklama "bilinen kusurlar düzeltildikten sonra hâlâ düşük" demektir; kusur yokluğunu kanıtlamaz (K-145). **Kâhin aşımı** (KR-1, K-192, 28 Eylül): aşım otomatik ret değil. Protokol ETX kâhinini çözünürlükten (R) fazla aşarsa üç kâhinin zarfına (üst referans) bakılır; zarfı da aşıyorsa yazılım hatası varsayılır ve aranır; aşmıyorsa "ETX kâhini bu hücrede üst sınır değil" diye beyan edilir (K-110). **Tasarım bedeli** (K-192): eşik altı hücre, mekanizması ölçülmüş ve kusur adayları (kuyruk/tampon düşüşü, bayat rota, kötü bağ seçimi) dışlanmışsa açıklanmış sayılır; mekanizmanın hücreleri doğru sıralaması aranır. **Faz 4'ün iki istisnası (sonuçtan sonra, §10):** OLSR'da sıralama koşulu sağlanmadan "açıklanmış, sıralamasız" (K-196) · kaynağına kural kural sadık bir protokolün eşik altı kalması — RFC kurallarından doğan geçici döngüler dâhil — protokolün kendi sınırıdır (K-207). U1 eşiği referans dünyada da değişmez.
-4. Modellenmeyen özellikler ve sapmalar beyan edilir — **tek kaynak** her protokolün biçim dosyasındaki tablo (`protokoller/aodv_bicim.py` · `olsr_bicim.py` · `aomdv_bicim.py`/`aomdv.py`); özeti `04` §5. Kural: SHOULD uygulanır, MAY beyan edilir; gerekçesiz sapma düzeltilir (K-207, K-208).
+3. U1–U4 koşulur. **U1 iki parçadır** (K-137): **U1-U · uygunluk** — keşif tamamlanıyor · çok atlamalı teslim · korunum kapanıyor · kâhin aşılmıyor → kalırsa protokol KABUL EDİLMEZ. **U1-B · başarım** — oran eşiği → protokol reddedilmez ama eşik altı hücre **ölçümle açıklanmadan geçilemez** (kayıp yazılım kusurundan değil mekanizmadan). Açıklama "bilinen kusurlar düzeltildikten sonra hâlâ düşük" demektir; kusur yokluğunu kanıtlamaz (K-145). **Kâhin aşımı** (KR-1, K-192, 28 Eylül): aşım otomatik ret değil. Protokol ETX kâhinini çözünürlükten (R) fazla aşarsa üç kâhinin zarfına (üst referans) bakılır; zarfı da aşıyorsa yazılım hatası varsayılır ve aranır; aşmıyorsa "ETX kâhini bu hücrede üst sınır değil" diye beyan edilir (K-110). **Tasarım bedeli** (K-192): eşik altı hücre, mekanizması ölçülmüş ve kusur adayları (kuyruk/tampon düşüşü, bayat rota, kötü bağ seçimi) dışlanmışsa açıklanmış sayılır; mekanizmanın hücreleri doğru sıralaması aranır. **Sonuçtan sonra eklenen kurallar (§10):** kaynağına kural kural sadık bir protokolün eşik altı kalması, RFC kurallarından doğan geçici döngüler dâhil, protokolün kendi sınırıdır (K-207) · kopya gönderen protokolde kâhin aşımı, yalnız kopyayla teslim edilen paketler çıkarılınca oran ≤ 1 + R ise açıklanmıştır (K-238) · düşük hücreler, mekanizma çalışması ve her kolun en düşük hücresinde temsilci anatomiyle açıklanabilir (K-238). U1 eşiği referans dünyada da değişmez.
+4. Modellenmeyen özellikler ve sapmalar beyan edilir — **tek kaynak** her protokolün biçim dosyasındaki tablo (`protokoller/aodv_bicim.py` · `olsrv2_bicim.py` · `jarmrout_bicim.py`); özeti `04` §5. Kural: SHOULD uygulanır, MAY beyan edilir; gerekçesiz sapma düzeltilir (K-207, K-208).
 5. Ana deneyde parametreler sabittir. Aynı disiplin özgün protokole uygulanır.
 
 ## 5 · Hipotezler — taslak
@@ -119,13 +124,13 @@ Analiz birimi tohumdur; havuzlanmış okuma yalnız betimleyici.
 - Ölçülmüş tahminler: taramalı konak süresi (100 ms) en hızlı zamanlayıcıdan kısa · taramalının ortalama gücü 4,77 dB düşük ("taramalı zayıf" mekanizmaya yazılamaz) · aldatıcı ↔ sürekli farkı saf CSMA değil.
 - Aday sorular: hareketli karıştırıcıda Δ protokol ailesine göre farklı mı (boşluk B) · karıştırıcı geçit çevresindeyken çok yollu protokolün yedekleri aynı anda mı kesiliyor.
 
-**5.2 · Aile 2 — biçim.** H2.x: özgün protokol [AODV | OLSR | AOMDV] ile birincil hücrede `PDR_açık` bakımından ön-kayıtlı eşiği geçen bir fark üretir. Yanlışlanma: %95 GA sıfırı içerir **ya da** fark ters yönde **ya da** mekanizma kapısı geçmez. Sayısal hüküm §0.4.2; karıştırmaya özgü kazanç iddiası ve iddia dili §0.4.5.
+**5.2 · Aile 2 — biçim.** H2.x: özgün protokol her rakiple ayrı ayrı birincil hücrede `PDR_açık` bakımından ön-kayıtlı eşiği geçen bir fark üretir. Yanlışlanma: %95 GA sıfırı içerir **ya da** fark ters yönde **ya da** mekanizma kapısı geçmez. Sayısal hüküm §0.4.2; karıştırmaya özgü kazanç iddiası ve iddia dili §0.4.5.
 
 **5.3 · Aile 3 — mekanizma.** Kol kendi ablasyonuna karşı okunur; eşleştirilmiş fark tohumların büyük çoğunluğunda pozitif ve %95 GA sıfırı dışlamalı; sayaçlar karar başına oran. Eski ölçüt (komşuların bildirdiği bilginin permütasyonu, m = 5 null) DESPARETE'nin bayraklarına göre mühürden önce yeniden yazılır (açık, `12`).
 
 ## 6 · Özgün protokol — DESPARETE
 
-İlk tasarım `protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/`dedir (tek okuma `36`); gerçekleme kararları K-150…K-172 (`kayit/KARAR-GUNLUGU.md`). Bugünkü varsayılan **v0.4.1** = bayrak profili `PROFIL_V02` + seçenekler `SECENEK_V041` (K-172); Faz 5'te v0.5'e gelişir. Sekiz ablasyon bayrağı (K-159; güvenlik değişmezleri bayrakla kapanmaz); hangilerinin Aile 3'te kol olacağı mühürde seçilir. Şartlar: kâhin bilgisi yok (`05`) · derin öğrenme yok · parametreler mühürde sabit · durum tutan her bileşende başlangıç koşulu sorulur. Tuzaklar: literatürdeki kâhinli ödül kodu kopyalanmaz (`02` §L) · gürültünün mutlak değeri anlamlı değil, karıştırma oranla ya da değişimle sezilir (K-110 EK-4).
+Bağlayıcı olan bugünkü koddur (`protokoller/desparete*.py`); ilk tasarım taslağı (v0.1) bayattır ve arşivdedir (`arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/`). Gerçekleme kararları K-150…K-172 (`kayit/KARAR-GUNLUGU.md`). Bugünkü varsayılan **v0.4.1** = bayrak profili `PROFIL_V02` + seçenekler `SECENEK_V041` (K-172); Faz 5'te v0.5'e gelişir. Sekiz ablasyon bayrağı (K-159; güvenlik değişmezleri bayrakla kapanmaz); hangilerinin Aile 3'te kol olacağı mühürde seçilir. Şartlar: kâhin bilgisi yok (`05`) · derin öğrenme yok · parametreler mühürde sabit · durum tutan her bileşende başlangıç koşulu sorulur. Tuzaklar: literatürdeki kâhinli ödül kodu kopyalanmaz (`02` §L) · gürültünün mutlak değeri anlamlı değil, karıştırma oranla ya da değişimle sezilir (K-110 EK-4).
 
 ## 7 · İstatistik planı
 
@@ -149,12 +154,14 @@ Analiz birimi tohumdur; havuzlanmış okuma yalnız betimleyici.
 |---|---|---|
 | 1 | koşu uzunluğundan bağımsızlık | yön (işaret testi) ve büyüklük (GA uçları ≤ k × tohum SD; k güç analizinde); ısınma ve ölçüm penceresi birlikte taranır |
 | 2 | metriğin ne ölçtüğü doğrulanmış | evre kapıları (`08`); PSR için kapı yazılacak |
-| 3 | gizli asimetri yok | HELLO aralıkları · beacon · kapsülleme · veri onayı · beyan kanalı kancalarda (K-134) · bekleme tamponu ortak (K-131, K-198) · AODV/AOMDV kara listesi uygulanıyor (K-194) |
+| 3 | gizli asimetri yok | HELLO aralıkları · beacon · kapsülleme · veri onayı · beyan kanalı kancalarda (K-134) · bekleme tamponu ortak (K-131, K-198) · AODV kara listesi uygulanıyor (K-194) |
 | 4 | regresyon testi | sonucu üreten kodun testi |
 
 ## 9 · Mühürden önce kapanması gerekenler
 
-- [x] Taban protokoller dondu (K-224: `AODV-j` · `OLSR-d` · `AOMDV-f`, en çok 7 iletim denemesi; OLSR kural kural sadakat denetiminden geçti, K-223; U1 iki desende, yakınsamış kâhinle). U2–U4 AODV ve OLSR'da geçti · AOMDV'nin U1–U4 karşılıkları geçti (K-194)
+- [x] Taban protokoller dondu (K-239: `AODV-j` · `OLSRv2-b` · `JarmRout-b`; kural kural sadakat denetimleri K-208 · K-234 · K-235/K-236; U1 iki desende; evre kapıları JarmRout'un kayıtlı muafiyetiyle)
+- [ ] üçüncü rakip (K-240) ve rakiplerin rolü (KR-3); aday değişirse yeni protokol aynı sadakat, U1 ve donma yolundan geçer
+- [ ] U2–U4 yeni rakiplerle (OLSRv2, üçüncü rakip); AODV'de geçti
 - [ ] çözünürlük R ve DUYARSIZ hükümleri ana deneyin penceresinde (bugünküler 50 s'lik kesitte, denetim D-03; Faz 6)
 - [x] Faz 7 hesap bütçesi ve önceden yazılı düşme sırası (K-222, `12` §3–§4)
 - [ ] SINANMAMIŞ = 0 ve duyarlılık borcu = 0 — ya da borçlular eksen olarak ilan edilir (bugünkü sayım `04` §9'da)
@@ -164,7 +171,7 @@ Analiz birimi tohumdur; havuzlanmış okuma yalnız betimleyici.
 - [ ] **birincil metrikte komutlar (KR-2):** DESPARETE'nin komut taşıması V11 ile var; birincil PDR bütün trafik mi yalnız telemetri mi (karar bekliyor)
 - [ ] δ ve güç referans dünyada · çözünürlük referans dünyada · tohum sayısı
 - [ ] özgün protokolün parametreleri ve ablasyon bayrakları; Aile 3'ün mekanizma kapısı (DESPARETE'nin bayraklarıyla)
-- [ ] Aile 1 hipotezleri ve AOMDV öngörüsü · durdurma kuralı · evre metriklerinin sabitleri ve pencere taraması
+- [ ] Aile 1 hipotezleri · durdurma kuralı · evre metriklerinin sabitleri ve pencere taraması
 - [ ] mühür sırasının son onayı
 
 ## 10 · Kayıt tablosu
@@ -189,5 +196,8 @@ Analiz birimi tohumdur; havuzlanmış okuma yalnız betimleyici.
 | 10 Eki 2026 | rakipler AODV · OLSR · AOMDV → AODV · OLSRv2 · JarmRout; referans dünyanın vericisi 27 dBm (K-229, yürütücü) | **DESPARETE'nin K-200 ve K-228 koşularından sonra**; yön DESPARETE aleyhine tutucu (bağ ölçülü ve karıştırmaya dayanıklı rakipler eklendi, eskilerden biri kaldı); DESPARETE yeni rakiplere karşı hiç koşulmadı |
 | 11 Eki 2026 | verici 27 dBm kararı geri alındı (K-230) · temas kaybı betimleyici metrik olarak eklendi | birincil metrik ve testler değişmedi |
 | 10 Eki 2026 | ölçütün önceliği commit zamanıyla kanıtlanır (§7; K-222, D-05) · belge üslubu (işaretler ve ses, K-225) | yöntem; hükümler değişmedi |
+| 12 Eki 2026 | U1: kopya gönderen protokolde kâhin aşımının kopya kuralı · düşük hücrelerin mekanizma çalışması ve temsilci anatomiyle açıklanması (K-238) | **sonuçtan sonra** — §4.4/3 (JarmRout'un U1 sonuçları görüldükten sonra, ikinci ölçümden önce yazıldı) |
+| 13 Eki 2026 | evre kapılarında kayıtlı muafiyet: kapıyı ölçülmüş bir sebeple geçemeyen protokolün evre metrikleri "yorumlanamaz", `PDR_açık`ı "bulanık" (K-239) | **sonuçtan sonra** — `08` §08; JarmRout'un kapı sonuçlarından sonra |
+| 13 Eki 2026 | üçüncü rakip açık karar (K-240) · §0.4.2'nin SD_ref formülü ve §4'ün protokol adları K-229'un rakiplerine göre yazıldı (formülün kuralı aynı: en gürültülü çift) | belge; hükümler değişmedi |
 
 Mühürden sonraki her değişiklik tarihiyle buraya yazılır ve ilgili hipotez keşifsel etiketlenir.

@@ -1,7 +1,7 @@
 # 08 · EVRE METRİKLERİ — dört metrik, sıfır serbest parametre
 
-> **Durum: uygulandı** (onay 8 Eylül · kapılar K-105 · tek α K-123). Güncel 10 Ekim 2026 (öz sürüm; ayrıntılı tarihçe ve eski ölçüm planı `v2/arsiv/08-EVRE-METRIKLERI-2026-09-25.md`). Bölüm numaraları kodda atıflı, korunur. Kod `sim2/olcum/evre.py` · kapılar `python -u kalibrasyon/evre_metrikleri_kapilari.py` · tek α kapısı `python -u kalibrasyon/anlamlilik_sabitleri.py`.
-> Açık (10 Eylül): `T_j` parametre kalır; ısınma ve ölçüm penceresi birlikte taranır (`06` §8 koşul 1). **Çizelgeli karıştırıcı §08'de (K-209, onay K-207)**; çoklu/hareketli sürekli karıştırıcıda tek basamaklı tanım geçerli. M4'ün boş kol kapısı gerçek protokollerle geçti (G1-P, K-196).
+> **Durum: uygulandı** (kapılar K-105 · tek α K-123 · çizelgeli karıştırıcı K-209 · kayıtlı muafiyet K-239). Güncel 13 Ekim 2026; tarihçe ve eski ölçüm planı `v2/arsiv/08-EVRE-METRIKLERI-*.md`. Bölüm numaraları kodda atıflı, korunur. Kod `sim2/olcum/evre.py` · kapılar `python -u kalibrasyon/evre_metrikleri_kapilari.py` · tek α kapısı `python -u kalibrasyon/anlamlilik_sabitleri.py`.
+> `T_j` parametredir; ısınma ve ölçüm penceresi birlikte taranır (`06` §8 koşul 1). Çizelgeli karıştırıcıda §08 geçerlidir; sürekli karıştırıcıda tek basamaklı tanım.
 
 ---
 
@@ -18,13 +18,13 @@
 | ne | değer | kaynak | işi |
 |---|---|---|---|
 | ızgara adımı `S` | **1 s** | RFC 3561 `HELLO_INTERVAL` | çözünürlük: hiçbir taban protokol komşu bilgisini daha hızlı tazelemez |
-| pencere `L` | **15 s** | RFC 3626 `TOP_HOLD_TIME` | durağanlık: "kararlı" denebilecek en kısa süre |
+| pencere `L` | **15 s** | RFC 3626 `TOP_HOLD_TIME` = RFC 7181 `T_HOLD_TIME` | durağanlık: "kararlı" denebilecek en kısa süre |
 
 Çözünürlük en hızlı taban protokolden, durağanlık en yavaştan (§06/1). Kafes `beacon_araligi_s`e değil RFC'ye çıpalı (ikisi bugün 1 s; ayrışırlarsa kafes yerinde kalır).
 
 ## 03 · Zemin ve evreler (referans dünya, birincil hücre)
 
-Ölçüm penceresi `[50; 320)` s · `T_j = 150` s (`karistirici_baslangic_s`) · 40 pkt/s (yere toplama: 39 × 1 pkt/s telemetri + 4 × 0,25 pkt/s komut; eski dünyanın 10 akış × 4 pkt/s'iyle aynı yük) · gecikme p99 0,28–4,7 s (G4ç, K-212). Çizelgeli karıştırıcıda ŞOK ve TOPARLANMA'nın yerini açık/sessiz dönemler alır (§08).
+Ölçüm penceresi `[50; 320)` s · `T_j = 150` s (`karistirici_baslangic_s`) · 40 pkt/s (yere toplama: 39 × 1 pkt/s telemetri + 4 × 0,25 pkt/s komut; eski dünyanın 10 akış × 4 pkt/s'iyle aynı yük) · gecikme p99 AODV · OLSRv2 · DESPARETE · kâhin 0,15–4,2 s, JarmRout 25–30 s (G4ç, K-239). Çizelgeli karıştırıcıda ŞOK ve TOPARLANMA'nın yerini açık/sessiz dönemler alır (§08).
 
 | evre | aralık | paket/tohum | kol SE (30 tohum, Wald, p ≈ 0,6) |
 |---|---|---|---|
@@ -68,14 +68,14 @@ Var olan beyan kanalını kullanır (gözlem penceresi genişlemez). Boş hipote
 | kapı | ölçüt | sonuç |
 |---|---|---|
 | G1 boş kol | kol ortalaması `sok_derinligi` 0'dan 2 SE içinde · her tohumda `toparlanma_suresi` = 0 · `tespit_gecikmesi` SANSÜRLÜ | ✓ −0,00125 · 2 SE 0,00204. Kâhinle (beyan etmez → tespit maddesi G1-P'de) |
-| G1-P boş kol, gerçek protokoller (K-196) | referans dünya `statik-yok` yere toplama, AODV · OLSR · AOMDV · DESPARETE × 2 tohum: M4 yanlış tespit ≤ 1/8 · M3 ≠ 0 ≤ 1/8 · M1 2 SE dışında ≤ 1/4 protokol | ✓ 0/8 · 0/8 · 0/4 (aynı koşularda K-196 öncesi kural 6/8 · 3/8 · 2/4) — `arsiv/teshis/evre_g1p_2026-09-28/` |
+| G1-P boş kol, gerçek protokoller (K-196) | referans dünya `statik-yok` yere toplama, Faz 4'ün rakipleri (AODV · OLSR · AOMDV) · DESPARETE × 2 tohum: M4 yanlış tespit ≤ 1/8 · M3 ≠ 0 ≤ 1/8 · M1 2 SE dışında ≤ 1/4 protokol | ✓ 0/8 · 0/8 · 0/4 (aynı koşularda K-196 öncesi kural 6/8 · 3/8 · 2/4) — `arsiv/teshis/evre_g1p_2026-09-28/` |
 | G2 tekdüzelik | şiddet arttıkça hiçbir düşüş iki noktanın birleşik 2 SE'sini aşmaz | ✓ |
 | G3 ızgara fazı | yarım adım kaydırmada hiçbir karar hata payından fazla değişmez (8 Eylül ρ örnekleme dersinden) | ✓ eski dünyada en büyük fark 0,00187, band 0,00991. Referansta eski çekirdek hücre tabanda (M1 ≈ 1, SE çöküyor) → yerini **G3ç** aldı: birincil hücre, kâhin, 1003 · 1004, \|ΔM1\| 0,0028 · 0,0053 ≤ 2 SE ✓ (`… 3c`, K-219) |
 | G4 bulanıklık | `gecikme_p99 / S < 1` (aşarsa atfetme kuralı yeniden yazılır) | ✓ 0,021 temiz · 0,029 karıştırılmış |
 
 **05.1 · G1 ilk koşuda kaldı — kusur hata payındaydı.** Wald `SE² = p(1−p)/n`, `p = 1`'de sıfır; karıştırıcısız kolda kâhin PDR'si 1,000 olduğundan band en çok gereken yerde çöküyordu (M3'ün bandını da bozuyordu). Düzeltme **Agresti–Caffo** (iki oranın farkı için standart: her örneğe bir başarı ve bir başarısızlık; serbest parametre yok, band biraz geniş) ve verdikt **kol ortalamasında** (tohum başına 2 SE testi üç tohumda ~%14 rastgele reddeder).
 
-**05.2 · G2'nin "kesin monoton artış"ı sınanamazdı** — gerçek değeri eşit iki noktada gürültü %50 düşüş gösterir; düzeltilen tanım, eşik değil. Ölçüm (kâhin, 3 tohum, şok derinliği ± SE): −30 dBm −0,00069 ± 0,00069 · −21 −0,00125 ± 0,00042 · **−15 +0,03707 ± 0,00618** · −9 +0,18742 ± 0,01540. Yan bulgu: çalışma noktasında mükemmel yönlendirmeyle şok derinliği yalnız 0,037 — ayırt edici güç protokolün körlüğünden gelmek zorunda (K-103).
+**05.2 · G2'nin "kesin monoton artış"ı sınanamazdı** — gerçek değeri eşit iki noktada gürültü %50 düşüş gösterir; düzeltilen tanım, eşik değil. Ölçüm (kâhin, 3 tohum, şok derinliği ± SE): −30 dBm −0,00069 ± 0,00069 · −21 −0,00125 ± 0,00042 · **−15 +0,03707 ± 0,00618** · −9 +0,18742 ± 0,01540. Yan bulgu: çalışma noktasında mükemmel yönlendirmeyle şok derinliği yalnız 0,037 — ayırt edici güç, protokolün gözlem kısıtından gelir (K-103).
 
 **05.3 · Tek α** (`06` §7, K-123): modülde yalnız `ALFA = 0,05`; M3'ün z'si (1,95996) ve M4'ün eşiği ondan türer. Eski iki sabit (M3 2,0 SE · M4 pencere başına 0,01) gerekçesizdi ve M4 ~170 pencereyi taradığı için aile düzeyi yanlış alarm çok büyüktü. Sentetik boş hipotez (homojen Poisson beyan, 4 000 deneme/hücre, ± 2 SE):
 

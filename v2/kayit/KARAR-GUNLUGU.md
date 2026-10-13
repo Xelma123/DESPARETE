@@ -170,8 +170,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-237 | 🟢 REGRESYON k232 → k236 BİREBİR — yeni rakipler matriste (85 vaka), regresyon tabanı k23 | 🟢 geçerli |
 | K-238 | 🟡 JarmRout'UN RREQ SELİ — makaleye birebir sadık, çöküş protokolün kuralından · harfiyen | 🟢 geçerli |
 | K-239 | 🟢 FAZ 4b'NİN RAKİPLERİ DONDU — JarmRout-b · OLSRv2-b · kopya kuralı sağlandı · JarmRout' | 🟢 geçerli |
+| K-240 | 🟢 BELGE TEMİZLİĞİ (Faz 4b adım 4, belge kısmı) — belgeler bilgi düzeyinde ve güncel · Ja | 🟢 geçerli |
 
-**150 kayıt · 9 revize · 141 geçerli**
+**151 kayıt · 9 revize · 142 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1886,3 +1887,32 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Donma:** dört şart tuttu (A · B · U1-U · evre kapıları). `JarmRout-b` · `OLSRv2-b` dondu; `tests2/test_donma.py` beş dosyaya bağlandı (`dosya_hash`, ölçülen kopyayla birebir). Faz 4b'nin 3. adımı kapandı; sıradaki iş belge ve kod temizliği (`12` §1.1 adım 4).
 - **Doğrulama:** tam takım `1059 passed` (14 dk 58 s) · mimari denetimi ihlalsiz.
 - Güncellenen: `04` §5 · §10 (pencere notu) · `08` §08 · `12` §1.
+# K-240 · 🟢 BELGE TEMİZLİĞİ (Faz 4b adım 4, belge kısmı) — belgeler bilgi düzeyinde ve güncel · JarmRout kesin taban protokol değil, üçüncü rakip açık karar · DESPARETE'nin v0.1 tasarım paketi arşivde
+> 13 Ekim · yürütücü (plan onayı; JarmRout "kesin baseline protokol değil … straw man problemi yaşatmayacak" bir rakip aranabilir; belgeler "sadece bilgi düzeyinde", ajan "her zaman sorgulasın"; tasarım paketi arşive; `03` projeye özgü maddelere) · eski sürümler `v2/arsiv/*-2026-10-13-temizlik.md` · `arsiv/README-2026-10-13-temizlik.md` · `arsiv/protokol_kaynaklari-README-2026-10-13-temizlik.md` · `arsiv/DEVIR-PROMPT-2026-10-10.md`
+
+- **Üçüncü rakip (yürütücü):** JarmRout'un kodu donmuş kalır, ama kesin taban protokol değildir. Gerekçeler:
+  - toplu akışta makalenin kuralıyla çöküyor (K-238);
+  - evre metrikleri yorumlanamıyor (K-239).
+
+  Aranan rakip: tanımı eksiksiz ve birincil kaynağı açık, bilimsel olarak güvenilir, karıştırma bağlamında anlamlı ve straw-man eleştirisine açık değil. Karar mühürden önce, KR-3 ile verilir (`04` §10). `06`'da H2.c ve §0.4.2'nin δ formülü "üçüncü rakip" diye yazıldı; m = rakip sayısı, formülün kuralı aynı (en gürültülü çift).
+- **Eski rakip kalıntıları çıktı:**
+  - `04` §5: OLSR · AOMDV maddeleri ve K-224'ün durumu;
+  - `06`: §4.1–§4.4 · §5.2 · §8 · §9;
+  - `07` §1 · `05` §6 · README;
+  - `02`: R2 ve R4 kısaldı.
+- **Kaynakça:** `16`'ya yeni rakiplerin kaynakları eklendi ([44]–[52]: RFC 7181 · 6130 · 5444 · 5497 · 5148 · 7779, olsrd2, Pu 2018, RFC 4728).
+- **Düzeltilen bayat bilgiler:**
+  - `05`: RSSI ve dikey GPS hatası "okuyan yok → DUYARSIZ" yazıyordu; K-233'ten beri SINANMAMIŞ.
+  - `04`: regresyon tabanı k223 → k236.
+  - mühür ~12 → ~20 Kasım (`04`, `06`, `12`).
+  - `12` §3: hesap bütçesi yeni rakiplerin ölçülen süreleriyle. JarmRout birincil hücrede koşu başına 5,6–6,3 sa, ikizde 8,3–8,6 sa; Faz 7 JarmRout'la ~300 sa, koşu başına ~2 sa'lik bir rakiple ~190 sa (kaba).
+- **Çıkan tarihçe ve kapanmış maddeler** (günlükte ve arşivde duruyor): `14` §0 ve §9, kapanmış açıklar · `13`'ün kapanmış riskleri tek satıra (koddaki R3 · R4 atıfları çözülür kalır) · `02`'nin kapanmış kaynak soruları · `01`'in eski numaralaması.
+- **Üslup:**
+  - slogan, alıntılanmış motto ve süs ifadeleri çıktı;
+  - `03` §2–§3 bu projede görülen hata sınıflarına indi;
+  - `03` §1'e ve `v2/README`'ye "belge kanıt değildir, iddia sınanır" ilkesi eklendi.
+- **`06` §10'a eksik iki "sonuçtan sonra" satırı:** K-238'in kopya kuralı ve temsilci anatomi kuralı · K-239'un kayıtlı muafiyeti.
+- **Tasarım paketi:** `protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/` (v0.1, 40 dosya) → `arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/`. Kod yorumlarındaki eski yol `v2/README`'de eşlendi; kod değişmedi. Güncel tasarım belgesi Faz 5.7'de yazılır.
+- **DEVIR-PROMPT** (yerel): sayılar ve komutlar güncellendi; doğrulama ilkesi başa alındı (hiçbir belge ya da özet doğrulanmadan kesin kabul edilmez).
+- **Sonraki iş:** kod yorumları ve araçlardaki eski rakip kalıntıları (`12` §1.1 adım 4'ün kod kısmı).
+- Güncellenen: README · `v2/README` · `01`–`09` · `12`–`16` · `protokol_kaynaklari/README.md`.

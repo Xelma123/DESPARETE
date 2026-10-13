@@ -1,21 +1,12 @@
 # Protokol kaynakları — birincil belgeler
 
-Taban protokollerin tanımlandığı **birincil belgeler**. TÜBİTAK proje yazımında
-atıf ve alıntı için buradan kullanılır. Her belgenin künyesi, nereden
-alındığı, özeti (SHA-256) ve hangi denetimlerden geçtiği aşağıda. Doğrulanmış
-kaynakların tam listesi ve projedeki kullanımları: `v2/02-DOGRULANMIS-KAYNAKLAR.md`.
+Taban protokollerin ve simülatörün dayandığı **birincil belgeler** ve uygulama kaynakları. Her belgenin künyesi, nereden alındığı, özeti (SHA-256) ve hangi denetimlerden geçtiği aşağıdadır. Doğrulanmış kaynakların listesi ve projedeki kullanımları `v2/02-DOGRULANMIS-KAYNAKLAR.md`de, rapor künyeleri `v2/16-KAYNAKCA.md`dedir. Güncel: 13 Ekim 2026.
 
-**Kural (19 Eylül 2026):** bir belge buraya ancak **tamamı okunduktan** ve
-gerçek olduğu, içinde gömülü talimat benzeri bir metin ya da etkin içerik
-olmadığı denetlendikten sonra girer.
+**Kural:** bir belge buraya, gerçek olduğu ve içinde gömülü talimat benzeri bir metin ya da etkin içerik olmadığı denetlendikten sonra girer. Okunan kapsam (tamamı ya da kullanılan bölümler) kaynak başına `v2/02`de yazılır.
 
-**Bu klasördeki iki DIŞ KAYNAK OLMAYAN klasör** — bu çalışmanın kendi ürünüdür,
-yukarıdaki indirme kuralına tabi değildir:
+**Faz 4'ün rakipleri:** AOMDV (Marina & Das 2001) ve OLSR (RFC 3626) K-229'dan beri kıyas tabanı değildir; kopyaları ve denetimleri tarihçe ve eski regresyon vakaları için kalır.
 
-| klasör | içerik |
-|---|---|
-| `DESPARETE_TASARIM_PAKETI/` | DESPARETE'nin ilk tasarımı, v0.1 (40 dosya: dizin + 39 tasarım belgesi — 23 Eylül'de sayıldı, önceki "41" yanlıştı; tek okuma `36`). İnceleme ve kararlar `v2/04` K-150 |
-| `literatur_taramasi_2026-08-31/` | ikinci literatür taraması (20 dosya) — 23 Eylül'de `v2/`den taşındı. İçindeki atıflar kullanılmadan önce birincil kaynaktan doğrulanır (`v2/02`) |
+**Dış kaynak olmayan klasör:** `literatur_taramasi_2026-08-31/` — ikinci el literatür taraması (20 dosya). İçindeki atıflar kullanılmadan önce birincil kaynaktan doğrulanır (`v2/02`). DESPARETE'nin v0.1 tasarım taslağı `arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/`e taşındı (bayat; bağlayıcı olan kod).
 
 ---
 

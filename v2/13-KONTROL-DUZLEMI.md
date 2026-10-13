@@ -1,6 +1,6 @@
 # 13 · KONTROL DÜZLEMİ — protokolün YAPABİLECEKLERİ
 
-> **Durum: sözleşme uygulandı; kod bu belgeyle birebir.** Güncel 11 Ekim 2026 (öz sürüm; §07 kopya K-231; tarihçe ve kapanmış risklerin ayrıntısı `v2/arsiv/13-KONTROL-DUZLEMI-2026-09-25.md`). Bölüm numaraları kodda atıflı, korunur (testlerdeki "§09" = §05). Karar K-112 · kapılar `tests2/test_kontrol_duzlemi.py` (bağlayıcı) · `python -u kalibrasyon/kontrol_duzlemi_kapilari.py` (40 düğümde kanıt).
+> **Durum: sözleşme uygulandı.** Güncel 13 Ekim 2026; tarihçe ve kapanmış risklerin ayrıntısı `v2/arsiv/13-KONTROL-DUZLEMI-*.md`. Bölüm numaraları kodda atıflı, korunur (testlerdeki "§09" = §05). Karar K-112 · kapılar `tests2/test_kontrol_duzlemi.py` (bağlayıcı) · `python -u kalibrasyon/kontrol_duzlemi_kapilari.py` (40 düğümde kanıt).
 
 ---
 
@@ -56,7 +56,7 @@ Kanca niyet demetleri `Beyan` da taşıyabilir (K-134) — kopma, öğrenildiği
 
 ## 04 · Değişmeyenler — bağlayıcı
 
-Gözlem penceresi 17 · 6 · 7 = 30 alan (P6; `bildirdigi_konum` K-131 ile çıktı, `kaynak_sira` K-157 ile girdi, B3'ün beş alanı K-179 ile girdi, kaynak rotası `rota` K-232 ile girdi — `05` §5) · `veri`/`onay`/`beacon` boyutları · sayaç şeması (beyan kanalı genişledi ama üç kopma sayacı aynı) · `gonderilen_bayt`, `son_iletim_sonucu` ve `mac_*` yalnız veriyi yansıtır · kontrol düzlemini kullanmayan protokolün satırı birebir aynı.
+Gözlem penceresi 17 · 6 · 7 = 30 alan (P6; `05` §5) · `veri`/`onay`/`beacon` boyutları · sayaç şeması (beyan kanalı genişledi ama üç kopma sayacı aynı) · `gonderilen_bayt`, `son_iletim_sonucu` ve `mac_*` yalnız veriyi yansıtır · kontrol düzlemini kullanmayan protokolün satırı birebir aynı.
 
 ## 05 · P1–P8 — kapılar (bağımsız gözlemle, boş geçmez)
 
@@ -73,16 +73,12 @@ Gözlem penceresi 17 · 6 · 7 = 30 alan (P6; `bildirdigi_konum` K-131 ile çık
 
 ## 06 · Riskler
 
-| # | risk | durum |
+| # | açık risk | durum |
 |---|---|---|
-| R1 | veri onayı onu çözen HERHANGİ bir düğümü kredilendiriyordu (seyirci kredisi) | kapandı — yalnız gönderen çözünce (Y2, K-114 ölçüm, K-115) |
-| R2 | koşum beacon'ı kapatılamıyordu (çift komşu trafiği) | kapandı (§03.8, K-121) |
-| R3 | MAC vazgeçince protokol haberdar edilmiyordu | kapandı (§02.5 · §03.6, K-121) |
-| R4 | protokolün rastgelelik kaynağı yoktu (RREQ jitter, `MAXJITTER`) | kapandı (§02.2 · §02.3 · §03.7, K-121) |
-| R5 | kapsülleme asimetrisi: veri 512 B toplam, kontrol mesaj + 64 B | açık — `nrl_*`de kontrolü en çok 64 B pahalı gösterir (beyanlı) |
-| R6 | `BEKLEYEN_UYANDIRMA_TAVANI` ve `KONTROL_KAPSULLEME` SINANMAMIŞ | kapandı — kapsülleme KAYNAK (G15 · G16, K-203), tavan ÖLÇÜLMÜŞ (tepe ≤ 22/256, K-214) |
-| R7 | tavan bekleyen **sayısını** sınırlar, oranı değil | açık — tepe/ateş sayısı satırda (beyanlı) |
-| R8 | kontrol istatistiklerinin pencere ikizi yoktu | kapandı (§03.10, K-115) |
+| R5 | kapsülleme asimetrisi: veri 512 B toplam, kontrol mesaj + 64 B | `nrl_*`de kontrolü en çok 64 B pahalı gösterir (beyanlı) |
+| R7 | tavan bekleyen **sayısını** sınırlar, oranı değil | tepe/ateş sayısı satırda (beyanlı) |
+
+Kapanmış riskler (koddaki atıflar için): R1 seyirci onay kredisi → onay yalnız gönderen çözünce (K-115) · R2 koşum beacon'ı kapatılamıyordu → §03.8 · R3 MAC vazgeçmesi bildirilmiyordu → §02.5, §03.6 · R4 protokolün rastgelelik kaynağı yoktu → §02.2, §02.3, §03.7 · R6 tavan ve kapsülleme kökeni → KAYNAK ve ÖLÇÜLMÜŞ (K-203, K-214) · R8 kontrol sayaçlarının pencere ikizi → §03.10.
 
 ## 07 · Uçtan uca kopya — D-23 · K-231
 
