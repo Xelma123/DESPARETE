@@ -1,0 +1,25 @@
+==============================================================================
+KAYIP ANATOMISI — dunya referans_2026 · formasyon-yok · aile — · yere toplama · tohum [1000]
+==============================================================================
+    1/1 jarmrout                                   1000 · PDR(pencere) 0.3469 · 33686 s
+
+  jarmrout             PDR(pencere) ort 0.347 · üretilen 12798 · geçerli True
+    tohum 1000: PDR 0.3578 (pencere 0.3469) · 33686 s
+      düşen/üretilen: iletim_basarisiz 52.4% · tampon_asimi 11.8% · kuyruk_tasmasi 2.4%
+      ısınmada düşen (adet): iletim_basarisiz 804 · tampon_asimi 110
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[36, 607, 7.8], [32, 454, 22.4], [23, 343, 11.6], [24, 269, 12.0], [2, 267, 17.2]]
+      evre: şok derinliği -0.005249999999999977 · toparlanma 0.0 s · tespit None s (boş kolda None olmalı — M4 kapısı)
+      karar bağı kâhin bandı: iyi 99% · orta 1% · kotu 0% · mesafe km {'p10': 2.82, 'p50': 6.54, 'p90': 11.98}
+      karar bağı TEK deneme (yayın) bandı: iyi 69% · orta 27% · kotu 4%
+      başarısız bağ bandı:   iyi 95% · orta 5% · kotu 0% · mesafe km {'p10': 6.18, 'p50': 10.33, 'p90': 15.16} · 335 ayrı bağ, en çok [[36, 0, 530], [23, 34, 316], [24, 0, 238], [12, 0, 209], [14, 0, 192]]
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    iletim_basarisiz           0         0      6708      6708     52.4%
+    kuyruk_tasmasi             0         0       303       303      2.4%
+    tampon_asimi               0         0      1504      1504     11.8%
+    (koşu sonu kuyrukta)                                       0      0.0%
+
+  bolge: ed = karistirici >= ED esigi (kanal erisim kilidi) · girisim = gurultunun ustu · uzak = karistiricidan bagimsiz
+  etki alani: karistirici o an ACIK olsaydi alinacak ORTALAMA guc (yavas kayip; kapi ve hizli sonumleme haric), ayni esikler; paket tablosunda paketin gecit disi ucunda, dogum aninda
+  iletim_basarisiz'in bolgesi ALICIDA (denenen sonraki atlama) okunur; digerleri dustugu dugumde (K-193)
+  bag bandi: kahinin tek deneme basarisindan p_atlama — iyi >= 0,90 · orta 0,50-0,90 · kotu < 0,50 (girisim haric)
+  toplam duvar suresi 33689 s

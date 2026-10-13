@@ -282,12 +282,51 @@ _AOMDV_K207 = ("AOMDV-f · Marina-Das + RFC 3561 tabani (K-210, K-215); esik "
                "alti protokolun kendi siniri (K-207 kurali, K-215 on-kaydi). "
                "U1 9 Ekim 2026, 7 deneme (K-224): bagimsiz 1000 0,588 · "
                "statik 1000 0,899 · statik 1002 0,891")
+# `JarmRout-b` (K-234) K-207'ye atıfla ve ölçülmüş mekanizmayla (K-238):
+# makalenin yinelenen RREQ kuralı (Şekil 4, harfiyen) toplu akışta kendini
+# besleyen tıkanıklık çöküşü üretir (`arsiv/teshis/jarmrout_sel_2026-10-12/`).
+# Temsilci anatomiler yere toplamada, her kolun en düşük hücresinde
+# (`arsiv/teshis/faz4b_kapanis2_2026-10-12/anatomi_*`; PDR'ler U1 kaydıyla
+# birebir). Her hücrenin çöküş izi U1 kaydından: rota tamponu girişi ve tepe
+# doluluğu (geçen hücrelerde giriş 41–3 674, tepe 2–26). Eşler arası
+# keşifseldir (K-218); oradaki anatomi yere toplamanınkine dayanır.
+_JARMROUT_K238 = ("JarmRout-b · Pu 2018 Sekil 4 harfiyen (K-234); esik alti "
+                  "protokolun kendi siniri (K-207): yinelenen RREQ kurali "
+                  "toplu akista tikaniklik cokusu uretir (K-238). Temsilci "
+                  "anatomiler (yere toplama): korunum gecerli, dongu/TTL 0, "
+                  "rotasiz_paket 0, RREQ basina yeniden yayin 54-75, RERR "
+                  "5850-7697, en buyuk dusus iletim_basarisiz. U1 11-12 Ekim "
+                  "2026, 7 deneme")
+_JARMROUT_IZ: dict[tuple[str, str, int], tuple[str, int, int]] = {
+    # (desen, kol, tohum): (U1 orani, rota tamponu girisi, tepe doluluk)
+    ("yere_toplama", "statik-yok", 1000): ("0,547", 30511, 42),
+    ("yere_toplama", "statik-yok", 1002): ("0,517", 31150, 32),
+    ("yere_toplama", "bagimsiz-yok", 1000): ("0,304", 113139, 50),
+    ("yere_toplama", "bagimsiz-yok", 1001): ("0,408", 86701, 43),
+    ("yere_toplama", "bagimsiz-yok", 1002): ("0,386", 85408, 40),
+    ("yere_toplama", "gorev-yok", 1000): ("0,303", 133001, 49),
+    ("yere_toplama", "gorev-yok", 1001): ("0,417", 53870, 33),
+    ("yere_toplama", "gorev-yok", 1002): ("0,496", 64626, 33),
+    ("yere_toplama", "formasyon-yok", 1000): ("0,373", 116442, 50),
+    ("yere_toplama", "formasyon-yok", 1001): ("0,426", 44296, 33),
+    ("yere_toplama", "formasyon-yok", 1002): ("0,385", 80333, 32),
+    ("esler_arasi", "bagimsiz-yok", 1001): ("0,478", 119295, 64),
+    ("esler_arasi", "bagimsiz-yok", 1002): ("0,452", 59393, 64),
+    ("esler_arasi", "gorev-yok", 1001): ("0,433", 55135, 64),
+    ("esler_arasi", "gorev-yok", 1002): ("0,464", 47144, 64),
+    ("esler_arasi", "formasyon-yok", 1001): ("0,545", 40813, 64),
+}
 ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
     "aodv": {("yere_toplama", kol, t): _AODV_K207 for kol, t in (
         ("statik-yok", 1000), ("statik-yok", 1002), ("bagimsiz-yok", 1000))},
     "aomdv": {("yere_toplama", kol, t): _AOMDV_K207 for kol, t in (
         ("statik-yok", 1000), ("statik-yok", 1002), ("bagimsiz-yok", 1000))},
-    "desparete": {}, "jarmrout": {}, "olsrv2": {},
+    "desparete": {}, "olsrv2": {},
+    "jarmrout": {h: (f"{_JARMROUT_K238} · bu hucre: oran {o}, rota tamponu "
+                     f"girisi {g}, tepe {t}/64"
+                     + (" · esler arasi kesifsel (K-218)"
+                        if h[0] == "esler_arasi" else ""))
+                 for h, (o, g, t) in _JARMROUT_IZ.items()},
     "olsr": {**{("yere_toplama", "statik-yok", t): _OLSR_K224_STATIK
                 for t in (1000, 1001, 1002)},
              **{("yere_toplama", kol, t): _OLSR_K224_HAREKETLI for kol, t in (
@@ -305,8 +344,22 @@ ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
 # kaydı ölçümü yazar. K-224: AOMDV'nin eşler arası kaydı ÖLDÜ (0,9814 <
 # 0,9827); AODV'nin aşımı 0,0002 < R — çözünürlük içinde. Arşiv K-206 ·
 # K-211 · K-218.
+# K-238 · KOPYA KURALI: kopya gönderen bir protokolde aşım, mimari denetimi
+# kâhin sızıntısı bulmuyorsa ve yalnız kopyayla teslim edilen paketler
+# (aslı hedefe hiç varmamış) çıkarılınca oran ≤ 1 + R ise açıklanmıştır.
 KAHIN_ASIMI_ACIKLANMIS: dict[str, dict[tuple[str, str, int], str]] = {
-    "olsr": {}, "desparete": {}, "aomdv": {}, "jarmrout": {}, "olsrv2": {},
+    "olsr": {}, "desparete": {}, "aomdv": {}, "olsrv2": {},
+    "jarmrout": {
+        ("esler_arasi", "statik-yok", 1001):
+            "JarmRout-b 0,9954 · ETX kahini 0,9827 (oran 1,0129 > 1 + R): "
+            "kopya kurali (K-238) — 12 799 paketin 12'si yalniz kopyayla "
+            "teslim; cikarilinca 0,9945, oran 1,0120 <= 1,0126. Mimari "
+            "denetimi kahin sizintisi bulmuyor. arsiv/teshis/"
+            "faz4b_kapanis2_2026-10-12/kopya_payi.txt",
+        ("esler_arasi", "formasyon-yok", 1000):
+            "JarmRout-b 0,9937 · ETX kahini 0,9855 (12 Ekim, 7 deneme, "
+            "K-238): asim 0,0083 < R 0,0126 — cozunurluk icinde, zarf adimi "
+            "gerekmez (K-192 b)"},
     "aodv": {("esler_arasi", "statik-yok", 1001):
              "AODV-j 0,9829 · ETX kahini 0,9827 (9 Ekim, 7 deneme, K-224): "
              "asim 0,0002 < R 0,0126 — cozunurluk icinde, zarf adimi "
@@ -717,8 +770,11 @@ def _degerlendir(sonuc: dict, kollar, tohumlar, sabit, sure_s: float,
         if d == desen}
     for kol, t, o in asan_tum:
         if (kol, t) in zarfli:
-            print(f"  🟡 [U1-U] kahin asimi ZARF ICINDE (K-192 b): {kol}/{t} "
-                  f"oran = {o:.3f} — ETX kahini bu hucrede ust sinir degil")
+            # Kayıt üç yoldan biriyle girer: zarf (K-192 b), aşım < R ya da
+            # kopya kuralı (K-238); gerekçe kaydın kendisinde.
+            print(f"  🟡 [U1-U] kahin asimi ACIKLANMIS (K-192 b · K-238): "
+                  f"{kol}/{t} oran = {o:.3f} — gerekce "
+                  f"KAHIN_ASIMI_ACIKLANMIS'ta")
     asan = [(kol, o) for kol, t, o in asan_tum if (kol, t) not in zarfli]
     # Ölü kayıt: bu koşumda ölçülen ama artık aşmayan hücre (D12 emsali).
     olu_zarf = sorted((zarfli & set(hucre_oranlari))

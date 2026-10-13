@@ -1,0 +1,5 @@
+statik-yok · 1001 · esler_arasi · korunum gecerli True
+  PDR 0.9954 (U1 kaydiyla ayni olmali) · uretilen 12799 · teslim 12740
+  hedefe varan paket 12740 · yalniz kopyayla teslim 12
+  kopyasiz PDR 0.9945 · kahin 0.9827 · oran 1.0129 -> kopyasiz 1.0120
+  KURAL: kopyasiz oran <= 1 + R (1.0126) -> SAGLANDI

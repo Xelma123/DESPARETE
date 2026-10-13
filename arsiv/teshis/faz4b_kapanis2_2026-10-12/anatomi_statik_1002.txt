@@ -1,0 +1,24 @@
+==============================================================================
+KAYIP ANATOMISI — dunya referans_2026 · statik-yok · aile — · yere toplama · tohum [1002]
+==============================================================================
+    1/1 jarmrout                                   1002 · PDR(pencere) 0.5145 · 12207 s
+
+  jarmrout             PDR(pencere) ort 0.515 · üretilen 12799 · geçerli True
+    tohum 1002: PDR 0.5139 (pencere 0.5145) · 12207 s
+      düşen/üretilen: iletim_basarisiz 49.7% · tampon_asimi 2.3%
+      ısınmada düşen (adet): iletim_basarisiz 882 · tampon_asimi 16
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[2, 504, 15.8], [39, 451, 12.6], [6, 411, 13.8], [10, 349, 14.3], [15, 336, 31.4]]
+      evre: şok derinliği 0.053743001572717775 · toparlanma 0.0 s · tespit 92.0 s (boş kolda None olmalı — M4 kapısı)
+      karar bağı kâhin bandı: iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 3.62, 'p50': 6.32, 'p90': 14.14}
+      karar bağı TEK deneme (yayın) bandı: iyi 98% · orta 2% · kotu 0%
+      başarısız bağ bandı:   iyi 99% · orta 1% · kotu 0% · mesafe km {'p10': 6.21, 'p50': 11.0, 'p90': 14.88} · 271 ayrı bağ, en çok [[2, 1, 345], [15, 18, 261], [21, 0, 240], [10, 0, 225], [39, 34, 203]]
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    iletim_basarisiz           0         0      6360      6360     49.7%
+    tampon_asimi               0         0       293       293      2.3%
+    (koşu sonu kuyrukta)                                       0      0.0%
+
+  bolge: ed = karistirici >= ED esigi (kanal erisim kilidi) · girisim = gurultunun ustu · uzak = karistiricidan bagimsiz
+  etki alani: karistirici o an ACIK olsaydi alinacak ORTALAMA guc (yavas kayip; kapi ve hizli sonumleme haric), ayni esikler; paket tablosunda paketin gecit disi ucunda, dogum aninda
+  iletim_basarisiz'in bolgesi ALICIDA (denenen sonraki atlama) okunur; digerleri dustugu dugumde (K-193)
+  bag bandi: kahinin tek deneme basarisindan p_atlama — iyi >= 0,90 · orta 0,50-0,90 · kotu < 0,50 (girisim haric)
+  toplam duvar suresi 12209 s

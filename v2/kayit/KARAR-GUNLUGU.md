@@ -169,8 +169,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-236 | 🟢 OLSRv2'NİN BAYRAK MPR'LERİ ATLAMA SAYISIYLA (§18.4 B) — olsrd2'nin bayrak alanı "Hopco | 🟢 geçerli |
 | K-237 | 🟢 REGRESYON k232 → k236 BİREBİR — yeni rakipler matriste (85 vaka), regresyon tabanı k23 | 🟢 geçerli |
 | K-238 | 🟡 JarmRout'UN RREQ SELİ — makaleye birebir sadık, çöküş protokolün kuralından · harfiyen | 🟢 geçerli |
+| K-239 | 🟢 FAZ 4b'NİN RAKİPLERİ DONDU — JarmRout-b · OLSRv2-b · kopya kuralı sağlandı · JarmRout' | 🟢 geçerli |
 
-**149 kayıt · 9 revize · 140 geçerli**
+**150 kayıt · 9 revize · 141 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1859,3 +1860,29 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
   - Kopya gönderen protokolde kâhin aşımı şu iki şart sağlanınca açıklanmış sayılır: mimari denetimi kâhin sızıntısı bulmuyor ve yalnız kopyayla teslim edilen paketler çıkarılınca oran ≤ 1 + R.
 - **Hesap notu:** JarmRout'un toplu akışlı karıştırıcısız hücrelerde tek koşusu 6–11 sa. Faz 7'ye etkisi mühürden önce hesaplanır.
 - Güncellenen: `04` §5 · `12` §1.
+# K-239 · 🟢 FAZ 4b'NİN RAKİPLERİ DONDU — `JarmRout-b` · `OLSRv2-b` · kopya kuralı sağlandı · JarmRout'un düşük hücreleri açıklandı · evre kapılarında JarmRout'un evre metrikleri yorumlanamaz (kayıtlı muafiyet) · pencere sonu boşalması Faz 6'nın pencere borcuna not
+> 13 Ekim · yürütücü (karar: "protokol düzeyinde etiket") · ölçütler `arsiv/teshis/faz4b_kapanis2_2026-10-12/beklenti.md` (commit `d3fd674`, koşudan önce) · sonuç `sonuc.md` · teşhis `arsiv/teshis/faz4b_kapi_teshis_2026-10-13/teshis.md` · kopya `d3fd674` (147 dosya; kuyruktan sonra kopya ve ana ağaç birebir)
+
+- **İkinci kuyruk** (12 Ekim 19:20 – 13 Ekim 11:01, 15 sa 40 dk):
+  - **A · kopya kuralı ✓:** statik-yok 1001 (eşler arası) PDR 0,9954, U1 kaydıyla birebir. 12 740 teslimin 12'si yalnız kopyayla; kopyasız oran 1,0120 ≤ 1 + R. Kopya aşımın yalnız 0,0009'unu açıklıyor, kalan R içinde. formasyon-yok 1000'in aşımı 0,0083 < R.
+  - **B · dört temsilci anatomi ✓** (statik 1002 · bağımsız · görev · formasyon 1000; PDR'ler U1'le birebir): korunum ve mutabakat tamam, döngü/TTL 0, `rotasiz_paket` 0, RREQ başına yeniden yayın 54–75, RERR 5 850–7 697, en büyük düşüş iletim başarısızlığı (%50–61).
+  - **C · evre kapıları yalnız JarmRout yüzünden kaldı:** G1ç'de D iki tohumda 2 SE dışında (−0,029 · +0,035); G4ç'de p99 28–30 s > açık süre 15 s (sızıntı 0,18–0,22). AODV · OLSRv2 · DESPARETE · kâhin iki kapıyı da geçiyor.
+- **Kayıtlar (`aodv_uygunluk.py`):**
+  - Yere toplamanın 11 ve eşler arasının 5 düşük hücresi `ACIKLANMIS_DUSUK_REFERANS`a girdi; her biri U1 kaydındaki çöküş iziyle (tampon girişi 30–133 bin, tepe 32–64; geçen hücrelerde 41–3 674, tepe 2–26).
+  - İki kâhin aşımı `KAHIN_ASIMI_ACIKLANMIS`a girdi. Hükmün etiketi "ZARF İÇİNDE" → "AÇIKLANMIŞ (K-192 b · K-238)".
+  - `hukum`: JarmRout ve OLSRv2 iki desende U1-U ✓ · U1-B ✓.
+- **Teşhis** (sebep ölçüldü; satırlar G1ç kaydıyla 18 alanda birebir):
+  - **G4ç:** 15 s üstü teslimlerin %98,7–100'ü rota tamponundan; bekleyiş payının medyanı 0,96; yolun p99'u 4,1–5,0 s. Keşif selin altında uzar (p99 26–27 s), bekleyen paket ortak tamponun 30 s ömrüne kadar tutulur.
+  - **G1ç:** öngörülen "sel çevrimleri" tutmadı. Ölçülen iki etki:
+    - 1003'te koşu boyunca düşüş (−0,032/100 s; RREQ yeniden yayını %20 artıyor);
+    - iki tohumda pencere sonu boşalması: trafik 320 s'de durunca sel söner, son 5 s'de doğanların PDR'si 0,53 · 0,59 (öncesi 0,29–0,47). Son sessiz dönem [315; 320) bu bölgededir; 1004'te D'yi dışarı taşıyan budur.
+- **Karar (yürütücü: protokol düzeyinde etiket):**
+  - `evre_metrikleri_kapilari.py::EVRE_YORUMLANAMAZ`: kayıtlı protokol, kayıtlı olduğu maddenin (G1ç'nin D'si, G4ç'nin p99'u) hükmü dışında kalır; satırı basılır ve etiketlenir. Ölü kayıt kapıyı kırmızı yakar.
+  - JarmRout'un M1 · M2 · M4'ü "yorumlanamaz"; `PDR_açık`ı "bulanık" etiketi ve sızıntısıyla raporlanır.
+  - H2.c aynen kalır: bulanıklık ve boşalma JarmRout'un lehinedir (bu hücrede 290 s sonrası doğanlar çıkarılınca açık evre PDR'si 0,012–0,017 düşer), karşılaştırma DESPARETE için tutucudur.
+  - Hüküm saf fonksiyonlara ayrıldı. Yeni `hukum` kipi kayıtlı çıktıyı yeniden hükmeder: ikinci kuyruğun G1ç ✓ · G2ç + G4ç ✓; K-224'ün çıktıları değişmeden ✓.
+  - Testler: `tests2/test_evre.py` (kayıtlı geçer · kayıtsız kalır · ölü kayıt kalır; iki kapıda).
+- **Pencere notu:** trafiğin ölçüm bitişinde durması uzun bekleyişli protokolde son doğumları kayırır; ana protokollerde (p99 ≤ 4,2 s) etkisi son birkaç saniyeyle sınırlıdır. Simülatör değişmez; pencere üçlüsünün Faz 6 duyarlılığına (`04` §10) not düşüldü.
+- **Donma:** dört şart tuttu (A · B · U1-U · evre kapıları). `JarmRout-b` · `OLSRv2-b` dondu; `tests2/test_donma.py` beş dosyaya bağlandı (`dosya_hash`, ölçülen kopyayla birebir). Faz 4b'nin 3. adımı kapandı; sıradaki iş belge ve kod temizliği (`12` §1.1 adım 4).
+- **Doğrulama:** tam takım `1059 passed` (14 dk 58 s) · mimari denetimi ihlalsiz.
+- Güncellenen: `04` §5 · §10 (pencere notu) · `08` §08 · `12` §1.

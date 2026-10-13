@@ -4,7 +4,8 @@ D-12: `protokol_hash` paket düzeyindedir — DESPARETE'nin bir dosyası değiş
 taban protokol satırlarının kimliği de değişir, yani satır kimliği "taban
 protokoller dondu" iddiasını kanıtlayamaz. Bu test dosyaların kendisini
 bağlar: bir taban protokol dosyası değişirse kırılır ve yeni bir K kaydı,
-U1 ve regresyon ister (`v2/04` §5). Değerler K-224'ün donmuş hâli.
+U1 ve regresyon ister (`v2/04` §5). Değerler K-224'ün donmuş hâli; Faz 4b'nin
+rakipleri (JarmRout-b · OLSRv2-b) K-239'da eklendi.
 
 D-16: protokol bir ölçüm alanını okumaya başlarsa mimari denetimi o alanın
 köken kaydını DUYARSIZ bırakmaz.
@@ -30,6 +31,13 @@ DONMUS: dict[str, str] = {
     "aomdv.py": "3d2d037a012431b21ab1381e22d3882f",
     "aomdv_bicim.py": "ca9c20feaafb51dac524c9af14238a48",
     "kosum_kosumu.py": "e175ba6cc74a80a5cca9c7789ac39ac7",
+    # K-239 (13 Ekim 2026): Faz 4b'nin rakipleri — JarmRout-b (K-234) ·
+    # OLSRv2-b (K-236). Ölçülen kopya d3fd674 ile birebir.
+    "jarmrout.py": "569dcc17f51a0607cef3d01a7f1753f1",
+    "jarmrout_bicim.py": "7bc03996f72b77630cea67f348fbfbe4",
+    "olsrv2.py": "d7ab18d98bb5df8854c65fa5de5ffc5a",
+    "olsrv2_bicim.py": "70f2b15bb75888b5048db1ed59372420",
+    "olsrv2_rfc5444.py": "f0ec7db0405cbbf355d3117c81484811",
 }
 
 

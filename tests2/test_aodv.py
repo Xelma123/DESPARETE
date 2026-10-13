@@ -861,7 +861,7 @@ def test_K192b_KAHIN_ASIMI_ZARF_KAYDI(monkeypatch, tmp_path, capsys):
         return yol
 
     assert U.hukum(kayit("esler_arasi", 0.975)) == 0
-    assert "ZARF ICINDE" in capsys.readouterr().out
+    assert "kahin asimi ACIKLANMIS" in capsys.readouterr().out
     assert U.hukum(kayit("yere_toplama", 0.975)) == 1       # kayıtsız desen
     assert "KAHINI GECTI" in capsys.readouterr().out
     assert U.hukum(kayit("esler_arasi", 0.96)) == 1         # aşım yok → ölü

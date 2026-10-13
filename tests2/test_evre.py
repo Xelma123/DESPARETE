@@ -589,3 +589,51 @@ def test_K209_CIZELGE_konfigden_TURER():
     yok = kurulum_yap(referans_2026(kol="t", senaryo="statik-yok",
                                     tohum=1003, **ek))
     assert karistirici_cizelgesi(yok) is None
+
+
+# ==========================================================================
+# K-239 · EVRE METRİKLERİ YORUMLANAMAYAN PROTOKOL KAYDI
+# ==========================================================================
+def _satir(protokol, tohum, d=0.0, d_se=0.01, senaryo="formasyon-yok",
+           sok=0.0, bulaniklik=0.1):
+    """Çizelgeli kapının KAYIT satırı (yalnız hükmün okuduğu alanlar)."""
+    return {"senaryo": senaryo, "protokol": protokol, "tohum": tohum,
+            "sure_s": 1.0, "pdr_temiz": 0.5, "pdr_acik": 0.5,
+            "pdr_sessiz": 0.5 + d, "sok": sok, "sok_se": 0.05, "d": d,
+            "d_se": d_se, "m2": 1.0, "tespit": None, "beyan_etmiyor": False,
+            "p99_s": 15.0 * bulaniklik, "bulaniklik_evre": bulaniklik,
+            "sizinti": 0.01}
+
+
+def test_K239_G1C_KAYIT_dahil_kayitsiz_kalir_olu_kirmizi(monkeypatch):
+    """D'si iki tohumda 2 SE dışında kalan protokol kayıtlıysa G1ç geçer,
+    kayıtsızsa kalır; kayıtlı protokolün D'si artık içerideyse kayıt ölüdür
+    ve kapı kalır."""
+    import kalibrasyon.evre_metrikleri_kapilari as E
+    monkeypatch.setattr(E, "EVRE_YORUMLANAMAZ", {"x": {"G1c": "olculdu"}})
+    temiz = [_satir("a", t) for t in (1003, 1004)]
+    disarida = [_satir("x", 1003, d=-0.03), _satir("x", 1004, d=0.04)]
+    assert E._g1c_hukum(temiz + disarida)
+    kayitsiz = [dict(r, protokol="y") for r in disarida]
+    assert not E._g1c_hukum(temiz + kayitsiz)
+    olu = [_satir("x", t, d=0.001) for t in (1003, 1004)]
+    assert not E._g1c_hukum(temiz + olu)
+    assert E._g1c_hukum(temiz)                  # ölçülmeyen kayıt ölü değil
+
+
+def test_K239_G4C_KAYIT_dahil_kayitsiz_kalir_olu_kirmizi(monkeypatch):
+    """`p99 ≥ açık süre` olan protokol kayıtlıysa G4ç geçer, kayıtsızsa
+    kalır; kayıtlı protokolün p99'u açık süreden kısaysa kayıt ölüdür."""
+    import kalibrasyon.evre_metrikleri_kapilari as E
+    monkeypatch.setattr(E, "EVRE_YORUMLANAMAZ", {"x": {"G4c": "olculdu"}})
+
+    def kol(protokol, bulaniklik):
+        kahin = protokol == "en_guvenilir_kahin"
+        return [_satir(protokol, t, senaryo="formasyon-surekli",
+                       sok=0.2 if kahin else 0.0, bulaniklik=bulaniklik)
+                for t in (1003, 1004)]
+    bos = [_satir("en_guvenilir_kahin", t) for t in (1003, 1004)]
+    taban = kol("en_guvenilir_kahin", 0.05) + kol("a", 0.2) + bos
+    assert E._g2c_hukum(taban + kol("x", 1.9))
+    assert not E._g2c_hukum(taban + kol("y", 1.9))
+    assert not E._g2c_hukum(taban + kol("x", 0.5))

@@ -1,0 +1,227 @@
+{
+ "dunya": "referans_2026",
+ "kol": "formasyon",
+ "sinif": "yok",
+ "aile": "derin_sizma",
+ "kisa": false,
+ "sonuc": [
+  {
+   "protokol": "jarmrout",
+   "tohum": 1000,
+   "gecerli": true,
+   "pdr": 0.357790279731208,
+   "pdr_pencere": 0.34694822635917383,
+   "uretilen": 12798,
+   "teslim": 4579,
+   "kuyrukta": 0,
+   "tablo": {
+    "iletim_basarisiz|uzak": 6708,
+    "tampon_asimi|uzak": 1504,
+    "kuyruk_tasmasi|uzak": 303
+   },
+   "isinmada": {
+    "iletim_basarisiz": 804,
+    "tampon_asimi": 110
+   },
+   "karar_bant": {
+    "iyi": 33652,
+    "orta": 356,
+    "kotu": 31
+   },
+   "karar_bant_tek": {
+    "orta": 9038,
+    "iyi": 23521,
+    "kotu": 1480
+   },
+   "karar_mesafe_km": {
+    "p10": 2.82,
+    "p50": 6.54,
+    "p90": 11.98
+   },
+   "basarisiz_bant": {
+    "iyi": 6340,
+    "orta": 342,
+    "kotu": 26
+   },
+   "basarisiz_mesafe_km": {
+    "p10": 6.18,
+    "p50": 10.33,
+    "p90": 15.16
+   },
+   "basarisiz_bag_sayisi": 335,
+   "basarisiz_en_cok_5_bag": [
+    [
+     36,
+     0,
+     530
+    ],
+    [
+     23,
+     34,
+     316
+    ],
+    [
+     24,
+     0,
+     238
+    ],
+    [
+     12,
+     0,
+     209
+    ],
+    [
+     14,
+     0,
+     192
+    ]
+   ],
+   "iletim_basarisiz_verici_bolge": {
+    "uzak": 6708
+   },
+   "teshis_toplam": {
+    "rreq_uretilen": 12424,
+    "rreq_iletilen": 731003,
+    "rreq_atilan": 1709514,
+    "rrep_uretilen": 10793,
+    "rrep_iletilen": 13453,
+    "rerr_uretilen": 6598,
+    "rerr_iletilen": 6638,
+    "tek_yol": 6283,
+    "iki_yol": 2255,
+    "kesif_basarisiz": 95,
+    "rotasiz_paket": 0,
+    "yol_silinen": 2435,
+    "rota_hedefi": 23,
+    "suren_kesif": 0
+   },
+   "yogun_dugumler": {
+    "iletim_basarisiz": [
+     [
+      36,
+      607,
+      7.8
+     ],
+     [
+      32,
+      454,
+      22.4
+     ],
+     [
+      23,
+      343,
+      11.6
+     ],
+     [
+      24,
+      269,
+      12.0
+     ],
+     [
+      2,
+      267,
+      17.2
+     ]
+    ],
+    "tampon_asimi": [
+     [
+      10,
+      232,
+      32.8
+     ],
+     [
+      35,
+      140,
+      18.3
+     ],
+     [
+      7,
+      134,
+      31.4
+     ],
+     [
+      13,
+      113,
+      11.1
+     ],
+     [
+      29,
+      92,
+      26.7
+     ]
+    ],
+    "kuyruk_tasmasi": [
+     [
+      0,
+      269,
+      0.0
+     ],
+     [
+      36,
+      29,
+      7.8
+     ],
+     [
+      26,
+      2,
+      15.8
+     ],
+     [
+      24,
+      2,
+      12.0
+     ],
+     [
+      1,
+      1,
+      33.4
+     ]
+    ]
+   },
+   "evre": {
+    "sok_derinligi": -0.005249999999999977,
+    "sok_derinligi_se": 0.02091464262212724,
+    "toparlanma_suresi_s": 0.0,
+    "tespit_gecikmesi_s": null,
+    "beyan_etmiyor": false,
+    "evre_metrikleri_yok": null
+   },
+   "olsr_s13": null,
+   "karistirici_evresi": {
+    "once": {
+     "dogan": 10797,
+     "teslim": 3746,
+     "pdr": 0.34694822635917383
+    },
+    "acik": {
+     "dogan": 0,
+     "teslim": 0,
+     "pdr": null
+    },
+    "sessiz": {
+     "dogan": 0,
+     "teslim": 0,
+     "pdr": null
+    }
+   },
+   "evre_dusen": {
+    "iletim_basarisiz|once": 6708,
+    "tampon_asimi|once": 1504,
+    "kuyruk_tasmasi|once": 303
+   },
+   "dogum_evre_dusen": {
+    "iletim_basarisiz|once|uzak": 5480,
+    "kuyruk_tasmasi|once|uzak": 303,
+    "tampon_asimi|once|uzak": 1268
+   },
+   "dogum_atfsiz": {},
+   "dogum_celiski": 0,
+   "pdr_acik_satir": null,
+   "evre_alan_paket": {},
+   "evre_alan_karar": {},
+   "evre_alan_dusen": {},
+   "desparete_onarim": null,
+   "sure_s": 33686.5
+  }
+ ]
+}

@@ -1,0 +1,26 @@
+tohum 1003 · 18059 s
+  satir: temiz 0.3809 · acik 0.3478 · sessiz 0.3524 · D -0.0285 (2 SE 0.0228) · M1 +0.0487 · p99 25.349 · sizinti 0.1618
+  gecikme: teslim 3903 · tampondan gecen 1738 · p50 0.314 · p90 9.934 · p99 25.351 · yol p99 4.129 · bekleyis p99 24.492
+  gecikme >= 15 s: 222 paket · tampondan 222 · bekleyis payi medyan 0.956
+  kesif: n 2641 · medyan 0.86 · p90 6.35 · p99 25.94 · en cok 106.45 · >= 15 s 100
+  oynaklik: s_L temiz 0.0168 · 15 s SD (tum) 0.0292 · binom SD 0.0196
+    blok 15 s: SD 0.0292 · bagimsizsa 0.0292 · oran 1.00
+    blok 30 s: SD 0.0238 · bagimsizsa 0.0207 · oran 1.15
+    blok 60 s: SD 0.0189 · bagimsizsa 0.0146 · oran 1.29
+    blok 90 s: SD 0.0166 · bagimsizsa 0.0119 · oran 1.40
+    ozilinti (15/30/45 s): {'1': '+0.43', '2': '-0.00', '3': '+0.12'} · ilinti(PDR, RREQ yeniden yayini) -0.48
+    15 s PDR: 0.38 0.39 0.40 0.39 0.35 0.39 0.36 0.33 0.36 0.36 0.32 0.31 0.36 0.33 0.32 0.33 0.37 0.46
+    15 s RREQ yeniden yayini: 25925 25768 28082 26968 26625 27826 27933 28430 29549 29860 30507 30237 30828 28390 28643 31654 32228 27320
+tohum 1004 · 19188 s
+  satir: temiz 0.3892 · acik 0.3961 · sessiz 0.4241 · D +0.0349 (2 SE 0.0275) · M1 +0.0426 · p99 30.137 · sizinti 0.1808
+  gecikme: teslim 4339 · tampondan gecen 2630 · p50 1.395 · p90 13.766 · p99 30.182 · yol p99 4.961 · bekleyis p99 28.356
+  gecikme >= 15 s: 398 paket · tampondan 393 · bekleyis payi medyan 0.960
+  kesif: n 2595 · medyan 1.66 · p90 5.47 · p99 27.09 · en cok 127.02 · >= 15 s 84
+  oynaklik: s_L temiz 0.0237 · 15 s SD (tum) 0.0345 · binom SD 0.0200
+    blok 15 s: SD 0.0345 · bagimsizsa 0.0345 · oran 1.00
+    blok 30 s: SD 0.0203 · bagimsizsa 0.0244 · oran 0.83
+    blok 60 s: SD 0.0100 · bagimsizsa 0.0173 · oran 0.58
+    blok 90 s: SD 0.0094 · bagimsizsa 0.0141 · oran 0.67
+    ozilinti (15/30/45 s): {'1': '+0.04', '2': '-0.05', '3': '-0.18'} · ilinti(PDR, RREQ yeniden yayini) +0.16
+    15 s PDR: 0.40 0.41 0.39 0.37 0.42 0.37 0.36 0.38 0.45 0.36 0.39 0.37 0.44 0.39 0.38 0.41 0.43 0.52
+    15 s RREQ yeniden yayini: 29526 32587 29046 28490 29796 30272 31871 30295 28821 31624 29078 31135 29926 28073 27510 28845 31753 31875

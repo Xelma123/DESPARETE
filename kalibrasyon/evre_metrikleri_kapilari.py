@@ -357,6 +357,33 @@ CIZ_PROTOKOLLER: tuple[str, ...] = ("aodv", "olsrv2", "jarmrout",
                                     "desparete")
 CIZ_TOHUMLAR: tuple[int, ...] = (1003, 1004)
 
+# 🔒 K-239 · EVRE METRİKLERİ YORUMLANAMAYAN PROTOKOL (`v2/08` §08). G1ç'nin
+# kuralı D'si iki tohumda 2 SE dışında kalan protokolün M2'sini "yorumlanamaz
+# (ÖNCE referansı durağan değil)" diye yazar; G4ç'de `p99 ≥ açık süre` olan
+# protokolün evre atfı bulanıktır. Kayıtlı protokol o maddenin hükmünün
+# DIŞINDA kalır, satırı basılır ve etiketlenir; öteki maddeler onu saymaya
+# devam eder. Girme şartı U1'in açıklanmış hücreleriyle aynı: sebep ÖLÇÜLMÜŞ,
+# kusur izleri dışlanmış. Ölü kayıt: kayıtlı protokol o maddeyi artık
+# sağlıyorsa kapı KIRMIZI yanar (muafiyet kendi bayatlığını gizleyemez).
+# Koşumda ölçülmeyen protokolün kaydı ölü sayılmaz.
+EVRE_YORUMLANAMAZ: dict[str, dict[str, str]] = {
+    "jarmrout": {
+        "G1c": ("JarmRout-b · K-239: D iki tohumda 2 SE disinda, isaretler "
+                "zit (1003 -0,029 · 1004 +0,035); karistiricisiz kolda PDR "
+                "duragan degil: 1003'te kosu boyunca dusus (-0,032/100 s, "
+                "RREQ yeniden yayini %20 artiyor), iki tohumda pencere sonu "
+                "bosalmasi (trafik 320 s'de durunca sel soner, son 5 s'de "
+                "doganlarin PDR'si 0,53 · 0,59; son sessiz donem bu bolgede). "
+                "arsiv/teshis/faz4b_kapi_teshis_2026-10-13/"),
+        "G4c": ("JarmRout-b · K-239: p99 28,0 · 29,7 s > acik sure 15 s, "
+                "sizinti 0,18 · 0,22; gecikme kuyrugu rota bekleyisi: 15 s "
+                "ustu teslimlerin %98,7-100'u rota tamponundan, bekleyis payi "
+                "medyani 0,96, yolun p99'u 4,1-5,0 s; kesif selin altinda "
+                "uzar (p99 26-27 s), ortak tamponun omru 30 s (K-238). "
+                "arsiv/teshis/faz4b_kapi_teshis_2026-10-13/"),
+    },
+}
+
 
 def _d_se(e: Evreler, temiz: float, n_t: int, sessiz: float,
           n_s: int) -> float:
@@ -449,28 +476,44 @@ def g1c_bos_kol_cizelge(isci: int = 8) -> bool:
              for t in CIZ_TOHUMLAR]
     with Pool(min(isci, len(isler))) as havuz:
         sonuc = havuz.map(_ciz_is, isler, chunksize=1)
+    hepsi = _g1c_hukum(sonuc)
+    import json
+    print("  KAYIT " + json.dumps(sonuc, ensure_ascii=False))
+    return hepsi
+
+
+def _g1c_hukum(sonuc: list[dict]) -> bool:
+    """G1ç'nin hükmü — koşum da `hukum` kipi de buradan geçer."""
     _ciz_tablo(sonuc)
+    protokoller = list(dict.fromkeys(r["protokol"] for r in sonuc))
+    muaf = {p for p, m in EVRE_YORUMLANAMAZ.items() if "G1c" in m}
     tespit = sum(r["tespit"] is not None for r in sonuc)
     disinda = 0
-    yorumlanamaz = []
-    for p in CIZ_PROTOKOLLER:
+    yorumlanamaz, kayitli, olu = [], [], []
+    for p in protokoller:
         rr = [r for r in sonuc if r["protokol"] == p]
         ort = ist.mean(r["sok"] for r in rr)
         se = ist.mean(r["sok_se"] for r in rr) / len(rr) ** 0.5
         disinda += abs(ort) > 2.0 * se
         if all(r["d"] is not None and abs(r["d"]) > 2.0 * r["d_se"]
                for r in rr):
-            yorumlanamaz.append(p)
+            (kayitli if p in muaf else yorumlanamaz).append(p)
+        elif p in muaf:
+            olu.append(p)
         print(f"  KOL {p:>10}: M1 ort {ort:+.4f} · 2 SE {2 * se:.4f} · "
               f"D {[round(r['d'], 4) for r in rr]}")
     n = len(sonuc)
     print(f"\n  M4 yanlis tespit : {tespit}/{n}")
-    print(f"  M1 2 SE disinda  : {disinda}/{len(CIZ_PROTOKOLLER)}")
+    print(f"  M1 2 SE disinda  : {disinda}/{len(protokoller)}")
     print(f"  D iki tohumda disarida (M2 yorumlanamaz): {yorumlanamaz or 'yok'}")
-    hepsi = tespit <= 1 and disinda <= 1 and not yorumlanamaz
+    for p in kayitli:
+        print(f"  🟡 D disarida, KAYITLI (EVRE_YORUMLANAMAZ): {p} — "
+              f"{EVRE_YORUMLANAMAZ[p]['G1c']}")
+    if olu:
+        print(f"  🔴 OLU KAYIT — D artik iki tohumda disarida degil, kayit "
+              f"silinmeli: {olu}")
+    hepsi = tespit <= 1 and disinda <= 1 and not yorumlanamaz and not olu
     print(f"\n  G1c : {'GECTI' if hepsi else 'KALDI'}")
-    import json
-    print("  KAYIT " + json.dumps(sonuc, ensure_ascii=False))
     return hepsi
 
 
@@ -539,6 +582,14 @@ def g2c_kahin_ve_bulaniklik(isci: int = 8) -> bool:
               for t in CIZ_TOHUMLAR]
     with Pool(min(isci, len(isler))) as havuz:
         hepsi_ = havuz.map(_ciz_is, isler, chunksize=1)
+    hepsi = _g2c_hukum(hepsi_)
+    import json
+    print("  KAYIT " + json.dumps(hepsi_, ensure_ascii=False))
+    return hepsi
+
+
+def _g2c_hukum(hepsi_: list[dict]) -> bool:
+    """G2ç + G4ç'nin hükmü — koşum da `hukum` kipi de buradan geçer."""
     sonuc = [r for r in hepsi_ if r["senaryo"] == "formasyon-surekli"]
     bos = {r["tohum"]: r for r in hepsi_ if r["senaryo"] == "formasyon-yok"}
     _ciz_tablo(sonuc)
@@ -556,19 +607,51 @@ def g2c_kahin_ve_bulaniklik(isci: int = 8) -> bool:
         temiz_doner &= abs(fark) <= 2.0 * se_f
         print(f"  G2c kahin {r['tohum']}: D {r['d']:+.4f} · bos D {b['d']:+.4f}"
               f" · fark {fark:+.4f} · 2 SE {2 * se_f:.4f}")
-    g4 = all(r["bulaniklik_evre"] is not None and r["bulaniklik_evre"] < 1.0
-             for r in sonuc)
+    def net(r: dict) -> bool:
+        return (r["bulaniklik_evre"] is not None
+                and r["bulaniklik_evre"] < 1.0)
+
+    muaf = {p for p, m in EVRE_YORUMLANAMAZ.items() if "G4c" in m}
+    disarida = sorted({r["protokol"] for r in sonuc if not net(r)})
+    kayitli = [p for p in disarida if p in muaf]
+    g4 = not [p for p in disarida if p not in muaf]
+    olculen = {r["protokol"] for r in sonuc}
+    olu = sorted(p for p in muaf & olculen
+                 if all(net(r) for r in sonuc if r["protokol"] == p))
     bulanik = sorted({r["protokol"] for r in sonuc
                       if r["p99_s"] is not None and r["p99_s"] >= 1.0})
     print(f"\n  G2c kahin M1 ort {ort:+.4f} · 2 SE {2 * se:.4f} · etkili "
           f"{'EVET' if etkili else 'HAYIR'} · D 2 SE icinde "
           f"{'EVET' if temiz_doner else 'HAYIR'}")
-    print(f"  G4c p99 < acik sure (hepsi): {'EVET' if g4 else 'HAYIR'} · "
+    print(f"  G4c p99 < acik sure (kayitlilar haric): "
+          f"{'EVET' if g4 else 'HAYIR'} · disarida: {disarida or 'yok'} · "
           f"1 s profili bulanik: {bulanik or 'yok'}")
-    hepsi = etkili and temiz_doner and g4
+    for p in kayitli:
+        print(f"  🟡 p99 >= acik sure, KAYITLI (EVRE_YORUMLANAMAZ): {p} — "
+              f"{EVRE_YORUMLANAMAZ[p]['G4c']}")
+    if olu:
+        print(f"  🔴 OLU KAYIT — p99 artik acik sureden kisa, kayit "
+              f"silinmeli: {olu}")
+    hepsi = etkili and temiz_doner and g4 and not olu
     print(f"\n  G2c + G4c : {'GECTI' if hepsi else 'KALDI'}")
+    return hepsi
+
+
+def hukum(yollar: list[str]) -> bool:
+    """Kayıtlı çizelgeli kapı çıktılarına (`KAYIT` satırı) BUGÜNKÜ hükmü
+    uygular — ölçmez. Simülasyon deterministik: kayıt listesi ya da kural
+    değişince saatlik koşu tekrarlanmaz (`aodv_uygunluk.py hukum` emsali).
+    Kapı kayıttan anlaşılır: birincil hücre satırı varsa G2ç + G4ç."""
     import json
-    print("  KAYIT " + json.dumps(hepsi_, ensure_ascii=False))
+    hepsi = True
+    for yol in yollar:
+        satir = next(s for s in Path(yol).read_text(encoding="utf-8")
+                     .splitlines() if s.startswith("  KAYIT "))
+        kayit = json.loads(satir[len("  KAYIT "):])
+        g2 = any(r["senaryo"] == "formasyon-surekli" for r in kayit)
+        _baslik(f"HUKUM KIPI (olcmez) — {'G2c + G4c' if g2 else 'G1c'} · "
+                f"{yol}")
+        hepsi &= _g2c_hukum(kayit) if g2 else _g1c_hukum(kayit)
     return hepsi
 
 
@@ -578,6 +661,12 @@ if __name__ == "__main__":
                "1c": g1c_bos_kol_cizelge, "2c": g2c_kahin_ve_bulaniklik,
                "3c": g3c_izgara_fazi_cizelge}
     # Çizelgeli kapılar (1c, 2c; ~3 sa) yalnız adıyla çağrılır.
+    # `hukum <cikti.txt> ...` kayıtlı çizelgeli kapı çıktısını yeniden hükmeder.
+    if sys.argv[1:2] == ["hukum"]:
+        if not hukum(sys.argv[2:]):
+            raise SystemExit("🔴 EVRE METRIKLERI KAPISI KALDI — yukarisi "
+                             "okunmali")
+        raise SystemExit(0)
     secim = sys.argv[1:] or ["1", "1p", "2", "3", "4"]
     bilinmeyen = [s for s in secim if s not in KAPILAR]
     if bilinmeyen:
