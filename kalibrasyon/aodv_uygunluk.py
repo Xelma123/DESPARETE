@@ -3,17 +3,17 @@ U1 — AODV'nin teslim oranı kâhin referansına YAKIN mı? (`v2/06` §4.3)
 
 Üretici:
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py
-    PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py --protokol olsr
+    PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py --protokol olsrv2
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py --protokol desparete
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py --dunya referans_2026 \
-        --desen yere_toplama --protokol aodv,olsr,aomdv,desparete
+        --desen yere_toplama --protokol aodv,olsrv2,jarmrout,desparete
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py duman
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py hukum [kayit]
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py u3
 
 🔒 BÜTÜN TABAN PROTOKOLLERİN U1 KAPISI — adı TARİHSELDİR (19 Eylül 2026)
 Eşikler üç taban protokolü birden bağlar (K-136); dolayısıyla hüküm kodu TEK
-kalmalı — OLSR için ikinci bir alet yazmak, iki hükmün bir gün ayrışması
+kalmalı — her protokol için ayrı bir alet yazmak, iki hükmün bir gün ayrışması
 demek olurdu. Protokol bir argümandır; açıklanmış düşük hücre listesi
 protokol başınadır. Dosya adı AODV ilk protokol olduğu için böyle kaldı:
 adı değiştirmek köken defterindeki ve belgelerdeki atıfları kırardı.
@@ -69,7 +69,7 @@ seçti. Bu gizlenmiyor; üç hafifletici sebeple birlikte yazılıyor:
      *"geçilmeden protokol kabul edilmez"* diye tanımlar; hiçbir sonuç
      iddiası bu eşiğe dayanmıyor ve dayanmayacak.
   2. Eşik **üç taban protokolü de** bağlayacak. AODV'ye göre ayarlanmış
-     olması OLSR ve AOMDV'ye bir avantaj sağlamaz — tersine, AODV'nin
+     olması öteki taban protokollere bir avantaj sağlamaz — tersine, AODV'nin
      bugünkü değerine yakın bir eşik onlar için DAHA sıkıdır.
   3. Seçenekler, hangisinin bugün geçtiği açıkça yazılarak sunuldu.
 
@@ -78,8 +78,8 @@ seçti. Bu gizlenmiyor; üç hafifletici sebeple birlikte yazılıyor:
 (`50 · 320 · 350`). Aynı koşu tam pencerede 0,9875 değil **0,9777** verdi —
 yön aşağı. Eşik buna rağmen DEĞİŞTİRİLMEDİ: sonuç görüldükten sonra bir
 ölçütü gevşetmek de sıkmak da aynı hatadır (`03` §2.1). Tam pencerede ölçülen
-değerler aşağıda basılıyor; OLSR ve AOMDV yazıldığında eşik onların da
-karşısında sınanacak ve gerekirse KARAR YENİDEN ALINIP kayda geçirilecek.
+değerler aşağıda basılıyor. Eşik sonradan her taban protokolün karşısında
+sınandı ve değiştirilmedi (Faz 4: K-224 · Faz 4b: K-238, K-239).
 
 🔴 KAPI İKİ PARÇADIR (17 Eylül 2026, K-137 · öğrenci kararı "A")
 ================================================================

@@ -5,7 +5,7 @@ KAYIP ANATOMİSİ — Faz 5.0 (`v2/12`, plan) · K-189 · genişletme K-193.
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/kayip_anatomisi.py \
         --dunya referans_2026 [--kol formasyon] [--aile derin_sizma] \
         [--sinif surekli|yok] \
-        [--protokoller aodv,olsr,aomdv,desparete,en_guvenilir_kahin] \
+        [--protokoller aodv,olsrv2,jarmrout,desparete,en_guvenilir_kahin] \
         [--tohumlar 1003,1004,1005] [--kisa] [--isci 8] [--kayit <yol.json>]
 
     Kol başına konfig farkı (K-198): `aodv@rota_tamponu_kapasitesi=256`,
@@ -978,7 +978,7 @@ def main() -> int:
     sinif = _arg(argv, "--sinif", "surekli")
     dogrula(sinif in ("surekli", "yok"), f"sinif surekli|yok: {sinif!r}")
     protokoller = _arg(argv, "--protokoller",
-                       "aodv,olsr,aomdv,desparete,en_guvenilir_kahin"
+                       "aodv,olsrv2,jarmrout,desparete,en_guvenilir_kahin"
                        ).split(",")
     tohumlar = [int(t) for t in _arg(argv, "--tohumlar",
                                      "1003,1004,1005").split(",")]

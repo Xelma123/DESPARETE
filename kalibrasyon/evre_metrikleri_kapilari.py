@@ -127,6 +127,9 @@ def g1_bos_kol() -> bool:
 # ==========================================================================
 # G1-P · BOŞ KOL, GERÇEK PROTOKOLLER (K-196)
 # ==========================================================================
+# K-196'nın ölçtüğü küme — Faz 4'ün rakipleri; kaydedilen sonuç (`v2/08`
+# §05) bu kümeyle. K-229'dan beri OLSR ve AOMDV rakip değil; G1-P yeni rakip
+# kümesiyle koşulmadı (`v2/12` §1.1). Küme değişirse kapı yeniden koşulur.
 G1P_PROTOKOLLER: tuple[str, ...] = ("aodv", "olsr", "aomdv", "desparete")
 G1P_TOHUMLAR: tuple[int, ...] = (1000, 1001)
 

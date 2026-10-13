@@ -177,15 +177,15 @@ def test_HUCRE_aile2_tablosu_HUKUM_ve_HOLM():
         return [_satir(t, taban + egim * ((t * 7) % 5) / 100.0)
                 for t in tohumlar]
     ozgun = kol(0.80, 1.0)
-    rakip = {"aodv": kol(0.70, 1.0), "olsr": kol(0.72, 1.0),
-             "aomdv": kol(0.69, 1.0)}
+    rakip = {"aodv": kol(0.70, 1.0), "olsrv2": kol(0.72, 1.0),
+             "jarmrout": kol(0.69, 1.0)}
     gelistirme = {ad: [_satir(t, 0.70 + ((t * 3 + i) % 4) / 100.0)
                        for t in range(1100, 1120)]
-                  for i, ad in enumerate(("aodv", "olsr", "aomdv"))}
+                  for i, ad in enumerate(("aodv", "olsrv2", "jarmrout"))}
     delta = delta_gelistirme(gelistirme, "metrikler.pdr_pencere", 40)
     assert 0.0 < delta < 0.05
     tablo = aile2_tablosu(ozgun, rakip, "metrikler.pdr_pencere", delta, True)
-    assert [s.rakip for s in tablo] == ["aodv", "aomdv", "olsr"]
+    assert [s.rakip for s in tablo] == ["aodv", "jarmrout", "olsrv2"]
     assert all(s.hukum == "ustun" and s.p_holm >= s.p for s in tablo)
     kapisiz = aile2_tablosu(ozgun, rakip, "metrikler.pdr_pencere", delta,
                             False)

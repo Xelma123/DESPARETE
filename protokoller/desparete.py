@@ -3,7 +3,7 @@ DESPARETE — öğrencinin protokolü; simülatöre bağlanan sınıf.
 
 Bugünkü hâl **v0.4.1** = `PROFIL_V02` + `SECENEK_V041` (`desparete_bayrak.py`,
 K-172). Bağlayıcı olan bu kod; tasarımın ilk taslağı
-`protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/` (tek okuma `36`). Sürümler:
+`arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/` (tek okuma `36`). Sürümler:
 v0.1 tasarım paketi (bütün bayraklar açık) · v0.2 yalın profil (K-161) ·
 v0.3 + V1 · V5 · V7 (K-164) · v0.4 + V8 · V10 (K-167) · v0.4.1 + V11 komut
 geri izi (K-172).

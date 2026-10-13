@@ -171,8 +171,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-238 | 🟡 JarmRout'UN RREQ SELİ — makaleye birebir sadık, çöküş protokolün kuralından · harfiyen | 🟢 geçerli |
 | K-239 | 🟢 FAZ 4b'NİN RAKİPLERİ DONDU — JarmRout-b · OLSRv2-b · kopya kuralı sağlandı · JarmRout' | 🟢 geçerli |
 | K-240 | 🟢 BELGE TEMİZLİĞİ (Faz 4b adım 4, belge kısmı) — belgeler bilgi düzeyinde ve güncel · Ja | 🟢 geçerli |
+| K-241 | 🟢 KOD TEMİZLİĞİ (Faz 4b adım 4, kod kısmı) — eski rakip kalıntıları, araç varsayılanları | 🟢 geçerli |
 
-**151 kayıt · 9 revize · 142 geçerli**
+**152 kayıt · 9 revize · 143 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1916,3 +1917,25 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **DEVIR-PROMPT** (yerel): sayılar ve komutlar güncellendi; doğrulama ilkesi başa alındı (hiçbir belge ya da özet doğrulanmadan kesin kabul edilmez).
 - **Sonraki iş:** kod yorumları ve araçlardaki eski rakip kalıntıları (`12` §1.1 adım 4'ün kod kısmı).
 - Güncellenen: README · `v2/README` · `01`–`09` · `12`–`16` · `protokol_kaynaklari/README.md`.
+# K-241 · 🟢 KOD TEMİZLİĞİ (Faz 4b adım 4, kod kısmı) — eski rakip kalıntıları, araç varsayılanları, tasarım paketi yolu · davranış aynı · iki not derin denetime
+> 13 Ekim · yürütücü ("ilk önce kod temizliğini yap") · Faz 4b'nin 4. adımı kapandı
+
+- **Değişenler** (yalnız yorum, docstring ve iki etiket):
+  - `sim2/gozlem/protokol.py` · `sim2/kanal/cerceve.py`: veri başlığı ve kontrol kapsüllemesi yorumları yeni rakiplere göre (OLSRv2, JarmRout).
+  - `protokoller/desparete*.py` (7 dosya): tasarım paketi yolu `arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/`.
+  - `kalibrasyon/aodv_uygunluk.py`: kullanım örnekleri ve eşiğin gerekçesindeki eski rakip anlatısı.
+  - `kalibrasyon/evre_metrikleri_kapilari.py`: `G1P_PROTOKOLLER`in K-196'nın ölçtüğü Faz 4 kümesi olduğu yazıldı. Küme değişmedi; değişirse kapı yeniden koşulur.
+  - `kalibrasyon/regresyon_satirlari.py`: OLSR ve AOMDV vakalarının Faz 4'ün kaydı olduğu yazıldı.
+  - `kalibrasyon/kayip_anatomisi.py`: varsayılan protokol listesi `aodv,olsr,aomdv,…` → `aodv,olsrv2,jarmrout,…` (aracın davranış değişikliği; kayıtlı koşular listeyi açıkça verdiği için etkilenmez).
+  - `tests2/test_analiz.py`: sentetik tablonun etiketleri yeni rakip adlarıyla.
+- **Davranış aynı:** değişen 13 simülatör, protokol ve araç dosyasının sözdizim ağacı (yorum ve docstring hariç) HEAD'le birebir. `kayip_anatomisi` yalnız varsayılan dizgide, `test_analiz` yalnız etiketlerde farklı. Regresyon gerekmez; bir sonraki karşılaştırmada kod özetleri beklenen farktır.
+- **Bilerek kalanlar:**
+  - donmuş protokol dosyalarının yorumları (`aodv.py`, `olsrv2*.py`, `kosum_kosumu.py`; donma özeti değişmesin diye; içerikleri doğru);
+  - OLSR ve AOMDV'nin modülleri, testleri, regresyon vakaları ve U1 kayıtları (Faz 4'ün kaydı);
+  - köken gerekçelerindeki eski ölçümler (tarihsel ölçüm kaydı);
+  - Θ_OLSR adı (RFC 3626 `TOP_HOLD_TIME`'a çapalı tanım).
+- **Derin denetime iki not** (`12` §1.1):
+  - G1-P (statik boş kol) yeni rakip kümesiyle koşulmadı; G1ç koşuldu (K-239).
+  - Bütün kontrol mesajları UDP/IP ile faturalanıyor. Gerçek DSR (RFC 4728 §6.1) UDP değil IP seçenek başlığı kullanır; JarmRout'un mesajları başına 8 B fazla.
+- **Doğrulama:** ilgili testler 55/55 · tam takım `1059 passed` (15 dk 22 s) · mimari denetimi ihlalsiz.
+- Güncellenen: `12` §1.1.

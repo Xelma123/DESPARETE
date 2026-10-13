@@ -233,5 +233,6 @@ class DuyanProtokol(Protokol, Protocol):
 # 🔒 VERİ BAŞLIĞI — Y2, 22 Eylül 2026 (K-151). Protokol sınıfı isteğe bağlı
 # `veri_baslik_bayt: int` özniteliğiyle her veri paketine eklediği yönlendirme
 # başlığının boyunu bildirir (yoksa 0). Simülatör veri çerçevesini o kadar
-# uzatır ve baytı yönlendirme ek yüküne sayar. AODV, OLSR ve AOMDV veri
-# paketine ayrı bir yönlendirme başlığı eklemez: 0.
+# uzatır ve baytı yönlendirme ek yüküne sayar. AODV ve OLSRv2 (Faz 4'ün
+# OLSR ve AOMDV'si de) veri paketine ayrı bir yönlendirme başlığı eklemez: 0;
+# JarmRout DSR kaynak rotası başlığını bildirir (K-232).

@@ -1,7 +1,7 @@
 """
 DESPARETE · alan, uygulanabilirlik ve ardıl — saf, zamanı dışarıdan alan tablo.
 
-Kaynak: `protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/` — `13` (potansiyel ve
+Kaynak: `arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/` — `13` (potansiyel ve
 döngüsüzlük) · `14` (tazelik) · `22` §5 (alan makinesi) · `23` §4 (algoritma)
 · `21` §2.2 (sayılar). Kararlar: `v2/04` K-150 · K-152 · K-155.
 

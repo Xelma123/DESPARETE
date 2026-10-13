@@ -1,7 +1,7 @@
 """
 DESPARETE · komşu yaşam döngüsü — saf, zamanı dışarıdan alan durum makinesi.
 
-Kaynak: `protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/` — `10` (model) ·
+Kaynak: `arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/` — `10` (model) ·
 `20` §5 (zamanlayıcılar) · `21` §2.1 (sayılar) · `22` §4 (geçişler) · `23` §3
 (algoritma). Kararlar: `v2/04` K-150 · K-152 · K-154.
 

@@ -2,7 +2,7 @@
 DESPARETE · alan başına politika postürü — saf, zamanı dışarıdan alan durum
 makinesi.
 
-Kaynak: `protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/` — `15` (model) ·
+Kaynak: `arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/` — `15` (model) ·
 `22` §7 (geçişler) · `35` §5 (M0.1 yüklemleri) · `21` §2.5 (süreler).
 Kararlar: `v2/04` K-150 §4 · K-158.
 

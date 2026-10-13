@@ -130,6 +130,8 @@ KOD_KIMLIGI = ("kimlik.arac_hash", "kimlik.kosu_kimligi",
 # yalnız ESKİ dünyada (`k-`) sınanıyordu. Kimlik → (senaryo, protokol, tohum,
 # `referans_2026`e ek alanlar). Hepsi kısa pencere; tohum 1003 birincil
 # hücrenin geliştirme tohumu (K-200), öteki vakalarda 1010.
+# OLSR ve AOMDV vakaları Faz 4'ün rakipleridir (K-229'dan beri rakip değil);
+# donmuş kodlarının regresyonu için matriste kalır.
 _BIRINCIL = {"tehdit_senaryosu": "derin_sizma", "trafik_deseni": "yere_toplama"}
 _YT = {"trafik_deseni": "yere_toplama"}
 REFERANS_VAKALARI: dict[str, tuple[str, str, int, dict]] = {

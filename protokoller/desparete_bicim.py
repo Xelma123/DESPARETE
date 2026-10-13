@@ -1,7 +1,7 @@
 """
 DESPARETE mesaj biçimleri — tel biçiminin alan düzeni. TEK KAYNAK.
 
-Kaynak: `protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/19_DESPARETE_WIRE_FORMAT_TLV.md`
+Kaynak: `arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/19_DESPARETE_WIRE_FORMAT_TLV.md`
 §2–§11 · §14. Kararlar: `v2/04` K-150 · K-152.
 
 🔒 BOYUT ALANLARDAN TÜRER — PROTOKOL BİR BAYT YAZAMAZ

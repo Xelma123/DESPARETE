@@ -1,7 +1,7 @@
 """
 DESPARETE · edinim ve onarım denetçisi — saf, zamanı dışarıdan alan makine.
 
-Kaynak: `protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/` — `22` §6 (makine) ·
+Kaynak: `arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/` — `22` §6 (makine) ·
 `23` §5.1 (algoritma) · `21` §2.3 (sayılar) · `18` §5–§6 (mesajlar).
 Kararlar: `v2/04` K-150 · K-152 · K-156.
 

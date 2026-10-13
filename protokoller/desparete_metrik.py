@@ -1,7 +1,7 @@
 """
 DESPARETE · M0.1 metrik profili — bağ kalitesi, risk ve maliyet. TEK KAYNAK.
 
-Kaynak: `protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/35_DESPARETE_METRIC_PROFILE_M0.md`
+Kaynak: `arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/35_DESPARETE_METRIC_PROFILE_M0.md`
 §3–§4 (kurallar) ve §8 (test vektörleri). Kararlar: `v2/04` K-150 · K-152.
 
 🔒 NEDEN AYRI VE SAF

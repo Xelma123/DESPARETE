@@ -47,8 +47,11 @@ _VERI_DUZLEMI: frozenset[str] = frozenset({"veri"})
 # 🔒 KONTROL MESAJI KAPSÜLLEMESİ — TEK KAYNAK (K-112, sözleşme kararı 1).
 # Yönlendirme mesajının kendi boyutu RFC alanlarından türer
 # (`gozlem/kontrol.py::MesajBicimi`); onu havaya taşıyan yığının başlıkları
-# YALNIZ burada yazılır. AODV (RFC 3561 §3: UDP 654) ve OLSR (RFC 3626 §3.1:
-# UDP 698) ikisi de UDP/IP üzerinden koşar.
+# YALNIZ burada yazılır. AODV (RFC 3561 §3: UDP 654), OLSR (RFC 3626 §3.1:
+# UDP 698) ve OLSRv2 (RFC 7181; RFC 5498'in MANET portu) UDP/IP üzerinden
+# koşar. DSR ailesi (RFC 4728 §6.1; JarmRout) gerçekte UDP değil IP seçenek
+# başlığı kullanır; burada bütün protokollerin kontrol mesajı aynı yığınla
+# faturalanır (DSR'de fark mesaj başına UDP'nin 8 B'ı).
 #
 # ⚠️ BEYAN EDİLEN ASİMETRİ: `veri` (`paket_bayt`), `onay` ve `beacon`
 # boyutları bugün Konfig'te TOPLAM çerçeve olarak duruyor ve bu tabloyu
