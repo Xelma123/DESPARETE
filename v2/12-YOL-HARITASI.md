@@ -7,10 +7,10 @@
 | | |
 |---|---|
 | **faz** | **4b · yeni rakipler** (K-229, K-230) — Faz 5 durdu (5.0 ✓ K-228); bağımsız tam denetim (14 Ekim, K-242) bitti, kararları uygulanıyor; sıradaki iş §1.1. Faz 4 kapandı (K-221) |
-| simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu süreleri §3'te. Yer–hava görüş hattının kalıcı olması Faz 5'ten önce (K-242) |
-| taban protokoller | **AODV · OLSRv2 · Babel (K-242).** `OLSRv2-b` donmuş (K-239). AODV'nin üç sapması düzeltilir, yeni sürüm donar; Babel (RFC 8966) gerçeklenir. JarmRout rakiplikten çıktı; kodu ve kayıtları Faz 4b'nin kaydı |
+| simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu süreleri §3'te. Yer–hava görüş hattı kalıcı (K-243) |
+| taban protokoller | **AODV · OLSRv2 · Babel (K-242).** `OLSRv2-b` donmuş (K-239). AODV'nin üç sapması düzeltildi, `AODV-k` kodda (K-243), U1 ve donma bekliyor; Babel (RFC 8966) gerçekleniyor. JarmRout rakiplikten çıktı; kodu ve kayıtları Faz 4b'nin kaydı |
 | DESPARETE | v0.4.1, taslak; Faz 5'te yürütücünün tasarım kararlarıyla geliştirilir. Birincil hücrede `PDR_açık` 0,551 (AODV 0,444, kâhin 0,780; 1003–1006, K-228); OLSRv2'yle iki tohumda başa baş, karıştırıcısız ikizde OLSRv2'nin gerisinde (G2ç · G1ç, `04` §6) |
-| doğrulama | `1059 passed` (13 Ekim, K-239) · mimari denetimi ihlalsiz · regresyon tabanı **`k236`** (K-237; 85 vaka, yeni rakipler dâhil) · R = **0,0126** (K-224, 7 deneme) · köken sayımı `04` §9 |
+| doğrulama | `1067 passed` · 1 beklenen başarısız (`test_donma`: AODV dosyaları değişti, `AODV-k`'nin U1'inden sonra yeniden bağlanır) (14 Ekim, K-243) · mimari denetimi ihlalsiz · regresyon tabanı **`k243`** (K-243; 85 vaka) · R = **0,0126** (K-224, 7 deneme) · köken sayımı `04` §9 |
 | arkada koşan | yok |
 | takvim | mühür ~20 Kasım · proje hedefi 19 Aralık 2026 · resmî son başvuru 4 Ocak 2027, 17:30 (TÜBİTAK 2204-A sayfası; aradaki süre tampon, K-242) |
 
@@ -26,13 +26,13 @@
    Derin denetime iki not: (a) G1-P (statik boş kol) yeni rakip kümesiyle koşulmadı; G1ç koşuldu · (b) bütün kontrol mesajları UDP/IP ile faturalanıyor; gerçek DSR (JarmRout) UDP kullanmaz, mesaj başına 8 B fazla (`sim2/kanal/cerceve.py`).
 5. ✓ **Bağımsız tam denetim** (13–14 Ekim; `arsiv/denetim/DENETIM-RAPORU-2026-10-14.md`): KRİTİK yok, 16 ÖNEMLİ. Kararlar K-242.
 6. **Denetimin Faz 5'ten önceki işleri** (K-242; bulgu numaraları rapordan):
-   a. kapı sertleştirmeleri: sızdırmazlık taraması (DD-05) · `KontrolIstegi` bedel denetimi (DD-06) · U1-B'nin kayıtlı orana bağlanması (DD-07) · fark-içinde-farkın eşleşme denetimi ve tamsayı hesabı (DD-08) · mimari denetiminde köken eksiğinin bulgu ve çıkış kodu olması (DD-19);
-   b. kayıp anatomisinin açlık tanımı protokolünkiyle aynı (DD-11);
-   c. gecikme tavanlı `PDR_açık`: hesap ve eşiklerin kaynağı (DD-03);
-   d. yer–hava görüş hattının kalıcı olması (DD-01) · AODV'nin yeni sürümü (DD-04) → tek regresyon, ölçütü önce;
+   a. ✓ kapı sertleştirmeleri: sızdırmazlık taraması (DD-05) · `KontrolIstegi` bedel denetimi (DD-06) · U1-B'nin kayıtlı orana bağlanması (DD-07) · fark-içinde-farkın eşleşme denetimi ve tamsayı hesabı (DD-08) · mimari denetiminde köken eksiğinin bulgu ve çıkış kodu olması (DD-19) (K-243);
+   b. ✓ kayıp anatomisinin açlık tanımı protokolünkiyle aynı (DD-11) (K-243);
+   c. gecikme tavanlı `PDR_açık`: hesap ✓ (K-243) · eşiklerin kaynağı bekliyor (DD-03);
+   d. ✓ yer–hava görüş hattının kalıcı olması (DD-01) · `AODV-k` (DD-04) → regresyon k243 (K-243; 66/67 birebir, ilan edilmemiş tek vaka DD-01'in yolu, eski modelle birebir doğrulandı);
    e. Babel: kod · kural kural sadakat denetimi · regresyon vakaları;
    f. U1 (AODV'nin yeni sürümü ve Babel, iki desen) · evre kapıları (G1ç, G2ç) ve G1-P yeni rakip kümesiyle → donma · tam takım;
-   g. belge düzeltmeleri (DD-02 · 12 · 13 · 17 · 18) ve JarmRout'un çıkışının temizliği.
+   g. belge düzeltmeleri (DD-02 · 12 · 13 · 17 · 18; `sim2/kanal/tehdit.py`'nin tablosu `tekli_merkez`i "sabit yer" diye anıyor, nesne orta irtifada, K-243) ve JarmRout'un çıkışının temizliği.
 7. Faz 5'e dönüş (§1.2).
 
 ### 1.2 · Faz 5 — durdu (K-229); dönüşteki plan

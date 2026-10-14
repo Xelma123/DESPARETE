@@ -1,0 +1,121 @@
+REGRESYON KARSILASTIRMASI — k236 (85 satir) ↔ k243 (85 satir)
+  (ilan edilmis degisen vaka) k-statik-surekli-aodv · 178 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) k-statik-surekli-aomdv · 175 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) r-referans-statik-surekli-aodv · 158 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) t-statik-surekli-aodv-dugum_kaybi · 193 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-aodv · 207 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-aomdv · 204 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-desparete · 221 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-en_guvenilir_kahin · 119 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-evre-en_guvenilir_kahin · 124 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-jarmrout · 208 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-olsr · 183 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-olsrv2 · 187 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-gorev-surekli-aomdv-esler_arasi · 170 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-aldatici-aodv · 181 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-reaktif-aodv · 204 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-surekli-aodv-cephe_hatti · 195 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-surekli_darbeli-aodv · 202 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-taramali-aodv · 197 alan farkli · gecerli=True
+
+  bulgusuz vaka : 66/67 (+18 ilan edilmis degisen)
+  (beklenen) kimlik.arac_hash                                 67 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           67 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              67 vakada farkli
+  (beklenen) kimlik.protokol_hash                             67 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         67 vakada farkli
+  (izinli)   kimlik.kurulum_hash                              67 vakada farkli
+  (izinli)   konfig.a2g_durum_dilimi_s                        67 vakada farkli
+  (izinli)   teshis.koken_kovalari.OLCULMUS                   67 vakada farkli
+  🔴 BULGU   ham.teslim_akis_kimlikleri                       1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   ham.teslim_dogum_s                               1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   ham.teslim_gecikmeleri_s                         1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   ham.teslim_kimlikleri                            1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   korunum.dusen.hedef_yok                          1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   korunum.dusen.iletim_basarisiz                   1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   korunum.dusen_toplam                             1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   korunum.enerji_alim_s                            1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   korunum.enerji_dinleme_s                         1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   korunum.enerji_gonderim_s                        1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   korunum.iletim_sonucu_toplam                     1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   korunum.mac_deneme                               1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   korunum.teslim                                   1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.alim_basarili                          1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.alim_basarili_pencere                  1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.alim_red_mesgul                        1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.alim_red_mesgul_pencere                1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.alim_red_onbelge                       1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.alim_red_onbelge_pencere               1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.alim_red_per                           1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.alim_red_per_pencere                   1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.alim_red_yari_cift                     1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.alim_red_yari_cift_pencere             1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.beacon_alinan                          1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.beacon_alinan_pencere                  1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.beacon_gonderilen                      1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.beacon_gonderilen_pencere              1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.enerji_dugum_maks_j                    1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.enerji_dugum_p50_j                     1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.enerji_dugum_p95_j                     1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.enerji_toplam_j                        1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.gecikme_ort_s                          1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.gecikme_ort_s_pencere                  1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.gecikme_p50_s                          1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.gecikme_p50_s_pencere                  1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.gecikme_p95_s                          1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.gecikme_p95_s_pencere                  1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.gecikme_p99_s                          1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.gecikme_p99_s_pencere                  1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.gorev_teslim_orani                     1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.gorev_teslim_orani_pencere             1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.hedef_yok                              1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.hedef_yok_pencere                      1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.ipdv_ort_s                             1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.ipdv_ort_s_pencere                     1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.ipdv_p95_s                             1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.ipdv_p95_s_pencere                     1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.islenen_olay                           1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.kontrol_airtime_s                      1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.kontrol_airtime_s_pencere              1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.kontrol_bayt                           1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.kontrol_bayt_pencere                   1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.kontrol_cerceve                        1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.kontrol_cerceve_pencere                1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.mac_basari_orani                       1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.mac_basari_orani_pencere               1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.mac_deneme                             1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.mac_deneme_pencere                     1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.mac_gonderim_basarili                  1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.mac_gonderim_basarili_pencere          1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.mac_gonderim_istegi                    1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.mac_gonderim_istegi_pencere            1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.mac_onaysiz_onay                       1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.mac_onaysiz_onay_pencere               1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.mac_onaysiz_veri                       1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.mac_onaysiz_veri_pencere               1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.mac_vazgecme                           1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.mac_vazgecme_pencere                   1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.nrl_airtime                            1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.nrl_airtime_pencere                    1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.nrl_bayt                               1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.nrl_bayt_pencere                       1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.nrl_cerceve                            1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.nrl_cerceve_pencere                    1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.pdr                                    1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.pdr_pencere                            1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.psr                                    1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.psr_pencere                            1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.teslim_paket                           1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.teslim_paket_pencere                   1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.teslim_sayisi                          1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.teslim_sayisi_pencere                  1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.veri_airtime_s                         1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.veri_airtime_s_pencere                 1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.veri_alim_hedefte                      1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.veri_alim_hedefte_pencere              1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.veri_bayt                              1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   metrikler.veri_bayt_pencere                      1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   teshis.sonumleme_onbellegi.girdi                 1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+  🔴 BULGU   teshis.sonumleme_onbellegi.iskalama_tahmini      1 vakada farkli · ilk: p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+
+  🔴 FARK VAR

@@ -173,8 +173,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-240 | 🟢 BELGE TEMİZLİĞİ (Faz 4b adım 4, belge kısmı) — belgeler bilgi düzeyinde ve güncel · Ja | 🟢 geçerli |
 | K-241 | 🟢 KOD TEMİZLİĞİ (Faz 4b adım 4, kod kısmı) — eski rakip kalıntıları, araç varsayılanları | 🟢 geçerli |
 | K-242 | BAĞIMSIZ DENETİMİN (14 Ekim) KARARLARI — üçüncü rakip Babel (RFC 8966) · JarmRout rakipl | 🟢 geçerli |
+| K-243 | DENETİMİN FAZ 5 ÖNCESİ KOD DÜZELTMELERİ — kalıcı görüş hattı · AODV-k · kapı sertleştirm | 🟢 geçerli |
 
-**153 kayıt · 9 revize · 144 geçerli**
+**154 kayıt · 9 revize · 145 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1956,3 +1957,18 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Ön-kayıt kayıtları:** G1ç ve G2ç (12–13 Ekim, K-239) DESPARETE'yi OLSRv2, AODV, JarmRout ve kâhinle 1003 ve 1004 tohumlarında aynı hücrede koşturdu (DD-09); KR-3'ün "DESPARETE yeni rakiplere karşı koşulmadan önce" şartı bu koşularla geçildi, `06` §10'a yazıldı. Babel kararı bu iki tohumluk gözlemden değil, JarmRout'un kendi geçerliliğinden (K-238, K-239) ve aile ilkesinden doğdu. K-238 ve K-239'un teşhisleri (`jarmrout_sel_2026-10-12`, `faz4b_kapi_teshis_2026-10-13`) beklentisizdir; keşifsel sayılır (DD-10).
 - **Faz 5'ten önceki iş** (denetimin §9.1'i, yürütücü onayı): kapı sertleştirmeleri (DD-05 · 06 · 07 · 08 · 19) · anatomi aletinin açlık tanımı (DD-11) · gecikme tavanlı metrik (DD-03) · AODV'nin yeni sürümü · kalıcı görüş hattı · Babel · G1-P yeni rakip kümesiyle · belge düzeltmeleri (DD-02 · 12 · 13 · 17 · 18). Faz 6'ya: yer–hava ortam duyarlılığı · yeniden üretilebilirlik paketi (DD-15) · mühür için harici zaman damgası (DD-16).
 - Güncellenen: `01` §1 · `04` §1 · §2 · §5 · §7 · §10 · `06` §0.4.1 · §3 · §4 · §10 · `12` · README.
+# K-243 · DENETİMİN FAZ 5 ÖNCESİ KOD DÜZELTMELERİ — kalıcı görüş hattı · `AODV-k` · kapı sertleştirmeleri · regresyon tabanı k243
+> 14 Ekim · K-242'nin işleri (`12` §1.1 adım 6 a–d) · kod `e5cd1b7` · regresyon `arsiv/teshis/regresyon_k243/` (beklenti `e5cd1b7`'de, koşudan önce)
+
+- **Yer–hava görüş hattı kalıcı** (DD-01, `sim2/kanal/yer_hava.py`): durum, ışının tipik bina yüksekliğine indiği yer noktasının bina hücresinden çekilir (hücre genişliği √(α/β) km, banliyöde ≈ 11,5 m); eşik makalenin P(LoS, θ)'sı, ortalama kayıp aynı olasılıktan. `Konfig.a2g_durum_dilimi_s` ve köken kaydı kalktı.
+- **`AODV-k`** (DD-04, RFC 3561 §6.3 · §10; hakem ns-3): yayınlarda U(0, 10 ms) titreşim (RREQ üretimi ve iletimi, HELLO, RERR) · §6.2'nin önceki atlama ömrü ve komşuluğu · MY_ROUTE_TIMEOUT 6 → 11,2 s (2 · PATH_DISCOVERY_TIME, MUST) · başarısız keşfin tampondaki paketleri düşer (§6.3 SHOULD, ns-3 `DropPacketWithDst`). `AOMDV-f` aynı çekirdeği miras aldığı için davranışı değişti; rakip değil, Faz 4'ün kaydı.
+- **Kapı sertleştirmeleri** (davranışı değiştirmez): sızdırmazlık taraması izin listesiyle (DD-05) · `KontrolIstegi`nin doğrudan kurulumu da değer denetiminden geçer (DD-06) · U1-B kayıtlı orana ve `KAYIT_BANDI`na bağlı (DD-07; bütün kayıtlı U1 sonuçları yeniden yargılandı, değişmedi) · fark-içinde-fark eşleşme denetimi ve kesirli hesap (DD-08) · anatomi aletinin açlık tanımı protokolünkiyle aynı (DD-11) · gecikme tavanlı `PDR_açık` hesabı, eşikler henüz yok (DD-03) · mimari denetiminde köken eksiği bulgu ve çıkış kodu (DD-19).
+- **Köken defteri:** `a2g_durum_dilimi_s` (TÜRETİLMİŞ) silindi; `aodv_uygunluk.py::_JARMROUT_IZ` · `::KAYITLI_ORAN` (ÖLÇÜLMÜŞ) ve `::KAYIT_BANDI` (TÜRETİLMİŞ) eklendi; ÖLÇÜLMÜŞ 17 → 19.
+- **Regresyon k236 → k243** (`sonuc.md`; dondurulmuş kopyadan, 112 dk):
+  - İlan edilen 18 vaka değişti ve geçerli; öteki 67 vakadan 66'sı birebir.
+  - Beklenti dışı tek vaka `p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti`: `karistirici_gercekci` açık ve cephe hattının karıştırıcıları yer platformu olduğu için yer–hava kanalı bu vakada da kurulur; beklenti yalnız referans dünyadaki vakaları saymıştı. Vaka, yer–hava kanalı k236'nın modeline döndürülerek koşuldu: k236 satırıyla birebir (`eski_gorus_hatti.py`). Değişimin tek sebebi DD-01.
+  - Mimari denetimi ihlalsiz, çıkış kodu 0 (ayrıca koşularak okundu: koşu betiklerinin `cikis $?` kalıbı `date`'in durumunu yazıyor, k236'nın betiğinde de; sonraki betiklerde çıkış kodu komuttan hemen sonra alınır).
+  - Yeni taban **k243**; `uretici_duman` kesiti k243.
+- **Tam takım:** `1067 passed` · 1 başarısız: `test_donma` (AODV dosyaları değişti; `AODV-k`'nin U1'inden sonra donma tablosu yeniden bağlanır).
+- **Belge notu:** `sim2/kanal/tehdit.py`'nin tablosu `tekli_merkez`i "sabit yer" diye anıyor; nesne sürünün orta irtifasında duruyor ve yer–hava kanalı kurulmuyor. Davranış değişmez; belge düzeltmesi adım 6g'ye eklendi.
+- Güncellenen: `04` §5 · §9 · `12` §1 · §1.1 · `kalibrasyon/uretici_duman.py`.

@@ -50,7 +50,7 @@
 
 ## 5 · Taban protokoller — AODV · OLSRv2 · Babel (K-242)
 
-Donmuş: `AODV-j` · `OLSRv2-b` (K-239). Sırada (K-242): AODV'nin üç sapmasının düzeltildiği yeni sürüm ve Babel'in gerçeklemesi; ikisi de sadakat denetimi, U1, regresyon ve donma yolundan geçer.
+Donmuş: `AODV-j` · `OLSRv2-b` (K-239). Sırada (K-242): AODV'nin üç sapmasının düzeltildiği yeni sürüm ve Babel'in gerçeklemesi; ikisi de sadakat denetimi, U1, regresyon ve donma yolundan geçer. AODV'nin yeni sürümü `AODV-k` kodda, regresyonu geçti (K-243); U1'den sonra donar.
 
 **Ortak kurallar:**
 - Kaynağına sadık kurulur; parametreler RFC ya da makale varsayılanıdır, hiçbiri senaryoya göre ayarlanmaz.
@@ -144,7 +144,7 @@ Donmuş: `AODV-j` · `OLSRv2-b` (K-239). Sırada (K-242): AODV'nin üç sapması
   - **Kaynaksız DÜNYA TANIMI'lar** (ölçülen duyarlılıklarıyla raporda): gölgeleme hücresi · CBR titreşimi · istasyon tutma (K-220) · formasyon manevra gürültüsü (K-225) · komut akış sayısı (K-223).
   - **KAYNAK'a bağlananlar:** TTL 64 · kâhinin beacon'ı = AODV HELLO (84 B, 1 s) (K-215). Kâhinin sönümleme örneği 48 (K-215).
 - **Sonuç satırı** kendi konfigini, kimliğini (kod özetleri dâhil), kapsam sınırlarını ve metrikleri yeniden üretecek ham veriyi taşır.
-- **Regresyon** (`kalibrasyon/regresyon_satirlari.py`, taban `k236`, K-237) ve **mimari denetimi** davranış değiştiren her simülatör değişikliğinden sonra koşulur.
+- **Regresyon** (`kalibrasyon/regresyon_satirlari.py`, taban `k243`, K-243) ve **mimari denetimi** davranış değiştiren her simülatör değişikliğinden sonra koşulur.
 
 ## 10 · Açık kararlar
 

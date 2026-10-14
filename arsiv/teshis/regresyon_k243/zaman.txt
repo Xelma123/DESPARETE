@@ -1,0 +1,7 @@
+uret basla 18:55:58
+uret bitti 20:48:21 cikis 0
+mimari basla 20:48:21
+mimari bitti 20:48:35 cikis 0
+karsilastir basla 20:48:35
+karsilastir bitti 20:48:38 cikis 0
+kosu bitti 20:48:38

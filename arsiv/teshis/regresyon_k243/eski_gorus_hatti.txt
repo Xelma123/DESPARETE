@@ -1,0 +1,12 @@
+p-statik-surekli-dogrudan_komsu-karistirici_gercekci-cephe_hatti
+süre 34 s · gecerli=True
+eski görüş hattı modeliyle k236'ya göre farklı alan: 8
+    kimlik.arac_hash | 528a1920f9c0d418d96f2fef21774572 -> 1b1ba98fb366b20794afa0c5bc4355af
+    kimlik.calisma_kimligi | bc6ceffa672e4f99 -> dfbd4d9b93a74207
+    kimlik.kosu_kimligi | d4870d154b2c0f0c14ce7372 -> d33f85c8a5f49291cad63b38
+    kimlik.kurulum_hash | b0dd64ebe9029061f0eadb3bd31fc65b -> 91a22e8ac37e7fd1e41396ed79ceda2d
+    kimlik.protokol_hash | 6cfb1a011a6c5276768c0e21796d7687 -> 5c1a637d5761aa6f2bd8d57567007f5b
+    kimlik.zaman_damgasi_utc | 2026-10-11T10:00:48Z -> 2026-10-14T19:15:26Z
+    konfig.a2g_durum_dilimi_s | 1.0 -> <yok>
+    teshis.koken_kovalari.OLCULMUS | 17 -> 19
+pdr_pencere · k236 0.34390651085141904 · eski modelle 0.34390651085141904 · k243 0.31469115191986646
