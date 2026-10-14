@@ -1,18 +1,18 @@
 # 12 · DURUM VE YOL HARİTASI
 
-> Projenin durumu ve planı YALNIZ burada tutulur; başka belgeler buraya atıf verir. Güncel: 13 Ekim 2026. Onaylı plan Faz 0–7 (25 Eylül, K-168). Kararlar `04`, tarihçe `kayit/KARAR-GUNLUGU.md`.
+> Projenin durumu ve planı YALNIZ burada tutulur; başka belgeler buraya atıf verir. Güncel: 14 Ekim 2026. Onaylı plan Faz 0–7 (25 Eylül, K-168). Kararlar `04`, tarihçe `kayit/KARAR-GUNLUGU.md`.
 
 ## 1 · Nerede duruyoruz
 
 | | |
 |---|---|
-| **faz** | **4b · yeni rakipler** (K-229, K-230) — Faz 5 durdu (5.0 ✓ K-228, geçerli); sıradaki iş §1.1. Faz 4 kapandı (K-221); bağımsız denetimin (8 Ekim) kararları K-222…K-226 |
-| simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu süreleri §3'te |
-| taban protokoller | `AODV-j` · `OLSRv2-b` · `JarmRout-b` donmuş (K-239). **Üçüncü rakip açık karar (K-240):** JarmRout kesin değil — toplu akışta makalenin kuralıyla çöküyor (K-238), evre metrikleri yorumlanamıyor (K-239); tanımı tam, güvenilir ve straw-man eleştirisine açık olmayan bir aday aranabilir (`04` §10) |
-| DESPARETE | v0.4.1; birincil hücrede `PDR_açık` 0,551 (AODV 0,444, kâhin 0,780; 1003–1006, K-228); karıştırmaya özgü kaybı AODV'ninkinden büyük (−0,204 ↔ −0,138), fazlası ardılı karıştırılan alanın onarımında |
+| **faz** | **4b · yeni rakipler** (K-229, K-230) — Faz 5 durdu (5.0 ✓ K-228); bağımsız tam denetim (14 Ekim, K-242) bitti, kararları uygulanıyor; sıradaki iş §1.1. Faz 4 kapandı (K-221) |
+| simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu süreleri §3'te. Yer–hava görüş hattının kalıcı olması Faz 5'ten önce (K-242) |
+| taban protokoller | **AODV · OLSRv2 · Babel (K-242).** `OLSRv2-b` donmuş (K-239). AODV'nin üç sapması düzeltilir, yeni sürüm donar; Babel (RFC 8966) gerçeklenir. JarmRout rakiplikten çıktı; kodu ve kayıtları Faz 4b'nin kaydı |
+| DESPARETE | v0.4.1, taslak; Faz 5'te yürütücünün tasarım kararlarıyla geliştirilir. Birincil hücrede `PDR_açık` 0,551 (AODV 0,444, kâhin 0,780; 1003–1006, K-228); OLSRv2'yle iki tohumda başa baş, karıştırıcısız ikizde OLSRv2'nin gerisinde (G2ç · G1ç, `04` §6) |
 | doğrulama | `1059 passed` (13 Ekim, K-239) · mimari denetimi ihlalsiz · regresyon tabanı **`k236`** (K-237; 85 vaka, yeni rakipler dâhil) · R = **0,0126** (K-224, 7 deneme) · köken sayımı `04` §9 |
 | arkada koşan | yok |
-| takvim | mühür ~20 Kasım (K-230'dan sonra tahmin) · teslim 19 Aralık 2026 |
+| takvim | mühür ~20 Kasım · proje hedefi 19 Aralık 2026 · resmî son başvuru 4 Ocak 2027, 17:30 (TÜBİTAK 2204-A sayfası; aradaki süre tampon, K-242) |
 
 ### 1.1 · Sıradaki iş — Faz 4b (K-229)
 
@@ -24,13 +24,21 @@
 3. ✓ Regresyona yeni protokollerin vakaları (K-237, taban k236) · U1 iki desende (K-238: OLSRv2 temiz; JarmRout'un toplu akış çöküşü incelendi — makaleye birebir sadık, ölçek sınırı bulgu) · ikinci kuyruk (K-239): kopya kuralı sağlandı, dört temsilci anatomi geçti, çizelgeli evre kapıları yalnız JarmRout yüzünden kaldı → sebep ölçüldü (rota beklemesi; eğilim ve pencere sonu boşalması) → kayıtlı muafiyetle G1ç ✓ · G2ç + G4ç ✓ (R ve G3ç protokolden bağımsız, geçerli) → **donma ✓** (`JarmRout-b` · `OLSRv2-b`) · tam takım · mimari denetimi.
 4. ✓ **Belge ve kod temizliği** (yürütücü, 11 Ekim): belgeler (K-240) · kod (K-241: yorumlar, araç varsayılanları, DESPARETE dosyalarındaki tasarım paketi yolu; davranış aynı, değişen simülatör ve protokol dosyalarının sözdizim ağacı birebir). Bilerek kalanlar: donmuş protokol dosyalarının yorumları (donma özeti değişmesin diye), OLSR ve AOMDV'nin modülleri ve regresyon vakaları (Faz 4'ün kaydı), köken gerekçelerindeki eski ölçümler.
    Derin denetime iki not: (a) G1-P (statik boş kol) yeni rakip kümesiyle koşulmadı; G1ç koşuldu · (b) bütün kontrol mesajları UDP/IP ile faturalanıyor; gerçek DSR (JarmRout) UDP kullanmaz, mesaj başına 8 B fazla (`sim2/kanal/cerceve.py`).
-5. **Derin blok denetimi** (yürütücü, 11 Ekim): temizlikten sonra simülatör ve rakip protokoller ayrı ayrı, blok blok denetlenir — o anki hâllerinin TÜBİTAK projesine uygunluğu, bilimsel gerçekçiliği ve kullanımda sorun çıkarıp çıkarmayacağı. Simülatörü ve rakipleri ayrı denetçiler inceler. Bulgular kapanmadan Faz 5'e geçilmez.
-6. Faz 5'e dönüş, K-228'in sırasıyla (§1.2).
+5. ✓ **Bağımsız tam denetim** (13–14 Ekim; `arsiv/denetim/DENETIM-RAPORU-2026-10-14.md`): KRİTİK yok, 16 ÖNEMLİ. Kararlar K-242.
+6. **Denetimin Faz 5'ten önceki işleri** (K-242; bulgu numaraları rapordan):
+   a. kapı sertleştirmeleri: sızdırmazlık taraması (DD-05) · `KontrolIstegi` bedel denetimi (DD-06) · U1-B'nin kayıtlı orana bağlanması (DD-07) · fark-içinde-farkın eşleşme denetimi ve tamsayı hesabı (DD-08) · mimari denetiminde köken eksiğinin bulgu ve çıkış kodu olması (DD-19);
+   b. kayıp anatomisinin açlık tanımı protokolünkiyle aynı (DD-11);
+   c. gecikme tavanlı `PDR_açık`: hesap ve eşiklerin kaynağı (DD-03);
+   d. yer–hava görüş hattının kalıcı olması (DD-01) · AODV'nin yeni sürümü (DD-04) → tek regresyon, ölçütü önce;
+   e. Babel: kod · kural kural sadakat denetimi · regresyon vakaları;
+   f. U1 (AODV'nin yeni sürümü ve Babel, iki desen) · evre kapıları (G1ç, G2ç) ve G1-P yeni rakip kümesiyle → donma · tam takım;
+   g. belge düzeltmeleri (DD-02 · 12 · 13 · 17 · 18) ve JarmRout'un çıkışının temizliği.
+7. Faz 5'e dönüş (§1.2).
 
 ### 1.2 · Faz 5 — durdu (K-229); dönüşteki plan
 
-1. **Faz 5.0 ✓** (K-228, `arsiv/teshis/faz5_0_2026-10-10/sonuc.md`): DESPARETE'nin karıştırmaya özgü fazla kaybı (kâhine göre 0,071, AODV'ye göre 0,066) tamamen "rota yok" grubunda. Sonuç geçerli (K-230: dünya değişmedi).
-2. K-228'in sırası — önce yedek ardıl (5.4'ün çoğaltmasız kısmı) ve açlıkta tur isteği, sonra 5.1 → 5.3 ve 5.4'ün çoğaltması (D-23'ten sonra) — geçerli; yedek ardılın tasarımında JarmRout'un mekânsal ayrışma ilkesi sorulur (K-230). Her mekanizma ablasyon bayrağıyla ve önceden yazılı beklentiyle; birincil + ikiz + dayanıklılık hücresi, 1003–1010.
+1. **Faz 5.0 ✓** (K-228, `arsiv/teshis/faz5_0_2026-10-10/sonuc.md`): DESPARETE'nin karıştırmaya özgü fazla kaybı (kâhine göre 0,071, AODV'ye göre 0,066) tamamen "rota yok" grubunda; 4 tohumda anlamlı değil, alt payları (kota · açlık) kanıt değil (DD-11). Görüş hattı değişikliğinden sonra birincil hücre değişeceği için Faz 5'in başında düzeltilmiş aletle, 1003–1010'da ve OLSRv2'yle yeniden okunur.
+2. Sıra (K-228, K-242): ilk A/B mevcut `hedefli_canlilik` (yedeklerin canlı tutulması) ve açlıkta tur isteği → 5.1 → 5.3 ve 5.4'ün çoğaltması (D-23'ten sonra); yedek ardılın tasarımında mekânsal ayrışma sorulur (K-230). Mekanizmaların tasarım kararları yürütücüdedir. Her mekanizma ablasyon bayrağıyla ve önceden yazılı beklentiyle; birincil + ikiz + dayanıklılık hücresi, 1003–1010. Mekanizma kapısına hangi mekanizmanın gireceğinin kuralı ilk A/B'den önce yazılır.
 
 ## 2 · Fazlar
 
@@ -68,7 +76,7 @@ Her mekanizma: ablasyon bayrağı · önceden yazılı beklenti (iki ölçütle:
 
 ### Faz 6 · Ön-kayıt ve mühür (~20 Kasım)
 
-Üçüncü rakip kararı ve rakiplerin rolü (K-240, KR-3; δ ölçümünden önce) · δ için gürültü ölçümü (3 taban × 20 tohum 1100–1119, birincil hücre) · güç benzetimi ve tohum sayısı · ön-kayıdın kesinleşmesi (`06`): birincil metrik KR-2 (karar), hipotezler, Aile 3 kolları, çekirdek matris, durdurma kuralı, fark-içinde-fark eşiği · pencere üçlüsü (ısınma · ölçüm bitişi · koşu bitişi; SINANMAMIŞ 3) · ana deneyin penceresinde R ve DUYARSIZ hükümlerinin yeniden okunması (δ koşularından, denetim D-03) · uzun bağlarda slot zamanlamasının duyarlılığı (D-11) · kâhinin 96 sönümleme örneğiyle yakınsaması (D-15) · `06` H1.3'ün aldatıcı ↔ sürekli kontrastı referansta yeniden düşünülür (10 W aldatıcı ED'yle bütün ağı susturuyor, K-219) · Rician K ekseninin keşifsel tekrarı (6 · 15 dB, K-215) · **mühür**.
+Rakiplerin rolü (KR-3; Faz 5'in ilk ölçümünden önce) · δ için gürültü ölçümü (AODV · OLSRv2 · Babel × 20 tohum 1100–1119, birincil hücre) · yer–hava ortamının duyarlılığı (banliyö ↔ açık arazi, K-242) · güç benzetimi ve tohum sayısı · ön-kayıdın kesinleşmesi (`06`): birincil metrik KR-2 (karar), hipotezler, Aile 3 kolları, çekirdek matris, durdurma kuralı, fark-içinde-fark eşiği · pencere üçlüsü (ısınma · ölçüm bitişi · koşu bitişi; SINANMAMIŞ 3) · ana deneyin penceresinde R ve DUYARSIZ hükümlerinin yeniden okunması (δ koşularından, denetim D-03) · uzun bağlarda slot zamanlamasının duyarlılığı (D-11) · kâhinin 96 sönümleme örneğiyle yakınsaması (D-15) · `06` H1.3'ün aldatıcı ↔ sürekli kontrastı referansta yeniden düşünülür (10 W aldatıcı ED'yle bütün ağı susturuyor, K-219) · Rician K ekseninin keşifsel tekrarı (6 · 15 dB, K-215) · **mühür**.
 
 ### Faz 7 · Ana deney ve yazım (mühürden sonra – 19 Aralık)
 
@@ -94,7 +102,7 @@ Kaynak: `arsiv/teshis/faz4b_kapanis2_2026-10-12/G1c.txt` · `G2c.txt` (`sure` s�
 |---|---|---|
 | Faz 5: 5.0 (~20) · 5.1 · 5.3 · 5.4 × (açık/kapalı × 8 tohum × 3 hücre) × ~2 deneme · 5.7 (U1, U3) | ~350 | ~80 sa |
 | Faz 6: δ gürültüsü (3 taban × 20) · pencere üçlüsü · tam pencere R ve DUYARSIZ'ların yeniden okunması · Rician 6 · 15 dB · kâhin 96 örnek | ~200 | ~45 sa |
-| Faz 7: birincil 5 kol × 40 · karıştırıcısız ikiz 5 × 40 · dayanıklılık hücresi 5 × 40 · Aile 3 (≤ 3 kol × 40) · Aile 1 (≤ 2 hücre × 3 protokol × 40) | ~960 | üçüncü rakip JarmRout ise ~300 sa (~12,5 gün); koşu başına ~2 sa'lik bir üçüncü rakiple ~190 sa (~8 gün) |
+| Faz 7: birincil 5 kol × 40 · karıştırıcısız ikiz 5 × 40 · dayanıklılık hücresi 5 × 40 · Aile 3 (≤ 3 kol × 40) · Aile 1 (≤ 2 hücre × 3 protokol × 40) | ~960 | koşu başına ≲ 2 sa'lik üçüncü rakiple (Babel; süresi ölçülecek) ~190 sa (~8 gün) |
 
 Faz 7'nin hesabı mühürden hemen sonra başlar; yazım hesapla paralel yürür. Faz 7 satırı kaba hesaptır: süreler yukarıdaki tablodan, 8 işçi.
 
@@ -102,7 +110,8 @@ Faz 7'nin hesabı mühürden hemen sonra başlar; yazım hesapla paralel yürür
 
 - **Yeni dünya yönlendirmeye iş bırakmazsa** (ağ tek atlamaya iner ya da hep bölünür): geometri kaynaklı zarf içinde ayarlanır; karar kayda geçer.
 - **Mekanizmalar kazanç göstermezse:** negatif sonuç raporlanır; neden çalışmadığı ölçülür.
-- **Üçüncü rakip (K-240):** karar mühürden önce verilmeli. Aday değişirse yeni protokol sadakat denetimi, U1, regresyon ve donma yolundan geçer; bu iş mühür takvimine eklenir. JarmRout kalırsa Faz 7'nin hesabı ~110 sa uzar (§3).
+- **Babel ve AODV'nin yeni sürümü (K-242):** ikisi de Faz 5'ten önce sadakat, U1, regresyon ve donma yolundan geçer; geliştirme süresi Faz 5'in süresinden düşer. Darboğaz hesap değil geliştirme süresidir (denetim §10).
+- **Yapay zekâ kullanımı:** TÜBİTAK'ın Üretken Yapay Zekâ Rehberi önemli ölçüde kullanımın beyanını istiyor; beyanın metni yürütücünündür.
 - **Takvim ve hesap:** Aralık başında ~1 hafta tampon. Düşme sırası (önceden yazıldı, K-222): keşifsel eksenler (20 tohumla yetinilir: Rician 6 · 15 dB, eşler arası, hava eşlik) → görselleştirmenin zenginliği → Aile 1 hücreleri (en çok 2) → Aile 3 kol sayısı (en çok 3) → dayanıklılık hücresi 20 tohuma. Güç benzetimi n > 40 isterse önce Aile 1 düşer, sonra dayanıklılık hücresi. Korunanlar: birincil hücre ve karıştırıcısız ikizi, üç taban protokol, DESPARETE, 40 tohum.
 - **Tek makine:** her ölçümden sonra commit + push (denetim D-05); elektrik kesintisinde uzun kuyruk biten adımları atlayarak sürer.
 

@@ -245,8 +245,7 @@ class KaristiriciTabani:
         if (konfig.karistirici_gercekci and tanim is not None
                 and tanim.platform in ("sabit_yer", "arac")):
             self.konum = Nokta3(x, y, konfig.yer_karistirici_yukseklik_m)
-            self._a2g = YerHavaKanali(konfig.tohum, konfig.a2g_ortam,
-                                      konfig.a2g_durum_dilimi_s)
+            self._a2g = YerHavaKanali(konfig.tohum, konfig.a2g_ortam)
         self.tepe_w = dbm_to_w(float(guc_dbm))
         if tanim is not None:
             self.tepe_w *= tanim.guc_payi
@@ -312,8 +311,7 @@ class KaristiriciTabani:
         kayip = self.yayilim.yavas_kayip_db(self._golge_kimligi, dugum,
                                             kaynak, dugum_konum)
         if self._a2g is not None:
-            kayip += self._a2g.ek_kayip_db(self._golge_kimligi, dugum, kaynak,
-                                           dugum_konum, t_s)
+            kayip += self._a2g.ek_kayip_db(kaynak, dugum_konum)
         return kayip
 
     def _bagil_hiz_ms(self, dugum: int, t_s: float) -> float:

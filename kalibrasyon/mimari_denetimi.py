@@ -681,9 +681,12 @@ def d13_kalibrasyon_kokenleri() -> None:
     print(f"  kokeni yazilmamis  : {len(eksik)}")
     for a in eksik:
         print(f"    🔴 {a}")
+    # 🔴 DD-19 (K-242): eksik köken bir NOT değil BULGUDUR — yukarıdaki
+    # ilke "alet sabiti model sabitinden az tehlikeli değildir" diyor; not
+    # sayıldığında denetim yine "Yapisal ihlal YOK" basıyordu.
     if eksik:
-        notlar.append(f"{len(eksik)} kalibrasyon sabiti koken defterinde YOK "
-                      f"— olcum aletinin sayisi da gerekce ister")
+        bulgular.append(f"{len(eksik)} kalibrasyon sabiti koken defterinde "
+                        f"YOK — olcum aletinin sayisi da gerekce ister")
 
 
 def d14_golge_fizik() -> None:
@@ -929,7 +932,8 @@ def d17_okunan_gozlem_kokenleri() -> None:
                                 f"yeniden olculur")
 
 
-def main() -> None:
+def main() -> int:
+    """Çıkış kodu = hüküm: bulgu varsa 1 (DD-19, K-242)."""
     d1_katman_yonu()
     d2_ciplak_assert()
     d3_hash_kullanimi()
@@ -959,7 +963,8 @@ def main() -> None:
         print(f"\n  {len(notlar)} not (hata degil, bilgi):")
         for s in notlar:
             print(f"    . {s}")
+    return 1 if bulgular else 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

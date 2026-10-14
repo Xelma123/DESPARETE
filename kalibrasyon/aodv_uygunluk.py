@@ -366,6 +366,52 @@ KAHIN_ASIMI_ACIKLANMIS: dict[str, dict[tuple[str, str, int], str]] = {
              "gerekmez (K-192 b). 7 Ekim'in zarfi 0,9998 (8 deneme, K-218)"},
 }
 
+# 🔒 DD-07 (K-242) · KAYDIN ORANI: muafiyet listesi yalnız hücrenin listede
+# olup olmadığına bakıyordu; AODV-j'nin kayıtlı 0,886'lık hücresi 0,45'e
+# düşse de kapı "TEMİZ" diyordu. Her kayıt (açıklanmış düşük hücre ve kâhin
+# aşımı) ölçüldüğü oranı taşır; bugünkü oran ondan `KAYIT_BANDI`ndan fazla
+# saparsa "KAYIT SAPTI" kapıyı kırmızı yakar ve açıklama yeniden ölçülür.
+# Oranlar `ciktilar2/aodv_uygunluk/<protokol>_referans_2026_<desen>_son.json`
+# kayıtlarından (K-224 · K-238).
+KAYITLI_ORAN: dict[str, dict[tuple[str, str, int], float]] = {
+    "aodv": {("yere_toplama", "statik-yok", 1000): 0.8944,
+             ("yere_toplama", "statik-yok", 1002): 0.8628,
+             ("yere_toplama", "bagimsiz-yok", 1000): 0.5560,
+             ("esler_arasi", "statik-yok", 1001): 1.0002},
+    "aomdv": {("yere_toplama", "statik-yok", 1000): 0.8989,
+              ("yere_toplama", "statik-yok", 1002): 0.8912,
+              ("yere_toplama", "bagimsiz-yok", 1000): 0.5885},
+    "olsr": {("yere_toplama", "statik-yok", 1000): 0.6573,
+             ("yere_toplama", "statik-yok", 1001): 0.8144,
+             ("yere_toplama", "statik-yok", 1002): 0.7452,
+             ("yere_toplama", "bagimsiz-yok", 1000): 0.3878,
+             ("yere_toplama", "gorev-yok", 1000): 0.4446,
+             ("yere_toplama", "gorev-yok", 1001): 0.5665,
+             ("yere_toplama", "gorev-yok", 1002): 0.5803,
+             ("yere_toplama", "formasyon-yok", 1000): 0.4211,
+             ("yere_toplama", "formasyon-yok", 1002): 0.5926},
+    "jarmrout": {**{h: float(o.replace(",", "."))
+                    for h, (o, _g, _t) in _JARMROUT_IZ.items()},
+                 ("esler_arasi", "statik-yok", 1001): 1.0129,
+                 ("esler_arasi", "formasyon-yok", 1000): 1.0083},
+    "desparete": {}, "olsrv2": {},
+}
+# Bant = çözünürlük R (K-224): kod değişmeden yeniden koşulan hücre birebir
+# aynı oranı verir; R'den büyük sapma açıklamanın yeniden ölçülmesini ister.
+KAYIT_BANDI = 0.0126
+
+
+def _kayit_sapti_mi(protokol: str, desen: str | None, kol: str, t: int,
+                    oran: float) -> str | None:
+    """Kayıtlı oranla bugünkü oranın farkı bandı aşıyorsa açıklaması."""
+    kayitli = KAYITLI_ORAN.get(protokol, {}).get((desen, kol, t))
+    if kayitli is None:
+        return "kayitta oran yok"
+    if abs(oran - kayitli) > KAYIT_BANDI:
+        return f"kayitli oran {kayitli:.4f}, fark {oran - kayitli:+.4f}"
+    return None
+
+
 DUMAN_KOLLARI: tuple[str, ...] = ("statik-yok",)
 DUMAN_TOHUMLARI: tuple[int, ...] = (1000,)
 # 🔴 DUMAN KESİTİ SAYIYI ÜRETMEZ — ve bunun sebebi ölçüldü: tam pencerede
@@ -721,8 +767,16 @@ def _degerlendir(sonuc: dict, kollar, tohumlar, sabit, sure_s: float,
             oran = a["pdr"] / k["pdr"]
             kol_oranlari.setdefault(kol, []).append(oran)
             hucre_oranlari[(kol, t)] = oran
+            sapma = (_kayit_sapti_mi(protokol, desen, kol, t, oran)
+                     if DS.referans_mi() and (kol, t) in aciklanmis else None)
             if oran >= esik:
                 karar = "GECTI"
+            elif (kol, t) in aciklanmis and sapma is not None:
+                # 🔴 DD-07: açıklama BAŞKA bir oran için yazılmıştı.
+                karar = "🔴 KAYIT SAPTI"
+                olculen_dusuk.add((kol, t))
+                basarim_temiz = False
+                print(f"  🔴 [U1-B] {kol}/{t}: {sapma}")
             elif (kol, t) in aciklanmis:
                 # 🟡 U1-B · dusuk AMA aciklamasi OLCULMUS ve kayitli.
                 karar = "DUSUK (aciklanmis)"
@@ -770,6 +824,13 @@ def _degerlendir(sonuc: dict, kollar, tohumlar, sabit, sure_s: float,
         if d == desen}
     for kol, t, o in asan_tum:
         if (kol, t) in zarfli:
+            sapma = _kayit_sapti_mi(protokol, desen, kol, t, o)
+            if sapma is not None:
+                # 🔴 DD-07: kayıt başka bir aşım için yazılmıştı.
+                print(f"  🔴 [U1-U] kahin asimi KAYIT SAPTI: {kol}/{t} "
+                      f"oran = {o:.4f} — {sapma}")
+                uygunluk = False
+                continue
             # Kayıt üç yoldan biriyle girer: zarf (K-192 b), aşım < R ya da
             # kopya kuralı (K-238); gerekçe kaydın kendisinde.
             print(f"  🟡 [U1-U] kahin asimi ACIKLANMIS (K-192 b · K-238): "

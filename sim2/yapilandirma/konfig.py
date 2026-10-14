@@ -283,7 +283,8 @@ class Konfig:
     #     Rician model, bağıl hız karıştırıcının yörüngesinden);
     # (2) yer platformları (`sabit_yer`, `arac`) `yer_karistirici_yukseklik_m`
     #     yükseklikte ve bağları Al-Hourani yer–hava kanalıyla (G6; görüş
-    #     hattı olasılığı yükseklik açısından, durum hash'ten, dilimli);
+    #     hattı olasılığı yükseklik açısından, durum geometriden ve kalıcı —
+    #     DD-01, K-242);
     # (3) reaktif karıştırıcı iletimi ancak aldığı güç `reaktif_esik_dbm`i
     #     aşarsa sezer (sezme olasılığı her kipte `reaktif_sezme_olasiligi`);
     # (4) aldatıcının sahte çerçevesi, başını yakalayan boştaki alıcıyı
@@ -291,7 +292,6 @@ class Konfig:
     karistirici_gercekci: bool = False
     yer_karistirici_yukseklik_m: float = 3.0
     a2g_ortam: str = "banliyo"
-    a2g_durum_dilimi_s: float = 1.0
     reaktif_esik_dbm: float = -90.0
     reaktif_sezme_olasiligi: float = 0.95
     cw_min: int = 31
@@ -473,9 +473,8 @@ class Konfig:
                 "GPS hataları negatif olamaz, tazeleme pozitif olmalı")
         dogrula(self.a2g_ortam in A2G_ORTAM_ADLARI,
                 f"bilinmeyen yer–hava ortamı: {self.a2g_ortam!r}")
-        dogrula(self.yer_karistirici_yukseklik_m > 0.0
-                and self.a2g_durum_dilimi_s > 0.0,
-                "yer karıştırıcı yüksekliği ve durum dilimi pozitif olmalı")
+        dogrula(self.yer_karistirici_yukseklik_m > 0.0,
+                "yer karıştırıcı yüksekliği pozitif olmalı")
         dogrula(0.0 < self.reaktif_sezme_olasiligi <= 1.0,
                 "reaktif sezme olasılığı (0, 1] aralığında olmalı")
         dogrula(self.cca_s > 0.0,

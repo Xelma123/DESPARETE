@@ -438,7 +438,7 @@ def test_adim3_te_okunan_alanlar_GERCEKTEN_dunyayi_kuruyor():
         "verici_eirp_dbm", "menzil_snr_db", "alici_anten_kazanci_dbi",
         # kanal/karistirici.py · kanal/yer_hava.py — A6 (K-176)
         "karistirici_gercekci", "yer_karistirici_yukseklik_m", "a2g_ortam",
-        "a2g_durum_dilimi_s", "reaktif_esik_dbm", "reaktif_sezme_olasiligi",
+        "reaktif_esik_dbm", "reaktif_sezme_olasiligi",
         "darbe_periyodu_s", "darbe_gorev_cevrimi",
         "reaktif_sezme_s", "reaktif_patlama_s",
         "taramali_konak_suresi_s", "taramali_konak_sayisi",

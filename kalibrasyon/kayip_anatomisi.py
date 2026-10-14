@@ -59,10 +59,13 @@ birlikte gösterir.
 
 🔒 29 Eylül · DESPARETE ONARIM BÖLÜMLERİ (Faz 5.0): iletilebilir bir alan
 ardılını yitirip onarıma girdiği her an bir BÖLÜM açar; alan yeniden
-iletilebilir olunca kapanır. Girişte sorulan: aynı turdan geçerli, sonlu
-ilanı olan ACTIVE bir komşu VAR mı? Varsa ama seçilmediyse uygulanabilirlik
-koşulu (P < FD) onu dışlamıştır — "açlık"; yoksa hiçbir aday yoktur —
-"adaysız". Bölümün sonu: aynı turda kurtuldu · yeni turla (DFSN arttı)
+iletilebilir olunca kapanır. Girişte sorulan: protokolün KENDİ açlık
+tanımı (`AlanTablosu.aclik_mi`: aynı turdan geçerli, sonlu ilanı olan ACTIVE
+bir komşu var ve hiçbiri uygulanabilir değil, P ≥ FD) — "açlık"; değilse
+"adaysız". 🔴 DD-11 (K-242): alet önce kendi tanımını kullanıyordu (ardıl
+hariç, uygulanabilirliğe bakmadan); ölçümü olmayan uygulanabilir komşuyu
+açlık, potansiyeli yükselen ardılı adaysız sayıyordu. Faz 5.0'ın "%64
+açlık" payı o tanımla ölçülmüştü. Bölümün sonu: aynı turda kurtuldu · yeni turla (DFSN arttı)
 kurtuldu · koşu sonuna kadar kurtulmadı; arada ulaşılamaz olduysa `+U`.
 Karıştırıcının evresi bölümün başladığı an. Ayrıca her `rota_gecersiz`
 düşüşünde alanın durumu (onarımda: tampon kotası dolu · ulaşılamaz) × evre
@@ -283,7 +286,8 @@ def _desparete_onarim_sar(kur, bolumler: list, rg: Counter | None = None,
                  and i.dfsn == a.dfsn]
         b = {"dugum": _dugum(self), "hedef": a.hedef,
              "bas": kur.olaylar.simdi, "dfsn": a.dfsn,
-             "aclik": bool(sonlu), "sonlu": len(sonlu), "ulasilamaz": False}
+             "aclik": self.aclik_mi(a.hedef, t), "sonlu": len(sonlu),
+             "ulasilamaz": False}
         acik[(b["dugum"], a.hedef)] = b
         bolumler.append(b)
         return asil_gir(self, a, t)

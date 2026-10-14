@@ -1,6 +1,6 @@
 # 01 · PROBLEM, AMAÇ VE KAPSAM
 
-> Projenin ne olduğu ve neyi başarı sayacağı. Durum ve takvim `12` · kararlar `04`. Güncel: 13 Ekim 2026; önceki sürümler `arsiv/01-PROBLEM-VE-AMAC-*.md`.
+> Projenin ne olduğu ve neyi başarı sayacağı. Durum ve takvim `12` · kararlar `04`. Güncel: 14 Ekim 2026; önceki sürümler `arsiv/01-PROBLEM-VE-AMAC-*.md`.
 
 ---
 
@@ -9,10 +9,10 @@
 | | |
 |---|---|
 | yarışma | TÜBİTAK 2204-A Lise Öğrencileri Araştırma Projeleri · Yazılım / Bilgisayar Bilimleri |
-| son teslim | **19 Aralık 2026** |
+| teslim | proje hedefi **19 Aralık 2026** · resmî son başvuru 4 Ocak 2027, 17:30 (TÜBİTAK 2204-A sayfası) |
 | konu | karıştırma (jamming) altındaki taktik İHA mesh ağlarında yönlendirme |
 | ürün | bu çalışmada önerilen protokol **DESPARETE** |
-| kıyas tabanı | AODV · OLSRv2 (K-229). Üçüncü rakip açık karar: JarmRout kodlandı ve dondu, ama kesin taban protokol değildir (K-240, `04` §10) |
+| kıyas tabanı | AODV · OLSRv2 (K-229) · Babel (K-242): reaktif, bağ durumu ve DESPARETE'yle aynı ailedeki uzaklık-vektörü protokolü |
 | ölçüm ortamı | projenin kendi kesikli-olay simülatörü `sim2/` (K-001, K-090) |
 | yürütücü | Xelma123 (lise öğrencisi); kapsam, gerçekçilik ve ön-kayıt kararları yürütücüye aittir. Yapay zekâ araçları danışman ve kod uygulayıcısı olarak kullanılmıştır (`README` · *Yapay zekâ kullanımı*) |
 
@@ -90,7 +90,7 @@ Tek geçerli plan **Faz 0–7** (`12`):
 
 | kısıt | değer |
 |---|---|
-| süre | 19 Aralık 2026; yazıma ~5 hafta (`12` Faz 7) |
+| süre | hedef 19 Aralık 2026 (resmî son başvuru 4 Ocak 2027); yazıma ~5 hafta (`12` Faz 7) |
 | platform | Windows, kişisel bilgisayar, tek makine |
 | donanım | yok |
 | anlaşılabilirlik | jüri önünde savunulamayacak hiçbir yöntem ya da iddia kullanılmaz |

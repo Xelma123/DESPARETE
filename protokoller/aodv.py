@@ -66,7 +66,7 @@ from protokoller.aodv_bicim import (
     NODE_TRAVERSAL_TIME_S,
     PATH_DISCOVERY_TIME_S, RERR, RERR_RATELIMIT, RREP, RREQ, RREQ_RATELIMIT,
     RREQ_RETRIES, SONSUZ_SIRA, TIP_RERR, TIP_RREP, TIP_RREQ, TTL_INCREMENT,
-    TTL_START, TTL_THRESHOLD, halka_suresi_s)
+    TTL_START, TTL_THRESHOLD, YAYIN_TITRESIMI_S, halka_suresi_s)
 
 __all__ = ["AODV", "Rota"]
 
@@ -107,6 +107,9 @@ class _Kesif:
     # hedefin YENİ keşfini erken ilerletmesin diye etiket nesli taşır
     # (ns-3 zamanlayıcıyı iptal eder, K-208 H11).
     nesil: int = 0
+    # K-242: bu keşif sürerken tampona alınan kendi paketlerinin sırası —
+    # keşif başarısız olursa §6.3 gereği düşürülürler.
+    bekletilen: set = field(default_factory=set)
 
 
 class AODV:
@@ -119,7 +122,7 @@ class AODV:
     __slots__ = ("kimlik", "_sira", "_rreq_kimlik", "_rota", "_komsu",
                  "_gorulen_rreq", "_kesif", "_son_yayin_s", "_rreq_pencere",
                  "_rerr_pencere", "_sayac", "_kopuk", "_bekleyen_beyan",
-                 "_kara_liste", "_kesif_nesli")
+                 "_kara_liste", "_kesif_nesli", "_dusurulecek")
 
     def __init__(self, kimlik: int) -> None:
         self.kimlik = kimlik
@@ -133,6 +136,9 @@ class AODV:
         self._gorulen_rreq: dict[tuple[int, int], float] = {}
         self._kesif: dict[int, _Kesif] = {}
         self._kesif_nesli = 0
+        # K-242 · §6.3: başarısız keşfin tampondaki paketleri
+        # `(hedef, kaynak_sira)` — yeniden sorulduklarında düşer.
+        self._dusurulecek: set[tuple[int, int]] = set()
         # §6.9 — HELLO yalnız son aralıkta BAŞKA bir yayın yapılmadıysa.
         # §10 hız sınırları: (pencere başı, o pencerede gönderilen).
         # 🔴 K-215: başlangıç "hiç olmadı" (−∞). Yerel saatin 0 anına çapalı
@@ -159,6 +165,7 @@ class AODV:
             "rreq_uretilen": 0, "rreq_iletilen": 0, "rreq_bastirilan": 0,
             "rrep_uretilen": 0, "rrep_iletilen": 0, "rerr_uretilen": 0,
             "kesif_basarili": 0, "kesif_basarisiz": 0,
+            "kesif_basarisiz_dusen": 0,
             "komsu_zaman_asimi": 0, "rota_gecersizlestirilen": 0,
             "hiz_siniri_engelledi": 0, "rerr_onculsuz": 0,
             "kara_liste_eklenen": 0, "rreq_kara_listeden": 0,
@@ -205,7 +212,7 @@ class AODV:
         self._gorulen_rreq[(self.kimlik, self._rreq_kimlik)] = simdi_s
         self._son_yayin_s = simdi_s
         self._sayac["rreq_uretilen"] += 1
-        return KontrolIstegi.kur(None, RREQ, {
+        return KontrolIstegi.kur(None, RREQ, jitter_s=YAYIN_TITRESIMI_S, yuk={
             "tip": TIP_RREQ,
             "bayraklar": 1 if hedef_sira == SONSUZ_SIRA else 0,   # U bayrağı
             "ayrilmis": 0,
@@ -221,8 +228,11 @@ class AODV:
     def _rrep_kur(self, hedef_adres: int, hedef_sira: int, atlama: int,
                   kaynak: int, omur_s: float,
                   sonraki: int | None) -> KontrolIstegi:
-        """§5.2 · RREP. `sonraki=None` ise YAYIN (HELLO, §6.9)."""
-        return KontrolIstegi.kur(sonraki, RREP, {
+        """§5.2 · RREP. `sonraki=None` ise YAYIN (HELLO, §6.9) ve titreşimli
+        (K-242, ns-3 `SendHello`); unicast RREP titreşimsiz (ns-3 ile aynı)."""
+        return KontrolIstegi.kur(
+            sonraki, RREP,
+            jitter_s=YAYIN_TITRESIMI_S if sonraki is None else 0.0, yuk={
             "tip": TIP_RREP,
             "bayraklar": 0,
             "ayrilmis": 0,
@@ -243,6 +253,13 @@ class AODV:
             return Karar()
         simdi = float(gozlem.saat_s)
         hedef = gozlem.paket.hedef
+        if (hedef, gozlem.paket.kaynak_sira) in self._dusurulecek                 and gozlem.paket.kaynak == self.kimlik:
+            # 🔒 K-242 · §6.3: *"all data packets destined for the
+            # corresponding destination SHOULD be dropped from the buffer"*
+            # (ns-3 `DropPacketWithDst`). Sebep `hedef_yok`.
+            self._dusurulecek.discard((hedef, gozlem.paket.kaynak_sira))
+            self._sayac["kesif_basarisiz_dusen"] += 1
+            return Karar(sonraki=None)
         r = self._rota_al(hedef, simdi)
         if r is not None and r.sonraki in self._komsu:
             # §6.2 — kullanılan rotanın ömrü tazelenir.
@@ -282,6 +299,21 @@ class AODV:
                 if rk is not None and rk.gecerli:
                     rk.son_gecerli_s = max(rk.son_gecerli_s,
                                            simdi + ACTIVE_ROUTE_TIMEOUT_S)
+            # 🔒 K-242 (DD-04) · §6.2'nin devamı: *"the Active Route Lifetime
+            # for the previous hop, along the reverse path back to the IP
+            # source, is also updated"* — önceki atlama, kaynağa giden
+            # girdinin sonraki atlamasıdır (ns-3 `toOrigin.GetNextHop()`).
+            # Komşuluğu da tazelenir (ns-3 `m_nb.Update`; §6.9 "any
+            # packets"), ama yalnız zaten komşuysa: ölü komşu diriltilmez.
+            ters = self._rota.get(gozlem.paket.kaynak)
+            if ters is not None and ters.gecerli:
+                onceki = ters.sonraki
+                ro = self._rota.get(onceki)
+                if ro is not None and ro.gecerli:
+                    ro.son_gecerli_s = max(ro.son_gecerli_s,
+                                           simdi + ACTIVE_ROUTE_TIMEOUT_S)
+                if onceki in self._komsu:
+                    self._komsu[onceki] = simdi
             return Karar(sonraki=r.sonraki)
 
         eski = self._rota.get(hedef)
@@ -316,6 +348,8 @@ class AODV:
         niyetler: tuple = ()
         if hedef not in self._kesif:
             niyetler = self._kesif_baslat(hedef, simdi)
+        if hedef in self._kesif:
+            self._kesif[hedef].bekletilen.add(gozlem.paket.kaynak_sira)
         return Karar(beklet=True, niyetler=niyetler)
 
     def _son_atlama(self, r) -> int | None:
@@ -390,12 +424,13 @@ class AODV:
                         else SONSUZ_SIRA for h in hedefler)
         self._sayac["rerr_uretilen"] += 1
         self._son_yayin_s = simdi_s
+        # K-242 (DD-04): yayın titreşimi, ns-3 `SendRerrMessage` ile aynı.
         # 🔒 YAYIN olarak gönderiliyor. RFC §6.11 öncü sayısı birden çoksa
         # yayını, bir tekse unicast'i söyler. Öncü listesi bu gerçeklemede
         # tutuluyor ama RERR HER ZAMAN yayın: unicast dalı, öncüsü tek olan
         # ender bir durumda bir çerçeve kazandırırdı ve iki kod yolu doğururdu.
         # ⚠️ Yönü AODV'yi olduğundan PAHALI gösterir; sapma listesinde.
-        return (KontrolIstegi.kur(None, RERR, {
+        return (KontrolIstegi.kur(None, RERR, jitter_s=YAYIN_TITRESIMI_S, yuk={
             "tip": TIP_RERR,
             "bayraklar": 0,
             "ayrilmis": 0,
@@ -557,10 +592,15 @@ class AODV:
         if k.deneme > RREQ_RETRIES:
             del self._kesif[hedef]
             self._sayac["kesif_basarisiz"] += 1
-            # 🔒 Tamponlanan paketleri DÜŞÜRMEK simülatörün işi: tamponun
-            # süre tavanı onları zaten alacak. Protokol burada yalnız keşfi
-            # bırakır — RFC de *"the application is notified"* der, paketleri
-            # protokolün kendisi silmez.
+            # 🔒 K-242 · §6.3: *"all data packets destined for the
+            # corresponding destination SHOULD be dropped from the buffer"*
+            # (ns-3 `RouteRequestTimerExpire` → `DropPacketWithDst`). Eski
+            # yorum ("paketleri protokol silmez, tamponun süre tavanı alır")
+            # RFC'yi yanlış okuyordu: paketler tamponda kalıyor, yeniden
+            # sorulunca hemen yeni bir keşif başlatıyordu. Simülatör bu
+            # uyandırmadan sonra tamponu yeniden sorar; işaretli paketler
+            # `sonraki_atlama`da düşer.
+            self._dusurulecek |= {(hedef, s) for s in k.bekletilen}
             return ()
         return self._kesif_gonder(hedef, simdi)
 
@@ -697,7 +737,8 @@ class AODV:
             yeni["bayraklar"] = 0                        # U bayrağı iner
         self._sayac["rreq_iletilen"] += 1
         self._son_yayin_s = simdi_s
-        return (KontrolIstegi.kur(None, RREQ, yeni),)
+        return (KontrolIstegi.kur(None, RREQ, yeni,
+                                  jitter_s=YAYIN_TITRESIMI_S),)
 
     def _rrep_isle(self, gonderen: int, y: dict, simdi_s: float) -> tuple:
         """§6.7 · RREP işleme. HELLO da buraya gelir (§6.9).

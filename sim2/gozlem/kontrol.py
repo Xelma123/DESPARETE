@@ -136,8 +136,8 @@ def _deger_sigar_mi(ad: str, deger, bit: int) -> None:
     if isinstance(deger, int):
         if not 0 <= deger < (1 << bit):
             raise KontrolHatasi(
-                f"{ad!r}: {deger} değeri {bit} bitlik alana sığmıyor "
-                f"(işaretsiz, [0, 2^{bit}))")
+                f"{ad!r}: {deger.bit_length()} bitlik değer {bit} bitlik "
+                f"alana sığmıyor (işaretsiz, [0, 2^{bit}))")
         return
     if isinstance(deger, float):
         if bit != 32:
@@ -147,6 +147,26 @@ def _deger_sigar_mi(ad: str, deger, bit: int) -> None:
             raise KontrolHatasi(f"{ad!r}: {deger!r} tek duyarlığa sığmıyor")
         return
     raise KontrolHatasi(f"{ad!r}: taşınamaz tip {type(deger).__name__}")
+
+
+def _yuku_dogrula(bicim: MesajBicimi, yuk: dict) -> None:
+    """🔒 Alanlar biçimle aynı, her değer kendi alanına sığar. `kur()` ve
+    doğrudan kurulum (`__post_init__`) bu TEK denetimden geçer (denetim
+    DD-06, K-242: doğrudan kurucu yalnız boyutu denetliyordu; 1 baytlık
+    bedelle sınırsız tamsayı ve değişebilir liste taşınabiliyordu)."""
+    beklenen = {a for a, _ in bicim.alanlar} | {a for a, _ in bicim.tekrarli}
+    if set(yuk) != beklenen:
+        raise KontrolHatasi(
+            f"{bicim.ad}: yük alanları biçimle aynı olmalı — eksik "
+            f"{sorted(beklenen - set(yuk))} · fazla "
+            f"{sorted(set(yuk) - beklenen)}")
+    for ad, bit in bicim.alanlar:
+        _deger_sigar_mi(ad, yuk[ad], bit)
+    for ad, bit in bicim.tekrarli:
+        if not isinstance(yuk[ad], tuple):
+            raise KontrolHatasi(f"{ad!r}: tekrarlı alan bir demet olmalı")
+        for x in yuk[ad]:
+            _deger_sigar_mi(ad, x, bit)
 
 
 @dataclass(frozen=True, slots=True)
@@ -171,19 +191,7 @@ class KontrolIstegi:
             raise KontrolHatasi("biçim bir `MesajBicimi` olmalı")
         if not isinstance(yuk, dict):
             raise KontrolHatasi("yük bir sözlük olmalı")
-        beklenen = {a for a, _ in bicim.alanlar} | {a for a, _ in bicim.tekrarli}
-        if set(yuk) != beklenen:
-            raise KontrolHatasi(
-                f"{bicim.ad}: yük alanları biçimle aynı olmalı — eksik "
-                f"{sorted(beklenen - set(yuk))} · fazla "
-                f"{sorted(set(yuk) - beklenen)}")
-        for ad, bit in bicim.alanlar:
-            _deger_sigar_mi(ad, yuk[ad], bit)
-        for ad, bit in bicim.tekrarli:
-            if not isinstance(yuk[ad], tuple):
-                raise KontrolHatasi(f"{ad!r}: tekrarlı alan bir demet olmalı")
-            for x in yuk[ad]:
-                _deger_sigar_mi(ad, x, bit)
+        _yuku_dogrula(bicim, yuk)
         return KontrolIstegi(hedef=hedef, bicim=bicim, yuk=yuku_dondur(yuk),
                              mesaj_bayt=bicim.bayt(yuk), jitter_s=jitter_s)
 
@@ -192,8 +200,15 @@ class KontrolIstegi:
                                        and not isinstance(self.hedef, bool)
                                        and self.hedef >= 0),
                 "kontrol hedefi None (yayın) ya da negatif olmayan düğüm")
-        dogrula(isinstance(self.yuk, tuple), "yük dondurulmuş olmalı")
-        dogrula(self.mesaj_bayt == self.bicim.bayt(dict(self.yuk)),
+        dogrula(isinstance(self.bicim, MesajBicimi),
+                "biçim bir `MesajBicimi` olmalı")
+        dogrula(isinstance(self.yuk, tuple)
+                and all(isinstance(p, tuple) and len(p) == 2 for p in self.yuk),
+                "yük dondurulmuş olmalı")
+        yuk = dict(self.yuk)
+        dogrula(len(yuk) == len(self.yuk), "yük alan adı tekrarlı")
+        _yuku_dogrula(self.bicim, yuk)
+        dogrula(self.mesaj_bayt == self.bicim.bayt(yuk),
                 "mesaj boyutu biçimden türetilmemiş — `KontrolIstegi.kur` kullan")
         _jitter_dogrula(self.jitter_s)
 

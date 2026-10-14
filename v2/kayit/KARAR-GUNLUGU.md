@@ -172,8 +172,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-239 | 🟢 FAZ 4b'NİN RAKİPLERİ DONDU — JarmRout-b · OLSRv2-b · kopya kuralı sağlandı · JarmRout' | 🟢 geçerli |
 | K-240 | 🟢 BELGE TEMİZLİĞİ (Faz 4b adım 4, belge kısmı) — belgeler bilgi düzeyinde ve güncel · Ja | 🟢 geçerli |
 | K-241 | 🟢 KOD TEMİZLİĞİ (Faz 4b adım 4, kod kısmı) — eski rakip kalıntıları, araç varsayılanları | 🟢 geçerli |
+| K-242 | BAĞIMSIZ DENETİMİN (14 Ekim) KARARLARI — üçüncü rakip Babel (RFC 8966) · JarmRout rakipl | 🟢 geçerli |
 
-**152 kayıt · 9 revize · 143 geçerli**
+**153 kayıt · 9 revize · 144 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1939,3 +1940,19 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
   - Bütün kontrol mesajları UDP/IP ile faturalanıyor. Gerçek DSR (RFC 4728 §6.1) UDP değil IP seçenek başlığı kullanır; JarmRout'un mesajları başına 8 B fazla.
 - **Doğrulama:** ilgili testler 55/55 · tam takım `1059 passed` (15 dk 22 s) · mimari denetimi ihlalsiz.
 - Güncellenen: `12` §1.1.
+# K-242 · BAĞIMSIZ DENETİMİN (14 Ekim) KARARLARI — üçüncü rakip Babel (RFC 8966) · JarmRout rakiplikten çıktı · AODV-j'nin üç sapması düzeltilir · yer–hava görüş hattı kalıcı olur · gecikme tavanlı `PDR_açık` ikincil · hedef 19 Aralık
+> 14 Ekim · yürütücü (kararlar) · rapor `arsiv/denetim/DENETIM-RAPORU-2026-10-14.md` (30 bulgu: KRİTİK 0 · ÖNEMLİ 16 · KÜÇÜK 11 · ÖNERİ 3) · istem `DENETIM-PROMPT.md` (git dışı)
+
+- **Denetim:** bağımsız tam denetim, 13–14 Ekim, `ab2ca90` üzerinde. `thermo-nuclear-code-quality-review` yöntemi araçla çağrılamadı (`disable-model-invocation`), yürütücünün izniyle elle uygulandı. Tamamlanamayanlar raporun §2.5'inde. Raporun ana iddiaları ayrıca kodla sınandı ve tuttu: DD-01 (görüş hattı her saniye bağımsız çekiliyor, `sim2/kanal/yer_hava.py`) · DD-03 (`beklet`: AODV 2 · DESPARETE 4 · OLSRv2 0 yer; `analiz/satir.py::donem_pdr` teslimde süre sınırı tanımıyor) · DD-04 (`aodv.py`'de titreşim yok; RFC 3561 §10 "MY_ROUTE_TIMEOUT MUST be at least 2 * PATH_DISCOVERY_TIME", kod 6 s) · DD-05 · DD-06 · DD-07 · DD-10 · DD-11 · DD-13 (TÜBİTAK 2204-A sayfası: son başvuru 4 Ocak 2027, 17:30).
+- **Üçüncü rakip: Babel (RFC 8966, Standards Track).** K-240'ın açık kararı kapandı.
+  - Gerekçe: tanımı tam (ETX bağ maliyeti Ek A, parametre profili Ek B); proaktif uzaklık-vektörü ve uygulanabilirlik koşulu, yani DESPARETE'nin döngüsüzlük çekirdeğiyle aynı aile. Aynı aileden bir protokole karşı ölçüm, DESPARETE'nin kazancının aile yapısından değil kendi mekanizmalarından gelip gelmediğini sınar; raporda bu gerekçeyle sunulur.
+  - Gerçekleme RFC 8966'dan yazılır; RFC tam tanımlı olduğu için JarmRout'taki gibi boşluk doldurma gerekmez. RFC'nin seçeneğe bıraktığı yerde gerekçeli seçim ve beyan tablosu; babeld referans uygulaması yalnız hakem. Parametreler Ek B varsayılanı, senaryoya göre ayarlanmaz.
+  - Yol: kod · kural kural sadakat denetimi · U1 iki desende · regresyon vakaları · evre kapıları · donma.
+- **JarmRout rakiplikten çıktı.** H2.c Babel'e geçer; rakip sayısı m = 3 kalır (AODV · OLSRv2 · Babel). Kodu, testleri, U1 kayıtları ve iki regresyon vakası Faz 4b'nin kaydı olarak kalır; regresyon vakaları kopya defteri (K-231) ve kaynak rotası (K-232) yollarının tek sınayıcısıdır (DD-12). Ona bağlı köken borçları (`rssi_olcum_sigma_db`, `gps_dikey_sigma_m`) DESPARETE'nin Faz 5'te RSSI ve konum okuyup okumayacağı belli olunca kapatılır.
+- **AODV-j'nin üç sapması düzeltilir** (DD-04; K-208'in hakem ilkesi: RFC'nin sustuğu ya da kendi içinde çeliştiği yerde ns-3): yayınlarda titreşim · §6.2'nin önceki atlama ömrü (beyan tablosundaki "gözlem yüzeyi sınırı" gerekçesi geçersiz: önceki atlama rota tablosundan ve `cerceve_duyuldu`dan bilinir) · MY_ROUTE_TIMEOUT = 2 · PATH_DISCOVERY_TIME (RFC §10'un MUST'ı; tablo değeri 2 · ACTIVE_ROUTE_TIMEOUT onunla çelişir). Karar sonuca değil ilkeye dayanır; ayrı bir K kaydı, U1 ve regresyonla yeni sürüm donar. Yarım kalan kural kural AODV taraması aynı işte tamamlanır.
+- **Yer–hava görüş hattı kalıcı olur** (DD-01): bugün her (karıştırıcı, düğüm) çifti için her saniye bağımsız çekiliyor. Alçak yükselme açısında ışını kesen engeller karıştırıcının yakınındadır; formasyondaki İHA'nın yer değiştirmesi ışını orada ancak metrenin altında kaydırır. Durum geometri ve karıştırıcının yeri değişmedikçe sabit kalacak biçimde yeniden kurulur; ayrı K kaydı, regresyon ve birincil hücrenin rejim denetimiyle. Banliyö ortamı birincil kalır (kaynaklı, beyanlı); açık arazi Faz 6'da duyarlılık ekseni.
+- **Gecikme tavanlı `PDR_açık` ön-kayıtlı ikincil metrik olur** (DD-03): bekletme protokole göre değişir (OLSRv2 bekletmez), süre sınırı olmayan metrik uzun bekletmeyi ödüllendirir. Eşikler otopilotun telemetri zaman aşımı kaynağından, Faz 5'in ilk ölçümünden önce yazılır. Birincil metrik değişmez; KR-2 ile birlikte yeniden bakılır.
+- **Teslim:** resmî son başvuru 4 Ocak 2027, 17:30; proje hedefi 19 Aralık 2026 kalır, aradaki süre tampondur.
+- **Ön-kayıt kayıtları:** G1ç ve G2ç (12–13 Ekim, K-239) DESPARETE'yi OLSRv2, AODV, JarmRout ve kâhinle 1003 ve 1004 tohumlarında aynı hücrede koşturdu (DD-09); KR-3'ün "DESPARETE yeni rakiplere karşı koşulmadan önce" şartı bu koşularla geçildi, `06` §10'a yazıldı. Babel kararı bu iki tohumluk gözlemden değil, JarmRout'un kendi geçerliliğinden (K-238, K-239) ve aile ilkesinden doğdu. K-238 ve K-239'un teşhisleri (`jarmrout_sel_2026-10-12`, `faz4b_kapi_teshis_2026-10-13`) beklentisizdir; keşifsel sayılır (DD-10).
+- **Faz 5'ten önceki iş** (denetimin §9.1'i, yürütücü onayı): kapı sertleştirmeleri (DD-05 · 06 · 07 · 08 · 19) · anatomi aletinin açlık tanımı (DD-11) · gecikme tavanlı metrik (DD-03) · AODV'nin yeni sürümü · kalıcı görüş hattı · Babel · G1-P yeni rakip kümesiyle · belge düzeltmeleri (DD-02 · 12 · 13 · 17 · 18). Faz 6'ya: yer–hava ortam duyarlılığı · yeniden üretilebilirlik paketi (DD-15) · mühür için harici zaman damgası (DD-16).
+- Güncellenen: `01` §1 · `04` §1 · §2 · §5 · §7 · §10 · `06` §0.4.1 · §3 · §4 · §10 · `12` · README.

@@ -251,9 +251,6 @@ KOKENLER: dict[str, tuple[str, str]] = {
         "banliyö — `02` G6'da açık kırsal yok, en yakını banliyö (`v2/14`, "
         "onaylı); S-eğrisi a = 4,880, b = 0,429 makalenin Tablo I–II'sinden "
         "hesaplanır (`kanal/yer_hava.py`)"),
-    "a2g_durum_dilimi_s": ("TURETILMIS",
-        "1 s — banliyöde bina aralığı 1/√β ≈ 37 m (β = 750/km², G6); 100 "
-        "km/h'de ≈ 1,3 s"),
     "reaktif_esik_dbm": ("KOL_TANIMI",
         "−90 dBm — reaktif kolun tanımı (802.11b duyarlılığı mertebesi, "
         "K-173); keşifsel sınıf"
@@ -952,6 +949,22 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "aşan hücre, aynı hücrede üç kâhinin zarfının İÇİNDEYSE girer (K-206,"
         " K-211); zarfı da aşan giremez, yazılım hatası aranır. Ölü kayıt "
         "taraması araçta (artık aşmayan kayıt kırmızı)"),
+    "kalibrasyon/aodv_uygunluk.py::_JARMROUT_IZ": ("OLCULMUS",
+        "JarmRout-b'nin U1 kaydındaki düşük hücreleri: (U1 oranı, rota "
+        "tamponu girişi, tepe doluluk) — K-238'in çöküş izi. Üretici: "
+        "`python -u kalibrasyon/aodv_uygunluk.py --dunya referans_2026 "
+        "--desen <desen> --protokol jarmrout` (11–12 Ekim, 7 deneme)"),
+    "kalibrasyon/aodv_uygunluk.py::KAYITLI_ORAN": ("OLCULMUS",
+        "Açıklanmış düşük hücrelerin ve kâhin aşımı kayıtlarının ÖLÇÜLDÜĞÜ "
+        "U1 oranı (DD-07, K-242): muafiyet yalnız bu oranın `KAYIT_BANDI` "
+        "yakınında geçerlidir. Değerler `ciktilar2/aodv_uygunluk/<protokol>_"
+        "referans_2026_<desen>_son.json` kayıtlarından (K-224 · K-238); "
+        "üretici `python -u kalibrasyon/aodv_uygunluk.py --dunya "
+        "referans_2026 --desen <desen> --protokol <p>`"),
+    "kalibrasyon/aodv_uygunluk.py::KAYIT_BANDI": ("TURETILMIS",
+        "0,0126 = çözünürlük R (K-224). Kod değişmeden yeniden koşulan hücre "
+        "birebir aynı oranı verir; kayıtlı orandan R'den büyük sapma "
+        "açıklamanın yeniden ölçülmesini ister (DD-07, K-242)"),
     "kalibrasyon/aodv_uygunluk.py::U3_SURELERI_S": ("TEDAVI",
         "(60, 120) s — U3 yük profilinin ÖLÇÜM ekseni, bir değer değil. İki "
         "süre, yükün süreyle nasıl büyüdüğünü tek bir oranla söyler: ~2 sabit"

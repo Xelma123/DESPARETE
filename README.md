@@ -4,7 +4,7 @@
 
 TÜBİTAK 2204-A Lise Öğrencileri Araştırma Projeleri · Yazılım / Bilgisayar Bilimleri
 
-> *In English:* DESPARETE is a high-school research project (TÜBİTAK 2204-A) that designs a routing protocol for tactical UAV mesh networks under RF jamming. The repository contains a purpose-built discrete-event simulator with a 1:1 reference world (802.11b radio, realistic jammers), source-faithful implementations of the baseline protocols (AODV, OLSRv2; a third baseline is under review), and the measurement tooling used to compare them. Documentation is in Turkish.
+> *In English:* DESPARETE is a high-school research project (TÜBİTAK 2204-A) that designs a routing protocol for tactical UAV mesh networks under RF jamming. The repository contains a purpose-built discrete-event simulator with a 1:1 reference world (802.11b radio, realistic jammers), source-faithful implementations of the baseline protocols (AODV, OLSRv2, Babel), and the measurement tooling used to compare them. Documentation is in Turkish.
 
 ---
 
@@ -12,7 +12,7 @@ TÜBİTAK 2204-A Lise Öğrencileri Araştırma Projeleri · Yazılım / Bilgisa
 
 Bir İHA sürüsünde düğümler birbirinin paketini taşır: telemetri yer istasyonuna, komutlar ters yönde gider. Karıştırıcı devreye girdiğinde bağlar rastgele değil **yapılı** biçimde bozulur: karıştırıcı bir yerde durur ya da hareket eder, sürekli ya da aralıklı yayın yapar, alıcıyı sağırlaştırır ya da yakınındaki vericiyi susturur. Proje iki soruya cevap arar:
 
-1. Yaygın yönlendirme protokolleri bu koşullarda nasıl ve ne kadar bozuluyor? Kıyas tabanı reaktif AODV ve bağ durumu standardı OLSRv2'dir; üçüncü rakip açık karardır (`v2/04` §10).
+1. Yaygın yönlendirme protokolleri bu koşullarda nasıl ve ne kadar bozuluyor? Kıyas tabanı reaktif AODV, bağ durumu standardı OLSRv2 ve DESPARETE'yle aynı ailedeki uzaklık-vektörü protokolü Babel'dir (`v2/04` §1).
 2. Bu çalışmada önerilen **DESPARETE** protokolü, karıştırmayı gerçek bir telsizin ölçebildikleriyle fark edip ondan kaçınarak daha yüksek teslim sağlayabilir mi?
 
 İkinci soru iki ayrı iddia olarak sınanır:
@@ -21,12 +21,12 @@ Bir İHA sürüsünde düğümler birbirinin paketini taşır: telemetri yer ist
 
 Çalışma bir tasarım projesidir: çözüm kurulur ve kontrollü bir ortamda ölçülür. Önceden ilan edilmiş bir yanlışlanma koşulu tetiklenirse sonuç negatif sonuç olarak raporlanır.
 
-## Durum — 13 Ekim 2026
+## Durum — 14 Ekim 2026
 
 - **Simülatör:** gerçek ölçekli referans dünyada kalibre edildi ve doğrulandı (Faz 4).
-- **Taban protokoller:** AODV, OLSRv2 ve JarmRout kaynaklarına kural kural sadık yazıldı, kabul testinden geçti ve donduruldu. JarmRout'un kesin rakip olup olmayacağı açık karardır.
+- **Taban protokoller:** AODV ve OLSRv2 kaynaklarına kural kural sadık yazıldı, kabul testinden geçti ve donduruldu; bağımsız denetimin (14 Ekim) bulduğu üç AODV sapması düzeltiliyor. Üçüncü rakip Babel (RFC 8966) gerçekleniyor.
 - **Sıradaki:** DESPARETE'nin karıştırmaya özgü mekanizmalarının geliştirilmesi (Faz 5), ön-kayıt mühürü (~20 Kasım) ve ana deney.
-- **Teslim:** 19 Aralık 2026.
+- **Teslim:** proje hedefi 19 Aralık 2026 (resmî son başvuru 4 Ocak 2027).
 
 Güncel durum ve plan: [`v2/12-YOL-HARITASI.md`](v2/12-YOL-HARITASI.md).
 
@@ -37,7 +37,7 @@ Güncel durum ve plan: [`v2/12-YOL-HARITASI.md`](v2/12-YOL-HARITASI.md).
 | dizin | içerik |
 |---|---|
 | [`sim2/`](sim2) | kesikli-olay simülatörü |
-| [`protokoller/`](protokoller) | taban protokoller: AODV (RFC 3561) · OLSRv2 (RFC 7181) · JarmRout (Pu 2018) · DESPARETE (`desparete*.py`). Faz 4'ün rakipleri OLSR (RFC 3626) ve AOMDV eski regresyon vakaları için durur |
+| [`protokoller/`](protokoller) | taban protokoller: AODV (RFC 3561) · OLSRv2 (RFC 7181) · DESPARETE (`desparete*.py`); Babel (RFC 8966) gerçekleniyor. Eski rakipler OLSR (RFC 3626), AOMDV ve JarmRout (Pu 2018) kayıt ve regresyon vakaları için durur |
 | [`kalibrasyon/`](kalibrasyon) | ölçüm, kalibrasyon ve kabul kapısı araçları — belgelerdeki sayıların üreticileri |
 | [`analiz/`](analiz) | ön-kaydın istatistik planı (Wilcoxon, Holm, eşik, güç) |
 | [`tests2/`](tests2) | test takımı (pytest) |
@@ -73,9 +73,9 @@ Doğrulama dört seviyededir: analitik karşılaştırma, korunum kontrolleri, i
 
 ## Taban protokoller
 
-Protokoller birincil kaynaklarına kural kural sadık yazıldı; parametreler kaynak varsayılanıdır ve hiçbiri senaryoya göre ayarlanmaz. Modellenmeyen özellikler ve belirsiz noktalardaki seçimler her protokolün beyan tablosunda gerekçesiyle durur: [`aodv_bicim.py`](protokoller/aodv_bicim.py) · [`olsrv2_bicim.py`](protokoller/olsrv2_bicim.py) · [`jarmrout_bicim.py`](protokoller/jarmrout_bicim.py).
+Protokoller birincil kaynaklarına kural kural sadık yazıldı; parametreler kaynak varsayılanıdır ve hiçbiri senaryoya göre ayarlanmaz. Modellenmeyen özellikler ve belirsiz noktalardaki seçimler her protokolün beyan tablosunda gerekçesiyle durur: [`aodv_bicim.py`](protokoller/aodv_bicim.py) · [`olsrv2_bicim.py`](protokoller/olsrv2_bicim.py).
 
-Kabul kapısı (U1): karıştırıcısız kollarda protokolün teslim oranı aynı dünyada koşan bir kâhine oranlanır. JarmRout'un makaledeki yinelenen istek kuralı toplu akışta tıkanıklık çöküşü üretir; bu ölçülmüş bir sınır olarak raporlanır ve üçüncü rakibin seçimi açık karardır ([`v2/04`](v2/04-KARARLAR.md) §5, §10).
+Kabul kapısı (U1): karıştırıcısız kollarda protokolün teslim oranı aynı dünyada koşan bir kâhine oranlanır ([`v2/04`](v2/04-KARARLAR.md) §5). Üçüncü rakip Babel, DESPARETE'yle aynı ailedendir; DESPARETE'nin kazancının aile yapısından değil kendi mekanizmalarından gelip gelmediğini sınar.
 
 ## DESPARETE
 
@@ -83,7 +83,7 @@ Hedef-yönlü bir uzaklık-vektörü protokolü: hedef (öncelikle geçit) ağa 
 
 - **Döngüsüzlük** TTL'ye değil, hedefin ürettiği sıra numarasına ve uygulanabilirlik mesafesine dayanır (Babel, RFC 8966 ailesinin koşulu).
 - **Yönlü bağ maliyeti** kalite ve riskten oluşur; kalite düğümün kendi iletim sonuçlarından ölçülür.
-- **Postürler** (STEADY · CAUTION · PROTECT): gözlenen bozunmaya kademeli tepki.
+- **Postür** (STEADY · CAUTION): gözlenen bozunmaya kademeli tepki; PROTECT bugünkü kodda kapalıdır (yedeklilik yok).
 - **Geliştirilmekte olanlar:** karıştırmaya özgü kanıt (RSSI, kanal doluluğu, PHY hataları), yedek ardıl, kanıta dayalı postür, seçici çok yol ve çoğaltma. "Karıştırıcı tespiti" iddiası yoktur; protokol yalnız yerel olarak ölçebildiğine göre davranır.
 
 Bağlayıcı olan bugünkü koddur (v0.4.1). İlk tasarım taslağı (v0.1, 22 Eylül) arşivdedir: [`arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/`](arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22).

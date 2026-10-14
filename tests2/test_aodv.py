@@ -161,6 +161,67 @@ def test_U2_kopmadan_sonra_YENI_RREQ_baslar():
     assert _uyandirmalar(karar.niyetler), "keşif zaman aşımı kurulmadı"
 
 
+def test_DD04_ONCEKI_ATLAMA_omru_ve_komsulugu_TAZELENIR():
+    """K-242 (DD-04) · §6.2: veri iletilirken kaynağa giden girdinin sonraki
+    atlamasının (önceki atlama) rotası ve komşuluğu tazelenir; komşu
+    değilse diriltilmez."""
+    from protokoller.aodv_bicim import ACTIVE_ROUTE_TIMEOUT_S
+    p = AODV(5)
+    p._rota[9] = Rota(sonraki=6, atlama=1, hedef_sira=5, son_gecerli_s=100.0)
+    p._rota[0] = Rota(sonraki=4, atlama=2, hedef_sira=3, son_gecerli_s=1.0)
+    p._rota[4] = Rota(sonraki=4, atlama=1, hedef_sira=1, son_gecerli_s=1.0)
+    p._komsu.update({6: 9.0, 4: 8.0})
+    karar = p.sonraki_atlama(_gozlem(5, 10.0, paket_hedefi=9, paket_kaynagi=0))
+    assert karar.sonraki == 6
+    assert p._rota[4].son_gecerli_s == 10.0 + ACTIVE_ROUTE_TIMEOUT_S
+    assert p._komsu[4] == 10.0
+    del p._komsu[4]
+    p.sonraki_atlama(_gozlem(5, 12.0, paket_hedefi=9, paket_kaynagi=0))
+    assert 4 not in p._komsu, "ölü komşu veriyle diriltilmemeli"
+
+
+def test_K242_BASARISIZ_KESIFIN_TAMPONU_DUSER():
+    """K-242 · RFC §6.3: RREQ_RETRIES denemeden sonra o hedefe giden
+    tampondaki paketler düşer (ns-3 `DropPacketWithDst`); sonra doğan paket
+    yeni bir keşif başlatır."""
+    p = AODV(0)
+    karar = p.sonraki_atlama(_gozlem(0, 1.0, paket_hedefi=9, paket_sira=5))
+    assert karar.beklet
+    t = 1.0
+    while 9 in p._kesif:
+        t += 30.0
+        p.uyandi(_gozlem(0, t), "kesif:9")
+    assert p._sayac["kesif_basarisiz"] == 1
+    yeniden = p.sonraki_atlama(_gozlem(0, t, paket_hedefi=9, paket_sira=5))
+    assert yeniden.sonraki is None and not yeniden.beklet
+    assert p._sayac["kesif_basarisiz_dusen"] == 1
+    yeni = p.sonraki_atlama(_gozlem(0, t, paket_hedefi=9, paket_sira=6))
+    assert yeni.beklet and 9 in p._kesif
+
+
+def test_DD04_YAYINLAR_TITRESIMLI_ve_MY_ROUTE_TIMEOUT_MUST():
+    """K-242 (DD-04): RREQ, HELLO ve RERR yayınları ns-3 gibi U(0, 10 ms)
+    titreşimli; unicast RREP titreşimsiz. MY_ROUTE_TIMEOUT RFC §10'un
+    MUST'ı: en az 2 · PATH_DISCOVERY_TIME (11,2 s)."""
+    from protokoller.aodv_bicim import (MY_ROUTE_TIMEOUT_S,
+                                        PATH_DISCOVERY_TIME_S,
+                                        YAYIN_TITRESIMI_S)
+    assert YAYIN_TITRESIMI_S == 0.010
+    assert MY_ROUTE_TIMEOUT_S >= 2 * PATH_DISCOVERY_TIME_S
+    assert MY_ROUTE_TIMEOUT_S == pytest.approx(11.2)
+    p = AODV(0)
+    rreq = _istekler(p.sonraki_atlama(_gozlem(0, 1.0, paket_hedefi=9))
+                     .niyetler)[0]
+    assert rreq.bicim is RREQ and rreq.jitter_s == YAYIN_TITRESIMI_S
+    hello = _istekler(p.zamanlayici_doldu(_gozlem(0, 5.0), "hello"))[0]
+    assert hello.hedef is None and hello.jitter_s == YAYIN_TITRESIMI_S
+    rerr = p._rerr_kur((9,), 6.0, oncul_suz=False)[0]
+    assert rerr.bicim is RERR and rerr.jitter_s == YAYIN_TITRESIMI_S
+    rrep = p._rrep_kur(hedef_adres=0, hedef_sira=1, atlama=0, kaynak=3,
+                       omur_s=MY_ROUTE_TIMEOUT_S, sonraki=3)
+    assert rrep.jitter_s == 0.0
+
+
 def test_U2_ARA_dugum_kesif_BASLATMAZ_paketi_DUSURUR():
     """🔒 §6.11 — geçersiz rotası olan ARA düğüm RERR gönderir ve DÜŞÜRÜR.
 
@@ -849,6 +910,8 @@ def test_K192b_KAHIN_ASIMI_ZARF_KAYDI(monkeypatch, tmp_path, capsys):
     monkeypatch.delenv(U.DESEN_ORTAM, raising=False)
     monkeypatch.setattr(U, "KAHIN_ASIMI_ACIKLANMIS", {
         "aomdv": {("esler_arasi", "formasyon-yok", 1000): "zarf"}})
+    monkeypatch.setattr(U, "KAYITLI_ORAN", {
+        "aomdv": {("esler_arasi", "formasyon-yok", 1000): 0.975 / 0.97}})
 
     def kayit(desen, pdr):
         hucreler = [{"kol": "formasyon-yok", "tohum": 1000, "kahin": k,
@@ -866,6 +929,37 @@ def test_K192b_KAHIN_ASIMI_ZARF_KAYDI(monkeypatch, tmp_path, capsys):
     assert "KAHINI GECTI" in capsys.readouterr().out
     assert U.hukum(kayit("esler_arasi", 0.96)) == 1         # aşım yok → ölü
     assert "OLU ZARF KAYDI" in capsys.readouterr().out
+    # DD-07 (K-242): kayıtlı aşımdan R'den fazla büyük aşım kayıtla örtülmez.
+    assert U.hukum(kayit("esler_arasi", 0.995)) == 1
+    assert "KAYIT SAPTI" in capsys.readouterr().out
+
+
+def test_DD07_ACIKLANMIS_DUSUK_HUCRE_KAYITLI_ORANA_BAGLI(monkeypatch, tmp_path,
+                                                        capsys):
+    """Denetim DD-07 (K-242): açıklanmış düşük hücre yalnız kayıtlı oranının
+    R kadar yakınında açıklanmış sayılır; AODV-j'nin 0,894'lük hücresi
+    0,45'e düşerse kapı kalır."""
+    import json
+
+    import kalibrasyon.aodv_uygunluk as U
+    monkeypatch.setenv("DESPARETE_DUNYA", "referans_2026")
+    monkeypatch.delenv(U.DESEN_ORTAM, raising=False)
+    kayitli = U.KAYITLI_ORAN["aodv"][("yere_toplama", "statik-yok", 1000)]
+
+    def kayit(oran):
+        hucreler = [{"kol": "statik-yok", "tohum": 1000, "kahin": k,
+                     "olcum": {"pdr": 0.99 if k else 0.99 * oran,
+                               "gecerli": True, "tampon": {}}, "hata": None}
+                    for k in (False, True)]
+        yol = tmp_path / "aodv_referans_2026_yere_toplama_son.json"
+        yol.write_text(json.dumps({"protokol": "aodv", "hucreler": hucreler}),
+                       encoding="utf-8")
+        return yol
+
+    assert U.hukum(kayit(kayitli)) == 0
+    assert "DUSUK (aciklanmis)" in capsys.readouterr().out
+    assert U.hukum(kayit(0.45)) == 1
+    assert "KAYIT SAPTI" in capsys.readouterr().out
 
 
 # ==========================================================================

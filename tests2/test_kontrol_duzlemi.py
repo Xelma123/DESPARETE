@@ -492,6 +492,22 @@ def test_P6_kismi_kanca_REDDEDILIR_ve_eski_protokol_NIYET_DOLDURAMAZ():
                       ("sira", 1), ("tip", 1)), mesaj_bayt=99)
 
 
+def test_P1_dogrudan_kurulum_da_BEDEL_DENETIMINDEN_gecer():
+    """Denetim DD-06 (K-242): doğrudan kurucu yalnız boyutu denetliyordu;
+    doğru boyutla sınırsız tamsayı ve değişebilir liste geçiyordu."""
+    bayt = HELLO.bayt({"tip": 1, "kaynak": 1, "sira": 1})
+    gecerli = KontrolIstegi(hedef=None, bicim=HELLO, mesaj_bayt=bayt,
+                            yuk=(("kaynak", 1), ("sira", 1), ("tip", 1)))
+    assert gecerli == KontrolIstegi.kur(None, HELLO,
+                                        {"tip": 1, "kaynak": 1, "sira": 1})
+    for yuk in ((("kaynak", 1), ("sira", 2 ** 100_000), ("tip", 1)),
+                (("kaynak", [1, 2, 3]), ("sira", 1), ("tip", 1)),
+                (("kaynak", 1), ("sira", 1)),
+                (("kaynak", 1), ("sira", 1), ("tip", 1), ("fazla", 0))):
+        with pytest.raises((KontrolHatasi, DegismezHatasi)):
+            KontrolIstegi(hedef=None, bicim=HELLO, yuk=yuk, mesaj_bayt=bayt)
+
+
 # ==========================================================================
 # P7 · BELİRLENİMCİLİK — kontrol trafiği VARKEN
 # ==========================================================================

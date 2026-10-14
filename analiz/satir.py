@@ -161,13 +161,28 @@ def donem_araliklari(acilma_s: float, bas_s: float, bitis_s: float,
 
 
 def donem_pdr(satir: dict, acik: bool = True,
-              cizelge: Sequence[float] | None = None) -> float | None:
+              cizelge: Sequence[float] | None = None,
+              tavan_s: float | None = None) -> float | None:
     """Karıştırıcının açık (ya da sessiz) dönemlerinde DOĞAN paketlerin
     teslim oranı, satırın `ham`ından (K-222, denetim D-01).
 
     `cizelge` verilmezse satırın kendi çizelgesi (`metrikler.evre_cizelge_s`)
     kullanılır; karıştırıcısız ikiz hücrede aynı çizelge HAYALET olarak
-    verilir — aynı zaman dilimleri, karıştırıcı yok. Paydası boşsa `None`."""
+    verilir — aynı zaman dilimleri, karıştırıcı yok. Paydası boşsa `None`.
+
+    `tavan_s` verilirse yalnız gecikmesi tavanı aşmayan teslimler sayılır:
+    gecikme tavanlı `PDR_açık`, ön-kayıtlı ikincil metrik (K-242, denetim
+    DD-03). Birincil metrik teslimde süre sınırı tanımıyor; bekletme
+    protokole göre değişiyor (AODV ve DESPARETE bekletir, OLSRv2 bekletmez)."""
+    teslim, dogan = donem_sayim(satir, acik, cizelge, tavan_s)
+    return teslim / dogan if dogan else None
+
+
+def donem_sayim(satir: dict, acik: bool = True,
+                cizelge: Sequence[float] | None = None,
+                tavan_s: float | None = None) -> tuple[int, int]:
+    """`donem_pdr`in sayıları: `(teslim, doğan)`. Tam sayı; fark-içinde-fark
+    bunlardan kesirle hesaplanır (denetim DD-08)."""
     bas, bitis = alan(satir, "kapsam.olcum_penceresi_s")
     if cizelge is None:
         cizelge = satir["metrikler"].get("evre_cizelge_s")
@@ -181,9 +196,14 @@ def donem_pdr(satir: dict, acik: bool = True,
         return any(a <= t < b for a, b in araliklar)
 
     dogan = sum(1 for d in ham["dogum_s"] if icinde(d))
-    if not dogan:
-        return None
-    return sum(1 for d in ham["teslim_dogum_s"] if icinde(d)) / dogan
+    if tavan_s is None:
+        return sum(1 for d in ham["teslim_dogum_s"] if icinde(d)), dogan
+    dogrula(tavan_s > 0.0, "gecikme tavanı pozitif olmalı")
+    gecikme = ham["teslim_gecikmeleri_s"]
+    dogrula(len(gecikme) == len(ham["teslim_dogum_s"]),
+            "teslim gecikmeleri doğum anlarıyla hizalı değil")
+    return sum(1 for d, g in zip(ham["teslim_dogum_s"], gecikme)
+               if icinde(d) and g <= tavan_s), dogan
 
 
 def ham_denetimi(satir: dict) -> dict[str, tuple]:

@@ -554,31 +554,70 @@ def test_sonuc_py_de_SOZLUK_LITERALI_YOK():
         f"satır {[n.lineno for n in literaller]}")
 
 
-_PROTOKOLE_YASAK = ("sim2.kanal", "sim2.dunya", "sim2.olcum",
-                    "sim2.yapilandirma", "sim2.mac", "sim2.kosum",
-                    "sim2.cekirdek", "kalibrasyon", "tests2", "analiz")
+# 🔒 İZİN LİSTESİ (denetim DD-05, K-242). Eski tarama yasak bir liste
+# tutuyordu; `sys.modules`, `inspect`, `gc`, `builtins`, `exec`, depo
+# kökündeki bir yardımcı modül üzerinden geçişli içe aktarma ve
+# `object.__setattr__` kaçıyordu. Protokol yalnız şunları içe aktarabilir:
+# kendi paketi (`protokoller`), gözlem katmanı (`sim2.gozlem`) ve aşağıdaki
+# standart kütüphane modülleri. `random` bilerek yok: rastgelelik
+# simülatörün eşleştirilmiş akışlarından gelir (`13` §03.7). Yeni bir modül
+# gerekirse buraya gerekçesiyle eklenir.
+_PROTOKOLE_IZINLI_STDLIB = frozenset((
+    "__future__", "abc", "bisect", "collections", "dataclasses", "enum",
+    "fractions", "functools", "heapq", "itertools", "math", "operator",
+    "struct", "typing"))
+_PROTOKOLE_IZINLI_PAKET = ("protokoller", "sim2.gozlem")
+# Çalışma anında simülatörün içine uzanmanın yolları.
+_PROTOKOLE_YASAK_AD = frozenset((
+    "__import__", "exec", "eval", "compile", "globals", "locals", "vars",
+    "breakpoint", "open", "input", "__builtins__"))
+_PROTOKOLE_YASAK_OZNITELIK = frozenset((
+    "__builtins__", "__globals__", "__dict__", "__class__", "__subclasses__",
+    "__mro__", "__bases__", "__base__", "__code__", "__closure__",
+    "__self__", "__func__", "__setattr__", "__delattr__",
+    "__getattribute__", "__reduce__", "__reduce_ex__", "f_back", "f_locals",
+    "f_globals", "f_code", "gi_frame", "cr_frame", "tb_frame",
+    "tb_next"))
+
+
+def _izinli_modul(ad: str) -> bool:
+    if ad in _PROTOKOLE_IZINLI_STDLIB:
+        return True
+    return any(ad == p or ad.startswith(p + ".")
+               for p in _PROTOKOLE_IZINLI_PAKET)
 
 
 def _yasak_ice_aktarmalar(kaynak: str) -> list[str]:
-    """Kaynağın içe aktardığı TAM modül adlarından yasak olanlar.
+    """Kaynakta izin listesi dışındaki her içe aktarma ve çalışma anında
+    simülatörün içine uzanabilecek her ad ya da öznitelik.
 
-    K-166 (denetim D-1): eski tarama yalnız `import a.b`'nin ilk adını ve
-    `from a.b import x`'in modülünü görüyordu; `from sim2 import kanal`,
-    `import os, sim2.kanal`, `import sim2` ve dinamik içe aktarma kaçıyordu.
+    K-166 (denetim D-1): `from sim2 import kanal`, `import os, sim2.kanal`,
+    `import sim2` ve dinamik içe aktarma yakalanır. DD-05 (K-242): izin
+    listesi ve çalışma anı kaçamakları.
     """
-    adlar: list[str] = []
+    kotu: list[str] = []
     for n in ast.walk(ast.parse(kaynak)):
         if isinstance(n, ast.Import):
-            adlar += [a.name for a in n.names]
-        elif isinstance(n, ast.ImportFrom) and not n.level:
-            if n.module != "sim2":           # `from sim2 import gozlem` meşru
-                adlar.append(n.module or "")
-            adlar += [f"{n.module}.{a.name}" for a in n.names]
-        elif isinstance(n, ast.Name) and n.id == "__import__":
-            adlar.append("__import__")
-    kotu = [a for a in adlar
-            if a == "sim2" or a == "__import__" or a.startswith("importlib")
-            or any(a == y or a.startswith(y + ".") for y in _PROTOKOLE_YASAK)]
+            kotu += [a.name for a in n.names if not _izinli_modul(a.name)]
+        elif isinstance(n, ast.ImportFrom):
+            if n.level > 1:
+                kotu.append("." * n.level + (n.module or ""))
+            elif n.level == 1:
+                continue                     # `protokoller` içi göreli
+            elif n.module == "sim2":         # `from sim2 import gozlem` meşru
+                kotu += [f"sim2.{a.name}" for a in n.names
+                         if not _izinli_modul(f"sim2.{a.name}")]
+            elif not _izinli_modul(n.module or ""):
+                kotu.append(n.module or "")
+        elif isinstance(n, ast.Name) and n.id in _PROTOKOLE_YASAK_AD:
+            kotu.append(n.id)
+        elif isinstance(n, ast.Attribute) \
+                and n.attr in _PROTOKOLE_YASAK_OZNITELIK:
+            kotu.append(f".{n.attr}")
+        elif isinstance(n, ast.Constant) and isinstance(n.value, str) \
+                and n.value in (_PROTOKOLE_YASAK_OZNITELIK
+                                | _PROTOKOLE_YASAK_AD):
+            kotu.append(repr(n.value))       # `getattr(x, "__globals__")`
     return sorted(set(kotu))
 
 
@@ -587,12 +626,25 @@ def test_ICE_AKTARMA_taramasi_KACAMAKLARI_yakalar():
     for kaynak in ("from sim2 import kanal", "import os, sim2.kanal",
                    "import sim2", "from kalibrasyon.kahin import X",
                    "import importlib", "m = __import__('sim2.kanal')",
-                   "from sim2.kosum.kosu import Kosu"):
+                   "from sim2.kosum.kosu import Kosu",
+                   # DD-05 (K-242): çalışma anı kaçamakları ve geçişli yol
+                   "import sys\nk = sys.modules['sim2.kanal.kanal']",
+                   "import inspect\nf = inspect.currentframe().f_back",
+                   "import gc\no = gc.get_objects()",
+                   "import builtins\nm = builtins.__import__('sim2')",
+                   "exec('import sim2.kanal')",
+                   "m = getattr(__builtins__, '__imp' + 'ort__')('sim2')",
+                   "g = f.__globals__", "s = ().__class__.__base__",
+                   "object.__setattr__(kayit, 'rssi', 0)",
+                   "v = getattr(x, '__dict__')", "import random",
+                   "from yardimci_kok import kanal_bilgisi",
+                   "import ctypes", "from .. import kalibrasyon"):
         assert _yasak_ice_aktarmalar(kaynak), kaynak
     for kaynak in ("from sim2.gozlem.pencere import Gozlem",
                    "from sim2.gozlem import kontrol", "from sim2 import gozlem",
                    "from protokoller.aodv import AODV", "import math",
-                   "from . import yardimci"):
+                   "from . import yardimci", "from collections import deque",
+                   "v = getattr(self, ad)", "import heapq, struct"):
         assert not _yasak_ice_aktarmalar(kaynak), kaynak
 
 
@@ -1683,6 +1735,57 @@ def test_A6_al_hourani_BANLIYO_ve_P_LoS_ACIYLA_ARTAR():
         assert p == sorted(p), f"{ortam}: P(LoS) yükseklik açısıyla artmalı"
 
 
+def test_DD01_GORUS_HATTI_KALICI_ve_ORTALAMASI_MAKALENIN():
+    """DD-01 (K-242): görüş hattı engel noktasının bina hücresine bağlı —
+    hücreler üzerinden oran P(LoS, θ); küçük yer değiştirmede durum aynı;
+    karıştırıcı taşınınca yeni binalar."""
+    import math
+
+    from sim2.dunya.geometri import Nokta3
+    from sim2.kanal.yer_hava import (YerHavaKanali, bina_genisligi_m,
+                                     gorus_hatti_olasiligi, s_egrisi)
+    assert bina_genisligi_m("banliyo") == pytest.approx(11.547, abs=0.001)
+    k = YerHavaKanali(1000, "banliyo")
+    yer = Nokta3(16500.0, 16500.0, 3.0)
+    a, b = s_egrisi("banliyo")
+    # Engel noktası: ışın γ = 8 m'ye karıştırıcıdan (8 − 3)/tan θ uzakta iner.
+    hava = Nokta3(16500.0 + 10_000.0, 16500.0, 3.0 + 10_000.0 * math.tan(
+        math.radians(2.0)))
+    x, _ = k.engel_noktasi(yer, hava)
+    assert x - 16500.0 == pytest.approx(5.0 / math.tan(math.radians(2.0)))
+    # Ortalama: karıştırıcının 3 000 ayrı konumunda (her biri yeni binalar)
+    # aynı açıdaki oran P(LoS, θ). Tek konumda yönler az hücreye düşer.
+    for teta in (1.0, 3.0, 10.0):
+        yatay, n = 10_000.0, 3000
+        z = 3.0 + yatay * math.tan(math.radians(teta))
+        los = []
+        for i in range(n):
+            y0 = Nokta3(1000.0 + 97.0 * (i % 300), 1000.0 + 103.0 * (i // 300),
+                        3.0)
+            f = 2 * math.pi * ((i * 0.618) % 1.0)
+            los.append(k.gorus_hatti_mi(y0, Nokta3(
+                y0.x + yatay * math.cos(f), y0.y + yatay * math.sin(f), z)))
+        p = gorus_hatti_olasiligi(a, b, teta)
+        assert abs(sum(los) / n - p) < 4 * math.sqrt(p * (1 - p) / n)
+    # Kalıcılık: 10 km'de 20 m yer değiştirme engel noktasını ~0,5 m kaydırır.
+    ayni = 0
+    for i in range(500):
+        f = 2 * math.pi * i / 500
+        h1 = Nokta3(yer.x + 10_000 * math.cos(f), yer.y + 10_000 * math.sin(f),
+                    180.0)
+        h2 = Nokta3(h1.x + 20.0, h1.y, 181.0)
+        ayni += k.gorus_hatti_mi(yer, h1) == k.gorus_hatti_mi(yer, h2)
+    assert ayni >= 480
+    # Karıştırıcı 250 m taşınınca durumlar yeniden çekilir.
+    tasindi = Nokta3(yer.x - 250.0, yer.y, 3.0)
+    farkli = sum(
+        k.gorus_hatti_mi(yer, h) != k.gorus_hatti_mi(tasindi, h)
+        for h in (Nokta3(yer.x + 10_000 * math.cos(2 * math.pi * i / 2000),
+                         yer.y + 10_000 * math.sin(2 * math.pi * i / 2000),
+                         600.0) for i in range(2000)))
+    assert farkli > 0
+
+
 def test_A6_yer_karistiricisi_YERDE_ek_kayip_IKI_DEGERLI():
     def uyeler(k):
         return getattr(k, "uyeler", (k,))
@@ -1693,9 +1796,8 @@ def test_A6_yer_karistiricisi_YERDE_ek_kayip_IKI_DEGERLI():
     assert all(u.konum.z == k.yer_karistirici_yukseklik_m
                for u in uyeler(kur.kanal.karistirici))
     u = uyeler(kur.kanal.karistirici)[0]
-    hava = kur.topoloji.konum(0, 1.0)
-    ek = {u._a2g.ek_kayip_db(u._golge_kimligi, 0, u.konum, hava, float(t))
-          for t in range(60)}
+    ek = {u._a2g.ek_kayip_db(u.konum, kur.topoloji.konum(d, 1.0))
+          for d in range(k.dugum_sayisi)}
     assert ek <= {0.1, 21.0} and ek
     kapali = kurulum_yap(_konfig("statik-surekli", 1000, 2.0,
                                  tehdit_senaryosu="cephe_hatti"))

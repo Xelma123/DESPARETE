@@ -223,28 +223,96 @@ def test_K222_DONEM_PDR_evre_sozluguyle_BIREBIR():
     assert donem_pdr(satir, True, cizelge=(15.0, 15.0)) == e["pdr_acik"]
 
 
+def test_DD03_GECIKME_TAVANLI_PDR_ACIK():
+    """DD-03 (K-242): tavan verilince yalnız gecikmesi tavanı aşmayan
+    teslimler sayılır; tavansız hâl birincil metrikle aynı."""
+    from analiz.satir import donem_pdr, donem_sayim
+    satir = {"kapsam": {"olcum_penceresi_s": [50.0, 320.0]},
+             "konfig": {"karistirici_baslangic_s": 150.0},
+             "metrikler": {"evre_cizelge_s": [15.0, 15.0]},
+             "ham": {"dogum_s": [151.0, 152.0, 160.0, 170.0],
+                     "teslim_dogum_s": [151.0, 152.0, 170.0],
+                     "teslim_gecikmeleri_s": [0.5, 3.0, 1.0]}}
+    assert donem_sayim(satir) == (2, 3)
+    assert donem_sayim(satir, tavan_s=60.0) == (2, 3)
+    assert donem_sayim(satir, tavan_s=2.0) == (1, 3)
+    assert donem_pdr(satir, tavan_s=0.4) == 0.0
+    assert donem_pdr(satir, acik=False, tavan_s=2.0) == 1.0
+    with pytest.raises(AnalizHatasi):
+        donem_sayim(satir, tavan_s=0.0)
+
+
+def _did_satiri(tohum, sayim, cizelge=(15.0, 15.0), arac="a",
+                acilma=150.0, evren=None, kurulum="k"):
+    s = _satir(tohum, 0.5, arac=arac, kurulum=kurulum, evren=evren)
+    s["konfig"]["karistirici_baslangic_s"] = acilma
+    s["kapsam"] = {"olcum_penceresi_s": [50.0, 320.0]}
+    if cizelge is not None:
+        s["metrikler"]["evre_cizelge_s"] = list(cizelge)
+    s["turetilen_sayim"] = sayim
+    return s
+
+
 def test_K222_FARK_ICINDE_FARK_karistirmaya_ozgu_kazanci_AYIRIR(monkeypatch):
     """Özgün protokol her hücrede rakipten 0,10 iyi (karıştırmadan bağımsız
-    üstünlük) → DiD ≈ 0, anlamlı değil; birincilde ek 0,05 → DiD > 0."""
+    üstünlük) → DiD tam sıfır; birincilde ek kazanç → DiD > 0 ve anlamlı.
+    DD-08 (K-242): DiD sayılardan kesirle — sıfır vaka tam sıfırdır."""
     from analiz import hucre as H
     from analiz.hucre import fark_icinde_fark_tablosu
 
+    monkeypatch.setattr(H, "donem_sayim",
+                        lambda s, acik=True, cizelge=None: s["turetilen_sayim"])
+    monkeypatch.setattr(H, "donem_pdr", lambda s, acik=True, cizelge=None:
+                        s["turetilen_sayim"][0] / s["turetilen_sayim"][1])
     tohumlar = range(2000, 2040)
+    g = lambda t: (t * 7) % 5
 
-    def satirlar(fn):
-        return [{**_satir(t, 0.5), "turetilen_deger": fn(t)} for t in tohumlar]
-
-    monkeypatch.setattr(H, "donem_pdr",
-                        lambda s, acik=True, cizelge=None: s["turetilen_deger"])
-    gurultu = lambda t: ((t * 7) % 5) / 100.0
-    D_b = satirlar(lambda t: 0.60 + gurultu(t))
-    R_b = satirlar(lambda t: 0.50 + gurultu(t))
-    D_i = satirlar(lambda t: 0.90 + gurultu(t))
-    R_i = satirlar(lambda t: 0.80 + gurultu(t))
-    sifir = fark_icinde_fark_tablosu(D_b, {"aodv": R_b}, D_i,
-                                     {"aodv": R_i}, (15.0, 15.0))
-    assert abs(sifir[0].ort) < 1e-9 and sifir[0].p_holm > 0.05
-    D_b2 = satirlar(lambda t: 0.65 + gurultu(t) + ((t * 3) % 4) / 200.0)
-    ozgu = fark_icinde_fark_tablosu(D_b2, {"aodv": R_b}, D_i,
-                                    {"aodv": R_i}, (15.0, 15.0))
+    def kol(fn, ikiz=False):
+        return [_did_satiri(t, (fn(t), 997),
+                            cizelge=None if ikiz else (15.0, 15.0),
+                            kurulum="ki" if ikiz else "kb")
+                for t in tohumlar]
+    D_b, R_b = kol(lambda t: 601 + g(t)), kol(lambda t: 501 + g(t))
+    D_i = kol(lambda t: 901 + g(t), ikiz=True)
+    R_i = kol(lambda t: 801 + g(t), ikiz=True)
+    sifir = fark_icinde_fark_tablosu(D_b, {"aodv": R_b}, D_i, {"aodv": R_i})
+    assert sifir[0].ort == 0.0 and sifir[0].yontem == "tum_sifir"
+    assert sifir[0].p_holm == 1.0
+    D_b2 = kol(lambda t: 651 + g(t) + (t * 3) % 4)
+    ozgu = fark_icinde_fark_tablosu(D_b2, {"aodv": R_b}, D_i, {"aodv": R_i},
+                                    (15.0, 15.0))
     assert ozgu[0].ort > 0.04 and ozgu[0].p_holm < 0.05
+
+
+def test_DD08_FARK_ICINDE_FARK_birincil_ve_ikizin_UYUMUNU_denetler(
+        monkeypatch):
+    """DD-08 (K-242): farklı kod, açılma anı, çizelge ya da paket evreniyle
+    koşulmuş ikiz kabul edilmez."""
+    from analiz import hucre as H
+    from analiz.hucre import fark_icinde_fark_tablosu
+
+    monkeypatch.setattr(H, "donem_sayim",
+                        lambda s, acik=True, cizelge=None: s["turetilen_sayim"])
+    monkeypatch.setattr(H, "donem_pdr", lambda s, acik=True, cizelge=None:
+                        s["turetilen_sayim"][0] / s["turetilen_sayim"][1])
+    tohumlar = range(2000, 2010)
+
+    def kol(n, ikiz=False, **ek):
+        return [_did_satiri(t, (n + t % 3, 100),
+                            cizelge=None if ikiz else (15.0, 15.0),
+                            kurulum="ki" if ikiz else "kb", **ek)
+                for t in tohumlar]
+    D_b, R_b = kol(60), kol(50)
+    D_i, R_i = kol(90, True), kol(80, True)
+    assert fark_icinde_fark_tablosu(D_b, {"aodv": R_b}, D_i, {"aodv": R_i})
+    for ikiz_D, ikiz_R in ((kol(90, True, arac="b"), kol(80, True, arac="b")),
+                           (kol(90, True, acilma=100.0),
+                            kol(80, True, acilma=100.0)),
+                           (kol(90, True, evren="baska"),
+                            kol(80, True, evren="baska"))):
+        with pytest.raises(AnalizHatasi):
+            fark_icinde_fark_tablosu(D_b, {"aodv": R_b}, ikiz_D,
+                                     {"aodv": ikiz_R})
+    with pytest.raises(AnalizHatasi):
+        fark_icinde_fark_tablosu(D_b, {"aodv": R_b}, D_i, {"aodv": R_i},
+                                 (20.0, 10.0))

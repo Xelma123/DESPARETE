@@ -109,6 +109,34 @@ def test_DESPARETE_ONARIM_BOLUMLERI_aclik_adaysiz_ve_sonlari():
     assert ozet["sure"]["acik|kosu_sonu+U"] == [20.0, 20.0, 20.0]
 
 
+def test_DD11_ACLIK_protokolun_KENDI_tanimiyla():
+    """DD-11 (K-242): aletin açlığı `AlanTablosu.aclik_mi`dir. Ardılın
+    potansiyeli FD'nin üstüne çıkınca protokol açlık der; eski alet ardılı
+    dışarıda bıraktığı için "adaysız" diyordu."""
+    from types import SimpleNamespace
+
+    from kalibrasyon.kayip_anatomisi import _desparete_onarim_sar
+    from protokoller.desparete_alan import AlanTablosu
+
+    class Dugum:
+        kimlik = 7
+
+        def aktif_mi(self, j):
+            return j == 1
+
+    kur = SimpleNamespace(olaylar=SimpleNamespace(simdi=0.0))
+    bolumler: list = []
+    geri = _desparete_onarim_sar(kur, bolumler)
+    try:
+        t = AlanTablosu(Dugum().aktif_mi, lambda j: 16)
+        t.ilan_al(1, 9, 1, 1, 0, 32, 30, 0.0)            # FD 48, ardıl 1
+        t.ilan_al(1, 9, 1, 2, 0, 60, 30, 0.1)            # P 60 ≥ FD: onarım
+        assert t.aclik_mi(9, 0.1)
+    finally:
+        geri()
+    assert [(b["aclik"], b["sonlu"]) for b in bolumler] == [(True, 0)]
+
+
 def test_DOGUM_EVRESI_dusen_paket_yollari():
     """Faz 5.0 (10 Ekim): düşen paket, düşüşün yoluna göre bulunur."""
     from types import SimpleNamespace as N

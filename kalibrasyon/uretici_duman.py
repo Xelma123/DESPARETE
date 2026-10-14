@@ -105,9 +105,9 @@ DUMAN_KESITI: dict[str, tuple[list[str], str, str]] = {
     "theta_kollari.py":       ([],                "tamamı",       "BANT 2–5 dk"),
     # 8 Ekim 2026 (K-218): `BEKLEYEN_UYANDIRMA_TAVANI`nın üreticisi regresyon
     # satırları. Duman: GÜNCEL tabanın kendisiyle karşılaştırması (uret ~45 dk;
-    # taban k223, K-224). Taban dosyası çalışılan ağacın `ciktilar2/`sinde
+    # taban k236, K-237; DD-19). Taban dosyası çalışılan ağacın `ciktilar2/`sinde
     # olmalı — dondurulmuş kopyada yoksa kesit çalışamaz (K-226).
-    "regresyon_satirlari.py": (["karsilastir", "k223", "k223"],
+    "regresyon_satirlari.py": (["karsilastir", "k236", "k236"],
                                                   "taban kendisiyle karşılaştırma",
                                                                   "BANT uret 35–45 dk"),
     "yere_toplama_yuku.py":   (["duman"],         "tek hız × tek tohum — SAYIYI ÜRETMEZ",

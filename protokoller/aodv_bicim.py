@@ -44,16 +44,28 @@ AODV'nin lehine bir sapma OLMADIĞI böylece garanti.
 | RREP-ACK MESAJI (yalnız mesaj) | §5.4 | 🟢 **Kara liste UYGULANIYOR (§6.8, K-194)** — tetiği RREP'in bağ katmanı onayının gelmemesi: RFC *"Such failures can be detected via the absence of a link-layer or network-layer acknowledgment (e.g., RREP-ACK)"*. Bu gerçeklemede tek yönlü (unicast) giden TEK kontrol mesajı RREP'tir (RREQ ve RERR yayın), yani `iletim_basarisiz(tur="kontrol")` tam olarak "RREP iletimi başarısız" demektir; ayrı bir RREP-ACK mesajı ek bayt dışında bilgi getirmez. 🔴 Eski gerekçe ("bağ SİMETRİKTİR") referans dünyada geçersizdi: ortalama güç simetrik ama karıştırıcı gücü ve ED susturması ALICIDA/VERİCİDE ayrı etki eder — bağ fiziksel olarak tek yönlü olabilir (denetim O-1) |
 | karşılıksız RREP (G bayrağı) | §6.6.3 | kaynağa geri yol zaten RREQ'in ters rotasından kuruluyor; G bayrağı ek bir eniyileme |
 | çok arayüzlü düğüm · alt ağ öneki | §5.2 Prefix Sz | tek arayüz, düz adresleme |
-| §6.2'nin **ÖNCEKİ ATLAMA** ömrü | §6.2 | 🔴 GÖZLEM YÜZEYİ SINIRI: bir veri paketinin görünümü hedefini, kaynağını, TTL'ini, atlama sayısını ve baytını taşır — **onu kime aldığını taşımaz.** RFC *"the Active Route Lifetime for the previous hop … is also updated"* diyor; bu bilgi gerçek bir telsizde vardır (çerçevenin MAC kaynak adresi), yani yüzeye eklenebilirdi — ama bu `sim2/`de YAPISAL bir değişikliktir ve P6'nın "yüzey büyümedi" kapısını açar. Yüzeyin dar tutulması bilinçli bir sözleşmedir (`05`) ve bir kolaylık için genişletilmedi |
 
-⚠️ ÖNCEKİ ATLAMA sapmasının yönü: kaynağa ve hedefe giden girdiler veri
-akışıyla ZATEN tazeleniyor (§6.2'nin uygulanan kısmı), bir atlamalık komşu
-girdileri de her kontrol mesajında ve her devretmede (§6.9) tazeleniyor.
-Tazelenmeyen tek durum, bir düğümün **yalnızca aktarıcı** olduğu ve önceki
-atlamaya kendisinin hiç göndermediği bir yoldur; orada ters rota
-`ACTIVE_ROUTE_TIMEOUT` ile sınırlı kalır. Etkisi RERR'in kaynağa
-ulaşmasını zorlaştırmaktır, yani AODV'yi olduğundan **zayıf** gösterir —
-lehine bir sapma değildir.
+🔒 K-242 (denetim DD-04) — ÜÇ SAPMA KAPANDI, `AODV-k`
+====================================================
+  · §6.2'nin ÖNCEKİ ATLAMA ömrü UYGULANDI. Eski beyanın gerekçesi
+    ("gözlem yüzeyi sınırı: paket kimden alındığını taşımaz") geçersizdi:
+    RFC'nin önceki atlaması *"along the reverse path back to the IP
+    source"*, yani kaynağa giden girdinin sonraki atlamasıdır — rota
+    tablosundan bilinir (ns-3 `RouteInput`: `toOrigin.GetNextHop()`).
+    O komşunun canlılığı da tazelenir (ns-3 `m_nb.Update`; RFC §6.9 "any
+    packets"), yalnız zaten komşuysa: ölü bir komşu veriyle diriltilmez.
+  · Yayınlarda TİTREŞİM (RFC susuyor → ns-3): RREQ üretimi ve iletimi,
+    HELLO ve RERR `U(0, YAYIN_TITRESIMI_S)` gecikmeyle (ns-3 her birinde
+    `GetInteger(0, 10)` ms). Beyan: ns-3 tam sayı ms çeker, simülatör
+    sürekli `U(0, 10 ms)`; HELLO zamanlayıcısının başlangıç fazı ns-3'te
+    `U(0, 100 ms)`, burada simülatörün periyodik zamanlayıcı fazı
+    `U(0, HELLO_INTERVAL)` (`13` §03.5) — daha dağınık, eşzamanlılık daha az.
+  · MY_ROUTE_TIMEOUT = 2 · max(PATH_DISCOVERY_TIME, ACTIVE_ROUTE_TIMEOUT)
+    = 11,2 s. RFC §10'un metni *"MUST be at least 2 * PATH_DISCOVERY_TIME"*
+    der, aynı bölümün tablosu 2 · ACTIVE_ROUTE_TIMEOUT (6 s); çelişkide
+    MUST ve ns-3 (aynı formül, altında `NS_ABORT`).
+Üçü de AODV'yi zayıflatıyordu. `AOMDV-f` aynı çekirdeği miras alır; onun
+kayıtlı regresyon satırları da değişir (Faz 4'ün kaydı, rakip değil).
 
 ⚠️ Bu sapmalar AODV'yi **zayıflatır mı?** RREP-ACK mesajının yokluğu hayır
 (kara liste bağ katmanı onayıyla tetikleniyor, K-194), G bayrağı bir
@@ -91,6 +103,7 @@ __all__ = [
     "TTL_THRESHOLD", "TIMEOUT_BUFFER", "RREQ_RATELIMIT", "RERR_RATELIMIT",
     "NET_TRAVERSAL_TIME_S", "PATH_DISCOVERY_TIME_S", "DELETE_PERIOD_S",
     "BLACKLIST_TIMEOUT_S", "halka_suresi_s", "SONSUZ_SIRA",
+    "YAYIN_TITRESIMI_S",
 ]
 
 # ==========================================================================
@@ -118,9 +131,13 @@ RREQ_RATELIMIT: int = 10
 RERR_RATELIMIT: int = 10
 
 # --- RFC'nin kendi TÜRETMELERİ — formülleri belgeden birebir ---------------
-MY_ROUTE_TIMEOUT_S: float = 2 * ACTIVE_ROUTE_TIMEOUT_S
 NET_TRAVERSAL_TIME_S: float = 2 * NODE_TRAVERSAL_TIME_S * NET_DIAMETER
 PATH_DISCOVERY_TIME_S: float = 2 * NET_TRAVERSAL_TIME_S
+# 🔒 K-242 (DD-04): §10 "MUST be at least 2 * PATH_DISCOVERY_TIME" → 11,2 s;
+# tablo değeri (2 · ACTIVE_ROUTE_TIMEOUT = 6 s) MUST'ı çiğner. ns-3 aynı
+# formül: `2 * std::max(m_pathDiscoveryTime, m_activeRouteTimeout)`.
+MY_ROUTE_TIMEOUT_S: float = 2 * max(PATH_DISCOVERY_TIME_S,
+                                    ACTIVE_ROUTE_TIMEOUT_S)
 DELETE_PERIOD_S: float = DELETE_PERIOD_K * max(ACTIVE_ROUTE_TIMEOUT_S,
                                                HELLO_INTERVAL_S)
 # §6.8 · §10 — kara liste süresi. Taban tanım `RREQ_RETRIES *
@@ -132,6 +149,9 @@ DELETE_PERIOD_S: float = DELETE_PERIOD_K * max(ACTIVE_ROUTE_TIMEOUT_S,
 BLACKLIST_TIMEOUT_S: float = (
     ((TTL_THRESHOLD - TTL_START) // TTL_INCREMENT) + 1 + RREQ_RETRIES
 ) * NET_TRAVERSAL_TIME_S
+# 🔒 K-242 (DD-04) · yayın titreşimi — RFC 3561 susar; ns-3 hakem: RREQ
+# üretimi/iletimi, HELLO ve RERR `GetInteger(0, 10)` ms sonra gönderilir.
+YAYIN_TITRESIMI_S: float = 0.010
 
 
 def halka_suresi_s(ttl: int) -> float:

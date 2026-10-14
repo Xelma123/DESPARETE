@@ -1,6 +1,6 @@
 # 14 · REFERANS GERÇEK DÜNYA — simülatörün 1:1 karşılığı
 
-> **Durum: onaylandı** (K-169) ve uygulandı (`sim2/kanal/dunya.py::referans_2026`). Alan 33 km (K-188), karıştırıcı referans tabanı 10 W ve birincil hücre `derin_sizma` (K-186). Güncel: 13 Ekim 2026; eski dünyayla karşılaştırma ve öngörüler `arsiv/14-REFERANS-DUNYA-*.md`.
+> **Durum: onaylandı** (K-169) ve uygulandı (`sim2/kanal/dunya.py::referans_2026`). Alan 33 km (K-188), karıştırıcı referans tabanı 10 W ve birincil hücre `derin_sizma` (K-186). Güncel: 14 Ekim 2026; eski dünyayla karşılaştırma ve öngörüler `arsiv/14-REFERANS-DUNYA-*.md`.
 > **İlke:** simülatör ve gözlem sözleşmesi gerçek bir İHA sürüsünde olanı modeller. Her sayı ya **kaynaklı** (`02`), ya **betikle hesaplanmış**, ya da **onaylı karar**dır.
 > **Üretici:** `python arsiv/teshis/referans_dunya_2026-09-25/bag_butcesi.py` (çıktı yanında) — yalnız aritmetik, simülasyon yok.
 
@@ -15,7 +15,7 @@
 | hata modeli | Eb/N0 = SNR·22 (1 Mb/s) · SNR·11 (2 Mb/s) · CCK Pursley–Royster; gürültü 22 MHz'de | G1 (CMU ölçümüyle karşılaştırılmış) |
 | gürültü | NF 7 dB → **−93,6 dBm** | G1 · betik |
 | duyarlılık (PER ≤ %10, 576 B) | **1 Mb/s −97,0 · 2 Mb/s −92,4 dBm** | betik · standardın alt sınırı −80 dBm (G2) · CMU Prism 2.5 ≈ −94…−100 (G1) |
-| **verici** | **EIRP 20 dBm (100 mW)** — AB/Türkiye 2,4 GHz sınırı EIRP'dir (anten dâhil); dipolle iletilen ≈ 17,9 dBm (61 mW). Serbest uzayda güç yalnız mesafeyi ölçekler (K-230) | G2 · G7 (*"In Europe, the max EIRP is 100mW"*) · onaylı |
+| **verici** | **EIRP 20 dBm (100 mW)** — AB/Türkiye 2,4 GHz sınırı EIRP'dir (anten dâhil); dipolle iletilen ≈ 17,9 dBm (61 mW). Çalışma noktası bu sınıftaki telsizin erişim sınırına gerilmiş seyrek ağıdır; taktik telsiz gücünde aynı alan yoğun ağdır ve "ölçekli karşılık" gerekçesi tutmaz (hızlar, gölgeleme hücresi, yayılım gecikmesi ve yer–hava açıları ölçeklenmez; K-242) | G2 · G7 (*"In Europe, the max EIRP is 100mW"*) · onaylı |
 | keşifsel verici | taktik mesh telsizi: 27 dBm (Doodle Labs Pro) · 33 dBm (Xtreme), MCS 0 | G7 |
 | anten | yarım dalga dipol, 2,15 dBi, dikey | bugünkü model |
 | ED eşiği | iletilen >100 mW → −80 · >50 mW → −76 · ≤50 mW → −70 dBm → 61 mW'ta **−76 dBm**; ED süresi 15 µs | G2 |
@@ -52,7 +52,7 @@
 
 ## 4 · Tehdit — karıştırıcılar
 
-**Bağ bütçesi** (betik; 2 Mb/s, işlem kazancı dâhil, düğüm EIRP 20 dBm): 1 km'lik bir bağı 1 W'lık karıştırıcı **3,7 km**'den, 10 W'lık **11,7 km**'den, 50 W'lık **26,1 km**'den keser.
+**Bağ bütçesi** (betik; serbest uzay, 2 Mb/s, işlem kazancı dâhil, düğüm EIRP 20 dBm): 1 km'lik bir bağı 1 W'lık karıştırıcı **3,7 km**'den, 10 W'lık **11,7 km**'den, 50 W'lık **26,1 km**'den keser. Yerdeki karıştırıcıda bu mesafeler geçerli değildir: yer–hava kanalı (banliyö) küçük yükselme açılarında çoğunlukla görüş hattı dışıdır ve ~21 dB ek kayıp getirir; birincil hücrenin kısmi karıştırma rejimi büyük ölçüde bu kayıptan doğar. Açık arazide aynı güç sürünün çoğunu karartır (denetim DD-01; ortam duyarlılığı Faz 6, K-242).
 
 **Rejim sınırı:** onlarca watt'lık bir karıştırıcı birkaç kilometrelik sürünün tamamını karartır. Orada hiçbir yönlendirme protokolü teslimi kurtaramaz; kurtaran frekans çevikliği ya da hareket olur (ikisi kapsam dışı). Yönlendirmenin fark yaratabileceği rejim, etki alanı sürüden küçük karıştırıcılardır: düşük güçlü, İHA taşıyıcılı, uzaktaki ya da yer–hava kaybıyla zayıflayan. Birincil hücre bu rejimde kurulur ("kısmi karıştırma", ρ ölçütü). Güçlü uç, güç taramasıyla rejimin sınırını gösteren keşifsel eksendir (H1.2 dirseği).
 
