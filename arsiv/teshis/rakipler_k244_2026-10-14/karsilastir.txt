@@ -1,0 +1,24 @@
+REGRESYON KARSILASTIRMASI — k243 (85 satir) ↔ k244 (87 satir)
+  (yeni vaka) yalniz k244: u-bagimsiz-surekli-babel-dugum_kaybi · gecerli=True
+  (yeni vaka) yalniz k244: u-birincil-babel · gecerli=True
+  (ilan edilmis degisen vaka) k-statik-surekli-aodv · 178 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) k-statik-surekli-aomdv · 176 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) r-referans-statik-surekli-aodv · 167 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) t-statik-surekli-aodv-dugum_kaybi · 185 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-aodv · 200 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-birincil-aomdv · 206 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-gorev-surekli-aomdv-esler_arasi · 166 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-aldatici-aodv · 183 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-reaktif-aodv · 197 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-surekli-aodv-cephe_hatti · 186 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-surekli_darbeli-aodv · 193 alan farkli · gecerli=True
+  (ilan edilmis degisen vaka) u-statik-taramali-aodv · 194 alan farkli · gecerli=True
+
+  bulgusuz vaka : 73/73 (+12 ilan edilmis degisen)
+  (beklenen) kimlik.arac_hash                                 73 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           73 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              73 vakada farkli
+  (beklenen) kimlik.protokol_hash                             68 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         73 vakada farkli
+
+  🟢 BIREBIR (izinli farklar disinda)

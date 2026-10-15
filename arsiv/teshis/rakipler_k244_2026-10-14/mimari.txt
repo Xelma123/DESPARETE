@@ -1,0 +1,202 @@
+
+==========================================================================
+1 - KATMAN YONU  (cekirdek -> yapilandirma -> dunya -> ...)
+==========================================================================
+  denetlenen dosya : 63
+  ihlal            : 0
+
+==========================================================================
+2 - CIPLAK `assert`  (-O altinda sessizce kalkar)
+==========================================================================
+  bulunan : 0
+
+==========================================================================
+3 - BELIRLENIMSIZ KAYNAKLAR  (hash() · time · random · id)
+==========================================================================
+  hash()/id() cagrisi : 0
+  zaman/ortam iceri aktarimi : 5
+    . sim2/cekirdek/degismezler.py:25 import os  (kimlik/zaman damgasi disinda kullanilmamali)
+    . sim2/cekirdek/kimlik.py:25 import os  (kimlik/zaman damgasi disinda kullanilmamali)
+    . sim2/cekirdek/kimlik.py:29 import time  (kimlik/zaman damgasi disinda kullanilmamali)
+    . sim2/cekirdek/kimlik.py:30 import uuid  (kimlik/zaman damgasi disinda kullanilmamali)
+    . sim2/kosum/sonuc.py:31 import os  (kimlik/zaman damgasi disinda kullanilmamali)
+
+==========================================================================
+4 - OLU KOD  (`__all__`da olup HIC OKUNMAYAN ad)
+==========================================================================
+  taranan agac             : sim2 · tests2 · kalibrasyon · protokoller
+  hic OKUNMAYAN dis ad     : 2
+    . sim2/gozlem/protokol.py -> DuyanProtokol
+    . sim2/gozlem/protokol.py -> DUYULAN_TURLER
+
+==========================================================================
+5 - KONFIG ALANLARI  (bildirim != kullanim)
+==========================================================================
+  toplam alan          : 116
+  fiilen okunan        : 111
+  HENUZ_OKUNMAYAN'da   : 5
+  sahipsiz (HATA)      : 0  []
+  okunanlar: a2g_ortam, akis_paket_hizi_hz, akis_sayisi, alan_boy_m, alan_en_m, alici_anten_kazanci_dbi, anten_deseni_acik, arf_basari_esigi, arf_zamanlayici_esigi, bant_genisligi_hz, beacon_araligi_s, beacon_bayt, bit_hizi_bps, cbr_titresim_s, cca_s, cw_max, cw_min, darbe_gorev_cevrimi, darbe_periyodu_s, dugum_sayisi, dunya, ed_esigi_dbm, enerji_alim_w, enerji_gonderim_w, frekans_hz, gecit_konumu, gm_adim_s, gm_alfa, gm_azimut_sigma_rad, gm_hiz_maks_ms, gm_hiz_min_ms, gm_hiz_sigma_ms, gm_pitch_ort_rad, gm_pitch_sigma_rad, golgeleme_acik, golgeleme_hucre_m, golgeleme_sigma_db, gorev_grup_sayisi, gorev_grup_yaricapi_m, gorev_jitter_hiz_ms, gps_dikey_sigma_m, gps_hiz_sigma_ms, gps_tazeleme_s, gps_yatay_cep_m, gurultu_figuru_db, hiz_uyarlamasi, irtifa_maks_m, irtifa_min_m, islem_kazanci, istasyon_kayma_hiz_ms, kanal_dilimi_s, karistirici_baslangic_s, karistirici_denetim_araligi_s, karistirici_gercekci, kayip_bas_s, kayip_bitis_s, kayip_dugum_sayisi, kol, komut_akis_sayisi, komut_paket_hizi_hz, kosu_bitis_s, kuyruk_kapasitesi, menzil_snr_db, modulasyon, nominal_bag_m, not_, olcek, olcum_bitis_s, onay_bayt, onbelge_s, paket_bayt, reaktif_esik_dbm, reaktif_patlama_s, reaktif_sezme_olasiligi, reaktif_sezme_s, rician_k_db, rota_tamponu_kapasitesi, rota_tamponu_omru_s, rssi_olcum_sigma_db, saat_ofset_araligi_s, saat_sapma_ppm, saat_senkron, senaryo, sicaklik_k, sifs_s, sinr_esigi_db, slot_s, sonumleme_acik, sonumleme_parca_suresi_s, sonumleme_uretec, taramali_konak_sayisi, taramali_konak_suresi_s, tasiyici_dinleme, tehdit_acik_s, tehdit_arac_hiz_kmh, tehdit_hava_hiz_kmh, tehdit_senaryosu, tehdit_sessiz_s, telemetri_paket_hizi_hz, temel_bit_hizi_bps, tohum, trafik_deseni, ttl_baslangic, verici_eirp_dbm, yakalama_esigi_db, yakalama_etkisi_acik, yakalama_penceresi_s, yayilim_gecikmesi, yeniden_deneme_siniri, yer_karistirici_yukseklik_m, yol_kaybi_usteli
+
+==========================================================================
+6 - RNG AKISLARI  (bildirilen vs cekim alan)
+==========================================================================
+  sirali akis        : 19
+  hash alani         : 7
+  cekim alan akis    : ['beacon_faz', 'formasyon_jitter', 'gorev_istasyon', 'gorev_jitter', 'gorev_merkez', 'irtifa', 'mac_geri_cekilme', 'mobilite_azimut', 'mobilite_hiz', 'mobilite_pitch', 'protokol_kesif', 'saat_ofset', 'saat_sapma', 'trafik_ciftleri', 'trafik_zamani', 'yerlesim']
+  HENUZ_KULLANILMAYAN: ['karistirici_yerlesim', 'karistirici_faz', 'olcum_orneklemesi']
+  bildirilmemis bos akis : 0  []
+
+==========================================================================
+7 - KAHIN YUZEYLERI  (kimin neyi gorebildigi)
+==========================================================================
+  Kontrol edilen: kahin yuzeylerinin ne oldugu BEYAN EDILMIS mi.
+    . dunya.topoloji         beyan VAR
+    . dunya.yerlesim         beyan VAR
+    . olcum                  beyan VAR
+    . gozlem                 beyan VAR
+
+==========================================================================
+8 - SAYISAL SAGLIK  (turetilenler tutarli mi)
+==========================================================================
+  [eski dunya]
+    OK  girisim orani > 1 (gizli terminal mumkun)
+    OK  girisim menzili > iletim menzili
+    OK  DIFS > SIFS
+    OK  olcum penceresi kosu icinde
+    OK  tepe telafisi: d=1 -> 0 dB
+    OK  tepe telafisi: d=0,5 -> 3,0103 dB
+    OK  karistirici gucu None (eski dunya, olculmedi)
+    OK  irtifa bandi pozitif genislik
+    OK  sunulan yuk = akis x hiz
+    OK  cw_max erisilemez (en cok CW = 511 < 1023)
+  [referans dunya]
+    OK  girisim orani > 1 (gizli terminal mumkun)
+    OK  girisim menzili > iletim menzili
+    OK  DIFS > SIFS
+    OK  olcum penceresi kosu icinde
+    OK  tepe telafisi: d=1 -> 0 dB
+    OK  tepe telafisi: d=0,5 -> 3,0103 dB
+    OK  karistirici gucu 40.0 dBm (taban)
+    OK  irtifa bandi pozitif genislik
+    OK  sunulan yuk = akis x hiz
+    OK  cw_max CANLI (en cok CW = 2047 >= 1023) -> koken KAYNAK
+
+==========================================================================
+9 - BELIRLENIMCILIK  (ayni tohum -> ayni dunya)
+==========================================================================
+    OK  eski statik-yok
+    OK  eski bagimsiz-yok
+    OK  eski gorev-yok
+    OK  eski formasyon-yok
+    OK  referans statik-yok
+    OK  referans bagimsiz-yok
+    OK  referans gorev-yok
+    OK  referans formasyon-yok
+    OK  farkli tohum -> farkli dunya
+
+==========================================================================
+10 - MOBILITE KOLU YERLESIMI DEGISTIRMIYOR
+==========================================================================
+    OK  statik, bagimsiz ve formasyon kolu AYNI t=0 yerlesiminden basliyor (10 tohum)
+    NOT: gorev kolu paylasamaz — 'mufrezede' ile 'duzgun
+         rastgele' farkli dagilimlardir. Kollari
+         karsilastirilabilir yapan sey yerlesimin ayniligi degil,
+         YOGUNLUGUN esitligidir (derece olcutle esitlendi).
+
+==========================================================================
+D11 - ICE AKTARILABILIRLIK  (her modul import edilebiliyor mu)
+==========================================================================
+formasyon  çift-an 665 · taban payı 0.2% · p10 3.49 · medyan 7.53 m/s
+bagimsiz   çift-an 626 · taban payı 0.0% · p10 10.00 · medyan 31.62 m/s
+gorev      çift-an 625 · taban payı 0.0% · p10 6.72 · medyan 26.85 m/s
+  taranan modul    : 146
+  ice aktarilamayan: 0
+
+==========================================================================
+D12 - PARAMETRE KOKENLERI  (her sayi bir kovada mi)
+==========================================================================
+  taranan modul sabiti : 109
+  kokeni yazilmamis    : 0
+  olu koken kaydi      : 0
+
+  KOVA DAGILIMI (225 parametre — Konfig + modul sabitleri)
+       TURETILMIS    67  (30%)
+       OLCULMUS      19  (8%)
+       KAYNAK        46  (20%)
+       DUYARSIZ       9  (4%)
+       TEDAVI        39  (17%)
+       KOL_TANIMI    16  (7%)
+       DUNYA_TANIMI  24  (11%)
+    🔴 SINANMAMIS     5  (2%)
+
+  DUYARLILIK BORCU (0 kol tanimi sabiti acik)
+  KAPSAM ILANI (13 kol tanimi sabiti, K-204 — sonuc bu degerlere kosullu)
+    · darbe_gorev_cevrimi
+    · darbe_periyodu_s
+    · gm_pitch_sigma_rad
+    · gorev_grup_sayisi
+    · gorev_jitter_hiz_ms
+    · karistirici_konum
+    · reaktif_esik_dbm
+    · reaktif_patlama_s
+    · reaktif_sezme_olasiligi
+    · reaktif_sezme_s
+    · taramali_konak_sayisi
+    · taramali_konak_suresi_s
+    · tehdit_hava_hiz_kmh
+
+  `DUYARSIZ` AKLAMALARI — olculen |Δ| yazili mi
+    Konfig kaydi        : 9
+    olculen |Δ| tasiyan : 9/9
+    modul sabiti (ayri) : 0 — yok
+
+==========================================================================
+D13 - KALIBRASYON KOKENLERI  (olcum aletlerinin sayilari)
+==========================================================================
+  taranan sabit      : 69
+  tarihsel (muaf)    : 0  ()
+  kokeni yazilmamis  : 0
+
+==========================================================================
+D14 - GOLGE FIZIK  (kalibrasyon kendi sabitini tasiyor mu)
+==========================================================================
+  beyanli tarihsel kopya : 0
+  🔴 SESSIZ golge fizik  : 0
+  🟢 Fiziginin kopyasini tutan her modul bunu BEYAN ediyor ve
+     bayatligini her kosumda raporluyor.
+
+==========================================================================
+D15 - BAYAT URETICI  (tarihsel betik canli sayiya kaynak mi)
+==========================================================================
+  tarihsel modul: yok
+  🟢 Tarihsel modul yok — kontrol edilecek bir sey de yok.
+
+==========================================================================
+16 - TEKRARLI TANIM  (ayni ad uzayinda iki def/class)
+==========================================================================
+  taranan kok : 4
+  bulunan     : 0
+
+==========================================================================
+17 - OKUNAN GOZLEM ALANI -> KOKEN  (D-16 · D-04)
+==========================================================================
+    rssi_dbm             okunuyor: 1 (jarmrout.py:177)
+    kendi_konum          okunuyor: 1 (jarmrout.py:357)
+    kendi_hiz            okunuyor: 0
+    olculen_gurultu_w    okunuyor: 0
+
+==========================================================================
+SONUC
+==========================================================================
+  Yapisal ihlal YOK.
+
+  8 not (hata degil, bilgi):
+    . sim2/cekirdek/degismezler.py:25 import os  (kimlik/zaman damgasi disinda kullanilmamali)
+    . sim2/cekirdek/kimlik.py:25 import os  (kimlik/zaman damgasi disinda kullanilmamali)
+    . sim2/cekirdek/kimlik.py:29 import time  (kimlik/zaman damgasi disinda kullanilmamali)
+    . sim2/cekirdek/kimlik.py:30 import uuid  (kimlik/zaman damgasi disinda kullanilmamali)
+    . sim2/kosum/sonuc.py:31 import os  (kimlik/zaman damgasi disinda kullanilmamali)
+    . sim2/gozlem/protokol.py -> DuyanProtokol
+    . sim2/gozlem/protokol.py -> DUYULAN_TURLER
+    . 5 parametre SINANMAMIS kovasinda — on-kayit muhurlenmeden once sifirlanmali

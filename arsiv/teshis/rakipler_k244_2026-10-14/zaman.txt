@@ -1,0 +1,10 @@
+kopya donduruldu 15.10 11:28:11 · HEAD 1163f81 · 150 dosya birebir (kopya_ozet.txt) · arac_hash 106324a5e18a4c7b5a9bf26df928b68f
+uret basla 11:28:12
+uret bitti 12:47:00 cikis 0
+mimari basla 12:47:00
+mimari bitti 12:47:08 cikis 0
+karsilastir basla 12:47:08
+karsilastir bitti 12:47:10 cikis 0
+u1_yere_toplama basla 12:47:11
+u1_yere_toplama bitti 18:07:34 cikis 1
+u1_esler_arasi basla 18:07:34
