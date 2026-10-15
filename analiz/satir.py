@@ -39,7 +39,21 @@ from typing import Iterable, Sequence
 from analiz.istatistik import AnalizHatasi, dogrula
 
 __all__ = ["oku", "alan", "gecerli_suz", "eslestir", "yuzdelik",
-           "ham_denetimi"]
+           "ham_denetimi", "GECIKME_TAVANI_S", "GECIKME_TAVANI_DUYARLILIK_S"]
+
+# 🔒 K-246 · GECİKME TAVANLI `PDR_açık`ın EŞİKLERİ (ön-kayıtlı ikincil,
+# K-242 · denetim DD-03). Bağ kopması zaman aşımları, kaynakları
+# `protokol_kaynaklari/uygulama_kaynaklari/otopilot/`:
+#   · 5 s — ArduPilot: Copter `FS_GCS_TIMEOUT`, Plane `FS_LONG_TIMEOUT` (GCS
+#     heartbeat'i gelmezse failsafe) · MAVLink: 1 Hz heartbeat, 4–5 mesaj
+#     kaçarsa bağlantı kopmuş sayılır. Ana tavan.
+#   · 3,5 s — QGroundControl `_heartbeatMaxElpasedMSecs` (yer istasyonu
+#     kopmayı ilan eder). Duyarlılık.
+#   · 10 s — PX4 `COM_DL_LOSS_T`. Duyarlılık.
+# Zaman aşımları heartbeat'ler arası boşluğu ölçer; burada kabul edilebilir
+# en büyük veri yaşı olarak kullanılması bir modelleme seçimidir.
+GECIKME_TAVANI_S: float = 5.0
+GECIKME_TAVANI_DUYARLILIK_S: tuple[float, ...] = (3.5, 10.0)
 
 _TEDAVI_ESLESEN = ("senaryo", "tehdit_senaryosu", "trafik_deseni")
 

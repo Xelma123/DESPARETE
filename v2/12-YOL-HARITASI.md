@@ -28,7 +28,7 @@
 6. **Denetimin Faz 5'ten önceki işleri** (K-242; bulgu numaraları rapordan):
    a. ✓ kapı sertleştirmeleri: sızdırmazlık taraması (DD-05) · `KontrolIstegi` bedel denetimi (DD-06) · U1-B'nin kayıtlı orana bağlanması (DD-07) · fark-içinde-farkın eşleşme denetimi ve tamsayı hesabı (DD-08) · mimari denetiminde köken eksiğinin bulgu ve çıkış kodu olması (DD-19) (K-243);
    b. ✓ kayıp anatomisinin açlık tanımı protokolünkiyle aynı (DD-11) (K-243);
-   c. gecikme tavanlı `PDR_açık`: hesap ✓ (K-243) · eşiklerin kaynağı bekliyor (DD-03);
+   c. ✓ gecikme tavanlı `PDR_açık`: hesap (K-243) · eşikler 5 s ana, 3,5 s ve 10 s duyarlılık (K-246, DD-03);
    d. ✓ yer–hava görüş hattının kalıcı olması (DD-01) · `AODV-k` (DD-04) → regresyon k243 (K-243; 66/67 birebir, ilan edilmemiş tek vaka DD-01'in yolu, eski modelle birebir doğrulandı);
    e. ✓ Babel: kod · 55 kurallık sadakat denetimi · regresyon vakaları kodda · AODV taraması 42 kurala tamamlandı, `AODV-k`ya ns-3'ün iki varsayılanı (K-244);
    f. tek kuyruk (beklenti önce): regresyon k244 · U1 (`AODV-k` ve Babel, iki desen) · evre kapıları (G1ç, G2ç) ve G1-P yeni rakip kümesiyle → donma · tam takım;

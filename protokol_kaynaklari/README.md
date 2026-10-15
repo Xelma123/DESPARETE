@@ -317,3 +317,15 @@ Okunanlar: `neighbour.c` (Hello geçmişi, rxcost, maliyet, IHU süresi) · `rou
 | `util.h` | 5 725 B · `26cd5b5d6386f2afeef8951295920311ad54fb2765244cb3291e38a5b3f703b8` |
 | `xroute.c` | 15 577 B · `d7fda76f675458135dd92b51e37e26a859464a07b059b9ea26844c75dd8e867e` |
 | `xroute.h` | 2 137 B · `a32f90e692a718d98d2d0ee2a023b7ff78f84d502dd31d7bbbb3a7aae82f05aa` |
+
+### Otopilot ve yer istasyonu — bağ kopması zaman aşımları (15 Ekim 2026, K-246)
+
+**Uygulama kaynakları** (`uygulama_kaynaklari/otopilot/`): gecikme tavanlı `PDR_açık`ın eşikleri (5 s ana; 3,5 s ve 10 s duyarlılık). Her dosya indirildiği anın commit'ine sabitlendi (`master` değişir), yürütücünün izniyle indirildi, gömülü talimat taraması temiz; değerler dosyaların kendisinden doğrulandı.
+
+| dosya | künye | alındığı yer | boyut · SHA-256 | sağladığı |
+|---|---|---|---|---|
+| `ardupilot_ArduCopter_Parameters.cpp` | ArduPilot `ArduCopter/Parameters.cpp` (GPL-3.0) | `https://raw.githubusercontent.com/ArduPilot/ardupilot/eb8b5180a1b81e11eb022bcee10a54068ed109de/ArduCopter/Parameters.cpp` | 56 272 B · `e074f4ecbba5f23517ba1ade1a622c6c8e5a8c37de435ee171fbd7459e312383` | `FS_GCS_TIMEOUT` = 5 s |
+| `ardupilot_ArduPlane_Parameters.cpp` | ArduPilot `ArduPlane/Parameters.cpp` (GPL-3.0) | `https://raw.githubusercontent.com/ArduPilot/ardupilot/eb8b5180a1b81e11eb022bcee10a54068ed109de/ArduPlane/Parameters.cpp` | 79 047 B · `d45fc6dc9238c3165e03e07b7bd3866b2d1b48ef5fcc8cadd8dd135d7b77c2b9` | `FS_LONG_TIMEOUT` = 5 s; `FS_GCS_ENABL` bu süreyi kullanır |
+| `px4_commander_params.c` | PX4-Autopilot v1.14.0 `src/modules/commander/commander_params.c` (BSD-3) | `https://raw.githubusercontent.com/PX4/PX4-Autopilot/b8c541dd7277ed735139d7d1bfb829d61fbe29fb/src/modules/commander/commander_params.c` | 27 088 B · `2d8d82aa5e521864e71e36af0cf30fe53e2b28923c156e211d3c399ab716223b` | `COM_DL_LOSS_T` = 10 s (en az 5, en çok 300) |
+| `qgc_VehicleLinkManager.h` | QGroundControl `src/Vehicle/VehicleLinkManager.h` (Apache-2.0 / GPL-3.0) | `https://raw.githubusercontent.com/mavlink/qgroundcontrol/136960f304cf8cb9e82633eb06a188108a974b34/src/Vehicle/VehicleLinkManager.h` | 4 225 B · `523c649b4a00634684b1359b46c6a76c8e153b9e4e5508e460c4ef093f7e7f90` | `_heartbeatMaxElpasedMSecs` = 3 500 ms |
+| `mavlink_heartbeat.md` | MAVLink Developer Guide `en/services/heartbeat.md` (CC BY 4.0) | `https://raw.githubusercontent.com/mavlink/mavlink-devguide/27cdc2d9d6671290b5b10a123e51f8a2749ebe2e/en/services/heartbeat.md` | 7 720 B · `e536a1c16ac7807bb273419d33812eb8c783b042e06d1f678d439427bae7f697` | RF telemetride 1 Hz heartbeat; 4–5 mesaj kaçarsa kopma |

@@ -90,7 +90,7 @@ Kopya `protokol_kaynaklari/rfc3561_aodv.txt`.
 - Slot 20 µs · Tx→Rx 10 µs, Rx→Tx 5 µs · duyarlılık −80 dBm (FER 0,08, 1024 B).
 - Önbelge + başlık 192 bit, her zaman 1 Mb/s DBPSK.
 
-**G3 · Babel — RFC 8966** ✓ Chroboczek & Schinazi, Ocak 2021, Standards Track — §1–§2 okundu. Uygulanabilirlik mesafesi (§2.4: bildirilen metrik FD'den kesin küçükse kabul) · sıra numaralı rotalar (§2.5) · açlıkta hedefe sıra isteği (§2.6). DESPARETE'nin DFSN + FD'si bu ailededir.
+**G3 · Babel — RFC 8966** ✓ Chroboczek & Schinazi, Ocak 2021, Standards Track — §1–§4 ve Ek A–B okundu (K-244; üçüncü rakip, hakemi babeld 1.14). Uygulanabilirlik mesafesi (§2.4: bildirilen metrik FD'den kesin küçükse kabul) · sıra numaralı rotalar (§2.5) · açlıkta hedefe sıra isteği (§2.6). DESPARETE'nin DFSN + FD'si bu ailededir.
 
 **G4 · MAVLink** ✓ Koubâa vd., arXiv:1906.10641, 2019. Mesaj 8–263 B (v1; v2'de + 13 B imza), yaşam sinyali ~1 Hz; telemetri telsizleri +20…+30 dBm.
 
@@ -154,6 +154,13 @@ Kopya `protokol_kaynaklari/rfc3561_aodv.txt`.
 - NF son **5** okumanın ortancasıdır ve çipin üst sınırına kırpılır: AR9300'de rapor en çok −51 dBm, AR9280'de en çok −86 dBm.
 - NF yalnız uzun kalibrasyonda okunur: olağan kipte **30 s**'de bir.
 - Bir sürücü örneğidir, standart değil. K-227'nin kaynağı.
+
+**G19 · Bağ kopması zaman aşımları (uygulama kaynakları)** ~ dört açık kaynak yazılım ve bir protokol belgesi, sabitlenmiş commit'lerden (15 Ekim 2026, K-246):
+- ArduPilot (GPL-3.0) Copter `FS_GCS_TIMEOUT` **5 s** (*"Timeout before triggering the GCS failsafe"*) · Plane `FS_LONG_TIMEOUT` **5 s**; `FS_GCS_ENABL`: *"Failsafe will trigger after FS_LONG_TIMEOUT seconds of no MAVLink heartbeat messages"*.
+- PX4 v1.14.0 (BSD-3) `COM_DL_LOSS_T` **10 s** (en az 5): *"After this amount of seconds without datalink, the GCS connection lost mode triggers"*.
+- QGroundControl `_heartbeatMaxElpasedMSecs` **3 500 ms**: *"No heartbeat for longer than this indicates comm loss"*.
+- MAVLink heartbeat servisi: *"components typically publish their heartbeat at 1 Hz and consider another system to have disconnected if four or five messages are not received"*.
+- Gecikme tavanlı `PDR_açık`ın eşikleri: 5 s ana, 3,5 s ve 10 s duyarlılık. Zaman aşımları heartbeat'ler arası boşluğu ölçer; veri yaşı tavanı olarak kullanılması modelleme seçimidir.
 
 ## S · Açık kaynak soruları
 

@@ -223,6 +223,15 @@ def test_K222_DONEM_PDR_evre_sozluguyle_BIREBIR():
     assert donem_pdr(satir, True, cizelge=(15.0, 15.0)) == e["pdr_acik"]
 
 
+def test_K246_GECIKME_TAVANI_ON_KAYITLI():
+    """Gecikme tavanının eşikleri ön-kayıtlıdır (K-246): ana 5 s (ArduPilot
+    GCS failsafe, MAVLink 4–5 kaçan heartbeat), duyarlılık 3,5 s
+    (QGroundControl) ve 10 s (PX4). Değişirse yeni K kaydı ve `06` §10."""
+    from analiz.satir import GECIKME_TAVANI_DUYARLILIK_S, GECIKME_TAVANI_S
+    assert GECIKME_TAVANI_S == 5.0
+    assert GECIKME_TAVANI_DUYARLILIK_S == (3.5, 10.0)
+
+
 def test_DD03_GECIKME_TAVANLI_PDR_ACIK():
     """DD-03 (K-242): tavan verilince yalnız gecikmesi tavanı aşmayan
     teslimler sayılır; tavansız hâl birincil metrikle aynı."""

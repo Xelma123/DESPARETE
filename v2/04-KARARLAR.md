@@ -42,7 +42,7 @@
 
 - **Gözlem sözleşmesi (`05`):** protokol yalnız gerçek bir telsizin ve otopilotun verebileceğini görür: RSSI, gürültü, kanal doluluğu, PHY hatası, kulak misafiri çerçeveler, kendi konum/hız. Karıştırıcıyı, gerçek bağ kalitesini ve topolojiyi göremez. Yüzey 30 alan; sızıntı testle kapalı.
 - **Kontrol düzlemi (`13`):** protokol çağırmaz, niyet döndürür; her kontrol baytı kanalda ödenir; unicast sonucu ve iletim başarısızlığı kancalarla bildirilir.
-- **Bekleme tamponu** simülatördedir; kapasitesi herkes için aynıdır: 64 paket · 30 s, taşmada en eski düşer (ns-3 AODV ile aynı, K-198). Kullanımı protokole bağlıdır: AODV ve DESPARETE rotasız paketi bekletir, OLSRv2 bekletmez (RFC'de tampon yok). Bu yüzden `PDR_açık`ın gecikme tavanlı biçimi ikincil metriktir (§7, K-242). Birincil hücrede kapasite bağlamıyor: 256 paket ve 60 s birebir aynı sonucu verdi (K-200, Faz 4'ün rakipleriyle).
+- **Bekleme tamponu** simülatördedir; kapasitesi herkes için aynıdır: 64 paket · 30 s, taşmada en eski düşer (ns-3 AODV ile aynı, K-198). Kullanımı protokole bağlıdır: AODV ve DESPARETE rotasız paketi bekletir, OLSRv2 ve Babel bekletmez (RFC'lerinde tampon yok). Bu yüzden `PDR_açık`ın gecikme tavanlı biçimi ikincil metriktir (§7, K-242). Birincil hücrede kapasite bağlamıyor: 256 paket ve 60 s birebir aynı sonucu verdi (K-200, Faz 4'ün rakipleriyle).
 - **Uçtan uca kopya (K-231):** protokol gönderdiği paketin eşlerini başka komşulara da yollayabilir (`13` §07). Hedefte ilk varan teslim sayılır; eşlerin yayın süresi veri yüküdür.
 - **Kaynak rotası (K-232):** DSR ailesi için paket başlığında ara düğümler; adres başına 4 bayt çerçeveye ve yönlendirme ek yüküne sayılır (`13` §07).
 - **Kâhin bilgisi hiçbir protokol kararına girmez.** Kâhinler yalnız ölçüm aleti ve referanstır.
@@ -115,7 +115,7 @@ Donmuş: `AODV-j` · `OLSRv2-b` (K-239). Sırada (K-242): AODV'nin yeni sürüm�
 
 - **Metrikler üçlü sunulur:** teslim · gecikme · kontrol yükü; tek metrikle sıralama yok.
 - **Birincil metrik `PDR_açık`** (K-222): karıştırıcının açık dönemlerinde doğan paketlerin teslim oranı. Pencere PDR'si (ölçüm penceresinde doğan paketler) betimleyicidir.
-- **Gecikme tavanlı `PDR_açık`** (ön-kayıtlı ikincil, K-242): aynı oran, yalnız tavan içinde teslim edilenler sayılır. Gerekçe: bekletme protokole göre değişir (§4) ve geç gelen telemetrinin sahada değeri azdır. Eşikler otopilotun telemetri zaman aşımı kaynağından, Faz 5'in ilk ölçümünden önce yazılır (§10).
+- **Gecikme tavanlı `PDR_açık`** (ön-kayıtlı ikincil, K-242): aynı oran, yalnız tavan içinde teslim edilenler sayılır. Gerekçe: bekletme protokole göre değişir (§4) ve geç gelen telemetrinin sahada değeri azdır. Eşikler (K-246): **ana tavan 5 s** (ArduPilot'un GCS failsafe'i: Copter `FS_GCS_TIMEOUT`, Plane `FS_LONG_TIMEOUT`; MAVLink: 1 Hz heartbeat, 4–5 kaçan mesajda kopma) · duyarlılık **3,5 s** (QGroundControl'ün kopma ilanı) ve **10 s** (PX4 `COM_DL_LOSS_T`). Kaynaklar `protokol_kaynaklari/uygulama_kaynaklari/otopilot/`; sabitler `analiz/satir.py`. Zaman aşımları heartbeat'ler arası boşluğu ölçer; veri yaşı tavanı olarak kullanılması modelleme seçimidir.
 - **Gecikme** ortak alt küme üzerinden raporlanır. **Kontrol yükü** bayt ve kanal süresiyle ölçülür; protokolün veri başlığı dâhildir (K-151).
 - **Evre metrikleri (`08`):** şok derinliği · toparlanma tamlığı · toparlanma süresi · tespit gecikmesi. Hata payı kümelenmeye dayanıklıdır; tespitin boş dağılımı negatif binomdur (K-196). Kapıları geçmeyen protokol kayıtlı muafiyetle etiketlenir (K-239).
 - **Temas kaybı (betimleyici, K-230):** İHA başına telemetrinin T s'den uzun gelmediği aralıkların toplamı · temas kaybı yaşayan İHA sayısı. Tanımı ve T (otopilot kaynağından) mühürden önce yazılır.
@@ -155,7 +155,6 @@ Donmuş: `AODV-j` · `OLSRv2-b` (K-239). Sırada (K-242): AODV'nin yeni sürüm�
 | konu | gereken | ne zaman |
 |---|---|---|
 | KR-3 · rakiplerin rolü ön-kayıtta: hangi hücrede hangi test birincil (K-229; rakipler K-242). İlk yazımdaki "DESPARETE yeni rakiplere karşı koşulmadan önce" şartı G1ç ve G2ç'nin 1003 · 1004 koşularıyla geçildi (`06` §10) | karar | Faz 5'in ilk ölçümünden önce |
-| Gecikme tavanlı `PDR_açık`ın eşikleri (otopilotun telemetri zaman aşımı kaynağından; denetimin adayı 2 s ve 5 s, K-242) | kaynak, ardından karar | Faz 5'in ilk ölçümünden önce |
 | Yer–hava ortamının duyarlılığı: banliyö (birincil) ↔ açık arazi; açık arazide aynı güç sürüyü karartır, kısmi rejim için güç ya da konum ayarı gerekir (denetim DD-01, K-242) | ölçüm planı, ardından karar | Faz 6 |
 | KR-2 · birincil metrikte komutlar (öneri: birincil telemetri, bütün trafik ikincil) | karar | Faz 6 |
 | DESPARETE'nin güncel tasarım belgesi (v0.1 paketi arşivde; Faz 5 mekanizmalarıyla birlikte yeniden yazılır) | yazım | Faz 5.7 |

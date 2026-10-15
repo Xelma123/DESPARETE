@@ -176,8 +176,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-243 | DENETİMİN FAZ 5 ÖNCESİ KOD DÜZELTMELERİ — kalıcı görüş hattı · AODV-k · kapı sertleştirm | 🟢 geçerli |
 | K-244 | HAKEM İLKESİ İNCELTİLDİ — RFC'nin seçeneğe ve MAY'e bıraktığı yerde referans uygulamanın | 🟢 geçerli |
 | K-245 | 🟢 BELGE DÜZELTMELERİ VE JarmRout'UN ÇIKIŞ TEMİZLİĞİ (denetim DD-12 · 17 · 18) — davranış | 🟢 geçerli |
+| K-246 | 🟢 GECİKME TAVANLI PDR_açıkın EŞİKLERİ — ana tavan 5 s, duyarlılık 3,5 s ve 10 s (otopilo | 🟢 geçerli |
 
-**156 kayıt · 9 revize · 147 geçerli**
+**157 kayıt · 9 revize · 148 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -2023,3 +2024,18 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
   - Etkin belgeler: README · `05` (Babel'in gözlem kullanımı) · `08` (G1ç ve G1-P'nin rakip kümesi, muafiyetin koda bağlılığı) · `12` (JarmRout'un duyarlılık borcu düştü, süre tablosu).
 - **Doğrulama:** evre testleri · mimari denetimi ihlalsiz.
 - Güncellenen: `v2/README` · `04` §2 · `05` §4 · `08` §05 · `12` §1.1 · §3 · `14` §3 · README.
+# K-246 · 🟢 GECİKME TAVANLI `PDR_açık`ın EŞİKLERİ — ana tavan 5 s, duyarlılık 3,5 s ve 10 s (otopilot ve yer istasyonu bağ kopması zaman aşımları) · kaynaklar depoda
+> 15 Ekim · yürütücü ("önerilerini onaylıyorum ve indirme iznini veriyorum") · K-242'nin açık kararı (denetim DD-03) · kaynaklar `protokol_kaynaklari/uygulama_kaynaklari/otopilot/`
+
+- **Kaynaklar** (indirme anındaki commit'lere sabitli; değerler dosyaların kendisinden):
+  - ArduPilot Copter `FS_GCS_TIMEOUT` = 5 s.
+  - ArduPilot Plane `FS_LONG_TIMEOUT` = 5 s; GCS failsafe bu süreyle tetiklenir. Forumlarda geçen 20 s eski sürümün değeri.
+  - PX4 v1.14.0 `COM_DL_LOSS_T` = 10 s (en az 5).
+  - QGroundControl'ün kopma ilanı: 3,5 s heartbeat'siz.
+  - MAVLink heartbeat servisi: RF telemetride 1 Hz; 4–5 mesaj kaçarsa bağlantı kopmuş sayılır.
+- **Karar:** ana tavan **5 s** (en yaygın açık kaynak otopilotun failsafe süresi ve MAVLink'in ölçütü); duyarlılık **3,5 s** ve **10 s**. Sonuç bu aralıkta değişmiyorsa eşik seçimi sonucu belirlemiyor demektir.
+- **Beyan:** zaman aşımları heartbeat'ler arası boşluğu ölçer; paket başına veri yaşı tavanı olarak kullanılmaları modelleme seçimidir.
+- **Ön-kayıt:** tavanlı metrik henüz hiçbir koşuda hesaplanmadı; eşikler sonuçtan değil kaynaktan. `06` §3 ve §10'a yazıldı.
+- **Kod:** sabitler `analiz/satir.py` (`GECIKME_TAVANI_S` · `GECIKME_TAVANI_DUYARLILIK_S`), testle bağlı (`test_K246_GECIKME_TAVANI_ON_KAYITLI`).
+- **Bekletme listesi düzeltildi:** Babel de OLSRv2 gibi bekletmez (`04` §4 · `06` §3).
+- Güncellenen: `02` G3 · G19 · `04` §4 · §7 · §10 (satır kapandı) · `06` §3 · §10 · `12` §1.1 · `protokol_kaynaklari/README.md`.
