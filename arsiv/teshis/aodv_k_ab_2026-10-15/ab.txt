@@ -1,0 +1,31 @@
+kok C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\rakipler_k244_2026-10-14\kopya · 21 kosu kaldi
+              j statik-yok 1001 · PDR 0.9084 · 20 dk
+          g_yok statik-yok 1001 · PDR 0.8823 · 21 dk
+              j statik-yok 1000 · PDR 0.8859 · 25 dk
+          g_yok statik-yok 1000 · PDR 0.8529 · 25 dk
+              j statik-yok 1002 · PDR 0.8580 · 28 dk
+              k statik-yok 1001 · PDR 0.8445 · 32 dk
+              k statik-yok 1000 · PDR 0.8441 · 34 dk
+              k statik-yok 1002 · PDR 0.8079 · 40 dk
+          g_yok statik-yok 1002 · PDR 0.8280 · 29 dk
+     rerr_yayin statik-yok 1000 · PDR 0.8258 · 37 dk
+     rerr_yayin statik-yok 1001 · PDR 0.8430 · 34 dk
+    dusurme_yok statik-yok 1000 · PDR 0.8441 · 34 dk
+    dusurme_yok statik-yok 1001 · PDR 0.8445 · 31 dk
+     rerr_yayin statik-yok 1002 · PDR 0.8013 · 40 dk
+          mrt_6 statik-yok 1000 · PDR 0.8622 · 31 dk
+    dusurme_yok statik-yok 1002 · PDR 0.8079 · 42 dk
+          mrt_6 statik-yok 1001 · PDR 0.8133 · 60 dk
+   titresim_yok statik-yok 1001 · PDR 0.8782 · 69 dk
+   titresim_yok statik-yok 1000 · PDR 0.8517 · 76 dk
+          mrt_6 statik-yok 1002 · PDR 0.7975 · 85 dk
+   titresim_yok statik-yok 1002 · PDR 0.8380 · 82 dk
+
+varyant        statik/1000  statik/1001  statik/1002   (oran = PDR / ETX kâhini)
+              k       0.8522       0.8558       0.8123
+              j       0.8944       0.9205       0.8628
+          g_yok       0.8611       0.8941       0.8325
+     rerr_yayin       0.8338       0.8542       0.8057
+    dusurme_yok       0.8522       0.8558       0.8123
+          mrt_6       0.8705       0.8242       0.8019
+   titresim_yok       0.8599       0.8899       0.8427
