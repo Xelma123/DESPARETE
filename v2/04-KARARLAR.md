@@ -50,19 +50,21 @@
 
 ## 5 · Taban protokoller — AODV · OLSRv2 · Babel (K-242)
 
-Donmuş: `AODV-j` · `OLSRv2-b` (K-239). Sırada (K-242): AODV'nin üç sapmasının düzeltildiği yeni sürüm ve Babel'in gerçeklemesi; ikisi de sadakat denetimi, U1, regresyon ve donma yolundan geçer. AODV'nin yeni sürümü `AODV-k` kodda, regresyonu geçti (K-243); U1'den sonra donar.
+Donmuş: `AODV-j` · `OLSRv2-b` (K-239). Sırada (K-242): AODV'nin yeni sürümü `AODV-k` (K-243 · K-244) ve Babel (K-244); ikisi de kodda ve sadakat denetiminden geçti, regresyon, U1, evre kapıları ve donma bekliyor.
 
 **Ortak kurallar:**
 - Kaynağına sadık kurulur; parametreler RFC ya da makale varsayılanıdır, hiçbiri senaryoya göre ayarlanmaz.
 - Her protokol kendi HELLO'sunu kullanır; HELLO aralıkları eşitlenmez (`06` §4.2).
-- SHOULD uygulanır, MAY beyan edilir. Sapmalar ve modellenmeyen özellikler her protokolün beyan tablosunda gerekçesiyle durur (`protokoller/*_bicim.py`); gerekçesiz sapma düzeltilir.
+- **Hakem ilkesi (K-244):** RFC'nin MUST ve SHOULD'u uygulanır; RFC açık bir değer ya da yordam veriyorsa o alınır. RFC'nin sustuğu, kendi içinde çeliştiği, seçeneğe ya da MAY'e bıraktığı yerde referans uygulamanın varsayılanı alınır (AODV'de ns-3, OLSRv2'de olsrd2, Babel'de babeld); referans uygulama yapmıyorsa alınmaz. Referans uygulamanın RFC'nin MUST ya da SHOULD'una uymadığı yerde RFC alınır. RFC'de olmayan eklemeleri alınmaz. Rakibi güçlendirir, DESPARETE açısından muhafazakârdır.
+- Sapmalar ve modellenmeyen özellikler her protokolün beyan tablosunda gerekçesiyle durur (`protokoller/*_bicim.py`); gerekçesiz sapma düzeltilir.
 - Kod `tests2/test_donma.py`ye bağlıdır. Bir dosya değişirse yeni K kaydı, U1 ve regresyon gerekir. `OLSR-d` ve `AOMDV-f`nin dosyaları eski regresyon vakaları için bağlı kalır; rakip değildirler (K-229).
 
-**AODV (RFC 3561), `AODV-j`:**
-- Kural kural sadakat denetiminden geçti (K-208, `arsiv/teshis/aodv_sadakat_2026-09-30/denetim.md`). RFC birincil kaynaktır; ns-3 yalnız RFC'nin sustuğu ya da çeliştiği yerde hakemdir (§6.1–§6.6.1 çelişkisinde §6.6.1). ns-3'ün RFC dışı eklemeleri alınmadı.
+**AODV (RFC 3561), `AODV-k` (K-243 · K-244; donmuş `AODV-j`):**
+- Kural kural sadakat denetimi K-208 (`arsiv/teshis/aodv_sadakat_2026-09-30/denetim.md`), 42 kurala tamamlandı (K-244, `arsiv/teshis/aodv_sadakat_2026-10-14/denetim.md`). §6.1–§6.6.1 çelişkisinde §6.6.1 (ns-3). ns-3'ün RFC dışı eklemeleri alınmadı.
 - Başlangıç durumu −∞ (K-215).
-- Beyanlı sapmalar: yerel onarım §6.12 (MAY) · RREP-ACK mesajı yerine bağ katmanı onaylı kara liste (K-194) · karşılıksız RREP · önceki atlama ömrü · RERR hep yayın · TTL yükte.
-- **Düzeltilecek üç sapma (K-242, denetim DD-04):** yayınlarda titreşim yok (ns-3: RREQ, RERR, HELLO'da U(0, 10 ms), HELLO başlangıcı U(0, 100 ms)) · §6.2'nin önceki atlama ömrü (beyandaki "gözlem yüzeyi sınırı" gerekçesi geçersiz) · MY_ROUTE_TIMEOUT 6 s (RFC §10: en az 2 · PATH_DISCOVERY_TIME = 11,2 s, MUST). Üçü de AODV'yi zayıflatır.
+- K-242 (denetim DD-04): yayınlarda U(0, 10 ms) titreşim · §6.2'nin önceki atlama ömrü · MY_ROUTE_TIMEOUT 11,2 s · başarısız keşfin tamponu düşer.
+- K-244 (ns-3'ün varsayılanları): her RREQ'te G bayrağı ve yanıt veren ara düğümden hedefe karşılıksız RREP (§6.6.3) · RERR tek öncüle tek-yayın, çok öncüle yayın; (ii)'de veri kaynağına rota varsa tek-yayın (§6.11) · kara liste yalnız RREP başarısızlığında (`iletim_sonucu` ile tür eşlemesi).
+- Beyanlı sapmalar: yerel onarım §6.12 (MAY, ns-3'te yok) · RREP-ACK mesajı (tek-yayın RREP'in bağ katmanı onayı aynı tek yönlü bağı sezer, K-194) · TTL yükte · sıra karşılaştırması sarmasız.
 - RERR durum (ii) öncül süzmesizdir (RFC'nin süzme cümlesi normatif değil; ns-2/ns-3 ile aynı; K-210).
 - RFC'nin kendi kurallarından doğan geçici döngüler protokolün mekanizmasıdır (K-207).
 
@@ -75,8 +77,10 @@ Donmuş: `AODV-j` · `OLSRv2-b` (K-239). Sırada (K-242): AODV'nin üç sapması
 - DAT'ın gelen hızı sabittir (RFC 7779 §8).
 - U1 iki desende temiz; evre kapılarını geçti.
 
-**Babel (RFC 8966) — gerçeklenecek (K-242):**
-- RFC birincil kaynaktır ve tam tanımlıdır; RFC'nin seçeneğe bıraktığı yerde gerekçeli seçim ve beyan tablosu, babeld referans uygulaması yalnız hakem. Parametreler Ek B varsayılanı; bağ maliyeti kablosuz bağlar için ETX (Ek A).
+**Babel (RFC 8966), gerçekleme K-244 (`protokoller/babel*.py`):**
+- Hakem babeld 1.14 (`protokol_kaynaklari/uygulama_kaynaklari/babeld/`). Parametreler Ek B; bağ maliyeti babeld'in ETX'i (Ek A.2.2'nin seçeneği); histerezis Ek A.3, düzgünleştirme yarı ömrü 4 s; tetik eşikleri, IHU sıklığı, yinelemeler, joker istek ve kötüleşmede rota isteği babeld'in varsayılanları.
+- Sadakat denetimi 55 kural (`arsiv/teshis/babel_sadakat_2026-10-14/denetim.md`). Giden TLV'ler hedef başına tamponda birleşir (§3.1); yerelde üretilen her sıra isteği bekleyen istekler tablosunda (§3.2.7). babeld'in RFC'den ayrıldığı üç yerde RFC alındı: seçili rotanın aynı router-id'li uygulanamaz güncellemesi (yok sayılır) · uygulanamaz güncellemede sıra isteği (her seferinde) · istek listesinin karşılaştırma yönü.
+- Tel biçimi RFC 8966 §4 bayt bayt, IPv4 (AE 1); IPv6 yerine IPv4 beyanlı (simülatörün tek ağ katmanı).
 - DESPARETE'yle aynı aileden: kazancın aile yapısından mı DESPARETE'nin kendi mekanizmalarından mı geldiğini ayırır.
 
 **JarmRout (Pu 2018), `JarmRout-b` — rakiplikten çıktı (K-242):**

@@ -127,10 +127,10 @@ def g1_bos_kol() -> bool:
 # ==========================================================================
 # G1-P · BOŞ KOL, GERÇEK PROTOKOLLER (K-196)
 # ==========================================================================
-# K-196'nın ölçtüğü küme — Faz 4'ün rakipleri; kaydedilen sonuç (`v2/08`
-# §05) bu kümeyle. K-229'dan beri OLSR ve AOMDV rakip değil; G1-P yeni rakip
-# kümesiyle koşulmadı (`v2/12` §1.1). Küme değişirse kapı yeniden koşulur.
-G1P_PROTOKOLLER: tuple[str, ...] = ("aodv", "olsr", "aomdv", "desparete")
+# Rakip kümesi AODV · OLSRv2 · Babel (K-242 · K-244). K-196'nın ölçtüğü küme
+# Faz 4'ün rakipleriydi (AODV · OLSR · AOMDV · DESPARETE; kaydedilen sonuç
+# `v2/08` §05). Küme değişirse kapı yeniden koşulur.
+G1P_PROTOKOLLER: tuple[str, ...] = ("aodv", "olsrv2", "babel", "desparete")
 G1P_TOHUMLAR: tuple[int, ...] = (1000, 1001)
 
 
@@ -354,10 +354,10 @@ def g4_bulaniklik() -> bool:
 # ==========================================================================
 # G1ç · G2ç · G4ç — ÇİZELGELİ KARIŞTIRICI (K-209, `v2/08` §08)
 # ==========================================================================
-# Faz 4b (K-229 · K-236): rakip kümesi AODV · OLSRv2 · JarmRout; metrikler
-# bu protokollere uygulanacağı için çizelgeli kapılar onlarla koşar.
-CIZ_PROTOKOLLER: tuple[str, ...] = ("aodv", "olsrv2", "jarmrout",
-                                    "desparete")
+# Rakip kümesi AODV · OLSRv2 · Babel (K-242; Faz 4b'de üçüncüsü JarmRout'tu,
+# K-229 · K-236); metrikler bu protokollere uygulanacağı için çizelgeli
+# kapılar onlarla koşar.
+CIZ_PROTOKOLLER: tuple[str, ...] = ("aodv", "olsrv2", "babel", "desparete")
 CIZ_TOHUMLAR: tuple[int, ...] = (1003, 1004)
 
 # 🔒 K-239 · EVRE METRİKLERİ YORUMLANAMAYAN PROTOKOL (`v2/08` §08). G1ç'nin

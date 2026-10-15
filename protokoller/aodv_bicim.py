@@ -40,10 +40,26 @@ AODV'nin lehine bir sapma OLMADIĞI böylece garanti.
 ==================================================================
 | özellik | RFC | neden yok |
 |---|---|---|
-| yerel onarım | §6.12 | RFC'de OPSİYONEL; `LOCAL_ADD_TTL`, `MAX_REPAIR_TTL` ve `MIN_REPAIR_TTL` yeni parametreler getirir ve üçü de ölçülmemiş olurdu |
-| RREP-ACK MESAJI (yalnız mesaj) | §5.4 | 🟢 **Kara liste UYGULANIYOR (§6.8, K-194)** — tetiği RREP'in bağ katmanı onayının gelmemesi: RFC *"Such failures can be detected via the absence of a link-layer or network-layer acknowledgment (e.g., RREP-ACK)"*. Bu gerçeklemede tek yönlü (unicast) giden TEK kontrol mesajı RREP'tir (RREQ ve RERR yayın), yani `iletim_basarisiz(tur="kontrol")` tam olarak "RREP iletimi başarısız" demektir; ayrı bir RREP-ACK mesajı ek bayt dışında bilgi getirmez. 🔴 Eski gerekçe ("bağ SİMETRİKTİR") referans dünyada geçersizdi: ortalama güç simetrik ama karıştırıcı gücü ve ED susturması ALICIDA/VERİCİDE ayrı etki eder — bağ fiziksel olarak tek yönlü olabilir (denetim O-1) |
-| karşılıksız RREP (G bayrağı) | §6.6.3 | kaynağa geri yol zaten RREQ'in ters rotasından kuruluyor; G bayrağı ek bir eniyileme |
+| yerel onarım | §6.12 | MAY; hakem ns-3'te yok (K-244'ün ilkesi: referans uygulama varsayılan olarak yapmıyorsa alınmaz). Alınsaydı `LOCAL_ADD_TTL`, `MAX_REPAIR_TTL` ve `MIN_REPAIR_TTL` yeni parametreler getirirdi |
+| RREP-ACK MESAJI (yalnız mesaj) | §5.4 | 🟢 **Kara liste UYGULANIYOR (§6.8, K-194)** — tetiği RREP'in (karşılıksız RREP dâhil) bağ katmanı onayının gelmemesi: RFC *"Such failures can be detected via the absence of a link-layer or network-layer acknowledgment (e.g., RREP-ACK)"*. ns-3 RREP-ACK'yi yalnız ara düğüm komşusu olan bir hedef için yanıt verirken ister (`SendReplyByIntermediateNode`, `toDst.GetHop() == 1`); bu simülatörde tek-yayın RREP'in 802.11 onayı ters yönden döner, yani aynı tek yönlü bağı sezer ve ayrı bir RREP-ACK mesajı ek bayt dışında bilgi getirmez. Hangi tek-yayın kontrol mesajının başarısız olduğu `iletim_sonucu` (K-151) ile komşu başına gönderim sırasından eşlenir (K-244); eşleme kayarsa (kontrol kuyruğu taşması, titreşimin sırayı değiştirmesi) RREP sayılır. 🔴 Eski gerekçe ("bağ SİMETRİKTİR") referans dünyada geçersizdi: ortalama güç simetrik ama karıştırıcı gücü ve ED susturması ALICIDA/VERİCİDE ayrı etki eder — bağ fiziksel olarak tek yönlü olabilir (denetim O-1) |
 | çok arayüzlü düğüm · alt ağ öneki | §5.2 Prefix Sz | tek arayüz, düz adresleme |
+
+🔒 K-244 — HAKEM İLKESİNİN İNCELTİLMESİ: ns-3'ÜN VARSAYILANLARI
+=============================================================
+RFC'nin seçeneğe ya da MAY'e bıraktığı yerde referans uygulama varsayılan
+olarak ne yapıyorsa alınır (Babel'de babeld, OLSRv2'de olsrd2 için de aynı):
+  · KARŞILIKSIZ RREP (§6.3 · §6.6.3): kaynak G bayrağını *"if for any reason
+    the destination is likely to need a route to the originating node"*
+    SHOULD kurar; koşulu açık, ns-3 `GratuitousReply` varsayılanı açık →
+    her RREQ'te G. Yanıt veren ara düğüm hedefe karşılıksız RREP'i (MUST)
+    tek-yayınla gönderir; iletilen RREQ'te G korunur.
+  · RERR'İN İLETİM BİÇİMİ (§6.11: yayın · tek-yayın · ardışık tek-yayın,
+    MAY): ns-3 `SendRerrMessage` öncül tekse ona tek-yayın, çoksa yayın;
+    `SendRerrWhenNoRouteToForward` ((ii)) veri kaynağına geçerli rota varsa
+    onun sonraki atlamasına tek-yayın, yoksa yayın. Önceki beyan ("RERR
+    her zaman yayın") AODV'yi zayıflatıyordu (denetim DD-04 notu).
+Yerel onarım ve RREP-ACK mesajı ns-3'ün varsayılanında da yok ya da bilgi
+getirmiyor (yukarıdaki tablo).
 
 🔒 K-242 (denetim DD-04) — ÜÇ SAPMA KAPANDI, `AODV-k`
 ====================================================
@@ -68,8 +84,8 @@ AODV'nin lehine bir sapma OLMADIĞI böylece garanti.
 kayıtlı regresyon satırları da değişir (Faz 4'ün kaydı, rakip değil).
 
 ⚠️ Bu sapmalar AODV'yi **zayıflatır mı?** RREP-ACK mesajının yokluğu hayır
-(kara liste bağ katmanı onayıyla tetikleniyor, K-194), G bayrağı bir
-eniyileme, önek tek arayüzde anlamsız.
+(kara liste bağ katmanı onayıyla tetikleniyor, K-194), önek tek arayüzde
+anlamsız.
 Yerel onarım EVET zayıflatabilir ve bu açıkça yazılıyor: karıştırma altında
 kopma sıktır ve yerel onarım tam orada iş görür. Ölçüm raporlanırken bu sapma
 sonucun yanında anılır.
@@ -103,7 +119,7 @@ __all__ = [
     "TTL_THRESHOLD", "TIMEOUT_BUFFER", "RREQ_RATELIMIT", "RERR_RATELIMIT",
     "NET_TRAVERSAL_TIME_S", "PATH_DISCOVERY_TIME_S", "DELETE_PERIOD_S",
     "BLACKLIST_TIMEOUT_S", "halka_suresi_s", "SONSUZ_SIRA",
-    "YAYIN_TITRESIMI_S",
+    "YAYIN_TITRESIMI_S", "BAYRAK_G", "BAYRAK_U",
 ]
 
 # ==========================================================================
@@ -168,6 +184,12 @@ def halka_suresi_s(ttl: int) -> float:
 # meşru sırası değildir. Bayrak alanı yine de biçimde duruyor ve BAYTI
 # ödeniyor — yani bu bir bedel kaçağı değil, bir kodlama seçimi.
 SONSUZ_SIRA: int = 0
+
+# §5.1 RREQ bayrakları, alan sırası J · R · G · D · U (en anlamlı bit J).
+# U, sıranın bilinmediğini söyler ve `SONSUZ_SIRA` ile birlikte kurulur;
+# G karşılıksız RREP ister (K-244).
+BAYRAK_G: int = 0b00100
+BAYRAK_U: int = 0b00001
 
 # ==========================================================================
 # RFC 3561 §5 · Message Formats

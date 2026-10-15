@@ -1,9 +1,11 @@
 """
-AODV — RFC 3561'e sadık gerçekleme (`AODV-j`: kara liste K-194 · sıra
+AODV — RFC 3561'e sadık gerçekleme (`AODV-k`: kara liste K-194 · sıra
 numarası kuralları §6.2/§6.7/§6.11, K-205 · sadakat denetimi H1–H11, K-208 ·
 (ii)'nin RERR'i öncül süzmesiz, K-210 · başlangıç durumu yerel saatten
-bağımsız, K-215 ·
-`arsiv/teshis/aodv_sadakat_2026-09-30/denetim.md`).
+bağımsız, K-215 · yayın titreşimi, §6.2 önceki atlama, MY_ROUTE_TIMEOUT,
+başarısız keşfin tamponu, K-242 · karşılıksız RREP ve tek öncüle tek-yayın
+RERR, K-244 · `arsiv/teshis/aodv_sadakat_2026-09-30/denetim.md` ·
+`arsiv/teshis/aodv_sadakat_2026-10-14/denetim.md`).
 
 🔒 KÂHİN ERİŞİMİ YOK
 ====================
@@ -60,8 +62,8 @@ from sim2.gozlem.karar import Beyan, Karar
 from sim2.gozlem.kontrol import KontrolIstegi, Uyandirma
 from sim2.gozlem.pencere import Gozlem
 from protokoller.aodv_bicim import (
-    ACTIVE_ROUTE_TIMEOUT_S, ALLOWED_HELLO_LOSS, BLACKLIST_TIMEOUT_S,
-    DELETE_PERIOD_S,
+    ACTIVE_ROUTE_TIMEOUT_S, ALLOWED_HELLO_LOSS, BAYRAK_G, BAYRAK_U,
+    BLACKLIST_TIMEOUT_S, DELETE_PERIOD_S,
     HELLO_INTERVAL_S, MY_ROUTE_TIMEOUT_S, NET_DIAMETER, NET_TRAVERSAL_TIME_S,
     NODE_TRAVERSAL_TIME_S,
     PATH_DISCOVERY_TIME_S, RERR, RERR_RATELIMIT, RREP, RREQ, RREQ_RATELIMIT,
@@ -122,7 +124,8 @@ class AODV:
     __slots__ = ("kimlik", "_sira", "_rreq_kimlik", "_rota", "_komsu",
                  "_gorulen_rreq", "_kesif", "_son_yayin_s", "_rreq_pencere",
                  "_rerr_pencere", "_sayac", "_kopuk", "_bekleyen_beyan",
-                 "_kara_liste", "_kesif_nesli", "_dusurulecek")
+                 "_kara_liste", "_kesif_nesli", "_dusurulecek",
+                 "_tek_yayin", "_son_sonuc")
 
     def __init__(self, kimlik: int) -> None:
         self.kimlik = kimlik
@@ -161,6 +164,12 @@ class AODV:
         # SAYILIR — tek yönlü bir bağ üzerinden gelen ilk RREQ, çift yönlü
         # bir yoldan gelecek sonrakini bastırmasın diye.
         self._kara_liste: dict[int, float] = {}
+        # 🔒 K-244: tek-yayın kontrol mesajlarının türü, komşu başına
+        # gönderim sırasıyla ("rrep" · "rerr"). `iletim_sonucu` (K-151) her
+        # tek-yayın kontrol çerçevesinin sonucunu bildirir ve sıradakini
+        # eşler; `iletim_basarisiz` kara listeyi yalnız RREP'te kurar (§6.8).
+        self._tek_yayin: dict[int, list[str]] = {}
+        self._son_sonuc: str | None = None
         self._sayac: dict[str, int] = {
             "rreq_uretilen": 0, "rreq_iletilen": 0, "rreq_bastirilan": 0,
             "rrep_uretilen": 0, "rrep_iletilen": 0, "rerr_uretilen": 0,
@@ -169,7 +178,8 @@ class AODV:
             "komsu_zaman_asimi": 0, "rota_gecersizlestirilen": 0,
             "hiz_siniri_engelledi": 0, "rerr_onculsuz": 0,
             "kara_liste_eklenen": 0, "rreq_kara_listeden": 0,
-            "rreq_ertelenen": 0,
+            "rreq_ertelenen": 0, "rrep_karsiliksiz": 0,
+            "rerr_tek_yayin": 0,
         }
 
     # ==================================================================
@@ -214,7 +224,10 @@ class AODV:
         self._sayac["rreq_uretilen"] += 1
         return KontrolIstegi.kur(None, RREQ, jitter_s=YAYIN_TITRESIMI_S, yuk={
             "tip": TIP_RREQ,
-            "bayraklar": 1 if hedef_sira == SONSUZ_SIRA else 0,   # U bayrağı
+            # 🔒 K-244 · §6.3: G bayrağı (ns-3 `GratuitousReply` varsayılanı
+            # açık) · U bayrağı hedefin sırası bilinmiyorsa.
+            "bayraklar": BAYRAK_G | (BAYRAK_U if hedef_sira == SONSUZ_SIRA
+                                     else 0),
             "ayrilmis": 0,
             "atlama": 0,
             "rreq_kimlik": self._rreq_kimlik,
@@ -230,6 +243,8 @@ class AODV:
                   sonraki: int | None) -> KontrolIstegi:
         """§5.2 · RREP. `sonraki=None` ise YAYIN (HELLO, §6.9) ve titreşimli
         (K-242, ns-3 `SendHello`); unicast RREP titreşimsiz (ns-3 ile aynı)."""
+        if sonraki is not None:
+            self._tek_yayin.setdefault(sonraki, []).append("rrep")
         return KontrolIstegi.kur(
             sonraki, RREP,
             jitter_s=YAYIN_TITRESIMI_S if sonraki is None else 0.0, yuk={
@@ -253,7 +268,8 @@ class AODV:
             return Karar()
         simdi = float(gozlem.saat_s)
         hedef = gozlem.paket.hedef
-        if (hedef, gozlem.paket.kaynak_sira) in self._dusurulecek                 and gozlem.paket.kaynak == self.kimlik:
+        if ((hedef, gozlem.paket.kaynak_sira) in self._dusurulecek
+                and gozlem.paket.kaynak == self.kimlik):
             # 🔒 K-242 · §6.3: *"all data packets destined for the
             # corresponding destination SHOULD be dropped from the buffer"*
             # (ns-3 `DropPacketWithDst`). Sebep `hedef_yok`.
@@ -336,10 +352,12 @@ class AODV:
             # arası statik 1001: 1 225 paket). (i)'nin süzmesi (K-143) kalır.
             if eski is None:
                 return Karar(sonraki=None, niyetler=self._rerr_kur(
-                    (hedef,), simdi, oncul_suz=False))
+                    (hedef,), simdi, oncul_suz=False,
+                    veri_kaynagi=gozlem.paket.kaynak))
             if eski.gecerli:
                 self._gecersizlestir(eski, simdi)       # (ii): sıra artar
-            niyet = self._rerr_kur((hedef,), simdi, oncul_suz=False)
+            niyet = self._rerr_kur((hedef,), simdi, oncul_suz=False,
+                                   veri_kaynagi=gozlem.paket.kaynak)
             return Karar(sonraki=None,
                          beyan=(Beyan("rota_gecersiz", komsu=hedef),),
                          niyetler=niyet)
@@ -395,7 +413,8 @@ class AODV:
                 Uyandirma(bekleme, f"kesif:{hedef}:{k.nesil}"))
 
     def _rerr_kur(self, hedefler: tuple[int, ...], simdi_s: float,
-                  oncul_suz: bool = True) -> tuple:
+                  oncul_suz: bool = True,
+                  veri_kaynagi: int | None = None) -> tuple:
         """§6.11 · RERR — ulaşılamaz hedefler ve sıra numaraları.
 
         🔴 RFC 3561 §6.11, BİRİNCİL BELGEDEN (19 Eylül 2026, `04` K-143):
@@ -411,26 +430,52 @@ class AODV:
         geçersizleştiriyor, yeniden keşif başlıyordu.
         🔒 Süzme hız sınırından ÖNCE: öncülsüz bir aday, `RERR_RATELIMIT`
         penceresinden boşuna bir hak tüketmemeli.
+
+        🔒 K-244 · İLETİM BİÇİMİ (§6.11: *"MAY be either broadcast (if there
+        are many precursors), unicast (if there is only 1 precursor)"*;
+        hakem ns-3 `SendRerrMessage` · `SendRerrWhenNoRouteToForward`):
+          · (i) · (iii): öncüllerin birleşimi tek komşuysa ve ona geçerli
+            tek atlamalı rota varsa TEK-YAYIN, yoksa gönderilmez; birden
+            çok öncülden en az birine geçerli rota varsa YAYIN.
+          · (ii) (`veri_kaynagi` verilir): veri kaynağına geçerli rota varsa
+            onun sonraki atlamasına TEK-YAYIN, yoksa YAYIN.
         """
         onculu = (tuple(h for h in hedefler
                         if h in self._rota and self._rota[h].oncular)
                   if oncul_suz else tuple(hedefler))
         self._sayac["rerr_onculsuz"] += len(hedefler) - len(onculu)
         hedefler = onculu
-        if not hedefler or self._hiz_sinirli_mi(self._rerr_pencere,
-                                                RERR_RATELIMIT, simdi_s):
+        if not hedefler:
+            return ()
+        alici: int | None | bool
+        if oncul_suz:
+            oncular = set().union(*(self._rota[h].oncular for h in hedefler))
+            if len(oncular) == 1:
+                o = next(iter(oncular))
+                ro = self._rota_al(o, simdi_s)
+                alici = o if ro is not None and ro.sonraki == o else False
+            else:
+                gecerli = any(self._rota_al(o, simdi_s) is not None
+                              for o in oncular)
+                alici = None if gecerli else False
+        else:
+            rk = (self._rota_al(veri_kaynagi, simdi_s)
+                  if veri_kaynagi is not None else None)
+            alici = rk.sonraki if rk is not None else None
+        if alici is False or self._hiz_sinirli_mi(self._rerr_pencere,
+                                                  RERR_RATELIMIT, simdi_s):
             return ()
         siralar = tuple(self._rota[h].hedef_sira if h in self._rota
                         else SONSUZ_SIRA for h in hedefler)
         self._sayac["rerr_uretilen"] += 1
-        self._son_yayin_s = simdi_s
-        # K-242 (DD-04): yayın titreşimi, ns-3 `SendRerrMessage` ile aynı.
-        # 🔒 YAYIN olarak gönderiliyor. RFC §6.11 öncü sayısı birden çoksa
-        # yayını, bir tekse unicast'i söyler. Öncü listesi bu gerçeklemede
-        # tutuluyor ama RERR HER ZAMAN yayın: unicast dalı, öncüsü tek olan
-        # ender bir durumda bir çerçeve kazandırırdı ve iki kod yolu doğururdu.
-        # ⚠️ Yönü AODV'yi olduğundan PAHALI gösterir; sapma listesinde.
-        return (KontrolIstegi.kur(None, RERR, jitter_s=YAYIN_TITRESIMI_S, yuk={
+        if alici is None:
+            self._son_yayin_s = simdi_s
+        else:
+            self._sayac["rerr_tek_yayin"] += 1
+            self._tek_yayin.setdefault(alici, []).append("rerr")
+        # K-242 (DD-04): titreşim, ns-3 `SendRerrMessage` ile aynı (yayın da
+        # tek-yayın da `GetInteger(0, 10)` ms).
+        return (KontrolIstegi.kur(alici, RERR, jitter_s=YAYIN_TITRESIMI_S, yuk={
             "tip": TIP_RERR,
             "bayraklar": 0,
             "ayrilmis": 0,
@@ -718,10 +763,24 @@ class AODV:
             if ters is not None:
                 ters.oncular.add(r.sonraki)
             self._sayac["rrep_uretilen"] += 1
-            return (self._rrep_kur(
+            yanit = (self._rrep_kur(
                 hedef_adres=hedef, hedef_sira=r.hedef_sira, atlama=r.atlama,
                 kaynak=kaynak, omur_s=max(0.0, r.son_gecerli_s - simdi_s),
                 sonraki=gonderen),)
+            if y["bayraklar"] & BAYRAK_G and ters is not None:
+                # 🔒 K-244 · §6.6.3 (MUST, G bayrağı kuruluysa): hedefe
+                # KARŞILIKSIZ RREP — hedef sanki kaynağa RREQ göndermiş gibi.
+                # Alanlar RFC'nin listesi: atlama kaynağa giden girdiden,
+                # hedef = kaynak, sıra RREQ'in kaynak sırası, kaynak = RREQ'in
+                # hedefi, ömür kaynağa giden girdinin kalan ömrü (ns-3
+                # `SendReplyByIntermediateNode`).
+                self._sayac["rrep_karsiliksiz"] += 1
+                yanit += (self._rrep_kur(
+                    hedef_adres=kaynak, hedef_sira=y["kaynak_sira"],
+                    atlama=ters.atlama, kaynak=hedef,
+                    omur_s=max(0.0, ters.son_gecerli_s - simdi_s),
+                    sonraki=r.sonraki),)
+            return yanit
 
         ttl = y["ttl"] - 1
         if ttl <= 0:
@@ -734,7 +793,7 @@ class AODV:
         if bildigi is not None and bildigi.hedef_sira != SONSUZ_SIRA and (
                 bilinmiyor or bildigi.hedef_sira > y["hedef_sira"]):
             yeni["hedef_sira"] = bildigi.hedef_sira
-            yeni["bayraklar"] = 0                        # U bayrağı iner
+            yeni["bayraklar"] = y["bayraklar"] & ~BAYRAK_U   # U iner, G kalır
         self._sayac["rreq_iletilen"] += 1
         self._son_yayin_s = simdi_s
         return (KontrolIstegi.kur(None, RREQ, yeni,
@@ -856,6 +915,20 @@ class AODV:
     # ==================================================================
     # KANCA · iletim başarısız
     # ==================================================================
+    def iletim_sonucu(self, gozlem: Gozlem, hedef: int, basarili: bool,
+                      tekrar: int, tur: str) -> None:
+        """K-151 · K-244 — sonuçlanan tek-yayın kontrol çerçevesinin türü:
+        o komşuya gönderilenlerin sıradaki. Eşleme kayarsa (kontrol kuyruğu
+        taşması, titreşimin sırayı değiştirmesi) tür bilinmez ve RREP
+        sayılır — K-244'ten önceki davranış."""
+        if tur != "kontrol":
+            return None
+        sira = self._tek_yayin.get(hedef)
+        self._son_sonuc = sira.pop(0) if sira else None
+        if sira is not None and not sira:
+            del self._tek_yayin[hedef]
+        return None
+
     def iletim_basarisiz(self, gozlem: Gozlem, hedef: int | None,
                          tur: str) -> tuple:
         """§6.11 · MAC vazgeçti = bağ koptu. Kopmanın ÖĞRENİLDİĞİ yer.
@@ -867,12 +940,15 @@ class AODV:
             return ()
         simdi = float(gozlem.saat_s)
         if tur == "kontrol":
-            # 🔒 §6.8 (K-194): bu gerçeklemede tek yönlü giden TEK kontrol
-            # mesajı RREP'tir (RREQ ve RERR yayın) — yani bu, *"its
-            # transmission of a RREP message has failed"* durumudur ve bağ
-            # katmanı onayının gelmemesiyle sezilir (RFC'nin izin verdiği yol).
-            self._kara_liste[hedef] = simdi + BLACKLIST_TIMEOUT_S
-            self._sayac["kara_liste_eklenen"] += 1
+            tur_mesaj = self._son_sonuc or "rrep"
+            self._son_sonuc = None
+            # 🔒 §6.8 (K-194 · K-244): *"its transmission of a RREP message
+            # has failed"* — karşılıksız RREP dâhil; bağ katmanı onayının
+            # gelmemesiyle sezilir (RFC'nin izin verdiği yol). Tek-yayın
+            # RERR'in başarısızlığı yalnız bağ kopmasıdır.
+            if tur_mesaj == "rrep":
+                self._kara_liste[hedef] = simdi + BLACKLIST_TIMEOUT_S
+                self._sayac["kara_liste_eklenen"] += 1
         self._komsu.pop(hedef, None)
         return self._bag_koptu(hedef, simdi)
 

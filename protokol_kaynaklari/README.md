@@ -1,6 +1,6 @@
 # Protokol kaynakları — birincil belgeler
 
-Taban protokollerin ve simülatörün dayandığı **birincil belgeler** ve uygulama kaynakları. Her belgenin künyesi, nereden alındığı, özeti (SHA-256) ve hangi denetimlerden geçtiği aşağıdadır. Doğrulanmış kaynakların listesi ve projedeki kullanımları `v2/02-DOGRULANMIS-KAYNAKLAR.md`de, rapor künyeleri `v2/16-KAYNAKCA.md`dedir. Güncel: 13 Ekim 2026.
+Taban protokollerin ve simülatörün dayandığı **birincil belgeler** ve uygulama kaynakları. Her belgenin künyesi, nereden alındığı, özeti (SHA-256) ve hangi denetimlerden geçtiği aşağıdadır. Doğrulanmış kaynakların listesi ve projedeki kullanımları `v2/02-DOGRULANMIS-KAYNAKLAR.md`de, rapor künyeleri `v2/16-KAYNAKCA.md`dedir. Güncel: 14 Ekim 2026.
 
 **Kural:** bir belge buraya, gerçek olduğu ve içinde gömülü talimat benzeri bir metin ya da etkin içerik olmadığı denetlendikten sonra girer. Okunan kapsam (tamamı ya da kullanılan bölümler) kaynak başına `v2/02`de yazılır.
 
@@ -141,7 +141,7 @@ Hepsi önce geçici alana indirildi, denetlendi, sonra buraya alındı. **Ortak 
 |---|---|---|---|---|
 | `pei_henderson_2009_ns3_80211b_dogrulama.pdf` | G. Pei, T. Henderson, *"Validation of ns-3 802.11b PHY model"*, Boeing Research & Technology, Mayıs 2009 (21 s.) | `https://www.nsnam.org/~pei/80211b.pdf` (ns-3 projesi) | 148 982 B · `74d87ea8c318a7b9e9de2315866b2a316977aeb5a2d00ff1231c593cdf288e80` | **tamamı** |
 | `boer_1996_ieee80211_dsss_phy.pdf` | J. Boer, *"Direct Sequence Spread Spectrum Physical Layer Specification IEEE 802.11"*, doc. IEEE P802.11-96/49E, Mart 1996 (taslaktan parçalar içerir) | `https://grouper.ieee.org/groups/802/11/Tutorial/ds.pdf` (IEEE 802.11 çalışma grubu) | 56 148 B · `49d8af18f445144fb0152c52e6ceda642008bd2baed000b9f06f8c4624f7ff61` | **tamamı** |
-| `rfc8966_babel.txt` | J. Chroboczek, D. Schinazi, *"The Babel Routing Protocol"*, RFC 8966, Ocak 2021, Standards Track | `https://www.rfc-editor.org/rfc/rfc8966.txt` | 141 512 B · `592fe69e208f6c3f1ac5d8e673eb309a9f6323a4c471de9284385c0005db1f2f` | §1–§2 (kavramsal, uygulanabilirlik ve sıra numarası) tamamı; kalanı kalıp taramasında |
+| `rfc8966_babel.txt` | J. Chroboczek, D. Schinazi, *"The Babel Routing Protocol"*, RFC 8966, Ocak 2021, Standards Track | `https://www.rfc-editor.org/rfc/rfc8966.txt` | 141 512 B · `592fe69e208f6c3f1ac5d8e673eb309a9f6323a4c471de9284385c0005db1f2f` | §1–§4 ve Ek A–B tamamı (14 Ekim 2026, Babel'in gerçeklemesi, K-242); kalanı (güvenlik, IANA, Ek C–F) kalıp taramasında |
 | `koubaa_2019_mavlink_survey.pdf` | A. Koubâa vd., *"Micro Air Vehicle Link (MAVLink) in a Nutshell: A Survey"*, arXiv:1906.10641v1, 2019 (9 s.) | `https://arxiv.org/pdf/1906.10641` | 856 711 B · `f0ffa9f95675e29280b6c87b2d07d82349c4646562d9cace6bcd85fa2cc0e41e` | başlık yapısı, mesaj boyları, yaşam sinyali, telemetri telsizleri tablosu; kalanı taramada |
 | `pirayesh_zeng_2021_jamming_survey.pdf` | H. Pirayesh, H. Zeng, *"Jamming Attacks and Anti-Jamming Strategies in Wireless Networks: A Comprehensive Survey"*, arXiv:2101.00292v1, 2021 (16 s.) | `https://arxiv.org/pdf/2101.00292` | 1 827 418 B · `a1c943d03e52d7781d432e1d678894f2feda6e0b620e956bf2cf2fb5cfa193c9` | WLAN karıştırma saldırıları, hız uyarlaması/güç kontrolü ve karıştırma tespiti bölümleri; kalanı taramada |
 
@@ -150,7 +150,7 @@ Hepsi önce geçici alana indirildi, denetlendi, sonra buraya alındı. **Ortak 
 - **Barker kodu:** kodlama kazancı 10,4 dB, *"girişime ve gürültüye karşı ~10 dB bastırma"* (Boer).
 - **CCA:** modlar 1–3; ED eşiği verici gücüne bağlı (>100 mW −80 dBm · >50 mW −76 dBm · ≤50 mW −70 dBm); enerji sezme 15 µs.
 - **Zamanlama ve alıcı:** slot 20 µs · Tx→Rx dönüşü 10 µs, Rx→Tx 5 µs · duyarlılık −80 dBm (FER 0,08, 1024 B) (Boer).
-- **Babel:** uygulanabilirlik mesafesi (§2.4) ve sıra numaralı rotalar (§2.5–2.6) — DESPARETE'nin döngüsüzlük ailesi; README'deki atıf doğrulandı (`02` S6).
+- **Babel:** uygulanabilirlik mesafesi (§2.4) ve sıra numaralı rotalar (§2.5–2.6) — DESPARETE'nin döngüsüzlük ailesi; README'deki atıf doğrulandı (`02` S6). Üçüncü rakip (K-242); gerçeklemesi `protokoller/babel.py`, hakemi babeld (aşağıda).
 - **MAVLink:** mesaj 8–263 B (v1), yaşam sinyali ~1 Hz.
 - **Karıştırma tespiti:** gürültü gücü, kanal meşgul oranı, çerçeveler arası süre, sinyal gücü ve teslim oranı birlikte kullanılıyor (Puñal vd., taramanın [83]'ü). Hız uyarlaması düşük güçlü girişimde etkili, yüksek güçlü sürekli karıştırmada etkisiz (Pelechrinis vd., [79]–[80]).
 
@@ -286,3 +286,34 @@ Sonuç: bildirilen gürültü ısıl tabanın üstündeki artışı yalnız nomi
 | `src/olsrv2/olsrv2/olsrv2_routing.c` | 38 260 B · `595859cb7a4f0bd4d178f74ddf08a9a9230f5936c537691d205a0ed75f78cbc8` |
 | `src/olsrv2/olsrv2/olsrv2_tc.c` | 15 877 B · `e95fe36ba8e97a5784b043710f623d3bca9a92ddf69cb6e5add84a49059e91b6` |
 | `src/olsrv2/olsrv2/olsrv2_writer.c` | 19 635 B · `23484f9a3c0f219035e91fd1561fde649baa0c9489991547b1c3ab8ca7a5c3c2` |
+
+### Babel — üçüncü rakibin hakemi (14 Ekim 2026, K-242 · K-244)
+
+**Uygulama kaynağı — babeld** (`uygulama_kaynaklari/babeld/`, MIT — `LICENCE`): RFC 8966'nın yazarı J. Chroboczek'in Babel başvuru gerçeklemesi, sürüm **1.14** (20 Haziran 2026; `CHANGES`). `https://github.com/jech/babeld/archive/refs/tags/babeld-1.14.tar.gz`, 14 Ekim 2026 indirildi (yürütücünün izniyle), arşiv 109 976 B · `fe7e2df4f29e2da4eba511492fe62b405e5ac75d2048d1df69c52f6cc78218ff`. Arşivden yalnız protokol mantığının dosyaları alındı (yapılandırma ayrıştırıcısı, HMAC, BSD çekirdek arayüzü, testler alınmadı). Gömülü talimat kalıbı taraması temiz. RFC'nin seçeneğe ya da MAY'e bıraktığı yerde hakem (AODV'de ns-3, OLSRv2'de olsrd2'nin rolü); seçimler `protokoller/babel_bicim.py`nin beyan tablosunda.
+
+Okunanlar: `neighbour.c` (Hello geçmişi, rxcost, maliyet, IHU süresi) · `route.c` (uygulanabilirlik, seçim, düzgünleştirme, tetiklenen güncelleme, kayıp, süre dolumu) · `message.c` (TLV ayrıştırma, istek işleme, Hello/IHU gönderimi, joker istek) · `resend.c` (yinelemeler, istek listesi) · `interface.c` · `babeld.c` (açılış, varsayılanlar) · `util.c/.h` (sıra aritmetiği, titreşim) · `kernel_netlink.c` (∞ rotanın "unreachable" kurulması). Öteki dosyalar bildirimler için.
+
+| dosya | boyut · SHA-256 |
+|---|---|
+| `LICENCE` | 1 072 B · `b415c41292cedef6c97b243609e50552887c29343566c639f23282d31efd2afd` |
+| `README` | 3 310 B · `827deaa14ba1f05cf0a8ca459c795e6dd1445e50ee4530b5e34083741718603c` |
+| `babeld.c` | 31 190 B · `e882ea247006d2129ecfb6309d3eb861a72a7e6b75a2543565b1a03b66565638` |
+| `babeld.h` | 3 358 B · `594129afefeb87493f6600a1801838186b19d9793406501c904ef59f41929911` |
+| `interface.c` | 17 639 B · `3eaf449c2d5606a3c8d3955699a09372fb3477d39e2906a652807f75cd08d434` |
+| `interface.h` | 5 287 B · `7aceee9f083162fd7df5941324369624ad702eb2886a6403ffa2c6d1e894c244` |
+| `kernel.h` | 3 626 B · `8c3a1ed32ae5abc3ac0c02845b80a387d807008ad00bf3b49083316b4e480009` |
+| `kernel_netlink.c` | 41 118 B · `e4bd552e4582d4ce87e3bd2bfce41823d41bffcb00c360fbb9f8f7fff3a5b947` |
+| `message.c` | 77 150 B · `f0b79bddcdba0c89ff62a632628ef84e8dfa4f0017ad9317f994167f263731e1` |
+| `message.h` | 5 329 B · `c276068c69878c57737e0e60782ae8029333c82182020b532113a86040d51b25` |
+| `neighbour.c` | 10 764 B · `ac62baf9e9cf71d9cc2b82c704ec8e412342008508c5c5f3d39a82f894f9bb94` |
+| `neighbour.h` | 3 013 B · `cbcc64b7412d618c472fa8df6c222bd181dc7a3d91054484be9b0f044e66ddd5` |
+| `resend.c` | 9 979 B · `673dfb387ff94b26c5eeeb9216ed6b7bb7ff375f4640f2a3125d61899516bfcb` |
+| `resend.h` | 2 700 B · `e76b584f15d87259e1f9c1ad255b0a222ff17444ecde11bd1c453a80598f956e` |
+| `route.c` | 36 204 B · `220452122e99334958d2299da0084091e57aa42543f58fa08ea31baac45664ea` |
+| `route.h` | 5 554 B · `0e886983b0083234e7c8544805f21354ee4d756af0727f5e9bbed4fb15b8b163` |
+| `source.c` | 6 295 B · `21ae2b411eac5a46c9384e555ebf60e13d7b8bb0d2605dec1cdb1af2159d2a15` |
+| `source.h` | 1 955 B · `780fec7cebd1ea8313987cbd2babdec32b6280ebb6462f0b3b5138ee6769462e` |
+| `util.c` | 12 466 B · `9e7ec0f8a7206b4c315c8a245858a07118f55bb614865894ecd72923cf45cff1` |
+| `util.h` | 5 725 B · `26cd5b5d6386f2afeef8951295920311ad54fb2765244cb3291e38a5b3f703b8` |
+| `xroute.c` | 15 577 B · `d7fda76f675458135dd92b51e37e26a859464a07b059b9ea26844c75dd8e867e` |
+| `xroute.h` | 2 137 B · `a32f90e692a718d98d2d0ee2a023b7ff78f84d502dd31d7bbbb3a7aae82f05aa` |

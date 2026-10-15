@@ -203,6 +203,8 @@ def test_SON_YOL_kopunca_GECERSIZ_ve_RERR():
     p._komsu[1] = 0.0
     p._rota[9] = CokluRota(hedef_sira=5, yollar={1: 2}, son_gecerli_s=100.0,
                            oncular={4})
+    # Öncül 4 komşu (K-244: tek öncüle tek-yayın RERR, rota gerekir).
+    p._rota[4] = CokluRota(hedef_sira=0, yollar={4: 1}, son_gecerli_s=100.0)
     cikti = p.iletim_basarisiz(_gozlem(0, 2.0), hedef=1, tur="veri")
     r = p._rota[9]
     assert not r.gecerli and r.yollar == {} and r.hedef_sira == 6, (

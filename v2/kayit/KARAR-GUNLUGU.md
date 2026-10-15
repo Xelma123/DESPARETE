@@ -174,8 +174,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-241 | 🟢 KOD TEMİZLİĞİ (Faz 4b adım 4, kod kısmı) — eski rakip kalıntıları, araç varsayılanları | 🟢 geçerli |
 | K-242 | BAĞIMSIZ DENETİMİN (14 Ekim) KARARLARI — üçüncü rakip Babel (RFC 8966) · JarmRout rakipl | 🟢 geçerli |
 | K-243 | DENETİMİN FAZ 5 ÖNCESİ KOD DÜZELTMELERİ — kalıcı görüş hattı · AODV-k · kapı sertleştirm | 🟢 geçerli |
+| K-244 | HAKEM İLKESİ İNCELTİLDİ — RFC'nin seçeneğe ve MAY'e bıraktığı yerde referans uygulamanın | 🟢 geçerli |
 
-**154 kayıt · 9 revize · 145 geçerli**
+**155 kayıt · 9 revize · 146 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -1972,3 +1973,32 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Tam takım:** `1067 passed` · 1 başarısız: `test_donma` (AODV dosyaları değişti; `AODV-k`'nin U1'inden sonra donma tablosu yeniden bağlanır).
 - **Belge notu:** `sim2/kanal/tehdit.py`'nin tablosu `tekli_merkez`i "sabit yer" diye anıyor; nesne sürünün orta irtifasında duruyor ve yer–hava kanalı kurulmuyor. Davranış değişmez; belge düzeltmesi adım 6g'ye eklendi.
 - Güncellenen: `04` §5 · §9 · `12` §1 · §1.1 · `kalibrasyon/uretici_duman.py`.
+# K-244 · HAKEM İLKESİ İNCELTİLDİ — RFC'nin seçeneğe ve MAY'e bıraktığı yerde referans uygulamanın varsayılanı · Babel gerçeklendi, 55 kurallık sadakat denetimi · `AODV-k`ya iki ns-3 davranışı · AODV taraması 42 kurala tamamlandı
+> 14 Ekim · yürütücü (ilke: "onay veriyorum devam et"; indirme izni babeld için) · denetimler `arsiv/teshis/babel_sadakat_2026-10-14/denetim.md` · `arsiv/teshis/aodv_sadakat_2026-10-14/denetim.md`
+
+- **İlke** (`04` §5'in eski "MAY beyan edilir" kuralının yerine):
+  - RFC'nin MUST ve SHOULD'u uygulanır; RFC açık bir değer ya da yordam veriyorsa o alınır.
+  - RFC'nin sustuğu, kendi içinde çeliştiği, seçeneğe ya da MAY'e bıraktığı yerde referans uygulamanın varsayılanı alınır; referans uygulama yapmıyorsa alınmaz. Referans uygulamalar: AODV'de ns-3, OLSRv2'de olsrd2, Babel'de babeld 1.14.
+  - Referans uygulamanın RFC'nin MUST ya da SHOULD'una uymadığı yerde RFC alınır. RFC'de olmayan eklemeleri alınmaz.
+  - Rakibi güçlendirir, yani DESPARETE açısından muhafazakâr; üç rakipte aynı kural.
+- **Babel** (`protokoller/babel.py` · `babel_bicim.py` · `tests2/test_babel.py`, 18 test):
+  - Tel biçimi RFC 8966 §4 bayt bayt, IPv4 (AE 1).
+  - Ek B parametreleri; ETX, IHU sıklığı, düzgünleştirme (yarı ömür 4 s), tetik eşikleri, yinelemeler (2 · 4 · 8 s), joker istek, kötüleşmede rota isteği ve 7/8'de rota isteği babeld'in varsayılanları.
+  - babeld'in RFC'den ayrıldığı üç yerde RFC alındı: seçili rotanın aynı router-id'li uygulanamaz güncellemesi yok sayılır (babeld kaydı günceller ama seçimden çıkarmaz) · seçili rotanın uygulanamaz güncellemesinde sıra isteği her seferinde gider (babeld yalnız rota eskiyse) · istek listesinin karşılaştırma yönü.
+  - babeld 1.14 kaynağı künye ve SHA-256'larıyla `protokol_kaynaklari/uygulama_kaynaklari/babeld/` (MIT).
+  - Duman: 12 düğümlük statik koşuda her düğüm herkese rota seçiyor. Referans dünyanın iki vakası ilk taslakla geçerli. Birincil hücrede PDR (pencere) 0,408, OLSRv2 0,477, AODV 0,446. Ama kontrol çerçevesi 97 521: AODV'nin üç, OLSRv2'nin on iki katı.
+  - Sayaçlar iki eksik gösterdi, ikisi de Babel'i olduğundan pahalı gösteriyordu:
+    - Giden TLV'ler tamponlanmıyordu (§3.1). Artık hedef başına tampon var, babeld'in arayüz ve komşu tamponları gibi.
+    - §3.8.2.2 istekleri bekleyen istekler tablosuna (§3.2.7) yazılmıyordu ve aynı uygulanamaz güncelleme her gelişinde yeni istek doğuruyordu. Artık tabloda; eşdeğer istek beklerken yenisi üretilmiyor.
+  - Düzeltilmiş kodla birincil hücrede (tek tohum, kısa pencere) kontrol çerçevesi 11 134, PDR (pencere) 0,626, koşu 357 s. İlk taslağın kendi kontrol seli kanalı tıkıyordu. Sayılar protokol kıyası değil, kusurun büyüklüğü; kayıtlı ölçüm kuyruğun regresyonunda.
+- **`AODV-k`ye ns-3'ün iki varsayılanı:**
+  - Her RREQ'te G bayrağı ve yanıt veren ara düğümden hedefe karşılıksız RREP (§6.6.3; ns-3 `GratuitousReply` varsayılanı açık).
+  - RERR tek öncüle tek-yayın, çok öncüle yayın; (ii)'de veri kaynağına rota varsa tek-yayın (§6.11 MAY; ns-3 `SendRerrMessage` · `SendRerrWhenNoRouteToForward`). Önceki beyan ("RERR hep yayın") AODV'yi zayıflatıyordu (denetimin DD-04 notu).
+  - Tek-yayın kontrol mesajları çoğalınca kara liste yalnız RREP başarısızlığında kurulur: AODV `iletim_sonucu`yu (K-151) taşır ve sonucu komşu başına gönderim sırasıyla eşler.
+  - Yerel onarım (ns-3'te yok) ve RREP-ACK mesajı (bilgi getirmez) beyanlı kalır. `AOMDV-f` aynı yardımcıları devralır.
+- **AODV taraması tamamlandı:** 42 kural (K-208'in 30 Eylül denetimi + denetimin DD-04 taraması + bu tarama). Keşif yinelemesi, halka ilerleyişi ve §10 sabitleri ns-3'le satır satır karşılaştırıldı, aynı. Tek fark `BLACKLIST_TIMEOUT` (RFC'nin halka formülü, K-194).
+- **OLSRv2 ilkeye göre gözden geçirildi:** değişiklik yok. Beyan tablosu zaten olsrd2'nin varsayılanlarını izliyor. TC'deki gelen komşu metriği RFC 7181 §16.1'de ne MUST ne MAY; olsrd2'nin RFC dışı eklemesi.
+- **Araçlar:** Babel `aodv_uygunluk.PROTOKOLLER`a ve kayıt sözlüklerine, `evre_metrikleri_kapilari`nda `CIZ_PROTOKOLLER` ve `G1P_PROTOKOLLER`e (AODV · OLSRv2 · Babel · DESPARETE), regresyona (`u-birincil-babel` · `u-bagimsiz-surekli-babel-dugum_kaybi`, 87 vaka) ve kayıp anatomisinin varsayılanına girdi.
+- **Testler:** Babel 18 · AODV ve AOMDV 74 geçti. U2 testi ve AOMDV'nin RERR testi öncüle tek atlamalı rota kurar (tek-yayın RERR rota ister).
+- **Sıradaki:** tek kuyruk, beklentisi koşudan önce: regresyon k244 · U1 iki desende (`AODV-k` · Babel) · G1ç · G2ç + G4ç · G1-P → donma (`AODV-k` · `Babel-a`) · tam takım.
+- Güncellenen: `04` §5 · `12` §1 · `protokol_kaynaklari/README.md`.

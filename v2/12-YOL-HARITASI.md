@@ -8,7 +8,7 @@
 |---|---|
 | **faz** | **4b · yeni rakipler** (K-229, K-230) — Faz 5 durdu (5.0 ✓ K-228); bağımsız tam denetim (14 Ekim, K-242) bitti, kararları uygulanıyor; sıradaki iş §1.1. Faz 4 kapandı (K-221) |
 | simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu süreleri §3'te. Yer–hava görüş hattı kalıcı (K-243) |
-| taban protokoller | **AODV · OLSRv2 · Babel (K-242).** `OLSRv2-b` donmuş (K-239). AODV'nin üç sapması düzeltildi, `AODV-k` kodda (K-243), U1 ve donma bekliyor; Babel (RFC 8966) gerçekleniyor. JarmRout rakiplikten çıktı; kodu ve kayıtları Faz 4b'nin kaydı |
+| taban protokoller | **AODV · OLSRv2 · Babel (K-242).** `OLSRv2-b` donmuş (K-239). `AODV-k` (K-243 · K-244) ve Babel (RFC 8966, hakem babeld; K-244) kodda, sadakat denetimlerinden geçti; regresyon, U1, evre kapıları ve donma bekliyor. Hakem ilkesi: RFC'nin seçeneğe ve MAY'e bıraktığı yerde referans uygulamanın varsayılanı (K-244). JarmRout rakiplikten çıktı; kodu ve kayıtları Faz 4b'nin kaydı |
 | DESPARETE | v0.4.1, taslak; Faz 5'te yürütücünün tasarım kararlarıyla geliştirilir. Birincil hücrede `PDR_açık` 0,551 (AODV 0,444, kâhin 0,780; 1003–1006, K-228); OLSRv2'yle iki tohumda başa baş, karıştırıcısız ikizde OLSRv2'nin gerisinde (G2ç · G1ç, `04` §6) |
 | doğrulama | `1067 passed` · 1 beklenen başarısız (`test_donma`: AODV dosyaları değişti, `AODV-k`'nin U1'inden sonra yeniden bağlanır) (14 Ekim, K-243) · mimari denetimi ihlalsiz · regresyon tabanı **`k243`** (K-243; 85 vaka) · R = **0,0126** (K-224, 7 deneme) · köken sayımı `04` §9 |
 | arkada koşan | yok |
@@ -30,8 +30,8 @@
    b. ✓ kayıp anatomisinin açlık tanımı protokolünkiyle aynı (DD-11) (K-243);
    c. gecikme tavanlı `PDR_açık`: hesap ✓ (K-243) · eşiklerin kaynağı bekliyor (DD-03);
    d. ✓ yer–hava görüş hattının kalıcı olması (DD-01) · `AODV-k` (DD-04) → regresyon k243 (K-243; 66/67 birebir, ilan edilmemiş tek vaka DD-01'in yolu, eski modelle birebir doğrulandı);
-   e. Babel: kod · kural kural sadakat denetimi · regresyon vakaları;
-   f. U1 (AODV'nin yeni sürümü ve Babel, iki desen) · evre kapıları (G1ç, G2ç) ve G1-P yeni rakip kümesiyle → donma · tam takım;
+   e. ✓ Babel: kod · 55 kurallık sadakat denetimi · regresyon vakaları kodda · AODV taraması 42 kurala tamamlandı, `AODV-k`ya ns-3'ün iki varsayılanı (K-244);
+   f. tek kuyruk (beklenti önce): regresyon k244 · U1 (`AODV-k` ve Babel, iki desen) · evre kapıları (G1ç, G2ç) ve G1-P yeni rakip kümesiyle → donma · tam takım;
    g. belge düzeltmeleri (DD-02 · 12 · 13 · 17 · 18; `sim2/kanal/tehdit.py`'nin tablosu `tekli_merkez`i "sabit yer" diye anıyor, nesne orta irtifada, K-243) ve JarmRout'un çıkışının temizliği.
 7. Faz 5'e dönüş (§1.2).
 

@@ -71,7 +71,8 @@ değişikliğinden önce ve sonra koşar.
     addan değil `REFERANS_VAKALARI` tablosundan (`_kos`). Faz 4b'nin
     rakipleri (K-236): JarmRout ve OLSRv2 birincil hücrede, JarmRout eşler
     arası hareketli kolda (keşif, RERR, kopya, kaynak rotası), OLSRv2 düğüm
-    kaybında (komşu ve topoloji demetlerinin dolması)
+    kaybında (komşu ve topoloji demetlerinin dolması). Üçüncü rakip Babel
+    (K-242 · K-244): birincil hücrede ve düğüm kaybında
 
 Vaka başına duvar saati basılır ama satıra yazılmaz; sonraki koşumun bandı
 bu sayılardan verilir.
@@ -157,6 +158,14 @@ REFERANS_VAKALARI: dict[str, tuple[str, str, int, dict]] = {
         {"trafik_deseni": "esler_arasi"}),
     "u-bagimsiz-surekli-olsrv2-dugum_kaybi": (
         "bagimsiz-surekli", "olsrv2", 1010,
+        {"kayip_dugum_sayisi": 5, "kayip_bas_s": 15.0, "kayip_bitis_s": 35.0,
+         **_YT}),
+    # Üçüncü rakip Babel (K-242 · K-244): birincil hücre; düğüm kaybı
+    # hareketli kolda (geri çekme ve yinelemeleri, açlıkta sıra isteği, rota
+    # isteği, IHU tutmasının dolması).
+    "u-birincil-babel": ("formasyon-surekli", "babel", 1003, _BIRINCIL),
+    "u-bagimsiz-surekli-babel-dugum_kaybi": (
+        "bagimsiz-surekli", "babel", 1010,
         {"kayip_dugum_sayisi": 5, "kayip_bas_s": 15.0, "kayip_bitis_s": 35.0,
          **_YT}),
     # Denetim 2026-10-08 D-13: kısa pencerede TEMİZ evre boş kalıyor ve
@@ -400,6 +409,9 @@ def _fabrika(protokol: str, kur):
     if protokol == "olsrv2":
         from protokoller.olsrv2 import OLSRv2
         return lambda i: OLSRv2(i)
+    if protokol == "babel":
+        from protokoller.babel import Babel
+        return lambda i: Babel(i)
     if protokol == "desparete":
         from protokoller.desparete import DESPARETE
         from protokoller.desparete_bayrak import PROFIL_V02, SECENEK_V041

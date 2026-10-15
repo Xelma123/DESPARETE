@@ -123,8 +123,10 @@ def test_U2_bag_koptugunda_RERR_ve_KOPMA_BEYANI():
     p._komsu[1] = 0.0
     # 🔒 Öncül 3: bu rotayı 3 kullanıyor. §6.11 RERR'i YALNIZ öncülü olan
     # hedefler için gönderir (K-143); öncülsüz kurulum RFC'de RERR üretmez.
+    # Öncül komşudur (rotayı ters yoldan kurmuştur): tek atlamalı rota.
     p._rota[9] = Rota(sonraki=1, atlama=2, hedef_sira=5,
                       son_gecerli_s=100.0, oncular={3})
+    p._rota[3] = Rota(sonraki=3, atlama=1, hedef_sira=0, son_gecerli_s=100.0)
 
     cikti = p.iletim_basarisiz(_gozlem(0, 1.0), hedef=1, tur="veri")
 
@@ -134,7 +136,8 @@ def test_U2_bag_koptugunda_RERR_ve_KOPMA_BEYANI():
     rerr = [i for i in _istekler(cikti) if i.bicim is RERR]
     assert len(rerr) == 1, "RERR üretilmedi"
     assert dict(rerr[0].yuk)["ulasilamaz"] == (9,)
-    assert rerr[0].yayin_mi, "RERR yayın olarak gider"
+    # K-244: tek öncül → ona tek-yayın (§6.11 MAY · ns-3 `SendRerrMessage`).
+    assert rerr[0].hedef == 3 and not rerr[0].yayin_mi
     # §6.11 — rota geçersizleşir ve SIRA NUMARASI artar; girdi SİLİNMEZ.
     assert not p._rota[9].gecerli
     assert p._rota[9].hedef_sira == 6, "geçersizleşen rotanın sırası artmalı"
@@ -587,9 +590,11 @@ def test_BEYAN_RERR_bir_KOPMA_DEGILDIR():
     """
     p = AODV(0)
     p._komsu[1] = 0.0
-    # 🔒 Öncül 3 — RERR'in yayılması için (K-143).
+    # 🔒 Öncül 3 — RERR'in yayılması için (K-143); komşu, tek atlamalı
+    # rotası var (K-244: tek öncüle tek-yayın).
     p._rota[9] = Rota(sonraki=1, atlama=2, hedef_sira=5, son_gecerli_s=100.0,
                       oncular={3})
+    p._rota[3] = Rota(sonraki=3, atlama=1, hedef_sira=0, son_gecerli_s=100.0)
     yuk = tuple({"tip": TIP_RERR, "bayraklar": 0, "ayrilmis": 0,
                  "hedef_sayisi": 1, "ulasilamaz": (9,),
                  "ulasilamaz_sira": (6,)}.items())
@@ -1168,3 +1173,93 @@ def test_K215_kahin_beaconi_AODV_HELLO_cercevesiyle_BIREBIR():
     assert cerceve_kur(k, "beacon").bayt == cerceve_kur(
         k, "kontrol", mesaj_bayt=RREP.bayt(y_rrep)).bayt
     assert k.ttl_baslangic == REFERANS_TTL == 64
+
+
+# ==========================================================================
+# K-244 · ns-3'ün varsayılanları: karşılıksız RREP · RERR'in iletim biçimi ·
+# kara listenin tür eşlemesi
+# ==========================================================================
+def test_K244_RREQ_G_BAYRAGI_ve_KARSILIKSIZ_RREP_6_6_3():
+    """Kaynak her RREQ'te G kurar (ns-3 `GratuitousReply`); yanıt veren ara
+    düğüm hedefe karşılıksız RREP'i RFC'nin alanlarıyla gönderir; iletilen
+    RREQ'te U iner, G kalır."""
+    from protokoller.aodv_bicim import BAYRAK_G, BAYRAK_U, RREP, TIP_RREQ
+    p = AODV(0)
+    ist = p._rreq_kur(7, 1, 0.0)
+    assert dict(ist.yuk)["bayraklar"] == BAYRAK_G | BAYRAK_U
+    ara = AODV(5)
+    ara._rota[7] = Rota(sonraki=6, atlama=2, hedef_sira=9,
+                        son_gecerli_s=50.0)
+    y = {"tip": TIP_RREQ, "bayraklar": BAYRAK_G, "ayrilmis": 0, "atlama": 1,
+         "rreq_kimlik": 4, "hedef": 7, "hedef_sira": 8, "kaynak": 0,
+         "kaynak_sira": 3, "ttl": 5}
+    cikti = ara.kontrol_alindi(_gozlem(5, 1.0), 4, "RREQ",
+                               tuple(y.items()), True)
+    rrep = [i for i in _istekler(cikti) if i.bicim is RREP]
+    assert [i.hedef for i in rrep] == [4, 6]
+    g = dict(rrep[1].yuk)
+    assert (g["hedef"], g["hedef_sira"], g["kaynak"], g["atlama"]) == \
+        (0, 3, 7, 2)
+    assert ara._sayac["rrep_karsiliksiz"] == 1
+    # G'siz RREQ'te karşılıksız RREP yok.
+    ara2 = AODV(5)
+    ara2._rota[7] = Rota(sonraki=6, atlama=2, hedef_sira=9,
+                         son_gecerli_s=50.0)
+    cikti = ara2.kontrol_alindi(_gozlem(5, 1.0), 4, "RREQ",
+                                tuple(dict(y, bayraklar=0).items()), True)
+    assert [i.hedef for i in _istekler(cikti) if i.bicim is RREP] == [4]
+    # İletilen RREQ: U iner, G kalır.
+    ara3 = AODV(5)
+    ara3._rota[7] = Rota(sonraki=6, atlama=2, hedef_sira=12,
+                         gecerli=False, son_gecerli_s=50.0)
+    cikti = ara3.kontrol_alindi(
+        _gozlem(5, 1.0), 4, "RREQ",
+        tuple(dict(y, bayraklar=BAYRAK_G | BAYRAK_U, hedef_sira=0).items()),
+        True)
+    iletilen = [dict(i.yuk) for i in _istekler(cikti)
+                if i.bicim is not RREP and i.yayin_mi]
+    assert iletilen and iletilen[0]["bayraklar"] == BAYRAK_G
+
+
+def test_K244_RERR_ILETIM_BICIMI_ns3():
+    """İki öncül → yayın; rotasız tek öncül → gönderilmez; (ii) veri
+    kaynağına rota varsa onun sonraki atlamasına tek-yayın, yoksa yayın."""
+    p = AODV(0)
+    p._rota[9] = Rota(sonraki=1, atlama=2, hedef_sira=5,
+                      son_gecerli_s=100.0, oncular={3, 4})
+    p._rota[3] = Rota(sonraki=3, atlama=1, hedef_sira=0, son_gecerli_s=100.0)
+    rerr = p._rerr_kur((9,), 1.0)
+    assert len(rerr) == 1 and rerr[0].yayin_mi
+    q = AODV(0)
+    q._rota[9] = Rota(sonraki=1, atlama=2, hedef_sira=5,
+                      son_gecerli_s=100.0, oncular={3})
+    assert q._rerr_kur((9,), 1.0) == ()
+    assert q._rerr_pencere[1] == 0.0          # hız sınırı hakkı harcanmadı
+    r = AODV(0)
+    r._rota[2] = Rota(sonraki=8, atlama=3, hedef_sira=4, son_gecerli_s=100.0)
+    tek = r._rerr_kur((9,), 1.0, oncul_suz=False, veri_kaynagi=2)
+    assert tek[0].hedef == 8 and not tek[0].yayin_mi
+    yayin = r._rerr_kur((9,), 1.0, oncul_suz=False, veri_kaynagi=11)
+    assert yayin[0].yayin_mi
+
+
+def test_K244_KARA_LISTE_YALNIZ_RREP_BASARISIZLIGINDA():
+    """`iletim_sonucu` tek-yayın kontrol çerçevesinin türünü komşu başına
+    sırayla eşler: RERR'in başarısızlığı kara liste kurmaz, RREP'inki kurar;
+    eşleme yoksa RREP sayılır (önceki davranış)."""
+    p = AODV(0)
+    p._rota[9] = Rota(sonraki=1, atlama=2, hedef_sira=5,
+                      son_gecerli_s=100.0, oncular={3})
+    p._rota[3] = Rota(sonraki=3, atlama=1, hedef_sira=0, son_gecerli_s=100.0)
+    p._rrep_kur(9, 5, 2, 0, 3.0, 3)                 # RREP → 3
+    p._rerr_kur((9,), 1.0)                          # RERR → 3
+    p.iletim_sonucu(_gozlem(0, 1.1), 3, True, 0, "kontrol")   # RREP onaylandı
+    p.iletim_sonucu(_gozlem(0, 1.2), 3, False, 6, "kontrol")  # RERR başarısız
+    p.iletim_basarisiz(_gozlem(0, 1.2), 3, "kontrol")
+    assert 3 not in p._kara_liste
+    p._rrep_kur(9, 5, 2, 0, 3.0, 4)
+    p.iletim_sonucu(_gozlem(0, 1.3), 4, False, 6, "kontrol")
+    p.iletim_basarisiz(_gozlem(0, 1.3), 4, "kontrol")
+    assert 4 in p._kara_liste
+    p.iletim_basarisiz(_gozlem(0, 1.4), 5, "kontrol")   # eşleme yok → RREP
+    assert 5 in p._kara_liste

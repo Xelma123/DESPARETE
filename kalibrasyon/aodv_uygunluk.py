@@ -6,7 +6,7 @@ U1 — AODV'nin teslim oranı kâhin referansına YAKIN mı? (`v2/06` §4.3)
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py --protokol olsrv2
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py --protokol desparete
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py --dunya referans_2026 \
-        --desen yere_toplama --protokol aodv,olsrv2,jarmrout,desparete
+        --desen yere_toplama --protokol aodv,olsrv2,babel,desparete
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py duman
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py hukum [kayit]
     PYTHONIOENCODING=utf-8 python -u kalibrasyon/aodv_uygunluk.py u3
@@ -127,6 +127,7 @@ from protokoller.aomdv import AOMDV  # noqa: E402
 from protokoller.desparete import DESPARETE  # noqa: E402
 from protokoller.jarmrout import JarmRout  # noqa: E402
 from protokoller.olsrv2 import OLSRv2  # noqa: E402
+from protokoller.babel import Babel  # noqa: E402
 from protokoller.desparete_bayrak import PROFIL_V02, SECENEK_V041  # noqa: E402
 from sim2.kosum.kosu import Kosu  # noqa: E402
 from sim2.kosum.kurulum import kurulum_yap  # noqa: E402
@@ -141,7 +142,9 @@ __all__ = ["U1_ESIK_STATIK", "U1_ESIK_HAREKETLI", "KOLLAR", "TOHUMLAR", "u1",
 PROTOKOLLER = {"aodv": AODV, "olsr": OLSR, "aomdv": AOMDV,
                "desparete": DESPARETE,
                # Faz 4b'nin rakipleri (K-229 · K-235 · K-236).
-               "jarmrout": JarmRout, "olsrv2": OLSRv2}
+               "jarmrout": JarmRout, "olsrv2": OLSRv2,
+               # Üçüncü rakip (K-242 · K-244).
+               "babel": Babel}
 # 🔒 DESPARETE v0.1 tek-sink işletme profilidir: U1'i YERE TOPLAMADA koşulur
 # (`04` K-150 §4 · K-160); kâhin AYNI desende koşar, oran aynı dünyanın
 # oranıdır. Taban protokollerin U1'i eşler arası desende geçerli kalır.
@@ -232,7 +235,8 @@ ACIKLANMIS_DUSUK: dict[str, dict[tuple[str, int], str]] = {"aodv": {
     ("gorev-yok", 1001):
         "esiksiz en kisa yol 0,2502 (kolun en dusugu; 1000'de 0,5519). "
         "Ag hicbir anda bolunmuyor. K-137 §4",
-}, "olsr": {}, "desparete": {}, "jarmrout": {}, "olsrv2": {}, "aomdv": {
+}, "olsr": {}, "desparete": {}, "jarmrout": {}, "olsrv2": {}, "babel": {},
+    "aomdv": {
     # 🔒 AOMDV, AODV'nin atlama sayısıyla yönlendirmesini miras alır; bağ
     # kalitesi kabul eşiği YOKTUR. Ölçüm tam pencerede, bu hücrede yapıldı
     # (22 Eylül 2026; `arsiv/teshis/aomdv_gorev1001_2026-09-22/`, ön-kayıtlı
@@ -321,7 +325,7 @@ ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
         ("statik-yok", 1000), ("statik-yok", 1002), ("bagimsiz-yok", 1000))},
     "aomdv": {("yere_toplama", kol, t): _AOMDV_K207 for kol, t in (
         ("statik-yok", 1000), ("statik-yok", 1002), ("bagimsiz-yok", 1000))},
-    "desparete": {}, "olsrv2": {},
+    "desparete": {}, "olsrv2": {}, "babel": {},
     "jarmrout": {h: (f"{_JARMROUT_K238} · bu hucre: oran {o}, rota tamponu "
                      f"girisi {g}, tepe {t}/64"
                      + (" · esler arasi kesifsel (K-218)"
@@ -348,7 +352,7 @@ ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
 # kâhin sızıntısı bulmuyorsa ve yalnız kopyayla teslim edilen paketler
 # (aslı hedefe hiç varmamış) çıkarılınca oran ≤ 1 + R ise açıklanmıştır.
 KAHIN_ASIMI_ACIKLANMIS: dict[str, dict[tuple[str, str, int], str]] = {
-    "olsr": {}, "desparete": {}, "aomdv": {}, "olsrv2": {},
+    "olsr": {}, "desparete": {}, "aomdv": {}, "olsrv2": {}, "babel": {},
     "jarmrout": {
         ("esler_arasi", "statik-yok", 1001):
             "JarmRout-b 0,9954 · ETX kahini 0,9827 (oran 1,0129 > 1 + R): "
@@ -394,7 +398,7 @@ KAYITLI_ORAN: dict[str, dict[tuple[str, str, int], float]] = {
                     for h, (o, _g, _t) in _JARMROUT_IZ.items()},
                  ("esler_arasi", "statik-yok", 1001): 1.0129,
                  ("esler_arasi", "formasyon-yok", 1000): 1.0083},
-    "desparete": {}, "olsrv2": {},
+    "desparete": {}, "olsrv2": {}, "babel": {},
 }
 # Bant = çözünürlük R (K-224): kod değişmeden yeniden koşulan hücre birebir
 # aynı oranı verir; R'den büyük sapma açıklamanın yeniden ölçülmesini ister.
