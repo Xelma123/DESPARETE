@@ -20,7 +20,7 @@
 
 1. ✓ **Kopya defteri (denetim D-23, K-231):** JarmRout her veri paketini iki yoldan gönderir (K-230). Hedefte ilk teslim sayılır, eşler `kopya_bastirilan`; korunum eşleri kapatır; eşlerin yayın süresi veri yüküne. Kopya kullanmayan protokolde satır aynı: regresyon k223 → k231 birebir.
 2. **JarmRout** (Pu 2018) ve **OLSRv2** (RFC 7181 · 6130 · 5444 · 5497 · 5148 · 7779; olsrd2 hakem): kaynaklar depoda ✓ (K-231) · simülatörde kaynak rotası ✓ (K-232, regresyon k232 birebir) · JarmRout kodu ve beyan tablosu ✓ (K-233; makalenin dört çözümlü örneği birim testi) · JarmRout'un kural kural sadakat denetimi ✓ (K-234, `JarmRout-b`) · OLSRv2 kodu (RFC 5444 tel biçimi bayt bayt), beyan tablosu ve sadakat denetimi ✓ (K-235 · K-236, `OLSRv2-b`).
-   Duyarlılık borcu (mühürden önce): JarmRout'un seçimleri (`t_wait`, Eş. 6–7 süzgeçleri) · `rssi_olcum_sigma_db` · `gps_dikey_sigma_m` (K-233).
+   JarmRout'un seçimlerinin duyarlılık borcu (`t_wait`, Eş. 6–7 süzgeçleri) rakiplikten çıkınca düştü; `rssi_olcum_sigma_db` · `gps_dikey_sigma_m` DESPARETE'nin Faz 5'te bu alanları okuyup okumayacağına bağlı (K-242).
 3. ✓ Regresyona yeni protokollerin vakaları (K-237, taban k236) · U1 iki desende (K-238: OLSRv2 temiz; JarmRout'un toplu akış çöküşü incelendi — makaleye birebir sadık, ölçek sınırı bulgu) · ikinci kuyruk (K-239): kopya kuralı sağlandı, dört temsilci anatomi geçti, çizelgeli evre kapıları yalnız JarmRout yüzünden kaldı → sebep ölçüldü (rota beklemesi; eğilim ve pencere sonu boşalması) → kayıtlı muafiyetle G1ç ✓ · G2ç + G4ç ✓ (R ve G3ç protokolden bağımsız, geçerli) → **donma ✓** (`JarmRout-b` · `OLSRv2-b`) · tam takım · mimari denetimi.
 4. ✓ **Belge ve kod temizliği** (yürütücü, 11 Ekim): belgeler (K-240) · kod (K-241: yorumlar, araç varsayılanları, DESPARETE dosyalarındaki tasarım paketi yolu; davranış aynı, değişen simülatör ve protokol dosyalarının sözdizim ağacı birebir). Bilerek kalanlar: donmuş protokol dosyalarının yorumları (donma özeti değişmesin diye), OLSR ve AOMDV'nin modülleri ve regresyon vakaları (Faz 4'ün kaydı), köken gerekçelerindeki eski ölçümler.
    Derin denetime iki not: (a) G1-P (statik boş kol) yeni rakip kümesiyle koşulmadı; G1ç koşuldu · (b) bütün kontrol mesajları UDP/IP ile faturalanıyor; gerçek DSR (JarmRout) UDP kullanmaz, mesaj başına 8 B fazla (`sim2/kanal/cerceve.py`).
@@ -32,7 +32,7 @@
    d. ✓ yer–hava görüş hattının kalıcı olması (DD-01) · `AODV-k` (DD-04) → regresyon k243 (K-243; 66/67 birebir, ilan edilmemiş tek vaka DD-01'in yolu, eski modelle birebir doğrulandı);
    e. ✓ Babel: kod · 55 kurallık sadakat denetimi · regresyon vakaları kodda · AODV taraması 42 kurala tamamlandı, `AODV-k`ya ns-3'ün iki varsayılanı (K-244);
    f. tek kuyruk (beklenti önce): regresyon k244 · U1 (`AODV-k` ve Babel, iki desen) · evre kapıları (G1ç, G2ç) ve G1-P yeni rakip kümesiyle → donma · tam takım;
-   g. belge düzeltmeleri (DD-02 · 12 · 13 · 17 · 18; `sim2/kanal/tehdit.py`'nin tablosu `tekli_merkez`i "sabit yer" diye anıyor, nesne orta irtifada, K-243) ve JarmRout'un çıkışının temizliği.
+   g. ✓ belge düzeltmeleri (DD-02 · 12 · 13 · 17 · 18) ve JarmRout'un çıkışının temizliği (K-245);
 7. Faz 5'e dönüş (§1.2).
 
 ### 1.2 · Faz 5 — durdu (K-229); dönüşteki plan
@@ -92,9 +92,9 @@ Koşu başına süre, 350 s'lik koşu (Faz 4b kapanış kuyrukları, 12–13 Eki
 | OLSRv2 | 1,1 sa | 1,1–1,3 sa |
 | DESPARETE v0.4.1 | 1,5–1,6 sa | 1,9–2,0 sa |
 | AODV | 2,0 sa | 2,3–2,4 sa |
-| JarmRout | 5,6–6,3 sa | 8,3–8,6 sa |
+| JarmRout (rakip değil) | 5,6–6,3 sa | 8,3–8,6 sa |
 
-Kaynak: `arsiv/teshis/faz4b_kapanis2_2026-10-12/G1c.txt` · `G2c.txt` (`sure` sütunu). Tek makine.
+Kaynak: `arsiv/teshis/faz4b_kapanis2_2026-10-12/G1c.txt` · `G2c.txt` (`sure` sütunu). Tek makine. Babel'in süreleri K-244 kuyruğunun G1ç · G2ç çıktılarından eklenecek.
 
 **Kaba plan** (denetim D-09; birim süreler yukarıdan):
 

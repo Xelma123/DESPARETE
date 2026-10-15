@@ -72,9 +72,10 @@ MODELLENMEYEN: tuple[tuple[str, str], ...] = (
      "yer referanslı karıştırıcıyla AYNI modelle hesaplanır; hava–hava "
      "kanalı ayrıca modellenmez"),
     ("hareketli_karistirici",
-     "gerçekçi hızlarda koşu içi hareket küçük (derin sızma ~32 m, hava "
-     "eşlik ~300–390 m) ve ~2 000 s'lik uzun koşu yok (öğrenci kararı "
-     "K-119) — hareketin etkisi olduğundan KÜÇÜK ölçülür"),
+     "hareket koşu içinde modellenir (350 s'de derin sızma aracı ~1,6 km, "
+     "yalnız sessiz dönemlerde; hava eşlik ~19 km), ama ~2 000 s'lik uzun "
+     "koşu yok (öğrenci kararı K-119) — uzun süreli hareketin birikimli "
+     "etkisi ölçülmez"),
     ("patlamali_trafik",
      "CBR; gerçek telemetri patlamalıdır"),
 )

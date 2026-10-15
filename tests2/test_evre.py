@@ -637,3 +637,19 @@ def test_K239_G4C_KAYIT_dahil_kayitsiz_kalir_olu_kirmizi(monkeypatch):
     assert E._g2c_hukum(taban + kol("x", 1.9))
     assert not E._g2c_hukum(taban + kol("y", 1.9))
     assert not E._g2c_hukum(taban + kol("x", 0.5))
+
+
+def test_DD12_EVRE_YORUMLANAMAZ_KAYDI_KODA_BAGLI(monkeypatch, tmp_path):
+    """Her kayıt ölçüldüğü protokol dosyasının özetini taşır ve özet bugünkü
+    dosyaya uyar; kod değişirse kayıt uygulanmaz (JARM-3)."""
+    import kalibrasyon.evre_metrikleri_kapilari as E
+    from sim2.cekirdek.kimlik import dosya_hash
+    assert set(E.EVRE_YORUMLANAMAZ) == set(E.EVRE_YORUMLANAMAZ_KOD)
+    for p, (dosya, ozet) in E.EVRE_YORUMLANAMAZ_KOD.items():
+        assert dosya_hash(E.KOK / "protokoller" / dosya) == ozet, p
+    assert "jarmrout" in E._muaf("G1c")
+    monkeypatch.setitem(E.EVRE_YORUMLANAMAZ_KOD, "jarmrout",
+                        ("jarmrout.py", "0" * 32))
+    assert "jarmrout" not in E._muaf("G1c")
+    assert "jarmrout" not in E._muaf("G4c")
+

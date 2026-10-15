@@ -101,7 +101,8 @@ Sezim için kullanılabilecek alanlar: son iletim sonucu · kanal meşguliyeti (
 Taban protokollerin sözleşmeye bastığı yerler:
 - **AODV:** RREQ/RREP'te ara düğüm paketin taşıdığından fazlasını çıkarmaz (§3.3).
 - **OLSRv2:** iki atlamalık komşuluk yalnız HELLO'dan gelir (§3.5).
-- **JarmRout:** bağ kalitesi kendi RSSI örneklerinden, yük kendi kanal doluluğu ve kuyruğundan, konum yalnız RREQ'de taşınan (ödenen) koordinattan gelir.
+- **Babel:** bağ maliyeti komşunun çoklu-yayın Hello'larının kendi geçmişinden (ETX), ters yönün maliyeti komşunun IHU'sundan; bağ katmanı bildirimi kullanılmaz.
+- **JarmRout** (rakip değil, Faz 4b'nin kaydı; K-242): bağ kalitesi kendi RSSI örneklerinden, yük kendi kanal doluluğu ve kuyruğundan, konum yalnız RREQ'de taşınan (ödenen) koordinattan gelir.
 - **Hepsi** rota tablosunu kendi geçmişinden kurar (§3.4).
 
 ## 7 · Değişiklik yolu

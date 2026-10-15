@@ -21,11 +21,13 @@
 | 16 | `16-KAYNAKCA.md` | rapor için kaynakça (IEEE biçimi) |
 | — | `kayit/KARAR-GUNLUGU.md` | kronolojik karar günlüğü K-090…; koddaki `K-xxx` atıflarının adresi; tarihsel kayıttır, yeniden yazılmaz |
 
-**Koddaki eski atıflar:**
+**Koddaki eski atıflar** (belgeler 28 Eylül ve 13 Ekim'de sadeleştirildi; koddaki bölüm numaraları eski sürümlerindir):
 - `` `04` K-xxx `` → `kayit/KARAR-GUNLUGU.md`.
-- `` `07` §18 Yn `` ve `` `07` §15 `` gibi bölüm atıfları → `arsiv/07-SIMULATOR-TASARIMI-2026-09-28-temizlik.md`.
+- `` `07` ``nin iki haneli bölümleri (§03.3 · §05.3.1 · §06.2 · §07.2 · §09.4 · §11.3) ve §15, §18 Yn (Y0–Y10) → `arsiv/07-SIMULATOR-TASARIMI-2026-09-25.md` (tam sürüm; `…-2026-09-28-temizlik.md` özeti).
+- `` `08` §05.3 `` → `arsiv/08-EVRE-METRIKLERI-2026-09-25.md`.
+- `` `12` §3 C1–C3 `` → `arsiv/12-YOL-HARITASI-2026-09-25.md`.
 - `` `03` §B5 `` ve `` `03` §2.1 `` → `arsiv/03-YONTEM-KURALLARI-*.md`.
-- `` `15` `` (yapı paketi, tamamlandı) → `arsiv/15-GERCEKCILIK-YAPI-PAKETI-2026-09-28-tamamlandi.md`.
+- `` `15` `` ve `` `v2/15` `` (yapı paketi, tamamlandı) → `arsiv/15-GERCEKCILIK-YAPI-PAKETI-2026-09-28-tamamlandi.md`.
 - `` `10` `` → `02` §L.
 - DESPARETE dosyalarındaki `protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/` yolları → `../arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/` (v0.1 taslağı, bayat; bağlayıcı olan kod).
 

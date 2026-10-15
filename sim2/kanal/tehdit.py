@@ -13,7 +13,9 @@ tanım üretmez ve kanal bugünkü tek merkez karıştırıcıyı BİREBİR kura
 🔒 YERLEŞİM EŞİT ARALIK VE SİMETRİDEN TÜRER — serbest sayı yok
 ==============================================================
     aile           K  platform   yer (alan oranı)                  yayın
-    tekli_merkez   1  sabit yer  alan merkezi (bugünkü nesne)       sürekli
+    tekli_merkez   1  sabit      alan merkezi, sürünün orta         sürekli
+                                 irtifası (eski tek merkez nesnesi;
+                                 yer–hava kanalı kurulmaz)
     cephe_hatti    3  sabit yer  x = 1 · y = (2i+1)/6               sürekli
     derin_sizma    1  araç       merkezden batıya, yalnız susarken  yay–sus–taşın
     hedef_koruma   2  sabit yer  x = 0,75 · y = (2i+1)/4            sürekli
@@ -28,9 +30,10 @@ yerler kullanılır (öğrenci kararı, K-119).
 tepe gücü açık oranına bölünür. Sınıf içindeki darbe telafisinin üstüne
 uygulanır. ρ her ailede bir SONUÇTUR.
 
-⚠️ HIZLAR VARSAYIMDIR — araç 60 km/h, hava 200 km/h (`Konfig`, SINANMAMIŞ).
-Gerçekçi hızlarda hareket bir koşu içinde küçüktür ve kapsam bölümünde beyan
-edilir; ~2 000 s'lik uzun koşu şimdilik yok (K-119).
+🔒 HIZLAR — araç 60 km/h (DÜNYA TANIMI), hava 200 km/h (KOL TANIMI; köken
+defteri). Referans dünyanın 350 s'lik koşusunda derin sızma aracı (yalnız
+sessiz dönemlerde) ~1,6 km, hava eşlik ~19 km yol alır (15 Ekim 2026,
+ölçüldü). ~2 000 s'lik uzun koşu yok (K-119).
 """
 
 from __future__ import annotations

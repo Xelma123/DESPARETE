@@ -22,7 +22,7 @@
   - Serbest uzay α = 2 · gölgeleme σ 3 dB, hücre 2,5 km · yer–hava kanalı Al-Hourani (banliyö).
   - Rician K 10 dB — **eksen** (K-215): birincil test 10 dB'de, 6 ve 15 dB'de keşifsel tekrar.
   - Sönümleme durumsuz FIR, referans dünyada blok üreteciyle (K-198); statik kolda bağ başına donuk tek çekim.
-- **Sürü:** N = 40 · alan 33 km (K-188) · irtifa 50–300 m · 40–120 km/h · dört hareket kolu (statik · bağımsız · görev · formasyon) · kendi konumu GPS/INS 1,5 m CEP.
+- **Sürü:** N = 40 · alan 33 km (K-188) · irtifa 50–300 m · 40–120 km/h (bağımsız ve görev kolları; formasyonda istasyon tutma, ortak transit yok, `14` §3) · dört hareket kolu (statik · bağımsız · görev · formasyon) · kendi konumu GPS/INS 1,5 m CEP.
 - **Trafik:** yere toplama birincildir: her düğümden geçide 1 pkt/s × 512 B telemetri + geçitten 4 düğüme 0,25 pkt/s komut (K-126). Eşler arası keşifseldir. Araç deseni açıkça vermeli (`Konfig` varsayılanı `esler_arasi`).
 - **Senaryo eksenleri:** düğüm kaybı (birincil metrikte kohort: doğumda iki ucu yaşayan paketler, K-182) · trafik yoğunluğu · telsiz enerjisi (raporlanır, tasarım ölçütü değil).
 - **Ölçüm penceresi:** ısınma 50 s · ölçüm bitişi 320 s (trafik üretimi burada durur) · koşu bitişi 350 s. Duyarlılığı Faz 6'da ölçülür (§10).

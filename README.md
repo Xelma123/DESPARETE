@@ -37,7 +37,7 @@ Güncel durum ve plan: [`v2/12-YOL-HARITASI.md`](v2/12-YOL-HARITASI.md).
 | dizin | içerik |
 |---|---|
 | [`sim2/`](sim2) | kesikli-olay simülatörü |
-| [`protokoller/`](protokoller) | taban protokoller: AODV (RFC 3561) · OLSRv2 (RFC 7181) · DESPARETE (`desparete*.py`); Babel (RFC 8966) gerçekleniyor. Eski rakipler OLSR (RFC 3626), AOMDV ve JarmRout (Pu 2018) kayıt ve regresyon vakaları için durur |
+| [`protokoller/`](protokoller) | taban protokoller: AODV (RFC 3561) · OLSRv2 (RFC 7181) · Babel (RFC 8966) · DESPARETE (`desparete*.py`). Eski rakipler OLSR (RFC 3626), AOMDV ve JarmRout (Pu 2018) kayıt ve regresyon vakaları için durur |
 | [`kalibrasyon/`](kalibrasyon) | ölçüm, kalibrasyon ve kabul kapısı araçları — belgelerdeki sayıların üreticileri |
 | [`analiz/`](analiz) | ön-kaydın istatistik planı (Wilcoxon, Holm, eşik, güç) |
 | [`tests2/`](tests2) | test takımı (pytest) |
@@ -53,7 +53,7 @@ Betiklerin ürettiği sonuç dosyaları depoya dahil değildir; her makinede yer
 
 Hazır bir ağ simülatörü yerine projenin kendi simülatörü yazıldı; amaç karşılaştırmanın her varsayımının görünür ve sınanabilir olmasıdır.
 
-- **Referans dünya (1:1):** 40 İHA, 33 km'lik alan, 50–300 m irtifa, 40–120 km/h; dört hareketlilik kolu (statik · bağımsız · görev · formasyon). Her sayı kaynaklı ya da ölçülmüştür ([`v2/14`](v2/14-REFERANS-DUNYA.md)).
+- **Referans dünya (1:1):** 40 İHA, 33 km'lik alan, 50–300 m irtifa, 40–120 km/h (bağımsız ve görev kollarında; formasyonda sürü istasyon tutar, ortak transit modellenmez); dört hareketlilik kolu (statik · bağımsız · görev · formasyon). Her sayı kaynaklı ya da ölçülmüştür ([`v2/14`](v2/14-REFERANS-DUNYA.md)).
 - **Telsiz ve kanal:**
   - 802.11b DSSS: işlem kazancı, 1–11 Mb/s hız uyarlaması, enerji sezmeli taşıyıcı dinleme; 20 dBm EIRP.
   - Kanal: serbest uzay yol kaybı, gölgeleme, Rician hızlı sönümleme, yer–hava kanalı.

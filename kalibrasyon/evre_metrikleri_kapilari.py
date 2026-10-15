@@ -386,6 +386,30 @@ EVRE_YORUMLANAMAZ: dict[str, dict[str, str]] = {
                 "arsiv/teshis/faz4b_kapi_teshis_2026-10-13/"),
     },
 }
+# 🔒 DD-12 (JARM-3) · KAYIT ÖLÇÜLDÜĞÜ KODA BAĞLI: protokol → (dosya, özet).
+# Özet `tests2/test_donma.py`deki donmuş özet; kod değişirse kayıt geçersiz
+# olur ve kapı protokolü yeniden yargılar. JarmRout K-242'den beri rakip
+# değil: kaydı Faz 4b'nin kaydıdır, yeniden koşulursa yeniden ölçülür.
+EVRE_YORUMLANAMAZ_KOD: dict[str, tuple[str, str]] = {
+    "jarmrout": ("jarmrout.py", "569dcc17f51a0607cef3d01a7f1753f1"),
+}
+
+
+def _muaf(madde: str) -> set[str]:
+    """`madde`de kayıtlı ve kaydı bugünkü koduna uyan protokoller."""
+    from sim2.cekirdek.kimlik import dosya_hash
+    cikti = set()
+    for p, m in EVRE_YORUMLANAMAZ.items():
+        if madde not in m:
+            continue
+        kod = EVRE_YORUMLANAMAZ_KOD.get(p)
+        if (kod is not None
+                and dosya_hash(KOK / "protokoller" / kod[0]) != kod[1]):
+            print(f"  🔴 {p}: EVRE_YORUMLANAMAZ kaydi baska bir kodun "
+                  f"({kod[0]} ozeti degisti) — kayit uygulanmaz")
+            continue
+        cikti.add(p)
+    return cikti
 
 
 def _d_se(e: Evreler, temiz: float, n_t: int, sessiz: float,
@@ -489,7 +513,7 @@ def _g1c_hukum(sonuc: list[dict]) -> bool:
     """G1ç'nin hükmü — koşum da `hukum` kipi de buradan geçer."""
     _ciz_tablo(sonuc)
     protokoller = list(dict.fromkeys(r["protokol"] for r in sonuc))
-    muaf = {p for p, m in EVRE_YORUMLANAMAZ.items() if "G1c" in m}
+    muaf = _muaf("G1c")
     tespit = sum(r["tespit"] is not None for r in sonuc)
     disinda = 0
     yorumlanamaz, kayitli, olu = [], [], []
@@ -614,7 +638,7 @@ def _g2c_hukum(hepsi_: list[dict]) -> bool:
         return (r["bulaniklik_evre"] is not None
                 and r["bulaniklik_evre"] < 1.0)
 
-    muaf = {p for p, m in EVRE_YORUMLANAMAZ.items() if "G4c" in m}
+    muaf = _muaf("G4c")
     disarida = sorted({r["protokol"] for r in sonuc if not net(r)})
     kayitli = [p for p in disarida if p in muaf]
     g4 = not [p for p in disarida if p not in muaf]

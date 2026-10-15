@@ -47,7 +47,7 @@
 | düğüm sayısı | **40** (çalışma noktasıyla doğrulandı, K-185…K-188) | onaylı |
 | alan | **33 km kare**: gölgeleme birimi düzeltildikten sonra ağın kopmadığı en büyük alan (derece 9,67, derin çift %26,9; K-188). Referans telsizle bağ 1 Mb/s'te ~9–10 km; daha küçük alanda sürü tam örgüye yaklaşır (7 km'de derece 37,4). Gerçekçilik önceliğiyle seçildi (K-185); ölçüm `arsiv/teshis/faz4_2026-09-26/a_calisma_noktasi_sonuc.md` | ölçüldü · G9 zarfı (≤ 50 km) |
 | irtifa | **50–300 m AGL** | onaylı (G9 zarfı içinde) |
-| hız | **40–120 km/h** — dört kol (statik, bağımsız, görev, formasyon) gerçek hızlarla | onaylı |
+| hız | **40–120 km/h** zarfı — bağımsız ve görev kollarında gerçek hızlarla. Formasyon kolunda sürü istasyon tutar, ortak transit modellenmez (`07` §4): yere göre hız yalnız manevra gürültüsü, ölçülen medyan 12 km/h, en çok 42 (birincil hücre, 1003; 15 Ekim 2026, DD-18). Statik kol durağan | onaylı |
 | konum bilgisi | kendi konum ve hızı GPS/INS ile; yatay hata **1,5 m CEP** (σ ≈ 1,3 m/eksen); dikey σ 2 m (kaynaksız, SINANMAMIŞ — `05` §3.3b) · GPS karıştırması kapsam dışı | G7 · karar |
 
 ## 4 · Tehdit — karıştırıcılar

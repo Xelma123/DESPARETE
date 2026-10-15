@@ -6,11 +6,12 @@ bayrağı"*) · `v2/03` §B1 (*"ablasyon kolu bir konfigürasyon bayrağıdır;
 kod düzenlemesiyle üretilen kol kaynağından ayırt edilemez"* · *"mekanizma
 sınırlarından bölünür"*). Kararlar: `v2/04` K-159.
 
-🔒 HEPSİ AÇIK = v0.1 · DESPARETE'NİN VARSAYILANI = v0.2 (K-161)
+🔒 HEPSİ AÇIK = v0.1 · VARSAYILAN BAYRAK PROFİLİ = v0.2 (K-161)
 ===============================================================
 Bütün bayraklar açıkken davranış bayraksız gerçeklemeyle BİREBİRDİR (K-159
 §3'ün ölçümü) — `PROFIL_V01`. Öğrencinin v0.2 kararı (yalın profil) üç
 mekanizmayı kapatır — `PROFIL_V02`; `DESPARETE`'nin kurucusu onu varsayar.
+Bugünkü DESPARETE v0.4.1 = `PROFIL_V02` + `SECENEK_V041` (K-172).
 Hangi bayrağın bir ablasyon KOLU olacağı mühürde seçilir (`06` §6); v0.2'de
 kapalı bir mekanizmayı AÇMAK da bir koldur.
 

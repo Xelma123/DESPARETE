@@ -175,8 +175,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-242 | BAĞIMSIZ DENETİMİN (14 Ekim) KARARLARI — üçüncü rakip Babel (RFC 8966) · JarmRout rakipl | 🟢 geçerli |
 | K-243 | DENETİMİN FAZ 5 ÖNCESİ KOD DÜZELTMELERİ — kalıcı görüş hattı · AODV-k · kapı sertleştirm | 🟢 geçerli |
 | K-244 | HAKEM İLKESİ İNCELTİLDİ — RFC'nin seçeneğe ve MAY'e bıraktığı yerde referans uygulamanın | 🟢 geçerli |
+| K-245 | 🟢 BELGE DÜZELTMELERİ VE JarmRout'UN ÇIKIŞ TEMİZLİĞİ (denetim DD-12 · 17 · 18) — davranış | 🟢 geçerli |
 
-**155 kayıt · 9 revize · 146 geçerli**
+**156 kayıt · 9 revize · 147 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -2002,3 +2003,23 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Testler:** Babel 18 · AODV ve AOMDV 74 geçti. U2 testi ve AOMDV'nin RERR testi öncüle tek atlamalı rota kurar (tek-yayın RERR rota ister).
 - **Sıradaki:** tek kuyruk, beklentisi koşudan önce: regresyon k244 · U1 iki desende (`AODV-k` · Babel) · G1ç · G2ç + G4ç · G1-P → donma (`AODV-k` · `Babel-a`) · tam takım.
 - Güncellenen: `04` §5 · `12` §1 · `protokol_kaynaklari/README.md`.
+# K-245 · 🟢 BELGE DÜZELTMELERİ VE JarmRout'UN ÇIKIŞ TEMİZLİĞİ (denetim DD-12 · 17 · 18) — davranış aynı; formasyon kolunun hız beyanı ve karıştırıcı yolları ölçüldü, beyanlar düzeltildi
+> 15 Ekim · yürütücü ("önce belge temizliği, sonra JarmRout, sonra kaynak araştırması") · K-244 kuyruğu koşarken (donmuş kopya), ana depoda
+
+- **DD-02 · DD-13:** K-242'de kapanmıştı (ölçek gerekçesi `04` §2 · `14`; teslim tarihi `01` · `12` · README). Değişiklik yok.
+- **DD-17:** `v2/README`'nin eski atıf haritası.
+  - Düzeltme: haritada `07`'nin bölüm atıfları 28 Eylül sürümüne gidiyordu. O sürüm özet; koddaki iki haneli bölümler (§03.3 · §05.3.1 · §06.2 · §07.2 · §09.4 · §11.3) ve §18 Y0–Y10 25 Eylül sürümünde.
+  - Eklenenler: `08` §05.3 · `12` §3 C1–C3 · `v2/15` biçimi.
+- **DD-18:**
+  - `tehdit.py`: `tekli_merkez` "sabit yer" değil, sürünün orta irtifasında; hızların kökeni DÜNYA ve KOL TANIMI, "SINANMAMIŞ" değil.
+  - `dunya.py`: "geçici değerler" K-225'te kesinleşti.
+  - `desparete_bayrak.py`: bugünkü varsayılan v0.4.1.
+  - `kahin.py`: başlığındaki sayıların eski dünyadan olduğu notu.
+  - `kapsam.py`: karıştırıcı yolları ölçüldü. Referans dünyanın 350 s'lik koşusunda derin sızma aracı ~1,6 km (yalnız sessiz dönemlerde), hava eşlik ~19 km; beyan "~32 m · ~300–390 m"ydi. Sonuç satırının kapsam metni değişir, davranış aynı.
+  - Formasyon kolunun hızı ölçüldü (birincil hücre, 1003). Yere göre medyan 12 km/h, en çok 42: kol istasyon tutar, ortak transit modellenmez (`07` §4'te zaten yazılıydı). "40–120 km/h, dört kol" beyanı `14` §3 · `04` §2 · README'de düzeltildi; zarf bağımsız ve görev kollarınındır (medyan 62 · 47 km/h).
+- **DD-12, JarmRout'un çıkışı:**
+  - K-242'de karara bağlananlar: köken borçları DESPARETE'ye bağlı · iki regresyon vakası kalır · `06` §10 satırı. K-243'te: `_JARMROUT_IZ`'in kökeni.
+  - JARM-3: `EVRE_YORUMLANAMAZ` kaydı ölçüldüğü koda bağlandı (`EVRE_YORUMLANAMAZ_KOD`: dosya, donma özeti). Kod değişirse kayıt uygulanmaz, protokol yeniden yargılanır. Test: `test_DD12_EVRE_YORUMLANAMAZ_KAYDI_KODA_BAGLI`.
+  - Etkin belgeler: README · `05` (Babel'in gözlem kullanımı) · `08` (G1ç ve G1-P'nin rakip kümesi, muafiyetin koda bağlılığı) · `12` (JarmRout'un duyarlılık borcu düştü, süre tablosu).
+- **Doğrulama:** evre testleri · mimari denetimi ihlalsiz.
+- Güncellenen: `v2/README` · `04` §2 · `05` §4 · `08` §05 · `12` §1.1 · §3 · `14` §3 · README.

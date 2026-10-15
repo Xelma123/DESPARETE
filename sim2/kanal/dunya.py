@@ -22,9 +22,9 @@ gecikmesi (A5), karıştırıcı gerçekçiliği (A6). `Konfig` varsayılanları
 dünyada kalır; eski regresyon vakaları ve kalibrasyon tabloları onunla
 birebir. Faz 4'ten sonra deneyler bu dünyada koşar.
 
-⚠️ GEÇİCİ DEĞERLER (Faz 4'te kalibre edilir, K-178'de beyanlı):
-  · hız yayılımı eski dünyanın bağıl yayılımıyla (σ / ortalama hız);
-  · (karıştırıcı taban gücü K-186'da kesinleşti — aşağıda.)
+K-178'in geçici değerleri Faz 4'te kesinleşti: hız yayılımı
+`gm_hiz_sigma_ms` = azami hızın %10'u, DÜNYA TANIMI (K-225; ölçülen
+duyarlılığı raporda) · karıştırıcı taban gücü K-186 (aşağıda).
 """
 
 from __future__ import annotations

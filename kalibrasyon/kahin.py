@@ -1,6 +1,10 @@
 """
 KÂHİN YÖNLENDİRİCİLER — kıyas için, protokol değil.
 
+⚠️ Aşağıdaki gerekçelerdeki sayılar (alan 1 800 m, 280 m'lik disk, PDR
+0,511 …) eski, ölçekli dünyanın 5 Eylül 2026 ölçümleridir. Yöntem referans
+dünyada aynıdır; referans dünyanın sayıları `v2/14`te ve U1 kayıtlarında.
+
 🔴 NEDEN YENİDEN YAZILDI (5 Eylül 2026, K-096 · K-097)
 ======================================================
 Eski kâhin `Topoloji`nin komşuluk grafiğinde BFS yapıyordu. O grafik
