@@ -2,6 +2,28 @@
 
 > 16 Ekim 2026 · ölçüt `beklenti.md` (commit `ec2cbe7`, koşudan önce) · kopya `1163f81` · koşu 12:53–15:39, 2 sa 46 dk (beklenti ~1–1,5 sa; statik 33 dk, hareketli koşular anatomi kaydıyla tek başına 2,2–2,8 sa) · çıktılar `anatomi_{statik,bagimsiz,gorev}.{txt,json}` · `zaman.txt` · `hukum.txt`
 
+## 0 · Düzeltme (16 Ekim, eşler arası U1'den sonra)
+
+Bu anatominin beklentisi, kuyruğun daha önce yazılmış kuralıyla çelişiyor. Kuyruğun beklentisi (`arsiv/teshis/rakipler_k244_2026-10-14/beklenti.md` §2.2, commit `1163f81`) U1'den önce yazılmıştı. AODV-k'nin düşük hücreleri için dört şart koyuyor:
+
+- korunum ve mutabakat tamam;
+- **döngü/TTL düşüşü 0**;
+- (Babel'de) `gecersiz_paket` 0;
+- en büyük düşüş mekanizmayla uyumlu.
+
+Bu anatominin beklentisini yazarken o kuralı kaçırdım ve TTL için "< %1" yazdım. Önce yazılan kural geçerlidir. O kurala göre okuma:
+
+| şart | statik 1000 · 1001 · 1002 | bağımsız 1002 | bağımsız 1000 · görev 1000 · görev 1001 |
+|---|---|---|---|
+| korunum, mutabakat (`dogum_celiski` 0, `dogum_atfsiz` boş) | tamam | tamam | tamam |
+| döngü/TTL düşüşü 0 | 0 | 0 | **1 · 1 · 1** |
+| en büyük düşüş mekanizmayla uyumlu | `iletim_basarisiz` | `rota_gecersiz` | `rota_gecersiz` |
+
+- Dört hücre açıklanmış kalır.
+- Üç hücre (bağımsız 1000, görev 1000, görev 1001) açıklanmış listeden çıkarıldı. Kuralın sonucu *"kusur aranır, protokol donmaz"*.
+- K-207 madde 2 (K-205'in açık sorusuna yürütücünün kararı) bu şartın nasıl okunacağını söyler: kusur izi gerçeklemenin kaynağından sapmasıdır; RFC'nin kendi kurallarından doğan geçici döngü mekanizmadır. Bu yüzden üç paketin döngü izi alınır (`arsiv/teshis/aodv_k_dongu_2026-10-16/`).
+- Yeniden hüküm (`hukum_duzeltme.txt`): U1-U GEÇTİ · **U1-B KALDI** (üç açıklanmamış hücre). Aşağıdaki §1 ve §3 bu anatominin kendi beklentisine göre yazıldı; geçerli hüküm bu bölümdür.
+
 ## 1 · Ölçütler
 
 | ölçüt | sonuç |

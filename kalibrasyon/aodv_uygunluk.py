@@ -290,7 +290,7 @@ _AODV_K207 = ("AODV-k · sadakat denetiminden gecti (RFC 3561 + ns-3, 42 "
               "K-207). AODV-j'den dususu ns-3'un iki varsayilani (karsiliksiz "
               "RREP, yayin titresimi; arsiv/teshis/aodv_k_ab_2026-10-15/). "
               "Anatomi (arsiv/teshis/aodv_k_anatomi_2026-10-16/): korunum "
-              "gecerli, TTL dususu hucre basina 0-1 paket, karar baglari "
+              "gecerli, TTL dususu 0, karar baglari "
               "yeniden denemeli bantta %98-99 iyi. U1 15 Ekim 2026, 7 deneme")
 _AODV_K_IZ: dict[tuple[str, str, int], tuple[str, str]] = {
     # (desen, kol, tohum): (U1 orani, dusen/uretilen en buyuk iki sebep)
@@ -300,14 +300,12 @@ _AODV_K_IZ: dict[tuple[str, str, int], tuple[str, str]] = {
         "0,856", "iletim_basarisiz %9,4 · rota_gecersiz %6,2"),
     ("yere_toplama", "statik-yok", 1002): (
         "0,812", "iletim_basarisiz %9,9 · rota_gecersiz %9,4"),
-    ("yere_toplama", "bagimsiz-yok", 1000): (
-        "0,475", "rota_gecersiz %39,3 · iletim_basarisiz %21,2"),
     ("yere_toplama", "bagimsiz-yok", 1002): (
         "0,576", "rota_gecersiz %30,0 · iletim_basarisiz %21,9"),
-    ("yere_toplama", "gorev-yok", 1000): (
-        "0,490", "rota_gecersiz %31,4 · iletim_basarisiz %23,9"),
-    ("yere_toplama", "gorev-yok", 1001): (
-        "0,596", "rota_gecersiz %25,9 · iletim_basarisiz %22,3"),
+    # Bağımsız 1000 · görev 1000 · görev 1001'de birer TTL düşüşü var;
+    # kuyruğun ön-kaydı (`rakipler_k244_2026-10-14/beklenti.md` §2) "döngü/
+    # TTL düşüşü 0" ister. K-207 madde 2'ye göre döngü izi alınır
+    # (`arsiv/teshis/aodv_k_dongu_2026-10-16/`); iz gelene kadar açıklanmamış.
 }
 _AOMDV_K207 = ("AOMDV-f · Marina-Das + RFC 3561 tabani (K-210, K-215); esik "
                "alti protokolun kendi siniri (K-207 kurali, K-215 on-kaydi). "
@@ -420,9 +418,10 @@ KAHIN_ASIMI_ACIKLANMIS: dict[str, dict[tuple[str, str, int], str]] = {
             "K-238): asim 0,0083 < R 0,0126 — cozunurluk icinde, zarf adimi "
             "gerekmez (K-192 b)"},
     "aodv": {("esler_arasi", "statik-yok", 1001):
-             "AODV-j 0,9829 · ETX kahini 0,9827 (9 Ekim, 7 deneme, K-224): "
-             "asim 0,0002 < R 0,0126 — cozunurluk icinde, zarf adimi "
-             "gerekmez (K-192 b). 7 Ekim'in zarfi 0,9998 (8 deneme, K-218)"},
+             "AODV-k 0,9877 · ETX kahini 0,9827 (16 Ekim, 7 deneme, K-244 "
+             "kuyrugu): asim 0,0051 < R 0,0126 — cozunurluk icinde, zarf "
+             "adimi gerekmez (K-192 b). AODV-j 0,9829 (K-224); 7 Ekim'in "
+             "zarfi 0,9998 (8 deneme, K-218)"},
 }
 
 # 🔒 DD-07 (K-242) · KAYDIN ORANI: muafiyet listesi yalnız hücrenin listede
@@ -436,11 +435,8 @@ KAYITLI_ORAN: dict[str, dict[tuple[str, str, int], float]] = {
     "aodv": {("yere_toplama", "statik-yok", 1000): 0.8522,
              ("yere_toplama", "statik-yok", 1001): 0.8558,
              ("yere_toplama", "statik-yok", 1002): 0.8123,
-             ("yere_toplama", "bagimsiz-yok", 1000): 0.4753,
              ("yere_toplama", "bagimsiz-yok", 1002): 0.5762,
-             ("yere_toplama", "gorev-yok", 1000): 0.4903,
-             ("yere_toplama", "gorev-yok", 1001): 0.5960,
-             ("esler_arasi", "statik-yok", 1001): 1.0002},
+             ("esler_arasi", "statik-yok", 1001): 1.0051},
     "aomdv": {("yere_toplama", "statik-yok", 1000): 0.8989,
               ("yere_toplama", "statik-yok", 1002): 0.8912,
               ("yere_toplama", "bagimsiz-yok", 1000): 0.5885},

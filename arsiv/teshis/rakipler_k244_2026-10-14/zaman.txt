@@ -8,3 +8,5 @@ karsilastir bitti 12:47:10 cikis 0
 u1_yere_toplama basla 12:47:11
 u1_yere_toplama bitti 18:07:34 cikis 1
 u1_esler_arasi basla 18:07:34
+u1_esler_arasi basla 16.10 15:43:34 (kalan.sh)
+u1_esler_arasi bitti 17:29:11 cikis 1

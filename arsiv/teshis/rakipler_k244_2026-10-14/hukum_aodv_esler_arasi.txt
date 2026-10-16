@@ -1,0 +1,53 @@
+  DUNYA: referans_2026
+==============================================================================
+U1 — HUKUM KIPI  (olcmez, kayitli olcume bugunku kodu uygular)
+==============================================================================
+  kayit  : ciktilar2\aodv_uygunluk\aodv_referans_2026_esler_arasi_20261016_142910.json
+  protokol: aodv
+  desen  : esler_arasi
+  kaynak : tam kosum
+  🔒 OLCUT: statik oran >= 0.90 · hareketli oran >= 0.60
+
+  kol              tohum     AODV  ETX kahin    oran   esik             karar
+  statik-yok        1000   0.9995     0.9999   1.000   0.90             GECTI
+  statik-yok        1001   0.9877     0.9827   1.005   0.90             GECTI
+  statik-yok        1002   0.9900     0.9980   0.992   0.90             GECTI
+  bagimsiz-yok      1000   0.8404     0.9650   0.871   0.60             GECTI
+  bagimsiz-yok      1001   0.7198     0.9334   0.771   0.60             GECTI
+  bagimsiz-yok      1002   0.6445     0.8787   0.733   0.60             GECTI
+  gorev-yok         1000   0.8671     0.9612   0.902   0.60             GECTI
+  gorev-yok         1001   0.4986     0.8403   0.593   0.60    🔴 ACIKLANMAMIS
+  gorev-yok         1002   0.5598     0.8392   0.667   0.60             GECTI
+  formasyon-yok     1000   0.9411     0.9855   0.955   0.60             GECTI
+  formasyon-yok     1001   0.7782     0.9424   0.826   0.60             GECTI
+  formasyon-yok     1002   0.8273     0.9563   0.865   0.60             GECTI
+
+  kol               oran ort  en dusuk
+  statik-yok           0.999     0.992
+  bagimsiz-yok         0.792     0.733
+  gorev-yok            0.721     0.593
+  formasyon-yok        0.882     0.826
+
+  ROTA TAMPONU  (kapasite 64 · omur 30 s — ns-3, K-198)
+  kol              tohum    giris   dusen   tepe
+  statik-yok        1000       48       0      3
+  statik-yok        1001      343       0      6
+  statik-yok        1002      284       0      6
+  bagimsiz-yok      1000     4624       0     39
+  bagimsiz-yok      1001     9738       0     46
+  bagimsiz-yok      1002    10087       0     40
+  gorev-yok         1000     4621       0     37
+  gorev-yok         1001    14914       0     51
+  gorev-yok         1002    15221       1     64
+  formasyon-yok     1000     1473       0     15
+  formasyon-yok     1001     7384       0     41
+  formasyon-yok     1002     4571       0     25
+  → en yuksek doluluk 64/64 · toplam sure tavanindan dusen 1
+
+  toplam 24 kosum · 0 s
+
+  🟡 [U1-U] kahin asimi ACIKLANMIS (K-192 b · K-238): statik-yok/1001 oran = 1.005 — gerekce KAHIN_ASIMI_ACIKLANMIS'ta
+==============================================================================
+  U1-U uygunluk : GECTI 🟢   (kalirsa protokol KABUL EDILMEZ)
+  U1-B basarim  : KALDI 🔴   (aciklanmamis dusuk / olu aciklama yok mu)
+==============================================================================
