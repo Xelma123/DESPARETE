@@ -128,11 +128,11 @@ Donmuş: `AODV-j` · `OLSRv2-b` (K-239). Sırada (K-242): AODV'nin yeni sürüm�
 - **Tohumlar** (`06` §2 tek kaynak): ana deney **2000–2039** (40 tohum) mühürden önce hiçbir protokolle koşulmaz. Geri kalan tohumlar geliştirme ve kalibrasyon içindir: U1 1000–1002 · Faz 5 1003–1010 · R 1000–1039 · duyarlılık 1000–1019 · δ gürültüsü 1100–1119.
 - **Aileler:**
   - 1 · karakterizasyon (taban protokoller);
-  - 2 · üstünlük (H2.x: DESPARETE ↔ her rakip, birincil hücrede `PDR_açık`, çift yönlü eşleştirilmiş Wilcoxon, Holm aile içinde);
+  - 2 · üstünlük (H2.x: DESPARETE ↔ her rakip, birincil hücrede `PDR_açık`, çift yönlü eşleştirilmiş Wilcoxon, Holm aile içinde; üç rakip eşit rolde, m = 3, KR-3 · K-247);
   - 3 · mekanizma (ablasyon).
 - **İkincil testler (K-222):** karıştırıcısız ikiz hücreyle fark-içinde-fark · dayanıklılık hücresi (10 s açık · 20 s sessiz).
 - **Eşik:** δ = 2·SD_ref/√n; SD_ref taban protokol çiftlerinin en gürültülüsünden. DESPARETE'nin hiçbir koşusu δ'ya girmez.
-- **"Üstün"** = Holm'dan sonra p < 0,05 **ve** fark ≥ δ **ve** mekanizma kapısı: karıştırmaya özgü mekanizmalar kapatılınca `PDR_açık` anlamlı düşmeli (K-153, K-222).
+- **"Üstün"** = Holm'dan sonra p < 0,05 **ve** fark ≥ δ **ve** mekanizma kapısı: karıştırmaya özgü mekanizmalar kapatılınca `PDR_açık` anlamlı düşmeli (K-153, K-222). Kapıya karıştırmaya karşı tasarlanan mekanizmalar girer, her zaman açık olsalar bile; amaç ölçmeden önce yazılır. Genel katkıları ikiz hücredeki geliştirme ablasyonuyla beyan edilir (K-247).
 - **"Karıştırmaya özgü kazanç"** ancak ayrıca fark-içinde-fark anlamlı pozitifse söylenir (`06` §0.4.5).
 - **Mühür** ~20 Kasım (`12` Faz 6): hipotezler, eşik değerleri, parametreler, tohum sayısı (güç analiziyle), birincil metrik.
 
@@ -154,7 +154,6 @@ Donmuş: `AODV-j` · `OLSRv2-b` (K-239). Sırada (K-242): AODV'nin yeni sürüm�
 
 | konu | gereken | ne zaman |
 |---|---|---|
-| KR-3 · rakiplerin rolü ön-kayıtta: hangi hücrede hangi test birincil (K-229; rakipler K-242). İlk yazımdaki "DESPARETE yeni rakiplere karşı koşulmadan önce" şartı G1ç ve G2ç'nin 1003 · 1004 koşularıyla geçildi (`06` §10) | karar | Faz 5'in ilk ölçümünden önce |
 | Yer–hava ortamının duyarlılığı: banliyö (birincil) ↔ açık arazi; açık arazide aynı güç sürüyü karartır, kısmi rejim için güç ya da konum ayarı gerekir (denetim DD-01, K-242) | ölçüm planı, ardından karar | Faz 6 |
 | KR-2 · birincil metrikte komutlar (öneri: birincil telemetri, bütün trafik ikincil) | karar | Faz 6 |
 | DESPARETE'nin güncel tasarım belgesi (v0.1 paketi arşivde; Faz 5 mekanizmalarıyla birlikte yeniden yazılır) | yazım | Faz 5.7 |

@@ -38,7 +38,7 @@
 ### 1.2 · Faz 5 — durdu (K-229); dönüşteki plan
 
 1. **Faz 5.0 ✓** (K-228, `arsiv/teshis/faz5_0_2026-10-10/sonuc.md`): DESPARETE'nin karıştırmaya özgü fazla kaybı (kâhine göre 0,071, AODV'ye göre 0,066) tamamen "rota yok" grubunda; 4 tohumda anlamlı değil, alt payları (kota · açlık) kanıt değil (DD-11). Görüş hattı değişikliğinden sonra birincil hücre değişeceği için Faz 5'in başında düzeltilmiş aletle, 1003–1010'da ve OLSRv2'yle yeniden okunur.
-2. Sıra (K-228, K-242): ilk A/B mevcut `hedefli_canlilik` (yedeklerin canlı tutulması) ve açlıkta tur isteği → 5.1 → 5.3 ve 5.4'ün çoğaltması (D-23'ten sonra); yedek ardılın tasarımında mekânsal ayrışma sorulur (K-230). Mekanizmaların tasarım kararları yürütücüdedir. Her mekanizma ablasyon bayrağıyla ve önceden yazılı beklentiyle; birincil + ikiz + dayanıklılık hücresi, 1003–1010. Mekanizma kapısına hangi mekanizmanın gireceğinin kuralı ilk A/B'den önce yazılır.
+2. Sıra (K-228, K-242): ilk A/B mevcut `hedefli_canlilik` (yedeklerin canlı tutulması) ve açlıkta tur isteği → 5.1 → 5.3 ve 5.4'ün çoğaltması (D-23'ten sonra); yedek ardılın tasarımında mekânsal ayrışma sorulur (K-230). Mekanizmaların tasarım kararları yürütücüdedir. Her mekanizma ablasyon bayrağıyla ve önceden yazılı beklentiyle; birincil + ikiz + dayanıklılık hücresi, 1003–1010. Mekanizma kapısına giriş kuralı yazıldı (K-247): karıştırmaya karşı tasarlanan mekanizma girer, amacı kendi A/B beklentisinde ölçmeden önce yazılır; genel katkısı ikiz hücredeki ablasyonla beyan edilir.
 
 ## 2 · Fazlar
 
@@ -76,7 +76,7 @@ Her mekanizma: ablasyon bayrağı · önceden yazılı beklenti (iki ölçütle:
 
 ### Faz 6 · Ön-kayıt ve mühür (~20 Kasım)
 
-Rakiplerin rolü (KR-3; Faz 5'in ilk ölçümünden önce) · δ için gürültü ölçümü (AODV · OLSRv2 · Babel × 20 tohum 1100–1119, birincil hücre) · yer–hava ortamının duyarlılığı (banliyö ↔ açık arazi, K-242) · güç benzetimi ve tohum sayısı · ön-kayıdın kesinleşmesi (`06`): birincil metrik KR-2 (karar), hipotezler, Aile 3 kolları, çekirdek matris, durdurma kuralı, fark-içinde-fark eşiği · pencere üçlüsü (ısınma · ölçüm bitişi · koşu bitişi; SINANMAMIŞ 3) · ana deneyin penceresinde R ve DUYARSIZ hükümlerinin yeniden okunması (δ koşularından, denetim D-03) · uzun bağlarda slot zamanlamasının duyarlılığı (D-11) · kâhinin 96 sönümleme örneğiyle yakınsaması (D-15) · `06` H1.3'ün aldatıcı ↔ sürekli kontrastı referansta yeniden düşünülür (10 W aldatıcı ED'yle bütün ağı susturuyor, K-219) · Rician K ekseninin keşifsel tekrarı (6 · 15 dB, K-215) · **mühür**.
+δ için gürültü ölçümü (AODV · OLSRv2 · Babel × 20 tohum 1100–1119, birincil hücre) · yer–hava ortamının duyarlılığı (banliyö ↔ açık arazi, K-242) · güç benzetimi ve tohum sayısı · ön-kayıdın kesinleşmesi (`06`): birincil metrik KR-2 (karar), hipotezler, Aile 3 kolları, çekirdek matris, durdurma kuralı, fark-içinde-fark eşiği · pencere üçlüsü (ısınma · ölçüm bitişi · koşu bitişi; SINANMAMIŞ 3) · ana deneyin penceresinde R ve DUYARSIZ hükümlerinin yeniden okunması (δ koşularından, denetim D-03) · uzun bağlarda slot zamanlamasının duyarlılığı (D-11) · kâhinin 96 sönümleme örneğiyle yakınsaması (D-15) · `06` H1.3'ün aldatıcı ↔ sürekli kontrastı referansta yeniden düşünülür (10 W aldatıcı ED'yle bütün ağı susturuyor, K-219) · Rician K ekseninin keşifsel tekrarı (6 · 15 dB, K-215) · **mühür**.
 
 ### Faz 7 · Ana deney ve yazım (mühürden sonra – 19 Aralık)
 

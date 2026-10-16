@@ -177,8 +177,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-244 | HAKEM İLKESİ İNCELTİLDİ — RFC'nin seçeneğe ve MAY'e bıraktığı yerde referans uygulamanın | 🟢 geçerli |
 | K-245 | 🟢 BELGE DÜZELTMELERİ VE JarmRout'UN ÇIKIŞ TEMİZLİĞİ (denetim DD-12 · 17 · 18) — davranış | 🟢 geçerli |
 | K-246 | 🟢 GECİKME TAVANLI PDR_açıkın EŞİKLERİ — ana tavan 5 s, duyarlılık 3,5 s ve 10 s (otopilo | 🟢 geçerli |
+| K-247 | KR-3 KAPANDI — üç rakip birincil hücrede eşit rolde (Holm m = 3) · MEKANİZMA KAPISINA Gİ | 🟢 geçerli |
 
-**157 kayıt · 9 revize · 148 geçerli**
+**158 kayıt · 9 revize · 149 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -2039,3 +2040,20 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Kod:** sabitler `analiz/satir.py` (`GECIKME_TAVANI_S` · `GECIKME_TAVANI_DUYARLILIK_S`), testle bağlı (`test_K246_GECIKME_TAVANI_ON_KAYITLI`).
 - **Bekletme listesi düzeltildi:** Babel de OLSRv2 gibi bekletmez (`04` §4 · `06` §3).
 - Güncellenen: `02` G3 · G19 · `04` §4 · §7 · §10 (satır kapandı) · `06` §3 · §10 · `12` §1.1 · `protokol_kaynaklari/README.md`.
+# K-247 · KR-3 KAPANDI — üç rakip birincil hücrede eşit rolde (Holm m = 3) · MEKANİZMA KAPISINA GİRİŞ: karıştırmaya karşı tasarlanan mekanizma, genel katkısı beyanla
+> 16 Ekim · yürütücü (Faz 5'ten önceki iki açık karar; ajan kavramları ve seçenekleri anlattı) · DESPARETE'nin K-200, K-228 ve G1ç/G2ç (1003 · 1004) koşularından sonra, Faz 5'in mekanizmalarının hiçbiri tasarlanmadan önce
+
+- **KR-3 · rakiplerin rolü:** üç rakip birincil hücrede eşit rolde: H2.a AODV · H2.b OLSRv2 · H2.c Babel.
+  - Her biri `PDR_açık`, 40 ana deney tohumu, eşleştirilmiş çift yönlü Wilcoxon; Holm m = 3.
+  - K-229'daki rol ayrımı (AODV ve OLSRv2 normal koşul, JarmRout karıştırma altı) uygulanmaz. `06` §0.4.1 zaten bunu yazıyordu; karar onu bağlar.
+  - Seçenekler: (a) üçü eşit · (b) tek birincil rakip (Babel), ötekiler ikincil · (c) karışık roller.
+  - Yürütücü (a)'yı seçti: *"her protokolü test ederek eşitliği ve bilimsel dürüstlüğü sağlayabiliriz"*.
+- **Mekanizma kapısına giriş (Aile 3, `06` §0.4.5):**
+  1. Karıştırmaya karşı tasarlanan mekanizma kapıya girer, her zaman açık olsa bile. Amacı tasarımında ve kendi A/B beklentisinde, ölçmeden önce yazılır ve sonradan değişmez. Genel iyileştirme için tasarlananlar (ör. `hedefli_canlilik`) girmez.
+  2. **Genel katkı beyanı:** kapıdaki her mekanizmanın geliştirme ablasyonu birincil hücrede ve karıştırıcısız ikizde koşulur (Faz 5'in planındaki hücreler, 1003–1010; ek koşu yok). İkizdeki etkisi o mekanizmanın genel katkısı olarak, "geliştirme tohumlarında ölçüldü" etiketiyle raporlanır.
+  3. **Değişmeyenler:** kapı ana deneyin 40 tohumunda koşar. "Karıştırmayı çözer" iddiası için H2'de üstünlük, pozitif fark-içinde-fark ve kapının geçmesi birlikte gerekir.
+- **Gerekçe ve seçilmeyenler:**
+  - Sınır durumu, karıştırma için tasarlanıp genel performansı da iyileştiren mekanizma. Ajan tetik ölçütünü önerdi: yalnız karıştırma kanıtıyla devreye girenler kapıya girer. Yürütücü amaç ölçütünü seçti: *"yine kapıya girip katkısı görülebilir. fakat genel protokole de katkı sağladığı beyana geçer"*.
+  - Bedeli: genel katkılı bir mekanizma kapıyı geçmeyi kolaylaştırır. "Karıştırmaya özgü" iddiasını fark-içinde-fark korur; amacın ölçmeden önce yazılması etiketin sonradan değiştirilmesini önler.
+  - Reddedilen seçenek: kapı kolunun ana deneyde ikiz hücrede de koşulması (+40 koşu). Yürütücü: *"ana deneye 40 koşu daha eklemenin gereksiz olduğunu düşünüyorum"*. Sonuç: genel katkı yalnız geliştirme tohumlarında ölçülür. Karıştırmalı hücrede ise kapının ana deney sonucu, geliştirme ablasyonunun öngörüsünü sınar.
+- Güncellenen: `04` §8 · §10 (KR-3 satırı kapandı) · `06` §0.4.1 · §0.4.5 · §9 · §10 · `12` §1.2 · Faz 6.

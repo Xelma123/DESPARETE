@@ -19,7 +19,7 @@
 
 Yalnız Aile 2 (üstünlük) ve Aile 3 (mekanizma) için; Aile 1 yalnız taban protokolleri kapsar.
 
-**0.4.1 · Birincil testler.** Rakip başına bir: **H2.a** DESPARETE ↔ AODV · **H2.b** ↔ OLSRv2 · **H2.c** ↔ Babel (K-242; K-229'da JarmRout; ilk yazımda OLSR · AOMDV) — `m` = rakip sayısı (3), Holm aile içinde. Her biri birincil hücrede, birincil metrikte, 40 ana deney tohumunda eşleştirilmiş, çift yönlü Wilcoxon. Gecikme ve kontrol yükü betimleyici (güven aralığıyla).
+**0.4.1 · Birincil testler.** Rakip başına bir: **H2.a** DESPARETE ↔ AODV · **H2.b** ↔ OLSRv2 · **H2.c** ↔ Babel (K-242; K-229'da JarmRout; ilk yazımda OLSR · AOMDV) — `m` = rakip sayısı (3), Holm aile içinde. Üç rakip eşit rolde (KR-3, K-247). Her biri birincil hücrede, birincil metrikte, 40 ana deney tohumunda eşleştirilmiş, çift yönlü Wilcoxon. Gecikme ve kontrol yükü betimleyici (güven aralığıyla).
 
 **0.4.2 · Eşiğin türetme formülü — serbest sabit yok.** Birincil hücrede, yalnız taban protokollerle, geliştirme tohumlarında (`G` = 1100–1119; ana deneyle kesişmez):
 
@@ -44,6 +44,8 @@ Yalnız Aile 2 (üstünlük) ve Aile 3 (mekanizma) için; Aile 1 yalnız taban p
 **0.4.5 · Karıştırmaya özgü kazanç ve mekanizma kapısı** (9 Ekim 2026, K-222 — DESPARETE'nin ilk koşularından SONRA yazıldı; yönü DESPARETE aleyhine tutucu, §10):
 - **İkincil test — fark-içinde-fark.** Her H2.x çifti için aynı 40 tohumda karıştırıcısız ikiz hücre (`formasyon-yok`, aynı desen) koşulur; "açık" orada aynı çizelgenin hayalet dönemleridir. `DiD(s) = [PDR_açık(D) − PDR_açık(R)]_birincil − [PDR_açık(D) − PDR_açık(R)]_ikiz`; eşleştirilmiş çift yönlü Wilcoxon (DiD ↔ 0), Holm üç rakiplik ailede (`analiz/hucre.py::fark_icinde_fark_tablosu`). Eşiği (δ_DiD) mühürde §0.4.2'nin formülüyle ikiz hücrenin gürültüsünden.
 - **Mekanizma kapısı (Aile 3, H2.x "üstün" için şart).** Karıştırmaya özgü mekanizmalar (Faz 5.1 karıştırma kanıtı · 5.3 postür · 5.4 PROTECT; bayrak adları Faz 5'te kesinleşir) birlikte kapatılınca birincil hücrede `PDR_açık` tam DESPARETE'ye göre anlamlı düşmeli (eşleştirilmiş Wilcoxon, aynı 40 tohum). Geçmezse hüküm "fark var, karıştırmaya özgü mekanizmaya bağlanamadı".
+- **Kapıya giriş (K-247, Faz 5'in mekanizmalarından önce).** Karıştırmaya karşı tasarlanan mekanizma kapıya girer, her zaman açık olsa bile. Amacı mekanizmanın tasarımında ve kendi A/B beklentisinde, ölçmeden önce yazılır ve sonradan değişmez. Genel iyileştirme için tasarlananlar (ör. `hedefli_canlilik`) girmez.
+- **Genel katkı beyanı (K-247).** Kapıdaki her mekanizmanın geliştirme ablasyonu birincil hücrede ve karıştırıcısız ikizde koşulur (Faz 5'in hücreleri, 1003–1010). İkizdeki etkisi o mekanizmanın genel katkısı olarak, geliştirme tohumlarında ölçüldüğü belirtilerek raporlanır. Kapı kolu ana deneyde ikizde koşulmaz.
 - **İddia dili.** H2.x "üstün" → *karıştırma altında daha yüksek teslim*. *Karıştırmaya özgü kazanç / karıştırmayı çözer* ancak H2.x üstün **ve** DiD anlamlı pozitif **ve** mekanizma kapısı geçerse söylenir.
 - **Dayanıklılık hücresi** (denetim D-08): birincil hücrenin aynısı, çizelge 10 s açık · 20 s sessiz (ortalama güç korunur); `PDR_açık` ön-kayıtlı ikincil test. DESPARETE'nin zaman sabitleri tek bir 15/15 çizelgesine ayarlanmış olmasın diye; Faz 5'in geliştirme setinde de bulunur.
 
@@ -161,7 +163,7 @@ Bağlayıcı olan bugünkü koddur (`protokoller/desparete*.py`); ilk tasarım t
 ## 9 · Mühürden önce kapanması gerekenler
 
 - [ ] Taban protokoller donar: `OLSRv2-b` dondu (K-239); AODV'nin üç sapması düzeltilmiş yeni sürümü ve Babel sadakat, U1, regresyon ve donma yolundan geçer (K-242)
-- [ ] rakiplerin rolü (KR-3)
+- [x] rakiplerin rolü (KR-3): üçü birincil hücrede eşit rolde, Holm m = 3 (K-247)
 - [ ] U2–U4 yeni rakiplerle (OLSRv2, Babel); AODV'de geçti
 - [ ] çözünürlük R ve DUYARSIZ hükümleri ana deneyin penceresinde (bugünküler 50 s'lik kesitte, denetim D-03; Faz 6)
 - [x] Faz 7 hesap bütçesi ve önceden yazılı düşme sırası (K-222, `12` §3–§4)
@@ -171,7 +173,7 @@ Bağlayıcı olan bugünkü koddur (`protokoller/desparete*.py`); ilk tasarım t
 - [x] kâhin aşımı prosedürü (K-192) · U1 tüm koşu PDR'siyle, ana deney pencereyle · taban protokoller yere toplamada da sınanır
 - [ ] **birincil metrikte komutlar (KR-2):** DESPARETE'nin komut taşıması V11 ile var; birincil PDR bütün trafik mi yalnız telemetri mi (karar bekliyor)
 - [ ] δ ve güç referans dünyada · çözünürlük referans dünyada · tohum sayısı
-- [ ] özgün protokolün parametreleri ve ablasyon bayrakları; Aile 3'ün mekanizma kapısı (DESPARETE'nin bayraklarıyla)
+- [ ] özgün protokolün parametreleri ve ablasyon bayrakları; Aile 3'ün mekanizma kapısı (DESPARETE'nin bayraklarıyla; giriş kuralı K-247)
 - [ ] Aile 1 hipotezleri · durdurma kuralı · evre metriklerinin sabitleri ve pencere taraması
 - [ ] mühür sırasının son onayı
 
@@ -204,5 +206,6 @@ Bağlayıcı olan bugünkü koddur (`protokoller/desparete*.py`); ilk tasarım t
 | 14 Eki 2026 | H2.c'nin rakibi JarmRout → Babel (K-242). Gerekçe rakibin kendi geçerliliği (K-238 toplu akış çöküşü, K-239 evre metrikleri yorumlanamaz) ve aile ilkesi (Babel, DESPARETE'nin döngüsüzlük çekirdeğiyle aynı aile); 12–13 Ekim'in iki tohumluk gözleminden türemedi. Yön karışık: JarmRout'a karşı test DESPARETE için en kolay testti, çıkışı aleyhine; δ'nın en gürültülü çifti JarmRout'suz değişir, yönü Babel ölçülmeden bilinmez; `m` = 3 kalır | **G1ç ve G2ç'den sonra**; δ ölçülmeden, mühürden önce |
 | 14 Eki 2026 | gecikme tavanlı `PDR_açık` ikincil metrik (K-242, denetim DD-03); eşikler kaynakla, Faz 5'in ilk ölçümünden önce. K-238 ve K-239'un teşhisleri beklentisizdir, keşifsel sayılır (DD-10) | **G1ç ve G2ç'den sonra**; yön OLSRv2'ye karşı DESPARETE aleyhine tutucu (OLSRv2 bekletmez) |
 | 15 Eki 2026 | gecikme tavanının eşikleri: ana 5 s, duyarlılık 3,5 s ve 10 s (K-246, yürütücü); kaynak ArduPilot, PX4, QGroundControl ve MAVLink'in bağ kopması zaman aşımları | tavanlı metrik hiçbir koşuda hesaplanmadı; eşikler sonuçtan değil kaynaktan |
+| 16 Eki 2026 | KR-3 kapandı: H2.a · H2.b · H2.c birincil hücrede eşit rolde, Holm m = 3 (§0.4.1'in metni zaten buydu) · mekanizma kapısına giriş kuralı: karıştırmaya karşı tasarlanan mekanizma girer, genel katkısı ikiz hücredeki geliştirme ablasyonuyla beyan edilir (§0.4.5; K-247, yürütücü) | **DESPARETE'nin K-200, K-228 ve G1ç/G2ç koşularından sonra**; Faz 5'in mekanizmalarının hiçbiri tasarlanmadan ve ölçülmeden önce |
 
 Mühürden sonraki her değişiklik tarihiyle buraya yazılır ve ilgili hipotez keşifsel etiketlenir.
