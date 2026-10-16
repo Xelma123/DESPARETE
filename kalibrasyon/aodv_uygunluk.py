@@ -387,8 +387,13 @@ ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
 # 🔒 K-192 (b) · KÂHİN AŞIMI OTOMATİK RET DEĞİL, PROSEDÜR: aşım çözünürlükten
 # büyükse (ya da R geçerli ölçülemiyorsa) aynı hücrede üç kâhinin zarfına
 # bakılır; protokol zarfın İÇİNDEYSE "ETX kâhini bu hücrede üst sınır değil"
-# beyan edilir ve kayıt buraya girer. Zarfı da aşan hücre kayda giremez —
-# yazılım hatası aranır. Anahtar (desen, kol, tohum); ölü kayıt taraması aynı.
+# beyan edilir ve kayıt buraya girer. Zarfı da aşan hücrede yazılım hatası
+# aranır. Anahtar (desen, kol, tohum); ölü kayıt taraması aynı.
+# K-248 (17 Ekim 2026, yürütücü; sonuçtan sonra): zarfı da aşan hücre, ön-
+# kayıtlı hata araması (sızıntı · sayım · korunum · kimlik) temiz çıkar ve
+# kâhinin fazla kaybı ölçülürse "kâhin bu hücrede üst sınır değil" beyanıyla
+# kayda girer. Kâhinler bağ bilgisinin referansıdır, tavan değil: kanal
+# modelinden yönlendirir, trafiğin yükünü ve çarpışmaları görmez (K-110).
 # Kapı her aşımı (oran > 1) kayıt ister; R'den küçük aşım zarf adımı istemez,
 # kaydı ölçümü yazar. K-224: AOMDV'nin eşler arası kaydı ÖLDÜ (0,9814 <
 # 0,9827); AODV'nin aşımı 0,0002 < R — çözünürlük içinde. Arşiv K-206 ·
@@ -400,9 +405,20 @@ ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
 # hücrede ETX kâhinini aşıyor. Dördü R'den büyük ve üç kâhinin zarfının
 # içinde (zarfı her hücrede en olası teslim kâhini veriyor;
 # `arsiv/teshis/babel_zarf_2026-10-15/`). Formasyonun ikisi R içinde.
+# Eşler arası (16–17 Ekim): sekiz aşım; beşi R'den büyük. İkisi zarfın içinde
+# (`arsiv/teshis/babel_zarf_esler_2026-10-16/`); üçü zarfı da aşıyor, hata
+# araması temiz, kâhinin fazla kaybı `iletim_basarisiz`'da
+# (`arsiv/teshis/babel_zarf_asim_2026-10-16/`; K-248). Üçü R içinde.
 _BABEL_ZARF = ("ETX kahini bu hucrede ust sinir degil (K-192 b): zarf "
                "arsiv/teshis/babel_zarf_2026-10-15/ (16 Ekim 2026). U1 15 "
                "Ekim 2026, K-244 kuyrugu")
+_BABEL_ZARF_ES = ("ETX kahini bu hucrede ust sinir degil (K-192 b): zarf "
+                  "arsiv/teshis/babel_zarf_esler_2026-10-16/ (16 Ekim 2026). "
+                  "U1 16 Ekim 2026, K-244 kuyrugu")
+_BABEL_ZARF_ASIM = ("zarf da asiliyor; hata aramasi temiz (sizinti, sayim, "
+                    "korunum, kimlik), kahin bu hucrede ust sinir degil "
+                    "(K-248; arsiv/teshis/babel_zarf_asim_2026-10-16/). U1 16 "
+                    "Ekim 2026, K-244 kuyrugu")
 KAHIN_ASIMI_ACIKLANMIS: dict[str, dict[tuple[str, str, int], str]] = {
     "olsr": {}, "desparete": {}, "aomdv": {}, "olsrv2": {},
     "babel": {
@@ -425,6 +441,40 @@ KAHIN_ASIMI_ACIKLANMIS: dict[str, dict[tuple[str, str, int], str]] = {
         ("yere_toplama", "formasyon-yok", 1002):
             "Babel-a 0,9549 · ETX kahini 0,9495 (15 Ekim, K-244 kuyrugu): "
             "asim 0,0057 < R 0,0126 — cozunurluk icinde, zarf adimi "
+            "gerekmez (K-192 b)",
+        ("esler_arasi", "bagimsiz-yok", 1002):
+            "Babel-a 0,8963 · ETX kahini 0,8787 (oran 1,0200) · en olasi "
+            "teslim 0,9068 · en kisa yol 0,6504 → zarf 0,9068. "
+            + _BABEL_ZARF_ES,
+        ("esler_arasi", "gorev-yok", 1000):
+            "Babel-a 0,9755 · ETX kahini 0,9612 (oran 1,0148) · en olasi "
+            "teslim 0,9929 · en kisa yol 0,9145 → zarf 0,9929. "
+            + _BABEL_ZARF_ES,
+        ("esler_arasi", "gorev-yok", 1001):
+            "Babel-a 0,8935 · ETX kahini 0,8403 (oran 1,0633) · en olasi "
+            "teslim 0,8500 · en kisa yol 0,5661 → zarf 0,8500; kahinin "
+            "fazla kaybi iletim_basarisiz +557, kuyruk tasmasi +63. "
+            + _BABEL_ZARF_ASIM,
+        ("esler_arasi", "gorev-yok", 1002):
+            "Babel-a 0,8638 · ETX kahini 0,8392 (oran 1,0293) · en olasi "
+            "teslim 0,8632 · en kisa yol 0,6768 → zarf 0,8632 (+0,0006); "
+            "kahinin fazla kaybi iletim_basarisiz +607, kuyruk tasmasi "
+            "+27. " + _BABEL_ZARF_ASIM,
+        ("esler_arasi", "formasyon-yok", 1001):
+            "Babel-a 0,9636 · ETX kahini 0,9424 (oran 1,0225) · en olasi "
+            "teslim 0,8891 · en kisa yol 0,7968 → zarf 0,9424; kahinin "
+            "fazla kaybi iletim_basarisiz +327. " + _BABEL_ZARF_ASIM,
+        ("esler_arasi", "statik-yok", 1001):
+            "Babel-a 0,9864 · ETX kahini 0,9827 (16 Ekim, K-244 kuyrugu): "
+            "asim 0,0037 < R 0,0126 — cozunurluk icinde, zarf adimi "
+            "gerekmez (K-192 b)",
+        ("esler_arasi", "formasyon-yok", 1000):
+            "Babel-a 0,9895 · ETX kahini 0,9855 (16 Ekim, K-244 kuyrugu): "
+            "asim 0,0040 < R 0,0126 — cozunurluk icinde, zarf adimi "
+            "gerekmez (K-192 b)",
+        ("esler_arasi", "formasyon-yok", 1002):
+            "Babel-a 0,9647 · ETX kahini 0,9563 (16 Ekim, K-244 kuyrugu): "
+            "asim 0,0087 < R 0,0126 — cozunurluk icinde, zarf adimi "
             "gerekmez (K-192 b)"},
     "jarmrout": {
         ("esler_arasi", "statik-yok", 1001):
@@ -481,7 +531,15 @@ KAYITLI_ORAN: dict[str, dict[tuple[str, str, int], float]] = {
               ("yere_toplama", "gorev-yok", 1001): 1.0320,
               ("yere_toplama", "gorev-yok", 1002): 1.0222,
               ("yere_toplama", "formasyon-yok", 1001): 1.0053,
-              ("yere_toplama", "formasyon-yok", 1002): 1.0057},
+              ("yere_toplama", "formasyon-yok", 1002): 1.0057,
+              ("esler_arasi", "bagimsiz-yok", 1002): 1.0200,
+              ("esler_arasi", "gorev-yok", 1000): 1.0148,
+              ("esler_arasi", "gorev-yok", 1001): 1.0633,
+              ("esler_arasi", "gorev-yok", 1002): 1.0293,
+              ("esler_arasi", "formasyon-yok", 1001): 1.0225,
+              ("esler_arasi", "statik-yok", 1001): 1.0037,
+              ("esler_arasi", "formasyon-yok", 1000): 1.0040,
+              ("esler_arasi", "formasyon-yok", 1002): 1.0087},
     "desparete": {}, "olsrv2": {},
 }
 # Bant = çözünürlük R (K-224): kod değişmeden yeniden koşulan hücre birebir

@@ -178,8 +178,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-245 | 🟢 BELGE DÜZELTMELERİ VE JarmRout'UN ÇIKIŞ TEMİZLİĞİ (denetim DD-12 · 17 · 18) — davranış | 🟢 geçerli |
 | K-246 | 🟢 GECİKME TAVANLI PDR_açıkın EŞİKLERİ — ana tavan 5 s, duyarlılık 3,5 s ve 10 s (otopilo | 🟢 geçerli |
 | K-247 | KR-3 KAPANDI — üç rakip birincil hücrede eşit rolde (Holm m = 3) · MEKANİZMA KAPISINA Gİ | 🟢 geçerli |
+| K-248 | KÂHİN AŞIMI: ZARFI DA AŞAN HÜCRE, HATA ARAMASI TEMİZSE BEYANLA KAYDA GİRER — kâhinler ba | 🟢 geçerli |
 
-**158 kayıt · 9 revize · 149 geçerli**
+**159 kayıt · 9 revize · 150 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -2057,3 +2058,29 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
   - Bedeli: genel katkılı bir mekanizma kapıyı geçmeyi kolaylaştırır. "Karıştırmaya özgü" iddiasını fark-içinde-fark korur; amacın ölçmeden önce yazılması etiketin sonradan değiştirilmesini önler.
   - Reddedilen seçenek: kapı kolunun ana deneyde ikiz hücrede de koşulması (+40 koşu). Yürütücü: *"ana deneye 40 koşu daha eklemenin gereksiz olduğunu düşünüyorum"*. Sonuç: genel katkı yalnız geliştirme tohumlarında ölçülür. Karıştırmalı hücrede ise kapının ana deney sonucu, geliştirme ablasyonunun öngörüsünü sınar.
 - Güncellenen: `04` §8 · §10 (KR-3 satırı kapandı) · `06` §0.4.1 · §0.4.5 · §9 · §10 · `12` §1.2 · Faz 6.
+# K-248 · KÂHİN AŞIMI: ZARFI DA AŞAN HÜCRE, HATA ARAMASI TEMİZSE BEYANLA KAYDA GİRER — kâhinler bağ bilgisinin referansı, tavan değil · Babel'in U1'i iki desende geçti
+> 17 Ekim · yürütücü (*"önerini kabul ediyorum"*) · Babel'in eşler arası zarf aşımı ve hata araması görüldükten sonra (sonuçtan sonra, `06` §10) · ölçümler `arsiv/teshis/babel_zarf_esler_2026-10-16/` · `arsiv/teshis/babel_zarf_asim_2026-10-16/`
+
+- **Durum:** Babel eşler arasında beş hücrede ETX kâhinini R'den fazla aşıyor. İkisi üç kâhinin zarfının içinde; üçü zarfı da aşıyor: görev 1001 +0,044 · görev 1002 +0,0006 · formasyon 1001 +0,021. K-192 (b)'ye göre yazılım hatası arandı (beklenti ölçmeden önce, commit `4188039`).
+- **Hata araması temiz:**
+  - Dokuz koşu kayıtlarıyla birebir aynı. Korunum geçerli, kopya yok, doğan paket sayıları aynı.
+  - Babel yalnız gözlem arayüzlerini kullanıyor; mimari denetimi ihlalsiz.
+  - Paket defteri çift teslimi yapısal olarak reddediyor.
+- **Mekanizma (M2):** kâhinin Babel'e göre fazla kaybı iletim başarısızlığında: +557 · +607 · +327 paket. En olası teslim kâhininde ayrıca kuyruk taşması var. Dilim içi bayatlık (M1) desteklenmedi.
+  - Aday açıklama (ölçülmedi): kâhinler kanal modelinden yönlendiriyor, trafiğin yükünü ve çarpışmaları görmüyor. Babel'in ETX'i Hello kayıplarından ölçüldüğü için bunları içeriyor.
+- **Karar:** zarfı da aşan hücre, ön-kayıtlı hata araması (sızıntı · sayım · korunum · kimlik) temiz çıkar ve kâhinin fazla kaybı ölçülürse *"kâhin bu hücrede üst sınır değil"* beyanıyla kayda girer.
+  - Seçenekler: (a) bu kural · (b) kural katı kalır: Babel rakip olamaz ya da yükü gören yeni bir kâhin yazılır, bütün U1'ler yeniden koşulur · (c) eşler arası U1-U için de keşifsel sayılır.
+  - Yürütücünün gerekçesi: kâhin *"sadece yolu biliyor"*, *"yolun dinamikliğine uyum sağlayamayan bir yapı"*; *"protokollerin kendi aralarında karşılaştırılması yeterlidir"*. Kâhini yeniden kurmak ile kural arasındaki seçimi ajana bıraktı.
+  - Ajan kuralı seçti, gerekçe: yükü ve çarpışmayı gören bir kâhin kendi başına bir araştırma sorusu (eniyi yönlendirme girişimle birlikte) ve bütün U1 kayıtlarını değiştirir. Kâhinin tavan olmadığı 9 Eylül'den beri biliniyor (K-110).
+- **Kâhinin rolü (beyan):** kâhinler mükemmel bağ bilgisiyle yönlendiren bir **referanstır**; tavan değildir.
+  - U1'in oranı bu referansa göre ölçülür. Hükümler protokollerin kendi aralarındaki karşılaştırmasından gelir (Aile 2).
+  - Kâhin aşımı hata alarmı olarak kalır: her aşımda önce hata aranır (K-238'de JarmRout'un aşımı bu yoldan kopya sayımına bağlandı).
+- **Kayıt:** Babel'in eşler arası sekiz aşımı (zarflı iki, hata aramalı üç, R içinde üç) `KAHIN_ASIMI_ACIKLANMIS["babel"]`a ve `KAYITLI_ORAN`a girdi.
+- **U1 sonucu (`hukum`):**
+  - Babel: yere toplama ve eşler arası U1-U GEÇTİ · U1-B TEMİZ.
+  - AODV-k: yere toplama GEÇTİ · TEMİZ (yedi düşük hücre anatomi ve döngü iziyle açıklı, K-207). Eşler arası U1-U GEÇTİ; U1-B'de görev 1001 (0,593) keşifsel desenin açıklanmamış bulgusu, donmayı durdurmaz (kuyruk beklentisi §2.3, K-218).
+- **Aynı oturumda kapanan AODV-k teşhisleri:**
+  - A/B (`arsiv/teshis/aodv_k_ab_2026-10-15/`): düşüş ns-3'ün iki varsayılanından (karşılıksız RREP, yayın titreşimi); gerçekleme sadık.
+  - Anatomi (`arsiv/teshis/aodv_k_anatomi_2026-10-16/`; ajanın beklentisindeki TTL eşiği kuyruğun ön-kaydından gevşekti, düzeltildi).
+  - Döngü izi (`arsiv/teshis/aodv_k_dongu_2026-10-16/`; ilk koşunun aracı rota kuruluşlarını kaydetmiyordu, düzeltilip yeniden koşuldu): üç TTL düşüşü RFC §6.5 · §6.7 (i) · (iii) · §6.11 kurallarından, ns-3'le aynı.
+- Güncellenen: `04` §5 · `06` §4.4 · §10 · `12` §1.1 · `kalibrasyon/aodv_uygunluk.py`.

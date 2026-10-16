@@ -91,7 +91,7 @@ Donmuş: `AODV-j` · `OLSRv2-b` (K-239). Sırada (K-242): AODV'nin yeni sürüm�
 - Oran = PDR(protokol) / PDR(ETX kâhini), aynı konfig, tüm koşu PDR'si. Eşik: statik ≥ 0,90 · hareketli ≥ 0,60.
 - **U1-U** uygunluk kapısıdır (keşif, çok atlamalı teslim, korunum, kâhin aşılmıyor); kalırsa protokol kabul edilmez.
 - **U1-B** başarım bulgusudur: eşik altı hücre ölçümle açıklanır, kusur izleri dışlanır. Kaynağına sadık bir protokolün eşik altı kalması protokolün kendi sınırıdır (K-207).
-- **Kâhin aşımı** otomatik ret değildir. Çözünürlükten (R) küçükse kayıt yeter. Büyükse üç kâhinin zarfına bakılır (K-192); kopya gönderen protokolde kopya kuralı uygulanır: yalnız kopyayla teslim edilenler çıkarılınca oran ≤ 1 + R (K-238). İkisi de tutmazsa sızıntı ya da yazılım hatası aranır.
+- **Kâhin aşımı** otomatik ret değildir. Çözünürlükten (R) küçükse kayıt yeter. Büyükse üç kâhinin zarfına bakılır (K-192); kopya gönderen protokolde kopya kuralı uygulanır: yalnız kopyayla teslim edilenler çıkarılınca oran ≤ 1 + R (K-238). İkisi de tutmazsa sızıntı ya da yazılım hatası aranır. Hata araması (sızıntı, sayım, korunum, kimlik) temiz çıkar ve kâhinin fazla kaybı ölçülürse hücre "kâhin bu hücrede üst sınır değil" beyanıyla kayda girer (K-248). Kâhinler bağ bilgisinin referansıdır, tavan değil: kanal modelinden yönlendirir, trafiğin yükünü ve çarpışmaları görmez.
 
 ## 6 · DESPARETE
 
