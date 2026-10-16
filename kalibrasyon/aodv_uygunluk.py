@@ -351,8 +351,36 @@ ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
 # K-238 · KOPYA KURALI: kopya gönderen bir protokolde aşım, mimari denetimi
 # kâhin sızıntısı bulmuyorsa ve yalnız kopyayla teslim edilen paketler
 # (aslı hedefe hiç varmamış) çıkarılınca oran ≤ 1 + R ise açıklanmıştır.
+# K-244 kuyruğu (15 Ekim 2026): `Babel-a` yere toplamada altı hareketli
+# hücrede ETX kâhinini aşıyor. Dördü R'den büyük ve üç kâhinin zarfının
+# içinde (zarfı her hücrede en olası teslim kâhini veriyor;
+# `arsiv/teshis/babel_zarf_2026-10-15/`). Formasyonun ikisi R içinde.
+_BABEL_ZARF = ("ETX kahini bu hucrede ust sinir degil (K-192 b): zarf "
+               "arsiv/teshis/babel_zarf_2026-10-15/ (16 Ekim 2026). U1 15 "
+               "Ekim 2026, K-244 kuyrugu")
 KAHIN_ASIMI_ACIKLANMIS: dict[str, dict[tuple[str, str, int], str]] = {
-    "olsr": {}, "desparete": {}, "aomdv": {}, "olsrv2": {}, "babel": {},
+    "olsr": {}, "desparete": {}, "aomdv": {}, "olsrv2": {},
+    "babel": {
+        ("yere_toplama", "bagimsiz-yok", 1001):
+            "Babel-a 0,9095 · ETX kahini 0,8882 (oran 1,0240) · en olasi "
+            "teslim 0,9663 · en kisa yol 0,6762 → zarf 0,9663. " + _BABEL_ZARF,
+        ("yere_toplama", "bagimsiz-yok", 1002):
+            "Babel-a 0,8548 · ETX kahini 0,8334 (oran 1,0257) · en olasi "
+            "teslim 0,8803 · en kisa yol 0,6311 → zarf 0,8803. " + _BABEL_ZARF,
+        ("yere_toplama", "gorev-yok", 1001):
+            "Babel-a 0,8957 · ETX kahini 0,8679 (oran 1,0320) · en olasi "
+            "teslim 0,9261 · en kisa yol 0,5826 → zarf 0,9261. " + _BABEL_ZARF,
+        ("yere_toplama", "gorev-yok", 1002):
+            "Babel-a 0,9198 · ETX kahini 0,8998 (oran 1,0222) · en olasi "
+            "teslim 0,9626 · en kisa yol 0,6739 → zarf 0,9626. " + _BABEL_ZARF,
+        ("yere_toplama", "formasyon-yok", 1001):
+            "Babel-a 0,9517 · ETX kahini 0,9467 (15 Ekim, K-244 kuyrugu): "
+            "asim 0,0053 < R 0,0126 — cozunurluk icinde, zarf adimi "
+            "gerekmez (K-192 b)",
+        ("yere_toplama", "formasyon-yok", 1002):
+            "Babel-a 0,9549 · ETX kahini 0,9495 (15 Ekim, K-244 kuyrugu): "
+            "asim 0,0057 < R 0,0126 — cozunurluk icinde, zarf adimi "
+            "gerekmez (K-192 b)"},
     "jarmrout": {
         ("esler_arasi", "statik-yok", 1001):
             "JarmRout-b 0,9954 · ETX kahini 0,9827 (oran 1,0129 > 1 + R): "
@@ -376,7 +404,7 @@ KAHIN_ASIMI_ACIKLANMIS: dict[str, dict[tuple[str, str, int], str]] = {
 # aşımı) ölçüldüğü oranı taşır; bugünkü oran ondan `KAYIT_BANDI`ndan fazla
 # saparsa "KAYIT SAPTI" kapıyı kırmızı yakar ve açıklama yeniden ölçülür.
 # Oranlar `ciktilar2/aodv_uygunluk/<protokol>_referans_2026_<desen>_son.json`
-# kayıtlarından (K-224 · K-238).
+# kayıtlarından (K-224 · K-238 · Babel: K-244 kuyruğu, 15 Ekim 2026).
 KAYITLI_ORAN: dict[str, dict[tuple[str, str, int], float]] = {
     "aodv": {("yere_toplama", "statik-yok", 1000): 0.8944,
              ("yere_toplama", "statik-yok", 1002): 0.8628,
@@ -398,7 +426,13 @@ KAYITLI_ORAN: dict[str, dict[tuple[str, str, int], float]] = {
                     for h, (o, _g, _t) in _JARMROUT_IZ.items()},
                  ("esler_arasi", "statik-yok", 1001): 1.0129,
                  ("esler_arasi", "formasyon-yok", 1000): 1.0083},
-    "desparete": {}, "olsrv2": {}, "babel": {},
+    "babel": {("yere_toplama", "bagimsiz-yok", 1001): 1.0240,
+              ("yere_toplama", "bagimsiz-yok", 1002): 1.0257,
+              ("yere_toplama", "gorev-yok", 1001): 1.0320,
+              ("yere_toplama", "gorev-yok", 1002): 1.0222,
+              ("yere_toplama", "formasyon-yok", 1001): 1.0053,
+              ("yere_toplama", "formasyon-yok", 1002): 1.0057},
+    "desparete": {}, "olsrv2": {},
 }
 # Bant = çözünürlük R (K-224): kod değişmeden yeniden koşulan hücre birebir
 # aynı oranı verir; R'den büyük sapma açıklamanın yeniden ölçülmesini ister.
