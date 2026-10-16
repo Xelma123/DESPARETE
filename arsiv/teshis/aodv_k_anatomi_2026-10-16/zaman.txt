@@ -1,0 +1,8 @@
+anatomi basla 16.10 12:53:22 · kopya rakipler_k244 (1163f81)
+statik basla 12:53:22
+bagimsiz basla 12:53:22
+gorev basla 12:53:22
+statik bitti 13:26:16 cikis 0
+bagimsiz bitti 15:38:43 cikis 0
+gorev bitti 15:39:36 cikis 0
+anatomi bitti 15:39:36

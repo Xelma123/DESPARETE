@@ -1,0 +1,462 @@
+{
+ "dunya": "referans_2026",
+ "kol": "bagimsiz",
+ "sinif": "yok",
+ "aile": "derin_sizma",
+ "kisa": false,
+ "sonuc": [
+  {
+   "protokol": "aodv",
+   "tohum": 1002,
+   "gecerli": true,
+   "pdr": 0.4801937651379014,
+   "pdr_pencere": 0.4678703703703704,
+   "uretilen": 12799,
+   "teslim": 6146,
+   "kuyrukta": 0,
+   "tablo": {
+    "rota_gecersiz|uzak": 3839,
+    "iletim_basarisiz|uzak": 2805,
+    "hedef_yok|uzak": 9
+   },
+   "isinmada": {
+    "rota_gecersiz": 480,
+    "iletim_basarisiz": 419
+   },
+   "karar_bant": {
+    "iyi": 31466,
+    "kotu": 219,
+    "orta": 538
+   },
+   "karar_bant_tek": {
+    "iyi": 21479,
+    "orta": 9016,
+    "kotu": 1728
+   },
+   "karar_mesafe_km": {
+    "p10": 3.55,
+    "p50": 6.85,
+    "p90": 12.52
+   },
+   "basarisiz_bant": {
+    "iyi": 2143,
+    "kotu": 217,
+    "orta": 445
+   },
+   "basarisiz_mesafe_km": {
+    "p10": 6.86,
+    "p50": 11.03,
+    "p90": 17.23
+   },
+   "basarisiz_bag_sayisi": 502,
+   "basarisiz_en_cok_5_bag": [
+    [
+     39,
+     0,
+     48
+    ],
+    [
+     10,
+     34,
+     40
+    ],
+    [
+     21,
+     0,
+     39
+    ],
+    [
+     5,
+     0,
+     39
+    ],
+    [
+     10,
+     8,
+     38
+    ]
+   ],
+   "iletim_basarisiz_verici_bolge": {
+    "uzak": 2805
+   },
+   "teshis_toplam": {
+    "rreq_uretilen": 5336,
+    "rreq_iletilen": 84924,
+    "rreq_bastirilan": 240615,
+    "rrep_uretilen": 18489,
+    "rrep_iletilen": 29569,
+    "rerr_uretilen": 35099,
+    "kesif_basarili": 4400,
+    "kesif_basarisiz": 4,
+    "kesif_basarisiz_dusen": 9,
+    "komsu_zaman_asimi": 11712,
+    "rota_gecersizlestirilen": 56645,
+    "hiz_siniri_engelledi": 116,
+    "rerr_onculsuz": 5514,
+    "kara_liste_eklenen": 4813,
+    "rreq_kara_listeden": 87431,
+    "rreq_ertelenen": 0,
+    "rrep_karsiliksiz": 16501,
+    "rerr_tek_yayin": 5795,
+    "rota_girdisi": 609,
+    "rota_gecerli": 448,
+    "komsu": 448,
+    "suren_kesif": 0
+   },
+   "yogun_dugumler": {
+    "rota_gecersiz": [
+     [
+      21,
+      236,
+      14.3
+     ],
+     [
+      19,
+      216,
+      16.8
+     ],
+     [
+      13,
+      189,
+      25.7
+     ],
+     [
+      10,
+      184,
+      14.3
+     ],
+     [
+      11,
+      174,
+      14.7
+     ]
+    ],
+    "iletim_basarisiz": [
+     [
+      21,
+      127,
+      14.3
+     ],
+     [
+      23,
+      126,
+      26.0
+     ],
+     [
+      10,
+      121,
+      14.3
+     ],
+     [
+      27,
+      116,
+      25.1
+     ],
+     [
+      16,
+      113,
+      17.3
+     ]
+    ],
+    "hedef_yok": [
+     [
+      4,
+      7,
+      34.1
+     ],
+     [
+      26,
+      1,
+      32.5
+     ],
+     [
+      12,
+      1,
+      32.7
+     ]
+    ]
+   },
+   "evre": {
+    "sok_derinligi": -0.052638513406459975,
+    "sok_derinligi_se": 0.06074422778841358,
+    "toparlanma_suresi_s": 0.0,
+    "tespit_gecikmesi_s": null,
+    "beyan_etmiyor": false,
+    "evre_metrikleri_yok": null
+   },
+   "olsr_s13": null,
+   "karistirici_evresi": {
+    "once": {
+     "dogan": 10800,
+     "teslim": 5053,
+     "pdr": 0.4678703703703704
+    },
+    "acik": {
+     "dogan": 0,
+     "teslim": 0,
+     "pdr": null
+    },
+    "sessiz": {
+     "dogan": 0,
+     "teslim": 0,
+     "pdr": null
+    }
+   },
+   "evre_dusen": {
+    "rota_gecersiz|once": 3839,
+    "iletim_basarisiz|once": 2805,
+    "hedef_yok|once": 9
+   },
+   "dogum_evre_dusen": {
+    "iletim_basarisiz|once|uzak": 2383,
+    "rota_gecersiz|once|uzak": 3355,
+    "hedef_yok|once|uzak": 9
+   },
+   "dogum_atfsiz": {},
+   "dogum_celiski": 0,
+   "pdr_acik_satir": null,
+   "evre_alan_paket": {},
+   "evre_alan_karar": {},
+   "evre_alan_dusen": {},
+   "desparete_onarim": null,
+   "sure_s": 9073.9
+  },
+  {
+   "protokol": "aodv",
+   "tohum": 1000,
+   "gecerli": true,
+   "pdr": 0.38998280981403344,
+   "pdr_pencere": 0.3897378901546726,
+   "uretilen": 12798,
+   "teslim": 4991,
+   "kuyrukta": 0,
+   "tablo": {
+    "iletim_basarisiz|uzak": 2710,
+    "rota_gecersiz|uzak": 5032,
+    "hedef_yok|uzak": 64,
+    "ttl|uzak": 1
+   },
+   "isinmada": {
+    "iletim_basarisiz": 446,
+    "rota_gecersiz": 760,
+    "hedef_yok": 4
+   },
+   "karar_bant": {
+    "iyi": 32651,
+    "orta": 474,
+    "kotu": 202
+   },
+   "karar_bant_tek": {
+    "iyi": 23665,
+    "orta": 8000,
+    "kotu": 1662
+   },
+   "karar_mesafe_km": {
+    "p10": 3.12,
+    "p50": 6.75,
+    "p90": 12.38
+   },
+   "basarisiz_bant": {
+    "iyi": 2112,
+    "orta": 399,
+    "kotu": 199
+   },
+   "basarisiz_mesafe_km": {
+    "p10": 6.84,
+    "p50": 11.16,
+    "p90": 17.41
+   },
+   "basarisiz_bag_sayisi": 521,
+   "basarisiz_en_cok_5_bag": [
+    [
+     2,
+     0,
+     114
+    ],
+    [
+     14,
+     0,
+     67
+    ],
+    [
+     8,
+     0,
+     47
+    ],
+    [
+     33,
+     0,
+     40
+    ],
+    [
+     0,
+     12,
+     35
+    ]
+   ],
+   "iletim_basarisiz_verici_bolge": {
+    "uzak": 2710
+   },
+   "teshis_toplam": {
+    "rreq_uretilen": 6528,
+    "rreq_iletilen": 115794,
+    "rreq_bastirilan": 378286,
+    "rrep_uretilen": 18275,
+    "rrep_iletilen": 27462,
+    "rerr_uretilen": 35799,
+    "kesif_basarili": 4605,
+    "kesif_basarisiz": 38,
+    "kesif_basarisiz_dusen": 64,
+    "komsu_zaman_asimi": 10546,
+    "rota_gecersizlestirilen": 56373,
+    "hiz_siniri_engelledi": 268,
+    "rerr_onculsuz": 5881,
+    "kara_liste_eklenen": 4590,
+    "rreq_kara_listeden": 110601,
+    "rreq_ertelenen": 0,
+    "rrep_karsiliksiz": 16657,
+    "rerr_tek_yayin": 6672,
+    "rota_girdisi": 624,
+    "rota_gecerli": 465,
+    "komsu": 465,
+    "suren_kesif": 0
+   },
+   "yogun_dugumler": {
+    "iletim_basarisiz": [
+     [
+      2,
+      135,
+      17.2
+     ],
+     [
+      0,
+      121,
+      0.0
+     ],
+     [
+      28,
+      121,
+      17.7
+     ],
+     [
+      15,
+      98,
+      30.2
+     ],
+     [
+      32,
+      96,
+      22.4
+     ]
+    ],
+    "rota_gecersiz": [
+     [
+      2,
+      280,
+      17.2
+     ],
+     [
+      33,
+      242,
+      16.8
+     ],
+     [
+      28,
+      223,
+      17.7
+     ],
+     [
+      32,
+      210,
+      22.4
+     ],
+     [
+      27,
+      203,
+      22.7
+     ]
+    ],
+    "hedef_yok": [
+     [
+      7,
+      9,
+      31.4
+     ],
+     [
+      0,
+      8,
+      0.0
+     ],
+     [
+      26,
+      7,
+      15.8
+     ],
+     [
+      2,
+      6,
+      17.2
+     ],
+     [
+      35,
+      6,
+      18.3
+     ]
+    ],
+    "ttl": [
+     [
+      21,
+      1,
+      17.3
+     ]
+    ]
+   },
+   "evre": {
+    "sok_derinligi": -0.11450000000000005,
+    "sok_derinligi_se": 0.0441456168808639,
+    "toparlanma_suresi_s": 0.0,
+    "tespit_gecikmesi_s": null,
+    "beyan_etmiyor": false,
+    "evre_metrikleri_yok": null
+   },
+   "olsr_s13": null,
+   "karistirici_evresi": {
+    "once": {
+     "dogan": 10797,
+     "teslim": 4208,
+     "pdr": 0.3897378901546726
+    },
+    "acik": {
+     "dogan": 0,
+     "teslim": 0,
+     "pdr": null
+    },
+    "sessiz": {
+     "dogan": 0,
+     "teslim": 0,
+     "pdr": null
+    }
+   },
+   "evre_dusen": {
+    "iletim_basarisiz|once": 2710,
+    "rota_gecersiz|once": 5032,
+    "hedef_yok|once": 64,
+    "ttl|once": 1
+   },
+   "dogum_evre_dusen": {
+    "iletim_basarisiz|once|uzak": 2260,
+    "rota_gecersiz|once|uzak": 4268,
+    "hedef_yok|once|uzak": 60,
+    "ttl|once|uzak": 1
+   },
+   "dogum_atfsiz": {},
+   "dogum_celiski": 0,
+   "pdr_acik_satir": null,
+   "evre_alan_paket": {},
+   "evre_alan_karar": {},
+   "evre_alan_dusen": {},
+   "desparete_onarim": null,
+   "sure_s": 9912.1
+  }
+ ]
+}
