@@ -1,0 +1,15 @@
+kok C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\rakipler_k244_2026-10-14\kopya · 3 koşu kaldı · KISA
+  gorev-yok 1001 en_guvenilir_kahin       PDR 0.8593 · 3 dk
+  gorev-yok 1001 babel                    PDR 0.8374 · 6 dk
+  gorev-yok 1001 en_olasi_teslim_kahin    PDR 0.9343 · 8 dk
+
+=== gorev-yok 1001
+  babel                    PDR 0.8374 (kayıt 0.8935, aynı) · korunum True · kopya 0 · düşen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 168, 'hedef_yok': 92, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0}
+  en_guvenilir_kahin       PDR 0.8593 (kayıt 0.8403, aynı) · korunum True · kopya 0 · düşen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 225, 'hedef_yok': 0, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0}
+  en_olasi_teslim_kahin    PDR 0.9343 (kayıt 0.8500, aynı) · korunum True · kopya 0 · düşen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 105, 'hedef_yok': 0, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0}
+  zarf kâhini en_olasi_teslim_kahin: yalnız Babel 92 · yalnız kâhin 247 · ikisi 1247 · doğan 1599 (kâhinde 1599)
+  evre (10.0 s dilim, 5 kova) babel                    0.736 · 0.868 · 0.853 · 0.856 · 0.875
+  evre (10.0 s dilim, 5 kova) en_olasi_teslim_kahin    0.941 · 0.934 · 0.940 · 0.919 · 0.938
+
+SAYIM/KORUNUM/KİMLİK: kusur izi yok
+cikis 0

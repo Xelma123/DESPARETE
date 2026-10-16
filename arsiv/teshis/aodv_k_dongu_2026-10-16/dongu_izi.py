@@ -71,44 +71,58 @@ def karar_izle(self, paket, t_s):
     return karar
 
 
+def kaydet(cagri) -> None:
+    """Çağrının görüntüsünden bu yana yapılan değişiklikleri o çağrının adına
+    yazar ve görüntüyü bugüne ilerletir."""
+    ad, self, once, simdi, gelen = cagri
+    sonra = {h: ozet(r) for h, r in self._rota.items()}
+    for h in set(once) | set(sonra):
+        eski, yeni = once.get(h), sonra.get(h)
+        if eski == yeni or (eski is not None and yeni is not None
+                            and eski[:4] == yeni[:4]):
+            continue
+        bayat = (ad == "_rrep_isle" and eski is not None and not eski[3]
+                 and gelen.get("hedef") == h and eski[2] != A.SONSUZ_SIRA
+                 and gelen.get("hedef_sira", 0) < eski[2])
+        if bayat:
+            sayac["H-a bayat RREP kabulu"] += 1
+        kurulum[(self.kimlik, h)].append((simdi, ad, eski, yeni, bayat))
+        if (eski is not None and yeni is not None
+                and eski[2] != A.SONSUZ_SIRA
+                and yeni[2] != A.SONSUZ_SIRA and yeni[2] < eski[2]):
+            sayac[f"sira DUSURDU · {ad}"] += 1
+    once.clear()
+    once.update(sonra)
+
+
 def sar(ad):
     asil = getattr(A.AODV, ad)
 
     def sarili(self, *a, **k):
         # 🔒 KÜRESEL saat: `simdi_s` düğümün yerel saatidir; paket
         # kararlarıyla aynı eksende sıralamak için olay saati.
-        simdi = kur.olaylar.simdi
-        once = {h: ozet(r) for h, r in self._rota.items()}
-        gelen = a[1] if ad == "_rrep_isle" else None
-        yigin.append(once)
+        # 🔴 16 Ekim düzeltmesi (ilk koşudan sonra): ilk sürüm iç çağrıdan
+        # dönerken dış çağrının görüntüsüne BÜTÜN tabloyu yazıyordu; dış
+        # çağrının iç çağrıdan önce yaptığı değişiklik (rota kurup
+        # `_kurtarma`'yı çağıran üç yöntemin kuruluşu) kayboluyordu. Şimdi
+        # iç çağrıya girerken dış çağrının o ana kadarki değişiklikleri
+        # kendi adına yazılır; sonda zincir sürekliliği denetlenir.
+        if yigin:
+            kaydet(yigin[-1])
+        cagri = (ad, self, {h: ozet(r) for h, r in self._rota.items()},
+                 kur.olaylar.simdi, a[1] if ad == "_rrep_isle" else None)
+        yigin.append(cagri)
         try:
             sonuc = asil(self, *a, **k)
         finally:
             yigin.pop()
-        sonra = {h: ozet(r) for h, r in self._rota.items()}
-        for h in set(once) | set(sonra):
-            eski, yeni = once.get(h), sonra.get(h)
-            if eski == yeni or (eski is not None and yeni is not None
-                                and eski[:4] == yeni[:4]):
-                continue
-            bayat = (ad == "_rrep_isle" and eski is not None and not eski[3]
-                     and gelen.get("hedef") == h and eski[2] != A.SONSUZ_SIRA
-                     and gelen.get("hedef_sira", 0) < eski[2])
-            if bayat:
-                sayac["H-a bayat RREP kabulu"] += 1
-            kurulum[(self.kimlik, h)].append((simdi, ad, eski, yeni, bayat))
-            if (eski is not None and yeni is not None
-                    and eski[2] != A.SONSUZ_SIRA
-                    and yeni[2] != A.SONSUZ_SIRA and yeni[2] < eski[2]):
-                sayac[f"sira DUSURDU · {ad}"] += 1
-        # Bu çağrının yaptığı değişiklik dış çağrıya yeniden yazılmasın.
+        kaydet(cagri)
         if yigin:
-            dis = yigin[-1]
-            for h in set(once) | set(sonra):
-                if h in sonra:
-                    dis[h] = sonra[h]
-                else:
-                    dis.pop(h, None)
+            # Dış çağrının görüntüsü bu çağrının sonundaki duruma ilerler:
+            # aradaki değişikliklerin hepsi bu çağrı (ya da içi) adına yazıldı.
+            dis = yigin[-1][2]
+            dis.clear()
+            dis.update(cagri[2])
         return sonuc
     setattr(A.AODV, ad, sarili)
     return lambda: setattr(A.AODV, ad, asil)
@@ -154,6 +168,16 @@ for pk, v in yol.items():
                     [[e for e in kurulum[(d, h)] if e[0] <= t][-3:]
                      for t, d, _, _ in dongu]))
 
+# --- zincir sürekliliği: ardışık iki kaydın ilkinin sonu ikincisinin başı ---
+bosluk = toplam_gecis = 0
+for degisimler in kurulum.values():
+    for e1, e2 in zip(degisimler, degisimler[1:]):
+        toplam_gecis += 1
+        y1, e2_eski = e1[3], e2[2]
+        if (y1 is None) != (e2_eski is None) or (
+                y1 is not None and y1[:4] != e2_eski[:4]):
+            bosluk += 1
+
 satir = sonuc_satiri(kur, kosu.dugumler, "u1")
 print(f"kod {KOK} · aodv {A.__doc__.splitlines()[1][:70]}")
 print(f"{'KISA · ' if KISA else ''}{KOL} · tohum {TOHUM} · PDR {satir['metrikler']['pdr']:.4f} · "
@@ -161,6 +185,8 @@ print(f"{'KISA · ' if KISA else ''}{KOL} · tohum {TOHUM} · PDR {satir['metrik
 print("dusus (tum kosu):", {k: v for k, v in kur.korunum.dusen.items() if v})
 print(f"paket {len(yol)} · döngülü paket {dongulu} · TTL ile ölen "
       f"{sum(1 for x in ayrinti if x[0])}")
+print(f"zincir sürekliliği: {bosluk} boşluk / {toplam_gecis} ardışık kayıt "
+      f"(0 olmalı; değilse iz eksik)")
 print("sayaç:", dict(sayac))
 print("döngüyü kuran son değişiklik (paket başına):", dict(neden))
 ayrinti.sort(key=lambda x: (not x[0], x[3]))

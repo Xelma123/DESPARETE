@@ -1,0 +1,7 @@
+kod C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\rakipler_k244_2026-10-14\kopya · aodv AODV — RFC 3561'e sadık gerçekleme (`AODV-k`: kara liste K-194 · sıra
+KISA · bagimsiz-yok · tohum 1000 · PDR 0.3934 · korunum gecerli True
+dusus (tum kosu): {'iletim_basarisiz': 334, 'hedef_yok': 5, 'rota_gecersiz': 631}
+paket 1599 · döngülü paket 0 · TTL ile ölen 0
+zincir sürekliliği: 0 boşluk / 36112 ardışık kayıt (0 olmalı; değilse iz eksik)
+sayaç: {'sira DUSURDU · _gecersizlestir': 2, 'sira DUSURDU · _rrep_isle': 1}
+döngüyü kuran son değişiklik (paket başına): {}
