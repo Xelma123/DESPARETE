@@ -1,0 +1,132 @@
+kod C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\rakipler_k244_2026-10-14\kopya · aodv AODV — RFC 3561'e sadık gerçekleme (`AODV-k`: kara liste K-194 · sıra
+gorev-yok · tohum 1001 · PDR 0.5172 · korunum gecerli True
+dusus (tum kosu): {'ttl': 1, 'iletim_basarisiz': 2853, 'hedef_yok': 9, 'rota_gecersiz': 3316}
+paket 12799 · döngülü paket 15 · TTL ile ölen 1
+sayaç: {'sira DUSURDU · _gecersizlestir': 7}
+döngüyü kuran son değişiklik (paket başına): {'_gecersizlestir': 12, '_gecersizlestir+_rrep_isle': 3}
+
+  TTL ILE OLDU · paket 2070 → hedef 0 · t 51.716 · iletim 64 · döngü [(33, 22), (22, 33)]
+     düğüm 33: 47.450 _gecersizlestir  (10, 3, 132, True, 50.052) → (10, 3, 133, False, 50.052)
+     düğüm 33: 49.448 _gecersizlestir  (13, 8, 136, True, 59.146) → (13, 8, 141, False, 59.146)
+     düğüm 33: 49.811 _gecersizlestir  (22, 4, 141, True, 60.32) → (22, 4, 142, False, 60.32)
+     düğüm 22: 49.805 _gecersizlestir  (30, 3, 141, True, 60.118) → (30, 3, 142, False, 60.118)
+     düğüm 22: 50.324 _gecersizlestir  (30, 4, 142, True, 60.664) → (30, 4, 143, False, 60.664)
+     düğüm 22: 51.357 _gecersizlestir  (30, 5, 145, True, 62.022) → (30, 5, 145, False, 62.022)
+
+  paket 300 → hedef 0 · t 7.555 · iletim 4 · döngü [(27, 5), (5, 27)]
+     düğüm 27: 6.747 _gecersizlestir  (25, 3, 17, True, 17.89) → (25, 3, 18, False, 17.89)
+     düğüm 27: 7.196 _gecersizlestir  (37, 4, 18, True, 18.304) → (37, 4, 19, False, 18.304)
+     düğüm 27: 7.446 _gecersizlestir  (29, 5, 19, True, 18.5) → (29, 5, 20, False, 18.5)
+     düğüm 5: 5.377 _gecersizlestir  (25, 4, 12, True, 15.859) → (25, 4, 13, False, 15.859)
+     düğüm 5: 5.915 _gecersizlestir  (27, 6, 15, True, 16.943) → (27, 6, 16, False, 16.943)
+     düğüm 5: 6.587 _gecersizlestir  (7, 7, 16, True, 17.317) → (7, 7, 17, False, 17.317)
+
+  paket 784 → hedef 0 · t 19.593 · iletim 5 · döngü [(31, 33), (33, 31)]
+     düğüm 31: 16.975 _gecersizlestir  (33, 4, 43, True, 27.491) → (33, 4, 44, False, 27.491)
+     düğüm 31: 17.661 _gecersizlestir  (1, 5, 44, True, 28.105) → (1, 5, 45, False, 28.105)
+     düğüm 31: 18.958 _gecersizlestir  (30, 3, 47, True, 29.46) → (30, 3, 48, False, 29.46)
+     düğüm 33: 18.396 _gecersizlestir  (1, 4, 46, True, 28.966) → (1, 4, 47, False, 28.966)
+     düğüm 33: 18.968 _gecersizlestir  (31, 4, 47, True, 29.526) → (31, 4, 48, False, 29.526)
+     düğüm 33: 19.180 _gecersizlestir  (13, 5, 48, True, 29.91) → (13, 5, 49, False, 29.91)
+
+  paket 2074 → hedef 0 · t 51.864 · iletim 51 · döngü [(33, 22), (22, 33)]
+     düğüm 33: 47.450 _gecersizlestir  (10, 3, 132, True, 50.052) → (10, 3, 133, False, 50.052)
+     düğüm 33: 49.448 _gecersizlestir  (13, 8, 136, True, 59.146) → (13, 8, 141, False, 59.146)
+     düğüm 33: 49.811 _gecersizlestir  (22, 4, 141, True, 60.32) → (22, 4, 142, False, 60.32)
+     düğüm 22: 49.805 _gecersizlestir  (30, 3, 141, True, 60.118) → (30, 3, 142, False, 60.118)
+     düğüm 22: 50.324 _gecersizlestir  (30, 4, 142, True, 60.664) → (30, 4, 143, False, 60.664)
+     düğüm 22: 51.357 _gecersizlestir  (30, 5, 145, True, 62.022) → (30, 5, 145, False, 62.022)
+
+  paket 2087 → hedef 0 · t 52.234 · iletim 30 · döngü [(22, 33), (33, 22)]
+     düğüm 22: 49.805 _gecersizlestir  (30, 3, 141, True, 60.118) → (30, 3, 142, False, 60.118)
+     düğüm 22: 50.324 _gecersizlestir  (30, 4, 142, True, 60.664) → (30, 4, 143, False, 60.664)
+     düğüm 22: 51.357 _gecersizlestir  (30, 5, 145, True, 62.022) → (30, 5, 145, False, 62.022)
+     düğüm 33: 47.450 _gecersizlestir  (10, 3, 132, True, 50.052) → (10, 3, 133, False, 50.052)
+     düğüm 33: 49.448 _gecersizlestir  (13, 8, 136, True, 59.146) → (13, 8, 141, False, 59.146)
+     düğüm 33: 49.811 _gecersizlestir  (22, 4, 141, True, 60.32) → (22, 4, 142, False, 60.32)
+
+  paket 4024 → hedef 0 · t 100.548 · iletim 5 · döngü [(16, 26), (26, 16)]
+     düğüm 16: 99.374 _gecersizlestir  (17, 7, 273, True, 110.61) → (17, 7, 274, False, 110.61)
+     düğüm 16: 99.784 _gecersizlestir  (23, 6, 275, True, 110.942) → (23, 6, 276, False, 110.942)
+     düğüm 16: 100.306 _gecersizlestir  (26, 5, 276, True, 111.544) → (26, 5, 277, False, 111.544)
+     düğüm 26: 98.551 _gecersizlestir  (27, 6, 270, True, 109.487) → (27, 6, 271, False, 109.487)
+     düğüm 26: 99.144 _gecersizlestir  (16, 6, 272, True, 109.96) → (16, 6, 273, False, 109.96)
+     düğüm 26: 100.296 _gecersizlestir  (27, 4, 276, True, 111.253) → (27, 4, 277, False, 111.253)
+
+  paket 4421 → hedef 0 · t 111.264 · iletim 5 · döngü [(2, 23), (23, 2)]
+     düğüm 2: 109.263 _gecersizlestir  (16, 6, 301, True, 120.443) → (16, 6, 302, False, 120.443)
+     düğüm 2: 109.609 _gecersizlestir  (17, 5, 302, True, 120.648) → (17, 5, 303, False, 120.648)
+     düğüm 2: 110.226 _gecersizlestir  (26, 5, 304, True, 121.431) → (26, 5, 305, False, 121.431)
+     düğüm 23: 110.447 _gecersizlestir  (27, 5, 303, True, 120.995) → (27, 5, 305, False, 120.995)
+     düğüm 23: 110.869 _gecersizlestir  (37, 4, 305, True, 122.086) → (37, 4, 306, False, 122.086)
+     düğüm 23: 111.343 _gecersizlestir  (36, 8, 306, True, 122.392) → (36, 8, 307, False, 122.392)
+
+  paket 5585 → hedef 0 · t 139.613 · iletim 5 · döngü [(20, 30), (30, 31), (31, 20)]
+     düğüm 20: 136.587 _gecersizlestir  (34, 2, 372, True, 146.581) → (34, 2, 374, False, 146.581)
+     düğüm 20: 139.188 _rrep_isle       (0, 1, 0, True, 141.881) → (0, 1, 377, True, 141.881)
+     düğüm 20: 139.457 _gecersizlestir  (0, 1, 377, True, 142.082) → (0, 1, 378, False, 142.082)
+     düğüm 30: 135.532 _gecersizlestir  (34, 6, 369, True, 145.995) → (34, 6, 370, False, 145.995)
+     düğüm 30: 138.482 _gecersizlestir  (20, 3, 375, True, 148.681) → (20, 3, 376, False, 148.681)
+     düğüm 30: 139.474 _gecersizlestir  (20, 4, 376, True, 150.001) → (20, 4, 378, False, 150.001)
+     düğüm 31: 136.510 _gecersizlestir  (20, 3, 372, True, 146.559) → (20, 3, 373, False, 146.559)
+     düğüm 31: 138.492 _gecersizlestir  (30, 4, 375, True, 148.206) → (30, 4, 376, False, 148.206)
+     düğüm 31: 139.477 _gecersizlestir  (6, 3, 376, True, 149.447) → (6, 3, 377, False, 149.447)
+
+  paket 7636 → hedef 0 · t 190.898 · iletim 5 · döngü [(38, 11), (11, 8), (8, 38)]
+     düğüm 38: 169.188 _rrep_isle       (0, 1, 0, True, 172.284) → (0, 1, 461, True, 172.284)
+     düğüm 38: 178.187 _rrep_isle       (0, 1, 482, True, 188.671) → (0, 1, 483, True, 188.671)
+     düğüm 38: 189.192 _rrep_isle       (0, 1, 516, True, 200.261) → (0, 1, 517, True, 200.261)
+     düğüm 11: 189.443 _gecersizlestir  (0, 1, 517, True, 191.865) → (0, 1, 518, False, 191.865)
+     düğüm 11: 189.629 _gecersizlestir  (25, 3, 518, True, 200.229) → (25, 3, 519, False, 200.229)
+     düğüm 11: 189.900 _gecersizlestir  (35, 3, 519, True, 200.469) → (35, 3, 520, False, 200.469)
+     düğüm 8: 188.114 _gecersizlestir  (18, 2, 512, True, 198.478) → (18, 2, 513, False, 198.478)
+     düğüm 8: 189.192 _rrep_isle       (0, 1, 0, True, 191.867) → (0, 1, 517, True, 191.867)
+     düğüm 8: 190.925 _gecersizlestir  (0, 1, 522, True, 201.348) → (0, 1, 523, False, 201.348)
+
+  paket 7807 → hedef 0 · t 195.316 · iletim 5 · döngü [(18, 20), (20, 18)]
+     düğüm 18: 183.186 _rrep_isle       (0, 1, 494, True, 193.512) → (0, 1, 496, True, 193.512)
+     düğüm 18: 185.194 _rrep_isle       (0, 1, 501, True, 195.858) → (0, 1, 503, True, 195.858)
+     düğüm 18: 189.192 _rrep_isle       (0, 1, 516, True, 200.189) → (0, 1, 517, True, 200.189)
+     düğüm 20: 190.869 _gecersizlestir  (0, 1, 523, True, 201.602) → (0, 1, 524, False, 201.602)
+     düğüm 20: 193.489 _gecersizlestir  (0, 1, 532, True, 204.156) → (0, 1, 533, False, 204.156)
+     düğüm 20: 195.422 _gecersizlestir  (0, 1, 538, True, 206.081) → (0, 1, 539, False, 206.081)
+
+  paket 7818 → hedef 0 · t 195.452 · iletim 3 · döngü [(18, 20), (20, 18)]
+     düğüm 18: 183.186 _rrep_isle       (0, 1, 494, True, 193.512) → (0, 1, 496, True, 193.512)
+     düğüm 18: 185.194 _rrep_isle       (0, 1, 501, True, 195.858) → (0, 1, 503, True, 195.858)
+     düğüm 18: 189.192 _rrep_isle       (0, 1, 516, True, 200.189) → (0, 1, 517, True, 200.189)
+     düğüm 20: 190.869 _gecersizlestir  (0, 1, 523, True, 201.602) → (0, 1, 524, False, 201.602)
+     düğüm 20: 193.489 _gecersizlestir  (0, 1, 532, True, 204.156) → (0, 1, 533, False, 204.156)
+     düğüm 20: 195.422 _gecersizlestir  (0, 1, 538, True, 206.081) → (0, 1, 539, False, 206.081)
+
+  paket 7985 → hedef 5 · t 199.551 · iletim 4 · döngü [(18, 34), (34, 18)]
+     düğüm 18: 180.428 _gecersizlestir  (24, 5, 112, True, 181.79) → (24, 5, 113, False, 181.79)
+     düğüm 18: 180.658 _gecersizlestir  (38, 2, 115, True, 186.099) → (38, 2, 116, False, 186.099)
+     düğüm 18: 193.428 _gecersizlestir  (6, 2, 120, True, 193.118) → (6, 2, 120, False, 193.118)
+     düğüm 34: 173.677 _gecersizlestir  (24, 3, 110, True, 179.294) → (24, 3, 111, False, 179.294)
+     düğüm 34: 186.751 _gecersizlestir  (18, 3, 115, True, 186.294) → (18, 3, 115, False, 186.294)
+     düğüm 34: 193.751 _gecersizlestir  (6, 2, 120, True, 193.385) → (6, 2, 120, False, 193.385)
+
+  paket 8488 → hedef 0 · t 212.299 · iletim 6 · döngü [(10, 30), (30, 10)]
+     düğüm 10: 209.715 _gecersizlestir  (33, 6, 579, True, 221.035) → (33, 6, 580, False, 221.035)
+     düğüm 10: 210.443 _gecersizlestir  (33, 8, 581, True, 221.836) → (33, 8, 582, False, 221.836)
+     düğüm 10: 211.411 _gecersizlestir  (31, 5, 583, True, 222.576) → (31, 5, 584, False, 222.576)
+     düğüm 30: 210.481 _gecersizlestir  (10, 9, 581, True, 221.667) → (10, 9, 582, False, 221.667)
+     düğüm 30: 211.186 _rrep_isle       (0, 1, 0, True, 214.322) → (0, 1, 583, True, 214.322)
+     düğüm 30: 211.461 _gecersizlestir  (0, 1, 583, True, 214.511) → (0, 1, 584, False, 214.511)
+
+  paket 10538 → hedef 0 · t 263.554 · iletim 5 · döngü [(9, 4), (4, 9)]
+     düğüm 9: 261.275 _gecersizlestir  (4, 2, 721, True, 264.091) → (4, 2, 722, False, 264.091)
+     düğüm 9: 261.614 _gecersizlestir  (15, 3, 722, True, 272.451) → (15, 3, 723, False, 272.451)
+     düğüm 9: 263.077 _gecersizlestir  (4, 3, 726, True, 273.714) → (4, 3, 727, False, 273.714)
+     düğüm 4: 261.591 _gecersizlestir  (19, 2, 722, True, 273.056) → (19, 2, 723, False, 273.056)
+     düğüm 4: 263.067 _gecersizlestir  (24, 2, 726, True, 274.289) → (24, 2, 727, False, 274.289)
+     düğüm 4: 263.621 _gecersizlestir  (38, 2, 727, True, 274.731) → (38, 2, 728, False, 274.731)
+
+  paket 11776 → hedef 0 · t 294.493 · iletim 5 · döngü [(35, 6), (6, 35)]
+     düğüm 35: 291.423 _gecersizlestir  (0, 1, 796, True, 294.064) → (0, 1, 797, False, 294.064)
+     düğüm 35: 292.314 _gecersizlestir  (6, 3, 800, True, 303.172) → (6, 3, 801, False, 303.172)
+     düğüm 35: 292.555 _gecersizlestir  (6, 2, 801, True, 303.36) → (6, 2, 802, False, 303.36)
+     düğüm 6: 292.963 _gecersizlestir  (0, 1, 802, True, 303.764) → (0, 1, 803, False, 303.764)
+     düğüm 6: 294.081 _gecersizlestir  (0, 1, 805, True, 304.909) → (0, 1, 806, False, 304.909)
+     düğüm 6: 294.453 _gecersizlestir  (0, 1, 806, True, 305.07) → (0, 1, 807, False, 305.07)

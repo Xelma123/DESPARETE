@@ -1,0 +1,9 @@
+duman 16.10 17:33-17:47 · KISA (50 s) bagimsiz-yok 1000 · PDR 0.3934 · korunum gecerli · dongu 0 · tahmin tam pencere ~2-3 sa/hucre, zarf ~2-2,5 sa, toplam ~3 sa
+kos basla 16.10 17:48:45 · kopya rakipler_k244 (1163f81) · HEAD e0ab0b1
+iz bagimsiz-yok 1000 basla 17:48:45
+iz gorev-yok 1000 basla 17:48:45
+iz gorev-yok 1001 basla 17:48:45
+iz gorev-yok 1001 bitti 20:12:51 cikis 0
+iz gorev-yok 1000 bitti 20:31:04 cikis 0
+iz bagimsiz-yok 1000 bitti 20:32:11 cikis 0
+kos bitti 20:39:07

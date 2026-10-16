@@ -1,0 +1,18 @@
+  gorev-yok 1000 en_kisa_yol_kahin        PDR 0.9145 · 29 dk
+  bagimsiz-yok 1002 en_kisa_yol_kahin        PDR 0.6504 · 43 dk
+  gorev-yok 1001 en_kisa_yol_kahin        PDR 0.5661 · 49 dk
+  gorev-yok 1000 en_olasi_teslim_kahin    PDR 0.9929 · 61 dk
+  gorev-yok 1002 en_kisa_yol_kahin        PDR 0.6768 · 38 dk
+  formasyon-yok 1001 en_kisa_yol_kahin        PDR 0.7968 · 37 dk
+  bagimsiz-yok 1002 en_olasi_teslim_kahin    PDR 0.9068 · 110 dk
+  gorev-yok 1002 en_olasi_teslim_kahin    PDR 0.8632 · 101 dk
+  gorev-yok 1001 en_olasi_teslim_kahin    PDR 0.8500 · 125 dk
+  formasyon-yok 1001 en_olasi_teslim_kahin    PDR 0.8891 · 90 dk
+
+  bagimsiz-yok 1002: en_guvenilir_kahin 0.8787 · en_kisa_yol_kahin 0.6504 · en_olasi_teslim_kahin 0.9068 → zarf 0.9068 · Babel 0.8963 · 🟢 zarfın içinde
+  gorev-yok 1000: en_guvenilir_kahin 0.9612 · en_kisa_yol_kahin 0.9145 · en_olasi_teslim_kahin 0.9929 → zarf 0.9929 · Babel 0.9755 · 🟢 zarfın içinde
+  gorev-yok 1001: en_guvenilir_kahin 0.8403 · en_kisa_yol_kahin 0.5661 · en_olasi_teslim_kahin 0.8500 → zarf 0.8500 · Babel 0.8935 · 🔴 zarfı da aşıyor
+  gorev-yok 1002: en_guvenilir_kahin 0.8392 · en_kisa_yol_kahin 0.6768 · en_olasi_teslim_kahin 0.8632 → zarf 0.8632 · Babel 0.8638 · 🔴 zarfı da aşıyor
+  formasyon-yok 1001: en_guvenilir_kahin 0.9424 · en_kisa_yol_kahin 0.7968 · en_olasi_teslim_kahin 0.8891 → zarf 0.9424 · Babel 0.9636 · 🔴 zarfı da aşıyor
+
+  🔴 zarfı aşan hücre var — yazılım hatası aranır (K-192 b)
