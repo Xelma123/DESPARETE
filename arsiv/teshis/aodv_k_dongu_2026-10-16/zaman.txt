@@ -9,3 +9,11 @@ iz bagimsiz-yok 1000 bitti 20:32:11 cikis 0
 kos bitti 20:39:07
 duman2 basla 16.10 20:42:57 · duzeltilmis iz (zincir surekliligi) · KISA bagimsiz-yok 1000
 duman2 bitti 20:55:43 cikis 0
+kos2 basla 16.10 22:26:24 · kopya rakipler_k244 (1163f81) · HEAD 4188039
+iz2 bagimsiz-yok 1000 basla 22:26:24
+iz2 gorev-yok 1000 basla 22:26:24
+iz2 gorev-yok 1001 basla 22:26:24
+iz2 gorev-yok 1001 bitti 00:56:36 cikis 0
+iz2 gorev-yok 1000 bitti 01:21:59 cikis 0
+iz2 bagimsiz-yok 1000 bitti 01:22:53 cikis 0
+kos2 bitti 01:29:14

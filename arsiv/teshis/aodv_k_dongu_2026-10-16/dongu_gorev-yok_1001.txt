@@ -1,0 +1,133 @@
+kod C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\rakipler_k244_2026-10-14\kopya · aodv AODV — RFC 3561'e sadık gerçekleme (`AODV-k`: kara liste K-194 · sıra
+gorev-yok · tohum 1001 · PDR 0.5172 · korunum gecerli True
+dusus (tum kosu): {'ttl': 1, 'iletim_basarisiz': 2853, 'hedef_yok': 9, 'rota_gecersiz': 3316}
+paket 12799 · döngülü paket 15 · TTL ile ölen 1
+zincir sürekliliği: 0 boşluk / 249966 ardışık kayıt (0 olmalı; değilse iz eksik)
+sayaç: {'sira DUSURDU · _gecersizlestir': 7}
+döngüyü kuran son değişiklik (paket başına): {'_rrep_isle+_ters_rota': 6, '_rrep_isle': 9}
+
+  TTL ILE OLDU · paket 2070 → hedef 0 · t 51.716 · iletim 64 · döngü [(33, 22), (22, 33)]
+     düğüm 33: 50.512 _rrep_isle       (10, 4, 142, True, 60.817) → (10, 4, 143, True, 61.36)
+     düğüm 33: 50.963 _rrep_isle       (10, 4, 143, True, 61.36) → (10, 4, 144, True, 61.882)
+     düğüm 33: 51.358 _rrep_isle       (10, 4, 144, True, 61.882) → (22, 6, 145, True, 62.228)
+     düğüm 22: 51.354 _rrep_isle       (13, 6, 144, True, 61.689) → (30, 5, 145, True, 62.022)
+     düğüm 22: 51.357 _gecersizlestir  (30, 5, 145, True, 62.022) → (30, 5, 145, False, 62.022)
+     düğüm 22: 51.389 _rrep_isle       (30, 5, 145, False, 62.022) → (33, 7, 145, True, 62.027)
+
+  paket 300 → hedef 0 · t 7.555 · iletim 4 · döngü [(27, 5), (5, 27)]
+     düğüm 27: 7.351 _rrep_isle       (37, 4, 19, False, 18.304) → (29, 5, 19, True, 18.5)
+     düğüm 27: 7.446 _gecersizlestir  (29, 5, 19, True, 18.5) → (29, 5, 20, False, 18.5)
+     düğüm 27: 7.485 _rrep_isle       (29, 5, 20, False, 18.5) → (5, 4, 20, True, 18.773)
+     düğüm 5: 7.397 _rrep_isle       (7, 7, 17, False, 17.317) → (25, 4, 19, True, 18.778)
+     düğüm 5: 7.484 _rrep_isle       (25, 4, 19, True, 18.778) → (13, 3, 20, True, 18.864)
+     düğüm 5: 7.607 _ters_rota       (13, 3, 20, True, 18.864) → (27, 8, 21, True, 18.864)
+
+  paket 784 → hedef 0 · t 19.593 · iletim 5 · döngü [(31, 33), (33, 31)]
+     düğüm 31: 18.605 _rrep_isle       (1, 5, 45, False, 28.105) → (30, 3, 47, True, 29.46)
+     düğüm 31: 18.958 _gecersizlestir  (30, 3, 47, True, 29.46) → (30, 3, 48, False, 29.46)
+     düğüm 31: 19.553 _rrep_isle       (30, 3, 48, False, 29.46) → (33, 4, 49, True, 30.311)
+     düğüm 33: 19.180 _gecersizlestir  (13, 5, 48, True, 29.91) → (13, 5, 49, False, 29.91)
+     düğüm 33: 19.455 _rrep_isle       (13, 5, 49, False, 29.91) → (13, 3, 49, True, 30.376)
+     düğüm 33: 19.625 _ters_rota       (13, 3, 49, True, 30.376) → (31, 5, 50, True, 30.376)
+
+  paket 2074 → hedef 0 · t 51.864 · iletim 51 · döngü [(33, 22), (22, 33)]
+     düğüm 33: 50.512 _rrep_isle       (10, 4, 142, True, 60.817) → (10, 4, 143, True, 61.36)
+     düğüm 33: 50.963 _rrep_isle       (10, 4, 143, True, 61.36) → (10, 4, 144, True, 61.882)
+     düğüm 33: 51.358 _rrep_isle       (10, 4, 144, True, 61.882) → (22, 6, 145, True, 62.228)
+     düğüm 22: 51.354 _rrep_isle       (13, 6, 144, True, 61.689) → (30, 5, 145, True, 62.022)
+     düğüm 22: 51.357 _gecersizlestir  (30, 5, 145, True, 62.022) → (30, 5, 145, False, 62.022)
+     düğüm 22: 51.389 _rrep_isle       (30, 5, 145, False, 62.022) → (33, 7, 145, True, 62.027)
+
+  paket 2087 → hedef 0 · t 52.234 · iletim 30 · döngü [(22, 33), (33, 22)]
+     düğüm 22: 51.354 _rrep_isle       (13, 6, 144, True, 61.689) → (30, 5, 145, True, 62.022)
+     düğüm 22: 51.357 _gecersizlestir  (30, 5, 145, True, 62.022) → (30, 5, 145, False, 62.022)
+     düğüm 22: 51.389 _rrep_isle       (30, 5, 145, False, 62.022) → (33, 7, 145, True, 62.027)
+     düğüm 33: 50.512 _rrep_isle       (10, 4, 142, True, 60.817) → (10, 4, 143, True, 61.36)
+     düğüm 33: 50.963 _rrep_isle       (10, 4, 143, True, 61.36) → (10, 4, 144, True, 61.882)
+     düğüm 33: 51.358 _rrep_isle       (10, 4, 144, True, 61.882) → (22, 6, 145, True, 62.228)
+
+  paket 4024 → hedef 0 · t 100.548 · iletim 5 · döngü [(16, 26), (26, 16)]
+     düğüm 16: 100.410 _rrep_isle       (26, 5, 277, False, 111.544) → (17, 8, 277, True, 105.978)
+     düğüm 16: 100.419 _rrep_isle       (17, 8, 277, True, 105.978) → (17, 7, 277, True, 105.986)
+     düğüm 16: 100.440 _ters_rota       (17, 7, 277, True, 105.986) → (26, 7, 277, True, 105.986)
+     düğüm 26: 100.420 _rrep_isle       (16, 9, 277, True, 105.69) → (16, 8, 277, True, 105.698)
+     düğüm 26: 100.436 _ters_rota       (16, 8, 277, True, 105.698) → (27, 6, 277, True, 105.698)
+     düğüm 26: 100.584 _rrep_isle       (27, 6, 277, True, 105.698) → (16, 5, 277, True, 106.011)
+
+  paket 4421 → hedef 0 · t 111.264 · iletim 5 · döngü [(2, 23), (23, 2)]
+     düğüm 2: 110.015 _rrep_isle       (16, 6, 303, True, 120.975) → (26, 5, 304, True, 121.431)
+     düğüm 2: 110.226 _gecersizlestir  (26, 5, 304, True, 121.431) → (26, 5, 305, False, 121.431)
+     düğüm 2: 111.223 _rrep_isle       (26, 5, 305, False, 121.431) → (23, 9, 306, True, 122.413)
+     düğüm 23: 111.221 _rrep_isle       (37, 4, 306, False, 122.086) → (36, 8, 306, True, 122.392)
+     düğüm 23: 111.343 _gecersizlestir  (36, 8, 306, True, 122.392) → (36, 8, 307, False, 122.392)
+     düğüm 23: 111.345 _rrep_isle       (36, 8, 307, False, 122.392) → (2, 6, 307, True, 122.739)
+
+  paket 5585 → hedef 0 · t 139.613 · iletim 5 · döngü [(20, 30), (30, 31), (31, 20)]
+     düğüm 20: 139.188 _rrep_isle       (0, 1, 0, True, 141.881) → (0, 1, 377, True, 141.881)
+     düğüm 20: 139.457 _gecersizlestir  (0, 1, 377, True, 142.082) → (0, 1, 378, False, 142.082)
+     düğüm 20: 139.568 _rrep_isle       (0, 1, 378, False, 142.082) → (30, 7, 378, True, 150.307)
+     düğüm 30: 138.746 _rrep_isle       (20, 3, 376, False, 148.681) → (20, 4, 376, True, 150.001)
+     düğüm 30: 139.474 _gecersizlestir  (20, 4, 376, True, 150.001) → (20, 4, 378, False, 150.001)
+     düğüm 30: 139.550 _rrep_isle       (20, 4, 378, False, 150.001) → (31, 6, 378, True, 150.736)
+     düğüm 31: 139.523 _rrep_isle       (6, 3, 377, False, 149.447) → (17, 5, 378, True, 150.248)
+     düğüm 31: 139.599 _rrep_isle       (17, 5, 378, True, 150.248) → (1, 4, 378, True, 150.324)
+     düğüm 31: 139.688 _rrep_isle       (1, 4, 378, True, 150.324) → (20, 3, 378, True, 150.466)
+
+  paket 7636 → hedef 0 · t 190.898 · iletim 5 · döngü [(38, 11), (11, 8), (8, 38)]
+     düğüm 38: 190.046 _rrep_isle       (0, 1, 0, True, 193.141) → (0, 1, 520, True, 201.341)
+     düğüm 38: 190.203 _rrep_isle       (0, 1, 520, True, 201.341) → (0, 1, 521, True, 201.498)
+     düğüm 38: 190.581 _rrep_isle       (0, 1, 521, True, 201.498) → (11, 3, 522, True, 201.781)
+     düğüm 11: 189.900 _gecersizlestir  (35, 3, 519, True, 200.469) → (35, 3, 520, False, 200.469)
+     düğüm 11: 190.091 _rrep_isle       (35, 3, 520, False, 200.469) → (35, 3, 520, True, 200.743)
+     düğüm 11: 190.474 _rrep_isle       (35, 3, 520, True, 200.743) → (8, 2, 522, True, 201.206)
+     düğüm 8: 190.473 _rrep_isle       (0, 1, 517, True, 193.148) → (0, 1, 522, True, 201.348)
+     düğüm 8: 190.925 _gecersizlestir  (0, 1, 522, True, 201.348) → (0, 1, 523, False, 201.348)
+     düğüm 8: 190.944 _rrep_isle       (0, 1, 523, False, 201.348) → (38, 2, 523, True, 201.818)
+
+  paket 7807 → hedef 0 · t 195.316 · iletim 5 · döngü [(18, 20), (20, 18)]
+     düğüm 18: 194.897 _komsu_rotasi    (38, 2, 536, True, 205.744) → (0, 1, 0, True, 197.983)
+     düğüm 18: 194.897 _rrep_isle       (0, 1, 0, True, 197.983) → (0, 1, 537, True, 206.183)
+     düğüm 18: 195.199 _rrep_isle       (0, 1, 537, True, 206.183) → (20, 2, 538, True, 206.48)
+     düğüm 20: 195.189 _rrep_isle       (0, 1, 0, True, 197.881) → (0, 1, 538, True, 206.081)
+     düğüm 20: 195.422 _gecersizlestir  (0, 1, 538, True, 206.081) → (0, 1, 539, False, 206.081)
+     düğüm 20: 195.536 _rrep_isle       (0, 1, 539, False, 206.081) → (18, 2, 539, True, 206.427)
+
+  paket 7818 → hedef 0 · t 195.452 · iletim 3 · döngü [(18, 20), (20, 18)]
+     düğüm 18: 194.897 _komsu_rotasi    (38, 2, 536, True, 205.744) → (0, 1, 0, True, 197.983)
+     düğüm 18: 194.897 _rrep_isle       (0, 1, 0, True, 197.983) → (0, 1, 537, True, 206.183)
+     düğüm 18: 195.199 _rrep_isle       (0, 1, 537, True, 206.183) → (20, 2, 538, True, 206.48)
+     düğüm 20: 195.189 _rrep_isle       (0, 1, 0, True, 197.881) → (0, 1, 538, True, 206.081)
+     düğüm 20: 195.422 _gecersizlestir  (0, 1, 538, True, 206.081) → (0, 1, 539, False, 206.081)
+     düğüm 20: 195.536 _rrep_isle       (0, 1, 539, False, 206.081) → (18, 2, 539, True, 206.427)
+
+  paket 7985 → hedef 5 · t 199.551 · iletim 4 · döngü [(18, 34), (34, 18)]
+     düğüm 18: 187.592 _ters_rota       (11, 5, 118, True, 191.069) → (6, 2, 120, True, 193.118)
+     düğüm 18: 193.428 _gecersizlestir  (6, 2, 120, True, 193.118) → (6, 2, 120, False, 193.118)
+     düğüm 18: 198.632 _rrep_isle       (6, 2, 120, False, 193.118) → (34, 6, 127, True, 204.237)
+     düğüm 34: 194.556 _rrep_isle       (6, 2, 120, False, 193.385) → (13, 5, 126, True, 200.346)
+     düğüm 34: 198.630 _rrep_isle       (13, 5, 126, True, 200.346) → (21, 5, 127, True, 204.503)
+     düğüm 34: 199.598 _ters_rota       (21, 5, 127, True, 204.503) → (18, 5, 128, True, 205.151)
+
+  paket 8488 → hedef 0 · t 212.299 · iletim 6 · döngü [(10, 30), (30, 10)]
+     düğüm 10: 211.262 _rrep_isle       (33, 6, 582, True, 222.05) → (31, 5, 583, True, 222.576)
+     düğüm 10: 211.411 _gecersizlestir  (31, 5, 583, True, 222.576) → (31, 5, 584, False, 222.576)
+     düğüm 10: 212.258 _rrep_isle       (31, 5, 584, False, 222.576) → (30, 5, 585, True, 223.041)
+     düğüm 30: 212.274 _komsu_rotasi    (14, 4, 585, True, 222.87) → (0, 1, 0, True, 215.409)
+     düğüm 30: 212.274 _rrep_isle       (0, 1, 0, True, 215.409) → (0, 1, 587, True, 223.609)
+     düğüm 30: 212.351 _ters_rota       (0, 1, 587, True, 223.609) → (10, 5, 588, True, 223.609)
+
+  paket 10538 → hedef 0 · t 263.554 · iletim 5 · döngü [(9, 4), (4, 9)]
+     düğüm 9: 262.938 _rrep_isle       (28, 5, 724, True, 273.018) → (4, 3, 726, True, 273.714)
+     düğüm 9: 263.077 _gecersizlestir  (4, 3, 726, True, 273.714) → (4, 3, 727, False, 273.714)
+     düğüm 9: 263.127 _rrep_isle       (4, 3, 727, False, 273.714) → (4, 3, 727, True, 274.156)
+     düğüm 4: 263.126 _rrep_isle       (24, 2, 727, False, 274.289) → (38, 2, 727, True, 274.731)
+     düğüm 4: 263.621 _gecersizlestir  (38, 2, 727, True, 274.731) → (38, 2, 728, False, 274.731)
+     düğüm 4: 263.622 _ters_rota       (38, 2, 728, False, 274.731) → (9, 2, 728, True, 269.468)
+
+  paket 11776 → hedef 0 · t 294.493 · iletim 5 · döngü [(35, 6), (6, 35)]
+     düğüm 35: 293.389 _rrep_isle       (38, 2, 802, True, 303.667) → (38, 2, 803, True, 303.96)
+     düğüm 35: 293.631 _rrep_isle       (38, 2, 803, True, 303.96) → (14, 5, 804, True, 304.434)
+     düğüm 35: 294.161 _rrep_isle       (14, 5, 804, True, 304.434) → (6, 2, 806, True, 305.033)
+     düğüm 6: 294.105 _rrep_isle       (0, 1, 0, True, 296.87) → (0, 1, 806, True, 305.07)
+     düğüm 6: 294.453 _gecersizlestir  (0, 1, 806, True, 305.07) → (0, 1, 807, False, 305.07)
+     düğüm 6: 294.569 _rrep_isle       (0, 1, 807, False, 305.07) → (35, 3, 807, True, 305.499)

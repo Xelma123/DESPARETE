@@ -1,0 +1,36 @@
+kok C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\rakipler_k244_2026-10-14\kopya · 9 koşu kaldı
+  gorev-yok 1002 en_guvenilir_kahin       PDR 0.8392 · 41 dk
+  gorev-yok 1001 en_guvenilir_kahin       PDR 0.8403 · 42 dk
+  gorev-yok 1002 babel                    PDR 0.8638 · 72 dk
+  gorev-yok 1001 babel                    PDR 0.8935 · 79 dk
+  formasyon-yok 1001 babel                    PDR 0.9636 · 62 dk
+  formasyon-yok 1001 en_guvenilir_kahin       PDR 0.9424 · 33 dk
+  gorev-yok 1001 en_olasi_teslim_kahin    PDR 0.8500 · 137 dk
+  gorev-yok 1002 en_olasi_teslim_kahin    PDR 0.8632 · 110 dk
+  formasyon-yok 1001 en_olasi_teslim_kahin    PDR 0.8891 · 103 dk
+
+=== gorev-yok 1001
+  babel                    PDR 0.8935 (kayıt 0.8935, aynı) · korunum True · kopya 0 · düşen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 1300, 'hedef_yok': 63, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0}
+  en_guvenilir_kahin       PDR 0.8403 (kayıt 0.8403, aynı) · korunum True · kopya 0 · düşen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 2044, 'hedef_yok': 0, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0}
+  en_olasi_teslim_kahin    PDR 0.8500 (kayıt 0.8500, aynı) · korunum True · kopya 0 · düşen {'kuyruk_tasmasi': 63, 'ttl': 0, 'iletim_basarisiz': 1857, 'hedef_yok': 0, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0}
+  zarf kâhini en_olasi_teslim_kahin: yalnız Babel 1705 · yalnız kâhin 1148 · ikisi 9731 · doğan 12799 (kâhinde 12799)
+  evre (10.0 s dilim, 5 kova) babel                    0.874 · 0.904 · 0.897 · 0.888 · 0.904
+  evre (10.0 s dilim, 5 kova) en_olasi_teslim_kahin    0.831 · 0.866 · 0.855 · 0.857 · 0.842
+
+=== gorev-yok 1002
+  babel                    PDR 0.8638 (kayıt 0.8638, aynı) · korunum True · kopya 0 · düşen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 1117, 'hedef_yok': 626, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0}
+  en_guvenilir_kahin       PDR 0.8392 (kayıt 0.8392, aynı) · korunum True · kopya 0 · düşen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 2058, 'hedef_yok': 0, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0}
+  en_olasi_teslim_kahin    PDR 0.8632 (kayıt 0.8632, aynı) · korunum True · kopya 0 · düşen {'kuyruk_tasmasi': 27, 'ttl': 0, 'iletim_basarisiz': 1724, 'hedef_yok': 0, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0}
+  zarf kâhini en_olasi_teslim_kahin: yalnız Babel 1087 · yalnız kâhin 1079 · ikisi 9969 · doğan 12799 (kâhinde 12799)
+  evre (10.0 s dilim, 5 kova) babel                    0.846 · 0.866 · 0.870 · 0.869 · 0.868
+  evre (10.0 s dilim, 5 kova) en_olasi_teslim_kahin    0.854 · 0.865 · 0.872 · 0.863 · 0.863
+
+=== formasyon-yok 1001
+  babel                    PDR 0.9636 (kayıt 0.9636, aynı) · korunum True · kopya 0 · düşen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 410, 'hedef_yok': 56, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0}
+  en_guvenilir_kahin       PDR 0.9424 (kayıt 0.9424, aynı) · korunum True · kopya 0 · düşen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 737, 'hedef_yok': 0, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0}
+  en_olasi_teslim_kahin    PDR 0.8891 (kayıt 0.8891, aynı) · korunum True · kopya 0 · düşen {'kuyruk_tasmasi': 0, 'ttl': 0, 'iletim_basarisiz': 1419, 'hedef_yok': 0, 'rota_gecersiz': 0, 'tampon_asimi': 0, 'politika': 0, 'dugum_kaybi': 0}
+  zarf kâhini en_guvenilir_kahin: yalnız Babel 686 · yalnız kâhin 415 · ikisi 11647 · doğan 12799 (kâhinde 12799)
+  evre (10.0 s dilim, 5 kova) babel                    0.949 · 0.963 · 0.968 · 0.975 · 0.964
+  evre (10.0 s dilim, 5 kova) en_guvenilir_kahin       0.950 · 0.946 · 0.932 · 0.937 · 0.946
+
+SAYIM/KORUNUM/KİMLİK: kusur izi yok

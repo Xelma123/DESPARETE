@@ -290,22 +290,41 @@ _AODV_K207 = ("AODV-k · sadakat denetiminden gecti (RFC 3561 + ns-3, 42 "
               "K-207). AODV-j'den dususu ns-3'un iki varsayilani (karsiliksiz "
               "RREP, yayin titresimi; arsiv/teshis/aodv_k_ab_2026-10-15/). "
               "Anatomi (arsiv/teshis/aodv_k_anatomi_2026-10-16/): korunum "
-              "gecerli, TTL dususu 0, karar baglari "
-              "yeniden denemeli bantta %98-99 iyi. U1 15 Ekim 2026, 7 deneme")
-_AODV_K_IZ: dict[tuple[str, str, int], tuple[str, str]] = {
-    # (desen, kol, tohum): (U1 orani, dusen/uretilen en buyuk iki sebep)
+              "gecerli, karar baglari yeniden denemeli bantta %98-99 iyi. "
+              "U1 15 Ekim 2026, 7 deneme")
+# Bağımsız 1000 · görev 1000 · görev 1001'de birer TTL düşüşü var; kuyruğun
+# ön-kaydı "döngü/TTL düşüşü 0" ister. K-207 madde 2'ye göre döngü izi
+# alındı (`arsiv/teshis/aodv_k_dongu_2026-10-16/`, zincir sürekliliği 0
+# boşluk): üç döngü de RFC'nin kurallarından, ns-3'le aynı.
+_DONGU_IZI = ("TTL dususu 1, dongu izi RFC kuralindan (K-207 madde 2; "
+              "arsiv/teshis/aodv_k_dongu_2026-10-16/): ")
+_AODV_K_IZ: dict[tuple[str, str, int], tuple[str, str, str]] = {
+    # (desen, kol, tohum): (U1 orani, dusen/uretilen en buyuk iki sebep,
+    # TTL dususu)
     ("yere_toplama", "statik-yok", 1000): (
-        "0,852", "iletim_basarisiz %8,6 · rota_gecersiz %6,9"),
+        "0,852", "iletim_basarisiz %8,6 · rota_gecersiz %6,9",
+        "TTL dususu 0"),
     ("yere_toplama", "statik-yok", 1001): (
-        "0,856", "iletim_basarisiz %9,4 · rota_gecersiz %6,2"),
+        "0,856", "iletim_basarisiz %9,4 · rota_gecersiz %6,2",
+        "TTL dususu 0"),
     ("yere_toplama", "statik-yok", 1002): (
-        "0,812", "iletim_basarisiz %9,9 · rota_gecersiz %9,4"),
+        "0,812", "iletim_basarisiz %9,9 · rota_gecersiz %9,4",
+        "TTL dususu 0"),
+    ("yere_toplama", "bagimsiz-yok", 1000): (
+        "0,475", "rota_gecersiz %39,3 · iletim_basarisiz %21,2",
+        _DONGU_IZI + "ayni kaynagin eszamanli iki RREQ'i iki dugumun ters "
+        "rotasini birbirine cevirdi (§6.5; ns-3 RecvRequest)"),
     ("yere_toplama", "bagimsiz-yok", 1002): (
-        "0,576", "rota_gecersiz %30,0 · iletim_basarisiz %21,9"),
-    # Bağımsız 1000 · görev 1000 · görev 1001'de birer TTL düşüşü var;
-    # kuyruğun ön-kaydı (`rakipler_k244_2026-10-14/beklenti.md` §2) "döngü/
-    # TTL düşüşü 0" ister. K-207 madde 2'ye göre döngü izi alınır
-    # (`arsiv/teshis/aodv_k_dongu_2026-10-16/`); iz gelene kadar açıklanmamış.
+        "0,576", "rota_gecersiz %30,0 · iletim_basarisiz %21,9",
+        "TTL dususu 0"),
+    ("yere_toplama", "gorev-yok", 1000): (
+        "0,490", "rota_gecersiz %31,4 · iletim_basarisiz %23,9",
+        _DONGU_IZI + "sirasiz komsu rotasi RREP'le degisti (§6.2 + §6.7 i) "
+        "ve ters rota (§6.5)"),
+    ("yere_toplama", "gorev-yok", 1001): (
+        "0,596", "rota_gecersiz %25,9 · iletim_basarisiz %22,3",
+        _DONGU_IZI + "RERR'de sira kopyalama (§6.11 iii) + esit sirada "
+        "etkin olmayan rotanin guncellenmesi (§6.7 iii; K-205)"),
 }
 _AOMDV_K207 = ("AOMDV-f · Marina-Das + RFC 3561 tabani (K-210, K-215); esik "
                "alti protokolun kendi siniri (K-207 kurali, K-215 on-kaydi). "
@@ -346,8 +365,9 @@ _JARMROUT_IZ: dict[tuple[str, str, int], tuple[str, int, int]] = {
     ("esler_arasi", "formasyon-yok", 1001): ("0,545", 40813, 64),
 }
 ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
-    "aodv": {h: f"{_AODV_K207} · bu hucre: oran {o}, dusen/uretilen {s}"
-             for h, (o, s) in _AODV_K_IZ.items()},
+    "aodv": {h: f"{_AODV_K207} · bu hucre: oran {o}, dusen/uretilen {s}, "
+                f"{ttl}"
+             for h, (o, s, ttl) in _AODV_K_IZ.items()},
     "aomdv": {("yere_toplama", kol, t): _AOMDV_K207 for kol, t in (
         ("statik-yok", 1000), ("statik-yok", 1002), ("bagimsiz-yok", 1000))},
     "desparete": {}, "olsrv2": {}, "babel": {},
@@ -435,7 +455,10 @@ KAYITLI_ORAN: dict[str, dict[tuple[str, str, int], float]] = {
     "aodv": {("yere_toplama", "statik-yok", 1000): 0.8522,
              ("yere_toplama", "statik-yok", 1001): 0.8558,
              ("yere_toplama", "statik-yok", 1002): 0.8123,
+             ("yere_toplama", "bagimsiz-yok", 1000): 0.4753,
              ("yere_toplama", "bagimsiz-yok", 1002): 0.5762,
+             ("yere_toplama", "gorev-yok", 1000): 0.4903,
+             ("yere_toplama", "gorev-yok", 1001): 0.5960,
              ("esler_arasi", "statik-yok", 1001): 1.0051},
     "aomdv": {("yere_toplama", "statik-yok", 1000): 0.8989,
               ("yere_toplama", "statik-yok", 1002): 0.8912,
