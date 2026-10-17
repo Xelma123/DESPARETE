@@ -10,3 +10,9 @@ u1_yere_toplama bitti 18:07:34 cikis 1
 u1_esler_arasi basla 18:07:34
 u1_esler_arasi basla 16.10 15:43:34 (kalan.sh)
 u1_esler_arasi bitti 17:29:11 cikis 1
+g1c basla 17.10 01:45:09 (kalan.sh)
+g1c bitti 03:33:10 cikis 0
+g2c basla 17.10 03:33:26 (kalan.sh)
+g2c bitti 05:48:56 cikis 0
+g1p basla 17.10 05:49:10 (kalan.sh)
+g1p bitti 06:11:08 cikis 1

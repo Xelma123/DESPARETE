@@ -1,0 +1,33 @@
+
+==============================================================================
+G1-P - BOS KOL, GERCEK PROTOKOLLER  (statik-yok, yere toplama)
+==============================================================================
+    protokol  tohum  pdr_t      sok     2SE  2SE_es   top top_es tespit tsp_es    kova m/v   sure
+        aodv   1000  0.849  +0.0259  0.0723  0.0332   0.0    0.0   None   None 20.35/53.3    1314
+        aodv   1001  0.845  -0.0333  0.0638  0.0291   0.0    0.0   None   60.0 22.25/25.9    1246
+      olsrv2   1000  0.883  -0.0798  0.1515  0.0186   0.0    0.0   None   37.0  4.68/15.8     903
+      olsrv2   1001  0.951  -0.0221  0.0370  0.0151   0.0    0.0   47.0   47.0  3.54/5.8      799
+       babel   1000  0.994  +0.0271  0.0152  0.0152  17.0   17.0   None   None  0.00/0.0      735
+       babel   1001  0.989  +0.0042  0.0165  0.0109   0.0    0.0   47.0   47.0  0.00/0.0      722
+   desparete   1000  0.947  +0.0198  0.0317  0.0226   0.0    0.0   None   None  2.37/4.3      894
+   desparete   1001  0.949  +0.0152  0.0217  0.0217   0.0    0.0   None   None  2.35/2.9      823
+  KOL       aodv: sok ort -0.0037 · 2 SE 0.0481 (eski 0.0220)
+  KOL     olsrv2: sok ort -0.0510 · 2 SE 0.0666 (eski 0.0119)
+  KOL      babel: sok ort +0.0157 · 2 SE 0.0112 (eski 0.0092)
+  KOL  desparete: sok ort +0.0175 · 2 SE 0.0189 (eski 0.0157)
+
+  M4 yanlis tespit : 2/8   (eski kural 4/8)  · beyan etmeyen: babel/1000
+  M3 toparlanma≠0  : 1/8   (eski kural 1/8)
+  M1 2 SE disinda  : 1/4   (eski kural 3/4)
+
+  G1-P : KALDI
+  KAYIT [{"protokol": "aodv", "tohum": 1000, "sure_s": 1313.9, "pdr_temiz": 0.84925, "sok": 0.025916666666666588, "sok_se": 0.036162181448534, "sok_se_eski": 0.01657688381396463, "kume_se": 0.036162181448534, "top_sure": 0.0, "top_sure_eski": 0.0, "tespit": null, "tespit_eski": null, "beyan_etmiyor": false, "kova_ort": 20.35, "kova_var": 53.34090909090909}, {"protokol": "aodv", "tohum": 1001, "sure_s": 1245.9, "pdr_temiz": 0.845, "sok": -0.033333333333333326, "sok_se": 0.031876056246700805, "sok_se_eski": 0.014555036859856504, "kume_se": 0.031876056246700805, "top_sure": 0.0, "top_sure_eski": 0.0, "tespit": null, "tespit_eski": 60.0, "beyan_etmiyor": false, "kova_ort": 22.25, "kova_var": 25.92676767676768}, {"protokol": "olsrv2", "tohum": 1000, "sure_s": 902.8, "pdr_temiz": 0.8835, "sok": -0.07983333333333342, "sok_se": 0.07574296786750684, "sok_se_eski": 0.009316444470356577, "kume_se": 0.07574296786750684, "top_sure": 0.0, "top_sure_eski": 0.0, "tespit": null, "tespit_eski": 37.0, "beyan_etmiyor": false, "kova_ort": 4.68, "kova_var": 15.795555555555556}, {"protokol": "olsrv2", "tohum": 1001, "sure_s": 799.0, "pdr_temiz": 0.95125, "sok": -0.022083333333333344, "sok_se": 0.01848015958081259, "sok_se_eski": 0.007564569461218209, "kume_se": 0.01848015958081259, "top_sure": 0.0, "top_sure_eski": 0.0, "tespit": 47.0, "tespit_eski": 47.0, "beyan_etmiyor": false, "kova_ort": 3.54, "kova_var": 5.786262626262626}, {"protokol": "babel", "tohum": 1000, "sure_s": 735.3, "pdr_temiz": 0.99375, "sok": 0.027083333333333348, "sok_se": 0.007585369105714906, "sok_se_eski": 0.007585369105714906, "kume_se": 0.0036919110127286298, "top_sure": 17.0, "top_sure_eski": 17.0, "tespit": null, "tespit_eski": null, "beyan_etmiyor": true, "kova_ort": 0.0, "kova_var": 0.0}, {"protokol": "babel", "tohum": 1001, "sure_s": 721.5, "pdr_temiz": 0.98925, "sok": 0.004249999999999976, "sok_se": 0.008260033873937176, "sok_se_eski": 0.005463716480953493, "kume_se": 0.008260033873937176, "top_sure": 0.0, "top_sure_eski": 0.0, "tespit": 47.0, "tespit_eski": 47.0, "beyan_etmiyor": false, "kova_ort": 0.0, "kova_var": 0.0}, {"protokol": "desparete", "tohum": 1000, "sure_s": 893.9, "pdr_temiz": 0.9465, "sok": 0.01983333333333337, "sok_se": 0.015874511264718925, "sok_se_eski": 0.011295655474958559, "kume_se": 0.015874511264718925, "top_sure": 0.0, "top_sure_eski": 0.0, "tespit": null, "tespit_eski": null, "beyan_etmiyor": false, "kova_ort": 2.37, "kova_var": 4.275858585858586}, {"protokol": "desparete", "tohum": 1001, "sure_s": 822.6, "pdr_temiz": 0.9485, "sok": 0.015166666666666662, "sok_se": 0.010848242699751631, "sok_se_eski": 0.010848242699751631, "kume_se": 0.00936674978219782, "top_sure": 0.0, "top_sure_eski": 0.0, "tespit": null, "tespit_eski": null, "beyan_etmiyor": false, "kova_ort": 2.35, "kova_var": 2.9166666666666665}]
+
+==============================================================================
+SONUC
+==============================================================================
+  G1p : 🔴 KALDI
+
+  🔒 Dordu de gecmeden evre metrikleri bir SONUC icin
+     kullanilmaz. Kosulmayan kapi 'gecti' sayilmaz.
+🔴 EVRE METRIKLERI KAPISI KALDI — yukarisi okunmali

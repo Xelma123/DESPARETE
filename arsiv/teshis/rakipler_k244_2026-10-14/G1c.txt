@@ -1,0 +1,32 @@
+
+==============================================================================
+G1c - BOS KOL, HAYALET CIZELGE  (formasyon-yok, yere toplama)
+==============================================================================
+            protokol tohum  temiz   acik sessiz      M1    2SE       D  2SE_D    M4    p99    siz   sure
+                aodv  1003  0.518  0.499  0.526  +0.004  0.066  +0.008  0.036  None  0.943  0.009   6476
+                aodv  1004  0.579  0.638  0.636  -0.035  0.094  +0.058  0.051  None  0.812  0.008   6402
+              olsrv2  1003  0.784  0.817  0.801  +0.029  0.069  +0.017  0.038  None  0.650  0.007   3309
+              olsrv2  1004  0.884  0.910  0.893  -0.041  0.071  +0.009  0.039  None  0.162  0.003   2950
+               babel  1003  0.939  0.945  0.949  -0.028  0.025  +0.010  0.014  None  0.259  0.005   3866
+               babel  1004  0.955  0.952  0.956  -0.008  0.025  +0.001  0.014  None  0.173  0.004   3805
+           desparete  1003  0.728  0.757  0.778  +0.012  0.164  +0.050  0.089  None  3.087  0.015   4979
+           desparete  1004  0.803  0.786  0.802  +0.069  0.091  -0.002  0.049  None  3.044  0.018   4791
+  KOL       aodv: M1 ort -0.0155 · 2 SE 0.0566 · D [0.0079, 0.0576]
+  KOL     olsrv2: M1 ort -0.0056 · 2 SE 0.0498 · D [0.0169, 0.0087]
+  KOL      babel: M1 ort -0.0182 · 2 SE 0.0177 · D [0.0103, 0.0006]
+  KOL  desparete: M1 ort +0.0401 · 2 SE 0.0899 · D [0.0498, -0.0019]
+
+  M4 yanlis tespit : 0/8
+  M1 2 SE disinda  : 1/4
+  D iki tohumda disarida (M2 yorumlanamaz): yok
+
+  G1c : GECTI
+  KAYIT [{"senaryo": "formasyon-yok", "protokol": "aodv", "tohum": 1003, "sure_s": 6475.8, "cizelge": [15.0, 15.0], "hayalet": true, "pdr_temiz": 0.5178705323669083, "pdr_acik": 0.4987489574645538, "pdr_sessiz": 0.5257731958762887, "sok": 0.003680215171582679, "sok_se": 0.033206381230439744, "d": 0.007902663509380403, "d_se": 0.017989103395429935, "m2": 1.0152599211877562, "tespit": null, "beyan_etmiyor": false, "p99_s": 0.9428637858971531, "bulaniklik_evre": 0.06285758572647687, "sizinti": 0.009203336209375898}, {"senaryo": "formasyon-yok", "protokol": "aodv", "tohum": 1004, "sure_s": 6402.3, "cizelge": [15.0, 15.0], "hayalet": true, "pdr_temiz": 0.57875, "pdr_acik": 0.6380793782958646, "pdr_sessiz": 0.6363067292644757, "sok": -0.0345833333333333, "sok_se": 0.046829811256254086, "d": 0.05755672926447575, "d_se": 0.025369410500683677, "m2": 1.099450072163241, "tespit": null, "beyan_etmiyor": false, "p99_s": 0.8121823914559114, "bulaniklik_evre": 0.054145492763727425, "sizinti": 0.008079409048938134}, {"senaryo": "formasyon-yok", "protokol": "olsrv2", "tohum": 1003, "sure_s": 3308.7, "cizelge": [15.0, 15.0], "hayalet": true, "pdr_temiz": 0.7840539865033742, "pdr_acik": 0.8167917709202113, "pdr_sessiz": 0.8009996875976257, "sok": 0.029463001528415966, "sok_se": 0.03473711415444591, "d": 0.01694570109425153, "d_se": 0.01881835704549323, "m2": 1.0216129263876634, "tespit": null, "beyan_etmiyor": false, "p99_s": 0.6504313525331431, "bulaniklik_evre": 0.043362090168876204, "sizinti": 0.007088331515812432}, {"senaryo": "formasyon-yok", "protokol": "olsrv2", "tohum": 1004, "sure_s": 2950.0, "cizelge": [15.0, 15.0], "hayalet": true, "pdr_temiz": 0.88425, "pdr_acik": 0.9100749375520399, "pdr_sessiz": 0.8929577464788733, "sok": -0.040750000000000064, "sok_se": 0.03571205493108885, "d": 0.00870774647887329, "d_se": 0.019346517892462417, "m2": 1.0098476069876996, "tespit": null, "beyan_etmiyor": false, "p99_s": 0.16230883902111415, "bulaniklik_evre": 0.010820589268074277, "sizinti": 0.0030984996738421394}, {"senaryo": "formasyon-yok", "protokol": "babel", "tohum": 1003, "sure_s": 3865.6, "cizelge": [15.0, 15.0], "hayalet": true, "pdr_temiz": 0.9385153711572107, "pdr_acik": 0.9452321378926883, "pdr_sessiz": 0.9487660106216808, "sok": -0.02809564720672919, "sok_se": 0.012524872623651637, "d": 0.010250639464470024, "d_se": 0.006785178640150043, "m2": 1.0109221860179347, "tespit": null, "beyan_etmiyor": false, "p99_s": 0.25916506208293416, "bulaniklik_evre": 0.017277670805528944, "sizinti": 0.004971259903681839}, {"senaryo": "formasyon-yok", "protokol": "babel", "tohum": 1004, "sure_s": 3805.4, "cizelge": [15.0, 15.0], "hayalet": true, "pdr_temiz": 0.955, "pdr_acik": 0.951984457396614, "pdr_sessiz": 0.9555555555555556, "sok": -0.008333333333333415, "sok_se": 0.012559123387562758, "d": 0.0005555555555556424, "d_se": 0.006803733523595302, "m2": 1.0005817335660268, "tespit": null, "beyan_etmiyor": true, "p99_s": 0.17343237656222735, "bulaniklik_evre": 0.011562158437481823, "sizinti": 0.004010488971155329}, {"senaryo": "formasyon-yok", "protokol": "desparete", "tohum": 1003, "sure_s": 4978.6, "cizelge": [15.0, 15.0], "hayalet": true, "pdr_temiz": 0.7278180454886278, "pdr_acik": 0.7567417292187935, "pdr_sessiz": 0.7775695095282724, "sok": 0.011624389395138657, "sok_se": 0.08185157672921352, "d": 0.04975146403964459, "d_se": 0.04434197350932748, "m2": 1.0683570081121627, "tespit": null, "beyan_etmiyor": false, "p99_s": 3.0866977226195687, "bulaniklik_evre": 0.2057798481746379, "sizinti": 0.014968336211859529}, {"senaryo": "formasyon-yok", "protokol": "desparete", "tohum": 1004, "sure_s": 4791.2, "cizelge": [15.0, 15.0], "hayalet": true, "pdr_temiz": 0.8035, "pdr_acik": 0.7857341104635026, "pdr_sessiz": 0.801564945226917, "sok": 0.0685, "sok_se": 0.04525724493522953, "d": -0.0019350547730829781, "d_se": 0.024517494179276463, "m2": 0.9975917177684095, "tespit": null, "beyan_etmiyor": false, "p99_s": 3.044365474804325, "bulaniklik_evre": 0.20295769832028834, "sizinti": 0.017618694362017805}]
+
+==============================================================================
+SONUC
+==============================================================================
+  G1c : GECTI
+
+  🔒 Dordu de gecmeden evre metrikleri bir SONUC icin
+     kullanilmaz. Kosulmayan kapi 'gecti' sayilmaz.
