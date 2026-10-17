@@ -57,6 +57,7 @@ toparlanma_suresi = T_kur − T_j      yoksa SANSÜRLÜ = None
 ```
 m̂, v̂ = TEMİZ evrenin 1 s kovalarındaki kopma BEYANI sayısının ortalaması ve varyansı (n − 1)
 boş dağılım = negatif binom(m̂, v̂); v̂ ≤ m̂ ise Poisson(m̂)          (K-196, §05.4)
+temizde sıfır beyan (m̂ = 0) → m̂ = v̂ = −ln α / n, sıfır gözlemin üst sınırı (n = temiz kova sayısı; K-249)
 T_tespit = en küçük t > T_j:  [t−1; t) beyanı > boş dağılımın üst kuyruğu, pencere başına α / taranan pencere (Bonferroni, §05.3)
 tespit_gecikmesi = T_tespit − T_j    yoksa SANSÜRLÜ = None
 ```

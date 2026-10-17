@@ -653,3 +653,26 @@ def test_DD12_EVRE_YORUMLANAMAZ_KAYDI_KODA_BAGLI(monkeypatch, tmp_path):
     assert "jarmrout" not in E._muaf("G1c")
     assert "jarmrout" not in E._muaf("G4c")
 
+
+
+def test_K249_M4_TEMIZDE_SIFIR_beyanda_TEK_beyan_TESPIT_DEGIL():
+    """G1-P (17 Ekim 2026): karıştırıcısız Babel koşu boyunca TEK bir kopma
+    beyan ediyordu ve temiz evresi boştu; Poisson(0) eşiği 0 olduğu için o
+    tek beyan "tespit" sayılıyordu. Sıfır gözlemin üst sınırıyla
+    (−ln α / 100 kova ≈ 0,030 → eşik 2) tek beyan tespit değildir."""
+    r = RotaDefteri()
+    r.beyan_isle(1, Beyan("kopma", komsu=31), ACILMA + 46.2)
+    e = Evreler(_defter(_duzgun()), BAS, ACILMA, BITIS)
+    assert e._kova_momentleri(sorted(r.beyan_anlari("kopma"))) == (0.0, 0.0)
+    assert e._sifir_gozlem_ust_siniri() == pytest.approx(0.02996, abs=1e-4)
+    assert e.tespit_gecikmesi(r) is None
+
+
+def test_K249_M4_TEMIZDE_SIFIR_beyanda_PATLAMA_yine_TESPIT():
+    """Aynı boş temiz evre; açılmadan 10 s sonra bir saniyeye beş beyan →
+    eşik 2 aşılır, tespit 11 s. Gerçek bir karıştırma patlaması kaçmaz."""
+    r = RotaDefteri()
+    for j in range(5):
+        r.beyan_isle(0, Beyan("kopma", komsu=j), ACILMA + 10.2 + 0.01 * j)
+    e = Evreler(_defter(_duzgun()), BAS, ACILMA, BITIS)
+    assert e.tespit_gecikmesi(r) == pytest.approx(11.0)

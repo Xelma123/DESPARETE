@@ -169,9 +169,12 @@ def _negatif_binom_esigi(ort: float, var: float, alfa: float) -> int:
 def _poisson_esigi(lam: float, alfa: float) -> int:
     """En küçük k öyle ki P(X > k) ≤ alfa, X ~ Poisson(lam).
 
-    🔒 Kapalı formda: kuyruk toplanır. `lam = 0` ise eşik 0'dır — yani temiz
-    evrede hiç beyan yoksa açılmadan sonraki İLK beyan tespit sayılır. Bu
-    doğrudur: boş hipotez "hiç beyan yok" ise bir beyan onu çürütür.
+    🔒 Kapalı formda: kuyruk toplanır. `lam = 0` ise eşik 0'dır.
+    🔴 K-249: M4 bu fonksiyona artık 0 VERMEZ. Temiz evrede hiç beyan yoksa
+    hız "0" değil, sıfır gözlemle uyumlu üst güven sınırıdır
+    (`Evreler._sifir_gozlem_ust_siniri`). Eski okuma ("boş hipotez 'hiç beyan
+    yok' ise bir beyan onu çürütür") sonlu bir temiz evrede yanlıştı: G1-P'de
+    karıştırıcısız Babel'in koşudaki TEK beyanı "tespit" sayılıyordu.
     """
     dogrula(lam >= 0.0, "Poisson ortalaması negatif olamaz")
     if lam == 0.0:
@@ -464,6 +467,11 @@ class Evreler:
             return None
         sirali = sorted(rota_defteri.beyan_anlari("kopma"))
         ort, var = self._kova_momentleri(sirali)
+        if ort == 0.0:
+            # 🔴 K-249 (G1-P, 17 Ekim 2026): temizde SIFIR beyan → hız 0
+            # değil, sıfır gözlemle uyumlu üst sınır; Poisson (var = ort).
+            # Yalnız tespiti kaldırabilir ya da geciktirebilir.
+            ort = var = self._sifir_gozlem_ust_siniri()
         # 🔒 BONFERRONI (Y10): eşik pencere BAŞINA `α / taranan pencere`.
         # Tek bir pencere için α kullanmak, ~170 pencere tarandığında aile
         # düzeyi yanlış alarmı %37–70'e çıkarıyordu — ölçüldü, üretici:
@@ -521,6 +529,18 @@ class Evreler:
                    if sayilan else None)
         return {"evre_cevrim_pdr": cevrim, "evre_katli_profil": profil,
                 "evre_sizinti": sizinti}
+
+    def _sifir_gozlem_ust_siniri(self) -> float:
+        """Temiz evrede sıfır beyan: kova başına hızın tek yanlı (1 − α) üst
+        güven sınırı, `−ln α / n` (Poisson; n = temiz evrenin kova sayısı).
+
+        🔒 Sıfır sayım "hız 0" demek değildir; yalnız hızın bu sınırın
+        altında olduğunu söyler. Yeni sabit yok: α modülün tek α'sı (K-123).
+        G1-P'de (100 kova) λ ≈ 0,030 → eşik 2, yani bir saniyede en az üç
+        beyan tespit sayılır.
+        """
+        n = max((self.acilma_s - self.bas_s) / self.izgara_s, 1.0)
+        return -math.log(ALFA) / n
 
     def _kova_momentleri(self, sirali: list[float]) -> tuple[float, float]:
         """TEMİZ evrenin ızgara kovalarındaki beyan sayısının ortalaması ve
