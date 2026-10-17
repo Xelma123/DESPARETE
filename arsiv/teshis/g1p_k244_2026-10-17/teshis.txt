@@ -1,0 +1,17 @@
+  aodv       17 dk
+  olsrv2     10 dk
+  babel      9 dk
+  desparete  10 dk
+
+  aodv       açılma 150 s · tespit None (kayıt None, aynı) · temiz ort 22.25 var 25.93 · eşik 42 (taranan 170) · temizde kopma 2225 · toplam kopma 7590 · fiziksel kopma 0
+  olsrv2     açılma 150 s · tespit 47.0 (kayıt 47.0, aynı) · temiz ort 3.54 var 5.79 · eşik 16 (taranan 170) · temizde kopma 354 · toplam kopma 1321 · fiziksel kopma 0
+      tespit penceresi [196; 197) s: 17 beyan > eşik 16 · 13→29 @196.130, 15→37 @196.175, 10→27 @196.278, 9→27 @196.282, 24→27 @196.292, 5→27 @196.308, 33→10 @196.361, 4→22 @196.406, 9→22 @196.410, 3→22 @196.410, 27→24 @196.632, 37→26 @196.653, 29→13 @196.835, 28→18 @196.865, 9→13 @196.869, 9→18 @196.869, 18→28 @196.869
+  babel      açılma 150 s · tespit 47.0 (kayıt 47.0, aynı) · temiz ort 0.00 var 0.00 · eşik 0 (taranan 170) · temizde kopma 0 · toplam kopma 1 · fiziksel kopma 0
+      tespit penceresi [196; 197) s: 1 beyan > eşik 0 · 1→31 @196.203
+  desparete  açılma 150 s · tespit None (kayıt None, aynı) · temiz ort 2.35 var 2.92 · eşik 11 (taranan 170) · temizde kopma 235 · toplam kopma 903 · fiziksel kopma 0
+
+  [194; 198) s yönsüz bağlar · OLSRv2 [(0, 32), (1, 6), (1, 9), (1, 10), (1, 30), (1, 37), (2, 26), (3, 22), (4, 22), (5, 27), (6, 31), (7, 25), (9, 13), (9, 18), (9, 22), (9, 27), (10, 15), (10, 27), (10, 33), (13, 29), (15, 22), (15, 37), (16, 22), (18, 28), (19, 27), (19, 28), (20, 28), (23, 36), (24, 27), (26, 37), (29, 35), (33, 36)] · Babel [(1, 31)] · ortak []
+  aodv       aynı aralıkta kopma beyanı: 83 · ortak bağlar [(1, 9), (3, 22), (5, 27), (6, 31), (9, 18), (9, 22), (10, 15), (10, 33), (10, 33), (13, 29), (16, 22), (20, 28)]
+  desparete  aynı aralıkta kopma beyanı: 13 · ortak bağlar [(6, 31), (6, 31)]
+
+KİMLİK: tuttu
