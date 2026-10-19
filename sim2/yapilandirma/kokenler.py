@@ -954,6 +954,13 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "tamponu girişi, tepe doluluk) — K-238'in çöküş izi. Üretici: "
         "`python -u kalibrasyon/aodv_uygunluk.py --dunya referans_2026 "
         "--desen <desen> --protokol jarmrout` (11–12 Ekim, 7 deneme)"),
+    "kalibrasyon/aodv_uygunluk.py::_AODV_K_IZ": ("OLCULMUS",
+        "AODV-k'nin U1 yere toplama kaydındaki düşük hücreleri: (U1 oranı, "
+        "düşen/üretilen en büyük iki sebep, TTL düşüşü) — anatomi "
+        "`arsiv/teshis/aodv_k_anatomi_2026-10-16/` ve döngü izi "
+        "`arsiv/teshis/aodv_k_dongu_2026-10-16/` (K-207 madde 2, K-248). "
+        "Üretici: `python -u kalibrasyon/kayip_anatomisi.py --dunya "
+        "referans_2026 --sinif yok --kol <kol> --protokoller aodv` (16 Ekim)"),
     "kalibrasyon/aodv_uygunluk.py::KAYITLI_ORAN": ("OLCULMUS",
         "Açıklanmış düşük hücrelerin ve kâhin aşımı kayıtlarının ÖLÇÜLDÜĞÜ "
         "U1 oranı (DD-07, K-242): muafiyet yalnız bu oranın `KAYIT_BANDI` "

@@ -179,8 +179,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-246 | 🟢 GECİKME TAVANLI PDR_açıkın EŞİKLERİ — ana tavan 5 s, duyarlılık 3,5 s ve 10 s (otopilo | 🟢 geçerli |
 | K-247 | KR-3 KAPANDI — üç rakip birincil hücrede eşit rolde (Holm m = 3) · MEKANİZMA KAPISINA Gİ | 🟢 geçerli |
 | K-248 | KÂHİN AŞIMI: ZARFI DA AŞAN HÜCRE, HATA ARAMASI TEMİZSE BEYANLA KAYDA GİRER — kâhinler ba | 🟢 geçerli |
+| K-249 | M4'ÜN SIFIR GÖZLEM KURALI (temizde 0 beyan → üst güven sınırı) · G1-P GEÇTİ · AODV-k VE  | 🟢 geçerli |
 
-**159 kayıt · 9 revize · 150 geçerli**
+**160 kayıt · 9 revize · 151 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -2084,3 +2085,27 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
   - Anatomi (`arsiv/teshis/aodv_k_anatomi_2026-10-16/`; ajanın beklentisindeki TTL eşiği kuyruğun ön-kaydından gevşekti, düzeltildi).
   - Döngü izi (`arsiv/teshis/aodv_k_dongu_2026-10-16/`; ilk koşunun aracı rota kuruluşlarını kaydetmiyordu, düzeltilip yeniden koşuldu): üç TTL düşüşü RFC §6.5 · §6.7 (i) · (iii) · §6.11 kurallarından, ns-3'le aynı.
 - Güncellenen: `04` §5 · `06` §4.4 · §10 · `12` §1.1 · `kalibrasyon/aodv_uygunluk.py`.
+# K-249 · M4'ÜN SIFIR GÖZLEM KURALI (temizde 0 beyan → üst güven sınırı) · G1-P GEÇTİ · `AODV-k` VE `Babel-a` DONDU · K-244 KUYRUĞU KAPANDI
+> 17 Ekim · yürütücü (*"önerini seçiyorum"*) · kuralın beklentisi ölçmeden önce (`arsiv/teshis/m4_sifir_gozlem_2026-10-17/beklenti.md`, commit `5161bb9`) · kuyruğun sonucu `arsiv/teshis/rakipler_k244_2026-10-14/sonuc.md`
+
+- **G1-P kaldı** (K-244 kuyruğu, ilk kez yeni rakip kümesiyle). M4 yanlış tespit 2/8, sınır 1/8. Teşhis (`arsiv/teshis/g1p_k244_2026-10-17/`, beklenti önce):
+  - Babel koşu boyunca tek bir kopma beyan ediyor, temiz evresi boş. Boş dağılım Poisson(0), eşik 0; tek beyan "tespit" sayılıyor.
+  - OLSRv2'nin tespiti kendi beyan kümelenmesinden (196. saniyede 17 beyan, eşik 16); Babel'le ortak bağ yok.
+- **Seçenekler:** (a) sıfır gözlemin üst güven sınırı · (b) sıfır beyanda M4 "ölçülemez" · (c) Babel'e kayıtlı muafiyet · (d) kapı kalmış kalır, evre metrikleri kullanılmaz. Yürütücü (a)'yı seçti.
+- **Kural** (`sim2/olcum/evre.py`, `Evreler._sifir_gozlem_ust_siniri`): temiz evrede sıfır beyan varsa kova başına hız `λ = −ln α / n` (n temiz kova sayısı, α modülün tek α'sı). Boş dağılım Poisson(λ).
+  - G1-P'de λ ≈ 0,030; eşik 2, yani bir saniyede en az üç beyan tespittir.
+  - Temizde en az bir beyan olan koşular birebir aynı. Kural tespiti yalnız kaldırabilir ya da geciktirebilir. `_poisson_esigi`'nin "tek beyan tespittir, doğrudur" notu gerekçesiyle düzeltildi.
+  - Testler: `test_K249_M4_TEMIZDE_SIFIR_beyanda_TEK_beyan_TESPIT_DEGIL` · `..._PATLAMA_yine_TESPIT`.
+- **Regresyon k244 → k249** (yeni kopya `5161bb9`): ölçümde 87/87 birebir.
+  - Beklentiden sapma: kimlik dışında bir alan daha değişti, `kapsam.modellenmeyen.hareketli_karistirici`. Sebebi K-245'in DD-17 düzeltmesi (k244'ün tabanı ondan önceydi). `--izin` ile geçildi.
+  - Yeni taban **k249**.
+- **Mimari denetimi — beklentiden sapma (ajanın hatası):** `kalibrasyon/aodv_uygunluk.py::_AODV_K_IZ` (16 Ekim) köken defterinde yoktu; ajan o gün denetimin yalnız "ihlal" satırına bakmıştı. Kayıt `sim2/yapilandirma/kokenler.py`'ye eklendi; denetim ihlalsiz ve bulgusuz.
+- **G1-P yeniden:** M4 1/8 (OLSRv2 1001) · M3 1/8 · M1 1/4 → **geçti**. Yalnız Babel 1001'in tespiti kalktı; öteki yedi koşu birebir. G1ç ve G2ç + G4ç yeniden koşulmadı: kural yeni tespit doğuramaz ve orada Babel'in tespiti yoktu.
+- **Donma** (kuyruk beklentisinin şartları tamam): `AODV-k` ve `Babel-a` dondu. `tests2/test_donma.py`'de `aodv.py` · `aodv_bicim.py` yenilendi, `babel.py` · `babel_bicim.py` eklendi; özetler kuyruğun ölçülen kopyasıyla (`1163f81`) birebir.
+- **Kuyruğun kapanışı:**
+  - AODV-k'nin düşüşü ns-3'ün iki varsayılanından; yedi düşük hücre anatomi ve döngü iziyle açıklı.
+  - Babel'in kâhin aşımları zarfla ve hata aramasıyla kayıtlı (K-248).
+  - U1-U iki desende ✓; G1ç ✓ (M1 2 SE dışında 1/4: Babel) · G2ç + G4ç ✓ · G1-P ✓.
+  - Süreler `12` §3'te.
+- **Doğrulama:** tam takım **1095 geçti (16 dk)** · mimari denetimi ihlalsiz, bulgusuz.
+- Güncellenen: `04` §5 · `06` §10 · `08` §05 · §08 · `12` §1.1 · §3 · `sim2/olcum/evre.py` · `sim2/yapilandirma/kokenler.py` · `tests2/test_evre.py` · `tests2/test_donma.py`.

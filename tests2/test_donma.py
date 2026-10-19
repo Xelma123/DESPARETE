@@ -5,7 +5,8 @@ taban protokol satırlarının kimliği de değişir, yani satır kimliği "taba
 protokoller dondu" iddiasını kanıtlayamaz. Bu test dosyaların kendisini
 bağlar: bir taban protokol dosyası değişirse kırılır ve yeni bir K kaydı,
 U1 ve regresyon ister (`v2/04` §5). Değerler K-224'ün donmuş hâli; Faz 4b'nin
-rakipleri (JarmRout-b · OLSRv2-b) K-239'da eklendi.
+rakipleri (JarmRout-b · OLSRv2-b) K-239'da eklendi; AODV-k ve Babel-a
+K-249'da (K-244 kuyruğu).
 
 D-16: protokol bir ölçüm alanını okumaya başlarsa mimari denetimi o alanın
 köken kaydını DUYARSIZ bırakmaz.
@@ -21,11 +22,13 @@ if str(KOK) not in sys.path:
 
 from sim2.cekirdek.kimlik import dosya_hash  # noqa: E402
 
-# K-224 (10 Ekim 2026): AODV-j · AOMDV-f (K-218'den beri aynı) · OLSR-d (K-223)
-# + koşum protokolleri.
+# K-224 (10 Ekim 2026): AOMDV-f (K-218'den beri aynı) · OLSR-d (K-223)
+# + koşum protokolleri. AODV K-249'da `AODV-k`ye geçti (aşağıda).
 DONMUS: dict[str, str] = {
-    "aodv.py": "1d39ba7da14c91f8931556742ca9a806",
-    "aodv_bicim.py": "73ba004bad94deac158e5ea48b80db66",
+    # K-249 (17 Ekim 2026): `AODV-k` (K-243 · K-244) — ölçülen kopya
+    # 1163f81 (K-244 kuyruğu) ile birebir; AODV-j'ninkiler 1d39ba7d · 73ba004b.
+    "aodv.py": "70b5e9d2d57faee1405b060f78f1c586",
+    "aodv_bicim.py": "8e36200e4375a460d7586ae14a090df2",
     "olsr.py": "f5a93933860a05221ee8866d6df455ed",
     "olsr_bicim.py": "b813f12cad77454da1e134af4a45c151",
     "aomdv.py": "3d2d037a012431b21ab1381e22d3882f",
@@ -38,6 +41,10 @@ DONMUS: dict[str, str] = {
     "olsrv2.py": "d7ab18d98bb5df8854c65fa5de5ffc5a",
     "olsrv2_bicim.py": "70f2b15bb75888b5048db1ed59372420",
     "olsrv2_rfc5444.py": "f0ec7db0405cbbf355d3117c81484811",
+    # K-249 (17 Ekim 2026): `Babel-a` (RFC 8966, hakem babeld; K-244) —
+    # ölçülen kopya 1163f81 ile birebir.
+    "babel.py": "bc71fcd06163355be67d5f538e8de9d1",
+    "babel_bicim.py": "b5938c5d63bb2e6cd272952634f7698a",
 }
 
 

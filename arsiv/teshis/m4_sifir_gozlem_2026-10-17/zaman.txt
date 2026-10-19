@@ -1,0 +1,13 @@
+kopya donduruldu 17.10 12:46:04 · HEAD 5161bb9
+uret basla 17.10 12:46:05
+uret bitti 14:07:11 cikis 0
+mimari basla 17.10 14:07:11
+mimari bitti 14:07:20 cikis 1
+karsilastir basla 17.10 14:07:20
+karsilastir bitti 14:07:22 cikis 1
+regresyon temiz degil: durdu 14:07:22
+karsilastir_2 (--izin kapsam.modellenmeyen.hareketli_karistirici, K-245) cikis 0 · mimari_2 (ana, _AODV_K_IZ koken kaydi) cikis 0
+g1p basla 17.10 14:08:58 (kopya 5161bb9)
+g1p bitti 14:36:58 cikis 0
+tam takim basla 17.10 14:37:41
+tam takim bitti 14:53:39 cikis 0

@@ -1,0 +1,11 @@
+REGRESYON KARSILASTIRMASI — k244 (87 satir) ↔ k249 (87 satir)
+
+  bulgusuz vaka : 0/87
+  (beklenen) kimlik.arac_hash                                 87 vakada farkli
+  (beklenen) kimlik.calisma_kimligi                           87 vakada farkli
+  (beklenen) kimlik.kosu_kimligi                              87 vakada farkli
+  (beklenen) kimlik.protokol_hash                             80 vakada farkli
+  (beklenen) kimlik.zaman_damgasi_utc                         87 vakada farkli
+  🔴 BULGU   kapsam.modellenmeyen.hareketli_karistirici       87 vakada farkli · ilk: a-statik-surekli-en_yakin_kimlik
+
+  🔴 FARK VAR

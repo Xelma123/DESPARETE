@@ -8,7 +8,7 @@
 |---|---|
 | **faz** | **4b · yeni rakipler** (K-229, K-230) — Faz 5 durdu (5.0 ✓ K-228); bağımsız tam denetim (14 Ekim, K-242) bitti, kararları uygulanıyor; sıradaki iş §1.1. Faz 4 kapandı (K-221) |
 | simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu süreleri §3'te. Yer–hava görüş hattı kalıcı (K-243) |
-| taban protokoller | **AODV · OLSRv2 · Babel (K-242).** `OLSRv2-b` donmuş (K-239). `AODV-k` (K-243 · K-244) ve Babel (RFC 8966, hakem babeld; K-244) kodda, sadakat denetimlerinden geçti; regresyon `k244` temiz, U1 iki desende geçti (AODV-k'nin düşüşü ns-3'ün iki varsayılanından, düşük hücreleri anatomi ve döngü iziyle açıklı; Babel'in kâhin aşımları zarf ve hata aramasıyla kayıtlı, K-248); evre kapıları ve donma bekliyor. Hakem ilkesi: RFC'nin seçeneğe ve MAY'e bıraktığı yerde referans uygulamanın varsayılanı (K-244). JarmRout rakiplikten çıktı; kodu ve kayıtları Faz 4b'nin kaydı |
+| taban protokoller | **AODV · OLSRv2 · Babel (K-242).** `OLSRv2-b` donmuş (K-239). `AODV-k` (K-243 · K-244) ve Babel (RFC 8966, hakem babeld; K-244) kodda, sadakat denetimlerinden geçti; regresyon `k244` temiz, U1 iki desende geçti (AODV-k'nin düşüşü ns-3'ün iki varsayılanından, düşük hücreleri anatomi ve döngü iziyle açıklı; Babel'in kâhin aşımları zarf ve hata aramasıyla kayıtlı, K-248); evre kapıları ve G1-P geçti (M4'ün sıfır gözlem kuralı); **`AODV-k` ve `Babel-a` dondu (K-249)**, regresyon tabanı `k249`. Hakem ilkesi: RFC'nin seçeneğe ve MAY'e bıraktığı yerde referans uygulamanın varsayılanı (K-244). JarmRout rakiplikten çıktı; kodu ve kayıtları Faz 4b'nin kaydı |
 | DESPARETE | v0.4.1, taslak; Faz 5'te yürütücünün tasarım kararlarıyla geliştirilir. Birincil hücrede `PDR_açık` 0,551 (AODV 0,444, kâhin 0,780; 1003–1006, K-228); OLSRv2'yle iki tohumda başa baş, karıştırıcısız ikizde OLSRv2'nin gerisinde (G2ç · G1ç, `04` §6) |
 | doğrulama | `1067 passed` · 1 beklenen başarısız (`test_donma`: AODV dosyaları değişti, `AODV-k`'nin U1'inden sonra yeniden bağlanır) (14 Ekim, K-243) · mimari denetimi ihlalsiz · regresyon tabanı **`k243`** (K-243; 85 vaka) · R = **0,0126** (K-224, 7 deneme) · köken sayımı `04` §9 |
 | arkada koşan | yok |
@@ -31,7 +31,7 @@
    c. ✓ gecikme tavanlı `PDR_açık`: hesap (K-243) · eşikler 5 s ana, 3,5 s ve 10 s duyarlılık (K-246, DD-03);
    d. ✓ yer–hava görüş hattının kalıcı olması (DD-01) · `AODV-k` (DD-04) → regresyon k243 (K-243; 66/67 birebir, ilan edilmemiş tek vaka DD-01'in yolu, eski modelle birebir doğrulandı);
    e. ✓ Babel: kod · 55 kurallık sadakat denetimi · regresyon vakaları kodda · AODV taraması 42 kurala tamamlandı, `AODV-k`ya ns-3'ün iki varsayılanı (K-244);
-   f. tek kuyruk (beklenti önce): regresyon k244 · U1 (`AODV-k` ve Babel, iki desen) · evre kapıları (G1ç, G2ç) ve G1-P yeni rakip kümesiyle → donma · tam takım;
+   f. ✓ tek kuyruk (beklenti önce; `arsiv/teshis/rakipler_k244_2026-10-14/sonuc.md`): regresyon k244 · U1 iki desende (K-248) · G1ç · G2ç + G4ç · G1-P (K-249) → `AODV-k` ve `Babel-a` dondu · tam takım (K-249);
    g. ✓ belge düzeltmeleri (DD-02 · 12 · 13 · 17 · 18) ve JarmRout'un çıkışının temizliği (K-245);
 7. Faz 5'e dönüş (§1.2).
 
@@ -92,9 +92,10 @@ Koşu başına süre, 350 s'lik koşu (Faz 4b kapanış kuyrukları, 12–13 Eki
 | OLSRv2 | 1,1 sa | 1,1–1,3 sa |
 | DESPARETE v0.4.1 | 1,5–1,6 sa | 1,9–2,0 sa |
 | AODV | 2,0 sa | 2,3–2,4 sa |
+| Babel | 1,35–1,43 sa | 1,06–1,07 sa |
 | JarmRout (rakip değil) | 5,6–6,3 sa | 8,3–8,6 sa |
 
-Kaynak: `arsiv/teshis/faz4b_kapanis2_2026-10-12/G1c.txt` · `G2c.txt` (`sure` sütunu). Tek makine. Babel'in süreleri K-244 kuyruğunun G1ç · G2ç çıktılarından eklenecek.
+Kaynak: `arsiv/teshis/faz4b_kapanis2_2026-10-12/G1c.txt` · `G2c.txt` (`sure` sütunu). Tek makine. Babel'in süreleri K-244 kuyruğunun G1ç · G2ç'sinden (17 Ekim, 8 işçi); aynı kuyrukta AODV-k 2,11–2,20 · 1,78–1,80 sa, OLSRv2 1,06–1,09 · 0,82–0,92 sa, DESPARETE 1,37–1,45 · 1,33–1,38 sa (`arsiv/teshis/rakipler_k244_2026-10-14/sonuc.md` §7).
 
 **Kaba plan** (denetim D-09; birim süreler yukarıdan):
 

@@ -50,7 +50,7 @@
 
 ## 5 · Taban protokoller — AODV · OLSRv2 · Babel (K-242)
 
-Donmuş: `AODV-j` · `OLSRv2-b` (K-239). Sırada (K-242): AODV'nin yeni sürümü `AODV-k` (K-243 · K-244) ve Babel (K-244); ikisi de kodda ve sadakat denetiminden geçti, regresyon, U1, evre kapıları ve donma bekliyor.
+Donmuş: `AODV-k` (K-249; önceki `AODV-j`) · `OLSRv2-b` (K-239) · `Babel-a` (K-249). AODV-k ve Babel K-244 kuyruğunda regresyon, U1 (iki desen), evre kapıları ve G1-P'den geçti.
 
 **Ortak kurallar:**
 - Kaynağına sadık kurulur; parametreler RFC ya da makale varsayılanıdır, hiçbiri senaryoya göre ayarlanmaz.
@@ -59,7 +59,7 @@ Donmuş: `AODV-j` · `OLSRv2-b` (K-239). Sırada (K-242): AODV'nin yeni sürüm�
 - Sapmalar ve modellenmeyen özellikler her protokolün beyan tablosunda gerekçesiyle durur (`protokoller/*_bicim.py`); gerekçesiz sapma düzeltilir.
 - Kod `tests2/test_donma.py`ye bağlıdır. Bir dosya değişirse yeni K kaydı, U1 ve regresyon gerekir. `OLSR-d` ve `AOMDV-f`nin dosyaları eski regresyon vakaları için bağlı kalır; rakip değildirler (K-229).
 
-**AODV (RFC 3561), `AODV-k` (K-243 · K-244; donmuş `AODV-j`):**
+**AODV (RFC 3561), donmuş `AODV-k` (K-243 · K-244 · K-249; önceki `AODV-j`):**
 - Kural kural sadakat denetimi K-208 (`arsiv/teshis/aodv_sadakat_2026-09-30/denetim.md`), 42 kurala tamamlandı (K-244, `arsiv/teshis/aodv_sadakat_2026-10-14/denetim.md`). §6.1–§6.6.1 çelişkisinde §6.6.1 (ns-3). ns-3'ün RFC dışı eklemeleri alınmadı.
 - Başlangıç durumu −∞ (K-215).
 - K-242 (denetim DD-04): yayınlarda U(0, 10 ms) titreşim · §6.2'nin önceki atlama ömrü · MY_ROUTE_TIMEOUT 11,2 s · başarısız keşfin tamponu düşer.
