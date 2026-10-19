@@ -89,7 +89,7 @@ Analiz birimi tohumdur; havuzlanmış okuma yalnız betimleyici.
 
 ## 4 · Taban protokoller ve uygunluk
 
-**4.1** AODV (RFC 3561; reaktif, tek yol, atlama sayısı) · OLSRv2 (RFC 7181; proaktif, bağ durumu, bağ metriği RFC 7779) · Babel (RFC 8966; proaktif uzaklık-vektörü, uygulanabilirlik koşulu, ETX; DESPARETE'nin döngüsüzlük çekirdeğiyle aynı aile, K-242). JarmRout (Pu 2018) K-229'da üçüncü rakipti, K-242'de çıktı. İlk yazımda OLSR (RFC 3626) · AOMDV (K-229 öncesi). GPSR kapsam dışı (`01` §3).
+**4.1** AODV (RFC 3561; reaktif, tek yol, atlama sayısı) · OLSRv2 (RFC 7181; proaktif, bağ durumu, bağ metriği RFC 7779) · Babel (RFC 8966; proaktif uzaklık-vektörü, uygulanabilirlik koşulu, ETX; DESPARETE v0.4.1'in döngüsüzlük çekirdeğiyle aynı aile, K-242; DESPARETE özgün tasarımla yeniden yazılacak, K-250). JarmRout (Pu 2018) K-229'da üçüncü rakipti, K-242'de çıktı. İlk yazımda OLSR (RFC 3626) · AOMDV (K-229 öncesi). GPSR kapsam dışı (`01` §3).
 
 **4.2 · Parametreler — kaynak varsayılanı.** Tek kaynak her protokolün beyan tablosudur (`protokoller/*_bicim.py`); özet:
 - **AODV (RFC 3561):** HELLO_INTERVAL 1,0 s · ALLOWED_HELLO_LOSS 2 · ACTIVE_ROUTE_TIMEOUT 3,0 s · RREQ_RETRIES 2 · NODE_TRAVERSAL_TIME 40 ms · NET_DIAMETER 35.
@@ -209,5 +209,6 @@ Bağlayıcı olan bugünkü koddur (`protokoller/desparete*.py`); ilk tasarım t
 | 16 Eki 2026 | KR-3 kapandı: H2.a · H2.b · H2.c birincil hücrede eşit rolde, Holm m = 3 (§0.4.1'in metni zaten buydu) · mekanizma kapısına giriş kuralı: karıştırmaya karşı tasarlanan mekanizma girer, genel katkısı ikiz hücredeki geliştirme ablasyonuyla beyan edilir (§0.4.5; K-247, yürütücü) | **DESPARETE'nin K-200, K-228 ve G1ç/G2ç koşularından sonra**; Faz 5'in mekanizmalarının hiçbiri tasarlanmadan ve ölçülmeden önce |
 | 17 Eki 2026 | U1: zarfı da aşan hücre, hata araması temiz ve kâhinin fazla kaybı ölçülmüşse beyanla kayda girer; kâhinler tavan değil, bağ bilgisinin referansı (K-248, yürütücü) | **sonuçtan sonra** — §4.4/3 (U1-U); Babel'in eşler arası zarf aşımı ve hata araması görüldükten sonra |
 | 17 Eki 2026 | M4: temiz evrede sıfır kopma beyanında boş dağılımın hızı 0 değil, sıfır gözlemin tek yanlı (1 − α) üst güven sınırı `−ln α / n` (`08` §05; K-249, yürütücü) | **sonuçtan sonra** — G1-P'de karıştırıcısız Babel'in tek beyanı "tespit" sayıldıktan sonra; yalnız tespiti kaldırır ya da geciktirir |
+| 19 Eki 2026 | DESPARETE özgün bir tasarımla yeniden yazılacak; §4.1'deki aile notu v0.4.1'e daraltıldı (K-250, yürütücü) | belge; hükümler değişmedi |
 
 Mühürden sonraki her değişiklik tarihiyle buraya yazılır ve ilgili hipotez keşifsel etiketlenir.

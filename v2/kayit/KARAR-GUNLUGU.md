@@ -180,8 +180,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-247 | KR-3 KAPANDI — üç rakip birincil hücrede eşit rolde (Holm m = 3) · MEKANİZMA KAPISINA Gİ | 🟢 geçerli |
 | K-248 | KÂHİN AŞIMI: ZARFI DA AŞAN HÜCRE, HATA ARAMASI TEMİZSE BEYANLA KAYDA GİRER — kâhinler ba | 🟢 geçerli |
 | K-249 | M4'ÜN SIFIR GÖZLEM KURALI (temizde 0 beyan → üst güven sınırı) · G1-P GEÇTİ · AODV-k VE  | 🟢 geçerli |
+| K-250 | FAZ 4b KAPANDI, FAZ 5 AÇILDI — DESPARETE tamamen özgün bir tasarım olacak; Faz 5'te tasa | 🟢 geçerli |
 
-**160 kayıt · 9 revize · 151 geçerli**
+**161 kayıt · 9 revize · 152 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -2109,3 +2110,19 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
   - Süreler `12` §3'te.
 - **Doğrulama:** tam takım **1095 geçti (16 dk)** · mimari denetimi ihlalsiz, bulgusuz.
 - Güncellenen: `04` §5 · `06` §10 · `08` §05 · §08 · `12` §1.1 · §3 · `sim2/olcum/evre.py` · `sim2/yapilandirma/kokenler.py` · `tests2/test_evre.py` · `tests2/test_donma.py`.
+# K-250 · FAZ 4b KAPANDI, FAZ 5 AÇILDI — DESPARETE tamamen özgün bir tasarım olacak; Faz 5'te tasarımı ve üretimi yürütücü yapar, ajan danışman ve öğretmendir
+> 19 Ekim · yürütücü: *"desparete mevcut bir protokolün üstüne yazılmayacak tamamen özgün bir tasarım olacak … bu fazda senden binevi benim danışmanım ve öğretmenim olarak rol almanı istiyorum çünkü projenin asıl ürün ve özgünlüğü buradan geliyor ve benim buraya tam manasıyla hakim olmam ve kendim üretmem gerek"* · geçiş kapısı (29 Eylül kuralı: geride iş yok, denetimden geçmiş simülatör, güncel belgeler)
+
+- **Faz 4b'nin kanıtı:**
+  - **Rakipler donmuş:** `AODV-k` ve `Babel-a` (K-249), `OLSRv2-b` (K-239). Üçü birincil hücrede eşit rolde, Holm m = 3 (KR-3, K-247).
+  - **Bağımsız denetim:** 14 Ekim denetiminin (K-242) Faz 5 öncesi işleri tamam: kapı sertleştirmeleri, anatomi aleti, gecikme tavanı, kalıcı görüş hattı, AODV-k, Babel, belge düzeltmeleri (K-243…K-249). Faz 5 öncesinde iki açık karar da kapandı: KR-3 ve mekanizma kapısına giriş kuralı (K-247).
+  - **Yazılım:** tam takım 1095 geçti (K-249) · mimari denetimi ihlalsiz ve bulgusuz · regresyon tabanı `k249` (87 vaka birebir) · evre kapıları G1ç · G2ç + G4ç · G1-P geçti.
+  - **Belgeler:** durum (`12`), kararlar (`04`), giriş belgesi (`DEVIR-PROMPT.md`; eski hâli `arsiv/DEVIR-PROMPT-2026-10-19-once.md`), README ve `01` güncellendi. Babel'in "DESPARETE'yle aynı aile" notu v0.4.1'e daraltıldı; seçim gerekçesi tarihsel kayıttır (K-242), Babel bağ kalitesine bakan en güçlü rakip olarak kalır.
+- **Karar — DESPARETE'nin tasarımı:** tamamen özgün bir tasarım olacak, mevcut bir protokolün (v0.4.1 dâhil) üstüne yazılmaz. K-242'deki "gerekirse baştan yazılır" bu kararla kesinleşti.
+- **Karar — çalışma biçimi:**
+  - Faz 5'te tasarımı ve üretimi yürütücü yapar. Gerekçe: projenin ürünü ve özgünlüğü bu fazdan geliyor; yürütücünün tasarıma tam hâkim olması gerekiyor.
+  - Ajan danışman ve öğretmendir: kavramları anlatır, seçenekleri sunar, ölçümleri ve denetimleri yürütür. Karar yürütücünündür.
+  - Fazın planı yürütücünün anlatımıyla yeniden yazılır; K-228 ve K-242'nin mekanizma sırası o zamana kadar önceki plandır.
+- **Durum** (iki tohum, karar değil; K-244 kuyruğu): birincil hücrede `PDR_açık` DESPARETE v0.4.1 0,518 · 0,603, Babel 0,547 · 0,787; karıştırıcısız ikizde 0,757 · 0,786 ↔ 0,945 · 0,952.
+- **Yapay zekâ beyanı:** Faz 4'e kadar yazılımın büyük bölümünü yapay zekâ yazdı. Faz 5'te DESPARETE'nin tasarımı yürütücünündür; üretimdeki paylaşım yürütücünün planıyla belirlenir ve beyanda yazılır.
+- Güncellenen: `01` · `04` §1 · §5 · §6 · §9 · `06` §4.1 · §10 · `12` §1 · §1.1 · §1.2 · §2 · README · `DEVIR-PROMPT.md`.

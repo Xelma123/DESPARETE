@@ -1,12 +1,12 @@
 # 04 · GEÇERLİ KARARLAR
 
 > Bugün geçerli kararlar, konu konu. Yazılı değilse verilmemiştir. Bir kararın nasıl ve neden verildiği, kodda geçen `K-xxx` atıfları ve eski dünyanın (1:50) kararları: `kayit/KARAR-GUNLUGU.md`. Kod ile bu belge çelişirse hangisinin yanlış olduğu ölçülerek bulunur.
-> Güncel: 14 Ekim 2026 (K-242); önceki sürümler `arsiv/04-KARARLAR-*.md`.
+> Güncel: 19 Ekim 2026 (K-250); önceki sürümler `arsiv/04-KARARLAR-*.md`.
 
 ## 1 · Proje ve kapsam
 
 - **Soru:** karıştırma altındaki taktik İHA sürüsünde yönlendirme. Ürün, bu çalışmada önerilen DESPARETE protokolüdür. Taban protokollerin karıştırma altındaki ölçümü ikinci, bağımsız katkıdır (`01`).
-- **Kıyas tabanı:** AODV ve OLSRv2 (K-229) ve Babel (RFC 8966, K-242). Babel, DESPARETE'nin döngüsüzlük çekirdeğiyle aynı aileden (proaktif uzaklık-vektörü, uygulanabilirlik koşulu): DESPARETE'nin kazancının aile yapısından değil kendi mekanizmalarından gelip gelmediğini sınar. JarmRout rakiplikten çıktı (K-242); kodu ve kayıtları Faz 4b'nin kaydıdır.
+- **Kıyas tabanı:** AODV ve OLSRv2 (K-229) ve Babel (RFC 8966, K-242). Babel, DESPARETE v0.4.1'in döngüsüzlük çekirdeğiyle aynı aileden (proaktif uzaklık-vektörü, uygulanabilirlik koşulu); K-242'nin seçim gerekçesi buydu. DESPARETE özgün bir tasarımla yeniden yazılacağı için (K-250) aile bağı bugünkü kodun özelliğidir; Babel bağ kalitesine bakan en güçlü rakip olarak kalır. JarmRout rakiplikten çıktı (K-242); kodu ve kayıtları Faz 4b'nin kaydıdır.
 - **Yön (K-168):** önce gerçekçilik (1:1, kaynaklı taktik sürü; gözlem = gerçek telsiz ve otopilotun verdiği), sonra DESPARETE'nin karıştırma altındaki başarımı. Bir ölçütle gerçekçilik çatışırsa gerçekçi olan seçilir (K-185).
 - **Kapsam dışı:** gerçek RF/SDR/uçuş · frekans çevikliği ve çoklu kanal (öncül: çözüm yönlendirmede) · GPSR · derin öğrenme (SWaP) · GPS karıştırması · RTS/CTS · protokol farkında karıştırıcı · içeriden saldırılar (seçici iletim, kara delik, sahte rota; K-230) · ~2 000 s'lik uzun koşu (`12` §5).
 - **Negatif sonuç** raporlanır; önceden ilan edilen bir yanlışlanma tetiklenirse sonuç teşhis edilmiş bir negatif sonuçtur.
@@ -81,7 +81,7 @@ Donmuş: `AODV-k` (K-249; önceki `AODV-j`) · `OLSRv2-b` (K-239) · `Babel-a` (
 - Hakem babeld 1.14 (`protokol_kaynaklari/uygulama_kaynaklari/babeld/`). Parametreler Ek B; bağ maliyeti babeld'in ETX'i (Ek A.2.2'nin seçeneği); histerezis Ek A.3, düzgünleştirme yarı ömrü 4 s; tetik eşikleri, IHU sıklığı, yinelemeler, joker istek ve kötüleşmede rota isteği babeld'in varsayılanları.
 - Sadakat denetimi 55 kural (`arsiv/teshis/babel_sadakat_2026-10-14/denetim.md`). Giden TLV'ler hedef başına tamponda birleşir (§3.1); yerelde üretilen her sıra isteği bekleyen istekler tablosunda (§3.2.7). babeld'in RFC'den ayrıldığı üç yerde RFC alındı: seçili rotanın aynı router-id'li uygulanamaz güncellemesi (yok sayılır) · uygulanamaz güncellemede sıra isteği (her seferinde) · istek listesinin karşılaştırma yönü.
 - Tel biçimi RFC 8966 §4 bayt bayt, IPv4 (AE 1); IPv6 yerine IPv4 beyanlı (simülatörün tek ağ katmanı).
-- DESPARETE'yle aynı aileden: kazancın aile yapısından mı DESPARETE'nin kendi mekanizmalarından mı geldiğini ayırır.
+- DESPARETE v0.4.1'le aynı aileden (K-242'nin seçim gerekçesi); DESPARETE özgün tasarımla yeniden yazılınca (K-250) bağ kalitesine bakan en güçlü rakip olarak kalır.
 
 **JarmRout (Pu 2018), `JarmRout-b` — rakiplikten çıktı (K-242):**
 - Kodu (`protokoller/jarmrout*.py`), testleri, kural kural sadakat denetimi (K-234), U1 kayıtları ve iki regresyon vakası Faz 4b'nin kaydı olarak kalır. Regresyon vakaları kopya defteri (K-231) ve kaynak rotası (K-232) yollarının tek sınayıcısıdır.
@@ -97,6 +97,7 @@ Donmuş: `AODV-k` (K-249; önceki `AODV-j`) · `OLSRv2-b` (K-239) · `Babel-a` (
 
 - Bağlayıcı olan bugünkü koddur (`protokoller/desparete*.py`). İlk tasarım taslağı (v0.1, 22 Eylül) bayattır ve arşivdedir: `arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/`. Kod yorumlarındaki `protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/` yolları bu klasörü gösterir.
 - v0.4.1 bir taslaktır. Faz 5'te yürütücünün tasarım kararlarıyla geliştirilir, gerekirse baştan yazılır; döngüsüzlük çekirdeğinin Babel ailesinden gelmesi tasarımı bağlamaz (yürütücü, 13 Ekim).
+- **K-250 (yürütücü, 19 Ekim):** DESPARETE tamamen özgün bir tasarım olacak, mevcut bir protokolün (v0.4.1 dâhil) üstüne yazılmaz. Faz 5'te tasarımı ve üretimi yürütücü yapar; ajan danışman ve öğretmendir.
 - **Bugünkü kod hâli v0.4.1:** bayrak profili `PROFIL_V02` (yalın) + `SECENEK_V041` (V1 · V5 · V7 · V8 · V10 · V11 komut geri izi). Sekiz ablasyon bayrağı; güvenlik değişmezleri bayrakla kapanmaz (K-159…K-172).
 - **Komutlar:** DESPARETE yalnız geçit alanı kurar; komut V11 geri iziyle taşınır; trafik herkes için aynıdır (K-160, K-172).
 - **Birincil hücrede ölçüm — Faz 5.0** (K-228; tohum 1003–1006, ana deney değil): `PDR_açık` DESPARETE 0,551 · AODV 0,444 · kâhin 0,780.
@@ -104,7 +105,8 @@ Donmuş: `AODV-k` (K-249; önceki `AODV-j`) · `OLSRv2-b` (K-239) · `Babel-a` (
   - v0.4.1'in AODV'ye üstünlüğü karıştırmadan bağımsızdır; karıştırıcı açılınca DESPARETE daha çok kaybeder.
   - Fazla kaybın tamamı "rota yok" (`rota_gecersiz`): ardılı karıştırılan alan onarıma girer; çoğu karıştırıcıdan uzak rölelerdedir. Fazla kayıp 4 tohumun 4'ünde pozitif ama anlamlı değil (t = 2,92 < 3,18). "Kota %52 / ulaşılamaz %48" ve "girişi %64 açlık" payları kanıt değildir: aletin açlık tanımı protokolünkiyle uyuşmuyor (denetim DD-11).
   - Aynı hücrede (1003 · 1004, G2ç) `PDR_açık` DESPARETE 0,476 · 0,538 ↔ OLSRv2 0,409 · 0,602; karıştırıcısız ikizde DESPARETE OLSRv2'nin gerisinde (0,757 · 0,786 ↔ 0,817 · 0,910). İki tohum, karar değil (K-242).
-- **Faz 5'in sırası (K-228, K-242):**
+- K-244 kuyruğunda (17 Ekim, 1003 · 1004): birincil `PDR_açık` DESPARETE 0,518 · 0,603 ↔ Babel 0,547 · 0,787 · OLSRv2 0,409 · 0,499 · AODV-k 0,353 · 0,421 · kâhin 0,748 · 0,844; karıştırıcısız ikizde DESPARETE 0,757 · 0,786 ↔ Babel 0,945 · 0,952. İki tohum, karar değil.
+- **Faz 5'in önceki sırası (K-228, K-242; yürütücünün planıyla yeniden yazılacak, K-250):**
   1. Yedek ardıl (5.4'ün çoğaltmasız kısmı): ardıl kopunca onarıma girmeden uygulanabilir ikinci ardıla geçiş zaten var; eksik olan yedeklerin canlı tutulması. İlk A/B mevcut `hedefli_canlilik` (V2+) seçeneğidir; K-165'teki reddi eski dünyada, karıştırıcısız, 3 tohum × 40 s'lik ölçüme dayanıyordu (denetim DD-28). Aynı A/B'de ayrı bayrakla açlıkta tur isteği.
   2. 5.1: karıştırma kanıtıyla erken geçiş.
   3. 5.3 (postür) ve 5.4'ün çoğaltması.
@@ -148,7 +150,7 @@ Donmuş: `AODV-k` (K-249; önceki `AODV-j`) · `OLSRv2-b` (K-239) · `Babel-a` (
   - **Kaynaksız DÜNYA TANIMI'lar** (ölçülen duyarlılıklarıyla raporda): gölgeleme hücresi · CBR titreşimi · istasyon tutma (K-220) · formasyon manevra gürültüsü (K-225) · komut akış sayısı (K-223).
   - **KAYNAK'a bağlananlar:** TTL 64 · kâhinin beacon'ı = AODV HELLO (84 B, 1 s) (K-215). Kâhinin sönümleme örneği 48 (K-215).
 - **Sonuç satırı** kendi konfigini, kimliğini (kod özetleri dâhil), kapsam sınırlarını ve metrikleri yeniden üretecek ham veriyi taşır.
-- **Regresyon** (`kalibrasyon/regresyon_satirlari.py`, taban `k243`, K-243) ve **mimari denetimi** davranış değiştiren her simülatör değişikliğinden sonra koşulur.
+- **Regresyon** (`kalibrasyon/regresyon_satirlari.py`, taban `k249`, K-249) ve **mimari denetimi** davranış değiştiren her simülatör değişikliğinden sonra koşulur.
 
 ## 10 · Açık kararlar
 

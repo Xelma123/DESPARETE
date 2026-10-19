@@ -1,6 +1,6 @@
 # 01 · PROBLEM, AMAÇ VE KAPSAM
 
-> Projenin ne olduğu ve neyi başarı sayacağı. Durum ve takvim `12` · kararlar `04`. Güncel: 14 Ekim 2026; önceki sürümler `arsiv/01-PROBLEM-VE-AMAC-*.md`.
+> Projenin ne olduğu ve neyi başarı sayacağı. Durum ve takvim `12` · kararlar `04`. Güncel: 19 Ekim 2026; önceki sürümler `arsiv/01-PROBLEM-VE-AMAC-*.md`.
 
 ---
 
@@ -12,7 +12,7 @@
 | teslim | proje hedefi **19 Aralık 2026** · resmî son başvuru 4 Ocak 2027, 17:30 (TÜBİTAK 2204-A sayfası) |
 | konu | karıştırma (jamming) altındaki taktik İHA mesh ağlarında yönlendirme |
 | ürün | bu çalışmada önerilen protokol **DESPARETE** |
-| kıyas tabanı | AODV · OLSRv2 (K-229) · Babel (K-242): reaktif, bağ durumu ve DESPARETE'yle aynı ailedeki uzaklık-vektörü protokolü |
+| kıyas tabanı | AODV · OLSRv2 (K-229) · Babel (K-242): reaktif, bağ durumu ve bağ kalitesine bakan proaktif uzaklık-vektörü protokolü; üçü donmuş (K-249) |
 | ölçüm ortamı | projenin kendi kesikli-olay simülatörü `sim2/` (K-001, K-090) |
 | yürütücü | Xelma123 (lise öğrencisi); kapsam, gerçekçilik ve ön-kayıt kararları yürütücüye aittir. Yapay zekâ araçları danışman ve kod uygulayıcısı olarak kullanılmıştır (`README` · *Yapay zekâ kullanımı*) |
 

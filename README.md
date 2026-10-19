@@ -12,7 +12,7 @@ TÜBİTAK 2204-A Lise Öğrencileri Araştırma Projeleri · Yazılım / Bilgisa
 
 Bir İHA sürüsünde düğümler birbirinin paketini taşır: telemetri yer istasyonuna, komutlar ters yönde gider. Karıştırıcı devreye girdiğinde bağlar rastgele değil **yapılı** biçimde bozulur: karıştırıcı bir yerde durur ya da hareket eder, sürekli ya da aralıklı yayın yapar, alıcıyı sağırlaştırır ya da yakınındaki vericiyi susturur. Proje iki soruya cevap arar:
 
-1. Yaygın yönlendirme protokolleri bu koşullarda nasıl ve ne kadar bozuluyor? Kıyas tabanı reaktif AODV, bağ durumu standardı OLSRv2 ve DESPARETE'yle aynı ailedeki uzaklık-vektörü protokolü Babel'dir (`v2/04` §1).
+1. Yaygın yönlendirme protokolleri bu koşullarda nasıl ve ne kadar bozuluyor? Kıyas tabanı reaktif AODV, bağ durumu standardı OLSRv2 ve bağ kalitesine bakan proaktif uzaklık-vektörü protokolü Babel'dir (`v2/04` §1).
 2. Bu çalışmada önerilen **DESPARETE** protokolü, karıştırmayı gerçek bir telsizin ölçebildikleriyle fark edip ondan kaçınarak daha yüksek teslim sağlayabilir mi?
 
 İkinci soru iki ayrı iddia olarak sınanır:
@@ -75,9 +75,11 @@ Doğrulama dört seviyededir: analitik karşılaştırma, korunum kontrolleri, i
 
 Protokoller birincil kaynaklarına kural kural sadık yazıldı; parametreler kaynak varsayılanıdır ve hiçbiri senaryoya göre ayarlanmaz. Modellenmeyen özellikler ve belirsiz noktalardaki seçimler her protokolün beyan tablosunda gerekçesiyle durur: [`aodv_bicim.py`](protokoller/aodv_bicim.py) · [`olsrv2_bicim.py`](protokoller/olsrv2_bicim.py).
 
-Kabul kapısı (U1): karıştırıcısız kollarda protokolün teslim oranı aynı dünyada koşan bir kâhine oranlanır ([`v2/04`](v2/04-KARARLAR.md) §5). Üçüncü rakip Babel, DESPARETE'yle aynı ailedendir; DESPARETE'nin kazancının aile yapısından değil kendi mekanizmalarından gelip gelmediğini sınar.
+Kabul kapısı (U1): karıştırıcısız kollarda protokolün teslim oranı aynı dünyada koşan bir kâhine oranlanır ([`v2/04`](v2/04-KARARLAR.md) §5). Üçüncü rakip Babel, bağ kalitesine (ETX) bakan proaktif bir uzaklık-vektörü protokolüdür; rakiplerin en güçlüsüdür.
 
 ## DESPARETE
+
+> Bu bölüm bugünkü kodu (v0.4.1, taslak) anlatır. Faz 5'te DESPARETE yürütücünün özgün tasarımıyla yeniden yazılacak (K-250).
 
 Hedef-yönlü bir uzaklık-vektörü protokolü: hedef (öncelikle geçit) ağa kendi "alanını" yayar, düğümler paketi bu alan boyunca iletir.
 
