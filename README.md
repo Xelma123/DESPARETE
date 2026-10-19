@@ -79,7 +79,7 @@ Kabul kapısı (U1): karıştırıcısız kollarda protokolün teslim oranı ayn
 
 ## DESPARETE
 
-> Bu bölüm bugünkü kodu (v0.4.1, taslak) anlatır. Faz 5'te DESPARETE yürütücünün özgün tasarımıyla yeniden yazılacak (K-250).
+> Bu bölüm bugünkü kodu (v0.4.1, taslak) anlatır. Faz 5'te DESPARETE'yi özgün tasarımımla yeniden yazacağım (K-250).
 
 Hedef-yönlü bir uzaklık-vektörü protokolü: hedef (öncelikle geçit) ağa kendi "alanını" yayar, düğümler paketi bu alan boyunca iletir.
 
@@ -146,7 +146,7 @@ Bu çalışma bir kavram kanıtıdır. Kullanılan yayılım ve karıştırma mo
 
 ## Yapay zekâ kullanımı
 
-Proje fikri, kapsam ve gerçekçilik kararları ve DESPARETE'nin tasarımı bana aittir; yapay zekâ araçları danışman ve kod uygulayıcısı olarak kullanılmıştır. Kararlar tarihli olarak kayıtlıdır ([`v2/kayit/KARAR-GUNLUGU.md`](v2/kayit/KARAR-GUNLUGU.md)) ve bir mekanizmanın katkısı ablasyonla ölçülür.
+Proje fikri, kapsam ve gerçekçilik kararları ve DESPARETE'nin tasarımı bana aittir. Yazılımın büyük bölümünü yapay zekâ araçları yazdı; hata ayıklamada ve sonuçların derlenmesinde de yapay zekâ kullandım. Faz 5'te DESPARETE'nin tasarımını ve üretimini kendim yapıyorum; yapay zekâ danışman ve öğretmen olarak kullanılıyor. Kararlar tarihli olarak kayıtlıdır ([`v2/kayit/KARAR-GUNLUGU.md`](v2/kayit/KARAR-GUNLUGU.md)) ve bir mekanizmanın katkısı ablasyonla ölçülür.
 
 ## Lisans
 

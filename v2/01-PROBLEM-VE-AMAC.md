@@ -14,7 +14,7 @@
 | ürün | bu çalışmada önerilen protokol **DESPARETE** |
 | kıyas tabanı | AODV · OLSRv2 (K-229) · Babel (K-242): reaktif, bağ durumu ve bağ kalitesine bakan proaktif uzaklık-vektörü protokolü; üçü donmuş (K-249) |
 | ölçüm ortamı | projenin kendi kesikli-olay simülatörü `sim2/` (K-001, K-090) |
-| yürütücü | Xelma123 (lise öğrencisi); kapsam, gerçekçilik ve ön-kayıt kararları yürütücüye aittir. Yapay zekâ araçları danışman ve kod uygulayıcısı olarak kullanılmıştır (`README` · *Yapay zekâ kullanımı*) |
+| yürütücü | Xelma123 (lise öğrencisi). Kapsam, gerçekçilik ve ön-kayıt kararları bana aittir. Yazılımın büyük bölümü yapay zekâyla yazıldı; hata ayıklamada ve sonuçların derlenmesinde de yapay zekâ kullanıldı (`README` · *Yapay zekâ kullanımı*) |
 
 ## 2 · Problem
 

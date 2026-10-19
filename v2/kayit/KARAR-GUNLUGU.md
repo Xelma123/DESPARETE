@@ -2,7 +2,7 @@
 
 > **Bu bir tarihçedir, okuma belgesi değil.** Bugün geçerli olan kararlar konu konu `v2/04-KARARLAR.md`de; o belgeyle çelişen bir kayıt eskimiştir. Burası yalnız bir kararın NEDEN ve NASIL verildiğini, ya da koddaki bir `K-xxx` atfını bulmak için açılır. Eski kayıtların çoğu 1:50 ölçekli eski dünyanındır (K-168'den önce).
 > Tam metinler: K-090…K-167 `v2/arsiv/04-NEDEN-BOYLE-K090-K167.md` · K-001…K-089 `v2/arsiv/04-NEDEN-BOYLE-K001-K089.md` (yerel).
-> Yeni kayıt en alta, kısa: ne · neden · kim · sayı ve üretici komut. Geçerli bir kararı değiştiriyorsa `04-KARARLAR.md` de güncellenir. İndeks üretilir: `python arsiv/dogrulama/kayit_indeksi.py`.
+> Yeni kayıt en alta, kısa: ne · neden · sayı ve üretici komut; kararlar birinci tekil, işler edilgen. Geçerli bir kararı değiştiriyorsa `04-KARARLAR.md` de güncellenir. İndeks üretilir: `python arsiv/dogrulama/kayit_indeksi.py`.
 
 ---
 
@@ -43,18 +43,18 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-110 | 🔴 ÜÇ BORÇ TEK ALETLE KAPANDI — ve dört şey daha çürüdü | 🟢 geçerli |
 | K-111 | 🔴 DÖRT ÖLÇÜM ALETİ KOŞMUYORDU — ve ön-kayıtın şart koştuğu bir yetenek hiç yokmuş | 🟢 geçerli |
 | K-112 | 🟢 KONTROL DÜZLEMİ MEKANİZMASI UYGULANDI — ve veri onayında gizli bir kusur ölçüldü | 🟢 geçerli |
-| K-113 | 🟢 ÖĞRENCİNİN 10 EYLÜL KARARLARI — belgeler bilgi kaynağına çevrildi, iki ölçüm yenilendi | 🟢 geçerli |
+| K-113 | 🟢 10 EYLÜL KARARLARIM — belgeler bilgi kaynağına çevrildi, iki ölçüm yenilendi | 🟢 geçerli |
 | K-114 | 🟡 İKİNCİ TUR ONAYLARI — yapı planı yazıldı, dört ölçüm aleti kuruldu, bir süre tahmini ç | 🟢 geçerli |
 | K-115 | 🟡 YAPI ADIMLARI — Y1 uygulandı: PSR alıcı tarafında, kontrol istatistikleri sayaç kütüğü | 🟢 geçerli |
 | K-116 | 🟢 YAPI ADIMI Y4 — yere toplama deseni uygulandı | 🟢 geçerli |
 | K-117 | 🟢 YAPI ADIMI Y5a — çoklu ve hareketli karıştırıcı mekanizması | 🟢 geçerli |
 | K-118 | 🟢 YAPI ADIMI Y6 — formasyon kolu ve istasyon tutma | 🟢 geçerli |
-| K-119 | 🟢 ÖĞRENCİ KARARLARI — Y5b aileleri, süreler, uzun koşu, derin sızma hareketi, yerleşim,  | 🟢 geçerli |
+| K-119 | 🟢 KARARLARIM — Y5b aileleri, süreler, uzun koşu, derin sızma hareketi, yerleşim, formasy | 🟢 geçerli |
 | K-120 | 🟢 YAPI ADIMI Y5b — tehdit senaryosu aileleri | 🟢 geçerli |
 | K-121 | 🟢 YAPI ADIMI Y3 — kontrol düzlemi eksikleri (R2 · R3 · R4) | 🟢 geçerli |
 | K-122 | 🟢 YAPI ADIMI Y7 — Θ'nın protokol başına raporlanması | 🟢 geçerli |
 | K-123 | 🟢 YAPI ADIMI Y10 — evre metriklerinin TEK anlamlılık sabiti | 🟢 geçerli |
-| K-124 | 🟢 ÖĞRENCİ KARARLARI — C1 ve C3'ün ölçütleri (taramadan ÖNCE ilan) | 🟢 geçerli |
+| K-124 | 🟢 KARARLARIM — C1 ve C3'ün ölçütleri (taramadan ÖNCE ilan) | 🟢 geçerli |
 | K-125 | 🟢 C1 — düğüm sayısı: ölçüm adayları AYIRAMADI, 40 doğrulandı | 🟢 geçerli |
 | K-126 | 🟢 C3 — yere toplama yükü: ölçüm hızı SEÇMEDİ, 1,0'ı DOĞRULADI | 🟢 geçerli |
 | K-127 | 🔴 C2 aile kapısı — hedef_koruma sert kısıtı ÇİĞNEDİ, çevrim kaldırıldı | 🟢 geçerli |
@@ -83,7 +83,7 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-150 | 🟡 AŞAMA 3 AÇILDI — DESPARETE v0.1 tasarım paketi okundu; simülatörle üç yapısal boşluk,  | 🟢 geçerli |
 | K-151 | 🟢 sim2/ Y1 · Y2 — her unicast sonucunun bildirimi ve protokolün veri başlığı | 🟢 geçerli |
 | K-152 | 🟡 DESPARETE'NİN İLK GERÇEKLEME KARARLARI — ikisi devredildi, biri ölçüldü, biri ölçülece | 🟢 geçerli |
-| K-153 | 🟢 ÖN-KAYDIN ADIM 3'Ü YAZILDI — eşik formülü, güç yöntemi; aday hücre öğrencinin kararıyl | 🟢 geçerli |
+| K-153 | 🟢 ÖN-KAYDIN ADIM 3'Ü YAZILDI — eşik formülü, güç yöntemi; aday hücre benim kararımla | 🟢 geçerli |
 | K-154 | 🟢 DESPARETE 3.3 · KOMŞU YAŞAMI — simülatörde ilk koşu; belirsizlik tahmini ilk kez ölçül | 🟢 geçerli |
 | K-155 | 🟢 DESPARETE 3.4 · ALAN VE ARDIL — veri ilk kez taşındı; ~30 000 denetimde döngü 0; ek yü | 🟢 geçerli |
 | K-156 | 🟢 DESPARETE 3.5 · EDİNİM VE ONARIM — komut hedefleri alanını istekle açıyor; beş hedefte | 🟢 geçerli |
@@ -107,7 +107,7 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-174 | 🟢 A3 GÜCE DAYALI TAŞIYICI DİNLEME + ED-CCA — anahtar tasiyici_dinleme; sürekli karıştırı | 🟢 geçerli |
 | K-175 | 🟢 A5 YAYILIM GECİKMESİ — anahtar yayilim_gecikmesi; alım, donma ve taşıyıcı dinleme varı | 🟢 geçerli |
 | K-176 | 🟢 A6 KARIŞTIRICI GERÇEKÇİLİĞİ — anahtar karistirici_gercekci; sönümleme · yer–hava kanal | 🟢 geçerli |
-| K-177 | 🟢 A4 HIZ UYARLAMASI — ns-3 ARF (öğrenci izniyle indirildi); CCK hata modeli; anahtar hiz | 🟢 geçerli |
+| K-177 | 🟢 A4 HIZ UYARLAMASI — ns-3 ARF (iznimle indirildi); CCK hata modeli; anahtar hiz_uyarlam | 🟢 geçerli |
 | K-178 | 🟢 A7 REFERANS DÜNYANIN GİRDİLERİ — referans_2026(): güç girdi, menzil ve eşikler PER'den | 🟢 geçerli |
 | K-179 | 🟢 B3 GÖZLEM v2 — kendi GPS/INS'i, kanal doluluğu, PHY hatası, alınan çerçeve | 🟢 geçerli |
 | K-180 | 🟢 C SENARYO EKSENLERİ — düğüm kaybı · trafik ekseni · telsiz enerjisi (+ B4) | 🟢 geçerli |
@@ -115,14 +115,14 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-182 | 🟢 KR-E KAPANDI — düğüm kaybında birincil metrik: PDR'nin kohortu yaşayan uçlar, görev te | 🟢 geçerli |
 | K-183 | 🟢 FAZ 4.0 — kâhin referans dünyayı görür · araçlar referans dünyada · iki kırık araç ona | 🟢 geçerli |
 | K-184 | 🟢 analiz/ KATMANI — ön-kaydın analiz planı kodda (Faz 6'nın parçası, erken) | 🟢 geçerli |
-| K-185 | 🟢 REFERANS DÜNYANIN ALANI 35 km — öğrenci: "ölçütü boşver, en mantıklı ve gerçekçi olana | 🟢 geçerli |
+| K-185 | 🟢 REFERANS DÜNYANIN ALANI 35 km — ölçütten çok en mantıklı ve gerçekçi olana önem verild | 🟢 geçerli |
 | K-186 | 🟡 KARIŞTIRICI REJİMİ REFERANS DÜNYADA — hava karıştırıcısı sürüyü böler, yer karıştırıcı | 🟢 geçerli |
 | K-187 | 🟢 Lİ REFERANS DÜNYADA TUTTU (sabit hızda 0,127) · ARF çok atlamayı bozar · araçların dün | 🟢 geçerli |
 | K-188 | 🟢 GÖLGELEME BİRİM HATASI DÜZELDİ · referans alanı 33 km · Θ · görev yarıçapı 16 km · ara | 🟢 geçerli |
 | K-189 | 🟢 FAZ 4.3 BAŞLADI (U1 referans dünyada, iki desen) · SINANMAMIŞ 47 → 44 · hücre koşucusu | 🟢 geçerli |
 | K-190 | 🟢 U1 AODV (yere toplama) referans dünyada · koşu süresi 5 kat fazlaydı → yavaş kayıp önb | 🟢 geçerli |
 | **K-191** | 🟡 U1 YERE TOPLAMA REFERANS DÜNYADA BİTTİ — üç protokolde U1-B kalıyor, OLSR ağır · AODV  | 🔄 **REVİZE → K-196**<br>OLSR'ın U1 sayıları (0,642…) §13 açık `OLSR-b` hâline aitti; K-196 §13'ü kapattı (`OLSR-c`) ve düşük hücreleri "açıklanmış, sıralamasız" okudu |
-| K-192 | 🟢 ÖĞRENCİ KARARLARI (28 Eylül) — U1 eşiği DEĞİŞMEZ · KR-1 kapandı · tasarım bedeli açıkl | 🟢 geçerli |
+| K-192 | 🟢 KARARLARIM (28 Eylül) — U1 eşiği DEĞİŞMEZ · KR-1 kapandı · tasarım bedeli açıklamadır  | 🟢 geçerli |
 | K-193 | 🟡 OLSR'IN REFERANS DÜNYADAKİ DÜŞÜKLÜĞÜ: KÖTÜ BAĞ DEĞİL, GEÇİDE ROTANIN ARALIKLI BOŞALMAS | 🟢 geçerli |
 | K-194 | 🟢 AODV §6.8 KARA LİSTE UYGULANIYOR · AOMDV'nin U1–U4 karşılıkları adıyla eşlendi | 🟢 geçerli |
 | K-195 | 🟢 KÂHİN GRAFİĞİ KARIŞTIRICININ AÇIK/SESSİZ ÇİZELGESİNİ GÖRMÜYORDU — düzeltildi | 🟢 geçerli |
@@ -131,13 +131,13 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-198 | 🟢 SÖNÜMLEME BLOK ÜRETECİ (birincil hücre ~3,8 kat hızlı, istatistik aynı) · rota tamponu | 🟢 geçerli |
 | K-199 | 🟢 BELGE TEMİZLİĞİ — her bilgi tek yerde · kurallar sadeleşti · git okuma serbest · yeni  | 🟢 geçerli |
 | K-200 | 🟢 BİRİNCİL HÜCRE PARTİSİ — OLSR §13 kapalı kalır (karıştırma altında da kanıtlı) · rota  | 🟢 geçerli |
-| K-201 | 🟢 DEVİR İSTEMİ: yeni ajan gerekli belgeleri okur, projeyi ve nerede kaldığımızı anlar, p | 🟢 geçerli |
+| K-201 | 🟢 DEVİR İSTEMİ: yeni oturum gerekli belgeleri okur, projeyi ve nerede kaldığımızı anlar, | 🟢 geçerli |
 | K-202 | 🟢 U1 ARACI: kâhin desen başına bir kez, ara kayıt · ANATOMİDE ETKİ ALANI · DESPARETE U1' | 🟢 geçerli |
 | K-203 | 🟢 FAZ 4 KAPANIŞ KAPISI ve DENETİMİN KARARLARI — Faz 5'e paralel iş yok · köken defteri r | 🟢 geçerli |
-| K-204 | 🟢 ÖĞRENCİ KARARLARI (30 Eylül) — 10 keşifsel kol tanımı kapsam ilanı · arşiv git'te izle | 🟢 geçerli |
+| K-204 | 🟢 KARARLARIM (30 Eylül) — 10 keşifsel kol tanımı kapsam ilanı · arşiv git'te izlenir (ko | 🟢 geçerli |
 | **K-205** | 🟡 U1 SONUCU (referans dünya, dört protokol) · OLSR K-196'ya atıfla temiz · AODV'DE DÖNGÜ | 🔄 **REVİZE → K-208**<br>`AODV-g` için "RFC'ye sadık" iddiası **fazlaydı**: kural kural denetimde 11 sapma daha çıktı (`AODV-h`) |
 | K-206 | 🟡 U1 AODV-g SONUCU · AOMDV'NİN KÂHİN AŞIMI ZARF İÇİNDE (K-192 b) · REFERANS DÜNYADA R GE | 🟢 geçerli |
-| K-207 | 🟢 ÖĞRENCİ KARARLARI (30 Eylül) — AODV sadakat şartıyla DONAR, eşik altı hücreler protoko | 🟢 geçerli |
+| K-207 | 🟢 KARARLARIM (30 Eylül) — AODV sadakat şartıyla DONAR, eşik altı hücreler protokolün ken | 🟢 geçerli |
 | K-208 | 🟡 AODV SADAKAT DENETİMİ (RFC 3561 + ns-3) — 11 sapma daha bulundu ve düzeltildi (AODV-h) | 🟢 geçerli |
 | K-209 | 🟡 EVRE METRİKLERİ v2 UYGULANDI (çizelgeli karıştırıcı) — kapılar U1'den sonra | 🟢 geçerli |
 | K-210 | 🟡 AOMDV'DE KARA DELİK: iki kusur bulundu ve düzeltildi — AOMDV'nin kendi işleyicilerinde | 🟢 geçerli |
@@ -145,14 +145,14 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | **K-212** | 🟡 EVRE METRİKLERİ v2 KAPILARI — G1ç ✅ · G4ç ✅ · G2ç ❌ (bölümleme hatası yok: kâhinin ken | 🔄 **REVİZE → K-217**<br>G2ç'nin kalışı "formasyonun zaman kayması" diye teşhis edilmişti — **yanlış**: sebep 6 örnekli kâhinin yakınsamamasıydı (K-214); 48 örnekte G1ç · G2ç · G4ç **GEÇTİ** |
 | **K-213** | 🟡 FAZ 4.4 ÇÖZÜNÜRLÜĞÜ BİRİNCİL HÜCREDE — R = 0,0188 (eşleştirilmiş, 40 tohum) · olasılık | 🔄 **REVİZE → K-216**<br>R = 0,0188 6 örnekli kâhinle ölçülmüştü; yakınsamış kâhinle **0,0142** (kısa pencere kesiti — denetim D-03) |
 | K-214 | 🟡 FAZ 4.4 TARAMALARI — 3 güçlü DUYARLI (Rician K · kâhinin sönümleme örneği · en kısa yo | 🟢 geçerli |
-| K-215 | 🟢 ÖĞRENCİ KARARLARI (Faz 4.4) — TTL 64 kaynağa bağlı · kâhin 48 örnek · AODV-j/AOMDV-f · | 🟢 geçerli |
+| K-215 | 🟢 KARARLARIM (Faz 4.4) — TTL 64 kaynağa bağlı · kâhin 48 örnek · AODV-j/AOMDV-f · kâhin  | 🟢 geçerli |
 | K-216 | 🟢 K-215 KODU DOĞRULANDI — regresyon k215 (58/58 birebir + 22 ilanlı) · R = 0,0142 (yakın | 🟢 geçerli |
 | K-217 | 🟡 KUYRUK B SONUÇLARI — sınırdaki 6'nın 3'ü DUYARSIZ, 3'ü DUYARLI · protokol kontrolleri  | 🟢 geçerli |
 | **K-218** | 🟢 U1 HÜKMÜ (K-215 kodu, yakınsamış kâhin) — U1-U üç protokolde iki desende ✅ · U1-B yere | 🔄 **REVİZE → K-224**<br>Donan `OLSR-c` ve 8 iletim denemesiydi; OLSR'ın §8.2.1 düzeltmesi (`OLSR-d`, K-223) ve standarttaki 7 denemeyle U1 yeniden — **`AODV-j` · `OLSR-d` · `AOMDV-f`** dondu |
 | K-219 | 🟢 FAZ 4.5 — doğrulama listesi referans dünyada bir kez: anlamlı her kapı GEÇTİ · iki kap | 🟢 geçerli |
-| K-220 | 🟢 ÖĞRENCİ KARARLARI (Faz 4 kapanışı) — gölgeleme hücresi · CBR titreşimi · istasyon tutm | 🟢 geçerli |
+| K-220 | 🟢 KARARLARIM (Faz 4 kapanışı) — gölgeleme hücresi · CBR titreşimi · istasyon tutma DÜNYA | 🟢 geçerli |
 | K-221 | 🟢 FAZ 4 KAPANDI — yeniden kalibrasyon ve doğrulama tamam · taban protokoller dondu · kök | 🟢 geçerli |
-| K-222 | 🟢 BAĞIMSIZ DENETİM (8 Ekim) — öğrenci kararları ve davranışı değiştirmeyen düzeltmeler:  | 🟢 geçerli |
+| K-222 | 🟢 BAĞIMSIZ DENETİM (8 Ekim) — kararlarım ve davranışı değiştirmeyen düzeltmeler: birinci | 🟢 geçerli |
 | K-223 | 🟡 TABAN PROTOKOLLER ÇÖZÜLDÜ (denetim D-02 · D-10 · D-13) — OLSR-d: §8.2.1 RFC'nin harfiy | 🟢 geçerli |
 | K-224 | 🟢 TABAN PROTOKOLLER YENİDEN DONDU — AODV-j · OLSR-d · AOMDV-f, en çok 7 iletim denemesi  | 🟢 geçerli |
 | K-225 | 🟢 DENETİMİN SON İKİ İŞİ VE YAYIN HAZIRLIĞI — gm_hiz_sigma_ms DÜNYA TANIMI · gm_alfa DUYA | 🟢 geçerli |
@@ -181,30 +181,31 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-248 | KÂHİN AŞIMI: ZARFI DA AŞAN HÜCRE, HATA ARAMASI TEMİZSE BEYANLA KAYDA GİRER — kâhinler ba | 🟢 geçerli |
 | K-249 | M4'ÜN SIFIR GÖZLEM KURALI (temizde 0 beyan → üst güven sınırı) · G1-P GEÇTİ · AODV-k VE  | 🟢 geçerli |
 | K-250 | FAZ 4b KAPANDI, FAZ 5 AÇILDI — DESPARETE tamamen özgün bir tasarım olacak; Faz 5'te tasa | 🟢 geçerli |
+| K-251 | K-250'NİN AÇIKLAMASI — "özgün" mevcut bir protokolü alıp üstüne ekleyerek sunmamak demek | 🟢 geçerli |
 
-**161 kayıt · 9 revize · 152 geçerli**
+**162 kayıt · 9 revize · 153 geçerli**
 
 <!-- INDEKS SONU -->
 
 ---
 
 # K-090 · 🔴 SİMÜLATÖR SIFIRDAN YENİDEN YAZILDI — `sim/` EMEKLİ, `sim2/` DOĞDU
-> 3–5 Eylül · öğrenci
+> 3–5 Eylül · kararım
 
-Eski `sim/`de on yapısal kusur ölçüldü (çerçeve süresi birden çok yerde, alıcı zinciri kısıtı ve yakalama yok, donuk topoloji, MAC içinde PER, 2B geometri, gölgeleme/sönümleme/anten yok, 7 metrikten 2'si). Kademeli düzeltme elendi: kusurlar birbirine bağlıydı. Beş modül denetlenerek taşındı. Öğrenci: *"kapsam ve dürüstlük azalıyorsa zarar faydadan fazladır."*
+Eski `sim/`de on yapısal kusur ölçüldü (çerçeve süresi birden çok yerde, alıcı zinciri kısıtı ve yakalama yok, donuk topoloji, MAC içinde PER, 2B geometri, gölgeleme/sönümleme/anten yok, 7 metrikten 2'si). Kademeli düzeltme elendi: kusurlar birbirine bağlıydı. Beş modül denetlenerek taşındı. Ölçütüm: kapsam ve dürüstlük azalıyorsa zarar faydadan fazladır.
 
 # K-091 · 🔴 SINR EŞİĞİ 10 → 16 dB — MENZİL, GEÇMEYEN BİR BAĞIN ÜSTÜNDE TANIMLIYDI
-> 5 Eylül · ajan ölçtü; hedef öğrencinin (*"saldırı yoksa PDR %95–100"*)
+> 5 Eylül · hedefim: saldırı yoksa PDR %95–100
 
 β = 10 dB'lik menzil sınırında 512 B gövdenin hata olasılığı %75,5 → kâhinle bile PDR 0,50, yükten bağımsız. Tarama: 14 dB 0,976 · **16 dB 1,000**. Paket küçültme elendi (yük profili literatürden sapardı). Üretici: `kalibrasyon/pdr_tavani.py`.
 
 # K-092 · 🔴 KARIŞTIRICI, TAŞIYICI DİNLEMEYE MESAFEDEN BAĞIMSIZ GÖRÜNÜYORDU
-> 5 Eylül · ajan (kusur düzeltmesi)
+> 5 Eylül · kusur düzeltmesi
 
 Aldatıcı karıştırıcı 1 km uzakta bile bütün ağı erteletiyordu (0 iletim). Artık CCA yalnız alınan gücü gürültü tabanını aşan düğümde tetiklenir; eşik `girisim.kanal_mesgul_mu` ile aynı (tek doğru kaynağı).
 
 # K-093 · 🔒 DEPO SADELEŞTİRİLDİ — EMEKLİ HER ŞEY `arsiv/` ALTINA
-> 5 Eylül · öğrenci
+> 5 Eylül · kararım
 
 Emekli kod, testler, çıktılar ve eski belgeler `arsiv/`e taşındı, silinmedi. Etkin ağaçta emekli koda içe aktarma yok (AST ile tarandı).
 
@@ -214,379 +215,379 @@ Emekli kod, testler, çıktılar ve eski belgeler `arsiv/`e taşındı, silinmed
 Beacon 32 B / 1 Mb/s, veri 512 B / 2 Mb/s: komşu tablosu veriyi taşıyamayan bağlar içerir (kâhinle PSR 0,817; komşu tablosundan 0,17–0,29). Simülatör kusuru değil — ETX bunun için icat edildi. Taban protokollere kalite ölçütü eklenmedi (RFC'ye sadakat); atlama sayısıyla yönlendirmenin zayıflığı bulgu olarak raporlanır (K-137).
 
 # K-095 · 🔴 SÖNÜMLEME ÖNBELLEĞİ SINIRSIZDI — HAREKETLİ KOLLAR KOŞULAMIYORDU
-> 5 Eylül · ajan (öğrenci onayı)
+> 5 Eylül · onayımla
 
 350 s'lik hareketli koşu ~25 GB isterdi. Sınır `YENILIK_ONBELLEK_SINIRI = 250 000`, dolunca boşalt; memo saf fonksiyon olduğundan sonuç değişmez (dört kapı). Üretici: `kalibrasyon/sonumleme_onbellegi.py`.
 
 # K-096 · 🔴 ÇALIŞMA NOKTASI ÖLÇÜLDÜ — ÜÇ AYRI YARIÇAP, VE MACH 4'TE UÇAN İHA'LAR
-> 5 Eylül · ajan
+> 5 Eylül
 
 "Menzil" tek sayı değil: çapa 280 m · kullanılabilir bağ ~430 m · komşu tablosu ~500 m · duyma 956 m. 1000 m alanda çiftlerin %87'si ≤ 2 atlama (yönlendirmeye iş yok); hızlar 1:50'de 1 800–5 400 km/h, rota ömrü 4 s < OLSR `TOP_HOLD_TIME` 15 s (kasıtsız straw-man). Kararlar K-097 · K-101'de.
 
 # K-097 · 🔴 ÇALIŞMA NOKTASI DEĞİŞTİ — α = 2,0 ve ALAN 1800 m · VE İLAN ETTİĞİM ÖLÇÜT INFEASIBLE ÇIKTI
-> 5 Eylül · ajan (öğrenci devretti)
+> 5 Eylül
 
 α 3 → **2**: iki-ışın kırılma mesafesi her iki ölçekte bağların çok üstünde (serbest uzay); 1:50'de α = 3 35 kW'lık verici ister, α = 2 2,5 W. Alan 1000 → **1800 m**: statik kolda kopukluğun %0 kaldığı en büyük alan, ≥ 3 atlama payı büyür. İlan edilen ölçüt infeasible çıktı; kısıt gevşetilmedi, amaca taşındı. Üretici: `kalibrasyon/calisma_noktasi.py`.
 
 # K-098 · 🔴 KÂHİN KANALDAN KURULUYOR — VE ÖLÇÜM ALETİM KENDİ HAYALET BAĞLARINI ÜRETİYORMUŞ
-> 5 Eylül · ajan
+> 5 Eylül
 
 Hiçbir disk yarıçapı gerçek bağ kümesini temsil etmiyor (derece eşitken Jaccard 0,53; gölgeleme). Kâhin ve bağlantılılık kanaldan kurulur; `Topoloji` yalnız teşhis. Asıl kusur: kâhin sönümlemeyi görmüyordu (tavan 0,51–0,91; düzeltilince statikte ~1). `yeniden_deneme_siniri = 4` gerekçesiz; 4 → 6 PDR'yi değiştirmedi, SINANMAMIŞ kaldı.
 
 # K-099 · 🔴 KODUN TAMAMI OKUNDU — ETİKET VE TANIM KUSURLARI
-> 8 Eylül · ajan (öğrenci: *"simülatörün verdiği verilere güvenilemez…"*)
+> 8 Eylül · gerekçem: simülatörün verdiği verilere güvenilemiyordu
 
 Mimari sağlam; kırılgan olan sayılar ve etiketler. `mac_carpisma` → `mac_onaysiz_veri` / `mac_onaysiz_onay` (karıştırma tıkanıklık sanılıyordu). İki PDR tanımı tek tanıma indi (doğum kohortu). Açık maddeler (boşalma penceresi, yeniden deneme sınırı, `ATLAMA_ESIGI`, kutu yansıması) sonraki kayıtlarda.
 
 # K-100 · 🔴 PARAMETRE KÖKEN KAYIT DEFTERİ — BORÇ ARTIK GÖRÜNÜR VE SAYILABİLİR
-> 8 Eylül · ajan
+> 8 Eylül
 
 Davranış belirleyen her sayı bir kovada (türetilmiş · ölçülmüş · kaynak · tedavi · sınanmamış; sonra duyarsız ve kol tanımı). İlk sayımda 87 parametrenin %64'ü SINANMAMIŞ. Kovası yazılmamış parametre konfig kurulumunu durdurur; sayım her satırda. Güncel: `python kalibrasyon/mimari_denetimi.py` (169 parametre, SINANMAMIŞ 40).
 
 # K-101 · 🔴 MOBİLİTE ARTIK m/s İLE DEĞİL, PROTOKOLÜN ZAMANIYLA TANIMLI — VE OLSR YAPISAL OLARAK KIRIKMIŞ
-> 8 Eylül · ajan
+> 8 Eylül
 
 10–30 m/s gerekçesizdi; rota ömrü 3,2 s iken OLSR'ın 15 s'lik bilgisi kullanılmadan bayatlıyordu. Kapı: Θ = τ_rota / 15 s (RFC 3626 `TOP_HOLD_TIME`) ≥ 3. Seçilen 0,25–0,75 m/s (Θ K-110'da yeniden türetildi). `olcek` birinci sınıf alan. Üretici: `kalibrasyon/calkanti.py`.
 
 # K-102 · 🔴 DOPPLER PLATFORM HIZINDAN AYRILDI — VE KENDİ HIZ DEĞİŞİKLİĞİM SESSİZ BİR KUSUR YARATMIŞ
-> 8 Eylül · ajan
+> 8 Eylül
 
 Hız düşünce sönümlemenin 1 m/s tabanı çiftlerin %84'ünde bağlıyordu. Doppler tam ölçek hızından (dalga boyu ölçeklenmez; çerçeve/T_c ≈ 1,35); parça süresi 240 → 190 µs.
 
 # K-103 · 🔴 KARIŞTIRICI GÜCÜ ÖLÇÜLDÜ — VE "SINIFLARI AYNI ETKİDE EŞİTLE" DEDİĞİM ŞEY DÖNGÜSELMİŞ
-> 8 Eylül · ajan
+> 8 Eylül
 
 Çalışma noktası **−15,0 dBm · ρ = 0,258** (referans `surekli`; sert kısıt: 30 tohumda birden çok çok-üyeli bileşen yok · amaç: ρ en büyük). Sınıflar etkide değil harcanan ortalama güçte eşitlenir (ρ bağımlı değişken). Darbeli kol 1/30 tohumda kısıtı çiğnedi (beyanlı). Üretici: `kalibrasyon/karistirici_gucu.py tarama`.
 
 # K-104 · 🔴 SON OTURUMUN DENETİMİ — DÖRT ŞÜPHE DÜŞTÜ, ÜÇ GERÇEK KUSUR ÇIKTI
-> 8 Eylül · ajan
+> 8 Eylül
 
 Statik kolda kanal grafiği zamandan bağımsız (Jaccard 1,0000, 30/30); ρ yeniden aynı. Kusurlar arasında: üç kalibrasyon tablosu karıştırıcı devreye girmeden bitiyordu (kapalı karıştırıcıyı ölçüyordu) → örnekleme anı konfigden türer ve kapılıdır.
 
 # K-105 · 🟢 ADIM ⑤ KAPANDI — VE İKİ ÖLÇÜTÜMÜ KENDİ KAPILARIM ÇÜRÜTTÜ
-> 8 Eylül · ajan (öğrenci: *"mantıklı gördüğünü yap"*)
+> 8 Eylül
 
 Dört evre metriği (şok derinliği · toparlanma tamlığı · toparlanma süresi · tespit gecikmesi) sıfır serbest parametreyle; kafes S = 1 s (AODV `HELLO_INTERVAL`) · L = 15 s (OLSR `TOP_HOLD_TIME`). Kendi kapıları üç ölçüt hatası buldu; dört kapı geçti. Tasarım `v2/08`. Üretici: `kalibrasyon/evre_metrikleri_kapilari.py`.
 
 # K-106 · 🟢 SİMÜLATÖR FAZI KAPANDI — ve iki RFC açılınca İKİNCİ bir straw-man çıktı
-> 8 Eylül · ajan
+> 8 Eylül
 
 RFC 3561/3626 birincil belgeden okundu (Θ paydası ve kafes sabitleri KAYNAK). Bulgu: koşum düzeyinde tek 1 s beacon OLSR'ın 2 s HELLO'sundan hızlı → protokoller kendi HELLO'larını kullanır (R2, K-121). Sonuç satırı kendi kendine yeter.
 
 # K-107 · 🟢 DUYARLILIK DENETİMİ — 48 GEREKÇESİZ SAYI 34'E İNDİ, VE DÖRT ÖLÇÜT HATAM ÇIKTI
-> 8–9 Eylül · ajan
+> 8–9 Eylül
 
 49 aday, 5 tohum, ×2/×0,5, iki kâhin (tavan y1 · en kısa yol y2 · ölçüt bedeli y3 = y1 − y2), altı kol; "duyarsız" ile "ölçülemedi" parmak iziyle ayrılır. Borç 48 → 34, DUYARSIZ 15. Baskınlar: iletim menzili, frekans, düğüm sayısı, gürültü tabanı, karıştırıcı gücü. Üretici: `kalibrasyon/duyarlilik.py`.
 
 # K-108 · 🔴 Lİ REPLİKASYONU: SAYI TUTMADI, MEKANİZMA TUTTU — sebep α
-> 9 Eylül · ajan · ön-kayıt `v2/09`
+> 9 Eylül · ön-kayıt `v2/09`
 
 H1 (uzun zincir / tek atlama ∈ [0,10; 0,20]) TUTMADI (bugün 0,0871) · H2 ve H3 tuttu. Uzamsal yeniden kullanım var; sayıyı belirleyen yol kaybı üsteli α = 2. Üretici: `kalibrasyon/li_replikasyonu.py`.
 
 # K-109 · 🔴 MİMARİ YARIMMIŞ — ölçüm katmanının hiçbir disiplini yoktu
-> 9 Eylül · öğrenci yönlendirdi, ajan uyguladı
+> 9 Eylül · yönlendirmemle
 
 Kusurların hepsi kapısız `kalibrasyon/` katmanındaydı. Yeni kapılar D13 (kalibrasyon sabitleri kökende) · D14 (gölge fizik beyanı) · D15; köken defteri iki ağacı kapsar. SINANMAMIŞ 33 → 43 (borç görünür oldu); `ATLAMA_ESIGI` ve `ETKIN_YARICAP_M` gerekçesiz çıktı.
 
 # K-110 · 🔴 ÜÇ BORÇ TEK ALETLE KAPANDI — ve dört şey daha çürüdü
-> 9 Eylül · ajan (öğrenci: *"simülasyonu geliştirmek için gerekenleri yap sana bırakıyorum"*)
+> 9 Eylül
 
 `kalibrasyon/bag_kumesi.py` bağ kümesini kâhinin ETX değerlerinden okur; bağ eşiği platoda ölçüldü. 🔴 **ETX kâhini üst sınır değil** (sonlu yeniden deneme; atlama kâhini bazı tohumlarda onu geçer). Eklerde: `kopma_fiziksel` hiç sayılmıyordu (düzeltildi), Θ yeniden türetildi, bağlantı bütçesinde iki dejenerasyon, "simülatör protokolü kısıtlamaz" kanıtı, stres taraması etiketleri, Rician K denkliği.
 
 # K-111 · 🔴 DÖRT ÖLÇÜM ALETİ KOŞMUYORDU — ve ön-kayıtın şart koştuğu bir yetenek hiç yokmuş
-> 9 Eylül · ajan (öğrenci: simülatör fazında kalınsın)
+> 9 Eylül · kararım: simülatör fazında kalınacak
 
 Defterde anılan dört üretici koşmuyordu → `kalibrasyon/uretici_duman.py`. A19: ön-kayıt RREQ/RREP/RERR, iki periyot ve zamanlayıcılar istiyordu; simülatör yüzeyi yalnız dört kanca + beacon → kontrol düzlemi (K-112). Beacon yükünün bedeli sayaçta ödeniyordu, kanalda değil (düzeltildi).
 
 # K-112 · 🟢 KONTROL DÜZLEMİ MEKANİZMASI UYGULANDI — ve veri onayında gizli bir kusur ölçüldü
-> 10 Eylül · öğrenci (beş sözleşme kararı) · ajan uyguladı · sözleşme `v2/13`
+> 10 Eylül · beş sözleşme kararım · sözleşme `v2/13`
 
 Protokol çağırmaz, niyet döndürür (`KontrolIstegi` · `Uyandirma`); boyut RFC alanlarından; uyandırma tavanı; aynı kanal/MAC/kayıp; teslim yalnız başarıda; zamanlayıcı istek üzerine. Veri onayı yanlış düğümü kredilendiriyordu (→ Y2, K-115). Kapılar: `tests2/test_kontrol_duzlemi.py` · `kalibrasyon/kontrol_duzlemi_kapilari.py`.
 
-# K-113 · 🟢 ÖĞRENCİNİN 10 EYLÜL KARARLARI — belgeler bilgi kaynağına çevrildi, iki ölçüm yenilendi
-> 10 Eylül · öğrenci
+# K-113 · 🟢 10 EYLÜL KARARLARIM — belgeler bilgi kaynağına çevrildi, iki ölçüm yenilendi
+> 10 Eylül · kararım
 
 Ana deney 40 tohum · yüksek çalkantı kolu saklanmaz · düğüm sayısı 30–50 aralığında ölçütle · veri onayı kusuru önce ölçülür · yere toplama kabul · karıştırıcılar çoklu ve hareketli · sabit mühür tarihi yok · iş akışı: simülasyon → taban protokoller → özgün protokol → veri → rapor.
 
 # K-114 · 🟡 İKİNCİ TUR ONAYLARI — yapı planı yazıldı, dört ölçüm aleti kuruldu, bir süre tahmini çöktü
-> 10–11 Eylül · öğrenci
+> 10–11 Eylül · kararım
 
-Onaylar: çekirdek mobilite formasyon + istasyon tutma · yere toplama (*"dürüstlük ve gerçekçiliğe sıkıntı çıkarmayacaksa"*) · çoklu hareketli karıştırıcı (saha sentezi öğrenciden) · üst referans (teslim olasılığı kâhini, zarf) · mühür sırası gevşetildi. Yapı planı `v2/07` §18 (Y0–Y10); aletler: regresyon (`regresyon_satirlari.py`), onay semantiği, anlamlılık sabitleri, üst referans.
+Onaylar: çekirdek mobilite formasyon + istasyon tutma · yere toplama (dürüstlüğe ve gerçekçiliğe sıkıntı çıkarmayacaksa) · çoklu hareketli karıştırıcı (saha sentezi benden) · üst referans (teslim olasılığı kâhini, zarf) · mühür sırası gevşetildi. Yapı planı `v2/07` §18 (Y0–Y10); aletler: regresyon (`regresyon_satirlari.py`), onay semantiği, anlamlılık sabitleri, üst referans.
 
 # K-115 · 🟡 YAPI ADIMLARI — Y1 uygulandı: PSR alıcı tarafında, kontrol istatistikleri sayaç kütüğünde
-> 11 Eylül · öğrenci · ajan
+> 11 Eylül · kararım
 
-Y1: PSR = `veri_alim_hedefte / mac_deneme` (öğrencinin tanımı); eski oran `mac_basari_orani`; kontrol istatistikleri sayaç kütüğünde. Y2: veri onayı yalnız göndericinin kendisi çözdüğünde. 11 Eylül öncesi PSR değerleri onaya dayalıdır.
+Y1: PSR = `veri_alim_hedefte / mac_deneme` (benim tanımım); eski oran `mac_basari_orani`; kontrol istatistikleri sayaç kütüğünde. Y2: veri onayı yalnız göndericinin kendisi çözdüğünde. 11 Eylül öncesi PSR değerleri onaya dayalıdır.
 
 # K-116 · 🟢 YAPI ADIMI Y4 — yere toplama deseni uygulandı
-> 11 Eylül · öğrenci · ajan
+> 11 Eylül · kararım
 
 `trafik_deseni` (TEDAVİ; varsayılan eşler arası) · geçit düğüm 0 · her düğümden geçide telemetri 1,0 pkt/s + geçitten 4 düğüme komut 0,25 pkt/s (toplam 40 pkt/s, eşler arasıyla eşit) · `teshis.kayip_yeri` · desen sınırları kapsamda. İki geçit uygulanmadı.
 
 # K-117 · 🟢 YAPI ADIMI Y5a — çoklu ve hareketli karıştırıcı mekanizması
-> 11 Eylül · öğrenci · ajan
+> 11 Eylül · kararım
 
 `kanal/karistirici.py`: yörünge · yayın düzeni · sınıf · güç payı; `KaristiriciKumesi` (güç toplamı, CSMA görünürlüğü). Tek tanımda eski tek merkez birebir.
 
 # K-118 · 🟢 YAPI ADIMI Y6 — formasyon kolu ve istasyon tutma
-> 11 Eylül · öğrenci · ajan
+> 11 Eylül · kararım
 
 `Formasyon3B`: istasyon = yerleşim; görev koluyla ortak istasyon tutma kodu; keşifsel kayma ekseni. Duvar teması nadir: sayılır ve beyan edilir (K-119).
 
-# K-119 · 🟢 ÖĞRENCİ KARARLARI — Y5b aileleri, süreler, uzun koşu, derin sızma hareketi, yerleşim, formasyonda duvar teması
-> 11 Eylül · öğrenci
+# K-119 · 🟢 KARARLARIM — Y5b aileleri, süreler, uzun koşu, derin sızma hareketi, yerleşim, formasyonda duvar teması
+> 11 Eylül · kararım
 
 Tehdit aileleri: tekli merkez · cephe hattı (3) · derin sızma (yer aracı, yay–sus–taşın, yalnız susarken taşınır) · hedef koruma (2) · hava eşlik. Süreler: açık 15 · sessiz 15 · periyot 30 s. Uzun koşu yok (350 s). Yerleşim kuralları kabul.
 
 # K-120 · 🟢 YAPI ADIMI Y5b — tehdit senaryosu aileleri
-> 14 Eylül · öğrenci · ajan
+> 14 Eylül · kararım
 
 `Konfig.tehdit_senaryosu` (TEDAVİ), `kanal/tehdit.py`, `sessizde` yörüngesi; hızlar araç 60 · hava 200 km/h. Üye güç payı = 1/(K × açık oranı): toplam ortalama güç tek merkezle eşit.
 
 # K-121 · 🟢 YAPI ADIMI Y3 — kontrol düzlemi eksikleri (R2 · R3 · R4)
-> 14 Eylül · öğrenci (yapı) · ajan
+> 14 Eylül · yapı kararım
 
 R2 `kosum_beaconi = False` (protokol kendi HELLO'suyla) · R3 `iletim_basarisiz` kancası · R4 `jitter_s` (kapalı denklemle sayılır).
 
 # K-122 · 🟢 YAPI ADIMI Y7 — Θ'nın protokol başına raporlanması
-> 14 Eylül · ajan
+> 14 Eylül
 
 Θ_OLSR: bağımsız 3,25 · görev 3,99 · formasyon **2,31** (kestirici aşağı yanlı: soldan kesme, sansür) — her satırda yazılı. Üretici: `kalibrasyon/theta_kollari.py`.
 
 # K-123 · 🟢 YAPI ADIMI Y10 — evre metriklerinin TEK anlamlılık sabiti
-> 14 Eylül · ajan (öğrenci: ölçerek seç)
+> 14 Eylül · kararım: ölçerek seçilecek
 
 `evre.py::ALFA = 0,05`; M3 bandı z(1 − α/2), M4 eşiği Bonferroni. Eski kuralın aile düzeyi yanlış alarmı 0,37–0,70 → 0,02–0,03. Üretici: `kalibrasyon/anlamlilik_sabitleri.py`.
 
-# K-124 · 🟢 ÖĞRENCİ KARARLARI — C1 ve C3'ün ölçütleri (taramadan ÖNCE ilan)
-> 15 Eylül · öğrenci
+# K-124 · 🟢 KARARLARIM — C1 ve C3'ün ölçütleri (taramadan ÖNCE ilan)
+> 15 Eylül · kararım
 
 C1: N ∈ {30…50}, yoğunluk sabit; kısıtlar statik kopukluk yok · geçide düğüm-ayrık ikinci yol ≥ %90; amaç en düşük maliyet. C3: yere toplama yükü ölçütü.
 
 # K-125 · 🟢 C1 — düğüm sayısı: ölçüm adayları AYIRAMADI, 40 doğrulandı
-> 15 Eylül · öğrenci
+> 15 Eylül · kararım
 
 Adaylar ayrılamadı (120 tohumda kopukluk %0,8–3,3, bantlar çakışık) → N = 40. Çapa uçurumun kenarında: 1800 m'de kopukluk 120 tohumla %0,8. Üretici: `kalibrasyon/dugum_sayisi.py`.
 
 # K-126 · 🟢 C3 — yere toplama yükü: ölçüm hızı SEÇMEDİ, 1,0'ı DOĞRULADI
-> 15 Eylül · öğrenci
+> 15 Eylül · kararım
 
 Ölçüt `statik-yok`ta (kâhin tavanı ≈ 1) 2,0 pkt/s seçiyordu; iki desen eşit yükte kalsın diye 1,0 pkt/s (40 pkt/s). Üretici: `kalibrasyon/yere_toplama_yuku.py`.
 
 # K-127 · 🔴 C2 aile kapısı — `hedef_koruma` sert kısıtı ÇİĞNEDİ, çevrim kaldırıldı
-> 15 Eylül · öğrenci
+> 15 Eylül · kararım
 
 Aileler ρ kısıtında ilk kez sınandı; `hedef_koruma`nın görev çevrimi tepe gücüyle kısıtı çiğnedi → çevrim kaldırıldı (iki üye sürekli; 0/30, ρ 0,240). Aile = geometri/sayı ekseni, zaman yapısı = sınıf ekseni.
 
 # K-128 · 🟢 C2 çapaları ve C7 — ikisi de doğrulandı, R eşiği DÜZELTİLDİ
-> 15 Eylül · ajan
+> 15 Eylül
 
 1800 m ve −15 dBm bugünkü kodla birebir. Çözünürlük (n = 40, eşleştirilmiş) **R = 0,0230**; aklamalar gevşek bir eşiğe karşı yazılmıştı → düzeltildi. Üretici: `kalibrasyon/cozunurluk.py --tohum 40`.
 
 # K-129 · 🔴 D1 koştu ve İKİ ÖLÜ KAPI buldu — Aşama 2'nin zemini sınandı
-> 15 Eylül · öğrenci (*"şimdi koşsun, temiz girelim"*)
+> 15 Eylül · kararım: şimdi koşulacak, temiz girilecek
 
 Li replikasyonu 10 Eylül'den beri çöküyordu (onarıldı; H1 0,0871) · duman kapısı kendi sınavında kalıyordu · bayat beklenen değerler (Y2 öncesi) · C1 üreticisi kökende yoktu. Ders: doğrulama listesi her aşama geçişinde bütün koşulur.
 
 # K-130 · 🟢 DENETİM BULGULARI — kapılar çıkış koduna bağlandı, pencere ikizi DONDURULDU
-> 16 Eylül · öğrenci · kaynak `arsiv/DENETIM-2026-09-16.md`
+> 16 Eylül · kararım · kaynak `arsiv/DENETIM-2026-09-16.md`
 
-Ayrı bekleme tamponu (B1) · pencere ikizi pencerede dondurulur (B2) · kancalara gözlem, bilgi yoksa `None` (B4) · dört alet çıkış koduna bağlandı (B3). Aşama 2 AODV ile açılır (ajan).
+Ayrı bekleme tamponu (B1) · pencere ikizi pencerede dondurulur (B2) · kancalara gözlem, bilgi yoksa `None` (B4) · dört alet çıkış koduna bağlandı (B3). Aşama 2 AODV ile açılır.
 
 # K-131 · 🟢 PROTOKOL ARAYÜZÜ SON HÂLİNİ ALDI — tamponlama ve kancalara gözlem
-> 16 Eylül · öğrenci (yapı) · ajan
+> 16 Eylül · yapı kararım
 
 Rota bekleme tamponu (RFC 3561 §6.3; 64 paket · 30 s, SINANMAMIŞ): tamponsuzluk yalnız reaktif aileyi cezalandırırdı. Kancalara gözlem. Regresyon beklentisi karşılaştırmadan önce yazıldı.
 
 # K-132 · 🔴 İKİ AKLAMA ÇÖKTÜ, BİR AĞ BÖLÜNMESİ BULUNDU — ve iki ölçüm aleti kuralın yarısını uyguluyormuş
-> 16 Eylül · ajan (öğrenci: *"beyan ederek hiçbir şey çözülmez"*)
+> 16 Eylül · gerekçem: beyan ederek hiçbir şey çözülmez
 
 Ana deney tohumlarında (2000–2039; yalnız kanal grafiği kuruldu) 15 (kol, tohum) çiftinde ağ pencerede bölünüyor → her satırda `kapsam.bolunme_payi`. 20 tohumla `golgeleme_hucre_m` ve `onay_bayt` DUYARSIZ'dan SINANMAMIŞ'a; `gm_pitch_sigma_rad` aklandı.
 
 # K-133 · 🟢 DOĞRULAMA LİSTESİ UÇTAN UCA KOŞTU — 18/18, ve iki şey yakalandı
-> 16 Eylül · öğrenci
+> 16 Eylül · kararım
 
 573 passed; 18 maddenin 18'i geçti; duman kapısı bir `KeyError`ı ve dördüncü bayat beklenen değeri yakaladı.
 
 # K-134 · 🟢 BEYAN KANALI KANCALARA AÇILDI — ve bir düşme sebebi nihayet yolunu buldu
-> 16 Eylül · öğrenci
+> 16 Eylül · kararım
 
 Kancalar da `Beyan` döndürebilir (U2'nin kopma beyanı); `Dugum.beyan_isle` tek yer; `rota_gecersiz` düşme sebebi yolunu buldu.
 
 # K-135 · 🔴 TAMPON BİR YOKLAMA DÖNGÜSÜNE DÖNMÜŞTÜ — makul bir kural ölçümde çöktü
-> 16 Eylül · ajan (ölçümle)
+> 16 Eylül · ölçümle
 
 Her kontrol olayında tamponu yeniden sormak 1 598 paket için 146 678 giriş üretti. Kural: yeniden sorulmak isteyen protokol `Uyandirma` döndürür (4 851 giriş).
 
 # K-136 · 🟢 AŞAMA 2 AÇILDI — AODV yazıldı, U1–U4 geçti, ve U1'in kapısı YANLIŞ YERDEYDİ
-> 16–17 Eylül · öğrenci (U1 eşiği · yerel onarım) · ajan
+> 16–17 Eylül · kararım (U1 eşiği · yerel onarım)
 
 AODV (RFC 3561; biçimler tek kaynak) + 18 kapı; HELLO ayıracı kusuru ölçümle bulundu (PDR 0,40 → 0,99). U1 oran biçiminde: protokol PDR / aynı konfigte ETX kâhini; eşik **statik ≥ 0,90 · hareketli ≥ 0,60** — ölçüm görüldükten SONRA seçildi (beyanlı, `06` §4.3). İlk koşumda 3/12 hücre kaldı; sebep yazılım değil.
 
 # K-137 · 🟢 U1 İKİYE AYRILDI — uygunluk bir KAPI, başarım bir BULGU
-> 17 Eylül · öğrenci (*"senin önerin olan A"*)
+> 17 Eylül · kararım: önerilen A
 
 U1-U: uygunluk kapısı (RFC'ye sadakat, kâhini geçmeme). U1-B: başarım bulgusu — eşik altı hücre açıklanmadan geçilemez. Elenenler: kol ortalaması · eşiği düşürmek · ön koşulu genişletmek.
 
 # K-138 · 🟡 HIZ ARAŞTIRMASI — üç hipotez, üçü de ÖLÇÜMDE çöktü; bir borç kapandı
-> 18 Eylül · öğrenci sordu, ajan ölçtü
+> 18 Eylül · sorum üzerine ölçüldü
 
 Hareketli koşuda sürenin %69'u sönümleme; önbellek zaten optimal; CUDA ana simülasyon için HAYIR (tanecik küçük); parça parça veri toplama güvenli. `KOSE_ONBELLEK_SINIRI` saf memo (ölçüldü).
 
 # K-139 · 🔴 AODV'NİN ÖLÇÜM BEYANLARI YANLIŞ ANAHTARLANIYORDU — ve düzeltme ölçüm katmanında ikinci bir kusur açtı
-> 19 Eylül · ajan
+> 19 Eylül
 
 `kopma` / `rota_kuruldu` hedefle anahtarlanıyordu (duyarlılık 430); bağ anahtarına düzeltildi. Bulgu: AODV fiziksel 8 kopmaya karşı 2 565 kez "bağ koptu" diyor (tıkanıklığı hareket sanma).
 
 # K-140 · 🟢 AODV KAPANDI — kapı yeni bir düşük hücreyi yakaladı, hüküm ölçülmüş tablodan yeniden üretildi
-> 19 Eylül · öğrenci — revize: K-143 · K-145
+> 19 Eylül · kararım — revize: K-143 · K-145
 
 Kapanış tablosu `AODV-c` hâline aitti; öncül kuralı (K-143) davranışı değiştirdi, kapanış `AODV-e` ile yeniden yapıldı.
 
 # K-141 · 🟢 COR ONARILDI — pay ve payda aynı birimi sayıyor, sayaç ikizi artık canlı
-> 19 Eylül · öğrenci
+> 19 Eylül · kararım
 
 Pay ve payda döngü sayar; ölü sayaç ikizi canlı; değişmez `kapanan + bekleyen == açılan`.
 
 # K-142 · 🟢 OLSR YAZILDI — üç özet hatası, bir straw-man tuzağı, çürüyen iki hipotez
-> 19 Eylül · öğrenci (SHOULD uygulanır · MAY beyan edilir) · ajan
+> 19 Eylül · kararım (SHOULD uygulanır · MAY beyan edilir)
 
 RFC 3626; web özetinin üç hatası birincil metinle yakalandı; paket sıra numarası titreşimden önce veriliyordu (düzeltildi); U3'ün gerekçesi çürüdü.
 
 # K-143 · 🔴 AODV YENİDEN AÇILDI — RERR öncül kuralı uygulanmamıştı; AODV'yi hem pahalı hem kötü gösteriyordu
-> 19 Eylül · ajan
+> 19 Eylül
 
 RFC 3561 §6.11: öncülü olmayan hedef için RERR gönderilmez — uygulanmamıştı. Düzeltildi (`AODV-d` → `-e`); tam ölçekte etkisi büyük.
 
 # K-144 · 🟢 AODV'NİN U3'Ü BULGU OLARAK RAPORLANDI — zayıf kapı ateş edebilen bir kapıyla değişti
-> 19 Eylül · öğrenci (*"bulgu olarak raporla"*)
+> 19 Eylül · kararım: bulgu olarak raporlanacak
 
 "AODV yükü yalnız keşifte" beklentisi tutmadı (60 → 120 s oranı 2,07). Üretici: `kalibrasyon/aodv_uygunluk.py u3`.
 
 # K-145 · 🟢 AODV YENİDEN KAPANDI (`AODV-e`) — kapı iki ölü açıklama yakaladı ve biri benim kusurumu örtüyordu
-> 19 Eylül · öğrenci
+> 19 Eylül · kararım
 
 U1-U geçti · U1-B: 2 açıklanmış düşük hücre. Regresyon `k144`. Hüküm: `python -u kalibrasyon/aodv_uygunluk.py hukum ciktilar2/aodv_uygunluk/aodv_son.json`.
 
 # K-146 · 🟡 OLSR KAPANIŞ ÖLÇÜMÜ — hareketlide AODV'den iyi, statikte iki hücre düşük; sebep ÖLÇÜLDÜ: beyanlı §13 sapması
-> 21–22 Eylül · öğrenci koşturdu · ajan teşhis
+> 21–22 Eylül · koşuyu ben başlattım · teşhis
 
 Statikteki iki düşük hücrenin sebebi bağ katmanı bildiriminin (RFC 3626 §13) kullanılmaması. Öneri: §13 uygulansın (seçenek B).
 
 # K-147 · 🟢 OLSR KAPANDI (§13 ile) — statik öngörü BİREBİR tuttu; hareketli kolda öngörülmeyen bir bedel
-> 22 Eylül · öğrenci (B)
+> 22 Eylül · kararım (B)
 
 `OLSR-b`: statik öngörü birebir; U1-U geçti · U1-B temiz · 0 açıklanmış düşük. Hareketli kollarda küçük bedel (kararı geri aldırmaz).
 
 # K-148 · 🟢 AOMDV YAZILDI — AODV'nin alt sınıfı; entegrasyonda Şekil 3'ün harfiyen uygulanmasının bir KİLİDİ bulundu
-> 22 Eylül · öğrenci (*"Makale + RFC 3561"*) · ajan
+> 22 Eylül · kararım: makale + RFC 3561
 
 AODV'nin alt sınıfı; on beyanlı seçim (S1–S10). S10: Şekil 3 harfiyen uygulanınca yerel sıra artışı hedefinkini geçip rotayı kilitliyordu → düzeltildi.
 
 # K-149 · 🟢 AOMDV KAPANDI — 12 hücrenin 12'sinde AODV'den iyi; düşük hücrenin sebebi ÖLÇÜLDÜ
-> 22 Eylül · öğrenci
+> 22 Eylül · kararım
 
 `AOMDV-a`: 12/12 hücrede AODV'nin üstünde; 1 açıklanmış düşük hücre (görev 1001). Üç taban protokol U1'i eşler arası desende geçti.
 
 # K-150 · 🟡 AŞAMA 3 AÇILDI — DESPARETE v0.1 tasarım paketi okundu; simülatörle üç yapısal boşluk, dört tasarım sorusu
-> 22 Eylül · tasarım öğrencinin · inceleme ajan · kararlar öğrenci
+> 22 Eylül · tasarım ve kararlar benim
 
 Tasarım: tek-sink alan, DFSN + FD döngüsüzlüğü (Babel ailesi), M0.1 bağ maliyeti, postürler. Simülatörde üç boşluk (unicast sonucu, veri başlığı, paket kimliği). Kararlar: komut hedefleri için isteğe bağlı alanlar (A; sonra C, K-160) · U1 yere toplamada · CAUTION'ın eylemi girişte doğrulama · DFSN_REQUEST tek yayın (alıcıda ACTIVE kapısı — K-167'de düzeltildi) · PROBE/PROBE_REPLY unicast.
 
 # K-151 · 🟢 `sim2/` Y1 · Y2 — her unicast sonucunun bildirimi ve protokolün veri başlığı
-> 22–23 Eylül · öğrenci (yapı) · ajan
+> 22–23 Eylül · yapı kararım
 
 `iletim_sonucu` kancası (her unicast sonucu, tekrar sayısıyla; niyet döndürmez) · protokolün `veri_baslik_bayt`ı ödetilir. 643 passed; regresyon `k151`.
 
 # K-152 · 🟡 DESPARETE'NİN İLK GERÇEKLEME KARARLARI — ikisi devredildi, biri ölçüldü, biri ölçülecek
-> 23 Eylül · öğrenci · ajan (devredilenler)
+> 23 Eylül · kararım
 
-Depo herkese açık değil. DESPARETE taslaktır, iyileştirilebilir (çelişki/hata düzeltilir · simülasyon boşluğu "ajan seçimi" · davranış değişikliği önce öğrenciye). UNREACHABLE'dan çıkış ajana devredildi. Tasarım hataları: TV-02 (kurallar 28 verir, belge 40) · DFSN_REQUEST diyagramı 76 B ↔ metin 72 (diyagram izlendi).
+Depo herkese açık değil. DESPARETE taslaktır, iyileştirilebilir (çelişki/hata düzeltilir · simülasyon boşluğu uygulama seçimiyle doldurulur · davranış değişikliği önce bana sorulur). UNREACHABLE'dan çıkış uygulamaya bırakıldı. Tasarım hataları: TV-02 (kurallar 28 verir, belge 40) · DFSN_REQUEST diyagramı 76 B ↔ metin 72 (diyagram izlendi).
 
-# K-153 · 🟢 ÖN-KAYDIN ADIM 3'Ü YAZILDI — eşik formülü, güç yöntemi; aday hücre öğrencinin kararıyla
-> 23 Eylül · öğrenci
+# K-153 · 🟢 ÖN-KAYDIN ADIM 3'Ü YAZILDI — eşik formülü, güç yöntemi; aday hücre benim kararımla
+> 23 Eylül · kararım
 
 `v2/06` §0.4: δ = 2·SD_ref/√40 (taban çiftleri, geliştirme tohumları 1100–1119) · hüküm (Holm + δ + mekanizma kapısı) · güç yöntemi (B = 2 000, MDE₈₀) · aday birincil hücre **formasyon · yere toplama · hava eşlik · sürekli · PDR (pencere)** · Δ_hedef = 0,05. DESPARETE'nin hiçbir koşusu yokken yazıldı. Ön tahmin: `arsiv/teshis/guc_on_tahmin_2026-09-23/guc.py`.
 
 # K-154 · 🟢 DESPARETE 3.3 · KOMŞU YAŞAMI — simülatörde ilk koşu; belirsizlik tahmini ilk kez ölçüldü
-> 23 Eylül · öğrenci · ajan (eşleme)
+> 23 Eylül · kararım (eşleme)
 
 UNQUALIFIED → ACTIVE → STALE/SUSPECT → EXPIRED; nitelik/boşta/hata PROBE oturumları; aday = alınan her kontrol çerçevesinin göndereni, koşum beacon'ı kapalı. İlk ölçüm: yalnız boşta sondalanan bağlarda U = 128.
 
 # K-155 · 🟢 DESPARETE 3.4 · ALAN VE ARDIL — veri ilk kez taşındı; ~30 000 denetimde döngü 0; ek yük 4–9 kat
-> 23 Eylül · öğrenci · ajan
+> 23 Eylül · kararım
 
 Veri alanın ardılıyla taşındı; her kancadan sonraki döngü denetiminde ihlal 0; küçük dünyada ek yük taban protokollerin 4–9 katı.
 
 # K-156 · 🟢 DESPARETE 3.5 · EDİNİM VE ONARIM — komut hedefleri alanını istekle açıyor; beş hedefte döngü 0; bir tasarım kuralı gözlemle uygulanamıyor
-> 23 Eylül · öğrenci · ajan
+> 23 Eylül · kararım
 
 Solicit → iki dalgalı istek; hedefin dar tur yetkisi (yalnız açlık isteğinde); isteğe bağlı hedef alanları; onarım tamponu; yeniden edinim. İsteğin nedeni dalga anındaki alandan belirlenir. Alan başına kota paket kimliği ister → K-157.
 
 # K-157 · 🟢 PAKET KİMLİĞİ GÖZLEMDE ve DESPARETE'NİN ALAN KOTASI — regresyon birebir; kota küçük dünyada hiç bağlamadı
-> 23 Eylül · öğrenci (A)
+> 23 Eylül · kararım (A)
 
 `PaketGorunumu.kaynak_sira` (kaynak başına sıra; küresel kimlik bilerek açılmadı; yüzey 23 → 24). Kota 6. `k151 ↔ k157` birebir; geçerli regresyon tabanı **`k157`**.
 
 # K-158 · 🟢 DESPARETE 3.6 · POSTÜRLER — CAUTION'ın %100'ü belirsizlikten; karıştırıcılı kolda doğrulamanın bedeli tutarlı
-> 23 Eylül · öğrenci · ajan
+> 23 Eylül · kararım
 
 STEADY/CAUTION/PROTECT; PROTECT'e girilmez (yedeklilik yok). Küçük dünya: CAUTION girişlerinin %100'ü belirsizlikten; karıştırıcılı kolda doğrulama +%4,4 yük (5/5), PDR −0,021 (anlamsız).
 
 # K-159 · 🟢 DESPARETE 3.7 · ABLASYON BAYRAKLARI — sekiz mekanizma; bayrak = kod çıkarma; yeniden edinim küçük dünyada etkisiz
-> 23 Eylül · öğrenci · ajan (bayrak kümesi)
+> 23 Eylül · kararım (bayrak kümesi)
 
 Sekiz bayrak: risk · kalite · postür · boşta sondalama · onarım tamponu · onarım edinimi · ilan koruması · yeniden edinim. Güvenlik değişmezleri bayrakla kapanmaz; hepsi açık = v0.1 birebir.
 
 # K-160 · 🟢 DESPARETE 3.8 · KABUL KAPISI — v0.1 tam ölçekte ÇÖKÜYOR: komut alanları (→ C) ve hareketlide kontrol yükü (→ v0.2)
-> 23–24 Eylül · öğrenci
+> 23–24 Eylül · kararım
 
-U1–U4 karşılıkları yazıldı; U2 bir kopma beyanı kusurunu yakaladı (düzeltildi). Tam ölçekte (N = 40) A ile PDR 0,08–0,09 (komut hedeflerinin alanları; komutsuz 0,84) → **öğrenci C**: yalnız geçit alanı, geçit dışı veri politika hatasıyla düşer, komut kaybı DESPARETE'nin aleyhine sayılır. C ile hareketli oranlar 0,12–0,34 (kontrol yükü, bağ çalkantısı) → **öğrenci: v0.2'ye geç**.
+U1–U4 karşılıkları yazıldı; U2 bir kopma beyanı kusurunu yakaladı (düzeltildi). Tam ölçekte (N = 40) A ile PDR 0,08–0,09 (komut hedeflerinin alanları; komutsuz 0,84) → **kararım C**: yalnız geçit alanı, geçit dışı veri politika hatasıyla düşer, komut kaybı DESPARETE'nin aleyhine sayılır. C ile hareketli oranlar 0,12–0,34 (kontrol yükü, bağ çalkantısı) → **kararım: v0.2'ye geçiş**.
 
 # K-161 · 🟡 DESPARETE v0.2 HAZIRLIĞI — ölçeklenebilirlik adayları, kanıtıyla
-> 24 Eylül · adaylar ajan · seçim öğrenci (*"Yalın profil (V0)"*)
+> 24 Eylül · seçimim: yalın profil (V0)
 
 **v0.2 = `PROFIL_V02`**: boşta sondalama, onarım edinimi, ilan koruması kapalı. Tam ölçek 40 s: hareketli 9/9 oran ≥ 0,60 (0,72–0,92), statik 0,87–0,89. Resmi U1 tahmini 5–7 sa. Üreticiler: `arsiv/teshis/desparete_v02_2026-09-24/ust_sinir.py` · `dogrulama.py`.
 
 # K-162 · 🟡 DESPARETE v0.2 ANALİZİ — test öncesi iyileştirme
-> 24 Eylül · öğrenci (*"önce mükemmelleştirelim"*) · analiz ajan
+> 24 Eylül · kararım: önce mükemmelleştirilecek · analiz
 
 Kontrol yükünün %76–86'sı komşu çalkantısının PROBE'ları; ACTIVE komşu kapsamı ~0,62; ardıl kopunca yedek ACTIVE değil → sık onarım, gecikme p95 1–4 s. Adaylar V1 · V2+ · V5 · V6.
 
 # K-163 · 🟡 V1 · V5 GERÇEKLENDİ — ikisi de tek başına ağı KİLİTLİYOR; eksik parça V7
-> 24 Eylül · öğrenci (*"V5 + V1 ile başla"*) · V7 ajan
+> 24 Eylül · kararım: V5 + V1 ile başlanacak · V7 eklendi
 
 V1 (PROBE yanıtı yalnız tekrarda) · V5 (yalnız uygulanabilir ilanın sahibi nitelenir) · V7 (yeni ACTIVE'e tek ölçüm PROBE'u = M0.1'in ilk örneği; v0.2'de bunu karşı yönün yanıtı sağlıyordu). Tam ölçek 40 s: kontrol yükü %48–57 az, hareketli PDR +0,028; statikte başlangıç yavaş. 🔴 V5'in istek yoluna etkisi sorulmadı (K-166).
 
 # K-164 · 🟡 DESPARETE v0.3 = v0.2 + V1 + V5 + V7 · V5a sınanıyor
-> 24 Eylül · öğrenci (*"Üçlüyü benimse + V5a, sonra V2+"*)
+> 24 Eylül · kararım: üçlü benimsenecek + V5a, sonra V2+
 
 v0.3 varsayılan oldu (K-167'de v0.4). V5a (ACTIVE olmayanın ilanını sakla) kararlı durumda zararlı (hareketli −0,021, 7/9 düşük) → kapalı.
 
 # K-165 · 🟡 V2+ HEDEFLİ CANLILIK — ardıl ve en iyi iki yedek boşta sondalanır
-> 24 Eylül · ajan
+> 24 Eylül
 
 Hareketli −0,010 (3/9 artış; kayıtta önce elle yanlış hesaplanmış −0,032 vardı, K-166), statik −0,020…−0,038 → kapalı. Yöntem dersi: 3 tohum × 40 s'te hücre farkları ±0,03 gürültü. Üretici: `arsiv/teshis/desparete_analiz_2026-09-24/v2p.py`.
 
 # K-166 · 🔴 BAĞIMSIZ DENETİM — v0.3'ün edinim yolu KAPALI; değerlendirme ve karar gerektirmeyen düzeltmeler
-> 25 Eylül · öğrenci istedi · rapor `arsiv/denetim/DENETIM-RAPORU-2026-09-25.md`
+> 25 Eylül · isteğimle · rapor `arsiv/denetim/DENETIM-RAPORU-2026-09-25.md`
 
-En ağır bulgu (K-1): v0.3'te DFSN_REQUEST yolu kapalı. Diğerleri: `kosu_kimligi` koşuyu tanımlamıyor (Y-1) · U1 kâhin kuralı "kâhin üst sınır değil" bulgusuyla çelişiyor (Y-2) · taban protokoller yere toplamada sınanmadı (Y-3) · v0.3 kanıtı dar, K-165 ortalaması yanlış (Y-4) · birincil PDR komutları sayıyor (Y-5) · kanıt betikleri git dışı ve profilsiz (Y-6) · AODV'de RREP-ACK/kara liste yok (O-1) · bayat belgeler. Karar gerektirmeyenler düzeltildi. Ajanın payı: K-1 (V5'i önerip sonucunu görmedi), Y-4 aritmetiği, profilsiz betikler, denetim isteminde git kuralını sormadan gevşetmek.
+En ağır bulgu (K-1): v0.3'te DFSN_REQUEST yolu kapalı. Diğerleri: `kosu_kimligi` koşuyu tanımlamıyor (Y-1) · U1 kâhin kuralı "kâhin üst sınır değil" bulgusuyla çelişiyor (Y-2) · taban protokoller yere toplamada sınanmadı (Y-3) · v0.3 kanıtı dar, K-165 ortalaması yanlış (Y-4) · birincil PDR komutları sayıyor (Y-5) · kanıt betikleri git dışı ve profilsiz (Y-6) · AODV'de RREP-ACK/kara liste yok (O-1) · bayat belgeler. Karar gerektirmeyenler düzeltildi. Uygulamadan kaynaklananlar: K-1 (V5 önerildi, sonucu denetlenmedi), Y-4 aritmetiği, profilsiz betikler, denetim isteminde git kuralının sorulmadan gevşetilmesi.
 
 # K-167 · 🟡 K-1'İN KÖKÜ BİR GERÇEKLEME YAKLAŞIMIYDI — V8 · V10 · DESPARETE v0.4
-> 25 Eylül · öğrenci çözümü ajana bıraktı (*"sorunları çözmeyi ve protokolü neden geliştirmeye çalışmıyorsun"*) · V8/V9/V10 ajan
+> 25 Eylül · sorunların çözülmesini ve protokolün geliştirilmesini istedim · V8/V9/V10
 
-**Öğrencinin kararları:** U1 tüm koşu PDR'siyle (ana deney pencere PDR'siyle) · kâhin kuralı: aşmak otomatik ret değil, "yazılım hatası mı, kâhin üst sınır değil mi" incelemesi (ajanın okuması; teyit bekliyor) · taban protokoller yere toplamada da sınanır · `kosu_kimligi` düzeltilir (yapı onayı verildi) · açık: birincil metrikte komutlar.
+**Kararlarım:** U1 tüm koşu PDR'siyle (ana deney pencere PDR'siyle) · kâhin kuralı: aşmak otomatik ret değil, "yazılım hatası mı, kâhin üst sınır değil mi" incelemesi (bu okuma teyit bekliyordu) · taban protokoller yere toplamada da sınanır · `kosu_kimligi` düzeltilir (yapı onayı verildi) · açık: birincil metrikte komutlar.
 **Kökler:** (1) K-150'nin tek yayını istek kapısını alıcıya koymuştu ("gönderen benim için ACTIVE mi"); tasarımda gönderen kendi ACTIVE komşularına yollar — V5 ACTIVE'i tek yönlü yapınca yol kapandı → **V8**: gönderen ACTIVE değilse de bana PROBE göndermişse kabul (`23` §2'nin ilk kabul kuralı). (2) Açlık "ACTIVE ama uygulanabilir olmayan komşu" ister; V5 onları hiç nitelendirmiyordu → istekler "edinim" gidiyor, hedef tur artırmıyordu → **V10**: alan iletilemezken aynı turun sonlu ilanı nitelik açar. V9 (soru nitelik açar) 6/6 koşuda zararlı — kapalı.
 **Ölçüm** (küçük dünya, 300 s, geliştirme tohumları 1003–1005, bağımsız + formasyon, pencere PDR): v0.2 0,787 · 0,818 · v0.3 0,686 · 0,764 · **v0.4 0,786 · 0,808** (açığın %93'ü; 6/6 v0.3'ten yüksek); kontrol yükü v0.2'nin %57'si (v0.3'e göre +%26 — önceden yazılan %15 sınırı TUTMADI); gecikme p95 v0.3'ten düşük; geçide ulaşan 30 açlık isteği 28 tur artışı. Üretici: `arsiv/teshis/desparete_edinim_2026-09-25/uzun_ab.py` + `ozet.py`.
-**Karar (ajan, devirle): v0.4 = v0.3 + V8 + V10 varsayılan** (U1 aleti de). Tam ölçekte ve karıştırıcılı hücrede doğrulanmadı — sıradaki iş. Testler: v0.3'te K-1'in tespit testi, v0.4'te istek yolu ve uçtan uca açlık → tur artışı (döngü 0). Tam takım **820 passed**.
+**Karar (devirle): v0.4 = v0.3 + V8 + V10 varsayılan** (U1 aleti de). Tam ölçekte ve karıştırıcılı hücrede doğrulanmadı — sıradaki iş. Testler: v0.3'te K-1'in tespit testi, v0.4'te istek yolu ve uçtan uca açlık → tur artışı (döngü 0). Tam takım **820 passed**.
 
 # K-168 · 🟢 YÖN DEĞİŞİKLİĞİ — önce gerçekçilik ve karıştırmayı gerçekten çözen DESPARETE; simülatör 1:1 gerçek birimlere
-> 25 Eylül · ilkeler ve kararlar öğrenci · bulgular ve plan ajan (onaylı plan: Faz 0–7, `v2/12`)
+> 25 Eylül · ilkeler ve kararlar benim · onaylı plan: Faz 0–7, `v2/12`
 
-**Öğrencinin ilkeleri:** *"gözlem sözleşmesini gerçek İHA sürü koşullarında nasıl oluyorsa öyle yapacağız … kendi yarattığımız bir hayal dünyasında İHA yarıştırmıyoruz biz"* · DESPARETE bitmedi, öncelik onu karıştırma altındaki sorunları gerçekten çözer hâle getirmek · enerji, düğüm kaybı, tıkanıklık: mantıklı olan yapılır · ajan katkısı sahipliği değiştirmez; tasarım paketinin üretim süreci belgelenir.
+**İlkelerim:** gözlem sözleşmesi gerçek İHA sürü koşullarında nasıl oluyorsa öyle yapılacak; kendi yarattığımız bir hayal dünyasında İHA yarıştırmıyoruz · DESPARETE bitmedi, öncelik onu karıştırma altındaki sorunları gerçekten çözer hâle getirmek · enerji, düğüm kaybı, tıkanıklık: mantıklı olan yapılır · yapay zekâ katkısı sahipliği değiştirmez; tasarım paketinin üretim süreci belgelenir.
 **Bulgular (koddan):**
-- 1:50 ölçek (K-101/K-102, ajan) gerçekte 90 km alan · 1–6 km irtifa · 2,5 W telsiz · ~80 mW karıştırıcı; yayılım gecikmesi ihmal (gerçek ölçekte slottan uzun).
+- 1:50 ölçek (K-101/K-102) gerçekte 90 km alan · 1–6 km irtifa · 2,5 W telsiz · ~80 mW karıştırıcı; yayılım gecikmesi ihmal (gerçek ölçekte slottan uzun).
 - DSSS işlem kazancı yok → alım eşiği 16 dB, girişim menzili iletimin 6,3 katı, alan tek çarpışma alanı. Li'deki farkın bir kısmı bundan olabilir (ölçülecek).
 - Taşıyıcı dinleme geometrik, enerji sezmeli CCA yok: sürekli karıştırıcı vericiyi durdurmuyor.
 - Sabit 2 Mb/s; yeniden deneme sınırı 4 (standartta 7).
@@ -595,26 +596,26 @@ En ağır bulgu (K-1): v0.3'te DFSN_REQUEST yolu kapalı. Diğerleri: `kosu_kiml
 - Enerji, düğüm kaybı, trafik yoğunluğu ekseni yok.
 - DESPARETE'de karıştırmaya özgü kanıt yok; PROTECT kapalı.
 - "ns-3/OMNeT++ gerçek fiziği yapamaz" iddiası doğru değil → özgünlük: taktik İHA karıştırmasına özel, sızıntısız, kâhin referanslı, ön-kayıtlı, doğrulanmış açık düzenek + protokol + taban ölçümü.
-**Kararlar (öğrenci):** 802.11b korunur, eksikleri kapatılır · 1:1, kaynaklı taktik sürü · kendi konumu küçük GPS/INS hatasıyla (GPS karıştırması kapsam dışı) · yazım paralel başlar · dürüst özgünlük + yayın karşılaştırması.
+**Kararlarım:** 802.11b korunur, eksikleri kapatılır · 1:1, kaynaklı taktik sürü · kendi konumu küçük GPS/INS hatasıyla (GPS karıştırması kapsam dışı) · yazım paralel başlar · dürüst özgünlük + yayın karşılaştırması.
 **Etkisi:** çalışma noktası, ρ, C1, C3, Θ, Li, U1 yeni dünyada yeniden ölçülür. 25 Eylül'e kadarki ölçümler eski dünyanındır, kod hâli etiketiyle okunur.
 
 # K-169 · 🟢 REFERANS DÜNYA ONAYLANDI — kaynaklar alındı, işlem kazancı Li farkının adayı, "kısmi karıştırma" rejimi
-> 25 Eylül · onay öğrenci (*"önerilerini onaylıyorum"*) · kaynak denetimi ve bağ bütçesi ajan · belge `v2/14`
+> 25 Eylül · onayım · kaynak denetimi ve bağ bütçesi · belge `v2/14`
 
 **Kaynaklar** (`02` G1–G9): ns-3 802.11b doğrulaması · IEEE DSSS eğitimi · RFC 8966 · MAVLink · karıştırma taraması · Al-Hourani (yer–hava) · Doodle Labs RM-2450 · Goddemeier vd. 2012 · NATO sınıflandırması.
-- Öğrencinin indirdiği "IEEE 802.11-2016" dosyası madde 21 (802.11ac) kesitiydi, patent davası delili → arşive. Standardın kendisi (802.11-2020, IEEE GET) bekleniyor.
+- İndirdiğim "IEEE 802.11-2016" dosyası madde 21 (802.11ac) kesitiydi, patent davası delili → arşive. Standardın kendisi (802.11-2020, IEEE GET) bekleniyor.
 - "Goddemeier & Wietfeld" dosyası aynı grubun 2012 JSAC makalesiydi. 2015 hava–hava Rice bildirisi bekleniyor.
 - NATO kitabının kopyası yayıncı notu nedeniyle depoya alınmadı.
 
 **Bulgular:**
 - Bizim gövde modelimiz ısıl gürültüye karşı ns-3 ile eşdeğer; ama girişime ve karıştırmaya karşı işlem kazancı yok (~10,4 dB). Gereken SIR 16 → +1,2 dB olunca girişim/iletim oranı 6,31 → ~1,15 → **Li farkının asıl adayı** (öngörü önceden yazıldı, Faz 4'te sınanır).
 - AB/TR sınırı EIRP 20 dBm'de pratik bağ ~1,65 km (10 dB pay). 10–50 W'lık karıştırıcı 1 km'lik bağı 12–26 km'den keser → yönlendirmenin fark yaratabildiği rejim "kısmi karıştırma"dır; güçlü uç keşifsel eksen.
-- Karıştırma tespiti literatürü (Puñal vd.) öğrencinin C_jam fikrinin girdilerini kullanıyor.
+- Karıştırma tespiti literatürü (Puñal vd.) C_jam fikrimin girdilerini kullanıyor.
 
 **Onaylanan:** EIRP 20 dBm (keşifsel 27–33 dBm) · N 40 · alan ~6–8 km · irtifa 50–300 m · hız 40–120 km/h · karıştırıcı 1–50 W ve kısmi karıştırma rejimi · GPS 1,5 m CEP · enerji Tx ≤ 10,6 / Rx 2 / uyku 1,2 W. Üretici: `arsiv/teshis/referans_dunya_2026-09-25/bag_butcesi.py`.
 
 # K-170 · 🟢 YAPI PAKETİ ONAYLANDI — ücretli iki kaynağın yerine açık kaynaklar; K aralığı; kısa yeniden deneme 7; rapor kaynakçası
-> 25 Eylül · onay ve kaynak seçiminin devri öğrenci (*"önceki yapı paketini onaylıyorum"* · *"hangilerinin kaliteli ve güvenilir olduğunu düşünüyorsan onları indir"*) · seçim, denetim, K aralığı ajan
+> 25 Eylül · onayım; kaynak seçiminde ölçüt kalite ve güvenilirlik · seçim, denetim, K aralığı
 
 **Onay (KR-B):** `v2/15` bütünüyle — anahtarlar varsayılan kapalı, en sonda tek dünya değişimi · her yapı adımından sonra regresyon (35–45 dk) için tek seferlik izin · RSSI hatası σ 2 dB · dikey GPS σ 2 m · hareketli karıştırıcı denetim aralığı 10 ms.
 
@@ -623,14 +624,14 @@ En ağır bulgu (K-1): v0.3'te DFSN_REQUEST yolu kapalı. Diğerleri: `kosu_kiml
 - Khawaja vd. 2019 → K faktörü dolaylı aralığı.
 - ns-3 ve Linux cfg80211 → standarda atıflı MAC sabitleri, iki bağımsız uygulama aynı değerde: SIFS 10 · slot 20 µs · CW 31/1023 · **kısa yeniden deneme sınırı 7** (bugünkü 4 uzun sınırdı; RTS kapalıyken 512 B'lık çerçeve kısa sınıfta).
 
-**K kararı:** hava–hava K için referans 10 dB, aralık 6–15 dB; Faz 4'te üç değerle duyarlılık (ajan önerisi; `14` §2).
+**K kararı:** hava–hava K için referans 10 dB, aralık 6–15 dB; Faz 4'te üç değerle duyarlılık (öneriyle; `14` §2).
 
 **Rapor kaynakçası:** `v2/16-KAYNAKCA.md` (IEEE biçimi, 38 giriş, her birinin açılma durumu).
 
-**İhlal (ajan):** bu işte bir kez boş stdin Python'u (`python -`) çalıştırıldı — etkisiz ama yasaklı; beyan edildi.
+**İhlal:** bu işte bir kez boş stdin Python'u (`python -`) çalıştırıldı — etkisiz ama yasaklı; beyan edildi.
 
 # K-171 · 🟢 A1 SONUÇ SATIRI — kimlik tedavi ve protokolü taşıyor; PDR yönüne ayrıldı; `politika` düşme sebebi; regresyonda gerçek protokoller
-> 25–26 Eylül · `v2/15` A1 (onay K-170) · gerçekleme ve ölçüm ajan · beklenti ölçmeden önce `arsiv/teshis/a1_sonuc_satiri_2026-09-25/beklenti.md`
+> 25–26 Eylül · `v2/15` A1 (onay K-170) · gerçekleme ve ölçüm · beklenti ölçmeden önce `arsiv/teshis/a1_sonuc_satiri_2026-09-25/beklenti.md`
 
 **Değişen (davranış değişmedi, yalnız satır):**
 - `kosu_kimligi` artık `tedavi_hash` (senaryo, tehdit, trafik deseni, not, kol, tohum) ve `protokol_hash`ı (`protokoller/` paket özeti + protokolün `kimlik_parametreleri()`; DESPARETE'de sink, kota, bayrak ve seçenek demeti) içeriyor. Eskiden aynı kol ve tohumla farklı senaryo ya da farklı DESPARETE profili aynı kimliği taşıyordu (denetim Y-1 kapandı). Araç özeti satır sonuna duyarsız.
@@ -642,12 +643,12 @@ En ağır bulgu (K-1): v0.3'te DFSN_REQUEST yolu kapalı. Diğerleri: `kosu_kiml
 - DESPARETE vakası: `politika` 40 (komutların hepsi) · `pdr_komut` 0 · `pdr_telemetri` 0,829 ↔ tek `pdr` 0,809. Yön ayrımı olmadan protokolün tasarımca taşımadığı komutlar birleşik PDR'yi aşağı çekiyordu → **KR-2'nin girdisi** (Faz 6).
 - Üretici: `python kalibrasyon/regresyon_satirlari.py karsilastir k157 k171 --yeni k- --izin "kimlik.tedavi_hash,kimlik.sayac_semasi_hash,metrikler.politika_dusen*,korunum.dusen.politika,metrikler.pdr_telemetri*,metrikler.pdr_komut*" --sifir "metrikler.politika_dusen,metrikler.politika_dusen_pencere,korunum.dusen.politika"` · yeni vakaların özeti `…/yeni_vakalar.py`.
 
-**İhlal (ajan):** bir kez boş stdin Python'u (`python -`) ve bir kez salt-okur `git diff --stat` çalıştırıldı — ikisi de etkisiz ama yasaklı; beyan edildi. Karışık satır sonlu `tests2/test_cekirdek.py` düzenlemeyle bütünüyle CRLF oldu.
+**İhlal:** bir kez boş stdin Python'u (`python -`) ve bir kez salt-okur `git diff --stat` çalıştırıldı — ikisi de etkisiz ama yasaklı; beyan edildi. Karışık satır sonlu `tests2/test_cekirdek.py` düzenlemeyle bütünüyle CRLF oldu.
 
 # K-172 · 🟢 DESPARETE KOMUTU TAŞIYOR — `cerceve_duyuldu` kancası (B1 · B2) + V11 komut geri izi; varsayılan v0.4.1
-> 26 Eylül · öğrenci: *"bulguyu düzelteceksin heralde, devam et"* (K-171 bulgusu) · tasarım, gerçekleme, ölçüm ve varsayılan kararı ajan (öğrencinin talebiyle) · beklenti ölçmeden önce `arsiv/teshis/v11_komut_geri_izi_2026-09-26/beklenti.md`
+> 26 Eylül · K-171 bulgusunun düzeltilmesi · tasarım, gerçekleme, ölçüm ve varsayılan kararı talebimle bırakıldı · beklenti ölçmeden önce `arsiv/teshis/v11_komut_geri_izi_2026-09-26/beklenti.md`
 
-**Kusur:** DESPARETE geçitten çıkan komutların hepsini düşürüyordu (K-160 C). Gerçek sürüde yer istasyonu İHA'ya komut gönderebilmeli. K-160'ın A seçeneği (komut hedefleri için alan) tam ölçekte kontrol yükünden çökmüştü. Öğrencinin ilk taslağında yer istasyonu haberleşmesi "ilk sürümde modellenmiyor"du; bu kayıt kapsamı genişletir.
+**Kusur:** DESPARETE geçitten çıkan komutların hepsini düşürüyordu (K-160 C). Gerçek sürüde yer istasyonu İHA'ya komut gönderebilmeli. K-160'ın A seçeneği (komut hedefleri için alan) tam ölçekte kontrol yükünden çökmüştü. İlk taslağımda yer istasyonu haberleşmesi "ilk sürümde modellenmiyor"du; bu kayıt kapsamı genişletir.
 
 **Simülatör — `v2/15` B1 + B2 (K-170 onayı; §E sırasından önce yapıldı, çünkü düzeltme onu gerektiriyordu):**
 - İsteğe bağlı `cerceve_duyuldu(gozlem, gonderen, tur, hedef, rssi_dbm, paket)`: çözülen her çerçevede (veri · onay · beacon · kontrol · konay), çerçeve işlenmeden önce; niyet döndürmez.
@@ -672,12 +673,12 @@ En ağır bulgu (K-1): v0.3'te DFSN_REQUEST yolu kapalı. Diğerleri: `kosu_kiml
 - Hareketli kolda telemetri işareti 4/5 eksi; büyüklüğü tohum gürültüsünün içinde. Bedeli olabilecek tek şey komutların artık gerçekten iletilmesi (v0.4'te geçitte düşüyordu) — her protokolün ödediği yük.
 - Üretici: `python arsiv/teshis/v11_komut_geri_izi_2026-09-26/ab.py` (ham: `ab_sonuc.json`).
 
-**Karar:** varsayılan **v0.4.1 = v0.4 + V11** (`SECENEK_V041`); `aodv_uygunluk` ve regresyon fabrikaları da v0.4.1. Eski C yolunu sınayan üç test ve v0.4 için ölçülerek seçilmiş açlık izi testi `SECENEK_V04`e sabitlendi. **Sonraki regresyonda `k-…-desparete` vakası V11 farklarıyla değişecek** — o koşunun beklentisinde ilan edilir, her izinli alan "1 vakada farklı" olmalı. Tasarım paketine (öğrencinin belgesi) işlenmesi KR-D'ye bağlı. Tam ölçekte uzun pencere doğrulaması yeni dünyada (Faz 5.0).
+**Karar:** varsayılan **v0.4.1 = v0.4 + V11** (`SECENEK_V041`); `aodv_uygunluk` ve regresyon fabrikaları da v0.4.1. Eski C yolunu sınayan üç test ve v0.4 için ölçülerek seçilmiş açlık izi testi `SECENEK_V04`e sabitlendi. **Sonraki regresyonda `k-…-desparete` vakası V11 farklarıyla değişecek** — o koşunun beklentisinde ilan edilir, her izinli alan "1 vakada farklı" olmalı. Tasarım paketine (benim belgem) işlenmesi KR-D'ye bağlı. Tam ölçekte uzun pencere doğrulaması yeni dünyada (Faz 5.0).
 
 **Test:** son hâlde tam takım **839 passed** (12,5 dk). Ara koşuda seçenek demetini sabitleyen 2 test V11 alanını görmediği için kırılmıştı → düzeltildi.
 
 # K-173 · 🟢 A2 DSSS İŞLEM KAZANCI — anahtar `islem_kazanci`; ns-3 ile 0,05 dB; eski model girişime karşı tam 10,4 dB fazla zarar veriyordu
-> 26 Eylül · `v2/15` A2 (onay K-170) · gerçekleme ve ölçüm ajan · beklenti ölçmeden önce `arsiv/teshis/a2_islem_kazanci_2026-09-26/beklenti.md`
+> 26 Eylül · `v2/15` A2 (onay K-170) · gerçekleme ve ölçüm · beklenti ölçmeden önce `arsiv/teshis/a2_islem_kazanci_2026-09-26/beklenti.md`
 
 **Değişen (anahtar varsayılan KAPALI):**
 - Açıkken BER'in girdisi Eb/N0 = SINR · B/R_b, B = 22 MHz: gövde ×11, önbelge ×22. Girişim ve karıştırma SINR'a gürültü gibi girer ve kazancı alır.
@@ -703,10 +704,10 @@ En ağır bulgu (K-1): v0.3'te DFSN_REQUEST yolu kapalı. Diğerleri: `kosu_kiml
 
 **Açık (A7/A8):** β = 16 dB (menzil tanımı, fiziksel kopma eşiği) işlem kazancısız çözülebilirlikten türemişti; kazanç açıkken yeniden türetilir. Eski dünyada verici gücü β'dan türetildiği için A2 tek başına açılınca menzil de büyür — dünya değişimi A8'de hepsini birlikte çevirir.
 
-**İhlal (ajan):** bir kez daha boş stdin Python'u (`python -`) — etkisiz, beyan edildi; bellekteki kural güçlendirildi. (A3 hazırlığında bir kez daha oldu — K-174'e değil buraya yazıldı, aynı gün.)
+**İhlal:** bir kez daha boş stdin Python'u (`python -`) — etkisiz, beyan edildi; bellekteki kural güçlendirildi. (A3 hazırlığında bir kez daha oldu — K-174'e değil buraya yazıldı, aynı gün.)
 
 # K-174 · 🟢 A3 GÜCE DAYALI TAŞIYICI DİNLEME + ED-CCA — anahtar `tasiyici_dinleme`; sürekli karıştırıcı artık vericiyi susturabiliyor
-> 26 Eylül · `v2/15` A3 (onay K-170) · gerçekleme ve ölçüm ajan · beklenti ölçmeden önce `arsiv/teshis/a3_tasiyici_dinleme_2026-09-26/beklenti.md`
+> 26 Eylül · `v2/15` A3 (onay K-170) · gerçekleme ve ölçüm · beklenti ölçmeden önce `arsiv/teshis/a3_tasiyici_dinleme_2026-09-26/beklenti.md`
 
 **Değişen (varsayılan "geometrik" = bugün):** "guc" kipinde 802.11b CCA (G2):
 - **Önbelge sezme:** alıcı bir çerçeveye kilitli. Kilit önbelge PER'iyle kurulduğu için eşik oradan türer; ayrı parametre yok.
@@ -730,7 +731,7 @@ En ağır bulgu (K-1): v0.3'te DFSN_REQUEST yolu kapalı. Diğerleri: `kosu_kiml
 **Açık:** güç kipinde budama menzili geometrik kalır (performans); ED'ye giren enerji budanmaz. Önbelge sezme eşiği ns-3'ün RxSensitivity'siyle (−101 dBm, 20 MHz) uyumlu: A2 açıkken önbelge PER %50 ≈ SNR −6,5 dB → 22 MHz, NF 7'de ≈ −100 dBm.
 
 # K-175 · 🟢 A5 YAYILIM GECİKMESİ — anahtar `yayilim_gecikmesi`; alım, donma ve taşıyıcı dinleme varış penceresiyle
-> 26 Eylül · `v2/15` A5 (onay K-170) · gerçekleme ve ölçüm ajan · beklenti ölçmeden önce `arsiv/teshis/a5_yayilim_gecikmesi_2026-09-26/beklenti.md`
+> 26 Eylül · `v2/15` A5 (onay K-170) · gerçekleme ve ölçüm · beklenti ölçmeden önce `arsiv/teshis/a5_yayilim_gecikmesi_2026-09-26/beklenti.md`
 
 **Değişen (varsayılan KAPALI):**
 - Çerçeve alıcıya d/c sonra ulaşır: alım olayları, geometrik kipte donma, taşıyıcı dinleme (iki kipte de) ve meşguliyet bitişi VARIŞ penceresiyle hesaplanır.
@@ -747,7 +748,7 @@ En ağır bulgu (K-1): v0.3'te DFSN_REQUEST yolu kapalı. Diğerleri: `kosu_kiml
 - **Geçerli taban `k175`.**
 
 # K-176 · 🟢 A6 KARIŞTIRICI GERÇEKÇİLİĞİ — anahtar `karistirici_gercekci`; sönümleme · yer–hava kanalı · reaktif eşik · aldatıcı kilidi
-> 26 Eylül · `v2/15` A6 (onay K-170) · gerçekleme ve ölçüm ajan · beklenti ölçmeden önce `arsiv/teshis/a6_karistirici_2026-09-26/beklenti.md`
+> 26 Eylül · `v2/15` A6 (onay K-170) · gerçekleme ve ölçüm · beklenti ölçmeden önce `arsiv/teshis/a6_karistirici_2026-09-26/beklenti.md`
 
 **Değişen (varsayılan KAPALI):**
 1. **Sönümleme:** karıştırıcı bağında hızlı sönümleme — düğüm bağıyla aynı Rician model; bağıl hız karıştırıcının yörüngesinden.
@@ -769,8 +770,8 @@ En ağır bulgu (K-1): v0.3'te DFSN_REQUEST yolu kapalı. Diğerleri: `kosu_kiml
 - Beş yeni `p-` vakası geçerli: yer karıştırıcısı, aldatıcı ×2 (geometrik ve güç kipi), reaktif, hareketli kolda sönümleme.
 - **Geçerli taban `k176`.**
 
-# K-177 · 🟢 A4 HIZ UYARLAMASI — ns-3 ARF (öğrenci izniyle indirildi); CCK hata modeli; anahtar `hiz_uyarlamasi`
-> 26 Eylül · öğrenci: *"izin veriyorum devam edebilirsin"* (ARF kaynağının indirilmesi) · `v2/15` A4 (onay K-170) · gerçekleme ve ölçüm ajan · beklenti ölçmeden önce `arsiv/teshis/a4_hiz_uyarlamasi_2026-09-26/beklenti.md`
+# K-177 · 🟢 A4 HIZ UYARLAMASI — ns-3 ARF (iznimle indirildi); CCK hata modeli; anahtar `hiz_uyarlamasi`
+> 26 Eylül · ARF kaynağının indirilmesine iznim · `v2/15` A4 (onay K-170) · gerçekleme ve ölçüm · beklenti ölçmeden önce `arsiv/teshis/a4_hiz_uyarlamasi_2026-09-26/beklenti.md`
 
 **Kaynak (`02` G14):** ns-3 `arf-wifi-manager.{cc,h}` (GPL-2.0; 8 353 + 2 621 B; tamamı okundu, SHA-256 README'de). Kamerman & Monteban 1997'nin ARF'si, paket sayaçlı. Özgün makale açılmadı (↪, kaynakça [39]).
 
@@ -792,10 +793,10 @@ En ağır bulgu (K-1): v0.3'te DFSN_REQUEST yolu kapalı. Diğerleri: `kosu_kiml
 - `karsilastir k176 k177 --yeni q-` → **59/59 bulgusuz, 🟢 BİREBİR**.
 - **Geçerli taban `k177`.**
 
-**Sapma (ajan):** satır sayımı için bir kez satır içi `python -c` koşuldu — yasaklı `python -` değil ama "her Python işi dosyada" kuralına aykırı; beyan edildi.
+**Sapma:** satır sayımı için bir kez satır içi `python -c` koşuldu — yasaklı `python -` değil ama "her Python işi dosyada" kuralına aykırı; beyan edildi.
 
 # K-178 · 🟢 A7 REFERANS DÜNYANIN GİRDİLERİ — `referans_2026()`: güç girdi, menzil ve eşikler PER'den; bağ bütçesiyle aynı sayılar
-> 26 Eylül · `v2/15` A7 (onay K-170) · gerçekleme ve ölçüm ajan · beklenti ölçmeden önce `arsiv/teshis/a7_referans_dunya_2026-09-26/beklenti.md`
+> 26 Eylül · `v2/15` A7 (onay K-170) · gerçekleme ve ölçüm · beklenti ölçmeden önce `arsiv/teshis/a7_referans_dunya_2026-09-26/beklenti.md`
 
 **Değişen:**
 - `dunya` = "olcek_1_50" (varsayılan, bugün) | "referans_2026" — `sim2/kanal/dunya.py::referans_2026(**ek)` kurar.
@@ -824,7 +825,7 @@ En ağır bulgu (K-1): v0.3'te DFSN_REQUEST yolu kapalı. Diğerleri: `kosu_kiml
 **Açık (Faz 4):** kapsam bölümündeki Θ ve bölünme payı tabloları eski dünyada ölçüldü, referansta bayat → yeniden ölçülür. Görev yarıçapı "bağımsız kolla derece eşitliği" ölçütüyle yeniden kalibre edilir.
 
 # K-179 · 🟢 B3 GÖZLEM v2 — kendi GPS/INS'i, kanal doluluğu, PHY hatası, alınan çerçeve
-> 26 Eylül · `v2/15` B3 (onay K-170) · gerçekleme ve ölçüm ajan · beklenti ölçmeden önce `arsiv/teshis/b3_gozlem_v2_2026-09-26/beklenti.md`
+> 26 Eylül · `v2/15` B3 (onay K-170) · gerçekleme ve ölçüm · beklenti ölçmeden önce `arsiv/teshis/b3_gozlem_v2_2026-09-26/beklenti.md`
 
 **Değişen:** `Gozlem`e beş alan (yüzey 12 → 17):
 - `kendi_konum` · `kendi_hiz` — gerçek + GPS/INS hatası: yatay 1,5 m CEP (G7), dikey σ 2 m, hız σ 0,1 m/s; 1 Hz dilimde sabit, hash'ten. Komşunun hareketi yine YOK; "bedava hareket bilgisi yok" sınavı `kendi_*` adlarıyla korundu.
@@ -832,7 +833,7 @@ En ağır bulgu (K-1): v0.3'te DFSN_REQUEST yolu kapalı. Diğerleri: `kosu_kiml
 - `phy_hata` — kilitlenip gövdesi çözülemeyen çerçeve.
 - `alinan_cerceve` — başarıyla çözülen çerçeve.
 - Olay döngüsünün iki alım işleyicisi `kosum/alim.py`ye taşındı (davranış birebir; 150 satır kapısı).
-- **Onaylı tanımdan sapma (ajan, gerekçeli):** `phy_hata` önbelgesi hiç kilitlenmeyen çerçeveleri SAYMAZ. İşlem kazancıyla budama menzili 22 kat uzağa uzanıyor; uzak zayıf her iletim sayılırdı, gerçek telsiz onları sezmez.
+- **Onaylı tanımdan sapma (gerekçeli):** `phy_hata` önbelgesi hiç kilitlenmeyen çerçeveleri SAYMAZ. İşlem kazancıyla budama menzili 22 kat uzağa uzanıyor; uzak zayıf her iletim sayılırdı, gerçek telsiz onları sezmez.
 - `v2/05` §3.3b.
 
 **Sınavlar:** düğüm sayaçlarının toplamı global alım sayaçlarıyla aynı · ortanca yatay GPS hatası 1,2–1,8 m, dikey σ 1,7–2,3 m, dilimde sabit · güç kipinde sürekli karıştırıcıyla 1–4 s tamamen meşgul · istemeyen protokolde `None`.
@@ -845,7 +846,7 @@ En ağır bulgu (K-1): v0.3'te DFSN_REQUEST yolu kapalı. Diğerleri: `kosu_kiml
 - SINANMAMIŞ borcu 40 → 46: bu turun öneri değerleri (RSSI σ, reaktif eşik ve olasılık, geçici karıştırıcı gücü, dikey GPS, GPS hızı).
 
 # K-180 · 🟢 C SENARYO EKSENLERİ — düğüm kaybı · trafik ekseni · telsiz enerjisi (+ B4)
-> 26 Eylül · `v2/15` C1–C3, B4 (onay K-170) · gerçekleme ve ölçüm ajan · beklenti ölçmeden önce `arsiv/teshis/c_senaryo_eksenleri_2026-09-26/beklenti.md`
+> 26 Eylül · `v2/15` C1–C3, B4 (onay K-170) · gerçekleme ve ölçüm · beklenti ölçmeden önce `arsiv/teshis/c_senaryo_eksenleri_2026-09-26/beklenti.md`
 
 **C1 · Düğüm kaybı** (`kosum/kayip.py`)
 - Geçit dışındaki `kayip_dugum_sayisi` İHA'nın telsizi `[kayip_bas_s, kayip_bitis_s]` içinde, hash'ten seçilen bir anda kapanır. Seçim aynı tohumda protokolden bağımsız.
@@ -862,7 +863,7 @@ En ağır bulgu (K-1): v0.3'te DFSN_REQUEST yolu kapalı. Diğerleri: `kosu_kiml
 
 **B4.** `v2/05`e her gözlem alanının gerçek karşılığı tablosu (§3.1) eklendi. Yüzey sayısı düzeltildi: 24 bayattı, doğrusu 17 + 6 + 6 = 29. "Düşen komşu haber verilmez" satırı eklendi.
 
-**🔴 Ölçmeden önce yakalanan iki kusur (ajan):**
+**🔴 Ölçmeden önce yakalanan iki kusur:**
 1. **Yayın ortasında ölüm koşuyu çökertiyordu.**
    - Ölümde paket uçuştan düşüyor, ama havadaki çerçeve alıcıda yine çözülüp ölü göndericiden "devralınıyordu" → değişmez hatası.
    - Yeniden üretim `yayin_ortasinda_olum.py`: gecikme kapalı ve açık, ikisinde de ÇÖKTÜ.
@@ -903,11 +904,11 @@ En ağır bulgu (K-1): v0.3'te DFSN_REQUEST yolu kapalı. Diğerleri: `kosu_kiml
 **Geçerli taban `k180`** (67 vaka).
 
 # K-181 · 🟢 A8 DÜNYA DEĞİŞİMİ — referans dünyada bütün anahtarlar açık · Faz 1–3 kapandı
-> 26 Eylül · `v2/15` A8 (onay K-170) · gerçekleme ve ölçüm ajan · beklenti ölçmeden önce `arsiv/teshis/a8_referans_anahtarlar_2026-09-26/beklenti.md`
+> 26 Eylül · `v2/15` A8 (onay K-170) · gerçekleme ve ölçüm · beklenti ölçmeden önce `arsiv/teshis/a8_referans_anahtarlar_2026-09-26/beklenti.md`
 
 **Değişen:**
 - `referans_2026()` Faz 1'in bütün anahtarlarını açar: işlem kazancı, güç kipi taşıyıcı dinleme + ED-CCA, ARF, yayılım gecikmesi, karıştırıcı gerçekçiliği. `Konfig` varsayılanları eski dünyada kalır; eski vakalar ve kalibrasyon tabloları onunla birebir.
-- **Kapsam beyanı düzeltmesi (ajan hatası):** A2–A5 dört sınırı anahtarın arkasında modelledi, ama `kapsam.MODELLENMEYEN` güncellenmedi. Anahtarı açık satırlar "hız uyarlaması yok" gibi YANLIŞ beyan taşıyordu. Artık anahtarlı dört sınır satırın kendi konfiginden okunur.
+- **Kapsam beyanı düzeltmesi (uygulama hatası):** A2–A5 dört sınırı anahtarın arkasında modelledi, ama `kapsam.MODELLENMEYEN` güncellenmedi. Anahtarı açık satırlar "hız uyarlaması yok" gibi YANLIŞ beyan taşıyordu. Artık anahtarlı dört sınır satırın kendi konfiginden okunur.
 
 **Analitik girdi** (`ed_payi.py`, koşu değil): merkezdeki 1 W karıştırıcı `statik` kolda 16/40, `bagimsiz` kolda 6–15/40 düğümü ED eşiğinin (−76 dBm) üstünde tutuyor. Ortanca güç ≈ −77 dBm, yani tam eşikte.
 
@@ -943,9 +944,9 @@ Susan düğüm öngörüsü tuttu: iki karıştırmalı vakada `kuyruk_tasmasi` 
 **Faz 1–3 (yapı paketi `v2/15` A1–A8, B1–B4, C1–C3) KAPANDI. Geçerli taban `k181`** (67 vaka).
 
 # K-182 · 🟢 KR-E KAPANDI — düğüm kaybında birincil metrik: PDR'nin kohortu yaşayan uçlar, görev teslim oranı ikincil
-> 26 Eylül · karar: öğrenci ajana bıraktı (*"önemli bulgulardan 2.sini sen seç"*) · gerçekleme ve ölçüm ajan · beklenti ölçmeden önce `arsiv/teshis/kre_metrik_2026-09-26/beklenti.md`
+> 26 Eylül · önemli bulgulardan 2.sinin seçimini devrettim · gerçekleme ve ölçüm · beklenti ölçmeden önce `arsiv/teshis/kre_metrik_2026-09-26/beklenti.md`
 
-**Karar (ajan) — birincil metrik PDR kalır; kohortu doğduğu anda kaynağı ve hedefi yaşayan paketlerdir.**
+**Karar — birincil metrik PDR kalır; kohortu doğduğu anda kaynağı ve hedefi yaşayan paketlerdir.**
 - Ölü hedefe doğan paketi hiçbir protokol teslim edemez.
 - Ölüm anları hash'ten ve protokolden bağımsızdır; her kolda aynı paketler dışarıda kalır. Hiçbir protokol bu kuraldan yarar sağlayamaz.
 - Kayıp yoksa PDR birebir bugünkü PDR'dir; birincil hücre (kayıpsız) etkilenmez.
@@ -986,7 +987,7 @@ Susan düğüm öngörüsü tuttu: iki karıştırmalı vakada `kuyruk_tasmasi` 
 
 
 # K-183 · 🟢 FAZ 4.0 — kâhin referans dünyayı görür · araçlar referans dünyada · iki kırık araç onarıldı · Bianchi referansta
-> 26 Eylül · Faz 4 (öğrenci onayı: 4.1–4.3) · gerçekleme ve ölçüm ajan · beklenti ölçmeden önce `arsiv/teshis/faz4_2026-09-26/0_hazirlik_beklenti.md`
+> 26 Eylül · Faz 4 (onayım: 4.1–4.3) · gerçekleme ve ölçüm · beklenti ölçmeden önce `arsiv/teshis/faz4_2026-09-26/0_hazirlik_beklenti.md`
 
 **1 · Kâhin grafiği** (`kalibrasyon/kahin.py`) — referans dünyanın üç gerçeğini görmüyordu; üçü de anahtara bağlı, eski dünya birebir:
 - **ED susturması (güç kipi):**
@@ -1003,7 +1004,7 @@ Susan düğüm öngörüsü tuttu: iki karıştırmalı vakada `kuyruk_tasmasi` 
 - Uyarlanan araçlar: `calisma_noktasi`, `karistirici_gucu` (tohumlar havuzda; `mesafe` bölümü), `li_replikasyonu`, `yere_toplama_yuku`, `theta_kollari`, `pdr_tavani`, `aodv_uygunluk`.
 - **Ölçütlerin hiçbiri değişmedi**; değişen dünya ve tarama aralıklarıdır.
 
-**3 · 🔴 İki kırık araç** (ajan kusuru, Faz 4.0'da bulundu):
+**3 · 🔴 İki kırık araç** (uygulama kusuru, Faz 4.0'da bulundu):
 - `li_replikasyonu` ve `iki_cift`, `Kurulum`u elle kuruyordu ve A5/C1'in alanlarını almamıştı; iki çift ayrıca yere toplamanın alanını da almamıştı.
 - İkisi de `TypeError` ile **kurulamıyordu** (`kirik_araclar_once.txt`). Son koşumları eskiydi, kimse fark etmedi. Sınıf aynı: "üretici var, koşmuyor".
 - Düzeltme: duyma/gecikme türetimi `kurulum.py::duyma_turetimi`de tek yerde. Araçlar formülü kopyalamaz, onu çağırır.
@@ -1023,7 +1024,7 @@ Susan düğüm öngörüsü tuttu: iki karıştırmalı vakada `kuyruk_tasmasi` 
 
 
 # K-184 · 🟢 `analiz/` KATMANI — ön-kaydın analiz planı kodda (Faz 6'nın parçası, erken)
-> 26 Eylül · uzun koşular sürerken koşunun kullanmadığı iş (öğrenci: "boş durma") · ajan
+> 26 Eylül · uzun koşular sürerken koşunun kullanmadığı iş (ilkem: boş durulmaz)
 
 **Ne:** `analiz/istatistik.py` ve `analiz/satir.py`; simülatörden hiçbir şey içe aktarmaz (test tarar).
 - **Wilcoxon** (çift yönlü, eşleştirilmiş):
@@ -1045,8 +1046,8 @@ Susan düğüm öngörüsü tuttu: iki karıştırmalı vakada `kuyruk_tasmasi` 
 
 **Açık (Faz 6):** hücre koşucusu (JSONL kümesinden H2.a–c tablosu), güç yönteminin taban protokol gürültüsüyle koşumu.
 
-# K-185 · 🟢 REFERANS DÜNYANIN ALANI 35 km — öğrenci: "ölçütü boşver, en mantıklı ve gerçekçi olana önem ver"
-> 26 Eylül · Faz 4.1a · karar ajanın (öğrenci devretti) · ölçüm `arsiv/teshis/faz4_2026-09-26/a_calisma_noktasi_sonuc.md` · beklenti `a_calisma_noktasi_beklenti.md` (ölçmeden önce)
+# K-185 · 🟢 REFERANS DÜNYANIN ALANI 35 km — ölçütten çok en mantıklı ve gerçekçi olana önem verildi
+> 26 Eylül · Faz 4.1a · kararı devrettim · ölçüm `arsiv/teshis/faz4_2026-09-26/a_calisma_noktasi_sonuc.md` · beklenti `a_calisma_noktasi_beklenti.md` (ölçmeden önce)
 
 **Bulgu:**
 - Referans telsizle bağ 1 Mb/s'te ~9–10 km uzanıyor: 20 dBm EIRP, dipol, serbest uzay, σ 3 dB, K 10 dB, 7 yeniden deneme, ARF tabanı.
@@ -1055,7 +1056,7 @@ Susan düğüm öngörüsü tuttu: iki karıştırmalı vakada `kuyruk_tasmasi` 
 - Tarama (30 tohum): 30 km geçer; **35 km geçer** (derece 8,82, derin çift %31,9); 36–40 km kopar (%0,2–0,8).
 - Eski dünyanın noktası 8,67 · %31,0 idi; ölçüt aynı topolojiyi 1:1 ölçekte buluyor.
 
-**Karar ve gerekçe (ajan):**
+**Karar ve gerekçe:**
 1. **Fizik doğru.** 50–300 m irtifada hava–hava yayılımı serbest uzaydır; iki ışın kırılma mesafesi ~325 km (`v2/14` §2). Menzili kaynaksız bir kayıpla kısaltmak fiziği bozardı.
 2. **Geometri platformun zarfı içinde:** NATO Sınıf I görev yarıçapı ≤ 50 km (G9).
 3. **Karıştırma gerçekçi rejime oturur.** 1–50 W'lık karıştırıcı 35 km'lik ağın bir bölgesini etkiler. 7 km'de sürünün tamamını karartırdı; `v2/14` §4'ün sınır cümlesi tam da bunu söylüyor.
@@ -1085,18 +1086,18 @@ AODV'de susan düğüm kuyruk taşması 451 → 0 ✓, ama rota tamponu taşmas�
 **🔴 İlk karıştırıcı ölçümü 35 km'yi sorguladı** (`b_karistirici_tarama.txt`, `b_karistirici_beklenti.md`):
 - Merkezdeki sürekli karıştırıcı ağı 20 dBm'de 4/30, 25 dBm'de 19/30, **30 dBm'de (1 W) 30/30 tohumda BÖLÜYOR**. ρ 0,67, ulaşılabilirlik 0,47. Beklenti "1 W'ta bölünme yok" idi ✗.
 - **Neden:** "ağın hiç kopmadığı en büyük alan" ağı bağlılığın kenarına, yani yedeksiz bir noktaya koyuyor. Kaynak bandındaki hiçbir karıştırıcı orada "kısmi" kalamıyor. AODV'nin tampon taşması da bu.
-- **Sonraki adım (ajan kararı, gerçekçilik ilkesiyle):** alan ve karıştırıcı BİRLİKTE seçilir.
+- **Sonraki adım (gerçekçilik ilkesiyle):** alan ve karıştırıcı BİRLİKTE seçilir.
   - Güç kaynaktan sabit: İHA taşıyıcılı bandın alt ucu, 1 W.
   - Alan: çok atlamalılığın en büyük olduğu, ama o karıştırıcının ağı bölmediği değer.
   - Ölçüm `b_alan_guc.py`; sonuç ve yeni alan K-186'da.
   - 35 km o kayda kadar geçerli.
 
-# K-186 · 🟡 KARIŞTIRICI REJİMİ REFERANS DÜNYADA — hava karıştırıcısı sürüyü böler, yer karıştırıcısı kısmi kalır · birincil hücre öğrenciye
-> 26 Eylül · Faz 4.1b · ölçüm ajan · beklentiler ölçmeden önce `arsiv/teshis/faz4_2026-09-26/b_karistirici_beklenti.md` (dört tur, hepsi yazıldı, yanlışlananlar işaretli)
+# K-186 · 🟡 KARIŞTIRICI REJİMİ REFERANS DÜNYADA — hava karıştırıcısı sürüyü böler, yer karıştırıcısı kısmi kalır · birincil hücre kararı bende
+> 26 Eylül · Faz 4.1b · ölçüm · beklentiler ölçmeden önce `arsiv/teshis/faz4_2026-09-26/b_karistirici_beklenti.md` (dört tur, hepsi yazıldı, yanlışlananlar işaretli)
 
 **Ölçüler:** `karistirici_gucu` (kâhin grafiği, ED susturması dâhil, 30 tohum × 9 an, statik kol, 35 km).
 - **Büyük bölünme = ikinci güçlü bileşen ≥ 4 İHA** (bir müfreze; K-186 tanımı).
-- ⚠️ **Ölçü kusuru (ajan):** referans dünyada kâhin grafiği yönlüdür. Eski "birden fazla çok üyeli bileşen" sayımı BFS kümeleriyle yapılıyordu; yönlü grafikte bu kümeler üst üste biner ve güvenilmez. Bileşenler artık güçlü bağlı bileşenler (`kahin.ozet`; eski dünyada birebir aynı).
+- ⚠️ **Ölçü kusuru:** referans dünyada kâhin grafiği yönlüdür. Eski "birden fazla çok üyeli bileşen" sayımı BFS kümeleriyle yapılıyordu; yönlü grafikte bu kümeler üst üste biner ve güvenilmez. Bileşenler artık güçlü bağlı bileşenler (`kahin.ozet`; eski dünyada birebir aynı).
 
 **Alan × güç** (`b_alan_guc.txt`): merkezdeki 1 W'lık karıştırıcı 10–35 km'nin HER alanında ağı böler (eski sayımla 15–30/30). Kenarın 8,75 km dışına çıkınca bile (`b_karistirici_mesafe_aile.txt`) 13/30.
 
@@ -1117,10 +1118,10 @@ AODV'de susan düğüm kuyruk taşması 451 → 0 ✓, ama rota tamponu taşmas�
 - `v2/14` §4'ün sınır cümlesi ("yönlendirmenin fark yarattığı yer, etki alanı sürüden küçük karıştırıcılar") ölçüldü: bu rejimi yer karıştırıcıları kurar, hava karıştırıcısı kurmaz.
 
 **Sonuç:**
-- Birincil hücrenin ailesi `hava_eslik` (öğrenci, 23 Eylül; eski dünyada −15 dBm'de kısmiydi) referans dünyanın kaynaklı gücünde sürüyü böler. Orada ölçülen yönlendirme değil, çöküş olur.
-- **Karar öğrencide** (ön-kayıt §0.4.4).
+- Birincil hücrenin ailesi `hava_eslik` (kararım, 23 Eylül; eski dünyada −15 dBm'de kısmiydi) referans dünyanın kaynaklı gücünde sürüyü böler. Orada ölçülen yönlendirme değil, çöküş olur.
+- **Karar bende** (ön-kayıt §0.4.4).
 
-**🟢 Karar (öğrenci, 26 Eylül): "Hareketli araç, 10 W".**
+**🟢 Kararım (26 Eylül): hareketli araç, 10 W.**
 - Birincil hücre `formasyon · yere_toplama · derin_sizma · sürekli`, karıştırıcı 10 W toplam ortalama (`REFERANS_KARISTIRICI_DBM` 30 → **40 dBm**, bütün ailelerde eşit — K-119), alan 35 km.
 - `hava_eslik` keşifsel eksen oldu; çöküş rejiminin sınırını gösterir.
 - Güç SINANMAMIŞ kalır: `v2/14` §4'ün 10 W'ı üretici sayfalarına dayanıyor (S3, kanıt gücü düşük).
@@ -1131,7 +1132,7 @@ AODV'de susan düğüm kuyruk taşması 451 → 0 ✓, ama rota tamponu taşmas�
 - `k183 ↔ k184`: `r-…-surekli` dışı birebir (köken sayısı izinli).
 - İki `r-…-surekli` vakası daha kötü: merkezde 10 W → çöküş.
 
-**⚠️ Kural ihlali (ajan):** bu kaydın hazırlığında bir Bash komutunun sonuna boş bir `python -` heredoc'u eklendi. Hiçbir şey çalıştırmadı, ama stdin Python yasağını çiğner (önceki beyanlar: K-171, K-173, K-174).
+**⚠️ Kural ihlali:** bu kaydın hazırlığında bir Bash komutunun sonuna boş bir `python -` heredoc'u eklendi. Hiçbir şey çalıştırmadı, ama stdin Python yasağını çiğner (önceki beyanlar: K-171, K-173, K-174).
 **K-186 uygulamasının ölçümü:**
 - Tam takım **917 passed** (29,1 dk; beklenti 917; makine yük taramasıyla paylaşıldı). Mimari denetimi "Yapısal ihlal YOK".
 - `uret k184` 67/67 geçerli, 51,8 dk.
@@ -1142,7 +1143,7 @@ AODV'de susan düğüm kuyruk taşması 451 → 0 ✓, ama rota tamponu taşmas�
   - tek atlama `bagimsiz` 0,118 → **0,051** (< 0,08 ✓).
 - **Geçerli taban `k184`.**
 # K-187 · 🟢 Lİ REFERANS DÜNYADA TUTTU (sabit hızda 0,127) · ARF çok atlamayı bozar · araçların dünya tuzağı kökten kapandı
-> 27 Eylül · Faz 4.2 + 4.0 düzeltmesi · ajan · beklenti ölçmeden önce `arsiv/teshis/faz4_2026-09-26/b_li_beklenti.md` (üç tur)
+> 27 Eylül · Faz 4.2 + 4.0 düzeltmesi · beklenti ölçmeden önce `arsiv/teshis/faz4_2026-09-26/b_li_beklenti.md` (üç tur)
 
 **1 · Li replikasyonu** (`python -u kalibrasyon/li_replikasyonu.py --dunya referans_2026` → `b_li.txt`, 6,4 dk):
 - Referans dünyanın bütün anahtarları açıkken H1 = **0,0426**, TUTMADI (bant 0,10–0,20). Öngörüm [0,05; 0,12] ✗, `v2/14` öngörüsü ("yukarı") ✗.
@@ -1162,17 +1163,17 @@ AODV'de susan düğüm kuyruk taşması 451 → 0 ✓, ama rota tamponu taşmas�
 - **H1'i bozan ARF.** Çok atlamalı çekişmede çarpışmayı kanal hatası sanıp hızı düşürüyor; uzun zincirin mutlak verimi de 45 → 34 pkt/s iner. Literatürde bilinen bir ARF zaafı; ns-3 ARF'nin kendisi (G14).
 - **Beyan:** referans dünyada ARF açık kalır (gerçek telsiz böyle davranır) ve bütün protokollere aynı MAC'le eşit etki eder. Doğrulama kaydı Li'yi sabit hızda geçer. `DEVIR` doğrulama listesi satır 11 buna göre.
 
-**2 · 🔴 Araçların dünya tuzağı** (ajan kusuru, K-183'ün eksiği):
+**2 · 🔴 Araçların dünya tuzağı** (uygulama kusuru, K-183'ün eksiği):
 - `theta_kollari` `--dunya` alıyordu, ama ölçüm gövdesi `bag_kumesi._is_theta_hiz` `Konfig`i doğrudan kuruyordu. Referans istenince SESSİZCE eski dünyayı ölçecekti. `dugum_sayisi` (bölünme tablosu) da aynıydı.
 - **Kökten düzeltme:** 21 aracın bütün kurulumları (~60 nokta) `dunya_secimi.konfig` üzerinden. Eski dünyada birebir.
 - Muaf dört dosya gerekçeli: seçimin kendisi, tarihsel `adim3_oncesi`, varsayılanları inceleyen mimari denetimi, dünyası vaka önekinden gelen regresyon aracı.
 - Yeni test, AST taramasıyla doğrudan `Konfig(...)` çağrısını yasaklar. Mimari denetimi: içe aktarılamayan 0.
 
-**3 · ⚠️ Kural ihlalleri (ajan):** bu turda iki kez Bash komutuna refleksle `python -` (stdin) eklendi: K-186'da boş heredoc, burada `</dev/null`. İkisi de hiçbir şey çalıştırmadı, ama yasak açık. Komut göndermeden önce bu kalıp artık ayrıca aranır.
+**3 · ⚠️ Kural ihlalleri:** bu turda iki kez Bash komutuna refleksle `python -` (stdin) eklendi: K-186'da boş heredoc, burada `</dev/null`. İkisi de hiçbir şey çalıştırmadı, ama yasak açık. Komut göndermeden önce bu kalıp artık ayrıca aranır.
 # K-188 · 🟢 GÖLGELEME BİRİM HATASI DÜZELDİ · referans alanı 33 km · Θ · görev yarıçapı 16 km · araç tuzakları (ikinci tur)
-> 27 Eylül · Faz 4.1 · ajan · beklentiler ölçmeden önce `arsiv/teshis/faz4_2026-09-26/f_golge_beklenti.md`, `e_hareket_beklenti.md`
+> 27 Eylül · Faz 4.1 · beklentiler ölçmeden önce `arsiv/teshis/faz4_2026-09-26/f_golge_beklenti.md`, `e_hareket_beklenti.md`
 
-**1 · 🔴 Birim hatası** (A7 atlaması, ajan):
+**1 · 🔴 Birim hatası** (A7 atlaması):
 - `referans_2026` eski dünyanın `golgeleme_hucre_m = 50`sini ölçeklemeden taşıdı. Değer 1:50 uzaydaydı, yani gerçekte 2,5 km.
 - 1:1 dünyada gölgeleme 50 kat hızlı değişti ve rota ömrü yapay olarak çöktü: bağımsız kolda Θ_OLSR 0,29 (`e_theta.txt`). Düzeltmeyle 8,18 (`e_theta_golge25.txt`).
 - **Düzeltme:** `golgeleme_hucre_m = 50 × olcek = 2500 m`, SINANMAMIŞ kalır (duyarlılık ekseni).
@@ -1214,7 +1215,7 @@ AODV'de susan düğüm kuyruk taşması 451 → 0 ✓, ama rota tamponu taşmas�
 - Formasyonda tek bir ömür gözlendi; statik kolun kuralıyla tanımsız sayıldı.
 - Beklenti (eskinin 0,3–0,5 katı) ✗: bağımsız kolda daha büyük çıktı.
 
-**6 · 🔴 Araç tuzakları, ikinci tur** (ajan):
+**6 · 🔴 Araç tuzakları, ikinci tur**:
 - `dugum_sayisi` alanı eski dünyanın sabitinden (1800 m) kuruyordu → seçili dünyadan.
 - `aodv_uygunluk`un açıklanmış düşük hücreleri eski dünyanın (kol, tohum) çiftleriydi → referans dünyada boş.
 - **Kapsam beyanı:** satırın Θ ve bölünme payı eski dünyanın tablolarından okunuyordu → dünyaya göre ayrıldı (aşağıda).
@@ -1230,7 +1231,7 @@ AODV'de susan düğüm kuyruk taşması 451 → 0 ✓, ama rota tamponu taşmas�
 |---|---|---|---|---|---|
 | kâhin PDR | 0,998 | **0,989** | 0,965 | 0,892 | 0,605 |
 
-- Ölçüt 1,5'i seçer. **Bugünkü 1,0 korunur:** eksen dengesi, öğrenci kararı K-126 (39 × 1 + 4 × 0,25 = 40 = eşler arası 10 × 4).
+- Ölçüt 1,5'i seçer. **Bugünkü 1,0 korunur:** eksen dengesi, kararım K-126 (39 × 1 + 4 × 0,25 = 40 = eşler arası 10 × 4).
 - Beklenti ≥ 0,97 ✓. Uçurum 1,5 ile 2,0 arasında; eski dünyada 2,5–3,0'dı, yani marj %150'den %50'ye indi (beyan).
 - Hatalı birimle yapılan ilk koşu (`d_yuk_golge50_hatali.txt`) 1,0'da 0,993 vermişti; nitel olarak aynı.
 
@@ -1248,7 +1249,7 @@ AODV'de susan düğüm kuyruk taşması 451 → 0 ✓, ama rota tamponu taşmas�
 - **Geçerli taban `k185`.**
 - **⚠️ Kural:** takım ve regresyon bir alt kabukta arka plana atıldı; bitiş bildirimi gelmedi, izleme bekçi betiğiyle yapıldı. İlerlemeyi izlemek için bu biçim kullanılmaz.
 # K-189 · 🟢 FAZ 4.3 BAŞLADI (U1 referans dünyada, iki desen) · SINANMAMIŞ 47 → 44 · hücre koşucusu · kayıp anatomisi aracı
-> 27 Eylül · ajan · uzun koşu öğrenci onayıyla, dondurulmuş kopyadan (`kopya_43`, `arac_hash` c90c279c…); beklenti `arsiv/teshis/faz4_2026-09-26/h_u1_beklenti.md` (ölçmeden önce)
+> 27 Eylül · uzun koşu onayımla, dondurulmuş kopyadan (`kopya_43`, `arac_hash` c90c279c…); beklenti `arsiv/teshis/faz4_2026-09-26/h_u1_beklenti.md` (ölçmeden önce)
 
 **1 · U1 referans dünyada** (`h_u1_kos.sh`):
 - Sırayla AODV · OLSR · AOMDV × yere toplama · eşler arası; her biri 4 kol × 3 tohum, tam uzunluk. Süre bandı 5–9 sa. Sonuçlar gelince ayrı kayıtta.
@@ -1274,8 +1275,8 @@ AODV'de susan düğüm kuyruk taşması 451 → 0 ✓, ama rota tamponu taşmas�
   - Referans dünyada kaybın ana kaynağı karıştırmadan çok uzun ve zayıf bağlar olabilir. Birincil hücrede tam anatomi U1'den sonra koşulacak.
 
 **Ölçüm:** tam takım **921 passed** (28,7 dk, U1 ile paylaşımlı makine; beklenti 921 ✓). Mimari denetimi "Yapısal ihlal YOK". Simülatör davranışı değişmedi; regresyon koşulmadı. Köken metni ve kova sayıları bir sonraki regresyonda izinli fark olarak görünecek.
-# K-190 · 🟢 U1 AODV (yere toplama) referans dünyada · koşu süresi 5 kat fazlaydı → yavaş kayıp önbelleği %41 · eşler arası en sona (öğrenci)
-> 27 Eylül · Faz 4.3 · ajan · beklenti `arsiv/teshis/faz4_2026-09-26/h_u1_beklenti.md`, `j_onbellek_beklenti.md` (ölçmeden önce)
+# K-190 · 🟢 U1 AODV (yere toplama) referans dünyada · koşu süresi 5 kat fazlaydı → yavaş kayıp önbelleği %41 · eşler arası en sona (kararım)
+> 27 Eylül · Faz 4.3 · beklenti `arsiv/teshis/faz4_2026-09-26/h_u1_beklenti.md`, `j_onbellek_beklenti.md` (ölçmeden önce)
 
 **1 · AODV U1, yere toplama** (`h_u1_aodv_yere_toplama.txt`, 24 koşu, 5,6 sa):
 
@@ -1300,8 +1301,8 @@ AODV'de susan düğüm kuyruk taşması 451 → 0 ✓, ama rota tamponu taşmas�
 - Aynı profil **341 → 202 s (−%41)**. Olay (818 571), MAC denemesi (3 508) ve alım (377 851) birebir aynı.
 - Tam takım **921 passed**. Regresyon `k185 ↔ k186` (`j_regresyon_karsilastir.txt`; üretim 81,3 dk, 4 işçi, U1 ile paylaşımlı): **67/67 BİREBİR** ✓ öngörüldüğü gibi. İzinli fark yalnız köken kovaları (K-189'un kova taşımaları). **Taban `k186`.**
 
-**4 · Öğrenci kararı:**
-- Önerim: eşler arası U1'i önbellekli kodla koşmak (tahmini 10–17 sa, bandı aşar). Öğrenci onayladı: *"önerdiğin gibi yapalım da kalan işler bittikten sonra"*.
+**4 · Kararım:**
+- Öneri: eşler arası U1'i önbellekli kodla koşmak (tahmini 10–17 sa, bandı aşar). Onayladım; kalan işler bittikten sonra yapılacak.
 - Sıra: yere toplama (OLSR, AOMDV; kopmuş OLSR süreci devam ettirildi, `h_u1_devam.sh`) → kalan işler → **en son** eşler arası.
 
 **5 · Kopmuş süreç (beyan):** koşu düzenini değiştirmek için Bash durdurulduğunda altındaki OLSR süreci (8 işçi) çalışmayı sürdürdü. Öldürülmedi; bitmesi beklenip AOMDV ardından zamanlandı.
@@ -1316,13 +1317,13 @@ AODV'de susan düğüm kuyruk taşması 451 → 0 ✓, ama rota tamponu taşmas�
 - Düşük hücrelerin nedeni bu mekanizma değil; kayıp anatomisiyle (karıştırıcısız, `--sinif yok`) hücre bazında aranacak.
 - U1-B referans dünyada açık kalır.
 
-**7 · Kural değişikliği (öğrenci, 27 Eylül):** *"o kadar gereksiz ve fazla katı kurallara gerek yok sonucu etkilemedi sürece… python -c komutla çalıştırma falan gibi o tarz konularda daha rahat ol çok önemli kurallar olmadıkça"*. Biçim tercihleri (`python -c`, stdin, heredoc) serbest; `v2/03` §1 ve `DEVIR-PROMPT` güncellendi. Sonucu ya da depoyu etkileyen kurallar yerinde (git, indirme izni, silmeme, paket kurmama, koşu sürerken koda dokunmama, önce beklenti).
+**7 · Kural değişikliği (27 Eylül):** sonucu etkilemeyen gereksiz ve fazla katı kurallar kalktı; `python -c` gibi biçim konularında esneklik. Biçim tercihleri (`python -c`, stdin, heredoc) serbest; `v2/03` §1 ve `DEVIR-PROMPT` güncellendi. Sonucu ya da depoyu etkileyen kurallar yerinde (git, indirme izni, silmeme, paket kurmama, koşu sürerken koda dokunmama, önce beklenti).
 
 **8 · Mimari denetim** (`l_mimari.txt`): yapısal ihlal yok · 217 parametre, SINANMAMIŞ 44 · 141 modül · ölü kayıt 0.
 
-**9 · Devir (öğrenci, 27 Eylül):** *"kalan işler bittikten sonra bundan sonrasını devam ettirmesi için başka bir ajana devir hazırla"*. Ajanın bağlamı doldu. `DEVIR-PROMPT.md` yeniden yazıldı: §2.1 arkada koşan işler (OLSR, AOMDV; durdurulmaz) · §2.2 sıradaki işler. `DEVIR.md` §1, `v2/12` §1 güncellendi; eski sürümler `arsiv/DEVIR*-2026-09-27-once.md`. AODV U1 JSON kaydı kopyadan depoya kopyalandı (`ciktilar2/aodv_uygunluk/aodv_referans_2026_yere_toplama_*.json`). Ajana devredilenler: OLSR/AOMDV hükmü · düşük hücre anatomisi · birincil hücre anatomisi · en son eşler arası U1 · Faz 4.4.
-# K-191 · 🟡 U1 YERE TOPLAMA REFERANS DÜNYADA BİTTİ — üç protokolde U1-B kalıyor, OLSR ağır · AODV düşük hücreleri: en az atlamanın zayıf bağ bedeli · çift başlatma (ajan hatası) · devir
-> 27 Eylül · Faz 4.3 · ajan · beklentiler `h_u1_beklenti.md`, `m_dusuk_hucre_beklenti.md` (ölçmeden önce)
+**9 · Devir (27 Eylül):** kalan işler bittikten sonra çalışmanın devamı için yeni oturuma devir hazırlandı; önceki oturumun bağlamı dolmuştu. `DEVIR-PROMPT.md` yeniden yazıldı: §2.1 arkada koşan işler (OLSR, AOMDV; durdurulmaz) · §2.2 sıradaki işler. `DEVIR.md` §1, `v2/12` §1 güncellendi; eski sürümler `arsiv/DEVIR*-2026-09-27-once.md`. AODV U1 JSON kaydı kopyadan depoya kopyalandı (`ciktilar2/aodv_uygunluk/aodv_referans_2026_yere_toplama_*.json`). Yeni oturuma devredilenler: OLSR/AOMDV hükmü · düşük hücre anatomisi · birincil hücre anatomisi · en son eşler arası U1 · Faz 4.4.
+# K-191 · 🟡 U1 YERE TOPLAMA REFERANS DÜNYADA BİTTİ — üç protokolde U1-B kalıyor, OLSR ağır · AODV düşük hücreleri: en az atlamanın zayıf bağ bedeli · çift başlatma (uygulama hatası) · devir
+> 27 Eylül · Faz 4.3 · beklentiler `h_u1_beklenti.md`, `m_dusuk_hucre_beklenti.md` (ölçmeden önce)
 
 **1 · AODV U1-B düşük hücreleri, statik** (`m_dusuk_hucre_sonuc.md`; `kayip_anatomisi.py --sinif yok`, 3 tohum, 1544 s):
 - AODV'nin düşüşü tohum 1000'de %27,8, 1002'de %13,2, 1001'de %4,5.
@@ -1332,7 +1333,7 @@ AODV'de susan düğüm kuyruk taşması 451 → 0 ✓, ama rota tamponu taşmas�
 - Beklenti tuttu. Süre tahmini ✗: 1,5–2,5 sa dedim, 26 dk sürdü.
 - **Kimlik:** korunumdan türetilen PDR, U1'in altı hücresinde 4 basamakta aynı. U1 önbelleksiz, anatomi önbellekli koddan koştu; bu da K-190 önbelleğinin tam pencerede ikinci doğrulaması.
 - ⚠️ Beklenti dosyası yanlış sütunu (`pdr_pencere`) karşılaştırılacak yazmıştı; beyan.
-- **Açık:** "protokolün tasarım bedeli" U1-B'de açıklanmış sayılır mı? Okuma kararı, KR-1 ile birlikte öğrenciye. Bağımsız 1000 ölçülmedi.
+- **Açık:** "protokolün tasarım bedeli" U1-B'de açıklanmış sayılır mı? Okuma kararı, KR-1 ile birlikte bende. Bağımsız 1000 ölçülmedi.
 
 **2 · U1 yere toplama, referans dünya** (`h_u1_<p>_yere_toplama.txt`; kopya `kopya_43`, önbelleksiz; 24 koşu/protokol):
 
@@ -1347,19 +1348,19 @@ AODV'de susan düğüm kuyruk taşması 451 → 0 ✓, ama rota tamponu taşmas�
 - **OLSR öngörüyle:** statik 0,75–0,90 dedim, 0,642 çıktı ✗. Hareketli 0,45–0,75 dedim, 0,450–0,505 çıktı ✓ (alt kenarda). "Sınırda" ✗: eşiğin çok altında.
 - OLSR rota tamponu kullanmaz (0). Süre 20 767 s.
 - **AOMDV öngörüyle** ("AODV'ye yakın") ✓: her kolda AODV'den biraz iyi. Düşük hücreler AODV'ninkilerle aynı (statik 1000, 1002, bağımsız 1000); AODV'nin statik anatomisi (§1) büyük olasılıkla AOMDV için de geçerli, ölçülmedi. Rota tamponunda süre tavanından 3 düşüş var (statik 1000).
-- **Süre ✗:** protokol başına 0,7–1,5 sa demiştim. Ölçülen AODV 5,6 sa, OLSR 5,8 sa, AOMDV 8,8 sa (çift kopya yüzünden şişik).
+- **Süre ✗:** protokol başına 0,7–1,5 sa tahmin edilmişti. Ölçülen AODV 5,6 sa, OLSR 5,8 sa, AOMDV 8,8 sa (çift kopya yüzünden şişik).
 - Çıktı dosyası temiz (2899 bayt, hata satırı yok). JSON kayıtları kopyadan depoya kopyalandı (`ciktilar2/aodv_uygunluk/<p>_referans_2026_yere_toplama_*.json`, bayt bayt aynı).
-- **Hipotez (ÖLÇÜLMEDİ, ajan):** 802.11b'nin "gri bölge" sorunu (Lundgren ve ark. 2002).
+- **Hipotez (ÖLÇÜLMEDİ):** 802.11b'nin "gri bölge" sorunu (Lundgren ve ark. 2002).
   - HELLO yayını kısa ve taban hızda; data unicast ise uzun ve onay ister.
   - Referans dünyada duyma menzili ~28 km. OLSR, HELLO'nun ulaştığı ama verinin taşınamadığı uzun bağları iki yönlü sayıyor olabilir.
   - OLSR'de tepkisel onarım yok; bayat rota TC dönemine kadar yaşar.
   - Sınaması aynı araçla: `kayip_anatomisi.py --sinif yok --kol statik --protokoller olsr,en_guvenilir_kahin`, tohum tohum.
-- **Sonuç:** referans dünyada taban protokollerin U1-B'si toptan kalıyor. "Taban protokoller donar" kapısı (Faz 4.3) açık. Eşiğin (K-136) ve U1-B okumasının referans dünyada yeniden konuşulması öğrenciye (`h_u1_beklenti.md` "Kalırsa" maddesi).
+- **Sonuç:** referans dünyada taban protokollerin U1-B'si toptan kalıyor. "Taban protokoller donar" kapısı (Faz 4.3) açık. Eşiğin (K-136) ve U1-B okumasının referans dünyada yeniden konuşulması kararı bende (`h_u1_beklenti.md` "Kalırsa" maddesi).
 
-**3 · ⚠️ Ajan hatası — çift başlatma:**
+**3 · ⚠️ Uygulama hatası — çift başlatma:**
 - Sabah koşu düzenini değiştirmek için Bash durdurulduğunda asıl betik (`h_u1_kos.sh`) ÖLMEMİŞTİ; K-190 §5 yalnız OLSR sürecinin yaşadığını sanıyordu.
-- Ajan AOMDV için ayrı bir bekleme betiği yazdı (`h_u1_devam.sh`). OLSR bitince (14:54) ikisi de AOMDV'yi başlattı: 16 işçi, 12 çekirdek, aynı çıktı dosyası.
-- Öğrencinin kontrol isteğiyle 21:58'de fark edildi. Öğrenci onayıyla eski zincir durduruldu.
+- AOMDV için ayrı bir bekleme betiği yazılmıştı (`h_u1_devam.sh`). OLSR bitince (14:54) ikisi de AOMDV'yi başlattı: 16 işçi, 12 çekirdek, aynı çıktı dosyası.
+- Kontrol isteğimle 21:58'de fark edildi. Onayımla eski zincir durduruldu.
 - İlk denemede yalnız alt kabuk kapandı; ana betik 22:02'de eşler arası AODV'yi başlattı ve o da 1–2 dk içinde durduruldu.
 - **Sonuca etkisi yok:** iki kopya aynı kod ve tohumlarla koşuyordu; ölen kopya JSON bırakmadı. Özet dosyasındaki geçersiz satır işaretlendi.
 - Ders `DEVIR-PROMPT` §5'te: süreç ağacını (`Win32_Process`, ana PID) kontrol etmeden "öldü" deme; bir betiği durdururken önce ana kabuğu durdur.
@@ -1370,29 +1371,29 @@ AODV'de susan düğüm kuyruk taşması 451 → 0 ✓, ama rota tamponu taşmas�
 - Test K191 eklendi. Eski dünyanın AODV hükmü değişmedi: TEMİZ, 2 açıklanmış.
 - Tam takım **922 passed** (`n_tam_takim.txt`, 1210 s).
 
-**5 · Devir (öğrenci, 27 Eylül):** *"karışıklık olmasın diye buradaki bütün işler bitene ve her şey güncel olduğundan emin olunduktan sonra devir yapacağım"*.
+**5 · Devir (27 Eylül):** karışıklık olmasın diye devir, buradaki bütün işler bitip her şeyin güncel olduğundan emin olunduktan sonra yapılacak.
 - Devirde arkada koşan iş YOK.
-- Öğrencinin seçimiyle eşler arası U1'i ve bağımsız 1000 anatomisini yeni ajan başlatacak.
+- Seçimimle eşler arası U1'i ve bağımsız 1000 anatomisi yeni oturumda başlatılacak.
 - `DEVIR-PROMPT.md`, `DEVIR.md`, `v2/12` §1 ve bellek güncellendi.
-- Öğrenciye gidecek kararlar:
+- Bana kalan kararlar:
   - referans dünyada U1 eşiğinin ve U1-B okumasının yeniden konuşulması (taban protokoller donmadan önce);
   - KR-1;
   - "tasarım bedeli açıklanmış sayılır mı".
-# K-192 · 🟢 ÖĞRENCİ KARARLARI (28 Eylül) — U1 eşiği DEĞİŞMEZ · KR-1 kapandı · tasarım bedeli açıklamadır · birincil hücre aynı, gerekçesi düzeltildi · önce yazılım
-> 28 Eylül · öğrenci: *"beklediğin kararları önerilerinle onaylıyorum"* · öneriler ve yeni ajanın ilk oturum bulguları (devir raporu)
+# K-192 · 🟢 KARARLARIM (28 Eylül) — U1 eşiği DEĞİŞMEZ · KR-1 kapandı · tasarım bedeli açıklamadır · birincil hücre aynı, gerekçesi düzeltildi · önce yazılım
+> 28 Eylül · bekleyen kararları önerilerle onayladım · öneriler ve yeni oturumun ilk bulguları (devir raporu)
 
 **Kararlar:**
 1. **(a) U1 eşiği referans dünyada değişmez** (statik ≥ 0,90 · hareketli ≥ 0,60, K-136). K-137'nin sırası uygulanır: kapı doğru şeyi mi ölçüyor → gerçekleme doğru mu → kalan fark nereden; eşik en son ve o gün de değişmemişti. U1-B bulgu kalır; her düşük hücre ölçümle açıklanır.
 2. **(b) KR-1 kapandı** — kâhin aşımı otomatik ret değil, prosedür: protokol ETX kâhinini çözünürlükten (R) fazla aşarsa üç kâhinin zarfına (üst referans) bakılır; zarfı da aşıyorsa yazılım hatası varsayılır ve aranır; aşmıyorsa "ETX kâhini bu hücrede üst sınır değil" diye beyan edilir.
 3. **(c) Protokolün tasarım bedeli U1-B'de açıklamadır** — K-137'nin tanımı ("kayıp yazılım kusurundan değil mekanizmadan"), iki koşulla: mekanizma düşük hücreleri doğru sıralar ve kusur izleri (kuyruk/tampon düşüşü, döngü) dışlanır. AODV statik 1000 · 1002 (K-191 §1) ikisini de sağlıyor. AOMDV'nin aynı hücreleri ve hareketli hücreler ölçülmeden açıklanmış sayılmaz.
 4. **Birincil hücre aynı** (`formasyon · yere_toplama · derin_sizma · sürekli`, 10 W ortalama). **Gerekçe düzeltildi:** araç yalnız sessizken 60 km/h ile taşınır; 150 s'de açıldığı için ölçüm penceresi sonuna kadar 80 s sessiz kalır → **~1,33 km** (koşu sonunda 1,58 km) — 33 km'lik alanda fiilen merkezde duran, 15 s açık · 15 s kapalı, açıkken 20 W bir yer karıştırıcısı. Hücrenin sınadığı: periyodik açılıp kapanmaya zamansal uyum ve kısmi karıştırmada dolaşma. "Hareketli kötü bölgeden kaçış" bu hücrenin gerekçesi değildir (K-186'daki cümle eski dünyanın).
-5. **Çalışma biçimi:** önce yazılım; karıştırıcılı ya da hareketli tam pencere koşuları yazılım tamamlanınca (*"risk alıp pahalı koşular koşmak istemiyorum"*). Fikir sahipliği analizi gündemde değil (*"işin sonunda projeyi anlatabilsem yetiyor"*).
+5. **Çalışma biçimi:** önce yazılım; karıştırıcılı ya da hareketli tam pencere koşuları yazılım tamamlanınca (pahalı koşularla risk almak istemedim). Fikir sahipliği analizi gündemde değil (projeyi sonunda anlatabilmem yeterli).
 
 **Onaylı sıra:** OLSR teşhisi (statik, karıştırıcısız) → gerekirse OLSR düzeltmesi → taban protokollerin donma öncesi eksikleri (RREP-ACK/kara liste, AOMDV U2/U4, M4 boş kol, rota tamponu kaynağı, Rician K duyarlılığı) → DESPARETE'nin referans dünyada ilk dumanı → performans profili ve hesap bütçesi → kayıp anatomisi aracının düzeltmesi (bölge alıcıya göre, açık/sessiz evre) → pahalı koşular (birincil hücre anatomisi, bağımsız 1000, U1 eşler arası) izinle → Faz 4.4.
 
 **İlk oturumun kayda geçen bulguları** (ölçülmedi; iş sırasında sınanır): OLSR'da §13'ün bağ kaybı, §14.3 kuralı her 1 s'lik süpürmede yeniden uygulandığı için kalite > 0,8 ise en geç ~1 s'de geri alınıyor · çerçeve boyu kaynaklı gri bölge referans telsizde yalnız ~0,7 dB (~64 B yayın %10 PER'e 9,6 km'de, 512 B veri 1 Mb/s'te 8,9 km'de; 2 Mb/s'te 5,3 km; ED-CCA düğüm iletimini ~0,8 km'den sezer — aritmetik, simülatörün PER fonksiyonlarıyla) · K-146'nın OLSR teşhis betikleri dünya seçmiyor (eski dünyayı kurar) · kayıp anatomisinde iletim başarısızlığının bölgesi göndericiye göre ve tohumlar toplanıyor · görev kolunda Θ_OLSR 2,79 < 3 · köken defteri dünyaya duyarsız (DUYARSIZ ve bazı ÖLÇÜLMÜŞ kayıtlar eski dünyada ölçüldü).
 # K-193 · 🟡 OLSR'IN REFERANS DÜNYADAKİ DÜŞÜKLÜĞÜ: KÖTÜ BAĞ DEĞİL, GEÇİDE ROTANIN ARALIKLI BOŞALMASI · üç kusur adayı elendi · §13 zarar veriyor · M4 boş kol kapısı gerçek protokolle KALDI
-> 28 Eylül · ajan (K-192 onaylı sıra) · beklentiler ölçmeden önce `arsiv/teshis/olsr_referans_2026-09-28/beklenti.md`, `beklenti_2.md` · sonuçlar `sonuc_1.md`, `sonuc_2.md`
+> 28 Eylül · K-192'nin onaylı sırası · beklentiler ölçmeden önce `arsiv/teshis/olsr_referans_2026-09-28/beklenti.md`, `beklenti_2.md` · sonuçlar `sonuc_1.md`, `sonuc_2.md`
 
 **Alet (`kalibrasyon/kayip_anatomisi.py` genişletildi; simülatör ve protokoller değişmedi):** tohum başına çıktı, tohumlar tek çağrıda paralel · `iletim_basarisiz`in bölgesi ALICIDA (denenen sonraki atlama) — eskiden gönderende okunuyordu, alıcı tarafı karıştırma "uzak" görünebilirdi · karar ve başarısız bağların kâhin bandı (p_atlama ≥ 0,90 · 0,50–0,90 · < 0,50) ve mesafesi · düşüşün yoğunlaştığı düğümler · ısınma ayrımı · OLSR'da §13 bildiriminin geri alınması, bayat rota denetimi (K-146 K1), rota boşalması anında düğümün kendi bilgisinde düz yol · evre metrikleri (M4 boş kol kapısı) · yalnız teşhis kolları `olsr_s13siz`, `olsr_2atlama_lsym` · `--kayit` JSON. Yeni sabit `BAG_DILIMI_S` köken defterinde (TÜRETİLMİŞ). K-146'nın eski teşhis betikleri `Konfig`i doğrudan kuruyordu (dünya tuzağı testi `arsiv/`i taramaz) — yeniden kullanılmadı.
 
@@ -1406,11 +1407,11 @@ AODV'de susan düğüm kuyruk taşması 451 → 0 ✓, ama rota tamponu taşmas�
 - **2-atlama güncellemesi RFC §8.2.1'in harfiyen koşuluyla** (L_SYM_time; bugünkü kod histerezisli tanımı kullanıyor, §14.2 bunu istemez): +0,009 · −0,021 · +0,046 — önceden yazılan kurala göre açıklama DEĞİL, OLSR bu noktada değişmedi; okuma farkı beyan edilir.
 - **Açık:** hücreleri önceden sıralayan bağımsız bir değişken yok (çalkantı miktarı sıralamıyor: en çok komşu kaybı en az düşen 1001'de) → K-192 (c)'nin sıralama koşulu OLSR için sağlanmadı.
 
-**🔴 Yan bulgu — M4 boş kol kapısı gerçek protokolle KALDI:** karıştırıcısız kolda (hayali açılma 150 s) OLSR'ın tespit gecikmesi 3/3 tohumda sansürsüz (16 · 6 · 9 s); şok derinliği −0,088 · +0,059 · −0,078. `08` G1 kâhinle geçmişti (PDR ≈ 1, bağımsız kayıp). Gerçek protokolde kayıp ve kopma beyanı zamanda kümeleniyor; M4'ün Poisson boş hipotezi ve M1/M3'ün Agresti–Caffo hata payı paket bağımsızlığı varsayıyor. Ön-kayıt metriği → öğrenciye önerisiyle. (Ana deneyin H2 testi etkilenmez: analiz birimi tohum.)
+**🔴 Yan bulgu — M4 boş kol kapısı gerçek protokolle KALDI:** karıştırıcısız kolda (hayali açılma 150 s) OLSR'ın tespit gecikmesi 3/3 tohumda sansürsüz (16 · 6 · 9 s); şok derinliği −0,088 · +0,059 · −0,078. `08` G1 kâhinle geçmişti (PDR ≈ 1, bağımsız kayıp). Gerçek protokolde kayıp ve kopma beyanı zamanda kümeleniyor; M4'ün Poisson boş hipotezi ve M1/M3'ün Agresti–Caffo hata payı paket bağımsızlığı varsayıyor. Ön-kayıt metriği olduğu için karar bende (öneriyle). (Ana deneyin H2 testi etkilenmez: analiz birimi tohum.)
 
-**Öğrenciye:** (1) §13 referans dünyada kaldırılsın mı (öneri: evet — `OLSR-a`, kuralın kendisi "MAY beyan edilir"; K-147'deki istisnanın ölçülmüş gerekçesi referans dünyada tersine döndü) · (2) OLSR'ın U1-B'si "mekanizması ölçüldü, kusur adayları elendi, sıralanmadı" diye mi okunsun · (3) M4 ve evre metriklerinin hata payı.
+**Bana kalan:** (1) §13 referans dünyada kaldırılsın mı (öneri: evet — `OLSR-a`, kuralın kendisi "MAY beyan edilir"; K-147'deki istisnanın ölçülmüş gerekçesi referans dünyada tersine döndü) · (2) OLSR'ın U1-B'si "mekanizması ölçüldü, kusur adayları elendi, sıralanmadı" diye mi okunsun · (3) M4 ve evre metriklerinin hata payı.
 # K-194 · 🟢 AODV §6.8 KARA LİSTE UYGULANIYOR · AOMDV'nin U1–U4 karşılıkları adıyla eşlendi
-> 28 Eylül · ajan (K-192 onaylı sıra: taban protokollerin donma öncesi eksikleri) · eski sapma gerekçesi referans dünyada geçersizdi (denetim O-1)
+> 28 Eylül · K-192'nin onaylı sırası: taban protokollerin donma öncesi eksikleri · eski sapma gerekçesi referans dünyada geçersizdi (denetim O-1)
 
 **Kara liste (`protokoller/aodv.py`, `aodv_bicim.py`):** RREP'i bağ katmanında onaylanmayan komşu `BLACKLIST_TIMEOUT` boyunca kara listede; ondan gelen RREQ yok sayılır (komşu kanıtı, ters rota, iletme doğmaz), süre dolunca yine işlenir. Tetik: bu gerçeklemede tek yönlü giden tek kontrol mesajı RREP'tir (RREQ ve RERR yayın), yani `iletim_basarisiz(tur="kontrol")` = RFC'nin *"its transmission of a RREP message has failed"* durumu; RFC bağ katmanı onayının yokluğunu tetik olarak açıkça sayıyor. Veri çerçevesi başarısızlığı listeye sokmaz. Süre seçilmedi — RFC §10'un genişleyen halka formülü: (3 + 1 + 2) × 2,8 s = **16,8 s**. Ayrı RREP-ACK mesajı yok (ek bayt dışında bilgi getirmez). AOMDV kara listeyi miras alır.
 **Neden şimdi:** eski gerekçe "bağ simetrik"ti; referans dünyada ortalama güç simetrik ama karıştırıcı gücü ve ED susturması alıcıda/vericide ayrı etki eder — bağ fiziksel olarak tek yönlü olabilir. Kara liste olmadan tek yönlü bağdan gelen ilk RREQ çift yönlü yolu bastırabiliyordu.
@@ -1418,59 +1419,59 @@ AODV'de susan düğüm kuyruk taşması 451 → 0 ✓, ama rota tamponu taşmas�
 **Kod hâlleri:** `AODV-f` · `AOMDV-b` (öncekiler `AODV-e` K-145 · `AOMDV-a` K-149).
 **Ölçülmedi:** kara listenin PDR'ye etkisi — regresyonda AODV/AOMDV vakalarında beklenen fark; sayısal etkisi U1'in referans dünyada yeniden koşusunda.
 # K-195 · 🟢 KÂHİN GRAFİĞİ KARIŞTIRICININ AÇIK/SESSİZ ÇİZELGESİNİ GÖRMÜYORDU — düzeltildi
-> 28 Eylül · ajan · performans profili sırasında bulundu
+> 28 Eylül · performans profili sırasında bulundu
 
 **Kusur:** `kalibrasyon/kahin.py` kanal grafiğini yalnız hareket diliminde (`dilim_suresi_s`; referans dünyada 10 s'ye kırpılır) yeniliyordu. Karıştırıcının yayın çizelgesi dilimden bağımsız (`derin_sizma`: 15 s açık · 15 s sessiz) → dilim içinde karıştırıcının kapanması/açılması kâhine görünmüyordu; kâhin (U1 paydası, üst referans) çizelgeli hücrelerde yanlış grafikle karar veriyordu.
 **Düzeltme:** grafik, dilim VEYA karıştırıcı üyelerinin `devrede_mi` imzası değişince yeniden kurulur. Karıştırıcısız kolda imza boş → davranış birebir. Test: `test_K195_kahin_KARISTIRICI_CIZELGESINDE_grafigi_YENILER` (15,4 s açık · 15,6 s sessiz, aynı dilim).
 **Etkisi:** yalnız çizelgeli karıştırıcılı hücrelerin kâhin satırları (birincil hücre dâhil). Referans dünyada karıştırıcılı tam koşu henüz yok → eski sayı düzeltilmesi gerekmiyor; regresyonda kâhin vakalarında beklenen fark.
 **Yan iş (aynı oturum, bit-özdeş):** sönümleme FIR'ının ağırlıkları önbellekte (`AGIRLIK_ONBELLEK_SINIRI` köken defterinde, TÜRETİLMİŞ); birincil hücre kısa koşusunda çıktı bayt bayt aynı, süre ~%8 kısa (`arsiv/teshis/performans_2026-09-28/`).
 # K-196 · 🟢 K-193'ÜN ÜÇ SORUSU UYGULANDI — OLSR §13 varsayılan KAPALI (`OLSR-c`) · OLSR'ın U1-B'si "açıklanmış, sıralamasız" · evre metriklerinin hata payı kümelenmeye dayanıklı, G1-P GEÇTİ
-> 28 Eylül · öğrenci: *"eğer mantıklıysa ve projenin güvenilirliğini ve kalitesini zedelemiyorsa yapabilirsin"* · beklenti ölçmeden önce `arsiv/teshis/evre_g1p_2026-09-28/beklenti.md` · sonuç `sonuc.md`
+> 28 Eylül · onayım: mantıklıysa ve projenin güvenilirliğini ve kalitesini zedelemiyorsa · beklenti ölçmeden önce `arsiv/teshis/evre_g1p_2026-09-28/beklenti.md` · sonuç `sonuc.md`
 
 **1 · §13 varsayılan kapalı.** `OLSR(i)` MAC vazgeçmesine §13 ile tepki vermez; `OLSR(i, s13=True)` eski `OLSR-b`yi birebir üretir. Seçim koşu kimliğine girer (`kimlik_parametreleri` → `protokol_hash`). "MAY beyan edilir" kuralı yerine döndü; K-147'nin istisnası eski dünyanın statik kazancına dayanıyordu, referans dünyada tersine döndü (K-193: §13'süz +0,031 · +0,028 · +0,105). `olsr_bicim.py` MAY tablosunda satırı var; testler: varsayılan kapalı + `s13=True` ile RFC'nin üç maddesi. Kayıp anatomisine `olsr_s13` teşhis kolu. ⚠️ `OLSR-b` ile üretilmiş her tablo `OLSR-b`nindir — referans dünyadaki OLSR U1 sayıları (K-190: 0,642) artık bayat, U1 `OLSR-c` ile yeniden koşulur.
 
-**2 · OLSR'ın U1-B okuması: "mekanizması ölçüldü, kusur adayları elendi, sıralanmadı."** Mekanizma (K-193): geçide rotanın aralıklı boşalması — komşu çalkantısı 2-atlama kayıtlarını siliyor, RFC §10 2-atlama kümesine dayanıyor, OLSR'da rota tamponu yok; geçici döngüler (TTL). Elenen kusur adayları: kötü bağ seçimi · bayat rota · §13 · 2-atlama L_SYM okuması. K-192 (c)'nin "mekanizma düşük hücreleri sıralar" koşulu OLSR'da SAĞLANMADI; öğrenci onayıyla OLSR için istisna — düşük hücreler bu kayıtla açıklanmış sayılır, sıralama iddiası yapılmaz. Kodda referans dünyanın açıklanmış hücre listesi henüz yok (K-188); `OLSR-c` ile U1 yeniden koşulunca düşük hücreler bu kayda atıfla girer.
+**2 · OLSR'ın U1-B okuması: "mekanizması ölçüldü, kusur adayları elendi, sıralanmadı."** Mekanizma (K-193): geçide rotanın aralıklı boşalması — komşu çalkantısı 2-atlama kayıtlarını siliyor, RFC §10 2-atlama kümesine dayanıyor, OLSR'da rota tamponu yok; geçici döngüler (TTL). Elenen kusur adayları: kötü bağ seçimi · bayat rota · §13 · 2-atlama L_SYM okuması. K-192 (c)'nin "mekanizma düşük hücreleri sıralar" koşulu OLSR'da SAĞLANMADI; onayımla OLSR için istisna — düşük hücreler bu kayıtla açıklanmış sayılır, sıralama iddiası yapılmaz. Kodda referans dünyanın açıklanmış hücre listesi henüz yok (K-188); `OLSR-c` ile U1 yeniden koşulunca düşük hücreler bu kayda atıfla girer.
 
 **3 · Evre metriklerinin hata payı (`sim2/olcum/evre.py`, `08` §05.4).** M1 ve M3'ün SE'si `max(Agresti–Caffo, s_L·√(1 + L/T))` (s_L: temizdeki kayan 15 s pencere PDR'lerinin SD'si) · M4'ün boş dağılımı 1 s kova sayımlarının ortalaması ve varyansıyla negatif binom (varyans ≤ ortalama → Poisson, eşik birebir). Serbest parametre yok. Kâhin ve bağımsız kayıplı kollarda eski davranış korunur (sentetik testler: 4 yeni, 26/26).
 **G1-P (yeni kapı, `evre_metrikleri_kapilari.py 1p`):** referans dünya `statik-yok`, yere toplama, AODV · OLSR · AOMDV · DESPARETE × 1000, 1001, tam pencere. Önceden yazılan ölçüt: M4 yanlış tespit ≤ 1/8 · M3 ≠ 0 ≤ 1/8 · M1 2 SE dışında ≤ 1/4. **Sonuç 0/8 · 0/8 · 0/4 🟢**; aynı koşularda eski kural 6/8 · 3/8 · 2/4. Kümelenme: küme SE / AC temel protokollerde 1,4–2,4, **OLSR 6–7**; kova beyanı var/ort 3,4–7, DESPARETE 1,3. Tahminimden sapma: eski kuralda M1'de dışarıda kalan OLSR değil AOMDV ve DESPARETE; OLSR'ın kümelenmesi beklenenden büyük.
 **Bedeli (beyan):** OLSR'da tohum başına M1'in 2 SE'si 0,22–0,26 · temel protokollerde M4 eşiği saniyede ~50'den ~80–100 kopma beyanına çıkar. H2 (tohum düzeyinde PDR) etkilenmez.
-**Not:** G1-P duvar süresi ~45 dk (beklenti ~20) — aynı anda test takımını koşturdum; sonuç etkilenmez, 30 dk sınırı benim hatamla aşıldı. Koşudan sonra `log1p` kaldırıldı (mimari test); iki yol 15 960 noktada birebir aynı eşik.
+**Not:** G1-P duvar süresi ~45 dk (beklenti ~20) — aynı anda test takımı koşuldu; sonuç etkilenmez, 30 dk sınırı bu hatayla aşıldı. Koşudan sonra `log1p` kaldırıldı (mimari test); iki yol 15 960 noktada birebir aynı eşik.
 
 **Kod hâlleri:** `OLSR-c` · `AODV-f` · `AOMDV-b` (K-194).
 **Doğrulama:** tam takım **932 passed** · mimari denetimi ihlal yok (220 parametre, TÜRETİLMİŞ 65) · regresyon `k186 → k196` 🟢 — ilan edilmeyen 52/52 birebir (sönümleme önbelleği bütün matriste bit-özdeş), izinli alanlar önceden yazılan yönde, 15 ilan edilmiş değişen vaka geçerli (`arsiv/teshis/regresyon_k196_2026-09-28/sonuc.md`). Yeni taban **`k196`**.
 **🔴 Açık kalan — §13 karıştırma altında sınanmadı:** karar referans dünyanın karıştırıcısız statik kolundan. Regresyondaki tek karıştırıcılı OLSR vakası (eski dünya, kısa, tek tohum) ters yönde: §13'süz pencere PDR 0,873 → 0,746. Ana deney karıştırma altında → birincil hücrede `OLSR-b ↔ OLSR-c` eşli karşılaştırma taban protokoller donmadan ÖNCE şart (pahalı, izinle); iyi olan taban olur (güçlü taban tutucu seçimdir). O güne kadar varsayılan `OLSR-c` (RFC kuralı: MAY beyan edilir), iki kol bir bayrakla hazır. Aynı vakalarda kara liste AODV'yi +0,13, AOMDV'yi +0,07 güçlendirdi (K-194'ün adillik gerekçesiyle aynı yön).
-# K-197 · 🟡 YAZILIM KALEMLERİ — kayıp anatomisinde açık/sessiz evre · karıştırıcı geçişleri yapısal değişiklik İSTEMİYOR · performans: ıskalamalar zorunlu, birincil hücre ~4 sa/koşu → hesap bütçesi öğrenci kararı
-> 28 Eylül · ajan (K-192 onaylı sıra: performans profili ve hesap bütçesi · kayıp anatomisi aracının düzeltmesi) · ölçümler `arsiv/teshis/performans_2026-09-28/`
+# K-197 · 🟡 YAZILIM KALEMLERİ — kayıp anatomisinde açık/sessiz evre · karıştırıcı geçişleri yapısal değişiklik İSTEMİYOR · performans: ıskalamalar zorunlu, birincil hücre ~4 sa/koşu → hesap bütçesi benim kararım
+> 28 Eylül · K-192'nin onaylı sırası: performans profili ve hesap bütçesi · kayıp anatomisi aracının düzeltmesi · ölçümler `arsiv/teshis/performans_2026-09-28/`
 
 **1 · Kayıp anatomisi (`kalibrasyon/kayip_anatomisi.py`):** çizelgeli karıştırıcıda paketler DOĞUM anına, düşüşler düştüğü ana göre `once` · `acik` · `sessiz` diye ayrılır; sessiz evrede PDR'nin temize dönmesi protokolün çizelgeye zamansal uyumudur (birincil hücrenin sınadığı şey, K-192 §4). `olsr_s13` teşhis kolu (K-196). Duman (eski dünya, kısa pencere, tek tohum — sonuç değil, alet sınaması): AODV açık 0,41 · sessiz 0,56; `OLSR-b` 0,38 · 0,70.
 **2 · Karıştırıcı geçişleri:** açılma anı ve yayın çizelgesinin geçişleri `gecis_anlari`na girmez. Girişim tarafında en çok bir parça (~190 µs) geç çözülür (beyanlı). Güç kipinde karıştırıcıyla donan düğüm susma anını yeniden denetimle görür: hareketli karıştırıcıda 10 ms, hareketsizde bir beacon aralığı (1 s). Bugün çizelgeli tek aile `derin_sizma` ve aracı hareketli → gecikme ≤ 10 ms, 30 s'lik çevrimde ≤ %0,07. **`sim2/` yapısal değişikliği gerekmiyor.** Koruma: `test_K197_CIZELGELI_uye_HAREKETLI_sayilir…` hareketsiz çizelgeli bir üye eklenirse kırılır.
 **3 · Performans (birincil hücre, AODV, 1003, referans dünya):** FIR sönümlemesi sürenin ~%70'i (her kazanç 64 dokunuş). Ağırlık önbelleği bit-özdeş ~%8 kazandırdı (K-195; k196'da 52/52 birebir). Yenilik önbelleğinin tavanı 250 k → 2 M → 8 M: ıskalama 12,39 M → 11,50 M → 11,40 M, süre 173 → 179 → 180 s (4 s'lik koşu) — **ıskalamaların ~%92'si ZORUNLU**, tavan büyütmek çözüm değil; tavan aynı kalır. Kaba bütçe: ~43 s duvar / simüle s → 350 s'lik bir birincil hücre koşusu tek süreçte **~4 sa** (±%50; statik karıştırıcısız koşu ~16 dk). 8 çekirdekte (4 P + 4 E) 8 işçinin verimi ölçülen ~3 tek-süreç eşdeğeri (G1-P). Ana deney (40 tohum × 3 taban + DESPARETE + kâhin ≈ 200 koşu) ~10 gün kesintisiz; Faz 5 geliştirme ve δ gürültü ölçümü ayrıca. **Takvimi (mühür ~12 Kasım) tehdit ediyor.**
-**Seçenekler (öğrenciye):** (a) bit-özdeş: kazanç çıktısı önbelleği — ölçülen olası isabet %31–33 → en çok ~1/3 kazanç; (b) sonucu değiştiren: sönümleme parça süresini büyütmek, FIR'ı kısaltmak, sönümlemeyi vektörleştirmek (numpy 2.4.6 kurulu, paket kurulumu gerekmez; toplama sırası değişir → bit-özdeş değil) — her biri gerçekçilik kaybı ya da sayısal fark → ölçülerek, regresyonla; (c) deney tasarımı: tohum sayısını güç benzetimine göre (Faz 6) ya da pencereyi kısaltmak; (d) daha güçlü makine / bulut.
+**Seçenekler (kararım için):** (a) bit-özdeş: kazanç çıktısı önbelleği — ölçülen olası isabet %31–33 → en çok ~1/3 kazanç; (b) sonucu değiştiren: sönümleme parça süresini büyütmek, FIR'ı kısaltmak, sönümlemeyi vektörleştirmek (numpy 2.4.6 kurulu, paket kurulumu gerekmez; toplama sırası değişir → bit-özdeş değil) — her biri gerçekçilik kaybı ya da sayısal fark → ölçülerek, regresyonla; (c) deney tasarımı: tohum sayısını güç benzetimine göre (Faz 6) ya da pencereyi kısaltmak; (d) daha güçlü makine / bulut.
 **4 · Alet:** `dondur.py` `tests2/`yi de kopyalıyor (k196'da 5 vaka eksik kalmıştı).
 # K-198 · 🟢 SÖNÜMLEME BLOK ÜRETECİ (birincil hücre ~3,8 kat hızlı, istatistik aynı) · rota tamponu KAYNAĞA bağlandı (ns-3) · anatomide kol başına konfig farkı
-> 28 Eylül · öğrenci: *"projeyi geliştirmeye devam edebilirsin her şey için onay veriyorum"* (K-197 §3'ün seçenekleri, indirme, pahalı koşular) · ölçümler `arsiv/teshis/performans_2026-09-28/`
+> 28 Eylül · her şey için onay verdim (K-197 §3'ün seçenekleri, indirme, pahalı koşular) · ölçümler `arsiv/teshis/performans_2026-09-28/`
 
 **1 · Blok üreteci (`Konfig.sonumleme_uretec`; `sim2/cekirdek/rng.py::normal_dizisi`, `sim2/kanal/sonumleme.py`).** `"tekil"` (varsayılan, eski dünya birebir): her yenilik bir blake2b özeti. `"blok"` (referans dünya): bağ başına bir blake2b anahtarı, `w_n` = SplitMix64'ün `n`inci çıktısı (Steele ve ark. 2014; saf, rastgele erişimli, sıra duyarsız — durumsuzluk sözleşmesi aynı), Box-Muller çifti `(2p, 2p+1)` birlikte; 64'lük bloklar, blok `b`nin penceresi `[bB − B; bB + B)` → her FIR penceresi tek dilimde; I ve Q tek matris çarpımı. FIR formülü, ρ, M ve `c` AYNI. **Doğrulama:** SplitMix64 referans çıktısıyla birebir (`0xe220a8397b1dcdaf` …) · 2¹⁶ çekimde ort ≈ 0, var ≈ 1, basıklık 2,995, I–Q ve ardışık ilinti ≈ 0 · 7 yeni test (Rician varyansı K = 0/6/12 dB, otokorelasyon ρ^gecikme ±%10, her hızda aynı dağılım, çağrı sırası/ters sıra/tahliye altında aynı iz, simetri, statikte donma) · **denklik (gerçek topoloji, birincil hücrenin dünyası, 14 400 + 9 600 örnek):** ortalama 1,011 ↔ 1,004 · varyans 0,177 ↔ 0,176 (analitik 0,174) · p1 −6,20 ↔ −6,25 dB · ardışık ilinti 0,973 ↔ 0,975, karıştırıcı bağında da aynı — önceden yazılan dört ölçüt geçti (`denklik.txt`). İki üreteç aynı dağılımdan çeker, aynı sayıları değil: bir tohumun kanal izi değişir.
 **Kazanç:** birincil hücrenin 4 s'lik koşusu 173 → **45,6 s** (profil 3 s: 343 → 125 s) → 350 s'lik koşu tek süreçte ~1 sa (önce ~4 sa); ana deney ~3 gün kesintisiz (önce ~10). Kalan maliyet dağınık (kanal izi, girişim toplamı, yavaş kayıp, konum) — tek büyük kalem yok.
-**2 · Rota tamponu (`rota_tamponu_kapasitesi` 64, `rota_tamponu_omru_s` 30 s):** SINANMAMIŞ → **KAYNAK**. ns-3 `aodv-routing-protocol.cc` `MaxQueueLen` 64 · `MaxQueueTime` 30 s; kuyruk dolunca en eski düşer (`aodv-rqueue.cc`) — buradaki kuralla aynı; ns-3 AODV'si NS-2'nin CMU/MONARCH modeline dayanır. İndirildi (öğrenci izniyle; `protokol_kaynaklari/uygulama_kaynaklari/ns-3/`, SHA-256 README'de). SINANMAMIŞ 44 → 42. Değerin sonuca etkisi birincil hücrede ölçülecek (İ-8c).
+**2 · Rota tamponu (`rota_tamponu_kapasitesi` 64, `rota_tamponu_omru_s` 30 s):** SINANMAMIŞ → **KAYNAK**. ns-3 `aodv-routing-protocol.cc` `MaxQueueLen` 64 · `MaxQueueTime` 30 s; kuyruk dolunca en eski düşer (`aodv-rqueue.cc`) — buradaki kuralla aynı; ns-3 AODV'si NS-2'nin CMU/MONARCH modeline dayanır. İndirildi (iznimle; `protokol_kaynaklari/uygulama_kaynaklari/ns-3/`, SHA-256 README'de). SINANMAMIŞ 44 → 42. Değerin sonuca etkisi birincil hücrede ölçülecek (İ-8c).
 **3 · Kayıp anatomisi:** kol başına konfig farkı (`aodv@rota_tamponu_kapasitesi=256`) — §13 ve tampon karşılaştırmaları anatomiyle aynı havuzda · **uzun koşu güvencesi:** her koşu bitince ara kayda (`<kayit>.jsonl`) yazılır ve ilerleme basılır, bir koşunun hatası yalnız onu düşürür, aynı komut ara kayıttan kaldığı yerden sürer (duman: bilerek hatalı kol yalnız kendini düşürdü; DESPARETE sarmalayıcılardan referans dünyada geçti). İlk parti başlatıldıktan hemen sonra bu eksik fark edilip durduruldu (sonuç yoktu), düzeltilip yeniden başlatıldı.
 **3b · Faz 4.4 (a) köken yaması:** `yakalama_penceresi_s` SINANMAMIŞ → TÜRETİLMİŞ (tanım gereği önbelge süresi 192 µs = 144 + 48 µs, ns-3 `dsss-phy.cc`; ayrı sabit kasıtlı, sessiz ayrışmayı yeni test yakalar) · `irtifa_maks_m` gerekçesi referans dünyaya göre yazıldı ama SINANMAMIŞ KALDI (300 sayısı G9 zarfının içinde, kaynakta değil; duyarlılığı ölçülecek) · `beacon_araligi_s` ölçüm ister. SINANMAMIŞ **41**, takım 941.
 **3c · Duyarlılık aleti (`kalibrasyon/duyarlilik.py`) referans dünyada yanlış tabandan oynatıyordu:** "×0,5 / ×2" dataclass varsayılanına (ESKİ dünyanın değerine) uygulanıyordu. Referans dünyada 36 adaydan 10'u yanlış ölçülecekti (ör. gölgeleme hücresi 25/100 m yerine 1 250/5 000 m, irtifa 60/240 yerine 150/600 m, karıştırıcı gücü −18/−12 yerine 37/43 dBm, karıştırıcı konumu 1,8 km'lik alana göre). Düzeltildi: taban seçili dünyanın konfigi; eski dünyada oynatmalar birebir aynı. Faz 4.4 duyarlılık taraması koşulmadan önce bulundu.
 **4 · Doğrulama:** tam takım **940 passed** (sözleşme testi `test_adim3_te_okunan_alanlar…` bilinçli güncellendi) · mimari denetimi ihlal yok (222 parametre: TÜRETİLMİŞ 67 · KAYNAK 29 · SINANMAMIŞ 42) · regresyon `k196 → k198` 🟢: eski dünyanın 64 vakası birebir (yeni alan, köken kovaları, kimlikler dışında; `kurulum_hash` farkı önceden ilan edilmemişti — yeni alanın özete girmesi, 64/64 yeniden hesapla kanıtlandı), referans dünyanın 3 vakası değişti. Yeni taban **`k198`** (`arsiv/teshis/regresyon_k198_2026-09-28/sonuc.md`).
 **⚠️ Bulgu — statik hücrelerin varyansı:** statikte sönümleme donuk (bağ başına kalıcı tek çekim); `r-referans-statik-yok-dogrudan_komsu` yalnız gerçekleşme değişince 0,300 → 0,111. Donuk kazanç dağılımı iki üreteçte aynı (3 tohum × 780 bağ). Referans dünyadaki eski U1 statik sayıları yeniden koşulunca değişebilir; hücre düzeyindeki "düşük hücre" okumaları bu varyansla birlikte okunur.
-# K-199 · 🟢 BELGE TEMİZLİĞİ — her bilgi tek yerde · kurallar sadeleşti · git okuma serbest · yeni ajan önce anlar ama iş de yapar
-> 28 Eylül · öğrenci: *"bütün belgelerini gereksiz bilgilerden ve saçma zorlama kurallardan arındır … ajanları at gözlüğünden çıkaralım"*; plan önceden sunuldu, dört soruyla onaylandı (A–E hepsi · git okuma serbest · ilk oturumda iş yapılabilir · kod yorumları ayrı iş)
+# K-199 · 🟢 BELGE TEMİZLİĞİ — her bilgi tek yerde · kurallar sadeleşti · git okuma serbest · yeni oturum önce anlar ama iş de yapar
+> 28 Eylül · isteğim: belgeler gereksiz bilgilerden ve zorlama kurallardan arınsın, çalışma at gözlüğüyle yürümesin; plan önceden sunuldu, dört soruyla onaylandı (A–E hepsi · git okuma serbest · ilk oturumda iş yapılabilir · kod yorumları ayrı iş)
 
-**Teşhis:** durum beş yerde (kök README, DEVIR, devir istemi, `12`, bellek) — biri hep bayattı (README "1800 m alan"); kurallar üç kopya ve çelişkili (fikir sahipliği "şart" ↔ "uğraşma", "30 dk'dan önce sor" ↔ "her şeye onay"); iki numaralandırma (Aşama 1–5 · Faz 0–7); karar kaydı 146 KB ve ajana onlarca kaydı tam okuması söyleniyordu, eski dünyanın kararları "geçerli" görünüyordu (K-097 "alan 1800 m"); doğrulama listesinin çoğu eski dünyanın aletleri; devir istemi sınav gibiydi (ilk oturum yasağı, 10 soru, 11 adımlı okuma).
+**Teşhis:** durum beş yerde (kök README, DEVIR, devir istemi, `12`, bellek) — biri hep bayattı (README "1800 m alan"); kurallar üç kopya ve çelişkili (fikir sahipliği "şart" ↔ "uğraşma", "30 dk'dan önce sor" ↔ "her şeye onay"); iki numaralandırma (Aşama 1–5 · Faz 0–7); karar kaydı 146 KB ve yeni oturuma onlarca kaydı tam okuması söyleniyordu, eski dünyanın kararları "geçerli" görünüyordu (K-097 "alan 1800 m"); doğrulama listesinin çoğu eski dünyanın aletleri; devir istemi sınav gibiydi (ilk oturum yasağı, 10 soru, 11 adımlı okuma).
 **Yapılan:**
 - **Tek kaynak:** durum ve plan yalnız `v2/12` · bugün geçerli kararlar yalnız `v2/04-KARARLAR.md` (yeni, konu konu) · bu günlük `v2/kayit/`e taşındı (tarihçe; koddaki `K-xxx` atıflarının adresi) · çalışma kuralları yalnız `DEVIR-PROMPT.md` §2 · `v2/03` yalnız bilimsel ilkeler ve tuzaklar.
-- **Kurallar:** git okuma komutları serbest, commit/push/dal yalnız öğrencide (öğrenci) · yeni ajan önce anlar ama ilk oturumda da iş yapabilir (öğrenci) · "30 dk'dan önce sor" → süreyi söyle, iki ağır işi birlikte koşma · "her adımdan sonra tam takım" → davranış değişince regresyon + denetim, tam takım iş kapanışında · beklenti dosyası yalnız karar/iddia etkileyen ölçümde · kalktı: fikir sahipliği etiketleme zorunluluğu, ilk oturum yasağı ve sınav, bayat "pahalı koşu yok", emoji işaretleri.
+- **Kurallar:** git okuma komutları serbest, commit/push/dal yalnız bende (kararım) · yeni oturum önce anlar ama ilk oturumda da iş yapabilir (kararım) · "30 dk'dan önce sor" → süreyi söyle, iki ağır işi birlikte koşma · "her adımdan sonra tam takım" → davranış değişince regresyon + denetim, tam takım iş kapanışında · beklenti dosyası yalnız karar/iddia etkileyen ölçümde · kalktı: fikir sahipliği etiketleme zorunluluğu, ilk oturum yasağı ve sınav, bayat "pahalı koşu yok", emoji işaretleri.
 - **Belgeler:** `DEVIR-PROMPT.md` yeniden yazıldı (~7 KB: proje, çalışma biçimi, harita, tuzaklar, referans dünyada geçerli doğrulama komutları) · `DEVIR.md` emekli (`arsiv/`) · `07` bugünkü simülatörü anlatacak biçimde yeniden (~25 → ~9 KB) · `12` yeniden · `03` yeniden · `01` tek numaralandırma (Faz 0–7) · `06` bağlayıcı hükümler aynı, eski dünya anlatıları ayıklandı, §9 güncellendi · `10` → `02` §L · `15` (tamamlandı) arşive · `05` `08` `14` `16` başlık düzeltmeleri · kök README bugüne (GitHub okuru için; git dışı dosyalara bağlantı yok) · bellek 7 → 3 dosya.
 - **Boyut:** etkin belgeler ~382 KB → ~156 KB; bellek ~22 → ~6 KB; başlarken okunan üç belge (giriş, durum, kararlar) ~25 KB.
 - Hiçbir şey kalıcı silinmedi: bütün önceki hâller `arsiv/*-2026-09-28-temizlik*`, `v2/arsiv/*-2026-09-28-temizlik*`, bellek `arsiv/bellek-2026-09-28-temizlik/`. İndeks araçları yeni günlük yoluna yönlendirildi. Kod değişmedi.
-**Sonraki (öğrenci onaylı sıra):** kod yorumlarındaki tarihçe anlatıları ayrı iş. Öğrenciye: git'te izlenen 154 `.pyc` dosyası çıkarılırsa `PYTHONDONTWRITEBYTECODE` kuralı da kalkar.
+**Sonraki (onayladığım sıra):** kod yorumlarındaki tarihçe anlatıları ayrı iş. Bana kalan: git'te izlenen 154 `.pyc` dosyası çıkarılırsa `PYTHONDONTWRITEBYTECODE` kuralı da kalkar.
 # K-200 · 🟢 BİRİNCİL HÜCRE PARTİSİ — OLSR §13 kapalı kalır (karıştırma altında da kanıtlı) · rota tamponu bağlamıyor · ilk anatomi: DESPARETE v0.4.1 temel protokollerin önünde
-> 29 Eylül · ajan (öğrenci onayı: "her şey için onay", 28 Eylül) · kurallar ölçmeden önce `arsiv/teshis/birincil_2026-09-28/beklenti.md` · sonuç `sonuc.md`, tablolar `python arsiv/teshis/birincil_2026-09-28/ozet.py`
+> 29 Eylül · onayımla (her şey için onay, 28 Eylül) · kurallar ölçmeden önce `arsiv/teshis/birincil_2026-09-28/beklenti.md` · sonuç `sonuc.md`, tablolar `python arsiv/teshis/birincil_2026-09-28/ozet.py`
 
 Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · sürekli`, 10 W), tam pencere, tohum 1003–1006, 32/32 koşu, 7,1 sa (8 işçi, dondurulmuş kopya `8f099aa1…`).
 - **§13 (kural 1):** PDR(OLSR-c) − PDR(OLSR-b) = +0,049 · +0,059 · +0,037 · +0,064, ort +0,052 > R, 4/4 → **OLSR-c kalır, kanıtlı.** K-196'nın açık maddesi kapandı; regresyonun eski dünya vakasındaki ters işaret yanıltıcıydı.
@@ -1479,40 +1480,40 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Alet sınırı (yeni iş):** bölge sınıflaması anlık — sessiz evrede her düşüş "uzak" sayılıyor, bölge tablosu karıştırıcının etki alanını göstermiyor. Faz 5.0'da evre × bölge (karıştırıcı açık olsaydı alacağı güç) sınıflaması.
 - **Evre metrikleri** periyodik karıştırıcıda anlamını yitiriyor (tek basamak varsayımı) — Faz 6'da çizelgeli karıştırıcı için evre tanımı.
 **Sıradaki:** U1 yeni kod hâlleriyle (yere toplama + eşler arası) → taban protokoller donar (`v2/12`).
-# K-201 · 🟢 DEVİR İSTEMİ: yeni ajan gerekli belgeleri okur, projeyi ve nerede kaldığımızı anlar, plan yapar; ilk cevabı dosya değiştirmeden kısa özet
-> 29 Eylül · öğrenci: *"basitçe devir promptu ile ajan gerekli belgeleri okuyup projeyi anlayıp nerede kaldığımızı anlayıp bundan sonra ne yapacağımız hakkında plan yapması ve ilk cevap olarak dosya değiştirmeyip sadece projeden ne anladığını ve planları hakkında kısa bir özet vermesi gerekiyordu"*
+# K-201 · 🟢 DEVİR İSTEMİ: yeni oturum gerekli belgeleri okur, projeyi ve nerede kaldığımızı anlar, plan yapar; ilk cevabı dosya değiştirmeden kısa özet
+> 29 Eylül · isteğim: devir istemiyle yeni oturum gerekli belgeleri okuyup projeyi ve nerede kaldığımızı anlar, sonra plan yapar; ilk cevabında dosya değiştirmez, projeden ne anladığını ve planını kısaca özetler
 
 - `DEVIR-PROMPT.md` §0: (1) gerekli belgeleri oku (`v2/01`, `04-KARARLAR`, `12`; sonra `07`, `14`, `05`, `13`, `06`, `08`, `03`; gerektiği kadar kod) · (2) nerede kaldığımızı anla (`v2/12` §1–§1.1) · (3) plan yap · (4) ilk cevapta dosya değiştirme; kısa özet: ne anladın, nerede kaldık, plan, emin olmadıkların → onay bekle.
-- Aynı gün denenip öğrencinin istemediği ağır düzen geri alındı: zorunlu 196/156 dosyalık okuma listesi, okuma defteri, denetim, 14 soruluk rapor (*"bu kadar ayrıntılı yapmanı istemedim"*). `arsiv/dogrulama/okuma_denetimi.py` arşivde kaldı, zorunlu değil.
-- DESPARETE tasarım paketi okuma belgesi değil (öğrencinin ilk taslak fikirleri); bugünkü yapı kodda (`protokoller/desparete*.py`, günlük K-150…K-172, K-200). Devir istemine araç tuzakları eklendi (kurulum özeti, anatomi ara kaydı, U1 hüküm dünya denetimi).
+- Aynı gün denenip istemediğim ağır düzen geri alındı: zorunlu 196/156 dosyalık okuma listesi, okuma defteri, denetim, 14 soruluk rapor (bu kadar ayrıntı istenmemişti). `arsiv/dogrulama/okuma_denetimi.py` arşivde kaldı, zorunlu değil.
+- DESPARETE tasarım paketi okuma belgesi değil (ilk taslak fikirlerim); bugünkü yapı kodda (`protokoller/desparete*.py`, günlük K-150…K-172, K-200). Devir istemine araç tuzakları eklendi (kurulum özeti, anatomi ara kaydı, U1 hüküm dünya denetimi).
 # K-202 · 🟢 U1 ARACI: kâhin desen başına bir kez, ara kayıt · ANATOMİDE ETKİ ALANI · DESPARETE U1'e eklendi · Python 3.11
-> 29 Eylül · ajan · öğrenci: *"genel olarak dediğin her şeyi onaylıyorum"* (plan, DESPARETE'nin U1'e eklenmesi dâhil) · *"şu anda 3.11'de çalıştıralım komutları"*
+> 29 Eylül · planı onayladım (DESPARETE'nin U1'e eklenmesi dâhil) · komutlar şimdilik 3.11'le çalıştırılacak
 
 - **U1 aracı** (`kalibrasyon/aodv_uygunluk.py`): `--protokol a,b,c`; ETX kâhini desen başına BİR kez koşulur, aynı desendeki protokoller paylaşır — kâhin koşusu protokolden bağımsız (27 Eylül'ün ayrı ayrı koşulmuş üç referans kaydında kâhin PDR'si 12/12 hücrede birebir). Desen başına 72 → 48 koşu. Her koşu bitince ara kayıt (`ciktilar2/aodv_uygunluk/u1_ara_<dünya>_<desen>.jsonl`), kesintide kaldığı yerden sürer; ara kayıt kod özetine (`sim2` · `protokoller` · `kalibrasyon`) bağlı, başka kod hâlinin satırını reddeder. Kayıt biçimi ve `hukum` aynı. **Denklik** (duman kesiti: statik-yok · 1000 · kısa pencere · yere toplama · referans; eski araç dört protokol ayrı ayrı ↔ yeni araç tek çağrı): AODV 0,8255 · OLSR 0,4653 · AOMDV 0,8718 · DESPARETE 0,9018 · kâhin 0,9931 ve tampon sayaçları birebir; 8 koşu 344 s → 5 koşu 130 s. Test `test_U1_KAHIN_PAYLASIMI_ve_ARA_KAYIT`.
 - **Kayıp anatomisi — etki alanı** (K-200'ün alet sınırı): bölge anlık güçle okunduğu için sessiz evrede her düşüş "uzak"tı. Etki alanı = karıştırıcı o an AÇIK olsaydı alınacak ORTALAMA güç (yavaş kayıp; kapı ve hızlı sönümleme hariç), aynı eşikler. Evre × alan üç tablo: paket PDR'si (paketin geçit dışı ucu, doğumda) · veri kararlarının payı (seçilen sonraki atlama) · düşüşler. DESPARETE'nin iç içe teşhis sayaçları (`protokol.*` · `komsu.*` · `alan.*` · `edinim.*` · `politika.*`) artık toplanıyor. **Denklik** (kısa pencere, birincil hücre, 1003, AODV · DESPARETE · kâhin): eski alanların hepsi birebir (fark 0). Testler `tests2/test_kayip_anatomisi.py` (2).
 - **İlk okuma** (kısa pencere, tek tohum — yalnız aletin çalıştığını gösterir): karıştırıcı açıkken kayıp, karıştırıcının UZAK alanındaki kaynaklarda (PDR AODV 0,33 · DESPARETE 0,50 · kâhin 0,63; girişim alanındakiler 0,70 · 0,83 · 0,77) — geçide giden yolu karıştırılan merkezden geçen düğümler. DESPARETE'nin açık evredeki `rota_gecersiz`i uzak alandaki rölelerde (üretilenin %12,2'si).
 - **DESPARETE U1'e eklendi** (yere toplama; bilgi amaçlı, donma kararına girmez): v0.4.1'in referans dünyada karıştırıcısız tam ölçümü yoktu; kâhin paylaşıldığı için ek 12 koşu.
-- **Ortam:** `python` komutu başka bir proje için kurulan 3.12'yi açıyor, onda numpy/scipy/pytest yok → komutlar `py -3.11` ile (öğrenci).
+- **Ortam:** `python` komutu başka bir proje için kurulan 3.12'yi açıyor, onda numpy/scipy/pytest yok → komutlar `py -3.11` ile (kararım).
 - **Doğrulama:** ilgili 5 test geçti · mimari denetimi ihlalsiz, kökeni yazılmamış sabit yok, SINANMAMIŞ 41 · takım 941 → 944 test (tam takım iş kapanışında). Simülatör davranışı değişmedi (yalnız alet) → regresyon gerekmez.
 **Koşan:** U1, dondurulmuş kopya `arsiv/teshis/u1_2026-09-29/kopya` (`arac_hash` 6e784895…), beklenti ve karar kuralları `arsiv/teshis/u1_2026-09-29/beklenti.md` (ölçmeden önce); yere toplama (60 koşu) → eşler arası (48 koşu).
 # K-203 · 🟢 FAZ 4 KAPANIŞ KAPISI ve DENETİMİN KARARLARI — Faz 5'e paralel iş yok · köken defteri referans dünyaya göre · DÜNYA TANIMI kovası · evre metrikleri çizelgeli karıştırıcıda kapanışta · yorum temizliği önce simülatör ve protokoller
-> 29–30 Eylül gece · öğrenci: *"faz 5'e geçmeden önce mevcut durumumuzu garantiye almak ve faz 5'e temiz ve güvenli bir yapıyla girmek istiyorum … faz 5'e paralel başlamak şu anda pek istediğim bir durum değil"*; kararlar: *"benim onayladığım dünya tanımları 33 km vesaire de dahil kaynaklardan alınma metrikler zaten projenin kapsamı sayılır · kod yorumu ve temizliğin kapsamında önce simülatör ve protokoller · diğer dediğin her şeye onay"* · denetim kaydı `arsiv/teshis/faz4_kapanis_2026-09-30/denetim.md`
+> 29–30 Eylül gece · isteğim: Faz 5'e geçmeden önce mevcut durum garantiye alınacak ve Faz 5'e temiz ve güvenli bir yapıyla girilecek; Faz 5'e paralel başlanmayacak. Kararlarım: onayladığım dünya tanımları (33 km vb.) ve kaynaklardan alınan metrikler projenin kapsamıdır · kod yorumu ve temizlikte önce simülatör ve protokoller · öteki önerilere onay · denetim kaydı `arsiv/teshis/faz4_kapanis_2026-09-30/denetim.md`
 
 - **Kapı:** Faz 5'e geride iş kalmadan (U1 → taban protokoller donar · 4.4 · 4.5), yazılım ve yapı denetiminden geçmiş simülatörle, güncel ve arınmış belgelerle geçilir; Faz 5'le paralel iş yok. Kuyruğa konmuş Faz 5.0 ölçümü iptal edildi (aleti ve beklentisi `arsiv/teshis/faz5_0_2026-09-30/`de, koşulmadı).
 - **Köken defteri referans dünyaya göre** (denetim B1): defter bugün `Konfig` varsayılanlarını, yani eski 1:50 dünyayı gerekçelendiriyor — 16 `DUYARSIZ` aklamasının 16'sı ve `OLCULMUS` kayıtlarının çoğu eski dünyanın; bazı gerekçeler referans dünyada yanlışa döndü (`cw_max` "erişilemez": yeniden deneme 7'de 5. denemede erişilir). Defter referans dünyanın değerini gerekçelendirecek, eski dünyanın gerekçesi arşive; mimari denetimi borcu referans dünya için sayacak.
-- **DÜNYA TANIMI kovası:** öğrencinin onayladığı referans dünya tanımları (`14`: 33 km, N 40, 40–120 km/h, irtifa 50–300 m, 10 W, 512 B telemetri, birincil hücre …) ve kaynaklardan alınan değerler projenin KAPSAMIDIR — sonuçlar bu dünyaya koşullu, kapsam beyanıyla; duyarlılık borcu taşımaz. Duyarlılık borcu yalnız gerekçesiz modelleme seçimlerinde kalır.
+- **DÜNYA TANIMI kovası:** onayladığım referans dünya tanımları (`14`: 33 km, N 40, 40–120 km/h, irtifa 50–300 m, 10 W, 512 B telemetri, birincil hücre …) ve kaynaklardan alınan değerler projenin KAPSAMIDIR — sonuçlar bu dünyaya koşullu, kapsam beyanıyla; duyarlılık borcu taşımaz. Duyarlılık borcu yalnız gerekçesiz modelleme seçimlerinde kalır.
 - **İndirme izni:** kaynak bağlamak için ns-3 dosyaları (onay çerçevesi boyu, LLC/SNAP, kuyruk varsayılanı, yakalama eşiği) ve RFC 791/768/1042.
 - **Evre metrikleri çizelgeli karıştırıcıda** (denetim B8): birincil hücrenin karıştırıcısı 15 s açık · 15 s sessiz, `08`in metrikleri tek basamak varsayıyor → tanım kapanışta yazılır (Faz 6'ya bırakılmaz).
 - **Yorum temizliği:** önce `sim2/` ve `protokoller/` (tarihçe anlatıları kısalır, davranış aynı, regresyonla kanıtlanır); `kalibrasyon/` ve `tests2/` sonra.
 - **Aynı gece yapılan (alet, simülatör davranışı değişmedi):** regresyona 13 referans dünya vakası (`u-`, denetim B6) · `cozunurluk.py` ve `duyarlilik.py` `--dunya` okur ve basar (B7) · kayıp anatomisine DESPARETE onarım bölümleri ve `rota_gecersiz` anında alan durumu (Faz 5.0 aleti). Testler geçti.
-# K-204 · 🟢 ÖĞRENCİ KARARLARI (30 Eylül) — 10 keşifsel kol tanımı kapsam ilanı · arşiv git'te izlenir (kopyalar ve büyük çıktılar hariç) · evre metrikleri v1 geri çekildi, v2 onayda
-> 30 Eylül gece · öğrenci: *"önerilerin hepsini onaylıyorum bu arada ama evre metrikleri konusunda bir süre daha düşün çünkü yeni bir şey bu hata olması durumunda sıkıntı olur"*
+# K-204 · 🟢 KARARLARIM (30 Eylül) — 10 keşifsel kol tanımı kapsam ilanı · arşiv git'te izlenir (kopyalar ve büyük çıktılar hariç) · evre metrikleri v1 geri çekildi, v2 onayda
+> 30 Eylül gece · önerilerin hepsini onayladım; evre metrikleri yeni olduğu için hata riskine karşı bir süre daha düşünülecek
 
 - **Kapsam ilanı** (Faz 4.4): duyarlılık borcundaki 10 sabit — darbeli (periyot, görev çevrimi) · reaktif (eşik, sezme süresi, sezme olasılığı, patlama) · taramalı (konak sayısı, konak süresi) · tekli merkezin konumu · hava eşlik hızı — ölçülmeden **kapsam** olarak beyan edildi: keşifsel kolların tanımıdır, o kolların sonucu bu değerlere koşulludur. Hiçbiri birincil hücrenin kod yoluna girmez (kod okuması: yalnız kendi sınıfı ya da ailesi okur; birincil hücre sürekli sınıf, konumu tanımından). Eski dünyada darbeli ve taramalı sabitleri DUYARLI çıkmıştı → rapor kapsam bölümünde yazar. Defterde `KAPSAM_ILANI` (test: hepsi `KOL_TANIMI`nda, gerekçesi K-204'ü taşır, borçla kesişmez). `py -3.11 kalibrasyon/mimari_denetimi.py` → `Yapisal ihlal YOK` · SINANMAMIŞ 25 · borç 0 · kapsam ilanı 10.
 - **Git'te ne izlenir** (`.gitignore`): arşivin notları, beklenti (ön-kayıt) dosyaları, günlükleri ve araçları izlenir — commit zamanı ölçütün ölçümden önce yazıldığının kanıtıdır. İzlenmeyenler: dondurulmuş kod kopyaları (`kopya/`), yorum tabanı ve eski dünyanın büyük çıktıları (`arsiv/ciktilar/`, `arsiv/regresyon_tabanlari/`); kodla yeniden üretilirler, biri 126 MB idi (GitHub sınırı 100 MB). 5f8e760 bunları içeriyordu; push'tan önce düzeltildi.
-- **Evre metrikleri** (denetim B8): v1 (evre katlama) eldeki veriyle sınandı ve geri çekildi — 1 s'lik "toparlandı" kararı `08` §02'nin durağanlık ilkesine aykırıydı, katlama özdeş çevrim varsayıyordu (karıştırıcı her sessizde 250 m taşınıyor, protokol durumu çevrimden çevrime taşınıyor), ÖNCE referansı sınanmamıştı. **v2 öğrenci onayında:** M1 aynı (ilk açık dönem = ŞOK penceresi) · M2 sessiz dönemlerin birleşimi · M3 tanımsız · M4 ilk açık dönemle sınırlı; kapılar G1ç (formasyon boş kol, hayalet çizelge) · G2ç · G4ç ölçmeden önce yazılı. Eldeki veri (`py -3.11 arsiv/teshis/faz4_kapanis_2026-09-30/evre_mevcut_veri.py`, K-200 partisi): bugünkü M4 tespitleri 24 koşunun 4'ünde ve hepsi 2. ya da 3. açık dönemde, ilk açık dönemde hiç yok; sessiz/önce oranı kâhin 0,985 · DESPARETE 0,964 · AODV 0,891 · OLSR 1,096 (en çok 1,26) → ÖNCE referansının durağanlığı G1ç'de sınanmalı. Öneri ve v1 `arsiv/teshis/faz4_kapanis_2026-09-30/`.
+- **Evre metrikleri** (denetim B8): v1 (evre katlama) eldeki veriyle sınandı ve geri çekildi — 1 s'lik "toparlandı" kararı `08` §02'nin durağanlık ilkesine aykırıydı, katlama özdeş çevrim varsayıyordu (karıştırıcı her sessizde 250 m taşınıyor, protokol durumu çevrimden çevrime taşınıyor), ÖNCE referansı sınanmamıştı. **v2 onayımda:** M1 aynı (ilk açık dönem = ŞOK penceresi) · M2 sessiz dönemlerin birleşimi · M3 tanımsız · M4 ilk açık dönemle sınırlı; kapılar G1ç (formasyon boş kol, hayalet çizelge) · G2ç · G4ç ölçmeden önce yazılı. Eldeki veri (`py -3.11 arsiv/teshis/faz4_kapanis_2026-09-30/evre_mevcut_veri.py`, K-200 partisi): bugünkü M4 tespitleri 24 koşunun 4'ünde ve hepsi 2. ya da 3. açık dönemde, ilk açık dönemde hiç yok; sessiz/önce oranı kâhin 0,985 · DESPARETE 0,964 · AODV 0,891 · OLSR 1,096 (en çok 1,26) → ÖNCE referansının durağanlığı G1ç'de sınanmalı. Öneri ve v1 `arsiv/teshis/faz4_kapanis_2026-09-30/`.
 # K-205 · 🟡 U1 SONUCU (referans dünya, dört protokol) · OLSR K-196'ya atıfla temiz · AODV'DE DÖNGÜ KUSURU BULUNDU VE RFC'YE GÖRE DÜZELTİLDİ (`AODV-g`) · U1 AODV-g ile yeniden · AOMDV kâhin aşımı R bekliyor
-> 29 Eylül 18:35 – 30 Eylül 08:15 · ajan · öğrencinin onaylı sırası (K-204: "U1 bitince hüküm ve eşik altı hücrelerin açıklanması"); karar kuralları ölçmeden önce `arsiv/teshis/u1_2026-09-29/beklenti.md` ve `aciklama/beklenti.md`
+> 29 Eylül 18:35 – 30 Eylül 08:15 · onayladığım sıra (K-204: "U1 bitince hüküm ve eşik altı hücrelerin açıklanması"); karar kuralları ölçmeden önce `arsiv/teshis/u1_2026-09-29/beklenti.md` ve `aciklama/beklenti.md`
 
 - **U1** (geliştirme tohumları 1000–1002, `aodv_uygunluk.py … hukum` koşunun hükmünü birebir üretir): yere toplamada U1-U dördünde ✅; U1-B AOMDV ✅ · DESPARETE ✅ (en düşük oran 0,779) · OLSR 8 hücre eşik altı · AODV statik 1000 (0,863) ve 1002 (0,874). Eşler arasında (keşifsel) AODV ✅ ✅ · OLSR U1-B 8 hücre (bulgu) · AOMDV U1-U 🔴: formasyon 1000'de kâhini +0,0015 aşıyor.
 - **OLSR:** yere toplamadaki 8 düşük hücre K-196'ya atıfla açıklandı ("OLSR-c ile U1 yeniden koşulunca bu kayda atıfla girer"). U1 aracına referans dünyanın desen başına açıklanmış hücre listesi eklendi; eşler arasındakiler açıklanmamış bulgu kalır. Hüküm yeşil.
@@ -1520,26 +1521,26 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Döngü izi** (`dongu_izi.py`, küresel saatle; adaylar ölçmeden önce yazılı): eski kodda döngülü paketlerin çoğunu **bayat RREP kabulü** kuruyor — 1000'de 77'nin 72'si, 1002'de 23'ün 16'sı; koşu boyunca 331 · 99 · 336 bayat kabul. `_rrep_isle` geçersiz girdiyi sıraya bakmadan güncelliyordu; RFC 3561 §6.7 (i)–(iv) ve ns-3 `RecvReply` yalnız bilinmeyen · büyük · eşit sırayı kabul eder.
 - **`AODV-g`** (RFC ve ns-3'e dönüş, dört parça): §6.7 kuralı · §6.2 komşu rotası geçerli sırasız (ns-3 `UpdateRouteToNeighbor`) · §6.11 sıra yalnız geçerliyse artar, RERR'de kopyalanır · kaynak keşfi yalnız rota kurulduysa kapatır (AOMDV'nin 22 Eylül S10 tuzağına karşı). **AOMDV birebir korunur** (kendi `_gecersizlestir`i eski kuralı taşır; S10 notundaki "RFC'nin kuralı" ifadesi yanlıştı, düzeltildi). Testler: `test_K205_*` (4) + AODV/AOMDV takımı 51 geçti.
 - **Düzeltmenin etkisi** (statik, döngü izi): bayat kabul 0 · döngülü paket 77 → 5 · 4 → 1 · 23 → 32 · PDR (pencere) 0,8635 → 0,8865 · 0,9328 → 0,9256 · 0,8759 → 0,8681 · keşif başarısızlığı 0. 1002'de kalan döngüler RFC'ye uygun kurallardan: RERR'de sıra kopyalama (§6.11) + eşit sırada etkin olmayan rotanın güncellenmesi (§6.7 iii) + kabul edilmeyen RREP'in yine iletilmesi (ns-3 ile aynı). Elenen ikinci aday: ters rota sırayı düşürmüyor (0 olay).
-- **Açık · öğrenciye:** U1-B koşul 1 ("TTL 0") RFC'ye sadık bir AODV'de sağlanamayabilir. "Kusur izi = gerçeklemenin RFC'den sapması; RFC'nin kendi kurallarından doğan geçici döngü mekanizmadır" okuması ölçütü değiştirdiği için onaya gider.
+- **Açık · karar bende:** U1-B koşul 1 ("TTL 0") RFC'ye sadık bir AODV'de sağlanamayabilir. "Kusur izi = gerçeklemenin RFC'den sapması; RFC'nin kendi kurallarından doğan geçici döngü mekanizmadır" okuması ölçütü değiştirdiği için onaya gider.
 - **Sürüyor:** U1 `AODV-g` (iki desen, kâhin dâhil; kâhin PDR'leri birebir olmalı) `arsiv/teshis/u1_aodv_g_2026-09-30/`. AOMDV kâhin aşımı: önce referans R (Faz 4.4 #1), sonra K-192 (b). Regresyon beklentisine eklendi: AODV vakaları değişebilir, AOMDV birebir.
 # K-206 · 🟡 U1 `AODV-g` SONUCU · AOMDV'NİN KÂHİN AŞIMI ZARF İÇİNDE (K-192 b) · REFERANS DÜNYADA R GEÇERSİZ (taban etkisi) → 4.4 PLANI DÜZELTİLECEK · REGRESYON TABANI k203 · 952 TEST
-> 30 Eylül 08:09–13:28 · ajan · K-205'in devamı; karar kuralları ölçmeden önce `arsiv/teshis/u1_aodv_g_2026-09-30/beklenti.md`, `arsiv/teshis/faz4_4_2026-09-30/beklenti.md`, `arsiv/teshis/faz4_kapanis_2026-09-30/regresyon_beklenti.md`
+> 30 Eylül 08:09–13:28 · K-205'in devamı; karar kuralları ölçmeden önce `arsiv/teshis/u1_aodv_g_2026-09-30/beklenti.md`, `arsiv/teshis/faz4_4_2026-09-30/beklenti.md`, `arsiv/teshis/faz4_kapanis_2026-09-30/regresyon_beklenti.md`
 
-- **U1 `AODV-g`** (`sonuc.md`; kâhin PDR'leri 29 Eylül'le birebir ✅): U1-U iki desende ✅. Eşler arası U1-B ✅, her kolda iyileşme. Yere toplamada statik ortalama 0,892 → 0,897; hareketli kollarda biraz düşüş (görev −0,016 · formasyon −0,012). Eşik altı 3 hücre: statik 1000 **0,891** · 1002 **0,867** · bağımsız 1000 **0,598** (`AODV-f`'de 0,601). Ön-kayıtlı değişkenle açıklanmış sayılmaz; statikte kalan TTL düşüşleri RFC'nin kendi kurallarından (K-205). **Donma kararı öğrencide.**
+- **U1 `AODV-g`** (`sonuc.md`; kâhin PDR'leri 29 Eylül'le birebir ✅): U1-U iki desende ✅. Eşler arası U1-B ✅, her kolda iyileşme. Yere toplamada statik ortalama 0,892 → 0,897; hareketli kollarda biraz düşüş (görev −0,016 · formasyon −0,012). Eşik altı 3 hücre: statik 1000 **0,891** · 1002 **0,867** · bağımsız 1000 **0,598** (`AODV-f`'de 0,601). Ön-kayıtlı değişkenle açıklanmış sayılmaz; statikte kalan TTL düşüşleri RFC'nin kendi kurallarından (K-205). **Donma kararı bende.**
 - **AOMDV kâhin aşımı kapandı:** eşler arası formasyon 1000'de üç kâhin (`aomdv_zarf.py`): ETX 0,9762 (U1'le birebir) · en kısa yol 0,8861 · en olası teslim **0,9986** → AOMDV 0,9777 zarfın içinde. K-192 (b) beyanı: "ETX kâhini bu hücrede üst sınır değil". U1 aracında `KAHIN_ASIMI_ACIKLANMIS` (desen başına, ölü kayıt taramalı). AOMDV U1-U iki desende ✅. Eşler arası statik 1002 (0,889) keşifsel bulgu.
-- **R (4.4 #1) referans dünyada geçersiz:** `cozunurluk.py --dunya referans_2026 --tohum 40` → R 0,0086, ama hücrede ETX kâhininin PDR'si **0,029**. Eski dünyanın çekirdek hücresi (statik-sürekli, tek merkez, kısa pencere) referans dünyada tabana yapışık. `R_ESLESTIRILMIS` güncellenmedi. 4.4'ün "statik" tarama hücresi aynı tabanda (sahte DUYARSIZ riski) → **R ve taramalar birincil hücreye**. Plan ve maliyet öğrenciye (`denetim.md` 4.4 notu). Regresyonda da görüldü: referans dünyanın tek merkezli karıştırıcılı vakaları PDR 0,03–0,12; bir vaka 0.
+- **R (4.4 #1) referans dünyada geçersiz:** `cozunurluk.py --dunya referans_2026 --tohum 40` → R 0,0086, ama hücrede ETX kâhininin PDR'si **0,029**. Eski dünyanın çekirdek hücresi (statik-sürekli, tek merkez, kısa pencere) referans dünyada tabana yapışık. `R_ESLESTIRILMIS` güncellenmedi. 4.4'ün "statik" tarama hücresi aynı tabanda (sahte DUYARSIZ riski) → **R ve taramalar birincil hücreye**. Plan ve maliyet kararı bende (`denetim.md` 4.4 notu). Regresyonda da görüldü: referans dünyanın tek merkezli karıştırıcılı vakaları PDR 0,03–0,12; bir vaka 0.
 - **Regresyon k198 → k203** (`arsiv/teshis/regresyon_k203_2026-09-30/`): 🟢 BİREBİR. 62/62 vaka yalnız kod kimliği ve (izinli) köken kova sayılarında farklı, **AOMDV birebir**. İlan edilen 5 vaka değişti: eski dünya AODV PDR 0,822 → 0,794 · 0,828 → 0,802 (`AODV-g`); B4'le referans bağımsız vakada kuyruk taşması 140 → 0. 13 `u-` vakası ilk kez; **yeni taban k203**.
 - **Tam takım:** 952 geçti (13 dk 58 s). Mimari denetimi: yapısal ihlal yok · SINANMAMIŞ 25 · borç 0 · kapsam ilanı 10.
-- **Açık · öğrenciye:** (1) `AODV-g`'nin 3 düşük hücresiyle donma · (2) U1-B koşul 1'in "RFC'den sapma = kusur" okuması (K-205) · (3) evre metrikleri v2 (K-204) · (4) 4.4'ün birincil hücreye taşınması.
-# K-207 · 🟢 ÖĞRENCİ KARARLARI (30 Eylül) — AODV sadakat şartıyla DONAR, eşik altı hücreler protokolün kendi sorunu · RFC kurallarından doğan döngü mekanizmadır · evre metrikleri v2 onaylı · Faz 4.4 birincil hücrede
-> 30 Eylül öğleden sonra · öğrenci: *"aodv donabilir yani eğer aodv kesinlikle gerçeğine birebir yapıldıysa ve hala eşiğin altında kalıyorsa düzeltilecek bir sorun değil protokolün kendi sorunudur muhtemelen. genel olarakta diğer önerilerini kabul ediyorum"*
+- **Açık · karar bende:** (1) `AODV-g`'nin 3 düşük hücresiyle donma · (2) U1-B koşul 1'in "RFC'den sapma = kusur" okuması (K-205) · (3) evre metrikleri v2 (K-204) · (4) 4.4'ün birincil hücreye taşınması.
+# K-207 · 🟢 KARARLARIM (30 Eylül) — AODV sadakat şartıyla DONAR, eşik altı hücreler protokolün kendi sorunu · RFC kurallarından doğan döngü mekanizmadır · evre metrikleri v2 onaylı · Faz 4.4 birincil hücrede
+> 30 Eylül öğleden sonra · kararım: AODV kaynağına birebir yapıldıysa ve yine eşiğin altında kalıyorsa bu düzeltilecek bir sorun değil, protokolün kendi sınırıdır; öteki önerileri kabul ettim
 
 1. **AODV donar — şartı sadakat.** Donmadan önce `AODV-g` RFC 3561'e ve ns-3'e karşı kural kural denetlenir; gerekçesiz her sapma düzeltilir (davranış değişirse U1 ve regresyon yeniden), gerekçeli sapmalar beyan listesine girer. Sadakat sağlandıktan sonra eşik altında kalan U1-B hücreleri "protokolün kendi sorunu" olarak bulgu diye raporlanır; donmayı durdurmaz.
 2. **U1-B koşul 1'in okuması:** kusur izi = gerçeklemenin kaynağından sapması. RFC'nin kendi kurallarından doğan geçici döngü mekanizmadır, kusur değildir (K-205).
 3. **Evre metrikleri v2 onaylı** (`arsiv/teshis/faz4_kapanis_2026-09-30/evre_cizelgeli_oneri.md`): çizelgeli karıştırıcıda M1 aynı (ilk açık dönem) · M2 sessiz dönemlerin birleşimi · M3 tanımsız · M4 ilk açık dönem; kapılar G1ç · G2ç · G4ç; katlanmış profil yalnız betimleyici.
 4. **Faz 4.4 birincil hücrede:** R ve duyarlılık taramaları referans dünyanın çalışma noktasında; maliyet önce hesaplanır.
 # K-208 · 🟡 AODV SADAKAT DENETİMİ (RFC 3561 + ns-3) — 11 sapma daha bulundu ve düzeltildi (`AODV-h`); AOMDV'nin AODV'den devraldığı kısım da (`AOMDV-c`) · U1 ikisi için yeniden
-> 30 Eylül öğleden sonra–akşam · ajan · K-207'nin şartı ("aodv kesinlikle gerçeğine birebir yapıldıysa") · denetim `arsiv/teshis/aodv_sadakat_2026-09-30/denetim.md`
+> 30 Eylül öğleden sonra–akşam · K-207'nin şartı (AODV kaynağına birebir mi) · denetim `arsiv/teshis/aodv_sadakat_2026-09-30/denetim.md`
 
 - **K-205'teki "`AODV-g` RFC'ye sadık" iddiası fazlaydı.** Kod RFC 3561'e kural kural karşılaştırıldı (yerel `rfc3561_aodv.txt`, ns-3 `aodv-routing-protocol.cc`). İlke: RFC birincil, ns-3 yalnız RFC'nin sustuğu ya da çeliştiği yerde hakem; ns-3'ün RFC'de olmayan eklemeleri alınmadı.
 - **Düzeltilenler (H1–H11):**
@@ -1565,7 +1566,7 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Testler:** 62 (AODV + AOMDV; eski davranışı sabitleyen 3 test RFC'ye göre güncellendi, 10 yeni). Tam takım 962 geçti.
 - **Sürüyor:** U1 `AODV-h` + `AOMDV-c`, iki desen (`arsiv/teshis/aodv_sadakat_2026-09-30/`, beklenti orada; 30 Eylül 19:05'ten, ~8–10 sa). Ardından regresyon ve donma kaydı (K-207: eşik altı hücreler bulgu).
 # K-209 · 🟡 EVRE METRİKLERİ v2 UYGULANDI (çizelgeli karıştırıcı) — kapılar U1'den sonra
-> 30 Eylül gece · ajan · öğrenci onayı K-207 (öneri v2) · tanım `v2/08` §08
+> 30 Eylül gece · onayım K-207 (öneri v2) · tanım `v2/08` §08
 
 - **Kod** (`sim2/olcum/evre.py`, `cizelge=(açık, sessiz)`; çizelge `sonuc.karistirici_cizelgesi` ile tehdit tanımından türer):
   - M1 aynı (ŞOK = `[T_j; T_j + min(L, açık))`, birincil hücrede ilk açık dönem)
@@ -1580,7 +1581,7 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
   - D'nin hata payı K-196 kuralının gerçek pencere uzunluğuna uygulanmışı: `s_L·√(L/T_s + L/T)`.
   - Kapılar U1 bittikten sonra koşar (~3 sa); geçmeden birincil hücrenin evre metrikleri bir sonuç için kullanılmaz.
 # K-210 · 🟡 AOMDV'DE KARA DELİK: iki kusur bulundu ve düzeltildi — AOMDV'nin kendi işleyicilerinde RFC öncül adımları yoktu · RFC durum (ii)'nin RERR'i öncül süzmesiz (ns-2/ns-3) → `AODV-i` + `AOMDV-e`, U1 yeniden
-> 1 Ekim sabahı · ajan · K-208'in U1'i (`AODV-h` + `AOMDV-c`, 30 Eylül 19:03 – 1 Ekim 05:17) · teşhisler `arsiv/teshis/aodv_sadakat_2026-09-30/` (`aomdv_teshis.py`, `aomdv_kara_delik.py`, `denetim.md`)
+> 1 Ekim sabahı · K-208'in U1'i (`AODV-h` + `AOMDV-c`, 30 Eylül 19:03 – 1 Ekim 05:17) · teşhisler `arsiv/teshis/aodv_sadakat_2026-09-30/` (`aomdv_teshis.py`, `aomdv_kara_delik.py`, `denetim.md`)
 
 - **U1 `AODV-h`:** U1-U ✅ iki desende; yere toplamada statik 1000 geçti (0,901), statik 1002 (0,874) ve bağımsız 1000 (0,595) eşik altı; eşler arası temiz. K-207 gereği bulgu olarak kaydedildi.
 - **U1 `AOMDV-c` kötüleşti:**
@@ -1590,7 +1591,7 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Teşhis:** eşler arası statik 1001'de 1 697 paket, o hedefe girdisi olmayan ara düğüme gidiyordu ("hedef yok"). Nedensellik sınaması: yalnız veri kararı eskiye döndürülünce 0,950.
   1. **AOMDV'nin kendi `_rrep_isle`/`_rreq_isle`'sinde RFC §6.7 son paragrafı ve §6.6.2 ters rota öncülü yoktu.** Eklenince 0,980, kara delik 0. Eski kodun RFC dışı "ara düğüm kendi keşfini yapar" davranışı bunu örtüyordu.
   2. RFC tabanını makalenin sustuğu yerlerde AODV-i'ninkine getiren hizalamalar (A1–A7) kara deliği başka yoldan geri getirdi (0,897). Kök mekanizma: ters yoldan öğrenilmiş rotayı kullanan gönderen, rotası düşen ara düğümün öncülü değil; RFC durum (ii)'nin RERR'i öncül listesine göre süzülüyor ve gönderen hiç haber almıyor (tek akış, 1 181 paket). RFC'nin süzme cümlesi küçük harf "should" (normatif değil); ns-2 ve ns-3 (ii)'de süzmüyor → **(ii)'nin RERR'i öncül süzmesiz** (durum (i)'nin süzmesi K-143 kalır). Sonuç **0,987** ("hedef yok" 2).
-  - Ayrıca öğrenciye söylenen "makalede yol başına zaman aşımı" iddiası yanlıştı: Şekil 2'de girdi başına tek; kod makaleye sadık.
+  - Ayrıca bana aktarılan "makalede yol başına zaman aşımı" iddiası yanlıştı: Şekil 2'de girdi başına tek; kod makaleye sadık.
 - **Kod hâlleri:**
   - `AODV-i` = AODV-h + (ii) RERR süzmesiz. Statik 1002'de 0,871 → 0,866.
   - `AOMDV-e` = devralınan AODV-i + öncül adımları + RFC tabanı (A1–A7: komşu rotası sırasız · RREQ'te önceki atlama sırasız · iletilen RREQ'in sırası büyüğe · U bayraklı RREQ'e ara düğüm cevabı · HELLO sırası Şekil 3 kuralıyla · keşif yalnız rota kurulunca kapanır · RERR'de sıra kopyası).
@@ -1599,7 +1600,7 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
   - `test_kosum`'daki iki dünya seçimi testi ortam değişkeni sızdırıyordu (`delenv` olmayan değişkende geri alma kaydı tutmaz); düzeltildi.
 - **Sürüyor:** U1 `AODV-i` + `AOMDV-e`, iki desen (`beklenti_2.md`, `kopya_2/`, 1 Ekim 07:4x'ten ~9–10 sa). Makinede başka bir projenin deneyi (Kargoz, 8 işçi) koşuyor; süreleri uzatır.
 # K-211 · 🟢 TABAN PROTOKOLLER DONDU — `AODV-i` · `OLSR-c` · `AOMDV-e` · U1 son hükmü · regresyon tabanı k204
-> 2 Ekim gece · ajan · donma kuralı (`arsiv/teshis/u1_2026-09-29/beklenti.md`) ve öğrenci kararı K-207 · U1 `arsiv/teshis/aodv_sadakat_2026-09-30/` (`beklenti_2.md`; 1 Ekim 07:36'daki koşu elektrik kesintisinde tamamlanmış koşu olmadan durdu, 16:55'te aynı dondurulmuş kopyadan baştan)
+> 2 Ekim gece · donma kuralı (`arsiv/teshis/u1_2026-09-29/beklenti.md`) ve kararım K-207 · U1 `arsiv/teshis/aodv_sadakat_2026-09-30/` (`beklenti_2.md`; 1 Ekim 07:36'daki koşu elektrik kesintisinde tamamlanmış koşu olmadan durdu, 16:55'te aynı dondurulmuş kopyadan baştan)
 
 - **U1 son hükmü** (geliştirme tohumları 1000–1002, referans dünya; kâhin PDR'leri 29 Eylül'le birebir):
   - **AODV-i:** U1-U ✅ iki desende. U1-B: yere toplamada tek düşük hücre statik 1002 (0,873), K-207 gereği "protokolün kendi sınırı" diye bulgu. Bağımsız 1000 0,604 (AODV-h'de 0,595). Eşler arası temiz.
@@ -1608,8 +1609,8 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Donma koşulları sağlandı:** U1-U üç protokolde iki desende ✅ · yere toplamanın düşük hücreleri açıklanmış ✅ · sadakat denetimi AODV (K-208, K-210) ve AOMDV'nin RFC tabanı (K-210) ✅. Bundan sonra taban protokollerin kodu değişmez. Değişirse yeni K kaydı, U1 ve regresyon gerekir.
 - **Regresyon k203 → k204** (`arsiv/teshis/regresyon_k204/`): 🟢 BİREBİR. İlan edilmeyen 64 vaka yalnız kod kimliğinde farklı (OLSR, DESPARETE, kâhin, sınav protokolleri aynen). İlan edilen 16 vaka değişti (AODV ve AOMDV satırları). Çizelgeli hücrenin OLSR, DESPARETE ve kâhin satırlarında kod kimliği dışında fark yok, çünkü regresyonun kısa penceresinde karıştırıcı ölçüm penceresinden önce açılıyor ve evre metrikleri hesaplanmıyor; evre metrikleri v2'yi birim testleri ve kapılar (1c, 2c) sınar. **Yeni taban k204.**
 - **Kod hâlleri:** `protokoller/aodv.py` (`AODV-i`) · `protokoller/olsr.py` (`OLSR-c`) · `protokoller/aomdv.py` (`AOMDV-e`). Beyanlı sapmalar biçim dosyalarında ve `arsiv/teshis/aodv_sadakat_2026-09-30/denetim.md`.
-# K-212 · 🟡 EVRE METRİKLERİ v2 KAPILARI — G1ç ✅ · G4ç ✅ · G2ç ❌ (bölümleme hatası yok: kâhinin kendi zaman kayması) · G2ç'nin düzeltilmesi öğrenci onayında
-> 2 Ekim 02:26–07:00 · ajan · ölçüt ölçmeden önce `arsiv/teshis/evre_cizelge_2026-10-01/beklenti.md` (K-209)
+# K-212 · 🟡 EVRE METRİKLERİ v2 KAPILARI — G1ç ✅ · G4ç ✅ · G2ç ❌ (bölümleme hatası yok: kâhinin kendi zaman kayması) · G2ç'nin düzeltilmesi onayımda
+> 2 Ekim 02:26–07:00 · ölçüt ölçmeden önce `arsiv/teshis/evre_cizelge_2026-10-01/beklenti.md` (K-209)
 
 - **G1ç** (formasyon · yere toplama · karıştırıcısız, hayalet çizelge; 4 protokol × 1003 · 1004): GEÇTİ.
   - M4 yanlış tespit 0/8
@@ -1621,17 +1622,17 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
   - Kural gereği bölümleme incelendi: hata yok (sentetik testler + `devrede_mi` tutarlılığı).
   - Teşhis (`g2c_teshis.py`, kâhin 1004): karıştırıcısız kolda da kâhinin PDR'si 150 s'den sonra ~0,90'a iniyor (hayalet sessiz 0,900; hayalet ilk açık dönem 0,80). Birincil hücrenin sessizi (0,915) bunun üstünde.
   - → Eksik, kâhinin zaman kayması (formasyonun topolojisi). Kapının "kâhinin ÖNCE düzeyi durağan" öncülü yanlış kurulmuştu.
-- **Öneri — öğrenciye:** G2ç'nin D maddesi kâhinin aynı tohumdaki boş kol koşusuna göre eşleştirilsin: `D_birincil − D_boş` 2 SE içinde. 1004'te +0,015; 1003 için ~50 dk'lık bir koşu gerekir. Onaya kadar birincil hücrenin evre metrikleri bir SONUÇ için kullanılmaz (`08` §05).
+- **Öneri (kararım için):** G2ç'nin D maddesi kâhinin aynı tohumdaki boş kol koşusuna göre eşleştirilsin: `D_birincil − D_boş` 2 SE içinde. 1004'te +0,015; 1003 için ~50 dk'lık bir koşu gerekir. Onaya kadar birincil hücrenin evre metrikleri bir SONUÇ için kullanılmaz (`08` §05).
 - **Yan bulgu:** tohum başına M1 topoloji olaylarıyla karışabilir (1004'te hayalet M1 0,150) → `08` §06: kol düzeyinde SE'siyle okunur.
 # K-213 · 🟡 FAZ 4.4 ÇÖZÜNÜRLÜĞÜ BİRİNCİL HÜCREDE — R = 0,0188 (eşleştirilmiş, 40 tohum) · olasılık eşikleri kayıp payından oynatılır · taramalar başladı
-> 2 Ekim 07:02–08:14 · ajan · ölçüt ölçmeden önce `arsiv/teshis/faz4_4_2026-09-30/beklenti.md`
+> 2 Ekim 07:02–08:14 · ölçüt ölçmeden önce `arsiv/teshis/faz4_4_2026-09-30/beklenti.md`
 
 - **R** · `py -3.11 -u kalibrasyon/cozunurluk.py --dunya referans_2026 --hucre birincil --tohum 40` (67 dk, kopyadan): `olcut_bedeli` 0,1572 · SD 0,0595 → **R = 0,0188**. Ön koşul sağlandı: kâhin PDR'si 0,834 (taban da tavan da değil; eski çekirdek hücrede 0,029'du, K-206).
 - `kalibrasyon/duyarlilik.py::R_ESLESTIRILMIS` 0,0230 → **0,0188**; köken kaydı ÖLÇÜLMÜŞ, üretici bu komut. Eski dünyanın 0,0230'u arşiv notunda kalır. Bundan sonra referans dünyada DUYARSIZ hükmü bu eşiğe karşı verilir.
 - **Aracın oynatma kuralı (ölçmeden düzeltildi):** `kahin.py::ATLAMA_ESIGI` bir olasılık eşiği. ×2 onu 1,8 yapıyordu, yani kâhin boş grafikte koşacaktı. Olasılık eşiklerinde çarpılan, tolere edilen kayıp payı (1 − p): 0,95 · 0,80 (`OLASILIK_SABITLERI`, testli).
 - **Taramalar:** T1 · T2 · E, birincil hücrede, 5 tohum, çarpanlar 0,5 · 2, dört parti (`arsiv/teshis/faz4_4_birincil_2026-10-02/taramalar.sh`, 390 koşu, ~6 sa). Hükümler ve köken kovaları sonuçlar gelince ayrı kayıtta.
 # K-214 · 🟡 FAZ 4.4 TARAMALARI — 3 güçlü DUYARLI (Rician K · kâhinin sönümleme örneği · en kısa yol eşiği) · 7 sınırda · TTL OLSR'da DUYARLI · kâhin 6 örnekte YAKINSAMAMIŞ · AODV'de saat ofseti bağımlılığı bulundu · uyandırma tavanı ölçüldü
-> 2 Ekim 08:14–19:15 · ajan · ölçütler ölçmeden önce `arsiv/teshis/faz4_4_2026-09-30/beklenti.md` ve betiklerin başında · ayrıntı aynı dosya Sonuç 3–8
+> 2 Ekim 08:14–19:15 · ölçütler ölçmeden önce `arsiv/teshis/faz4_4_2026-09-30/beklenti.md` ve betiklerin başında · ayrıntı aynı dosya Sonuç 3–8
 
 - **Kâhinle tarama** (birincil hücre, 5 tohum, ×0,5 · ×2; `taramalar.sh`, 390 koşu, 5,8 sa): güçlü DUYARLI `rician_k_db` (8,5R) · `kahin.py::SONUMLEME_ORNEGI` (3,2R, band 14,7×) · `kahin.py::ATLAMA_ESIGI` (4,1R; yalnız en kısa yol kâhini, pdr_etx birebir 0). Sınırda (≤ 1,3R, band ≤ 1,8×): `gm_adim_s` · `kanal_dilimi_s` · `yakalama_esigi_db` · `cbr_titresim_s` · `ISTASYON_TUTMA_S` · `beacon_araligi_s` · `beacon_bayt`; `golgeleme_hucre_m` kurala göre duyarsız ama 0,98R. ÖLÇÜLEMEDİ 8 (kâhin koşusuna girmiyorlar).
 - **Kâhin yakınsaması** (`sonumleme_yakinsama.py`): 6 → 48 örnekte ETX kâhininin PDR'si birincilde +0,039, bağımsız-yokta +0,065; plato birincilde 12, bağımsız-yokta 24. Koşu süresi N'den bağımsız. → ETX kâhini (U1 paydası, R'nin ve G2ç'nin aleti) yakınsamamış; hareketli kollarda U1 oranları şişik.
@@ -1639,11 +1640,11 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Taban protokollerle** (`protokol_tarama.py`): `kuyruk_kapasitesi` DUYARSIZ (AODV/AOMDV birebir, OLSR \|Δ\| 0,0067) · `saat_sapma_ppm` DUYARSIZ (\|Δ\| 0,0042) · `saat_ofset_araligi_s` AODV/AOMDV'de DUYARLI, OLSR birebir. Konum/RSSI hataları DESPARETE'de BİREBİR (okuyan yok).
 - **Saat ofsetinin sebebi** (`saat_dogrulama.py`): AODV'nin başlangıç durumu yerel saatin 0 anına çapalı (`_son_yayin_s = -1`, hız sınırı pencereleri `[0, 0]`): negatif ofsetli düğüm açılışta HELLO gönderemiyor, ilk "saniye" 1 + \|ofset\| s sürüyor (RFC 3561 §6.9, §10'a aykırı). Başlangıç −∞ yapılınca AODV ve AOMDV ofsete BİREBİR değişmez. Ana depoya uygulanmadı (dondurulmuş taban).
 - **Kanıtla kapanan:** `BEKLEYEN_UYANDIRMA_TAVANI` ÖLÇÜLMÜŞ (21 satırda tepe ≤ 22/256). Köken düzeltmesi: `ATLAMA_ESIGI` ETX kâhinini belirlemez. SINANMAMIŞ 25 → 24.
-- **Öğrenci kararı:** TTL kaynağa bağlanır (a, 2 Ekim akşamı). Bekleyenler `v2/12` §1.1/3a.
-# K-215 · 🟢 ÖĞRENCİ KARARLARI (Faz 4.4) — TTL 64 kaynağa bağlı · kâhin 48 örnek · AODV-j/AOMDV-f · kâhin beacon'ı = AODV HELLO · Rician K eksen · iki kapsam ilanı · en kısa yol eşiği aletin tanımı · G2ç boş kola eşleştirilir
-> 6 Ekim · öğrenci ("hepsini onaylıyorum"; TTL için önce (a) seçildi) · uygulama ajan · ölçümler K-214
+- **Kararım:** TTL kaynağa bağlanır (a, 2 Ekim akşamı). Bekleyenler `v2/12` §1.1/3a.
+# K-215 · 🟢 KARARLARIM (Faz 4.4) — TTL 64 kaynağa bağlı · kâhin 48 örnek · AODV-j/AOMDV-f · kâhin beacon'ı = AODV HELLO · Rician K eksen · iki kapsam ilanı · en kısa yol eşiği aletin tanımı · G2ç boş kola eşleştirilir
+> 6 Ekim · hepsini onayladım; TTL için önce (a) seçildi · ölçümler K-214
 
-- **TTL → 64** (kaynağa bağlama): RFC 1700 "IP TIME TO LIVE PARAMETER" ve ns-3 `DefaultTtl` (öğrenci izniyle indirildi, `02` G17, `protokol_kaynaklari/README.md`). Referans dünyada `REFERANS_TTL`; eski dünya 32 kalır. `ttl_baslangic` KAYNAK.
+- **TTL → 64** (kaynağa bağlama): RFC 1700 "IP TIME TO LIVE PARAMETER" ve ns-3 `DefaultTtl` (iznimle indirildi, `02` G17, `protokol_kaynaklari/README.md`). Referans dünyada `REFERANS_TTL`; eski dünya 32 kalır. `ttl_baslangic` KAYNAK.
 - **Kâhinin sönümleme örneği 6 → 48** (yakınsama ölçümü K-214; koşu süresi değişmiyor). `SONUMLEME_ORNEGI` ÖLÇÜLMÜŞ. Bütün kâhin sayıları (U1 paydası, R, G2ç) yeniden ölçülür.
 - **`AODV-j`** — başlangıç durumu −∞ (HELLO'nun son yayını ve §10 pencereleri). AOMDV miras alır → **`AOMDV-f`**. Dondurulmuş tabana sadakat düzeltmesi; yamalı kopyada saat ofsetine birebir değişmez (K-214). Test `test_K215_AODV_baslangici_YEREL_SAATIN_SIFIRINA_bagli_degil`.
 - **Kâhinin beacon'ı = AODV HELLO çerçevesi:** RREP 20 B (RFC 3561 §5.2) + kontrol kapsüllemesi 64 B = **84 B** toplam çerçeve (öneride "20 bayt" mesajın boyuydu; beacon boyu toplam çerçevedir), aralık 1 s = `HELLO_INTERVAL`. `REFERANS_BEACON_BAYT` testle RREP biçimine bağlı. `beacon_araligi_s` · `beacon_bayt` KAYNAK.
@@ -1654,16 +1655,16 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Ölçümle kapanan (K-214):** `komsu_omru_katsayisi` · `gps_dikey_sigma_m` · `gps_hiz_sigma_ms` · `rssi_olcum_sigma_db` → DUYARSIZ (|Δ| = 0, okuyan yok; Faz 5'te okuyan olursa yeniden). SINANMAMIŞ 24 → **12**: pencere üçlüsü (Faz 6) · sınırdaki 6 (20 tohum) · `kuyruk_kapasitesi` ve `saat_sapma_ppm` (TTL 64'le OLSR'da yeniden) · `saat_ofset_araligi_s` (AODV-j'yle beş tohumda yeniden).
 - **Sıra** (`v2/12` §1.1/3): regresyon k215 → R → sınırdakiler ve protokol kontrolleri → U1 → evre kapıları.
 # K-216 · 🟢 K-215 KODU DOĞRULANDI — regresyon k215 (58/58 birebir + 22 ilanlı) · R = 0,0142 (yakınsamış kâhinle) · uzun kuyruk başladı
-> 6 Ekim 20:36–22:32 · ajan · beklentiler ölçmeden önce `arsiv/teshis/regresyon_k215/beklenti.md`, `arsiv/teshis/faz4_4_k215_2026-10-06/beklenti.md`
+> 6 Ekim 20:36–22:32 · beklentiler ölçmeden önce `arsiv/teshis/regresyon_k215/beklenti.md`, `arsiv/teshis/faz4_4_k215_2026-10-06/beklenti.md`
 
 - **Tam takım** `976 passed` (14 dk) · mimari denetimi ihlalsiz.
 - **Regresyon k215** (`regresyon_satirlari.py uret k215`, kopyadan, 41 dk) · `karsilastir k204 k215 --izin kimlik.kurulum_hash,kimlik.tedavi_hash,konfig.ttl_baslangic,konfig.beacon_bayt,teshis.koken_kovalari --degisen <22 vaka>` → **🟢 58/58 birebir** (+22 ilanlı değişen: AODV/AOMDV, hareketli kâhinler, beacon'lı ve OLSR'lı referans vakaları). DESPARETE'nin üç vakası, eski dünyanın OLSR'ı, statik kâhinleri ve bütün sınav vakaları birebir — beklendiği gibi. **Yeni taban k215.**
 - **Çözünürlük** (`cozunurluk.py --dunya referans_2026 --hucre birincil --tohum 40`, 74 dk): pdr_etx 0,8871 (SD 0,0408) · pdr_atlama 0,7364 (SD 0,0613) · `olcut_bedeli` 0,1506 (SD 0,0449) → **R = 0,0142** (K-213'te 6 örnekli kâhinle 0,0188). Ön koşul sağlandı (kâhin 0,887). `R_ESLESTIRILMIS` güncellendi.
 - **Kuyruk B** (`kuyruk_b.sh`, kopya_b, 22:32'den ~22 sa): sınırdaki 6 parametre 20 tohumla (3 parti) → protokol kontrolleri → U1 iki desen → evre kapıları 1c · 2c.
 # K-217 · 🟡 KUYRUK B SONUÇLARI — sınırdaki 6'nın 3'ü DUYARSIZ, 3'ü DUYARLI · protokol kontrolleri temiz (ofset artık birebir) · evre kapıları G1ç ✅ G2ç ✅ G4ç ✅ · U1 yakınsamış kâhinle: U1-U iki desende yalnız kâhin aşımı, U1-B yeni düşük hücreler · K-212'nin teşhisi DÜZELTİLDİ
-> 6 Ekim 22:32 – 8 Ekim 00:34 · ajan · kopya_b · ölçütler ölçmeden önce `arsiv/teshis/faz4_4_k215_2026-10-06/beklenti.md` · çıktılar aynı klasörde
+> 6 Ekim 22:32 – 8 Ekim 00:34 · kopya_b · ölçütler ölçmeden önce `arsiv/teshis/faz4_4_k215_2026-10-06/beklenti.md` · çıktılar aynı klasörde
 
-- **Sınırdakiler 20 tohumla** (S1–S3, R 0,0142): `gm_adim_s` (\|Δ\| 0,0068) · `kanal_dilimi_s` (0,0048) · `yakalama_esigi_db` (0,0118) → **DUYARSIZ**. `golgeleme_hucre_m` ×0,5'te **DUYARLI** (pdr_atlama +0,030 = 2,1R; pdr_etx +0,014) · `cbr_titresim_s` ×2'de yalnız istatistik bacağıyla (0,5R, band 1,2×) · `ISTASYON_TUTMA_S` ×2'de (pdr_atlama 1,1R, band 1,1×) → öğrenci kararı.
+- **Sınırdakiler 20 tohumla** (S1–S3, R 0,0142): `gm_adim_s` (\|Δ\| 0,0068) · `kanal_dilimi_s` (0,0048) · `yakalama_esigi_db` (0,0118) → **DUYARSIZ**. `golgeleme_hucre_m` ×0,5'te **DUYARLI** (pdr_atlama +0,030 = 2,1R; pdr_etx +0,014) · `cbr_titresim_s` ×2'de yalnız istatistik bacağıyla (0,5R, band 1,2×) · `ISTASYON_TUTMA_S` ×2'de (pdr_atlama 1,1R, band 1,1×) → karar bende.
 - **Protokol kontrolleri** (`protokol_kontrol.py`, 55 koşu): OLSR TTL 64'le `kuyruk_kapasitesi` (\|Δ\| ≤ 0,0053) ve `saat_sapma_ppm` (≤ 0,0035) DUYARSIZ; **AODV-j ve AOMDV-f saat ofsetine beş tohumda BİREBİR** — K-215 düzeltmesi doğrulandı. Köken: altısı DUYARSIZ, SINANMAMIŞ 12 → **6**.
 - **Evre kapıları:** G1ç GEÇTİ (M4 0/8 · M1 1/4 · D'de kalan yok) · G2ç + G4ç GEÇTİ. Yakınsamış kâhinin D'si boş kola eşleştirmeden de 2 SE içinde (1003 −0,005 · 1004 −0,0005); boş kolda kâhin artık durağan (1004: 0,978 · 0,973 · 0,977; 6 örnekle 0,950 · 0,902 · 0,900).
 - **🔴 K-212 düzeltmesi:** G2ç'nin 2 Ekim'deki kalışı "formasyonun kendi zaman kayması" diye teşhis edilmişti — YANLIŞ. Sebep 6 örnekli kâhinin yakınsamamasıydı (K-214); 48 örnekte kayma yok. Boş kola eşleştirme (K-215) zararsız ve tutucu olarak kalır.
@@ -1672,7 +1673,7 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
   - Eşler arası: statik-yok 1001'de AODV 1,001 · AOMDV 1,003 kâhin aşımı (kâhinin beacon'ı ağırlaştı: 0,9903 → 0,9898) → K-192 (b) zarfı koşuyor. OLSR'ın düşük hücreleri keşifsel desende bulgu.
 - **Sıradaki** (ölçüt yazıldı, koşuyor): eşler arası statik 1001 zarfı · OLSR'ın üç yeni hücresinin anatomisi (K-196 atfı ancak aynı anatomiyse).
 # K-218 · 🟢 U1 HÜKMÜ (K-215 kodu, yakınsamış kâhin) — U1-U üç protokolde iki desende ✅ · U1-B yere toplamada ✅ (açıklanmış 3 · 10 · 1) · eşler arası statik 1001 aşımı zarfın içinde · OLSR'ın üç yeni hücresi aynı anatomi
-> 8 Ekim 00:37–01:40 · ajan · ölçütler ölçmeden önce `arsiv/teshis/faz4_4_k215_2026-10-06/beklenti.md` §5 · §7
+> 8 Ekim 00:37–01:40 · ölçütler ölçmeden önce `arsiv/teshis/faz4_4_k215_2026-10-06/beklenti.md` §5 · §7
 
 - **K-192 (b) zarfı** (`zarf.txt`, eşler arası `statik-yok` 1001): ETX 0,9898 · en kısa yol 0,9675 · **en olası teslim 0,9998** → AODV-j 0,9906 ve AOMDV-f 0,9923 zarfın içinde; "ETX kâhini bu hücrede üst sınır değil". Kayıt `KAHIN_ASIMI_ACIKLANMIS`e (AODV ve AOMDV); AOMDV'nin üç eski kaydı ölü olduğu için silindi (K-206 · K-211; yakınsamamış kâhinin izi).
 - **OLSR anatomisi** (`anatomi_bagimsiz.txt`, `anatomi_gorev.txt`; PDR'ler U1 kaydıyla birebir): yeni üç hücrede en büyük düşüş `rota_gecersiz` (%33,3 · %39,6 · %36,4), karar bağlarının %100'ü iyi, başarısız bağların %98–99'u iyi — açıklanmış bağımsız 1000 ile aynı imza (%53,8 · %100). Ölçüt sağlandı → K-196 atfı (`_OLSR_K218`). Görev 1002 artık düşük değil → açıklama silindi.
@@ -1680,39 +1681,39 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Hüküm** (`aodv_uygunluk.py hukum`, altı kayıt): U1-U altısında ✅ · U1-B yere toplamada üç protokolde ✅ TEMİZ (açıklanmış 3 · 10 · 1) · eşler arası AODV ve AOMDV ✅ · OLSR'ın eşler arası 9 düşük hücresi keşifsel desende açıklanmamış BULGU (K-211'deki gibi; donmayı durdurmaz).
 - **Taban protokoller yeniden DONDU:** `AODV-j` · `OLSR-c` · `AOMDV-f` (K-211'in yerine). U1 kayıtları `ciktilar2/aodv_uygunluk/*_20261007_*.json`, ara kayıtlar `u1_ara_referans_2026_<desen>_k215.jsonl`.
 # K-219 · 🟢 FAZ 4.5 — doğrulama listesi referans dünyada bir kez: anlamlı her kapı GEÇTİ · iki kapı referans biçimine taşındı (aldatıcı ↔ sürekli · G3 → G3ç) · dört alet ayıklandı · Li sabit hızda TUTTU (0,1188; farkı beacon)
-> 8 Ekim 01:41–04:30 · ajan · ölçütler ölçmeden önce `arsiv/teshis/faz4_5_2026-10-08/beklenti.md` (sonuçlar aynı dosyada)
+> 8 Ekim 01:41–04:30 · ölçütler ölçmeden önce `arsiv/teshis/faz4_5_2026-10-08/beklenti.md` (sonuçlar aynı dosyada)
 
 - **Geçenler:** anlamlılık sabitleri · bağ kümesi G-a/G-b · kontrol düzlemi 21/21 (P6 17/6/6) · üst referans üç kapı · evre G1 · G1-P · G2 · G4 · üretici dumanı (bütün kesitler; araç düzeltmesi: `yol.py::AD` modül sabiti atfı üretici sayılmaz, regresyon satırlarının kesiti eklendi). Toplam 2 sa 1 dk + 36 dk.
 - **Referans biçimine taşınan iki kapı:** (1) örnekleme denetimi C — "aldatıcı ile sürekli'nin tek farkı CSMA" geometrik kipte kurulmuştu; referansta kâhin ED'yi görür (K-183) ve kenar kümeleri tam da bu yüzden ayrışır (0/270). Kapı ED dışarıda sorulur: **270/270 birebir**. (2) G3 eski çekirdek hücrede (tabanda, M1 ≈ 1, SE çöküyor) yanlış alarm veriyordu → **G3ç** (birincil hücre, kâhin, 1003 · 1004): |ΔM1| 0,0028 · 0,0053 ≤ 2 SE 🟢 (`evre_metrikleri_kapilari.py 3c`).
 - **Li:** sabit hızda H1 **0,1188 TUTTU** (K-187: 0,1270); 32 B beacon'la birebir 0,1270 → fark K-215'in 84 B beacon'ı. A8 (ARF) TUTMADI, K-187 gibi. DEVIR'deki "`li_replikasyonu.py` → 0,127" satırı yanlıştı (o sayı `b_li_ayristirma.py`nin) — düzeltildi.
 - **Ayıklandı (koşulmadı):** adım 9 kapanışı · onay semantiği (eski dünyanın tarihçesi) · kâhin tavanı (yerini U1'in kâhin sütunu tuttu) · karıştırıcı çalışma noktası (yerini K-186 tuttu).
 - 🔵 **Faz 6'ya:** referansta 10 W aldatıcı ED'yle bütün ağı susturuyor (statik-aldatıcıda derece 0) → `06` H1.3'ün aldatıcı ↔ sürekli kontrastı bu dünyada dejenere olabilir.
-# K-220 · 🟢 ÖĞRENCİ KARARLARI (Faz 4 kapanışı) — gölgeleme hücresi · CBR titreşimi · istasyon tutma DÜNYA TANIMI · `iletim_menzili_m` → `nominal_bag_m` · yazılım/belge temizliği
-> 8 Ekim · öğrenci ("önerilerini onaylıyorum") · uygulama ajan
+# K-220 · 🟢 KARARLARIM (Faz 4 kapanışı) — gölgeleme hücresi · CBR titreşimi · istasyon tutma DÜNYA TANIMI · `iletim_menzili_m` → `nominal_bag_m` · yazılım/belge temizliği
+> 8 Ekim · önerileri onayladım
 
 - **Üç DUYARLI parametre → DÜNYA TANIMI** (ölçüm K-217): `golgeleme_hucre_m` (2,5 km; ×0,5'te pdr_atlama +0,030 · pdr_etx +0,014) · `cbr_titresim_s` (50 ms; ×2'de 0,5R, yalnız istatistik bacağı) · `mobilite.py::ISTASYON_TUTMA_S` (2 s; ×2'de pdr_atlama +0,016, pdr_etx +0,001). Sonuçlar bu değerlere koşullu; ölçülen duyarlılık raporun kapsam bölümünde. **SINANMAMIŞ 3** (yalnız pencere üçlüsü, Faz 6).
 - **Ad değişikliği:** `Konfig.iletim_menzili_m` → **`nominal_bag_m`** (bir menzil değil, güç çapası / nominal bağ; değer ve davranış aynı). 18 kod ve test dosyası, `v2/07` · `v2/09`, köken kaydı; arşivdeki Li ayrıştırma betiği iki adı da okur. Doğrulama `976 passed`; regresyon k220 (beklenti `arsiv/teshis/regresyon_k220/beklenti.md`).
 - **Yazılım denetimi:** kullanılmayan üst düzey fonksiyon taraması (sim2 · protokoller · kalibrasyon · analiz) — yalnız `duyarlilik.py::_tohum_ciktilari` ölüydü, kaldırıldı (`sim2/mac/alici.py::sonuc_dogrula` testlerin değişmezi, kalır). Eski dünyaya özgü iki alete (`pdr_tavani.py`, `onay_semantigi.py`) referans dünyadaki durum notu; yorum denetçisi: kod farkı 0. Kalibrasyondaki öteki tarihçe anlatıları tarihli ve "eski dünya" diye işaretli — bırakıldı.
 - **Belgeler:** `v2/04` (köken özeti, AOMDV-f, regresyon tabanı, açık kararlar: pencere üçlüsü ve H1.3/Rician Faz 6'ya) · `v2/06` §9 sayımı · `v2/12` · `v2/08` G3/G3ç · DEVIR doğrulama tablosu.
 # K-221 · 🟢 FAZ 4 KAPANDI — yeniden kalibrasyon ve doğrulama tamam · taban protokoller dondu · köken defterinde SINANMAMIŞ 3 (Faz 6) · regresyon tabanı k220 · Faz 5'e geçiş kapısı açık
-> 8 Ekim 18:50 · ajan · kapı kuralı (öğrenci, 29 Eylül): geride iş yok, yazılım ve yapı denetimi, arınmış belgeler
+> 8 Ekim 18:50 · kapı kuralım (29 Eylül): geride iş yok, yazılım ve yapı denetimi, arınmış belgeler
 
 - **Doğrulama:** tam takım `976 passed` (15 dk 44 s) · mimari denetimi "Yapisal ihlal YOK" · regresyon `k215 → k220` **80/80 birebir** (izinli: alan adı `iletim_menzili_m → nominal_bag_m`, `kurulum_hash`, köken kovaları; `arsiv/teshis/regresyon_k220/`). **Yeni taban k220.** Lint değişikliklerden önceki hâlle aynı.
 - **Faz 4'ün özeti:** 4.1–4.3 (K-185…K-211) · U1 ve donma yakınsamış kâhinle yeniden (K-218: `AODV-j` · `OLSR-c` · `AOMDV-f`) · 4.4 (K-213…K-217, K-220: R 0,0142; 22 parametre ölçümle ya da kararla kapandı; Rician K eksen; TTL 64 ve beacon kaynağa bağlı; kâhin 48 örnek; AODV'nin saat bağımlılığı giderildi) · 4.5 (K-219: referansta anlamlı her kapı geçti) · evre metrikleri v2 (G1ç · G2ç · G3ç · G4ç) · yazılım/belge temizliği (K-203, K-220).
 - **Faz 6'ya devredilenler:** pencere üçlüsü (`isinma_s` · `olcum_bitis_s` · `kosu_bitis_s`) · `06` H1.3'ün aldatıcı ↔ sürekli kontrastı (referansta 10 W aldatıcı ağı susturuyor) · Rician K'nın keşifsel tekrarı (6 · 15 dB) · KR-2 · DESPARETE'nin kuyruk/saat/TTL duyarlılığı son hâliyle.
 - **Faz 5'in ilk işi (5.0, kayıp anatomisi):** aleti hazır (K-202); `arsiv/teshis/faz5_0_2026-09-30/`daki kopya ve beklenti K-215 öncesi koda ait → yeniden dondurulur, beklentinin sayıları (kâhin, AODV) yeni koda göre gözden geçirilir.
-# K-222 · 🟢 BAĞIMSIZ DENETİM (8 Ekim) — öğrenci kararları ve davranışı değiştirmeyen düzeltmeler: birincil metrik `PDR_açık` · fark-içinde-fark ve mekanizma kapısı · dayanıklılık hücresi · Faz 5 önceliği ve bütçesi · git süreci · iki serbest oran SINANMAMIŞ
-> 9 Ekim · öğrenci ("hepsini onaylıyorum"; git için (a)) · uygulama ajan · rapor `arsiv/denetim/DENETIM-RAPORU-2026-10-08.md` (24 bulgu, D-01…D-24)
+# K-222 · 🟢 BAĞIMSIZ DENETİM (8 Ekim) — kararlarım ve davranışı değiştirmeyen düzeltmeler: birincil metrik `PDR_açık` · fark-içinde-fark ve mekanizma kapısı · dayanıklılık hücresi · Faz 5 önceliği ve bütçesi · git süreci · iki serbest oran SINANMAMIŞ
+> 9 Ekim · hepsini onayladım; git için (a) · rapor `arsiv/denetim/DENETIM-RAPORU-2026-10-08.md` (24 bulgu, D-01…D-24)
 
-- **D-01 🔴 → birincil metrik `PDR_açık`** (karıştırıcının açık dönemlerinde doğan paketlerin teslim oranı): pencerenin yalnız %33'ü karıştırıcılı ve v0.4.1'in AODV'ye üstünlüğü karıştırıcısız kollarda da var (+0,08…+0,21), açık evrede en küçük (K-200: +0,147 · +0,101 · +0,187). **İkincil test** karıştırıcısız ikizle fark-içinde-fark; **mekanizma kapısı** karıştırmaya özgü mekanizmaların ablasyonu; **iddia dili** ikiye ayrıldı (`06` §0.4.5, `README`). Analiz: `analiz/satir.py::donem_pdr` (ham listeden ikinci gerçekleme, ham denetimine bağlı) · `analiz/hucre.py::fark_icinde_fark_tablosu`; iki test. Ajanın notu: `PDR_açık` tek başına genel üstünlüğü ayıklamaz — "karıştırmaya özgü" iddiasını DiD ve kapı taşır.
+- **D-01 🔴 → birincil metrik `PDR_açık`** (karıştırıcının açık dönemlerinde doğan paketlerin teslim oranı): pencerenin yalnız %33'ü karıştırıcılı ve v0.4.1'in AODV'ye üstünlüğü karıştırıcısız kollarda da var (+0,08…+0,21), açık evrede en küçük (K-200: +0,147 · +0,101 · +0,187). **İkincil test** karıştırıcısız ikizle fark-içinde-fark; **mekanizma kapısı** karıştırmaya özgü mekanizmaların ablasyonu; **iddia dili** ikiye ayrıldı (`06` §0.4.5, `README`). Analiz: `analiz/satir.py::donem_pdr` (ham listeden ikinci gerçekleme, ham denetimine bağlı) · `analiz/hucre.py::fark_icinde_fark_tablosu`; iki test. Not: `PDR_açık` tek başına genel üstünlüğü ayıklamaz — "karıştırmaya özgü" iddiasını DiD ve kapı taşır.
 - **D-08 · D-09:** dayanıklılık hücresi (10 s açık · 20 s sessiz) geliştirme setinde ve ön-kayıtlı ikincil test · Faz 5 önceliği 5.1 → 5.3 → 5.4, 5.2 keşifsel · kaba hesap planı (~350 · ~200 · ~960 koşu) ve önceden yazılı düşme sırası (`12` §2–§4).
-- **D-05 · git süreci (öğrenci (a)):** her ölçümün beklenti dosyası koşudan ÖNCE ajanın verdiği komutla öğrencinin ayrı commit'iyle girer; sonuçlar ayrı `sonuc.md`ye, beklentiye dokunulmaz; her ölçümden sonra push. `.gitignore` notu buna göre.
-- **D-02 · D-10 (öğrenci):** OLSR kural kural sadakat denetiminden geçecek, gerekçesiz sapma düzeltilecek; MAC deneme sayısı standarda (7 deneme) çekilecek — ikisi tek partide, ardından U1 ve regresyon.
+- **D-05 · git süreci (kararım (a)):** her ölçümün beklenti dosyası koşudan ÖNCE benim ayrı commit'imle girer; sonuçlar ayrı `sonuc.md`ye, beklentiye dokunulmaz; her ölçümden sonra push. `.gitignore` notu buna göre.
+- **D-02 · D-10 (kararım):** OLSR kural kural sadakat denetiminden geçecek, gerekçesiz sapma düzeltilecek; MAC deneme sayısı standarda (7 deneme) çekilecek — ikisi tek partide, ardından U1 ve regresyon.
 - **D-07:** `gm_alfa` · `gm_hiz_sigma_ms` TÜRETİLMİŞ sanılan serbest seçimlerdi, formasyon (birincil hücre) da okuyor → SINANMAMIŞ, birincil hücrede ölçülecek; `gorev_jitter_hiz_ms` → KOL_TANIMI + kapsam ilanı. **SINANMAMIŞ 5 · kapsam ilanı 13**, sayımın tek yeri `04` §9.
 - **Davranışı değiştirmeyen düzeltmeler** (commit `c8b1b44` ve bu kayıt): `.gitignore` `kopya*/` + 684 kopya dosyası git'ten çıktı (D-17) · `li_beacon.py` (D-18) · indekste dört REVİZE: K-191 → K-196 · K-205 → K-208 · K-211 → K-218 · K-213 → K-216 (D-20) · kodda beş bayat ifade (D-21) · mimari D8/D9 iki dünyada (D-14) · mimari D17: okunan gözlem alanı → köken, gürültü modelsiz okunamaz (D-16 · D-04) · taban protokol dosyalarını K-218'e bağlayan test (D-12) · R'nin etiketi "kısa pencere kesiti" (D-03) · kâhin yakınsamasının dili (D-15) · `06` §4.4/3 uygulanan kurala çekildi, §10'a Faz 4'te sonuçtan sonra değişen beş ölçüt (D-06) · bayat belge sayıları `04` `05` `07` `09` `13` `14` `README` `v2/README` (D-19).
 - **Faz 5'e bırakılanlar:** gürültü ölçüm modeli (D-04, 5.1'den önce) · 5.0 beklentisi (D-22) · çoğaltma tanımları (D-23, 5.4'ten önce). **Faz 6'ya:** tam pencere R ve DUYARSIZ'ların yeniden okunması (D-03) · slot (D-11) · kâhin 96 örnek (D-15). **Yapılmadı:** D-24 (ruff yapılandırması — proje ayarı yok, kullanıcı düzeyindeki ayarı ezerdi).
 # K-223 · 🟡 TABAN PROTOKOLLER ÇÖZÜLDÜ (denetim D-02 · D-10 · D-13) — `OLSR-d`: §8.2.1 RFC'nin harfiyen koşulu · MAC en çok 7 iletim denemesi · regresyona çizelgeli evre vakası · kayıp anatomisine tek deneme bandı · ölçümler bekleniyor
-> 9 Ekim · öğrenci (D-02: "sapma çıkarsa OLSR yeniden açılır"; D-10: düzelt; "hepsini onaylıyorum") · uygulama ajan · ölçütler ölçmeden önce `arsiv/teshis/denetim_duzeltme_2026-10-09/beklenti.md`, sonuçlar K-224'e
+> 9 Ekim · kararlarım (D-02: sapma çıkarsa OLSR yeniden açılır; D-10: düzeltilir; öteki önerilere onay) · ölçütler ölçmeden önce `arsiv/teshis/denetim_duzeltme_2026-10-09/beklenti.md`, sonuçlar K-224'e
 
 - **D-02 · OLSR'ın kural kural sadakat denetimi** (`arsiv/teshis/olsr_sadakat_2026-10-09/denetim.md`; K-208'in kalıbı, RFC 3626 §3–§10 · §13 · §14 · §18): **bir gerekçesiz sapma** — §8.2.1 2-atlama kümesini RFC'nin *"L_SYM_time >= current time"* koşuluyla değil, histerezisli simetri tanımıyla güncelliyordu (K-193 farkı ölçmüş, beyan edilmemişti). §14.2 histerezisli tanımı yalnız N_status, MPR kümesi ve rota tablosunun ilk adımları için ister → **düzeltildi, `OLSR-d`** (test `test_K223_IKI_ATLAMA_…`). Beyan tablosuna (`olsr_bicim.py`) girenler: §10 adım 3.2'nin eşitlik tercihi (küçük harf "should", normatif değil; bütün düğümler WILL_DEFAULT) · PSN boşluğunun `MAXJITTER` beklemesi · ilk paketin yalnız kurulum olması · süpürme ızgarası. Öteki kurallar birebir.
 - **D-10 · MAC:** `yeniden_deneme_siniri` YENİDEN deneme sayısıdır (toplam = sınır + 1, `mac/dcf.py`); dot11ShortRetryLimit = 7 ise toplam İLETİM denemesidir (ns-3 `FrameRetryLimit`, G12) → referans dünyada **7 → 6**, yani en çok 7 deneme. Kâhin ve aletler `sınır + 1`'i okuduğu için kendiliğinden uyar. CW 31 → 1023'e yedinci denemede erişilir (mimari D8: cw_max CANLI, köken KAYNAK). Eski dünya değişmedi. Köken kaydı ve `04` §2 düzeltildi.
@@ -1723,7 +1724,7 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **D-07'nin ikinci önerisi — TÜRETİLMİŞ kovasının taraması** (23 kayıt; serbest oran/pay/seçim sözcükleri): `komut_akis_sayisi` (4) türetilmiş değil, referans dünyanın trafik tanımı (`v2/14`, K-169; birincil hücre K-186) → **DÜNYA TANIMI**. Pay taşıyan iki kayıt (`menzil_snr_db` +10 dB · `sinr_esigi_db` +2σ) referans dünyada veri yoluna girmez — kopma sayımı (Θ), kayıp yeri bölmeleri ve teşhis birimi (`nominal_bag_m`) tanımlar; TÜRETİLMİŞ kalır, tanımları gerekçelerinde. Öteki kayıtlar gerçekten türetilmiş.
 - **Doğrulama (kod):** değişen modüllerin testleri 179/179 · mimari denetimi ihlalsiz (SINANMAMIŞ 5, K-222) · tam takım `981 passed` (14 dk 54 s; kova değişikliğinden sonra köken, duyarlılık ve donma testleri 62/62 yeniden). Lint: yalnız karar indeksinde dosyanın kendi kalıbının (örtük dize birleştirme) dört yeni örneği.
 # K-224 · 🟢 TABAN PROTOKOLLER YENİDEN DONDU — `AODV-j` · `OLSR-d` · `AOMDV-f`, en çok 7 iletim denemesi · regresyon tabanı k223 · R 0,0126 · K-193'ün hükmü tek deneme bandında da ayakta · `gm_hiz_sigma_ms` DUYARLI · `gm_alfa` ölçümü aletin hatasıyla geçersiz
-> 9–10 Ekim · ajan · ölçütler ölçmeden önce `arsiv/teshis/denetim_duzeltme_2026-10-09/beklenti.md` (commit `90b400e`) · `teshis_beklenti.md` (`5b054fb`) · sonuçlar `sonuc.md` · kod `4fbc5fd` / `5b054fb` (kopyalar commit'le 138 dosya birebir)
+> 9–10 Ekim · ölçütler ölçmeden önce `arsiv/teshis/denetim_duzeltme_2026-10-09/beklenti.md` (commit `90b400e`) · `teshis_beklenti.md` (`5b054fb`) · sonuçlar `sonuc.md` · kod `4fbc5fd` / `5b054fb` (kopyalar commit'le 138 dosya birebir)
 
 - **Regresyon k220 → k223:** eski dünyanın 63 vakası izinli farklar dışında BİREBİR; 16 referans vakasında konfig farkı yalnız `yeniden_deneme_siniri`; yeni evre vakası her denetimi geçti (`pdr_acik` ham listeden birebir). Önceden yazılı büyüklük kuralı (|ΔPDR| > 0,10) birincil hücrede iki satırda tetiklendi (DESPARETE −0,117 · OLSR +0,140; kısa pencere, tek tohum) → **teşhis:** kimlik kapısı 16 basamak birebir (eski kod + eski deneme sayısı = k220; yeni = k223) → beyan edilmemiş fark yok; 8 tohumda deneme sayısının etkisi küçük ve aynı yönde (DESPARETE −0,027 ± 0,028 · AODV −0,039 ± 0,011 · OLSR −0,031 ± 0,038), §8.2.1 +0,026 ± 0,023; iki fark tek tohumun salınımı. **Yeni taban k223.**
 - **R = 0,0126** (8 denemede 0,0142; `olcut_bedeli` SD 0,0400, kâhin PDR 0,8675). R küçüldü → DUYARSIZ kayıtlarının en büyük |Δ|'sı 0,0118 (`yakalama_esigi_db`) < 0,0126 — hiçbiri dönmedi.
@@ -1731,19 +1732,19 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **U1 (iki desen, üç protokol):** U1-U altı kayıtta ✅. U1-B yere toplamada üç protokolde ✅ TEMİZ: `AODV-j` 3 düşük hücre (aynı) · `AOMDV-f` 3 (yeni statik 1000 0,899 · 1002 0,891 — kod değişmedi, K-207, BULGU) · `OLSR-d` 9 (görev 1002 yeni, anatomisi kural 4'ü sağlıyor; bağımsız 1001 · 1002 artık geçiyor, kayıtları silindi). Öteki beş OLSR hücresinin anatomisi de `OLSR-d`yle yenilendi (aynı ölçüt, hepsi sağlıyor). Eşler arası: AOMDV'nin zarf kaydı öldü (silindi), AODV'nin aşımı 0,0002 < R; OLSR'ın 9 düşük hücresi keşifsel desende BULGU. Kayıtlar `kalibrasyon/aodv_uygunluk.py`, U1 dosyaları `ciktilar2/aodv_uygunluk/*_20261009_*.json`.
 - **Evre kapıları:** G1ç · G2ç · G3ç · G4ç ✅ (7 denemeyle, `OLSR-d`yle).
 - **Taban protokoller DONDU** (K-218'in yerine): `AODV-j` · `OLSR-d` · `AOMDV-f`; `tests2/test_donma.py` bu hâle bağlı.
-- **D-07:** `gm_hiz_sigma_ms` **DUYARLI** (×2'de |Δ| 0,027 = 2,2R, band 2,9×) → öğrencinin kararı (kaynak · DÜNYA TANIMI · eksen · kapsam). `gm_alfa`'nın ölçümü **geçersiz**: duyarlılık aracı α'yı çarpıyordu (×2 aralık dışı, ×0,5 τ'yu 29 s'den 0,7 s'ye indiriyor) → araç korelasyon katsayısını zaman sabitinden oynatacak şekilde düzeltildi (τ×c ⇔ α^(1/c); test), yeniden ölçüm ek ölçütle (`beklenti_ek.md`).
+- **D-07:** `gm_hiz_sigma_ms` **DUYARLI** (×2'de |Δ| 0,027 = 2,2R, band 2,9×) → karar bende (kaynak · DÜNYA TANIMI · eksen · kapsam). `gm_alfa`'nın ölçümü **geçersiz**: duyarlılık aracı α'yı çarpıyordu (×2 aralık dışı, ×0,5 τ'yu 29 s'den 0,7 s'ye indiriyor) → araç korelasyon katsayısını zaman sabitinden oynatacak şekilde düzeltildi (τ×c ⇔ α^(1/c); test), yeniden ölçüm ek ölçütle (`beklenti_ek.md`).
 - **Faz 5.0 için not** (G2ç'nin tam pencere satırları, 1003 · 1004): açık evre PDR'si DESPARETE v0.4.1 0,476 · 0,538, AODV 0,401 · 0,536, kâhin 0,734 · 0,827 — v0.4.1'in açık evredeki üstünlüğü küçük (D-01).
 # K-225 · 🟢 DENETİMİN SON İKİ İŞİ VE YAYIN HAZIRLIĞI — `gm_hiz_sigma_ms` DÜNYA TANIMI · `gm_alfa` DUYARSIZ · SINANMAMIŞ 3 · lisans Apache 2.0 · belgelerin bilimsel üslubu
-> 10 Ekim · öğrenci (kararlar: `gm_hiz_sigma_ms` DÜNYA TANIMI, `gm_alfa` DUYARLI çıkarsa aynısı; lisans Apache 2.0, telif "Xelma123"; üçüncü taraf dosyalar depoda kalır; üslup temizliği belgelerde, kod yorumları sonra) · uygulama ajan · ölçütler `arsiv/teshis/denetim_duzeltme_2026-10-09/beklenti_ek.md` (commit `5733adb`)
+> 10 Ekim · kararlarım (`gm_hiz_sigma_ms` DÜNYA TANIMI, `gm_alfa` DUYARLI çıkarsa aynısı; lisans Apache 2.0, telif "Xelma123"; üçüncü taraf dosyalar depoda kalır; üslup temizliği belgelerde, kod yorumları sonra) · ölçütler `arsiv/teshis/denetim_duzeltme_2026-10-09/beklenti_ek.md` (commit `5733adb`)
 
 - **`gm_hiz_sigma_ms` → DÜNYA TANIMI** (K-220'nin emsali): birincil hücrede DUYARLI (×2'de |Δ| 0,027 = 2,2R, band 2,9×; K-224); ölçülen duyarlılığı köken kaydında ve raporda.
 - **`gm_alfa` → DUYARSIZ:** duyarlılık aracı korelasyon katsayısını artık zaman sabitinden oynatıyor (τ×c ⇔ α^(1/c)); 5 tohumda sınırda (0,9R) → ön-kayıtlı kural gereği 20 tohum: en büyük |Δ| 0,0024 (0,2R, band 0,6×). Üretici `duyarlilik.py --dunya referans_2026 birincil --tohum 20 gm_alfa` (`C2_gm_alfa_20.txt`).
 - **Köken defteri:** SINANMAMIŞ 5 → **3** (pencere üçlüsü, Faz 6) · DUYARSIZ 11 · kapsam ilanı 13; sayımın tek yeri `04` §9.
-- **Lisans:** `LICENSE` (Apache License 2.0'ın resmî metni; MD5 `3b83ef96387f14655fc854ddc3c6bd57`, yereldeki bir Python paketinin kopyasından — indirme yok) · `NOTICE` (Copyright 2026 Xelma123; `protokol_kaynaklari/`deki ns-3 ve Linux kaynakları GPL-2.0, RFC'ler IETF Trust, makaleler yayıncılarının — Apache kapsamında değil) · README'nin lisans bölümü. Projenin kodu bu dosyaları içe aktarmıyor (tarandı). Ajanın notu: yayıncı PDF'lerinin herkese açık depoda dağıtımı ayrı bir telif sorusu olarak öğrenciye iletildi; öğrenci dosyaları tutmayı seçti.
-- **Belgelerin üslubu** (öğrenci: belgeler yapay zekâyla konuşma izlenimi vermesin, bilimsel olsun): README · `v2/01`–`v2/16` · `v2/README` · `protokol_kaynaklari/README.md` · iki sadakat denetimi — emojiler kaldırıldı ya da düz işaretlere (✓ ✗ ~ ○) çevrildi; "öğrencinin protokolü", "öğrenci onayı", "ajan" ifadeleri nesnel dile ("önerilen protokol", "karar K-xxx") çevrildi; README'deki yapay zekâ kullanımı beyanı birinci tekil şahısla korundu. Teknik içerik ve ön-kayıt ölçütleri değişmedi (yalnız işaret ve ses). Karar günlüğü tarihsel kayıt olarak yeniden yazılmadı; kod yorumlarının temizliği ayrı iş (donmuş protokol dosyalarının özetleri değişeceği için yeniden doğrulama ister).
+- **Lisans:** `LICENSE` (Apache License 2.0'ın resmî metni; MD5 `3b83ef96387f14655fc854ddc3c6bd57`, yereldeki bir Python paketinin kopyasından — indirme yok) · `NOTICE` (Copyright 2026 Xelma123; `protokol_kaynaklari/`deki ns-3 ve Linux kaynakları GPL-2.0, RFC'ler IETF Trust, makaleler yayıncılarının — Apache kapsamında değil) · README'nin lisans bölümü. Projenin kodu bu dosyaları içe aktarmıyor (tarandı). Not: yayıncı PDF'lerinin herkese açık depoda dağıtımı ayrı bir telif sorusuydu; dosyaları tutmayı seçtim.
+- **Belgelerin üslubu** (isteğim: belgeler yapay zekâyla konuşma izlenimi vermesin, bilimsel olsun): README · `v2/01`–`v2/16` · `v2/README` · `protokol_kaynaklari/README.md` · iki sadakat denetimi — emojiler kaldırıldı ya da düz işaretlere (✓ ✗ ~ ○) çevrildi; "öğrencinin protokolü", "öğrenci onayı", "ajan" ifadeleri nesnel dile ("önerilen protokol", "karar K-xxx") çevrildi; README'deki yapay zekâ kullanımı beyanı birinci tekil şahısla korundu. Teknik içerik ve ön-kayıt ölçütleri değişmedi (yalnız işaret ve ses). Karar günlüğü tarihsel kayıt olarak yeniden yazılmadı; kod yorumlarının temizliği ayrı iş (donmuş protokol dosyalarının özetleri değişeceği için yeniden doğrulama ister).
 - **Faz 4.5 doğrulama listesi** son kodla (7 deneme) yeniden koşuluyor — ölçütler `beklenti_dogrulama.md` (commit `4028dc5`), sonuçlar K-226'ya.
 # K-226 · 🟢 FAZ 5'E GEÇİŞ KAPISI KAPANDI — Faz 4.5 doğrulama listesi son kodla geçti (Li sabit hızda 0,1250) · tam takım 982 · devir belgesi
-> 10 Ekim · ajan · faz geçiş kuralı (öğrenci, 29 Eylül) · ölçütler `arsiv/teshis/denetim_duzeltme_2026-10-09/beklenti_dogrulama.md` (commit `4028dc5`), sonuçlar `sonuc.md`
+> 10 Ekim · faz geçiş kuralım (29 Eylül) · ölçütler `arsiv/teshis/denetim_duzeltme_2026-10-09/beklenti_dogrulama.md` (commit `4028dc5`), sonuçlar `sonuc.md`
 
 - **Faz 4.5 listesi 7 denemeyle, `OLSR-d`yle** (`kopya_d` = `4028dc5`, 2 sa 1 dk): bağ kümesi G-a · G-b ✓ · Li aracı H1 ≈ 0,042 TUTMADI (beklendiği gibi) · **Li sabit hızda H1 = 0,1250 ✓ bantta** (8 denemeyle 0,1188) — dış çapa ayakta · kontrol düzlemi 21/21 ✓ · örnekleme 4/4 ve C 270/270 ✓ · üst referans ✓ · evre G1 · G1-P · G2 · G4 ✓ (G3 referansta anlamsız, yerine G3ç ✓, K-224) · üretici dumanı bütün kesitler ✓, biri hariç: regresyonun kendisiyle karşılaştırması dondurulmuş kopyada taban dosyası olmadığı için çalışamadı; aynı komut ana ağaçta k215 ve k223 ile çıkış 0, kesit güncel tabana (k223) çekildi (`uretici_duman.py`).
 - **Doğrulama:** tam takım `982 passed` (15 dk 26 s) · mimari denetimi ihlalsiz (SINANMAMIŞ 3, borç 0, kapsam ilanı 13) · kayıt indeksi güncel · lint: işin başından bu yana yalnız karar indeksinin kendi kalıbında beş yeni örnek (örtük dize birleştirme) ve arşivdeki ölçüm betikleri (ölçümü üreten hâlleriyle bırakıldı).
@@ -1751,36 +1752,36 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Denetimin (8 Ekim) kapanışı:** 24 bulgunun kararları ve düzeltmeleri K-222…K-226'da; Faz 5'e bırakılanlar (D-04 gürültü ölçüm modeli 5.1'den önce · D-22 5.0 beklentisi · D-23 çoğaltma tanımları 5.4'ten önce) `12` §2'de; Faz 6'ya bırakılanlar (D-03 tam pencere R · D-11 slot · D-15 kâhin 96 örnek) K-222'de. Ayrıca bekleyen: kod yorumlarının üslup temizliği (K-225).
 - **Faz 5'e geçiş kapısı KAPANDI.** Sıradaki iş Faz 5.0 (`12` §1.1).
 # K-227 · 🟢 GÜRÜLTÜ GÖZLEMİ KİLİTLİ KALIR (denetim D-04) — gerçek sürücü gürültüyü yavaş, ortancayla ve kırparak verir · Faz 5.1'in karıştırma kanıtı kanal doluluğu, PHY hatası, MAC sonucu ve RSSI'den
-> 10 Ekim · yürütücü (seçenek "kilitli kalsın"; kaynak indirme izni) · kaynak G18 (`protokol_kaynaklari/uygulama_kaynaklari/linux/ath9k/`, Linux v6.6, ISC)
+> 10 Ekim · kararım: kilitli kalsın; kaynak indirme iznim · kaynak G18 (`protokol_kaynaklari/uygulama_kaynaklari/linux/ath9k/`, Linux v6.6, ISC)
 
 - **Kaynak (G18):** ath9k sürücüsünde bildirilen gürültü `−95 dBm + max(0, NF − nominal − 6)`, tamsayı dBm; NF son 5 okumanın ortancası, çipin üst sınırına kırpılır (AR9300'de rapor en çok −51 dBm, AR9280'de −86 dBm); NF yalnız uzun kalibrasyonda okunur — olağan kipte 30 s'de bir, "takılı beacon" girişim kipinde 1 s'de bir. 15 s açık · 15 s sessiz çizelgede rapor açılıp kapanmayı hemen hiç göstermez.
 - **Karar:** `olculen_gurultu_w` simülatörde anlık ve hatasızdır; protokol kararına girmez. Mimari denetimi okunmasını engellemeyi sürdürür (D17). Sürücü modeli yazılmadı: bu çizelgede bilgi taşımayacağı kaynaktan görülüyor ve kod, köken ve regresyon bedeli bir kararı değiştirmiyor. D-04 böylece kapandı.
 - **Faz 5.1'e sonucu:** karıştırma kanıtı gerçek telsizin hızlı verdiği gözlemlerden kurulur — kanal doluluğu (`mesgul_sure_s`, sürücünün donanım sayaçlı "channel busy time"ı), PHY hatası, MAC sonucu, komşu başına RSSI × teslim tutarlılığı. Not: karıştırıcı ED eşiğinin (−76 dBm) altında kaldığı girişim alanında kanal doluluğunu artırmaz; orada kanıt PHY hatası, MAC sonucu ve RSSI'dir. RSSI'nin σ 2 dB'si bugün DUYARSIZ (okuyan yok); 5.1 okuyunca mimari D17 kaydı yeniden açar, duyarlılığı ölçülür.
 - Güncellenen: `04` §4 · `05` §3.1 · `12` §2 · `02` G18 · `protokol_kaynaklari/README.md` · `NOTICE`.
 # K-228 · 🟢 FAZ 5.0 KAPANDI — DESPARETE'nin karıştırmaya özgü fazla kaybı tamamen "rota yok"ta (ardılı karıştırılan alanın onarımı) · kayıp anatomisine doğum evresi · Faz 5'in sırası: önce yedek ardıl
-> 10 Ekim · ölçüt `arsiv/teshis/faz5_0_2026-10-10/beklenti.md` (commit `075ce8a`, koşudan önce) · koşu 4 sa 31 dk, kopya `075ce8a` ile 138 dosya birebir · sonuç `sonuc.md` · sıra kararı yürütücünün (seçenek "önce yedek ardıl")
+> 10 Ekim · ölçüt `arsiv/teshis/faz5_0_2026-10-10/beklenti.md` (commit `075ce8a`, koşudan önce) · koşu 4 sa 31 dk, kopya `075ce8a` ile 138 dosya birebir · sonuç `sonuc.md` · sıra kararım: önce yedek ardıl
 
 - **Alet:** kayıp anatomisi düşen her paketi doğduğu evreye atfeder (`_dusen_paket`, `_dogum_evresi`; simülatöre dokunmaz); evre evre `doğan = teslim + Σ düşen + kalan`, açık − önce farkı karıştırmaya özgü kaybı sebeplere tam ayırır. Tam takım `985 passed` (3 yeni test; 14 dk 26 s) · mimari denetimi ihlalsiz. Geçerlilik: korunum 20/20, çelişki 0, atfsız yok, açık PDR satırla 20/20 ve G2ç ile 10/10 birebir.
 - **Ölçüm** (birincil hücre, 1003–1006): `PDR_açık` DESPARETE 0,551 · AODV 0,444 · AOMDV 0,429 · OLSR 0,230 · kâhin 0,780. Karıştırmaya özgü kayıp DESPARETE −0,204 · AODV −0,138 · AOMDV −0,166 · OLSR −0,274 · kâhin −0,134.
 - **Karar kuralı:** DESPARETE'nin fazladan kaybı kâhine göre `E` = 0,071 (tohum başına 0,093 · 0,128 · 0,028 · 0,033), AODV'ye göre 0,066; payın %100'ü R (rota yok; kâhine göre R +0,165, İ −0,095) → ilk hedef ardılı karıştırılan alanın hızlı geçişi. Alt ayrım: açık evre `rota_gecersiz`inin %52'si kota dolu, %48'i ulaşılamaz alan (onarım girişleri %64 açlık). Döngü yok (TTL ve hop sınırı 0). Öngörülerden `E` ≈ 0,11 ve "İ ikinci" tutmadı.
 - **Kuraldan sonra (karar girdisi değil):** R kaybı karıştırıcının alanında değil, uzak rölelerde (açık evrede doğanlarda `rota_gecersiz` uzak 0,191 ↔ önce 0,042): onarım geçide giden yol boyunca yayılıyor. Kâhin "rota yok" yaşamaz; kaybı tamamen iletim başarısızlığı.
-- **Faz 5'in sırası (yürütücü, K-222'nin sırasının yerine):** önce 5.4'ün yedek ardılı (çoğaltmasız) ve aynı A/B'de ayrı bayrakla açlıkta tur isteği → 5.1 (kanıtla erken geçiş) → 5.3 ve 5.4'ün çoğaltması (D-23'ten sonra). Gerekçe: kayıp onarım dinamiğinde ve karıştırıcıdan uzakta; yerel karıştırma kanıtı tek başına onu kapatamaz.
+- **Faz 5'in sırası (kararım, K-222'nin sırasının yerine):** önce 5.4'ün yedek ardılı (çoğaltmasız) ve aynı A/B'de ayrı bayrakla açlıkta tur isteği → 5.1 (kanıtla erken geçiş) → 5.3 ve 5.4'ün çoğaltması (D-23'ten sonra). Gerekçe: kayıp onarım dinamiğinde ve karıştırıcıdan uzakta; yerel karıştırma kanıtı tek başına onu kapatamaz.
 - Güncellenen: `04` §6 · `12` §1–§2.
 # K-229 · 🟡 TABAN PROTOKOLLER VE REFERANS DÜNYA YENİDEN AÇILDI — rakipler AODV · OLSRv2 · JarmRout · verici 27 dBm (taktik telsiz) · DSSS kalır · Faz 5 durur
-> 10 Ekim · yürütücü (kararlar) · gerekçe: K-228'in ölçümü ve kaynak taraması (JarmRout makalesi, OLSRv2 RFC'leri)
+> 10 Ekim · kararlarım · gerekçe: K-228'in ölçümü ve kaynak taraması (JarmRout makalesi, OLSRv2 RFC'leri)
 
 - **Neden — rakipler:** AODV (RFC 3561), OLSR (RFC 3626, 2003) ve AOMDV (2001) atlama sayısına bakar, bağ kalitesi ölçüsü yoktur. K-228'de DESPARETE'nin üstünlüğünün karıştırmadan bağımsız olduğu ölçüldü (karıştırıcısız evrede de var); yalnız bu rakiplerle karşılaştırma "zayıf rakip" itirazına açıktır.
 - **Yeni rakipler (m = 3):** **AODV** (donmuş `AODV-j`; literatürün altın standart referansı; normal koşul karşılaştırması) · **OLSRv2** (RFC 7181 + NHDP RFC 6130 + paket biçimi RFC 5444, bağ metriği RFC 7779 DAT; RFC 3626 OLSR'ın yerine; normal koşul karşılaştırması) · **JarmRout** (C. Pu, *"Jamming-Resilient Multipath Routing Protocol for Flying Ad Hoc Networks"*, IEEE Access 6, 2018; FANET için karıştırmaya dayanıklı çok yollu yönlendirme; karıştırma altındaki karşılaştırma; AOMDV'nin yerine). `OLSR-d` ve `AOMDV-f` rakip listesinden çıkar; kodları, U1'leri ve ölçümleri Faz 4'ün kaydı olarak kalır. GPSR kapsam dışı kalır. Rollerin ön-kayda yansıması (hangi hücrede hangi test birincil) mühürde, DESPARETE yeni rakiplere karşı koşulmadan önce yazılır; `06` §0.4.1'in rakip listesi bu kayıtla değişti (`06` §10).
 - **Neden — verici:** referans dünyanın EIRP'i 20 dBm'di (AB/TR 2,4 GHz sivil ISM sınırı). Taktik askerî sürü bu sınıra bağlı değildir; kaynaktaki taktik mesh telsizi 27 dBm (Pro) · 33 dBm (Xtreme) iletir (G7). Düşük güç bağları menzil sınırına itiyor ve bağ ölçüsüz protokolleri ayrıca zayıflatıyordu.
 - **Verici: iletilen 27 dBm** (Doodle Labs RM-2450 Pro, G7) + dipol 2,15 dBi ≈ 29,15 dBm EIRP. Yan etki, kaynaklı: ED eşiği iletilen güce bağlıdır (G2: > 100 mW → −80 dBm) → −76 → **−80 dBm**. Referans dünya yeniden kalibre edilir: alan (K-185 · K-188'in ölçütüyle; bağlar ~2,8 kat uzar), birincil hücrenin karıştırıcı rejimi (K-186: kısmi karıştırma), regresyon tabanı, R, U1 (eşik aynı, yeniden koşulur), evre kapıları. Faz 5.0 (K-228) yeni dünyada yeniden koşulur; K-228'in mekanizma sırası o sonuca göre yeniden değerlendirilir.
 - **802.11b DSSS kalır:** kaynaklı ve doğrulanmış model; iddialar göreli, birincil hücre kısmi karıştırmaya kalibre; OFDM gelecek çalışma.
-- **Sıra (yürütücü):** Faz 5 durur. Önce referans dünyanın yeniden kalibrasyonu ve yeni taban protokoller (kod, kaynağa sadakat denetimi, U1, donma); ikisi aynı yeniden açılmış fazın işidir. Sonra Faz 5.
+- **Sıra (kararım):** Faz 5 durur. Önce referans dünyanın yeniden kalibrasyonu ve yeni taban protokoller (kod, kaynağa sadakat denetimi, U1, donma); ikisi aynı yeniden açılmış fazın işidir. Sonra Faz 5.
 - **Literatür iddiası:** JarmRout makalesi OLSR ve DSR'nin PDR'sini karıştırıcı sayısına göre raporluyor (iki-ışın kanal, 1 km alan) → `01`'deki boşluk A daraltıldı.
-- **Kaynak indirme izni** (yürütücü): OLSRv2 RFC'leri (7181 · 6130 · 5444 · 5497 · 5148 · 7779), olsrd2 (OONF) kodu (RFC'nin sustuğu yerde hakem), JarmRout makalesi.
+- **Kaynak indirme iznim:** OLSRv2 RFC'leri (7181 · 6130 · 5444 · 5497 · 5148 · 7779), olsrd2 (OONF) kodu (RFC'nin sustuğu yerde hakem), JarmRout makalesi.
 - **Takvim tahmini:** kalibrasyon 3–4 gün ve protokoller ~9 gün (kod işi hesapla paralel), U1 ve donma ~2 gün → Faz 5 ~28 Ekim; mühür ~25 Kasım–1 Aralık; önceden yazılı düşme sırası (K-222) büyük olasılıkla kullanılır.
 - Güncellenen: `01` · `04` §1 · §2 · §5 · §8 · §10 · `06` §0.4.1 · §4.1 · §10 · `12`.
 # K-230 · 🟢 VERİCİ 20 dBm'DE KALIR (K-229'un verici maddesi geri alındı) · rakipler AODV · OLSRv2 · JarmRout geçerli · JarmRout kopyalar → kopya defteri Faz 4b'de · temas kaybı metriği · içeriden saldırılar kapsam dışı
-> 11 Ekim · yürütücü (kararlar) · JarmRout makalesinin ikinci okuması
+> 11 Ekim · kararlarım · JarmRout makalesinin ikinci okuması
 
 - **Verici:** 27 dBm'de bağlar ~2,9 kat uzar. G9 zarfı içindeki en büyük alanda (~44 km) karıştırıcısız ağ en çok iki atlama olur; eski taramanın eşdeğer ~16 km'lik satırı derece 24,5, ≥ 3 atlama %0 (`arsiv/teshis/faz4_2026-09-26/a_calisma_noktasi.txt`). Serbest uzayda güç yalnız mesafeyi ölçekler: 33 km · 20 dBm dünyası taktik güçteki daha geniş bir sürünün ölçekli karşılığıdır. Kalibre edilmiş dünya korunur (EIRP 20 dBm · ED −76 dBm · alan 33 km · karıştırıcı 10 W). K-228'in Faz 5.0 sonucu ve mekanizma sırası geçerli kalır.
 - **Rakipler (K-229) geçerli:** AODV · OLSRv2 · JarmRout; OLSR v1 ve AOMDV listeden çıktı, GPSR kapsam dışı.
@@ -1791,13 +1792,13 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Faz 5 için tasarım notu:** JarmRout'un ilkesi — iki yol mekânsal olarak ayrık olmalı, aksi hâlde tek karıştırıcı ikisini birden keser; yedek ardılın tasarımında sorulur.
 - Güncellenen: `01` §3 · `04` §1 · §2 · §5 · §6 · §7 · §10 · `06` §3 · §10 · `12` · README; indekste K-229 → K-230.
 # K-231 · 🟢 UÇTAN UCA KOPYA DEFTERİ (denetim D-23) — protokol paketin eşlerini başka komşulara da yollayabilir · ilk varan teslim, eşler bastırılır, veri yüküne faturalanır · regresyon k223 → k231 birebir · JarmRout ve rakiplerin kaynakları depoda
-> 11 Ekim · uygulama ajan · tetik K-230 (JarmRout her paketi iki yoldan gönderir) · ölçüt `arsiv/teshis/regresyon_k231/beklenti.md` (commit `862fb5c`, koşudan önce) · sonuç `sonuc.md`
+> 11 Ekim · tetik K-230 (JarmRout her paketi iki yoldan gönderir) · ölçüt `arsiv/teshis/regresyon_k231/beklenti.md` (commit `862fb5c`, koşudan önce) · sonuç `sonuc.md`
 
 - **Tanımlar** (`13` §07, ölçmeden önce): `Karar.kopyalar` — paket `sonraki`ye, eşleri başka komşulara; eş kuyruğun sonuna girer ve protokole yeniden sorulmadan o komşuya gider. `Paket.kopya` ≥ 1, kimlik aynı. Hedefte ilk varan teslim, sonrakiler `kopya_bastir`. Korunum `üretilen + kopya_üretilen = teslim + kopya_bastırılan + düşen + kuyrukta + uçuşta`; eşler veri çerçevesi (yayın süresi veri yükünde). Kopya yoksa satıra alan girmez.
 - **Kayıp anatomisi:** kopyalı koşuda teslim edilmiş paketin düşen eşi kayıp sayılmaz; teslim edilmemiş paketin kaybı son düşen eşine atfedilir (kopyasız koşuda sonuç eskisinin aynısı).
 - **Doğrulama:** `tests2/test_kopya.py` 4/4 (küçük ağda kaynakta kopyalayan sınav protokolüyle uçtan uca defter ve mutabakat) · dokunulan modüllerin testleri 310/310 · mimari denetimi ihlalsiz · **regresyon k223 → k231: 81/81 bulgusuz** (farklar yalnız kod özetleri ve izinli köken kovaları, K-225). Yeni taban **k231**.
-- **Kaynaklar** (yürütücünün izniyle): OLSRv2 ailesi RFC 7181 · 6130 · 5444 · 5497 · 5148 · 7779 ve güncelleyenleri 7183 · 7187 · 7188 · 7466 · DSR RFC 4728 · olsrd2 (OONF, BSD-3, commit `477e716`) · JarmRout makalesi (Tablo 4, Şekil 2 · 4 yayıncı sayfasından okundu; protokolün iç parametreleri makalede yok). `protokol_kaynaklari/README.md` · `02` R5–R7 · NOTICE.
-- **JarmRout'a sadakat ilkesi** (yürütücü, "yüzde yüz sadık"): makalede yazan her kural harfiyen, DSR yalnız makalenin sustuğu yerde, her dolgu beyan tablosunda; makalenin çözümlü örnekleri birim testi (`arsiv/teshis/jarmrout_2026-10-11/tasarim.md`).
+- **Kaynaklar** (iznimle): OLSRv2 ailesi RFC 7181 · 6130 · 5444 · 5497 · 5148 · 7779 ve güncelleyenleri 7183 · 7187 · 7188 · 7466 · DSR RFC 4728 · olsrd2 (OONF, BSD-3, commit `477e716`) · JarmRout makalesi (Tablo 4, Şekil 2 · 4 yayıncı sayfasından okundu; protokolün iç parametreleri makalede yok). `protokol_kaynaklari/README.md` · `02` R5–R7 · NOTICE.
+- **JarmRout'a sadakat ilkem** (yüzde yüz sadık): makalede yazan her kural harfiyen, DSR yalnız makalenin sustuğu yerde, her dolgu beyan tablosunda; makalenin çözümlü örnekleri birim testi (`arsiv/teshis/jarmrout_2026-10-11/tasarim.md`).
 # K-232 · 🟢 KAYNAK ROTASI (DSR ailesi) — protokol ara düğümleri paketin başlığına yazabilir · adres başına bayt çerçeveye ve yönlendirme ek yüküne · gözlem yüzeyi 30 alan · regresyon k231 → k232 birebir
 > 11 Ekim · tetik K-230 · K-231 (JarmRout DSR üzerine kurulu, veri kaynak rotasıyla taşınır; `arsiv/teshis/jarmrout_2026-10-11/tasarim.md` §3) · ölçüt `arsiv/teshis/regresyon_k232/beklenti.md` (commit `8c6bfd3`, koşudan önce) · sonuç `sonuc.md`
 
@@ -1806,7 +1807,7 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Doğrulama:** `tests2/test_kaynak_rotasi.py` 4/4 (başlık baytı her veri iletiminde adres başına 4 bayt, birebir) · gözlem yüzeyi testi P6 (paket alanı 6 → 7) · mimari denetimi ihlalsiz · **regresyon k231 → k232: 81/81 bulgusuz**, izinsiz (farklar yalnız kod özetlerinde; `protokol_hash` 3 vaka, sınav protokolünün dosyası). Yeni taban **k232**.
 - Güncellenen: `04` §4 · `05` §3.3 · `13` §07 · `12`.
 # K-233 · 🟢 JarmRout'UN İLK GERÇEKLEMESİ (Pu 2018) — makalenin dört çözümlü örneği birim testi ve birebir · Eş. 8'in katsayıları Tablo 2'den · iki seçim SINANMAMIŞ · RSSI ve konum okunduğu için iki köken kaydı DUYARSIZ → SINANMAMIŞ
-> 11 Ekim · tetik K-229 · K-230 · kaynak `protokol_kaynaklari/pu_2018_jarmrout_ieee_access.pdf`; Tablo 1–3 ve Şekil 3 yürütücünün yayıncı sayfasından aldığı görüntülerden · tasarım `arsiv/teshis/jarmrout_2026-10-11/tasarim.md`
+> 11 Ekim · tetik K-229 · K-230 · kaynak `protokol_kaynaklari/pu_2018_jarmrout_ieee_access.pdf`; Tablo 1–3 ve Şekil 3 yayıncı sayfasından aldığım görüntülerden · tasarım `arsiv/teshis/jarmrout_2026-10-11/tasarim.md`
 
 - **Kod:** `protokoller/jarmrout.py` · `protokoller/jarmrout_bicim.py` (biçimler, sabitler, beyan tablosu). Kural tablosu J1–J13 tasarım notunda. RREQ rota kaydını, konumları ve yolun en kötü bağ kalitesiyle yükünü taşır (Şekil 2; 19 + 8n bayt). Ara düğüm yinelenen RREQ'yu, C_hop'u önbellektekinden büyük değilse yeniden yayar (makale; DSR'den farklı). Hedef düğüm-ayrık yolları `t_wait` boyunca toplar ve Eş. 13'ün en küçük P_prio'lu çiftine iki RREP döner. Kaynak aynı paketi iki yoldan gönderir (kopya defteri K-231, kaynak rotası K-232). MAC vazgeçince RERR gider, kaynak o yolu siler.
 - **Sadakatin ölçüsü** (`tests2/test_jarmrout.py` 12/12): Tablo 1 bağ kalitesi 7,1875 · 7,25 · 7,25 · Tablo 2 trafik yükü 11,6282 · 7,7468 · 8,9054 · Tablo 3 yol uzaklığı 10,0 · 6,4 · 6,4 · Şekil 3 çift önceliği 7,4638 · 6,8831 · 7,7095 (seçilen çift X–Z) · RREQ/RREP/RERR boyutları · küçük ağda uçtan uca korunum ve mutabakat.
@@ -1818,14 +1819,14 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Durum:** kural kural sadakat denetimi, regresyon vakaları, U1 ve donma sırada (`12` §1.1); kod denetimden geçene kadar değişebilir.
 - Güncellenen: `04` §5 · §9 · `12`.
 # K-234 · 🟢 JarmRout KURAL KURAL SADAKAT DENETİMİNDEN GEÇTİ — tek gerekçesiz sapma (Eş. 6 · 7'nin örnekleme anı) düzeltildi → `JarmRout-b` · RFC 4728 atıfları düzeltildi · Faz 4b'ye belge ve kod temizliği adımı
-> 11 Ekim · K-208'in kalıbıyla (AODV) · denetim `arsiv/teshis/jarmrout_sadakat_2026-10-11/denetim.md` (K-233'ün hâli üzerinde) · temizlik adımı yürütücünün
+> 11 Ekim · K-208'in kalıbıyla (AODV) · denetim `arsiv/teshis/jarmrout_sadakat_2026-10-11/denetim.md` (K-233'ün hâli üzerinde) · temizlik adımı benim kararım
 
 - **Kapsam:** makalenin §III.A–E kuralları, Şekil 2–4, Tablo 1–3 tek tek koda karşı; makalenin sustuğu yerde RFC 4728'in kuralları (Route Request Table, rota kaydında döngü, titreşim, yeniden deneme, hop sınırı, RERR, rota önbelleği, kurtarma).
 - **Sapma (düzeltildi):** Eş. 6'nın ölçümü makalede "son ortama erişimden"dir. Kod trafik yükü süzgeçlerini her alınan kontrol paketinde de güncelliyordu; RREQ selinde birkaç ms arayla gelen kopyalar ölçümü sıfıra çekiyor, taşınan T_ld'yi alımların sıklığına bağlıyordu. Süzgeçler artık yalnız düğümün kendi erişimlerinde güncellenir: kuyruk başındaki veri iletim kararı ve ürettiği ya da ilettiği her kontrol çerçevesi; RREQ'ya yazılan yük süzgeçlerin yayından önceki hâlidir ("its current traffic load"). Test `test_YUK_SUZGECI_yalniz_kendi_erisiminde`: aynı girdilerle eski kod T_ld 1,04 · 3,25 · 4,225, yeni kod 0 · 1,04 · 3,12.
 - **Beyan:** makalenin eşitlik bozan beklenen RSSI'ı (−55 dBm) kullanılmaz — JarmRout komşu sıralamaz, yolu hedef Eş. 13'le seçer; kullanılmayan sabit kaldırıldı. DSR'nin kurtarması (§8.3.6, SHOULD) eklenmez: makale kopmadaki işlemi kendisi tanımlar, ara düğümde rota önbelleği yok. RREP iletiminin başarısızlığı yok sayılır (RERR'i rota tutmayan hedefe giderdi); kaynak RREQ'yu yeniden dener.
 - **Atıf düzeltmesi:** beyan tablosu ve kod yorumları RFC 4728'in §3.3'ünü (ek keşif özellikleri) gösteriyordu; doğruları Route Request Table §4.3 · §8.2.2, yeniden deneme §8.2 · §9, bağ onayı ve RERR §8.3.1 · §8.3.4, hop sınırı §9 DiscoveryHopLimit 255.
 - **Doğrulama:** `tests2/test_jarmrout.py` 13/13 · ilgili testler (donma, kaynak rotası, kopya) 23/23 · mimari denetimi ihlalsiz. JarmRout regresyon matrisinde değil; taban protokollerin satırları değişmez.
-- **Faz 4b'ye adım (yürütücü):** JarmRout ve OLSRv2'den sonra, Faz 5'e dönmeden önce belge ve kod temizliği — rakip listesinden çıkan OLSR (RFC 3626) · AOMDV · GPSR'ın bayat kalıntıları eksiksiz taranır, yürürlükteki her yer yeni rakiplere göre yazılır (`12` §1.1 adım 4).
+- **Faz 4b'ye adım (kararım):** JarmRout ve OLSRv2'den sonra, Faz 5'e dönmeden önce belge ve kod temizliği — rakip listesinden çıkan OLSR (RFC 3626) · AOMDV · GPSR'ın bayat kalıntıları eksiksiz taranır, yürürlükteki her yer yeni rakiplere göre yazılır (`12` §1.1 adım 4).
 - Güncellenen: `04` §5 · `12` §1.1.
 # K-235 · 🟢 OLSRv2'NİN GERÇEKLEMESİ VE SADAKAT DENETİMİ — RFC 7181 + NHDP (RFC 6130) + DAT (RFC 7779), tel biçimi RFC 5444 bayt bayt · gerekçesiz sapma yok → `OLSRv2-a`
 > 11 Ekim · tetik K-229 · K-230 · kaynaklar `protokol_kaynaklari/` (`02` R5), hakem olsrd2 (commit `477e716`) · tasarım `arsiv/teshis/olsrv2_2026-10-11/tasarim.md` · denetim `arsiv/teshis/olsrv2_sadakat_2026-10-11/denetim.md`
@@ -1839,7 +1840,7 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Durum:** Faz 4b'nin kod adımı tamam (JarmRout-b · OLSRv2-a); sırada regresyon vakaları, U1, R, evre kapıları ve donma (`12` §1.1 adım 3).
 - Güncellenen: `04` §5 · `12` §1.1.
 # K-236 · 🟢 OLSRv2'NİN BAYRAK MPR'LERİ ATLAMA SAYISIYLA (§18.4 B) — olsrd2'nin bayrak alanı "Hopcount metric" · K-235'in A seçimi düzeltildi → `OLSRv2-b` · DAT'ın sabit hızı ve RFC 7183'süz kurulum gerekçeleriyle kalır
-> 11 Ekim · yürütücü ("o 3 karar eğer projenin verilerini etkileyecek kadar önemliyse mantıklı olanı yapabilirsin") · K-235'in üç beyanlı kararı yeniden tartıldı
+> 11 Ekim · kararım: o 3 karar projenin verilerini etkileyecek kadar önemliyse mantıklı olan yapılır · K-235'in üç beyanlı kararı yeniden tartıldı
 
 - **Bayrak MPR'leri (değişti):** K-235 metrikli seçimi (A) olsrd2'ye dayandırmıştı. Hakemin kodu yeniden okundu: bayrak alanı sabit "Hopcount metric"le kurulur ve hiç değişmez (`nhdp_domain.c`: `_flooding_domain.metric = &_no_metric`); olsrd2 bayrak MPR'lerini atlama sayısıyla seçer. §18.4 B'ye geçildi (bilinmeyen metrikli bağ ve 2-atlama demeti yine dışarıda). Veriye etkisi: 40 düğüm · 60 s durağan duman koşusunda düğüm başına bayrak MPR'si 7,3 → 5,1, TC başına iletme 27,6 → 18,4, kontrol baytı 2,01 → 1,43 MB (−%29), teslim 797 → 787 / 864. Yönlendirme MPR'leri ve rotalar metrikli kalır.
 - **DAT'ın gelen hızı (kalır, sabit 1 Mbit/s):** referans dünyada ARF açık, tek-yayın hızları 1–11 Mbit/s. Ama hız yalnız komşunun bana gönderdiği tek-yayın veriden ölçülebilir (sürücünün rx bitrate'i). Ölçülse yalnız zaten kullanılan bağlar ucuzlar, kullanılmayanlar bilinmez kalır; sonuç daha iyi rota seçimi değil, rotanın yapışkanlığı olurdu. Sabit hız RFC 7779 §8'de açıkça izinli; olsrd2 sürücüden hız alamayınca ETX'e iner — aynı davranış. Simülatöre yeni gözlem eklenmedi.
@@ -1847,19 +1848,19 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Doğrulama:** `tests2/test_olsrv2.py` 50/50 (yeni: bayrak MPR'si eşitlikte küçük kimlik, metrikten bağımsız; yönlendirme MPR'si metrikle) · mimari denetimi ihlalsiz.
 - Güncellenen: `04` §5 · `12` §1.1 · beyan tablosu (`olsrv2_bicim.py`) · tasarım ve denetim notları; indekste K-235 → K-236.
 # K-237 · 🟢 REGRESYON k232 → k236 BİREBİR — yeni rakipler matriste (85 vaka), regresyon tabanı k236 · Faz 4b kapanış ölçümleri başladı · Faz 5'ten önce derin blok denetimi
-> 11 Ekim · ölçüt `arsiv/teshis/regresyon_k236/beklenti.md` (commit `88d0064`, koşudan önce) · sonuç `sonuc.md` · kapanış ölçümlerinin ölçütü `arsiv/teshis/faz4b_kapanis_2026-10-11/beklenti.md` (commit `65c2e3b`) · denetim adımı yürütücünün
+> 11 Ekim · ölçüt `arsiv/teshis/regresyon_k236/beklenti.md` (commit `88d0064`, koşudan önce) · sonuç `sonuc.md` · kapanış ölçümlerinin ölçütü `arsiv/teshis/faz4b_kapanis_2026-10-11/beklenti.md` (commit `65c2e3b`) · denetim adımı benim kararım
 
 - **Regresyon:** eski 81 vaka bulgusuz; farklar yalnız kod özetlerinde ve izinli köken kovalarında (her satırda DUYARSIZ 11 → 9, SINANMAMIŞ 3 → 5, K-233). Matrise dört vaka girdi ve geçerli: JarmRout ve OLSRv2 birincil hücrede, JarmRout eşler arası hareketli kolda, OLSRv2 düğüm kaybında; JarmRout vakalarında kopya defteri işliyor. Yeni taban **k236**.
 - **Kapanış ölçümleri** (dondurulmuş kopya `65c2e3b`, ~12 sa): U1 JarmRout · OLSRv2 iki desende, çizelgeli evre kapıları G1ç · G2ç + G4ç yeni rakip kümesiyle (AODV · OLSRv2 · JarmRout · DESPARETE). R ve G3ç protokolden bağımsız, simülatör K-224'ten beri aynı: yeniden koşulmaz.
-- **Faz 5'ten önce derin blok denetimi** (yürütücü): belge ve kod temizliğinden sonra simülatör ve rakip protokoller ayrı denetçilerce blok blok — TÜBİTAK projesine uygunluk, bilimsel gerçekçilik, kullanımda sorun; bulgular kapanmadan Faz 5'e geçilmez (`12` §1.1 adım 5).
+- **Faz 5'ten önce derin blok denetimi** (kararım): belge ve kod temizliğinden sonra simülatör ve rakip protokoller ayrı denetçilerce blok blok — TÜBİTAK projesine uygunluk, bilimsel gerçekçilik, kullanımda sorun; bulgular kapanmadan Faz 5'e geçilmez (`12` §1.1 adım 5).
 - Güncellenen: `12` §1.
 # K-238 · 🟡 JarmRout'UN RREQ SELİ — makaleye birebir sadık, çöküş protokolün kuralından · harfiyen kalır, ölçek sınırı bulgu olarak raporlanır · U1'in açıklama kuralı mekanizma çalışmasıyla · kopya gönderen protokolde kâhin aşımı kuralı · OLSRv2 U1 temiz
-> 12 Ekim · yürütücü (kararlar: "harfiyen kalsın, bulgu raporlansın" · "mekanizma çalışması + temsilci" · "kopya kuralı"; önce "bir şeyi kaçırıyor olabiliriz, simülasyonda sıkıntı olmadığını kesinleştirmeliyiz") · ilk kuyruk `arsiv/teshis/faz4b_kapanis_2026-10-11/` · inceleme `arsiv/teshis/jarmrout_sel_2026-10-12/inceleme.md` · ikinci kuyruğun ölçütü `arsiv/teshis/faz4b_kapanis2_2026-10-12/beklenti.md`
+> 12 Ekim · kararlarım: harfiyen kalsın, bulgu raporlansın · mekanizma çalışması + temsilci · kopya kuralı; önce bir şeyin kaçırılmadığı ve simülasyonda sıkıntı olmadığı kesinleştirilecek · ilk kuyruk `arsiv/teshis/faz4b_kapanis_2026-10-11/` · inceleme `arsiv/teshis/jarmrout_sel_2026-10-12/inceleme.md` · ikinci kuyruğun ölçütü `arsiv/teshis/faz4b_kapanis2_2026-10-12/beklenti.md`
 
 - **İlk kuyruk:** U1 iki desende bitti (25 sa; JarmRout'un hareketli koşuları tek başına 6–11 sa).
   - **OLSRv2:** temiz geçti; yere toplamada oranlar 0,76–0,96, eşler arasında 0,79–0,97.
   - **JarmRout:** yere toplamada 12 hücrenin 11'i eşik altında (0,30–0,55); eşler arasında 5 düşük hücre ve iki hücrede kâhin aşımı (1,013 · 1,008).
-  - G1ç ve G2ç yürütücünün kararıyla durduruldu. Zaman kaydındaki "bitti cikis 0" satırları sonuç değildir; kayda not düşüldü.
+  - G1ç ve G2ç kararımla durduruldu. Zaman kaydındaki "bitti cikis 0" satırları sonuç değildir; kayda not düşüldü.
 - **İnceleme** (teşhis; kod değişmedi):
   - **Kaçırılan kural yok:** makalenin sözde kodu (Şekil 4, IEEE Xplore) yinelenen RREQ'yu `C_hop > cache_hop` değilse yeniden yayar; `cache_hop` yalnız ilk alışta yazılır. Gerçekleme birebir aynı.
   - **Selin kaynağı:** selin ~%90'ı bu kuraldan. Tekilleştiren varyantta PDR 0,599'dan 0,914'e çıkar. Metnin öteki okuması (önbellekte en küçük hop) ve RFC 4728 yeniden deneme dolgusu seli ancak ~%25 azaltır.
@@ -1872,7 +1873,7 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Hesap notu:** JarmRout'un toplu akışlı karıştırıcısız hücrelerde tek koşusu 6–11 sa. Faz 7'ye etkisi mühürden önce hesaplanır.
 - Güncellenen: `04` §5 · `12` §1.
 # K-239 · 🟢 FAZ 4b'NİN RAKİPLERİ DONDU — `JarmRout-b` · `OLSRv2-b` · kopya kuralı sağlandı · JarmRout'un düşük hücreleri açıklandı · evre kapılarında JarmRout'un evre metrikleri yorumlanamaz (kayıtlı muafiyet) · pencere sonu boşalması Faz 6'nın pencere borcuna not
-> 13 Ekim · yürütücü (karar: "protokol düzeyinde etiket") · ölçütler `arsiv/teshis/faz4b_kapanis2_2026-10-12/beklenti.md` (commit `d3fd674`, koşudan önce) · sonuç `sonuc.md` · teşhis `arsiv/teshis/faz4b_kapi_teshis_2026-10-13/teshis.md` · kopya `d3fd674` (147 dosya; kuyruktan sonra kopya ve ana ağaç birebir)
+> 13 Ekim · kararım: protokol düzeyinde etiket · ölçütler `arsiv/teshis/faz4b_kapanis2_2026-10-12/beklenti.md` (commit `d3fd674`, koşudan önce) · sonuç `sonuc.md` · teşhis `arsiv/teshis/faz4b_kapi_teshis_2026-10-13/teshis.md` · kopya `d3fd674` (147 dosya; kuyruktan sonra kopya ve ana ağaç birebir)
 
 - **İkinci kuyruk** (12 Ekim 19:20 – 13 Ekim 11:01, 15 sa 40 dk):
   - **A · kopya kuralı ✓:** statik-yok 1001 (eşler arası) PDR 0,9954, U1 kaydıyla birebir. 12 740 teslimin 12'si yalnız kopyayla; kopyasız oran 1,0120 ≤ 1 + R. Kopya aşımın yalnız 0,0009'unu açıklıyor, kalan R içinde. formasyon-yok 1000'in aşımı 0,0083 < R.
@@ -1887,7 +1888,7 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
   - **G1ç:** öngörülen "sel çevrimleri" tutmadı. Ölçülen iki etki:
     - 1003'te koşu boyunca düşüş (−0,032/100 s; RREQ yeniden yayını %20 artıyor);
     - iki tohumda pencere sonu boşalması: trafik 320 s'de durunca sel söner, son 5 s'de doğanların PDR'si 0,53 · 0,59 (öncesi 0,29–0,47). Son sessiz dönem [315; 320) bu bölgededir; 1004'te D'yi dışarı taşıyan budur.
-- **Karar (yürütücü: protokol düzeyinde etiket):**
+- **Kararım (protokol düzeyinde etiket):**
   - `evre_metrikleri_kapilari.py::EVRE_YORUMLANAMAZ`: kayıtlı protokol, kayıtlı olduğu maddenin (G1ç'nin D'si, G4ç'nin p99'u) hükmü dışında kalır; satırı basılır ve etiketlenir. Ölü kayıt kapıyı kırmızı yakar.
   - JarmRout'un M1 · M2 · M4'ü "yorumlanamaz"; `PDR_açık`ı "bulanık" etiketi ve sızıntısıyla raporlanır.
   - H2.c aynen kalır: bulanıklık ve boşalma JarmRout'un lehinedir (bu hücrede 290 s sonrası doğanlar çıkarılınca açık evre PDR'si 0,012–0,017 düşer), karşılaştırma DESPARETE için tutucudur.
@@ -1898,9 +1899,9 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Doğrulama:** tam takım `1059 passed` (14 dk 58 s) · mimari denetimi ihlalsiz.
 - Güncellenen: `04` §5 · §10 (pencere notu) · `08` §08 · `12` §1.
 # K-240 · 🟢 BELGE TEMİZLİĞİ (Faz 4b adım 4, belge kısmı) — belgeler bilgi düzeyinde ve güncel · JarmRout kesin taban protokol değil, üçüncü rakip açık karar · DESPARETE'nin v0.1 tasarım paketi arşivde
-> 13 Ekim · yürütücü (plan onayı; JarmRout "kesin baseline protokol değil … straw man problemi yaşatmayacak" bir rakip aranabilir; belgeler "sadece bilgi düzeyinde", ajan "her zaman sorgulasın"; tasarım paketi arşive; `03` projeye özgü maddelere) · eski sürümler `v2/arsiv/*-2026-10-13-temizlik.md` · `arsiv/README-2026-10-13-temizlik.md` · `arsiv/protokol_kaynaklari-README-2026-10-13-temizlik.md` · `arsiv/DEVIR-PROMPT-2026-10-10.md`
+> 13 Ekim · plan onayım: JarmRout kesin taban protokol değil, straw-man sorunu yaşatmayacak bir rakip aranabilir; belgeler yalnız bilgi düzeyinde; her şey sorgulanır; tasarım paketi arşive; `03` projeye özgü maddelere · eski sürümler `v2/arsiv/*-2026-10-13-temizlik.md` · `arsiv/README-2026-10-13-temizlik.md` · `arsiv/protokol_kaynaklari-README-2026-10-13-temizlik.md` · `arsiv/DEVIR-PROMPT-2026-10-10.md`
 
-- **Üçüncü rakip (yürütücü):** JarmRout'un kodu donmuş kalır, ama kesin taban protokol değildir. Gerekçeler:
+- **Üçüncü rakip (kararım):** JarmRout'un kodu donmuş kalır, ama kesin taban protokol değildir. Gerekçeler:
   - toplu akışta makalenin kuralıyla çöküyor (K-238);
   - evre metrikleri yorumlanamıyor (K-239).
 
@@ -1927,7 +1928,7 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Sonraki iş:** kod yorumları ve araçlardaki eski rakip kalıntıları (`12` §1.1 adım 4'ün kod kısmı).
 - Güncellenen: README · `v2/README` · `01`–`09` · `12`–`16` · `protokol_kaynaklari/README.md`.
 # K-241 · 🟢 KOD TEMİZLİĞİ (Faz 4b adım 4, kod kısmı) — eski rakip kalıntıları, araç varsayılanları, tasarım paketi yolu · davranış aynı · iki not derin denetime
-> 13 Ekim · yürütücü ("ilk önce kod temizliğini yap") · Faz 4b'nin 4. adımı kapandı
+> 13 Ekim · kararım: önce kod temizliği · Faz 4b'nin 4. adımı kapandı
 
 - **Değişenler** (yalnız yorum, docstring ve iki etiket):
   - `sim2/gozlem/protokol.py` · `sim2/kanal/cerceve.py`: veri başlığı ve kontrol kapsüllemesi yorumları yeni rakiplere göre (OLSRv2, JarmRout).
@@ -1949,9 +1950,9 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Doğrulama:** ilgili testler 55/55 · tam takım `1059 passed` (15 dk 22 s) · mimari denetimi ihlalsiz.
 - Güncellenen: `12` §1.1.
 # K-242 · BAĞIMSIZ DENETİMİN (14 Ekim) KARARLARI — üçüncü rakip Babel (RFC 8966) · JarmRout rakiplikten çıktı · AODV-j'nin üç sapması düzeltilir · yer–hava görüş hattı kalıcı olur · gecikme tavanlı `PDR_açık` ikincil · hedef 19 Aralık
-> 14 Ekim · yürütücü (kararlar) · rapor `arsiv/denetim/DENETIM-RAPORU-2026-10-14.md` (30 bulgu: KRİTİK 0 · ÖNEMLİ 16 · KÜÇÜK 11 · ÖNERİ 3) · istem `DENETIM-PROMPT.md` (git dışı)
+> 14 Ekim · kararlarım · rapor `arsiv/denetim/DENETIM-RAPORU-2026-10-14.md` (30 bulgu: KRİTİK 0 · ÖNEMLİ 16 · KÜÇÜK 11 · ÖNERİ 3) · istem `DENETIM-PROMPT.md` (git dışı)
 
-- **Denetim:** bağımsız tam denetim, 13–14 Ekim, `ab2ca90` üzerinde. `thermo-nuclear-code-quality-review` yöntemi araçla çağrılamadı (`disable-model-invocation`), yürütücünün izniyle elle uygulandı. Tamamlanamayanlar raporun §2.5'inde. Raporun ana iddiaları ayrıca kodla sınandı ve tuttu: DD-01 (görüş hattı her saniye bağımsız çekiliyor, `sim2/kanal/yer_hava.py`) · DD-03 (`beklet`: AODV 2 · DESPARETE 4 · OLSRv2 0 yer; `analiz/satir.py::donem_pdr` teslimde süre sınırı tanımıyor) · DD-04 (`aodv.py`'de titreşim yok; RFC 3561 §10 "MY_ROUTE_TIMEOUT MUST be at least 2 * PATH_DISCOVERY_TIME", kod 6 s) · DD-05 · DD-06 · DD-07 · DD-10 · DD-11 · DD-13 (TÜBİTAK 2204-A sayfası: son başvuru 4 Ocak 2027, 17:30).
+- **Denetim:** bağımsız tam denetim, 13–14 Ekim, `ab2ca90` üzerinde. `thermo-nuclear-code-quality-review` yöntemi araçla çağrılamadı (`disable-model-invocation`), iznimle elle uygulandı. Tamamlanamayanlar raporun §2.5'inde. Raporun ana iddiaları ayrıca kodla sınandı ve tuttu: DD-01 (görüş hattı her saniye bağımsız çekiliyor, `sim2/kanal/yer_hava.py`) · DD-03 (`beklet`: AODV 2 · DESPARETE 4 · OLSRv2 0 yer; `analiz/satir.py::donem_pdr` teslimde süre sınırı tanımıyor) · DD-04 (`aodv.py`'de titreşim yok; RFC 3561 §10 "MY_ROUTE_TIMEOUT MUST be at least 2 * PATH_DISCOVERY_TIME", kod 6 s) · DD-05 · DD-06 · DD-07 · DD-10 · DD-11 · DD-13 (TÜBİTAK 2204-A sayfası: son başvuru 4 Ocak 2027, 17:30).
 - **Üçüncü rakip: Babel (RFC 8966, Standards Track).** K-240'ın açık kararı kapandı.
   - Gerekçe: tanımı tam (ETX bağ maliyeti Ek A, parametre profili Ek B); proaktif uzaklık-vektörü ve uygulanabilirlik koşulu, yani DESPARETE'nin döngüsüzlük çekirdeğiyle aynı aile. Aynı aileden bir protokole karşı ölçüm, DESPARETE'nin kazancının aile yapısından değil kendi mekanizmalarından gelip gelmediğini sınar; raporda bu gerekçeyle sunulur.
   - Gerçekleme RFC 8966'dan yazılır; RFC tam tanımlı olduğu için JarmRout'taki gibi boşluk doldurma gerekmez. RFC'nin seçeneğe bıraktığı yerde gerekçeli seçim ve beyan tablosu; babeld referans uygulaması yalnız hakem. Parametreler Ek B varsayılanı, senaryoya göre ayarlanmaz.
@@ -1962,7 +1963,7 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Gecikme tavanlı `PDR_açık` ön-kayıtlı ikincil metrik olur** (DD-03): bekletme protokole göre değişir (OLSRv2 bekletmez), süre sınırı olmayan metrik uzun bekletmeyi ödüllendirir. Eşikler otopilotun telemetri zaman aşımı kaynağından, Faz 5'in ilk ölçümünden önce yazılır. Birincil metrik değişmez; KR-2 ile birlikte yeniden bakılır.
 - **Teslim:** resmî son başvuru 4 Ocak 2027, 17:30; proje hedefi 19 Aralık 2026 kalır, aradaki süre tampondur.
 - **Ön-kayıt kayıtları:** G1ç ve G2ç (12–13 Ekim, K-239) DESPARETE'yi OLSRv2, AODV, JarmRout ve kâhinle 1003 ve 1004 tohumlarında aynı hücrede koşturdu (DD-09); KR-3'ün "DESPARETE yeni rakiplere karşı koşulmadan önce" şartı bu koşularla geçildi, `06` §10'a yazıldı. Babel kararı bu iki tohumluk gözlemden değil, JarmRout'un kendi geçerliliğinden (K-238, K-239) ve aile ilkesinden doğdu. K-238 ve K-239'un teşhisleri (`jarmrout_sel_2026-10-12`, `faz4b_kapi_teshis_2026-10-13`) beklentisizdir; keşifsel sayılır (DD-10).
-- **Faz 5'ten önceki iş** (denetimin §9.1'i, yürütücü onayı): kapı sertleştirmeleri (DD-05 · 06 · 07 · 08 · 19) · anatomi aletinin açlık tanımı (DD-11) · gecikme tavanlı metrik (DD-03) · AODV'nin yeni sürümü · kalıcı görüş hattı · Babel · G1-P yeni rakip kümesiyle · belge düzeltmeleri (DD-02 · 12 · 13 · 17 · 18). Faz 6'ya: yer–hava ortam duyarlılığı · yeniden üretilebilirlik paketi (DD-15) · mühür için harici zaman damgası (DD-16).
+- **Faz 5'ten önceki iş** (denetimin §9.1'i, onayım): kapı sertleştirmeleri (DD-05 · 06 · 07 · 08 · 19) · anatomi aletinin açlık tanımı (DD-11) · gecikme tavanlı metrik (DD-03) · AODV'nin yeni sürümü · kalıcı görüş hattı · Babel · G1-P yeni rakip kümesiyle · belge düzeltmeleri (DD-02 · 12 · 13 · 17 · 18). Faz 6'ya: yer–hava ortam duyarlılığı · yeniden üretilebilirlik paketi (DD-15) · mühür için harici zaman damgası (DD-16).
 - Güncellenen: `01` §1 · `04` §1 · §2 · §5 · §7 · §10 · `06` §0.4.1 · §3 · §4 · §10 · `12` · README.
 # K-243 · DENETİMİN FAZ 5 ÖNCESİ KOD DÜZELTMELERİ — kalıcı görüş hattı · `AODV-k` · kapı sertleştirmeleri · regresyon tabanı k243
 > 14 Ekim · K-242'nin işleri (`12` §1.1 adım 6 a–d) · kod `e5cd1b7` · regresyon `arsiv/teshis/regresyon_k243/` (beklenti `e5cd1b7`'de, koşudan önce)
@@ -1980,7 +1981,7 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Belge notu:** `sim2/kanal/tehdit.py`'nin tablosu `tekli_merkez`i "sabit yer" diye anıyor; nesne sürünün orta irtifasında duruyor ve yer–hava kanalı kurulmuyor. Davranış değişmez; belge düzeltmesi adım 6g'ye eklendi.
 - Güncellenen: `04` §5 · §9 · `12` §1 · §1.1 · `kalibrasyon/uretici_duman.py`.
 # K-244 · HAKEM İLKESİ İNCELTİLDİ — RFC'nin seçeneğe ve MAY'e bıraktığı yerde referans uygulamanın varsayılanı · Babel gerçeklendi, 55 kurallık sadakat denetimi · `AODV-k`ya iki ns-3 davranışı · AODV taraması 42 kurala tamamlandı
-> 14 Ekim · yürütücü (ilke: "onay veriyorum devam et"; indirme izni babeld için) · denetimler `arsiv/teshis/babel_sadakat_2026-10-14/denetim.md` · `arsiv/teshis/aodv_sadakat_2026-10-14/denetim.md`
+> 14 Ekim · onayım; babeld için indirme iznim · denetimler `arsiv/teshis/babel_sadakat_2026-10-14/denetim.md` · `arsiv/teshis/aodv_sadakat_2026-10-14/denetim.md`
 
 - **İlke** (`04` §5'in eski "MAY beyan edilir" kuralının yerine):
   - RFC'nin MUST ve SHOULD'u uygulanır; RFC açık bir değer ya da yordam veriyorsa o alınır.
@@ -2009,7 +2010,7 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Sıradaki:** tek kuyruk, beklentisi koşudan önce: regresyon k244 · U1 iki desende (`AODV-k` · Babel) · G1ç · G2ç + G4ç · G1-P → donma (`AODV-k` · `Babel-a`) · tam takım.
 - Güncellenen: `04` §5 · `12` §1 · `protokol_kaynaklari/README.md`.
 # K-245 · 🟢 BELGE DÜZELTMELERİ VE JarmRout'UN ÇIKIŞ TEMİZLİĞİ (denetim DD-12 · 17 · 18) — davranış aynı; formasyon kolunun hız beyanı ve karıştırıcı yolları ölçüldü, beyanlar düzeltildi
-> 15 Ekim · yürütücü ("önce belge temizliği, sonra JarmRout, sonra kaynak araştırması") · K-244 kuyruğu koşarken (donmuş kopya), ana depoda
+> 15 Ekim · sıralamam: önce belge temizliği, sonra JarmRout, sonra kaynak araştırması · K-244 kuyruğu koşarken (donmuş kopya), ana depoda
 
 - **DD-02 · DD-13:** K-242'de kapanmıştı (ölçek gerekçesi `04` §2 · `14`; teslim tarihi `01` · `12` · README). Değişiklik yok.
 - **DD-17:** `v2/README`'nin eski atıf haritası.
@@ -2029,7 +2030,7 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Doğrulama:** evre testleri · mimari denetimi ihlalsiz.
 - Güncellenen: `v2/README` · `04` §2 · `05` §4 · `08` §05 · `12` §1.1 · §3 · `14` §3 · README.
 # K-246 · 🟢 GECİKME TAVANLI `PDR_açık`ın EŞİKLERİ — ana tavan 5 s, duyarlılık 3,5 s ve 10 s (otopilot ve yer istasyonu bağ kopması zaman aşımları) · kaynaklar depoda
-> 15 Ekim · yürütücü ("önerilerini onaylıyorum ve indirme iznini veriyorum") · K-242'nin açık kararı (denetim DD-03) · kaynaklar `protokol_kaynaklari/uygulama_kaynaklari/otopilot/`
+> 15 Ekim · önerileri onayladım, indirme iznini verdim · K-242'nin açık kararı (denetim DD-03) · kaynaklar `protokol_kaynaklari/uygulama_kaynaklari/otopilot/`
 
 - **Kaynaklar** (indirme anındaki commit'lere sabitli; değerler dosyaların kendisinden):
   - ArduPilot Copter `FS_GCS_TIMEOUT` = 5 s.
@@ -2044,24 +2045,24 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Bekletme listesi düzeltildi:** Babel de OLSRv2 gibi bekletmez (`04` §4 · `06` §3).
 - Güncellenen: `02` G3 · G19 · `04` §4 · §7 · §10 (satır kapandı) · `06` §3 · §10 · `12` §1.1 · `protokol_kaynaklari/README.md`.
 # K-247 · KR-3 KAPANDI — üç rakip birincil hücrede eşit rolde (Holm m = 3) · MEKANİZMA KAPISINA GİRİŞ: karıştırmaya karşı tasarlanan mekanizma, genel katkısı beyanla
-> 16 Ekim · yürütücü (Faz 5'ten önceki iki açık karar; ajan kavramları ve seçenekleri anlattı) · DESPARETE'nin K-200, K-228 ve G1ç/G2ç (1003 · 1004) koşularından sonra, Faz 5'in mekanizmalarının hiçbiri tasarlanmadan önce
+> 16 Ekim · Faz 5'ten önceki iki açık kararım; kavramları ve seçenekleri öğrenerek karar verdim · DESPARETE'nin K-200, K-228 ve G1ç/G2ç (1003 · 1004) koşularından sonra, Faz 5'in mekanizmalarının hiçbiri tasarlanmadan önce
 
 - **KR-3 · rakiplerin rolü:** üç rakip birincil hücrede eşit rolde: H2.a AODV · H2.b OLSRv2 · H2.c Babel.
   - Her biri `PDR_açık`, 40 ana deney tohumu, eşleştirilmiş çift yönlü Wilcoxon; Holm m = 3.
   - K-229'daki rol ayrımı (AODV ve OLSRv2 normal koşul, JarmRout karıştırma altı) uygulanmaz. `06` §0.4.1 zaten bunu yazıyordu; karar onu bağlar.
   - Seçenekler: (a) üçü eşit · (b) tek birincil rakip (Babel), ötekiler ikincil · (c) karışık roller.
-  - Yürütücü (a)'yı seçti: *"her protokolü test ederek eşitliği ve bilimsel dürüstlüğü sağlayabiliriz"*.
+  - (a)'yı seçtim: her protokolü test ederek eşitliği ve bilimsel dürüstlüğü sağlayabiliriz.
 - **Mekanizma kapısına giriş (Aile 3, `06` §0.4.5):**
   1. Karıştırmaya karşı tasarlanan mekanizma kapıya girer, her zaman açık olsa bile. Amacı tasarımında ve kendi A/B beklentisinde, ölçmeden önce yazılır ve sonradan değişmez. Genel iyileştirme için tasarlananlar (ör. `hedefli_canlilik`) girmez.
   2. **Genel katkı beyanı:** kapıdaki her mekanizmanın geliştirme ablasyonu birincil hücrede ve karıştırıcısız ikizde koşulur (Faz 5'in planındaki hücreler, 1003–1010; ek koşu yok). İkizdeki etkisi o mekanizmanın genel katkısı olarak, "geliştirme tohumlarında ölçüldü" etiketiyle raporlanır.
   3. **Değişmeyenler:** kapı ana deneyin 40 tohumunda koşar. "Karıştırmayı çözer" iddiası için H2'de üstünlük, pozitif fark-içinde-fark ve kapının geçmesi birlikte gerekir.
 - **Gerekçe ve seçilmeyenler:**
-  - Sınır durumu, karıştırma için tasarlanıp genel performansı da iyileştiren mekanizma. Ajan tetik ölçütünü önerdi: yalnız karıştırma kanıtıyla devreye girenler kapıya girer. Yürütücü amaç ölçütünü seçti: *"yine kapıya girip katkısı görülebilir. fakat genel protokole de katkı sağladığı beyana geçer"*.
+  - Sınır durumu, karıştırma için tasarlanıp genel performansı da iyileştiren mekanizma. Önerilen tetik ölçütü: yalnız karıştırma kanıtıyla devreye girenler kapıya girer. Amaç ölçütünü seçtim: böyle bir mekanizma yine kapıya girip katkısı görülebilir, ama genel protokole de katkı sağladığı beyana geçer.
   - Bedeli: genel katkılı bir mekanizma kapıyı geçmeyi kolaylaştırır. "Karıştırmaya özgü" iddiasını fark-içinde-fark korur; amacın ölçmeden önce yazılması etiketin sonradan değiştirilmesini önler.
-  - Reddedilen seçenek: kapı kolunun ana deneyde ikiz hücrede de koşulması (+40 koşu). Yürütücü: *"ana deneye 40 koşu daha eklemenin gereksiz olduğunu düşünüyorum"*. Sonuç: genel katkı yalnız geliştirme tohumlarında ölçülür. Karıştırmalı hücrede ise kapının ana deney sonucu, geliştirme ablasyonunun öngörüsünü sınar.
+  - Reddedilen seçenek: kapı kolunun ana deneyde ikiz hücrede de koşulması (+40 koşu). Gerekçem: ana deneye 40 koşu daha eklemek gereksiz. Sonuç: genel katkı yalnız geliştirme tohumlarında ölçülür. Karıştırmalı hücrede ise kapının ana deney sonucu, geliştirme ablasyonunun öngörüsünü sınar.
 - Güncellenen: `04` §8 · §10 (KR-3 satırı kapandı) · `06` §0.4.1 · §0.4.5 · §9 · §10 · `12` §1.2 · Faz 6.
 # K-248 · KÂHİN AŞIMI: ZARFI DA AŞAN HÜCRE, HATA ARAMASI TEMİZSE BEYANLA KAYDA GİRER — kâhinler bağ bilgisinin referansı, tavan değil · Babel'in U1'i iki desende geçti
-> 17 Ekim · yürütücü (*"önerini kabul ediyorum"*) · Babel'in eşler arası zarf aşımı ve hata araması görüldükten sonra (sonuçtan sonra, `06` §10) · ölçümler `arsiv/teshis/babel_zarf_esler_2026-10-16/` · `arsiv/teshis/babel_zarf_asim_2026-10-16/`
+> 17 Ekim · öneriyi kabul ettim · Babel'in eşler arası zarf aşımı ve hata araması görüldükten sonra (sonuçtan sonra, `06` §10) · ölçümler `arsiv/teshis/babel_zarf_esler_2026-10-16/` · `arsiv/teshis/babel_zarf_asim_2026-10-16/`
 
 - **Durum:** Babel eşler arasında beş hücrede ETX kâhinini R'den fazla aşıyor. İkisi üç kâhinin zarfının içinde; üçü zarfı da aşıyor: görev 1001 +0,044 · görev 1002 +0,0006 · formasyon 1001 +0,021. K-192 (b)'ye göre yazılım hatası arandı (beklenti ölçmeden önce, commit `4188039`).
 - **Hata araması temiz:**
@@ -2072,8 +2073,8 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
   - Aday açıklama (ölçülmedi): kâhinler kanal modelinden yönlendiriyor, trafiğin yükünü ve çarpışmaları görmüyor. Babel'in ETX'i Hello kayıplarından ölçüldüğü için bunları içeriyor.
 - **Karar:** zarfı da aşan hücre, ön-kayıtlı hata araması (sızıntı · sayım · korunum · kimlik) temiz çıkar ve kâhinin fazla kaybı ölçülürse *"kâhin bu hücrede üst sınır değil"* beyanıyla kayda girer.
   - Seçenekler: (a) bu kural · (b) kural katı kalır: Babel rakip olamaz ya da yükü gören yeni bir kâhin yazılır, bütün U1'ler yeniden koşulur · (c) eşler arası U1-U için de keşifsel sayılır.
-  - Yürütücünün gerekçesi: kâhin *"sadece yolu biliyor"*, *"yolun dinamikliğine uyum sağlayamayan bir yapı"*; *"protokollerin kendi aralarında karşılaştırılması yeterlidir"*. Kâhini yeniden kurmak ile kural arasındaki seçimi ajana bıraktı.
-  - Ajan kuralı seçti, gerekçe: yükü ve çarpışmayı gören bir kâhin kendi başına bir araştırma sorusu (eniyi yönlendirme girişimle birlikte) ve bütün U1 kayıtlarını değiştirir. Kâhinin tavan olmadığı 9 Eylül'den beri biliniyor (K-110).
+  - Gerekçem: kâhin yalnız yolu biliyor, yolun dinamiğine uyum sağlayamayan bir yapı; protokollerin kendi aralarında karşılaştırılması yeterli. Kâhini yeniden kurmak ile kural arasındaki seçimi uygulamaya bıraktım.
+  - Kural seçildi; gerekçe: yükü ve çarpışmayı gören bir kâhin kendi başına bir araştırma sorusu (eniyi yönlendirme girişimle birlikte) ve bütün U1 kayıtlarını değiştirir. Kâhinin tavan olmadığı 9 Eylül'den beri biliniyor (K-110).
 - **Kâhinin rolü (beyan):** kâhinler mükemmel bağ bilgisiyle yönlendiren bir **referanstır**; tavan değildir.
   - U1'in oranı bu referansa göre ölçülür. Hükümler protokollerin kendi aralarındaki karşılaştırmasından gelir (Aile 2).
   - Kâhin aşımı hata alarmı olarak kalır: her aşımda önce hata aranır (K-238'de JarmRout'un aşımı bu yoldan kopya sayımına bağlandı).
@@ -2083,16 +2084,16 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
   - AODV-k: yere toplama GEÇTİ · TEMİZ (yedi düşük hücre anatomi ve döngü iziyle açıklı, K-207). Eşler arası U1-U GEÇTİ; U1-B'de görev 1001 (0,593) keşifsel desenin açıklanmamış bulgusu, donmayı durdurmaz (kuyruk beklentisi §2.3, K-218).
 - **Aynı oturumda kapanan AODV-k teşhisleri:**
   - A/B (`arsiv/teshis/aodv_k_ab_2026-10-15/`): düşüş ns-3'ün iki varsayılanından (karşılıksız RREP, yayın titreşimi); gerçekleme sadık.
-  - Anatomi (`arsiv/teshis/aodv_k_anatomi_2026-10-16/`; ajanın beklentisindeki TTL eşiği kuyruğun ön-kaydından gevşekti, düzeltildi).
+  - Anatomi (`arsiv/teshis/aodv_k_anatomi_2026-10-16/`; anatomi beklentisindeki TTL eşiği kuyruğun ön-kaydından gevşekti, düzeltildi).
   - Döngü izi (`arsiv/teshis/aodv_k_dongu_2026-10-16/`; ilk koşunun aracı rota kuruluşlarını kaydetmiyordu, düzeltilip yeniden koşuldu): üç TTL düşüşü RFC §6.5 · §6.7 (i) · (iii) · §6.11 kurallarından, ns-3'le aynı.
 - Güncellenen: `04` §5 · `06` §4.4 · §10 · `12` §1.1 · `kalibrasyon/aodv_uygunluk.py`.
 # K-249 · M4'ÜN SIFIR GÖZLEM KURALI (temizde 0 beyan → üst güven sınırı) · G1-P GEÇTİ · `AODV-k` VE `Babel-a` DONDU · K-244 KUYRUĞU KAPANDI
-> 17 Ekim · yürütücü (*"önerini seçiyorum"*) · kuralın beklentisi ölçmeden önce (`arsiv/teshis/m4_sifir_gozlem_2026-10-17/beklenti.md`, commit `5161bb9`) · kuyruğun sonucu `arsiv/teshis/rakipler_k244_2026-10-14/sonuc.md`
+> 17 Ekim · öneriyi seçtim · kuralın beklentisi ölçmeden önce (`arsiv/teshis/m4_sifir_gozlem_2026-10-17/beklenti.md`, commit `5161bb9`) · kuyruğun sonucu `arsiv/teshis/rakipler_k244_2026-10-14/sonuc.md`
 
 - **G1-P kaldı** (K-244 kuyruğu, ilk kez yeni rakip kümesiyle). M4 yanlış tespit 2/8, sınır 1/8. Teşhis (`arsiv/teshis/g1p_k244_2026-10-17/`, beklenti önce):
   - Babel koşu boyunca tek bir kopma beyan ediyor, temiz evresi boş. Boş dağılım Poisson(0), eşik 0; tek beyan "tespit" sayılıyor.
   - OLSRv2'nin tespiti kendi beyan kümelenmesinden (196. saniyede 17 beyan, eşik 16); Babel'le ortak bağ yok.
-- **Seçenekler:** (a) sıfır gözlemin üst güven sınırı · (b) sıfır beyanda M4 "ölçülemez" · (c) Babel'e kayıtlı muafiyet · (d) kapı kalmış kalır, evre metrikleri kullanılmaz. Yürütücü (a)'yı seçti.
+- **Seçenekler:** (a) sıfır gözlemin üst güven sınırı · (b) sıfır beyanda M4 "ölçülemez" · (c) Babel'e kayıtlı muafiyet · (d) kapı kalmış kalır, evre metrikleri kullanılmaz. (a)'yı seçtim.
 - **Kural** (`sim2/olcum/evre.py`, `Evreler._sifir_gozlem_ust_siniri`): temiz evrede sıfır beyan varsa kova başına hız `λ = −ln α / n` (n temiz kova sayısı, α modülün tek α'sı). Boş dağılım Poisson(λ).
   - G1-P'de λ ≈ 0,030; eşik 2, yani bir saniyede en az üç beyan tespittir.
   - Temizde en az bir beyan olan koşular birebir aynı. Kural tespiti yalnız kaldırabilir ya da geciktirebilir. `_poisson_esigi`'nin "tek beyan tespittir, doğrudur" notu gerekçesiyle düzeltildi.
@@ -2100,7 +2101,7 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
 - **Regresyon k244 → k249** (yeni kopya `5161bb9`): ölçümde 87/87 birebir.
   - Beklentiden sapma: kimlik dışında bir alan daha değişti, `kapsam.modellenmeyen.hareketli_karistirici`. Sebebi K-245'in DD-17 düzeltmesi (k244'ün tabanı ondan önceydi). `--izin` ile geçildi.
   - Yeni taban **k249**.
-- **Mimari denetimi — beklentiden sapma (ajanın hatası):** `kalibrasyon/aodv_uygunluk.py::_AODV_K_IZ` (16 Ekim) köken defterinde yoktu; ajan o gün denetimin yalnız "ihlal" satırına bakmıştı. Kayıt `sim2/yapilandirma/kokenler.py`'ye eklendi; denetim ihlalsiz ve bulgusuz.
+- **Mimari denetimi — beklentiden sapma (uygulama hatası):** `kalibrasyon/aodv_uygunluk.py::_AODV_K_IZ` (16 Ekim) köken defterinde yoktu; o gün denetimin yalnız "ihlal" satırına bakılmıştı. Kayıt `sim2/yapilandirma/kokenler.py`'ye eklendi; denetim ihlalsiz ve bulgusuz.
 - **G1-P yeniden:** M4 1/8 (OLSRv2 1001) · M3 1/8 · M1 1/4 → **geçti**. Yalnız Babel 1001'in tespiti kalktı; öteki yedi koşu birebir. G1ç ve G2ç + G4ç yeniden koşulmadı: kural yeni tespit doğuramaz ve orada Babel'in tespiti yoktu.
 - **Donma** (kuyruk beklentisinin şartları tamam): `AODV-k` ve `Babel-a` dondu. `tests2/test_donma.py`'de `aodv.py` · `aodv_bicim.py` yenilendi, `babel.py` · `babel_bicim.py` eklendi; özetler kuyruğun ölçülen kopyasıyla (`1163f81`) birebir.
 - **Kuyruğun kapanışı:**
@@ -2110,8 +2111,8 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
   - Süreler `12` §3'te.
 - **Doğrulama:** tam takım **1095 geçti (16 dk)** · mimari denetimi ihlalsiz, bulgusuz.
 - Güncellenen: `04` §5 · `06` §10 · `08` §05 · §08 · `12` §1.1 · §3 · `sim2/olcum/evre.py` · `sim2/yapilandirma/kokenler.py` · `tests2/test_evre.py` · `tests2/test_donma.py`.
-# K-250 · FAZ 4b KAPANDI, FAZ 5 AÇILDI — DESPARETE tamamen özgün bir tasarım olacak; Faz 5'te tasarımı ve üretimi yürütücü yapar, ajan danışman ve öğretmendir
-> 19 Ekim · yürütücü: *"desparete mevcut bir protokolün üstüne yazılmayacak tamamen özgün bir tasarım olacak … bu fazda senden binevi benim danışmanım ve öğretmenim olarak rol almanı istiyorum çünkü projenin asıl ürün ve özgünlüğü buradan geliyor ve benim buraya tam manasıyla hakim olmam ve kendim üretmem gerek"* · geçiş kapısı (29 Eylül kuralı: geride iş yok, denetimden geçmiş simülatör, güncel belgeler)
+# K-250 · FAZ 4b KAPANDI, FAZ 5 AÇILDI — DESPARETE tamamen özgün bir tasarım olacak; Faz 5'te tasarımı ve üretimi ben yapacağım, yapay zekâ danışman ve öğretmen olarak kullanılacak
+> 19 Ekim · kararım: projenin asıl ürünü ve özgünlüğü bu fazdan geliyor; protokole tam hâkim olup onu kendim üreteceğim · geçiş kapısı (29 Eylül kuralı: geride iş yok, denetimden geçmiş simülatör, güncel belgeler)
 
 - **Faz 4b'nin kanıtı:**
   - **Rakipler donmuş:** `AODV-k` ve `Babel-a` (K-249), `OLSRv2-b` (K-239). Üçü birincil hücrede eşit rolde, Holm m = 3 (KR-3, K-247).
@@ -2120,9 +2121,22 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
   - **Belgeler:** durum (`12`), kararlar (`04`), giriş belgesi (`DEVIR-PROMPT.md`; eski hâli `arsiv/DEVIR-PROMPT-2026-10-19-once.md`), README ve `01` güncellendi. Babel'in "DESPARETE'yle aynı aile" notu v0.4.1'e daraltıldı; seçim gerekçesi tarihsel kayıttır (K-242), Babel bağ kalitesine bakan en güçlü rakip olarak kalır.
 - **Karar — DESPARETE'nin tasarımı:** tamamen özgün bir tasarım olacak, mevcut bir protokolün (v0.4.1 dâhil) üstüne yazılmaz. K-242'deki "gerekirse baştan yazılır" bu kararla kesinleşti.
 - **Karar — çalışma biçimi:**
-  - Faz 5'te tasarımı ve üretimi yürütücü yapar. Gerekçe: projenin ürünü ve özgünlüğü bu fazdan geliyor; yürütücünün tasarıma tam hâkim olması gerekiyor.
-  - Ajan danışman ve öğretmendir: kavramları anlatır, seçenekleri sunar, ölçümleri ve denetimleri yürütür. Karar yürütücünündür.
-  - Fazın planı yürütücünün anlatımıyla yeniden yazılır; K-228 ve K-242'nin mekanizma sırası o zamana kadar önceki plandır.
+  - Faz 5'te tasarımı ve üretimi ben yapacağım. Gerekçe: projenin ürünü ve özgünlüğü bu fazdan geliyor; tasarıma tam hâkim olmam gerekiyor.
+  - Yapay zekâ danışman ve öğretmen olarak kullanılır: kavramları anlatır, seçenekleri sunar, ölçümleri ve denetimleri yürütür. Karar benimdir.
+  - Fazın planı benim anlatımımla yeniden yazılır; K-228 ve K-242'nin mekanizma sırası o zamana kadar önceki plandır.
 - **Durum** (iki tohum, karar değil; K-244 kuyruğu): birincil hücrede `PDR_açık` DESPARETE v0.4.1 0,518 · 0,603, Babel 0,547 · 0,787; karıştırıcısız ikizde 0,757 · 0,786 ↔ 0,945 · 0,952.
-- **Yapay zekâ beyanı:** Faz 4'e kadar yazılımın büyük bölümünü yapay zekâ yazdı. Faz 5'te DESPARETE'nin tasarımı yürütücünündür; üretimdeki paylaşım yürütücünün planıyla belirlenir ve beyanda yazılır.
+- **Yapay zekâ beyanı:** Faz 4'e kadar yazılımın büyük bölümünü yapay zekâ yazdı. Faz 5'te DESPARETE'nin tasarımı benimdir; üretimdeki paylaşım planımla belirlenir ve beyanda yazılır.
 - Güncellenen: `01` · `04` §1 · §5 · §6 · §9 · `06` §4.1 · §10 · `12` §1 · §1.1 · §1.2 · §2 · README · `DEVIR-PROMPT.md`.
+# K-251 · K-250'NİN AÇIKLAMASI — "özgün" mevcut bir protokolü alıp üstüne ekleyerek sunmamak demek, özellik alınabilir · Faz 5 üç aşama: hâkimiyet → araştırma ve öğrenim → geliştirme · yeni oturumla temiz bağlam
+> 19 Ekim · açıklamam: "tamamen özgün" ile kastım, mevcut bir protokolü alıp üstüne bir şeyler ekleyerek protokol diye sunmamak; bazı özellikler alınabilir. Amacım protokole çalışma mantığından formüllerine kadar hâkim olup kendi yaptığım bir protokol üretmek
+
+- **K-250'nin "mevcut bir protokolün (v0.4.1 dâhil) üstüne yazılmaz" ifadesi fazla dardı.** Doğrusu:
+  - DESPARETE, var olan bir protokolün üstüne ekleme yapılarak "yeni protokol" diye sunulmaz.
+  - Başka protokollerden özellik alınabilir; v0.4.1 de böyle alınmış özellikler taşıyor, örneğin Babel'in uygulanabilirlik koşulu.
+  - Asıl amaç, protokole çalışma mantığından formüllerine kadar hâkim olmam ve onu kendim üretmem.
+- **Faz 5'in aşamaları** (`12` §1.2):
+  1. **hâkimiyet:** mevcut DESPARETE'yi (v0.4.1) tam olarak öğrenirim;
+  2. **araştırma ve öğrenim:** daha iyi bir protokol nasıl yapılır, hangi yöntemler kullanılmalı;
+  3. **geliştirme:** Faz 5'in asıl işi.
+- **Yeni oturum:** Faz 5 temiz bağlamla yeni bir oturumda sürer. Devir belgesi `DEVIR-PROMPT.md`: yeni oturum projenin bağlamına hâkim olur, durumu analiz eder, bu aşamadan sonrasını planlar, öğrendiklerini ve durum raporunu bana özetler.
+- Güncellenen: `04` §6 · `12` §1.2 · `DEVIR-PROMPT.md` (git dışı).

@@ -9,7 +9,7 @@
 | **faz** | **5 · DESPARETE** (K-250) — çalışma biçimi §1.2. Faz 4b kapandı (K-250): üç rakip donmuş, bağımsız denetimin (14 Ekim, K-242) Faz 5 öncesi işleri tamam. Faz 4 kapandı (K-221) |
 | simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu süreleri §3'te. Yer–hava görüş hattı kalıcı (K-243) |
 | taban protokoller | **AODV · OLSRv2 · Babel (K-242).** `OLSRv2-b` donmuş (K-239). `AODV-k` (K-243 · K-244) ve Babel (RFC 8966, hakem babeld; K-244) kodda, sadakat denetimlerinden geçti; regresyon `k244` temiz, U1 iki desende geçti (AODV-k'nin düşüşü ns-3'ün iki varsayılanından, düşük hücreleri anatomi ve döngü iziyle açıklı; Babel'in kâhin aşımları zarf ve hata aramasıyla kayıtlı, K-248); evre kapıları ve G1-P geçti (M4'ün sıfır gözlem kuralı); **`AODV-k` ve `Babel-a` dondu (K-249)**, regresyon tabanı `k249`. Hakem ilkesi: RFC'nin seçeneğe ve MAY'e bıraktığı yerde referans uygulamanın varsayılanı (K-244). JarmRout rakiplikten çıktı; kodu ve kayıtları Faz 4b'nin kaydı |
-| DESPARETE | v0.4.1, taslak; Faz 5'te yürütücünün özgün tasarımıyla yeniden yazılır (K-250). Son ölçüm (K-244 kuyruğu, 1003 · 1004): birincil `PDR_açık` 0,518 · 0,603 — Babel 0,547 · 0,787 · OLSRv2 0,409 · 0,499 · AODV-k 0,353 · 0,421 · kâhin 0,748 · 0,844; karıştırıcısız ikizde 0,757 · 0,786 — Babel 0,945 · 0,952 (`04` §6). Faz 5.0 (K-228): karıştırmaya özgü fazla kayıp `rota_gecersiz`'de |
+| DESPARETE | v0.4.1, taslak; Faz 5'te özgün tasarımımla yeniden yazılır (K-250). Son ölçüm (K-244 kuyruğu, 1003 · 1004): birincil `PDR_açık` 0,518 · 0,603 — Babel 0,547 · 0,787 · OLSRv2 0,409 · 0,499 · AODV-k 0,353 · 0,421 · kâhin 0,748 · 0,844; karıştırıcısız ikizde 0,757 · 0,786 — Babel 0,945 · 0,952 (`04` §6). Faz 5.0 (K-228): karıştırmaya özgü fazla kayıp `rota_gecersiz`'de |
 | doğrulama | `1095 passed` (17 Ekim, K-249) · mimari denetimi ihlalsiz ve bulgusuz · regresyon tabanı **`k249`** (87 vaka) · R = **0,0126** (K-224, 7 deneme) · köken sayımı `04` §9 |
 | arkada koşan | yok |
 | takvim | mühür ~20 Kasım · proje hedefi 19 Aralık 2026 · resmî son başvuru 4 Ocak 2027, 17:30 (TÜBİTAK 2204-A sayfası; aradaki süre tampon, K-242) |
@@ -22,7 +22,7 @@
 2. **JarmRout** (Pu 2018) ve **OLSRv2** (RFC 7181 · 6130 · 5444 · 5497 · 5148 · 7779; olsrd2 hakem): kaynaklar depoda ✓ (K-231) · simülatörde kaynak rotası ✓ (K-232, regresyon k232 birebir) · JarmRout kodu ve beyan tablosu ✓ (K-233; makalenin dört çözümlü örneği birim testi) · JarmRout'un kural kural sadakat denetimi ✓ (K-234, `JarmRout-b`) · OLSRv2 kodu (RFC 5444 tel biçimi bayt bayt), beyan tablosu ve sadakat denetimi ✓ (K-235 · K-236, `OLSRv2-b`).
    JarmRout'un seçimlerinin duyarlılık borcu (`t_wait`, Eş. 6–7 süzgeçleri) rakiplikten çıkınca düştü; `rssi_olcum_sigma_db` · `gps_dikey_sigma_m` DESPARETE'nin Faz 5'te bu alanları okuyup okumayacağına bağlı (K-242).
 3. ✓ Regresyona yeni protokollerin vakaları (K-237, taban k236) · U1 iki desende (K-238: OLSRv2 temiz; JarmRout'un toplu akış çöküşü incelendi — makaleye birebir sadık, ölçek sınırı bulgu) · ikinci kuyruk (K-239): kopya kuralı sağlandı, dört temsilci anatomi geçti, çizelgeli evre kapıları yalnız JarmRout yüzünden kaldı → sebep ölçüldü (rota beklemesi; eğilim ve pencere sonu boşalması) → kayıtlı muafiyetle G1ç ✓ · G2ç + G4ç ✓ (R ve G3ç protokolden bağımsız, geçerli) → **donma ✓** (`JarmRout-b` · `OLSRv2-b`) · tam takım · mimari denetimi.
-4. ✓ **Belge ve kod temizliği** (yürütücü, 11 Ekim): belgeler (K-240) · kod (K-241: yorumlar, araç varsayılanları, DESPARETE dosyalarındaki tasarım paketi yolu; davranış aynı, değişen simülatör ve protokol dosyalarının sözdizim ağacı birebir). Bilerek kalanlar: donmuş protokol dosyalarının yorumları (donma özeti değişmesin diye), OLSR ve AOMDV'nin modülleri ve regresyon vakaları (Faz 4'ün kaydı), köken gerekçelerindeki eski ölçümler.
+4. ✓ **Belge ve kod temizliği** (kararım, 11 Ekim): belgeler (K-240) · kod (K-241: yorumlar, araç varsayılanları, DESPARETE dosyalarındaki tasarım paketi yolu; davranış aynı, değişen simülatör ve protokol dosyalarının sözdizim ağacı birebir). Bilerek kalanlar: donmuş protokol dosyalarının yorumları (donma özeti değişmesin diye), OLSR ve AOMDV'nin modülleri ve regresyon vakaları (Faz 4'ün kaydı), köken gerekçelerindeki eski ölçümler.
    Derin denetime iki not: (a) G1-P (statik boş kol) yeni rakip kümesiyle koşulmadı (K-249'da koşuldu ve geçti); G1ç koşuldu · (b) bütün kontrol mesajları UDP/IP ile faturalanıyor; gerçek DSR (JarmRout) UDP kullanmaz, mesaj başına 8 B fazla (`sim2/kanal/cerceve.py`).
 5. ✓ **Bağımsız tam denetim** (13–14 Ekim; `arsiv/denetim/DENETIM-RAPORU-2026-10-14.md`): KRİTİK yok, 16 ÖNEMLİ. Kararlar K-242.
 6. **Denetimin Faz 5'ten önceki işleri** (K-242; bulgu numaraları rapordan):
@@ -37,11 +37,21 @@
 
 ### 1.2 · Faz 5 — açıldı (K-250)
 
-**Çalışma biçimi (yürütücü, 19 Ekim):** DESPARETE tamamen özgün bir tasarım olacak, mevcut bir protokolün (v0.4.1 dâhil) üstüne yazılmaz. Tasarımı ve üretimi yürütücü yapar; ajan danışman ve öğretmendir. Fazın planı yürütücünün anlatımıyla yeniden yazılır; aşağıdaki iki madde o zamana kadar önceki plandır (K-228, K-242).
+**Çalışma biçimi (19 Ekim; K-250 · K-251):** DESPARETE özgün bir protokol olacak; mevcut bir protokolü alıp üstüne ekleme yaparak yeni protokol diye sunulmaz, özellik alınabilir. Amacım, protokole çalışma mantığından formüllerine kadar hâkim olmak ve onu kendim üretmek; yapay zekâ danışman ve öğretmen olarak kullanılır. Faz 5 temiz bağlamla yeni bir oturumda sürer (`DEVIR-PROMPT.md`).
+
+**Aşamalar (K-251):**
+
+| # | aşama | çıktı |
+|---|---|---|
+| 5-1 | **hâkimiyet** — mevcut DESPARETE'yi (v0.4.1) A'dan Z'ye öğrenirim: çalışma mantığı, formüller, durum makineleri, mesajlar, ölçülen davranışı | protokolü anlatabilmem |
+| 5-2 | **araştırma ve öğrenim** — daha iyi bir protokol nasıl yapılır, hangi yöntemler kullanılmalı (literatür, rakiplerin mekanizmaları, karıştırmaya dayanıklı yönlendirme) | tasarım seçenekleri ve kararlarım |
+| 5-3 | **geliştirme** — Faz 5'in asıl işi: tasarımım, ablasyon bayrakları, önceden yazılı beklentiler, A/B'ler | DESPARETE'nin yeni sürümü |
+
+Planın ayrıntısı ve takvime etkisi (mühür ~20 Kasım) yeni oturumun ilk planlamasıyla yazılır. Aşağıdaki iki madde 5-3'ün önceki planıdır (K-228, K-242).
 
 
 1. **Faz 5.0 ✓** (K-228, `arsiv/teshis/faz5_0_2026-10-10/sonuc.md`): DESPARETE'nin karıştırmaya özgü fazla kaybı (kâhine göre 0,071, AODV'ye göre 0,066) tamamen "rota yok" grubunda; 4 tohumda anlamlı değil, alt payları (kota · açlık) kanıt değil (DD-11). Görüş hattı değişikliğinden sonra birincil hücre değişeceği için Faz 5'in başında düzeltilmiş aletle, 1003–1010'da ve OLSRv2'yle yeniden okunur.
-2. Sıra (K-228, K-242): ilk A/B mevcut `hedefli_canlilik` (yedeklerin canlı tutulması) ve açlıkta tur isteği → 5.1 → 5.3 ve 5.4'ün çoğaltması (D-23'ten sonra); yedek ardılın tasarımında mekânsal ayrışma sorulur (K-230). Mekanizmaların tasarım kararları yürütücüdedir. Her mekanizma ablasyon bayrağıyla ve önceden yazılı beklentiyle; birincil + ikiz + dayanıklılık hücresi, 1003–1010. Mekanizma kapısına giriş kuralı yazıldı (K-247): karıştırmaya karşı tasarlanan mekanizma girer, amacı kendi A/B beklentisinde ölçmeden önce yazılır; genel katkısı ikiz hücredeki ablasyonla beyan edilir.
+2. Sıra (K-228, K-242): ilk A/B mevcut `hedefli_canlilik` (yedeklerin canlı tutulması) ve açlıkta tur isteği → 5.1 → 5.3 ve 5.4'ün çoğaltması (D-23'ten sonra); yedek ardılın tasarımında mekânsal ayrışma sorulur (K-230). Mekanizmaların tasarım kararları bende. Her mekanizma ablasyon bayrağıyla ve önceden yazılı beklentiyle; birincil + ikiz + dayanıklılık hücresi, 1003–1010. Mekanizma kapısına giriş kuralı yazıldı (K-247): karıştırmaya karşı tasarlanan mekanizma girer, amacı kendi A/B beklentisinde ölçmeden önce yazılır; genel katkısı ikiz hücredeki ablasyonla beyan edilir.
 
 ## 2 · Fazlar
 
@@ -115,7 +125,7 @@ Faz 7'nin hesabı mühürden hemen sonra başlar; yazım hesapla paralel yürür
 - **Yeni dünya yönlendirmeye iş bırakmazsa** (ağ tek atlamaya iner ya da hep bölünür): geometri kaynaklı zarf içinde ayarlanır; karar kayda geçer.
 - **Mekanizmalar kazanç göstermezse:** negatif sonuç raporlanır; neden çalışmadığı ölçülür.
 - **Babel ve AODV'nin yeni sürümü (K-242):** ikisi de Faz 5'ten önce sadakat, U1, regresyon ve donma yolundan geçer; geliştirme süresi Faz 5'in süresinden düşer. Darboğaz hesap değil geliştirme süresidir (denetim §10).
-- **Yapay zekâ kullanımı:** TÜBİTAK'ın Üretken Yapay Zekâ Rehberi önemli ölçüde kullanımın beyanını istiyor; beyanın metni yürütücünündür.
+- **Yapay zekâ kullanımı:** TÜBİTAK'ın Üretken Yapay Zekâ Rehberi önemli ölçüde kullanımın beyanını istiyor; beyanın metni benimdir.
 - **Takvim ve hesap:** Aralık başında ~1 hafta tampon. Düşme sırası (önceden yazıldı, K-222): keşifsel eksenler (20 tohumla yetinilir: Rician 6 · 15 dB, eşler arası, hava eşlik) → görselleştirmenin zenginliği → Aile 1 hücreleri (en çok 2) → Aile 3 kol sayısı (en çok 3) → dayanıklılık hücresi 20 tohuma. Güç benzetimi n > 40 isterse önce Aile 1 düşer, sonra dayanıklılık hücresi. Korunanlar: birincil hücre ve karıştırıcısız ikizi, üç taban protokol, DESPARETE, 40 tohum.
 - **Tek makine:** her ölçümden sonra commit + push (denetim D-05); elektrik kesintisinde uzun kuyruk biten adımları atlayarak sürer.
 

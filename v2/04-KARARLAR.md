@@ -96,8 +96,8 @@ Donmuş: `AODV-k` (K-249; önceki `AODV-j`) · `OLSRv2-b` (K-239) · `Babel-a` (
 ## 6 · DESPARETE
 
 - Bağlayıcı olan bugünkü koddur (`protokoller/desparete*.py`). İlk tasarım taslağı (v0.1, 22 Eylül) bayattır ve arşivdedir: `arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/`. Kod yorumlarındaki `protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/` yolları bu klasörü gösterir.
-- v0.4.1 bir taslaktır. Faz 5'te yürütücünün tasarım kararlarıyla geliştirilir, gerekirse baştan yazılır; döngüsüzlük çekirdeğinin Babel ailesinden gelmesi tasarımı bağlamaz (yürütücü, 13 Ekim).
-- **K-250 (yürütücü, 19 Ekim):** DESPARETE tamamen özgün bir tasarım olacak, mevcut bir protokolün (v0.4.1 dâhil) üstüne yazılmaz. Faz 5'te tasarımı ve üretimi yürütücü yapar; ajan danışman ve öğretmendir.
+- v0.4.1 bir taslaktır. Faz 5'te tasarım kararlarımla geliştirilir, gerekirse baştan yazılır; döngüsüzlük çekirdeğinin Babel ailesinden gelmesi tasarımı bağlamaz (13 Ekim).
+- **K-250 · K-251 (19 Ekim):** DESPARETE özgün bir protokol olacak: mevcut bir protokolü alıp üstüne ekleme yaparak yeni protokol diye sunulmaz. Başka protokollerden özellik alınabilir (v0.4.1'de olduğu gibi). Amacım, protokole çalışma mantığından formüllerine kadar hâkim olmak ve onu kendim üretmek. Faz 5'te yapay zekâ danışman ve öğretmen olarak kullanılır. Faz 5 üç aşamalıdır: (1) mevcut DESPARETE'ye (v0.4.1) tam hâkimiyet · (2) araştırma ve öğrenim · (3) geliştirme (`12` §1.2).
 - **Bugünkü kod hâli v0.4.1:** bayrak profili `PROFIL_V02` (yalın) + `SECENEK_V041` (V1 · V5 · V7 · V8 · V10 · V11 komut geri izi). Sekiz ablasyon bayrağı; güvenlik değişmezleri bayrakla kapanmaz (K-159…K-172).
 - **Komutlar:** DESPARETE yalnız geçit alanı kurar; komut V11 geri iziyle taşınır; trafik herkes için aynıdır (K-160, K-172).
 - **Birincil hücrede ölçüm — Faz 5.0** (K-228; tohum 1003–1006, ana deney değil): `PDR_açık` DESPARETE 0,551 · AODV 0,444 · kâhin 0,780.
@@ -106,7 +106,7 @@ Donmuş: `AODV-k` (K-249; önceki `AODV-j`) · `OLSRv2-b` (K-239) · `Babel-a` (
   - Fazla kaybın tamamı "rota yok" (`rota_gecersiz`): ardılı karıştırılan alan onarıma girer; çoğu karıştırıcıdan uzak rölelerdedir. Fazla kayıp 4 tohumun 4'ünde pozitif ama anlamlı değil (t = 2,92 < 3,18). "Kota %52 / ulaşılamaz %48" ve "girişi %64 açlık" payları kanıt değildir: aletin açlık tanımı protokolünkiyle uyuşmuyor (denetim DD-11).
   - Aynı hücrede (1003 · 1004, G2ç) `PDR_açık` DESPARETE 0,476 · 0,538 ↔ OLSRv2 0,409 · 0,602; karıştırıcısız ikizde DESPARETE OLSRv2'nin gerisinde (0,757 · 0,786 ↔ 0,817 · 0,910). İki tohum, karar değil (K-242).
 - K-244 kuyruğunda (17 Ekim, 1003 · 1004): birincil `PDR_açık` DESPARETE 0,518 · 0,603 ↔ Babel 0,547 · 0,787 · OLSRv2 0,409 · 0,499 · AODV-k 0,353 · 0,421 · kâhin 0,748 · 0,844; karıştırıcısız ikizde DESPARETE 0,757 · 0,786 ↔ Babel 0,945 · 0,952. İki tohum, karar değil.
-- **Faz 5'in önceki sırası (K-228, K-242; yürütücünün planıyla yeniden yazılacak, K-250):**
+- **Faz 5'in önceki sırası (K-228, K-242; planımla yeniden yazılacak, K-250):**
   1. Yedek ardıl (5.4'ün çoğaltmasız kısmı): ardıl kopunca onarıma girmeden uygulanabilir ikinci ardıla geçiş zaten var; eksik olan yedeklerin canlı tutulması. İlk A/B mevcut `hedefli_canlilik` (V2+) seçeneğidir; K-165'teki reddi eski dünyada, karıştırıcısız, 3 tohum × 40 s'lik ölçüme dayanıyordu (denetim DD-28). Aynı A/B'de ayrı bayrakla açlıkta tur isteği.
   2. 5.1: karıştırma kanıtıyla erken geçiş.
   3. 5.3 (postür) ve 5.4'ün çoğaltması.
