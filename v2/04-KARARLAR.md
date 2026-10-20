@@ -1,7 +1,7 @@
 # 04 · GEÇERLİ KARARLAR
 
 > Bugün geçerli kararlar, konu konu. Yazılı değilse verilmemiştir. Bir kararın nasıl ve neden verildiği, kodda geçen `K-xxx` atıfları ve eski dünyanın (1:50) kararları: `kayit/KARAR-GUNLUGU.md`. Kod ile bu belge çelişirse hangisinin yanlış olduğu ölçülerek bulunur.
-> Güncel: 19 Ekim 2026 (K-250); önceki sürümler `arsiv/04-KARARLAR-*.md`.
+> Güncel: 20 Ekim 2026 (K-252); önceki sürümler `arsiv/04-KARARLAR-*.md`.
 
 ## 1 · Proje ve kapsam
 
@@ -106,11 +106,7 @@ Donmuş: `AODV-k` (K-249; önceki `AODV-j`) · `OLSRv2-b` (K-239) · `Babel-a` (
   - Fazla kaybın tamamı "rota yok" (`rota_gecersiz`): ardılı karıştırılan alan onarıma girer; çoğu karıştırıcıdan uzak rölelerdedir. Fazla kayıp 4 tohumun 4'ünde pozitif ama anlamlı değil (t = 2,92 < 3,18). "Kota %52 / ulaşılamaz %48" ve "girişi %64 açlık" payları kanıt değildir: aletin açlık tanımı protokolünkiyle uyuşmuyor (denetim DD-11).
   - Aynı hücrede (1003 · 1004, Faz 4b'nin G2ç'si, K-243'ten önce) `PDR_açık` DESPARETE 0,476 · 0,538 ↔ OLSRv2 0,409 · 0,602; karıştırıcısız ikizde DESPARETE OLSRv2'nin gerisinde (0,757 · 0,786 ↔ 0,817 · 0,910). İki tohum, karar değil (K-242).
 - K-244 kuyruğunda (17 Ekim, 1003 · 1004): birincil `PDR_açık` DESPARETE 0,518 · 0,603 ↔ Babel 0,547 · 0,787 · OLSRv2 0,409 · 0,499 · AODV-k 0,353 · 0,421 · kâhin 0,748 · 0,844; karıştırıcısız ikizde DESPARETE 0,757 · 0,786 ↔ Babel 0,945 · 0,952. İki tohum, karar değil.
-- **Faz 5'in önceki sırası (K-228, K-242; planımla yeniden yazılacak, K-250):**
-  1. Yedek ardıl (5.4'ün çoğaltmasız kısmı): ardıl kopunca onarıma girmeden uygulanabilir ikinci ardıla geçiş zaten var; eksik olan yedeklerin canlı tutulması. İlk A/B mevcut `hedefli_canlilik` (V2+) seçeneğidir; K-165'teki reddi eski dünyada, karıştırıcısız, 3 tohum × 40 s'lik ölçüme dayanıyordu (denetim DD-28). Aynı A/B'de ayrı bayrakla açlıkta tur isteği.
-  2. 5.1: karıştırma kanıtıyla erken geçiş.
-  3. 5.3 (postür) ve 5.4'ün çoğaltması.
-  - Hedefler 8 tohumla (1003–1010) ve OLSRv2'ye göre de okunur; anatomi aleti önce düzeltilir (DD-11).
+- **Faz 5'in planı ve hedefi (K-252):** hedefler en güçlü rakip Babel'e göre yazılır; v0.4.1'in açığının büyük kısmı genel, karıştırmaya özgü değil (yukarıdaki K-244 kuyruğu). Plan `12` §1.2: hâkimiyet → araştırma ve öğrenim → geliştirme. K-228 ve K-242'nin mekanizma sırası geçersiz; `hedefli_canlilik` (V2+) ve onarım edinimi 5-2'de teşhis ölçümü olarak sınanır. Yedek ardılın tasarımında mekânsal ayrışma sorulur (K-230).
 - **Faz 5'in konusu olan eksikler:** karıştırmaya özgü kanıt · öngörülü kaçınma · kanıta dayalı postür · PROTECT'in çok yolu ve çoğaltması · pasif dinleme (`12` Faz 5).
 
 ## 7 · Ölçüm

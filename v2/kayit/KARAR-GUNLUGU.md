@@ -182,8 +182,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-249 | M4'ÜN SIFIR GÖZLEM KURALI (temizde 0 beyan → üst güven sınırı) · G1-P GEÇTİ · AODV-k VE  | 🟢 geçerli |
 | K-250 | FAZ 4b KAPANDI, FAZ 5 AÇILDI — DESPARETE tamamen özgün bir tasarım olacak; Faz 5'te tasa | 🟢 geçerli |
 | K-251 | K-250'NİN AÇIKLAMASI — "özgün" mevcut bir protokolü alıp üstüne ekleyerek sunmamak demek | 🟢 geçerli |
+| K-252 | FAZ 5'İN PLANI — hedefler en güçlü rakibe, Babel'e göre; hâkimiyet → araştırma ve öğreni | 🟢 geçerli |
 
-**162 kayıt · 9 revize · 153 geçerli**
+**163 kayıt · 9 revize · 154 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -2140,3 +2141,20 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
   3. **geliştirme:** Faz 5'in asıl işi.
 - **Yeni oturum:** Faz 5 temiz bağlamla yeni bir oturumda sürer. Devir belgesi `DEVIR-PROMPT.md`: yeni oturum projenin bağlamına hâkim olur, durumu analiz eder, bu aşamadan sonrasını planlar, öğrendiklerini ve durum raporunu bana özetler.
 - Güncellenen: `04` §6 · `12` §1.2 · `DEVIR-PROMPT.md` (git dışı).
+# K-252 · FAZ 5'İN PLANI — hedefler en güçlü rakibe, Babel'e göre; hâkimiyet → araştırma ve öğrenim → geliştirme · belge–kod ayrışmaları düzeltildi
+> 20 Ekim · kararım: Faz 5'in planı ve hedefi · gerekçe K-244 kuyruğunun ölçümleri
+
+- **Hedef Babel'e göre.** Faz 5.0'ın yön gösterici hedefi (AODV'ye göre karıştırmaya özgü fazla kaybın yarısı, ~+0,035; K-228) bugünkü rakip kümesi için küçük. K-244 kuyruğunda (1003 · 1004; iki tohum, karar değil):
+  - karıştırıcısız ikizde `PDR_açık` DESPARETE 0,757 · 0,786 ↔ Babel 0,945 · 0,952; karıştırıcı açılmadan önceki temiz evrede 0,727 · 0,803 ↔ 0,938 · 0,955;
+  - birincil hücrede 0,518 · 0,603 ↔ 0,547 · 0,787; gecikmenin p99'u 4,7 · 4,3 s ↔ 0,8 · 0,3 s;
+  - v0.4.1'in açığının büyük kısmı karıştırmaya özgü değil, genel; karıştırmaya özgü mekanizması yok.
+  - Kaynak: `arsiv/teshis/rakipler_k244_2026-10-14/G1c.txt` · `G2c.txt` (`temiz` · `acik` · `p99` sütunları).
+- **Plan** (`12` §1.2): 5-1 hâkimiyet, sekiz ders, teorik · 5-2 araştırma ve öğrenim: güncel kaynaklar (indirmeye izin verdim), rakiplerin mekanizmaları, yedi konu, beklentili teşhis ölçümleri; çıktı tasarım seçeneklerim ve kararlarım · 5-3 geliştirme: tasarım parça parça, mekanizma başına A/B · 5.7 kapanış. K-228 ve K-242'nin mekanizma sırası geçersiz; `hedefli_canlilik` ve onarım edinimi 5-2'de teşhis ölçümüdür.
+- **Belge–kod ayrışmaları düzeltildi** (hiçbir sonuç etkilenmedi):
+  - `04` §2: 1 Mb/s menzili iki ayrı tanımla (PER %10 yarıçapı 8,9 km · gölgeleme, sönümleme ve yeniden denemeyle etkin bağ ~9–10 km);
+  - `04` §6: Faz 5.0 ve Faz 4b G2ç sayılarının K-243'ten önceki dünyaya ait olduğu;
+  - `06` §9: rakiplerin donması işaretlendi;
+  - `08` §03: K-244'ün p99 aralığı (0,15–4,7 s);
+  - `12` §3: Babel'in ölçülen koşu süresi (1,35–1,43 sa);
+  - `protokoller/desparete.py`: iki satırı birleşik kalmış bir koşul ayrıldı. Sözdizim ağacı birebir; dosyanın kod özeti değişti, bir sonraki regresyonda beklenen fark.
+- Güncellenen: `04` §2 · §6 · `06` §9 · `08` §03 · `12` §1 · §1.2 · §2 · §3 · `protokoller/desparete.py`.

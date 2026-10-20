@@ -1,12 +1,12 @@
 # 12 · DURUM VE YOL HARİTASI
 
-> Projenin durumu ve planı YALNIZ burada tutulur; başka belgeler buraya atıf verir. Güncel: 19 Ekim 2026. Onaylı plan Faz 0–7 (25 Eylül, K-168). Kararlar `04`, tarihçe `kayit/KARAR-GUNLUGU.md`.
+> Projenin durumu ve planı YALNIZ burada tutulur; başka belgeler buraya atıf verir. Güncel: 20 Ekim 2026. Onaylı plan Faz 0–7 (25 Eylül, K-168). Kararlar `04`, tarihçe `kayit/KARAR-GUNLUGU.md`.
 
 ## 1 · Nerede duruyoruz
 
 | | |
 |---|---|
-| **faz** | **5 · DESPARETE** (K-250) — çalışma biçimi §1.2. Faz 4b kapandı (K-250): üç rakip donmuş, bağımsız denetimin (14 Ekim, K-242) Faz 5 öncesi işleri tamam. Faz 4 kapandı (K-221) |
+| **faz** | **5 · DESPARETE** (K-250) — aşama 5-1, hâkimiyet; plan §1.2 (K-252). Faz 4b kapandı (K-250): üç rakip donmuş, bağımsız denetimin (14 Ekim, K-242) Faz 5 öncesi işleri tamam. Faz 4 kapandı (K-221) |
 | simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu süreleri §3'te. Yer–hava görüş hattı kalıcı (K-243) |
 | taban protokoller | **AODV · OLSRv2 · Babel (K-242).** `OLSRv2-b` donmuş (K-239). `AODV-k` (K-243 · K-244) ve Babel (RFC 8966, hakem babeld; K-244) kodda, sadakat denetimlerinden geçti; regresyon `k244` temiz, U1 iki desende geçti (AODV-k'nin düşüşü ns-3'ün iki varsayılanından, düşük hücreleri anatomi ve döngü iziyle açıklı; Babel'in kâhin aşımları zarf ve hata aramasıyla kayıtlı, K-248); evre kapıları ve G1-P geçti (M4'ün sıfır gözlem kuralı); **`AODV-k` ve `Babel-a` dondu (K-249)**, regresyon tabanı `k249`. Hakem ilkesi: RFC'nin seçeneğe ve MAY'e bıraktığı yerde referans uygulamanın varsayılanı (K-244). JarmRout rakiplikten çıktı; kodu ve kayıtları Faz 4b'nin kaydı |
 | DESPARETE | v0.4.1, taslak; Faz 5'te özgün tasarımımla yeniden yazılır (K-250). Son ölçüm (K-244 kuyruğu, 1003 · 1004): birincil `PDR_açık` 0,518 · 0,603 — Babel 0,547 · 0,787 · OLSRv2 0,409 · 0,499 · AODV-k 0,353 · 0,421 · kâhin 0,748 · 0,844; karıştırıcısız ikizde 0,757 · 0,786 — Babel 0,945 · 0,952 (`04` §6). Faz 5.0 (K-228): karıştırmaya özgü fazla kayıp `rota_gecersiz`'de |
@@ -47,11 +47,17 @@
 | 5-2 | **araştırma ve öğrenim** — daha iyi bir protokol nasıl yapılır, hangi yöntemler kullanılmalı (literatür, rakiplerin mekanizmaları, karıştırmaya dayanıklı yönlendirme) | tasarım seçenekleri ve kararlarım |
 | 5-3 | **geliştirme** — Faz 5'in asıl işi: tasarımım, ablasyon bayrakları, önceden yazılı beklentiler, A/B'ler | DESPARETE'nin yeni sürümü |
 
-Planın ayrıntısı ve takvime etkisi (mühür ~20 Kasım) yeni oturumun ilk planlamasıyla yazılır. Aşağıdaki iki madde 5-3'ün önceki planıdır (K-228, K-242).
+**Hedef (K-252):** en güçlü rakip Babel. K-244 kuyruğunda (1003 · 1004; iki tohum, karar değil) karıştırıcısız ikizde `PDR_açık` DESPARETE 0,757 · 0,786 ↔ Babel 0,945 · 0,952; birincil hücrede 0,518 · 0,603 ↔ 0,547 · 0,787; birincil hücrede gecikmenin p99'u 4,7 · 4,3 s ↔ 0,8 · 0,3 s. v0.4.1'in açığının büyük kısmı karıştırmaya özgü değil, genel; v0.4.1'de karıştırmaya özgü mekanizma yok. Faz 5.0 (K-228, `arsiv/teshis/faz5_0_2026-10-10/sonuc.md`; K-243'ten önceki dünya, Faz 4'ün rakipleri): fazla kayıp "rota yok"ta, çoğu karıştırıcıdan uzak rölelerde.
 
-
-1. **Faz 5.0 ✓** (K-228, `arsiv/teshis/faz5_0_2026-10-10/sonuc.md`): DESPARETE'nin karıştırmaya özgü fazla kaybı (kâhine göre 0,071, AODV'ye göre 0,066) tamamen "rota yok" grubunda; 4 tohumda anlamlı değil, alt payları (kota · açlık) kanıt değil (DD-11). Görüş hattı değişikliğinden sonra birincil hücre değişeceği için Faz 5'in başında düzeltilmiş aletle, 1003–1010'da ve OLSRv2'yle yeniden okunur.
-2. Sıra (K-228, K-242): ilk A/B mevcut `hedefli_canlilik` (yedeklerin canlı tutulması) ve açlıkta tur isteği → 5.1 → 5.3 ve 5.4'ün çoğaltması (D-23'ten sonra); yedek ardılın tasarımında mekânsal ayrışma sorulur (K-230). Mekanizmaların tasarım kararları bende. Her mekanizma ablasyon bayrağıyla ve önceden yazılı beklentiyle; birincil + ikiz + dayanıklılık hücresi, 1003–1010. Mekanizma kapısına giriş kuralı yazıldı (K-247): karıştırmaya karşı tasarlanan mekanizma girer, amacı kendi A/B beklentisinde ölçmeden önce yazılır; genel katkısı ikiz hücredeki ablasyonla beyan edilir.
+**Plan (K-252, sırayla):**
+1. **5-1 · hâkimiyet** — v0.4.1, teorik, sekiz ders: problem ve ölçüt · yol bulmanın temeli · döngüsüzlük · komşuluk · bağ kalitesi · bağ kopunca olanlar · komut geri izi, postür, ablasyon bayrakları ve sürümler · ölçülen davranış. Her ders kendi sözlerimle özetlenir; aşama bir karıştırma senaryosunun baştan sona anlatımıyla biter.
+2. **5-2 · araştırma ve öğrenim:**
+   - güncel kaynaklar (künyeler `02` · `16`) ve rakiplerin mekanizmaları, önce Babel;
+   - konular: komşunun varlığı · bağ kalitesi · karıştırmanın yerel kanıtı · yedek yol ve çoğaltma · döngüsüzlük · bağı bırakma ya da bekleme zamanı · bekletme, gecikme ve kontrol yükü;
+   - teşhis ölçümleri, her biri önceden yazılı beklentiyle, geliştirme tohumlarında: DESPARETE ↔ Babel kayıp anatomisi (ikiz ve birincil hücre) · v0.4.1'in `hedefli_canlilik` ve `onarim_edinimi` seçenekleri ikizde (K-165'teki ret eski dünyada, karıştırıcısız, 3 tohum × 40 s'lik ölçüme dayanıyordu; denetim DD-28) · rakiplerin ve kâhinin 1003–1010'da üç geliştirme hücresindeki çizgisi;
+   - çıktı: tasarım seçeneklerim ve kararlarım, ödünç alınan her özelliğin kaynağıyla.
+3. **5-3 · geliştirme:** tasarım parça parça yazılır; her mekanizmanın sınıfı (karıştırmaya karşı ya da genel) ve amacı ölçmeden önce yazılır (K-247) · kod, birim testi, duman koşusu · mekanizma başına A/B, §2 Faz 5'in kuralıyla.
+4. **5.7 · kapanış:** sürüm donar · resmi U1 + U3 · evre kapıları · güncel tasarım belgesi → Faz 6.
 
 ## 2 · Fazlar
 
@@ -70,7 +76,7 @@ Planın ayrıntısı ve takvime etkisi (mühür ~20 Kasım) yeni oturumun ilk pl
 | 4.4 | köken defteri referans dünyaya göre (K-203) · kapsam ilanı (K-204, K-215) · R (bugün 0,0126, K-224) · 22 parametre ölçümle ya da kararla kapandı · Rician K eksen · TTL 64 · kâhin 48 örnek · AODV-j | ✓ K-213…K-220 |
 | 4.5 | doğrulama listesinin referans dünyada anlamlı kısmı bir kez · iş başına süre (bütçe) | ✓ K-219 (son kodla yeniden K-226) |
 
-### Faz 5 · DESPARETE — karıştırmayı gerçekten çözen protokol (şimdiki faz; tablo önceki plan, K-250)
+### Faz 5 · DESPARETE — karıştırmayı gerçekten çözen protokol (şimdiki faz; plan §1.2, K-252; tablo K-228'in aday mekanizmaları, 5-2'de konu)
 
 | # | mekanizma | ne çözer |
 |---|---|---|
@@ -84,7 +90,7 @@ Planın ayrıntısı ve takvime etkisi (mühür ~20 Kasım) yeni oturumun ilk pl
 | 5.7 | **kapanış** — profil v0.5 donar · resmi U1 + U3 · güncel tasarım belgesi yazılır (v0.1 paketi arşivde) | protokolün çıkışı |
 
 Her mekanizma: ablasyon bayrağı · önceden yazılı beklenti (iki ölçütle: birincil hücrede `PDR_açık` artışı **ve** karıştırıcısız kolda zarar yok) · geliştirme tohumları 1003–1010 · birincil hücre + **dayanıklılık hücresi** (10 s açık · 20 s sessiz; zaman sabitleri tek çizelgeye ayarlanmasın) + bir yer karıştırıcılı aile (K-222, denetim D-08).
-**Öncelik (K-228, K-222'nin yerine):** önce 5.4'ün yedek ardılı (çoğaltmasız) ve açlıkta tur isteği → 5.1 → 5.3 ve 5.4'ün çoğaltması; **5.2 keşifsel** (formasyonda bağ hareketle kopmuyor, Θ tanımsız — birincil testte kazanç gösteremez; bağımsız/görev kollarında); 5.5 · 5.6 yalnız kontrol yükü ya da canlılık sorun çıkarırsa.
+**Öncelik:** K-228'in sırası K-252 ile kalktı; sıra 5-2'deki kararlarımla belirlenir. 5.2 birincil testte kazanç gösteremez: formasyonda bağ hareketle kopmuyor, Θ tanımsız (bağımsız ve görev kollarında keşifsel).
 **Önkoşullar:** 5.0'ın beklentisi `PDR_açık`a göre yeniden yazıldı ve koşuldu (denetim D-22; K-228) ✓ · gürültü gözlemi kilitli kalır, 5.1'in kanıtı kanal doluluğu, PHY hatası, MAC sonucu ve RSSI'den (K-227; D-04 kapandı) · 5.4'ten önce çoğaltmanın PDR, korunum ve fatura tanımları yazılır (D-23).
 
 ### Faz 6 · Ön-kayıt ve mühür (~20 Kasım)
