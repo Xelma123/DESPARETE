@@ -429,7 +429,8 @@ class DESPARETE:
         Sırasız güncelleme, çapraz iki paketle iki düğümü birbirine
         gösterebilirdi.
         """
-        if tur != "veri" or hedef != self.kimlik or paket is None                 or paket.hedef != self.sink or paket.kaynak == self.kimlik:
+        if tur != "veri" or hedef != self.kimlik or paket is None \
+                or paket.hedef != self.sink or paket.kaynak == self.kimlik:
             return None
         eski = self._geri_iz.get(paket.kaynak)
         if eski is not None and paket.kaynak_sira <= eski[1]:

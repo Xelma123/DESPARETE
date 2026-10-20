@@ -116,7 +116,7 @@ Kaynak: `arsiv/teshis/faz4b_kapanis2_2026-10-12/G1c.txt` · `G2c.txt` (`sure` s�
 |---|---|---|
 | Faz 5: 5.0 (~20) · 5.1 · 5.3 · 5.4 × (açık/kapalı × 8 tohum × 3 hücre) × ~2 deneme · 5.7 (U1, U3) | ~350 | ~80 sa |
 | Faz 6: δ gürültüsü (3 taban × 20) · pencere üçlüsü · tam pencere R ve DUYARSIZ'ların yeniden okunması · Rician 6 · 15 dB · kâhin 96 örnek | ~200 | ~45 sa |
-| Faz 7: birincil 5 kol × 40 · karıştırıcısız ikiz 5 × 40 · dayanıklılık hücresi 5 × 40 · Aile 3 (≤ 3 kol × 40) · Aile 1 (≤ 2 hücre × 3 protokol × 40) | ~960 | koşu başına ≲ 2 sa'lik üçüncü rakiple (Babel; süresi ölçülecek) ~190 sa (~8 gün) |
+| Faz 7: birincil 5 kol × 40 · karıştırıcısız ikiz 5 × 40 · dayanıklılık hücresi 5 × 40 · Aile 3 (≤ 3 kol × 40) · Aile 1 (≤ 2 hücre × 3 protokol × 40) | ~960 | ~190 sa (~8 gün); hesap üçüncü rakibe koşu başına ≲ 2 sa varsaymıştı, Babel'in ölçülen süresi 1,35–1,43 sa (K-244), yani tutucu |
 
 Faz 7'nin hesabı mühürden hemen sonra başlar; yazım hesapla paralel yürür. Faz 7 satırı kaba hesaptır: süreler yukarıdaki tablodan, 8 işçi.
 

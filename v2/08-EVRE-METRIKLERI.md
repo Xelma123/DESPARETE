@@ -24,7 +24,7 @@
 
 ## 03 · Zemin ve evreler (referans dünya, birincil hücre)
 
-Ölçüm penceresi `[50; 320)` s · `T_j = 150` s (`karistirici_baslangic_s`) · 40 pkt/s (yere toplama: 39 × 1 pkt/s telemetri + 4 × 0,25 pkt/s komut; eski dünyanın 10 akış × 4 pkt/s'iyle aynı yük) · gecikme p99 AODV · OLSRv2 · DESPARETE · kâhin 0,15–4,2 s, JarmRout 25–30 s (G4ç, K-239). Çizelgeli karıştırıcıda ŞOK ve TOPARLANMA'nın yerini açık/sessiz dönemler alır (§08).
+Ölçüm penceresi `[50; 320)` s · `T_j = 150` s (`karistirici_baslangic_s`) · 40 pkt/s (yere toplama: 39 × 1 pkt/s telemetri + 4 × 0,25 pkt/s komut; eski dünyanın 10 akış × 4 pkt/s'iyle aynı yük) · gecikme p99 AODV · OLSRv2 · DESPARETE · kâhin 0,15–4,2 s, JarmRout 25–30 s (G4ç, K-239); K-244 kuyruğunda AODV-k · OLSRv2 · Babel · DESPARETE · kâhin 0,15–4,7 s (G4ç, K-249). Çizelgeli karıştırıcıda ŞOK ve TOPARLANMA'nın yerini açık/sessiz dönemler alır (§08).
 
 | evre | aralık | paket/tohum | kol SE (30 tohum, Wald, p ≈ 0,6) |
 |---|---|---|---|

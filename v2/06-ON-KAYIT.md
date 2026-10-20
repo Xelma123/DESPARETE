@@ -162,7 +162,7 @@ Bağlayıcı olan bugünkü koddur (`protokoller/desparete*.py`); ilk tasarım t
 
 ## 9 · Mühürden önce kapanması gerekenler
 
-- [ ] Taban protokoller donar: `OLSRv2-b` dondu (K-239); AODV'nin üç sapması düzeltilmiş yeni sürümü ve Babel sadakat, U1, regresyon ve donma yolundan geçer (K-242)
+- [x] Taban protokoller donar: `OLSRv2-b` (K-239) · `AODV-k` ve `Babel-a` (K-249); üçü sadakat denetimi, U1, regresyon ve evre kapılarından geçti
 - [x] rakiplerin rolü (KR-3): üçü birincil hücrede eşit rolde, Holm m = 3 (K-247)
 - [ ] U2–U4 yeni rakiplerle (OLSRv2, Babel); AODV'de geçti
 - [ ] çözünürlük R ve DUYARSIZ hükümleri ana deneyin penceresinde (bugünküler 50 s'lik kesitte, denetim D-03; Faz 6)
