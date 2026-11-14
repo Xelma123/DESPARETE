@@ -243,3 +243,26 @@ def test_DOGUM_EVRESI_kopyali_kosuda_son_dusus_ve_teslimli_es():
                             {10}, 10.0, 50.0, lambda t: "acik",
                             lambda d, t: "uzak")
     assert c == 1                                       # aynı eş iki kez
+
+
+def test_DESPARETE_KOLU_v041_ustune_yalniz_adi_verileni_acar():
+    """Faz 5-2 · `desparete~hedefli_canlilik+onarim_edinimi`."""
+    from dataclasses import replace
+    from types import SimpleNamespace
+
+    import pytest
+
+    from kalibrasyon.kayip_anatomisi import _desparete_kolu
+    from protokoller.desparete_bayrak import PROFIL_V02, SECENEK_V041
+    from sim2.cekirdek.degismezler import DegismezHatasi
+
+    kfg = SimpleNamespace(gecit=0)
+    p = _desparete_kolu("hedefli_canlilik+onarim_edinimi", kfg)(3)
+    assert p.kimlik == 3 and p.sink == 0
+    assert p.secenekler.hedefli_canlilik and p.bayraklar.onarim_edinimi
+    assert replace(p.secenekler, hedefli_canlilik=False) == SECENEK_V041
+    assert replace(p.bayraklar, onarim_edinimi=False) == PROFIL_V02
+    tek = _desparete_kolu("hedefli_canlilik", kfg)(1)
+    assert tek.bayraklar == PROFIL_V02 and tek.secenekler.hedefli_canlilik
+    with pytest.raises(DegismezHatasi):
+        _desparete_kolu("olmayan_secenek", kfg)

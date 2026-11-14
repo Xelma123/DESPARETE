@@ -10,6 +10,8 @@ KAYIP ANATOMİSİ — Faz 5.0 (`v2/12`, plan) · K-189 · genişletme K-193.
 
     Kol başına konfig farkı (K-198): `aodv@rota_tamponu_kapasitesi=256`,
     birden çoğu `+` ile (`…=256+rota_tamponu_omru_s=60`); sonuç tam etiketle.
+    DESPARETE kolu (Faz 5-2): `desparete~hedefli_canlilik+onarim_edinimi` —
+    v0.4.1'in üstüne adı verilen bayrak ya da seçenek açılır.
 
 🔒 SORU: paket NEREDE ve NEDEN ölüyor? Her düşüş, karıştırıcının o düğüme
 ulaşan gücüne göre üç BÖLGEYE ayrılır:
@@ -85,8 +87,23 @@ bulunamayan düşüş olursa rapor işaretler; açık evre PDR'si satırın
 🔒 K-193 · TOHUM BAŞINA: sonuçlar tohum başına da basılır; tohumlar tek
 çağrıda paralel koşar (eskiden ayrı ayrı koşuluyordu çünkü toplanıyordu).
 
-🔒 SİMÜLATÖR DEĞİŞMEZ: düğümün `_kayip_yeri`, `sonraki_atlama` ve
-`ucustan_indir` yöntemleri bu işçi sürecinde SARILIR (davranış aynı; yalnız
+🔒 15 Kasım · VERİ DENEMESİNİN SONUCU (Faz 5-2): her veri denemesinin
+ADRESLENEN alıcıdaki alım sonucu sayılır (alıcı zincirinin kapalı kümesi:
+başarılı · yarı çift · meşgul · önbelge · gövde; hiçbiri yoksa alıcı duyma
+kümesinin dışındaydı). Başarılı sayısı simülatörün `veri_alim_hedefte`
+sayacına, deneme sayısı `mac_deneme`ye EŞİT olmak zorundadır; değilse araç
+patlar. Aynı denemelerin ve veri kararlarının GİRİŞİMSİZ beklenen
+başarısızlığı kâhinin bağ ölçüsünden toplanır (deneme: `Σ (1 − p)`, veri ve
+onay birlikte · karar: `Σ (1 − p_atlama)`); gerçekleşen − beklenen, bağın
+kendi kalitesinin açıklamadığı kısımdır (ağın öteki iletimleri). Her deneme
+ayrıca hız uyarlamasının (ARF, K-177) o komşu için seçtiği HIZA göre sayılır:
+kâhinin ölçüsü ARF tabanındadır, tabanın üstündeki denemenin başarısını
+göstermez. Simülatörün kendi sayaçları (MAC, alım, kontrol ve veri kanal
+süresi) kayda girer.
+
+🔒 SİMÜLATÖR DEĞİŞMEZ: düğümün `_kayip_yeri`, `sonraki_atlama`,
+`ucustan_indir` ve `iletim_kaydet` yöntemleri ile alıcı zincirinin üç sonuç
+üreticisi bu işçi sürecinde SARILIR (davranış aynı; yalnız
 kayıt). Kaydedilen düşüş sayısı korunum defterinin toplamına EŞİT olmak
 zorundadır; değilse bir yol kancayı atlıyordur ve araç patlar. OLSR'da §13
 bildirimi ve §14.3'ün onu geri alışı da sarılarak ölçülür (davranış aynı).
@@ -408,6 +425,30 @@ def _olsr_2atlama_lsym():
     return OLSR2AtlamaLsym
 
 
+def _desparete_kolu(acilan: str, kfg):
+    """Faz 5-2 · v0.4.1'in üstüne adı verilen bayrak/seçenek AÇILIR.
+
+    `hedefli_canlilik+onarim_edinimi` → `PROFIL_V02` ve `SECENEK_V041`ın o
+    alanları `True`; ötekiler v0.4.1'deki gibi. Bilinmeyen ad hatadır.
+    """
+    from dataclasses import replace
+
+    from protokoller.desparete import DESPARETE
+    from protokoller.desparete_bayrak import (PROFIL_V02, SECENEK_V041,
+                                             Bayraklar, Secenekler)
+    bayrak, secenek = {}, {}
+    for ad in filter(None, acilan.split("+")):
+        if ad in Bayraklar.adlar():
+            bayrak[ad] = True
+        else:
+            dogrula(ad in Secenekler.adlar(),
+                    f"bilinmeyen DESPARETE bayrağı ya da seçeneği: {ad!r}")
+            secenek[ad] = True
+    b = replace(PROFIL_V02, **bayrak)
+    sc = replace(SECENEK_V041, **secenek)
+    return lambda i: DESPARETE(i, kfg.gecit, bayraklar=b, secenekler=sc)
+
+
 def _is_guvenli(is_) -> dict:
     """`_is`in hatası yalnız o koşuyu düşürür (K-198) — uzun partide tek
     bir işçinin istisnası bütün sonuçları kaybettirmesin."""
@@ -529,11 +570,16 @@ def _is(is_) -> dict:
     from sim2.kosum.kosu import Kosu
     from sim2.kosum.kurulum import kurulum_yap
     from sim2.kosum.sonuc import sonuc_satiri
+    from sim2.mac.alici import AliciZinciri
 
     etiket, tohum, kol, aile, kisa, sinif = is_
     # K-198 · kol başına konfig farkı: `aodv@rota_tamponu_kapasitesi=256`
     # (birden çoğu `+` ile). Etiket sonuçta TAM haliyle durur.
     protokol, _, farklar = etiket.partition("@")
+    # Faz 5-2 · DESPARETE kolu: `desparete~bayrak+seçenek` (`_desparete_kolu`)
+    protokol, _, acilan = protokol.partition("~")
+    dogrula(not acilan or protokol == "desparete",
+            f"`~` yalnız DESPARETE kollarında: {etiket!r}")
     t0 = time.perf_counter()
     pencere = (dict(karistirici_baslangic_s=5.0, isinma_s=10.0,
                     olcum_bitis_s=40.0, kosu_bitis_s=50.0) if kisa else {})
@@ -566,6 +612,17 @@ def _is(is_) -> dict:
     asil_yer = Dugum._kayip_yeri
     asil_indir = Dugum.ucustan_indir
     asil_karar = Dugum.sonraki_atlama
+    # Faz 5-2 · veri denemesinin adreslenen alıcıdaki sonucu
+    asil_kaydet = Dugum.iletim_kaydet
+    asil_geldi = AliciZinciri.cerceve_geldi
+    asil_bitti = AliciZinciri.cerceve_bitti
+    asil_basla = AliciZinciri.gonderime_basla
+    # (gönderen, başlangıç) → (hedef, denemenin hızı)
+    veri_hedef: dict[tuple[int, float], tuple[int, float]] = {}
+    deneme_bag: Counter = Counter()                 # (i, j, dilim) → deneme
+    deneme_hiz: Counter = Counter()                 # hız → deneme
+    hedefte: Counter = Counter()                    # alım sonucu → adet
+    hedefte_hiz: Counter = Counter()                # "hız|alım sonucu" → adet
 
     def izle(self, sebep):
         j = son_hedef.get(self.kimlik) if sebep == "iletim_basarisiz" else None
@@ -590,6 +647,41 @@ def _is(is_) -> dict:
                       evre_adi(t_s))] += 1
         return karar
 
+    def kaydet(self, iletim, hedef, sonuc_):
+        if hedef is not None:
+            # `veri_gonder` hızı az önce aynı yerden okudu; okuma durumsuzdur.
+            hiz = (self.hiz_denetcisi.hiz(hedef)
+                   if self.hiz_denetcisi is not None else 0.0)
+            veri_hedef[(self.kimlik, iletim.baslangic_s)] = (hedef, hiz)
+            deneme_hiz[hiz] += 1
+            deneme_bag[(self.kimlik, hedef, 0 if donuk else
+                        int(iletim.baslangic_s / BAG_DILIMI_S))] += 1
+        return asil_kaydet(self, iletim, hedef, sonuc_)
+
+    def hedefte_say(alici, s) -> None:
+        if s is None:
+            return
+        veri = veri_hedef.get((s.iletim.gonderen, s.iletim.baslangic_s))
+        if veri is not None and veri[0] == alici.dugum:
+            hedefte[s.sebep] += 1
+            hedefte_hiz[f"{veri[1]:g}|{s.sebep}"] += 1
+
+    def geldi(self, iletim, t_s):
+        yeni, ezilen = asil_geldi(self, iletim, t_s)
+        hedefte_say(self, yeni)
+        hedefte_say(self, ezilen)
+        return yeni, ezilen
+
+    def bitti(self, iletim, t_s):
+        s = asil_bitti(self, iletim, t_s)
+        hedefte_say(self, s)
+        return s
+
+    def basla(self, t_s=0.0):
+        s = asil_basla(self, t_s)
+        hedefte_say(self, s)
+        return s
+
     s13 = {"s13": 0, "geri_alinan": 0, "geri_supurmede": 0,
            "geri_pakette": 0, "geri_sure_s": [], "karar": 0,
            "simetriksiz_karar": 0, "rg_karar": 0, "rg_sym_yok": 0,
@@ -605,6 +697,10 @@ def _is(is_) -> dict:
     Dugum._kayip_yeri = izle
     Dugum.ucustan_indir = indir
     Dugum.sonraki_atlama = karar_izle
+    Dugum.iletim_kaydet = kaydet
+    AliciZinciri.cerceve_geldi = geldi
+    AliciZinciri.cerceve_bitti = bitti
+    AliciZinciri.gonderime_basla = basla
     try:
         grafik = KanalGrafigi(kur)
         if protokol == "en_guvenilir_kahin":
@@ -615,6 +711,8 @@ def _is(is_) -> dict:
             fabrika = _olsr_s13siz()
         elif protokol == "olsr_2atlama_lsym":
             fabrika = _olsr_2atlama_lsym()
+        elif acilan:
+            fabrika = _desparete_kolu(acilan, kfg)
         else:
             fabrika = _fabrika(protokol, kfg)
         kosu = Kosu(kur, fabrika)
@@ -623,6 +721,10 @@ def _is(is_) -> dict:
         Dugum._kayip_yeri = asil_yer
         Dugum.ucustan_indir = asil_indir
         Dugum.sonraki_atlama = asil_karar
+        Dugum.iletim_kaydet = asil_kaydet
+        AliciZinciri.cerceve_geldi = asil_geldi
+        AliciZinciri.cerceve_bitti = asil_bitti
+        AliciZinciri.gonderime_basla = asil_basla
         if geri_olsr is not None:
             geri_olsr()
         if geri_desparete is not None:
@@ -632,6 +734,14 @@ def _is(is_) -> dict:
     dogrula(len(kayit) == kr["dusen_toplam"],
             f"kanca {len(kayit)} düşüş gördü, defter {kr['dusen_toplam']} — "
             f"bir düşüş yolu `_kayip_yeri`ni atlıyor")
+    sayac_ham = {k: v for k, v in kur.sayaclar.disa_ver().items()
+                 if isinstance(v, (int, float)) and not isinstance(v, bool)}
+    dogrula(sum(deneme_bag.values()) == sayac_ham.get("mac_deneme", 0),
+            f"kanca {sum(deneme_bag.values())} veri denemesi gördü, sayaç "
+            f"{sayac_ham.get('mac_deneme')}")
+    dogrula(hedefte["alim_basarili"] == sayac_ham.get("veri_alim_hedefte", 0),
+            f"kanca adreslenen alıcıda {hedefte['alim_basarili']} başarılı "
+            f"alım gördü, sayaç {sayac_ham.get('veri_alim_hedefte')}")
 
     # --- bağ kalitesi: kâhinin aynı ölçüsü (girişim hariç) --------------
     deneme = kfg.yeniden_deneme_siniri + 1
@@ -668,13 +778,22 @@ def _is(is_) -> dict:
         return a
 
     karar_alan: Counter = Counter()
+    karar_beklenen = 0.0            # Σ (1 − p_atlama): girişimsiz vazgeçme
     for (i, j, dilim, evre), n in kararlar.items():
         t_orta = 0.0 if donuk else (dilim + 0.5) * BAG_DILIMI_S
+        karar_beklenen += n * (1.0 - p_atlama(i, j, dilim, t_orta))
         karar_bant[_bant(p_atlama(i, j, dilim, t_orta))] += n
         karar_bant_tek[_bant(p_tek(i, j, dilim, t_orta))] += n
         karar_mesafe.append((mesafe_km(i, j, t_orta), n))
         if kar is not None:
             karar_alan[f"{evre}|{alan(j, t_orta)}"] += n
+
+    # Σ (1 − p): veri denemesinin girişimsiz beklenen başarısızlığı (veri ve
+    # onay birlikte; kâhinin ölçüsü ARF tabanındadır).
+    deneme_beklenen = sum(
+        n * (1.0 - p_tek(i, j, dilim,
+                         0.0 if donuk else (dilim + 0.5) * BAG_DILIMI_S))
+        for (i, j, dilim), n in deneme_bag.items())
 
     isinmada: Counter = Counter()          # ölçüm penceresinden ÖNCE düşen
     for _n, sebep, t, _j, _p in kayit:
@@ -761,6 +880,10 @@ def _is(is_) -> dict:
                             and not isinstance(deger, bool)):
                         teshis[f"{grup}.{ad}"] += deger
     m = satir["metrikler"]
+    dt0 = (satir["teshis"]["dugum"] or ({},))[0]
+    acik_olan = [a for grup in ("bayraklar", "secenekler")
+                 for a, v in zip(dt0.get(f"{grup}_adlari") or (),
+                                 dt0.get(grup) or ()) if v]
     return {"protokol": etiket, "tohum": tohum, "gecerli": kr["gecerli"],
             "pdr": m["pdr"], "pdr_pencere": m["pdr_pencere"],
             "uretilen": kr["uretilen"], "teslim": kr["teslim"],
@@ -769,6 +892,19 @@ def _is(is_) -> dict:
             "isinmada": dict(isinmada),
             "karar_bant": dict(karar_bant),
             "karar_bant_tek": dict(karar_bant_tek),
+            # Faz 5-2 · iletim başarısızlığının ayrımı
+            "karar_sayisi": sum(karar_bant.values()),
+            "karar_beklenen_basarisiz": round(karar_beklenen, 3),
+            "veri_deneme": sum(deneme_bag.values()),
+            "veri_deneme_beklenen_basarisiz": round(deneme_beklenen, 3),
+            "veri_hedefte_sonuc": dict(hedefte),
+            "veri_deneme_hiz": {f"{h:g}": n for h, n in
+                                sorted(deneme_hiz.items())},
+            "veri_hedefte_hiz": dict(hedefte_hiz),
+            "sayaclar": sayac_ham,
+            "enerji_s": {a: round(kr[a], 3) for a in (
+                "enerji_gonderim_s", "enerji_alim_s", "enerji_dinleme_s")},
+            "desparete_acik": acik_olan if protokol == "desparete" else None,
             "karar_mesafe_km": _yuzdelik(karar_mesafe),
             "basarisiz_bant": dict(basarisiz_bant),
             "basarisiz_mesafe_km": _yuzdelik([(d, 1) for d in
@@ -1110,6 +1246,21 @@ def main() -> int:
                   f"{_oranlar(r['basarisiz_bant'])} · mesafe km "
                   f"{r['basarisiz_mesafe_km']} · {r['basarisiz_bag_sayisi']}"
                   f" ayrı bağ, en çok {r['basarisiz_en_cok_5_bag']}")
+            if r.get("veri_deneme"):
+                nd, h = r["veri_deneme"], r["veri_hedefte_sonuc"]
+                print(f"      veri denemesi {nd} · adreslenen alıcıda: "
+                      + " · ".join(f"{a} {v / nd:.1%}" for a, v in sorted(
+                          h.items(), key=lambda x: -x[1]))
+                      + f" · duyma dışı {(nd - sum(h.values())) / nd:.1%}")
+                hh = r["veri_hedefte_hiz"]
+                print("      hıza göre deneme payı (adreslenen alıcıda başarı)"
+                      ": " + " · ".join(
+                          f"{hz} {n / nd:.1%} "
+                          f"({hh.get(hz + '|alim_basarili', 0) / n:.1%})"
+                          for hz, n in r["veri_deneme_hiz"].items()))
+                print(f"      girişimsiz beklenen başarısızlık: deneme "
+                      f"{r['veri_deneme_beklenen_basarisiz'] / nd:.1%} · "
+                      f"karar {r['karar_beklenen_basarisiz'] / max(r['karar_sayisi'], 1):.2%}")
             if r.get("desparete_onarim"):
                 o = r["desparete_onarim"]
                 print("      onarım bölümleri (evre|giriş|son: adet): " + " · ".join(
