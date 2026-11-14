@@ -1,6 +1,6 @@
 # Protokol kaynakları — birincil belgeler
 
-Taban protokollerin ve simülatörün dayandığı **birincil belgeler** ve uygulama kaynakları. Her belgenin künyesi, nereden alındığı, özeti (SHA-256) ve hangi denetimlerden geçtiği aşağıdadır. Doğrulanmış kaynakların listesi ve projedeki kullanımları `v2/02-DOGRULANMIS-KAYNAKLAR.md`de, rapor künyeleri `v2/16-KAYNAKCA.md`dedir. Güncel: 14 Ekim 2026.
+Taban protokollerin ve simülatörün dayandığı **birincil belgeler** ve uygulama kaynakları. Her belgenin künyesi, nereden alındığı, özeti (SHA-256) ve hangi denetimlerden geçtiği aşağıdadır. Doğrulanmış kaynakların listesi ve projedeki kullanımları `v2/02-DOGRULANMIS-KAYNAKLAR.md`de, rapor künyeleri `v2/16-KAYNAKCA.md`dedir. Güncel: 21 Ekim 2026.
 
 **Kural:** bir belge buraya, gerçek olduğu ve içinde gömülü talimat benzeri bir metin ya da etkin içerik olmadığı denetlendikten sonra girer. Okunan kapsam (tamamı ya da kullanılan bölümler) kaynak başına `v2/02`de yazılır.
 
@@ -329,3 +329,34 @@ Okunanlar: `neighbour.c` (Hello geçmişi, rxcost, maliyet, IHU süresi) · `rou
 | `px4_commander_params.c` | PX4-Autopilot v1.14.0 `src/modules/commander/commander_params.c` (BSD-3) | `https://raw.githubusercontent.com/PX4/PX4-Autopilot/b8c541dd7277ed735139d7d1bfb829d61fbe29fb/src/modules/commander/commander_params.c` | 27 088 B · `2d8d82aa5e521864e71e36af0cf30fe53e2b28923c156e211d3c399ab716223b` | `COM_DL_LOSS_T` = 10 s (en az 5, en çok 300) |
 | `qgc_VehicleLinkManager.h` | QGroundControl `src/Vehicle/VehicleLinkManager.h` (Apache-2.0 / GPL-3.0) | `https://raw.githubusercontent.com/mavlink/qgroundcontrol/136960f304cf8cb9e82633eb06a188108a974b34/src/Vehicle/VehicleLinkManager.h` | 4 225 B · `523c649b4a00634684b1359b46c6a76c8e153b9e4e5508e460c4ef093f7e7f90` | `_heartbeatMaxElpasedMSecs` = 3 500 ms |
 | `mavlink_heartbeat.md` | MAVLink Developer Guide `en/services/heartbeat.md` (CC BY 4.0) | `https://raw.githubusercontent.com/mavlink/mavlink-devguide/27cdc2d9d6671290b5b10a123e51f8a2749ebe2e/en/services/heartbeat.md` | 7 720 B · `e536a1c16ac7807bb273419d33812eb8c783b042e06d1f678d439427bae7f697` | RF telemetride 1 Hz heartbeat; 4–5 mesaj kaçarsa kopma |
+
+## Faz 5-2 araştırma kaynakları — 21 Ekim 2026 (`faz5_arastirma_2026-10-21/`)
+
+Faz 5'in araştırma aşamasında (`v2/12` §1.2, K-252) indirilen 15 dosya. Notlar ve konu konu kullanım aynı klasörde `NOTLAR.md`; doğrulama durumu ve okunan bölümler `v2/02` §F; künyeler `v2/16`. Hepsi açık erişim (arXiv, IETF, yazarların ya da yayıncının sayfası); alınma tarihi 21 Ekim 2026.
+
+| dosya | künye (kısa) | alındığı yer | boyut (bayt) · SHA-256 |
+|---|---|---|---|
+| `an_weber_2018_reactive_jamming.pdf` | N. An, S. Weber, arXiv:1809.04263v1, 2018 | `https://arxiv.org/pdf/1809.04263` | 1 693 583 · `5a08494e299c2cd38d44183008f16779c44aa63bb3679140761b75dc7c978cb6` |
+| `cerar_2021_lqe_survey.pdf` | G. Cerar vd., arXiv:1812.08856v10, 2021 | `https://arxiv.org/pdf/1812.08856` | 1 146 860 · `faad463dbf3a0fedfd8255b93074a0f784d6d64d7798d3eff73b6c397d6bdecf` |
+| `decouto_2003_etx.pdf` | D. S. J. De Couto vd., ACM MobiCom 2003 | `https://pdos.csail.mit.edu/papers/grid:mobicom03/paper.pdf (yazarların laboratuvarı)` | 284 493 · `7811ff8dac1a2e3fea6a85715c8c2426af8588f9e40e4a69e83bb68f840bb480` |
+| `jonglez_chroboczek_2014_delay_metric.pdf` | B. Jonglez, M. Boutier, J. Chroboczek, arXiv:1403.3488v1, 2014 | `https://arxiv.org/pdf/1403.3488` | 228 041 · `d114baaea5964d6e38cd0dff7aeb5dc5cf0a6f4ac76796266ca0ca2464ea2b88` |
+| `punal_2014_wifi_jamming_detection.pdf` | O. Puñal vd., IEEE WoWMoM 2014 | `https://www.comsys.rwth-aachen.de/fileadmin/papers/2014/2014-aktas-wowmom-jammingdetection.pdf (yazarların bölümü)` | 1 203 506 · `115f659567fe0aca201a93bcc755564fbcf71e83e76ef2d83ac884ddb0c0e12b` |
+| `ramachandran_2007_routing_stability.pdf` | K. Ramachandran vd., PAM 2007 | `https://ebelding.cs.ucsb.edu/sites/default/files/publications/pam07.pdf (ortak yazarın sayfası)` | 1 929 084 · `d3d5d0976a8698ca2f2693ff51574c3f8663548f8d6069a3a60d26b6f6ae3310` |
+| `tague_2011_jamming_aware_traffic_allocation.pdf` | P. Tague vd., IEEE/ACM ToN 2011 | `https://labs.ece.uw.edu/nsl/papers/ToN_11.pdf (yazarların laboratuvarı)` | 425 389 · `ec5e9bcd53bb449a93b0a016ad1d6adda0bf9587ae24fb3a1d4315d4f8cf33df` |
+| `telecom_2024_olsr_batman_babel.pdf` | D. Turlykozhayeva vd., Telecom 5(4), 2024 | `https://mdpi-res.com/d_attachment/telecom/telecom-05-00051/article_deploy/telecom-05-00051.pdf (yayıncı)` | 1 564 386 · `fd57f390b2be55c36bf200ab58a94e6e363ee4ac83f524f4558c7e35b450fbf8` |
+| `yang_2025_uav_antijamming_survey.pdf` | J. Yang vd., arXiv:2508.11687v1, 2025 | `https://arxiv.org/pdf/2508.11687` | 632 026 · `dc298d8473ddd715803696128f1a53ee359eea53314b14a2f3ea72fa35b9113e` |
+| `zhao_2026_perhop_multipath_uav.pdf` | Z. Zhao vd., arXiv:2608.25383v1, 2026 | `https://arxiv.org/pdf/2608.25383` | 4 669 463 · `56eed1401dc60360fb1fc92668b8e0b310388b9e7dfe50cdf5d021ec8f297a27` |
+| `rfc5286_lfa.txt` | RFC 5286, Eylül 2008 | `https://www.rfc-editor.org/rfc/rfc5286.txt` | 71 027 · `7c612d458dbe0e6730ee38b43b75205acd24c967a2ec209cb8f40f5bc2b72c8b` |
+| `rfc6206_trickle.txt` | RFC 6206, Mart 2011 | `https://www.rfc-editor.org/rfc/rfc6206.txt` | 30 283 · `a38faf4084395f992b8fd2f7e07d5da22184f7251a55287a387a3c9a25337d47` |
+| `rfc6550_rpl.txt` | RFC 6550, Mart 2012 | `https://www.rfc-editor.org/rfc/rfc6550.txt` | 360 651 · `2c09f5945d6dbba4b69203a826121150c0cff1748d10f22c5a75060e53f5cb82` |
+| `rfc6719_mrhof.txt` | RFC 6719, Eylül 2012 | `https://www.rfc-editor.org/rfc/rfc6719.txt` | 29 637 · `e0d71ba04db12930533b94ac5a420d7a33661a31016d19c31d1261851e9852ad` |
+| `rfc7868_eigrp_dual.txt` | RFC 7868, Mayıs 2016 | `https://www.rfc-editor.org/rfc/rfc7868.txt` | 179 677 · `960af059ab0f2ee3a9c3adf930ad1036866cade0b5761298ee8bb978a9cee3b1` |
+
+**Gerçeklik denetimi:** PDF imzası, sayfa sayısı, ilk sayfanın başlık ve yazarları künyeyle tutarlı; RFC'lerin başlıkları ve tarihleri rfc-editor kaydıyla tutarlı.
+
+**Güvenlik denetimi:**
+- Ham PDF baytlarında etkin içerik anahtarları: `/JavaScript`, `/Launch`, `/EmbeddedFile`, `/AA` **yok**. `/OpenAction` (iki arXiv dosyasında) yalnız açılış görünümünü gösteriyor; `/URI` bağlantıları kaynakça ve DOI bağlantıları.
+- Metinde gömülü talimat kalıbı taraması: eşleşmelerin hepsi yanlış alarm ("Bellman" sözcüğü, kaynakçadaki bir kişi adı, bir makale başlığı, bir makalenin dil düzeltmesi beyanı).
+- Dosyalar önce ayrı geçici klasörlerde denetlendi, sonra buraya kopyalandı.
+
+**Alınamayanlar** (`NOTLAR.md` §10): Xu vd. 2005 (ACM, açık kopya yok) · Greco vd. 2021 (yazar sayfasının sertifikası geçersiz; TLS denetimi atlanmadı) · Mahmud & Cho 2019 · PMC 2021 · ExOR (sunucuya ulaşılamadı).

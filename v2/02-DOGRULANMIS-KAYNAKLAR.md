@@ -1,6 +1,6 @@
 # 02 — DOĞRULANMIŞ KAYNAKLAR
 
-> Güncel: 13 Ekim 2026. Önceki sürümler `arsiv/02-DOGRULANMIS-KAYNAKLAR-*.md`, `arsiv/10-LITERATUR-KOD-KARSILASTIRMA-*.md`.
+> Güncel: 21 Ekim 2026. Önceki sürümler `arsiv/02-DOGRULANMIS-KAYNAKLAR-*.md`, `arsiv/10-LITERATUR-KOD-KARSILASTIRMA-*.md`.
 > Buradaki her kaynak açılıp okunmuş ve iddiayı destekleyip desteklemediği kontrol edilmiştir. **Kural:** bulunamayan bir atıf rapora giremez; yapay zekâ aracının verdiği hiçbir atıf, kaynak fiilen açılmadan kullanılmaz; rapora girecek her sayı için birincil kaynak açılır. İkinci el tarama (`protokol_kaynaklari/literatur_taramasi_2026-08-31/`) bunun yerini almaz (§L). Dosya kopyaları ve SHA-256'lar `protokol_kaynaklari/README.md`de, rapor künyeleri `16`da.
 > **İşaretler:** ✓ doğrulandı · ~ kısmen ya da ilgili bölüm · ✗ bulunamadı / yeniden doğrulanamadı · ○ ertelendi.
 
@@ -34,7 +34,7 @@ Taramanın getirdiği iki boşluk: **A** — SJR'ye bağlı PDR/E2E verisi yok (
 |---|---|---|---|
 | C4 | Q-Routing | Boyan & Littman, 1994 | ✓ |
 | C6 | Random Waypoint hız çürümesi (ortalama hız durağan değere yakınsamaz) | Yoon, Liu & Noble 2003, *"Random Waypoint Considered Harmful"* | ✓ |
-| C3 | ETX metriği | De Couto vd. | ○ |
+| C3 | ETX metriği | De Couto vd. → F1 | ✓ (21 Ekim) |
 | C2 | Gauss-Markov mobilite | Liang & Haas | ○ |
 | C5 | gölgeleme korelasyonu | Gudmundson, Electronics Letters | ○ |
 
@@ -161,6 +161,28 @@ Kopya `protokol_kaynaklari/rfc3561_aodv.txt`.
 - QGroundControl `_heartbeatMaxElpasedMSecs` **3 500 ms**: *"No heartbeat for longer than this indicates comm loss"*.
 - MAVLink heartbeat servisi: *"components typically publish their heartbeat at 1 Hz and consider another system to have disconnected if four or five messages are not received"*.
 - Gecikme tavanlı `PDR_açık`ın eşikleri: 5 s ana, 3,5 s ve 10 s duyarlılık. Zaman aşımları heartbeat'ler arası boşluğu ölçer; veri yaşı tavanı olarak kullanılması modelleme seçimidir.
+
+## F · Faz 5'in araştırma kaynakları (K-252) — kopyaları ve denetimleri `protokol_kaynaklari/README.md`, notlar `protokol_kaynaklari/faz5_arastirma_2026-10-21/NOTLAR.md`
+
+| # | ne için | kaynak | durum |
+|---|---|---|---|
+| F1 | ETX: `1/(d_f·d_r)`; yoklama 1 s, pencere 10 s; en az atlama uzun ve kayıplı bağ seçer; küçük yoklama büyük paketin kaybını olduğundan iyi gösterir | De Couto, Aguayo, Bicket, Morris, *"A High-Throughput Path Metric for Multi-Hop Wireless Routing"*, MobiCom 2003 | ✓ §1–§3, değerlendirme (Şekil 8) |
+| F2 | 802.11'de karıştırma göstergeleri: gürültü · kanal doluluğu · boşta kalma süresi · teslim · en küçük/büyük sinyal; reaktif karıştırıcı kanal doluluğunu değiştirmiyor; elle eşik zor, tutarlılık kuralı zor yayılımda zayıf | Puñal, Aktaş, Schnelke, Abidin, Wehrle, Gross, *"Machine Learning-based Jamming Detection for IEEE 802.11: Design and Experimental Evaluation"*, WoWMoM 2014 | ✓ §I–§II, sonuçlar, Şekil 10 · G5'in "Puñal vd." atfı bununla birincil kaynaktan doğrulandı |
+| F3 | karıştırma altında çok yollu trafik paylaştırma: bağ başına başarı oranının ortalaması ve değişkenliği (üstel ortalama), portföy seçimi | Tague, Nabar, Ritcey, Poovendran, *"Jamming-Aware Traffic Allocation for Multiple-Path Routing Using Portfolio Selection"*, IEEE/ACM ToN | ✓ §I–§III |
+| F4 | rota çırpınması: baskın rota %57–65; histerezis eşiği rota ömrünü 4–5 kat uzatıyor (durağan mesh, dakika ölçeği) | Ramachandran, Sheriff, Belding, Almeroth, *"Routing Stability in Static Wireless Mesh Networks"*, PAM 2007 | ✓ özet, §4 |
+| F5 | yüke bağlı ölçü salınım doğurur; doyma + histerezis; Babel'in düzgünleştirilmiş metriği (4 s) | Jonglez, Boutier, Chroboczek, *"A delay-based routing metric"*, arXiv 2014 | ✓ |
+| F6 | reaktif karıştırıcı dinleme kuralını ihlal eder (kanal meşgulken yayın); gizli terminaller inkâr payı verir | An, Weber, *"Efficiency and detectability of random reactive jamming in carrier sense wireless networks"*, arXiv 2018 | ✓ §I (tek atlamalı model) |
+| F7 | bağ kalitesi ölçüleri: donanım ↔ yazılım; pasif ↔ etkin ↔ karma; yük önemliyse pasif | Cerar, Yetgin, Mohorčič, Fortuna, *"Machine Learning for Wireless Link Quality Estimation: A Survey"*, arXiv v10 (IEEE COMST 2021) | ✓ §I–§II, §VI |
+| F8 | gerçek mesh deneyinde (≤ 11 düğüm) Babel'in teslimi ağ büyüdükçe en çok düşüyor; sıralama düzeneğe bağlı | Turlykozhayeva vd., *"Experimental Performance Comparison of Proactive Routing Protocols in Wireless Mesh Network Using Raspberry Pi 4"*, Telecom 2024 | ✓ özet, sonuçlar |
+| F9 | İHA karıştırma önlemlerinin altı stratejisi; ağ katmanının "dolaşma" stratejisi tek paragrafla geçiyor | Yang vd., *"Agent-Based Anti-Jamming Techniques for UAV Communications in Adversarial Environments: A Comprehensive Survey"*, arXiv 2025 | ✓ §I–§II |
+| F10 | İHA'da atlama başına çok yol; öğrenmesiz karşılaştırma yöntemleri (eşit ve kapasiteye göre bölme); önerilen yöntem MARL (kapsam dışı) | Zhao vd., *"Traffic-Adaptive Per-Hop Multipath Routing in Multi-Hop UAV Networks"*, arXiv 2026 | ✓ §I, karşılaştırma yöntemleri |
+| F11 | döngüsüz yedek koşulları (LFA, aşağı akış, düğüm koruyan) | RFC 5286 | ✓ §1, §3 |
+| F12 | Trickle: sakinken seyrek, tutarsızlıkta sık ilan; bastırma | RFC 6206 | ✓ §4 |
+| F13 | RPL: köke toplama ağacı, yükseklik kuralı, ebeveyn kümesi, genel ve yerel onarım, veri yolunda döngü sezme, aşağı yön (DAO) | RFC 6550 | ✓ §3.2, §3.5, §3.7, §8.2, §11.2 |
+| F14 | MRHOF histerezisi: ETX'le eşik 192 (≥ 1,5 daha az iletim), bağ üst sınırı 512 (ETX 4) | RFC 6719 | ✓ §3, §5 |
+| F15 | DUAL: uygulanabilirlik koşulu, uygulanabilir yedek, etkin durum ve komşularla ortak hesap | RFC 7868 | ✓ §2.2, §3 |
+| F16 | teslim ↔ sinyal gücü tutarlılık denetimi (klasik) | Xu, Trappe, Zhang, Wood, *"The Feasibility of Launching and Detecting Jamming Attacks in Wireless Networks"*, MobiHoc 2005 | ↪ F2'nin [24]'ü, F6'nın [2]'si; açık kopya bulunamadı |
+| F17 | İHA ağında verim, teslim ve RSSI'den öğrenmeli karıştırma tespiti | Greco, Pace, Basagni, Fortino, *Applied Soft Computing* 111, 2021 | ○ yazar sayfasının sertifikası geçersiz; açılamadı |
 
 ## S · Açık kaynak soruları
 

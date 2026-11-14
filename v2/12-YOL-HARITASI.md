@@ -1,12 +1,12 @@
 # 12 · DURUM VE YOL HARİTASI
 
-> Projenin durumu ve planı YALNIZ burada tutulur; başka belgeler buraya atıf verir. Güncel: 20 Ekim 2026. Onaylı plan Faz 0–7 (25 Eylül, K-168). Kararlar `04`, tarihçe `kayit/KARAR-GUNLUGU.md`.
+> Projenin durumu ve planı YALNIZ burada tutulur; başka belgeler buraya atıf verir. Güncel: 21 Ekim 2026. Onaylı plan Faz 0–7 (25 Eylül, K-168). Kararlar `04`, tarihçe `kayit/KARAR-GUNLUGU.md`.
 
 ## 1 · Nerede duruyoruz
 
 | | |
 |---|---|
-| **faz** | **5 · DESPARETE** (K-250) — aşama 5-1, hâkimiyet; plan §1.2 (K-252). Faz 4b kapandı (K-250): üç rakip donmuş, bağımsız denetimin (14 Ekim, K-242) Faz 5 öncesi işleri tamam. Faz 4 kapandı (K-221) |
+| **faz** | **5 · DESPARETE** (K-250) — aşama 5-1, hâkimiyet (ders 1–5 tamam, sıradaki ders 6); 5-2'nin kaynak taraması yapıldı (`protokol_kaynaklari/faz5_arastirma_2026-10-21/NOTLAR.md`); plan §1.2 (K-252). Faz 4b kapandı (K-250): üç rakip donmuş, bağımsız denetimin (14 Ekim, K-242) Faz 5 öncesi işleri tamam. Faz 4 kapandı (K-221) |
 | simülatör | referans dünya (`14`) tamam; birincil hücrede 350 s'lik koşu süreleri §3'te. Yer–hava görüş hattı kalıcı (K-243) |
 | taban protokoller | **AODV · OLSRv2 · Babel (K-242).** `OLSRv2-b` donmuş (K-239). `AODV-k` (K-243 · K-244) ve Babel (RFC 8966, hakem babeld; K-244) kodda, sadakat denetimlerinden geçti; regresyon `k244` temiz, U1 iki desende geçti (AODV-k'nin düşüşü ns-3'ün iki varsayılanından, düşük hücreleri anatomi ve döngü iziyle açıklı; Babel'in kâhin aşımları zarf ve hata aramasıyla kayıtlı, K-248); evre kapıları ve G1-P geçti (M4'ün sıfır gözlem kuralı); **`AODV-k` ve `Babel-a` dondu (K-249)**, regresyon tabanı `k249`. Hakem ilkesi: RFC'nin seçeneğe ve MAY'e bıraktığı yerde referans uygulamanın varsayılanı (K-244). JarmRout rakiplikten çıktı; kodu ve kayıtları Faz 4b'nin kaydı |
 | DESPARETE | v0.4.1, taslak; Faz 5'te özgün tasarımımla yeniden yazılır (K-250). Son ölçüm (K-244 kuyruğu, 1003 · 1004): birincil `PDR_açık` 0,518 · 0,603 — Babel 0,547 · 0,787 · OLSRv2 0,409 · 0,499 · AODV-k 0,353 · 0,421 · kâhin 0,748 · 0,844; karıştırıcısız ikizde 0,757 · 0,786 — Babel 0,945 · 0,952 (`04` §6). Faz 5.0 (K-228): karıştırmaya özgü fazla kayıp `rota_gecersiz`'de |
@@ -52,7 +52,7 @@
 **Plan (K-252, sırayla):**
 1. **5-1 · hâkimiyet** — v0.4.1, teorik, sekiz ders: problem ve ölçüt · yol bulmanın temeli · döngüsüzlük · komşuluk · bağ kalitesi · bağ kopunca olanlar · komut geri izi, postür, ablasyon bayrakları ve sürümler · ölçülen davranış. Her ders kendi sözlerimle özetlenir; aşama bir karıştırma senaryosunun baştan sona anlatımıyla biter.
 2. **5-2 · araştırma ve öğrenim:**
-   - güncel kaynaklar (künyeler `02` · `16`) ve rakiplerin mekanizmaları, önce Babel;
+   - güncel kaynaklar (künyeler `02` §F · `16` [53]–[67]) ve rakiplerin mekanizmaları, önce Babel. Kaynak taraması ✓ (21 Ekim): 15 dosya, yedi konunun seçenekleri ve Babel ↔ v0.4.1 karşılaştırması `protokol_kaynaklari/faz5_arastirma_2026-10-21/NOTLAR.md`;
    - konular: komşunun varlığı · bağ kalitesi · karıştırmanın yerel kanıtı · yedek yol ve çoğaltma · döngüsüzlük · bağı bırakma ya da bekleme zamanı · bekletme, gecikme ve kontrol yükü;
    - teşhis ölçümleri, her biri önceden yazılı beklentiyle, geliştirme tohumlarında: DESPARETE ↔ Babel kayıp anatomisi (ikiz ve birincil hücre) · v0.4.1'in `hedefli_canlilik` ve `onarim_edinimi` seçenekleri ikizde (K-165'teki ret eski dünyada, karıştırıcısız, 3 tohum × 40 s'lik ölçüme dayanıyordu; denetim DD-28) · rakiplerin ve kâhinin 1003–1010'da üç geliştirme hücresindeki çizgisi;
    - çıktı: tasarım seçeneklerim ve kararlarım, ödünç alınan her özelliğin kaynağıyla.

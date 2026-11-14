@@ -1,6 +1,6 @@
 # 16 · KAYNAKÇA — rapor için (IEEE biçimi)
 
-> **Güncel:** 13 Ekim 2026. Projede kullanılan bütün kaynakların rapora girecek biçimi. Doğrulama ayrıntısı `v2/02`de (sütundaki kimlik), dosya kopyaları ve SHA-256'lar `protokol_kaynaklari/README.md`de.
+> **Güncel:** 21 Ekim 2026. Projede kullanılan bütün kaynakların rapora girecek biçimi. Doğrulama ayrıntısı `v2/02`de (sütundaki kimlik), dosya kopyaları ve SHA-256'lar `protokol_kaynaklari/README.md`de.
 > **Kural (`02`):** açılıp okunmamış bir kaynak rapora giremez. Durum sütunu:
 > - ✓ açıldı, okundu (tamamı ya da ilgili bölüm);
 > - ~ kısmen, ya da iddia kaynağın söylediğinden farklı;
@@ -70,7 +70,7 @@
 | # | künye | `02` | durum |
 |---|---|---|---|
 | [22] | H. Pirayesh, H. Zeng, "Jamming Attacks and Anti-Jamming Strategies in Wireless Networks: A Comprehensive Survey," *IEEE Commun. Surveys Tuts.*, 2022 (arXiv:2101.00292). | G5 | ✓ arXiv sürümü (WLAN, tespit bölümleri) · dergi künyesi teyit edilecek |
-| [23] | O. Puñal, I. Aktaş, C.-J. Schnelke, G. Abidin, K. Wehrle, J. Gross, (Wi-Fi karıştırma tespiti, makine öğrenmesi). | G5 | ↪ [22]'nin [83]'ü; künye tamamlanmalı |
+| [23] | O. Puñal, I. Aktaş, C.-J. Schnelke, G. Abidin, K. Wehrle, J. Gross, "Machine Learning-based Jamming Detection for IEEE 802.11: Design and Experimental Evaluation," in *Proc. IEEE WoWMoM*, 2014. | G5 · F2 | ✓ · yayın yeri yazarların sayfasındaki dosyadan; sayfalar raporda teyit edilecek |
 | [24] | K. Pelechrinis, I. Broustis, S. V. Krishnamurthy, C. Gkantsidis, (karıştırmada hız uyarlaması ve güç kontrolü deneyleri). | G5 | ↪ [22]'nin [79]–[80]'i; künye tamamlanmalı |
 | [25] | J. Watling, N. Reynolds, "Meatgrinder: Russian Tactics in the Second Year of Its Invasion of Ukraine," RUSI, May 2023. | A1 | ✓ (s. 4) |
 | [26] | V. Andreika, "Lessons from Ukraine," *Military Review*. | A2 | ~ (anlam kayması; `02` A2) |
@@ -88,8 +88,28 @@
 | [33] | "Reinforcement Learning-Based Routing Protocols in Flying Ad Hoc Networks: A Survey," *Mathematics*, vol. 10, 3017, 2022. | B6 · B8 | ✓ (B7 ✗ yeniden doğrulanamadı) |
 | [34] | J. A. Boyan, M. L. Littman, "Packet Routing in Dynamically Changing Networks: A Reinforcement Learning Approach," 1994. | C4 | ✓ · başlık ve yer kaynaktan teyit edilecek |
 | [35] | J. Yoon, M. Liu, B. Noble, "Random Waypoint Considered Harmful," 2003. | C6 | ✓ |
-| [36] | D. S. J. De Couto et al., (ETX metriği). | C3 | ○ |
+| [36] | D. S. J. De Couto, D. Aguayo, J. Bicket, R. Morris, "A High-Throughput Path Metric for Multi-Hop Wireless Routing," in *Proc. ACM MobiCom*, San Diego, CA, USA, Sep. 2003. | C3 · F1 | ✓ |
 | [37] | B. Liang, Z. J. Haas, (Gauss-Markov mobilite). | C2 | ○ |
 | [38] | M. Gudmundson, (gölgeleme korelasyonu), *Electronics Letters*. | C5 | ○ |
+
+## Faz 5 araştırması — bağ kalitesi, karıştırma tespiti, yedek yol, döngüsüzlük, kararlılık
+
+| # | künye | `02` | durum |
+|---|---|---|---|
+| [53] | P. Tague, S. Nabar, J. A. Ritcey, R. Poovendran, "Jamming-Aware Traffic Allocation for Multiple-Path Routing Using Portfolio Selection," *IEEE/ACM Trans. Netw.*, 2011. | F3 | ✓ · cilt ve sayfa teyit edilecek |
+| [54] | K. Ramachandran, I. Sheriff, E. Belding, K. Almeroth, "Routing Stability in Static Wireless Mesh Networks," in *Proc. Passive and Active Measurement Conf. (PAM)*, 2007. | F4 | ✓ · yayın yeri teyit edilecek |
+| [55] | B. Jonglez, M. Boutier, J. Chroboczek, "A delay-based routing metric," arXiv:1403.3488, Mar. 2014. | F5 | ✓ |
+| [56] | N. An, S. Weber, "Efficiency and detectability of random reactive jamming in carrier sense wireless networks," arXiv:1809.04263, Sep. 2018. | F6 | ✓ |
+| [57] | G. Cerar, H. Yetgin, M. Mohorčič, C. Fortuna, "Machine Learning for Wireless Link Quality Estimation: A Survey," *IEEE Commun. Surveys Tuts.*, 2021 (arXiv:1812.08856). | F7 | ✓ arXiv sürümü · dergi künyesi teyit edilecek |
+| [58] | D. Turlykozhayeva, S. Temesheva, N. Ussipov, A. Bolysbay, A. Akhmetali, S. Akhtanov, X. Tang, "Experimental Performance Comparison of Proactive Routing Protocols in Wireless Mesh Network Using Raspberry Pi 4," *Telecom*, vol. 5, no. 4, pp. 1008–1020, 2024, doi: 10.3390/telecom5040051. | F8 | ✓ |
+| [59] | J. Yang, M. Cui, H. Zhang, F. Ji, Z. Lai, Y. Wang, "Agent-Based Anti-Jamming Techniques for UAV Communications in Adversarial Environments: A Comprehensive Survey," arXiv:2508.11687, Aug. 2025. | F9 | ✓ |
+| [60] | Z. Zhao, T. Zhang, X. Xu, Y. Zheng, J. Li, W. Xing, "Traffic-Adaptive Per-Hop Multipath Routing in Multi-Hop UAV Networks," arXiv:2608.25383, Aug. 2026. | F10 | ✓ |
+| [61] | A. Atlas, A. Zinin (Eds.), "Basic Specification for IP Fast Reroute: Loop-Free Alternates," IETF RFC 5286, Sep. 2008. | F11 | ✓ |
+| [62] | P. Levis, T. Clausen, J. Hui, O. Gnawali, J. Ko, "The Trickle Algorithm," IETF RFC 6206, Mar. 2011. | F12 | ✓ |
+| [63] | T. Winter, P. Thubert (Eds.) et al., "RPL: IPv6 Routing Protocol for Low-Power and Lossy Networks," IETF RFC 6550, Mar. 2012. | F13 | ✓ (ilgili bölümler) |
+| [64] | O. Gnawali, P. Levis, "The Minimum Rank with Hysteresis Objective Function," IETF RFC 6719, Sep. 2012. | F14 | ✓ |
+| [65] | D. Savage, J. Ng, S. Moore, D. Slice, P. Paluch, R. White, "Cisco's Enhanced Interior Gateway Routing Protocol (EIGRP)," IETF RFC 7868 (Informational), May 2016. | F15 | ✓ (ilgili bölümler) |
+| [66] | W. Xu, W. Trappe, Y. Zhang, T. Wood, "The Feasibility of Launching and Detecting Jamming Attacks in Wireless Networks," in *Proc. ACM MobiHoc*, 2005, pp. 46–57, doi: 10.1145/1062689.1062697. | F16 | ↪ [23] ve [56] üzerinden; açılmadı |
+| [67] | Greco, Pace, Basagni, Fortino, "Jamming detection at the edge of drone networks using Multi-layer Perceptrons and Decision Trees," *Applied Soft Computing*, vol. 111, art. 107806, 2021. | F17 | ○ |
 
 **Açık işler (rapor yazımından önce):** ○ işaretlilerin açılması · künyesi eksiklerin (yazar listesi, yer, yıl, sayfa) kaynaktan tamamlanması · ↪ işaretliler için raporda "… aktarıldığı gibi" dili ya da kaynağın kendisine erişim.
