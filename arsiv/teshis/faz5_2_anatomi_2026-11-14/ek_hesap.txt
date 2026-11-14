@@ -1,0 +1,58 @@
+
+== Atlama başına başarısızlık — ikiz (bütün koşu) ==
+  desparete            karar/paket 2.72 · başarısız/karar 6.49% · 'iyi' bağda 5.74% · orta+kötü bağda 75.2% (karar 1520)
+      tohum başına başarısız/karar: 1003 6.52% · 1004 5.66% · 1005 7.17% · 1006 6.54%
+  babel                karar/paket 3.74 · başarısız/karar 2.32% · 'iyi' bağda 2.25% · orta+kötü bağda 60.6% (karar 246)
+      tohum başına başarısız/karar: 1003 1.54% · 1004 1.55% · 1005 3.49% · 1006 2.74%
+  en_guvenilir_kahin   karar/paket 2.64 · başarısız/karar 3.29% · 'iyi' bağda 3.11% · orta+kötü bağda 52.2% (karar 487)
+      tohum başına başarısız/karar: 1003 3.85% · 1004 1.54% · 1005 3.54% · 1006 4.12%
+
+== Sayaçlar, tohum ortalaması (ağ toplamı, 350 s) — ikiz ==
+  desparete: protokol.veri_iletilen 34016 · protokol.veri_bekletilen 17993 · protokol.tampon_kota_disi 407 · alan.ardil_degisti 10804 · alan.onarima_girdi 3753 · alan.ulasilamaz 68 · alan.tur_artirildi 13 · komsu.aday_acilan 14326 · komsu.gecis_active 16823 · komsu.gecis_suspect 4851 · komsu.gecis_stale 12119 · komsu.gecis_expired 15171 · komsu.probe_nitelik 17155 · komsu.probe_olcum 13756 · komsu.probe_hata 3208 · komsu.probe_dogrulama 912 · protokol.probe_alinan 28882 · protokol.probe_yaniti_gonderilen 1579 · protokol.ilan_gonderilen 35823 · alan.tetik_ilan 24122 · alan.withdrawal 2433 · protokol.ilan_alinan 219955 · alan.ilan_kabul 79132 · alan.ilan_aktif_disi 138239 · protokol.solicit_gonderilen 131 · protokol.solicit_yanitlanan 2 · protokol.istek_gonderilen 78 · politika.caution_girdi 912
+  babel: hello_gonderilen 4006 · ihu_gonderilen 45242 · dokum_gonderilen 979 · tetik_acil 31516 · tetik_normal 21676 · guncelleme_alinan 704982 · uygulanamaz_alinan 298343 · uygulanamaz_yoksayilan 6804 · secim_degisti 25015 · sira_istegi_uretilen 8260 · sira_istegi_iletilen 7544 · sira_artirildi 1283 · rota_suresi_doldu 8368 · komsu_silindi 315 · geri_cekme 12
+
+== Atlama başına başarısızlık — birincil (bütün koşu) ==
+  desparete            karar/paket 2.68 · başarısız/karar 7.09% · 'iyi' bağda 6.01% · orta+kötü bağda 58.9% (karar 2798)
+      tohum başına başarısız/karar: 1003 6.93% · 1004 6.29% · 1005 8.05% · 1006 7.03%
+  babel                karar/paket 3.87 · başarısız/karar 4.35% · 'iyi' bağda 3.16% · orta+kötü bağda 56.7% (karar 4401)
+      tohum başına başarısız/karar: 1003 4.57% · 1004 2.79% · 1005 6.04% · 1006 3.81%
+  en_guvenilir_kahin   karar/paket 2.77 · başarısız/karar 4.37% · 'iyi' bağda 3.75% · orta+kötü bağda 38.9% (karar 2523)
+      tohum başına başarısız/karar: 1003 4.98% · 1004 2.60% · 1005 5.32% · 1006 4.43%
+
+== Birincil · olay anına göre evre: karar ve düşüş ==
+  desparete            once    karar  64835 · iletim_basarisiz/karar 6.62% · düşüş: iletim_basarisiz 4290 · rota_gecersiz 1251 · hedef_yok 437
+  desparete            acik    karar  33933 · iletim_basarisiz/karar 9.10% · düşüş: iletim_basarisiz 3089 · rota_gecersiz 3003 · hedef_yok 117
+  desparete            sessiz  karar  38436 · iletim_basarisiz/karar 6.12% · düşüş: iletim_basarisiz 2352 · rota_gecersiz 1307 · hedef_yok 34
+  babel                once    karar  90417 · iletim_basarisiz/karar 2.56% · düşüş: iletim_basarisiz 2313 · hedef_yok 279 · rota_gecersiz 5
+  babel                acik    karar  50620 · iletim_basarisiz/karar 9.99% · düşüş: iletim_basarisiz 5057 · kuyruk_tasmasi 47 · rota_gecersiz 2
+  babel                sessiz  karar  57075 · iletim_basarisiz/karar 2.18% · düşüş: iletim_basarisiz 1243 · rota_gecersiz 6 · kuyruk_tasmasi 4
+  en_guvenilir_kahin   once    karar  63301 · iletim_basarisiz/karar 3.22% · düşüş: iletim_basarisiz 2040
+  en_guvenilir_kahin   acik    karar  44314 · iletim_basarisiz/karar 6.83% · düşüş: iletim_basarisiz 3025 · kuyruk_tasmasi 183 · hedef_yok 114
+  en_guvenilir_kahin   sessiz  karar  34254 · iletim_basarisiz/karar 3.33% · düşüş: iletim_basarisiz 1141
+
+== Birincil · doğum evresi × paket ucunun alanı: PDR (doğan) ==
+  desparete            once    uzak 0.742 (13392) · girisim 0.824 (2420) · ed 0.787 (188)
+  desparete            acik    uzak 0.546 (11887) · girisim 0.632 (2280) · ed 0.425 (233)
+  desparete            sessiz  uzak 0.705 (10545) · girisim 0.827 (2050) · ed 0.785 (200)
+  babel                once    uzak 0.909 (13392) · girisim 0.949 (2420) · ed 0.963 (188)
+  babel                acik    uzak 0.635 (11887) · girisim 0.688 (2280) · ed 0.811 (233)
+  babel                sessiz  uzak 0.895 (10545) · girisim 0.937 (2050) · ed 0.960 (200)
+  en_guvenilir_kahin   once    uzak 0.907 (13392) · girisim 0.950 (2420) · ed 0.920 (188)
+  en_guvenilir_kahin   acik    uzak 0.767 (11887) · girisim 0.797 (2280) · ed 0.601 (233)
+  en_guvenilir_kahin   sessiz  uzak 0.906 (10545) · girisim 0.938 (2050) · ed 0.930 (200)
+
+== Birincil · doğum evresi × düşüşün olduğu alan: evrede doğana oran ==
+  desparete            once  rota_gecersiz     uzak 0.042 · girisim 0.014 · ed 0.000
+  desparete            once  iletim_basarisiz  uzak 0.128 · girisim 0.056 · ed 0.002
+  desparete            acik  rota_gecersiz     uzak 0.177 · girisim 0.034 · ed 0.007
+  desparete            acik  iletim_basarisiz  uzak 0.163 · girisim 0.049 · ed 0.005
+  babel                once  rota_gecersiz     uzak 0.000 · girisim 0.000 · ed 0.000
+  babel                once  iletim_basarisiz  uzak 0.048 · girisim 0.035 · ed 0.002
+  babel                acik  rota_gecersiz     uzak 0.000 · girisim 0.000 · ed 0.000
+  babel                acik  iletim_basarisiz  uzak 0.119 · girisim 0.182 · ed 0.049
+  en_guvenilir_kahin   once  iletim_basarisiz  uzak 0.060 · girisim 0.026 · ed 0.001
+  en_guvenilir_kahin   acik  iletim_basarisiz  uzak 0.129 · girisim 0.055 · ed 0.027
+
+== Sayaçlar, tohum ortalaması (ağ toplamı, 350 s) — birincil ==
+  desparete: protokol.veri_iletilen 33572 · protokol.veri_bekletilen 26379 · protokol.tampon_kota_disi 704 · alan.ardil_degisti 11094 · alan.onarima_girdi 4036 · alan.ulasilamaz 117 · alan.tur_artirildi 16 · komsu.aday_acilan 13582 · komsu.gecis_active 16097 · komsu.gecis_suspect 5012 · komsu.gecis_stale 11162 · komsu.gecis_expired 14448 · komsu.probe_nitelik 16528 · komsu.probe_olcum 12913 · komsu.probe_hata 3530 · komsu.probe_dogrulama 816 · protokol.probe_alinan 27302 · protokol.probe_yaniti_gonderilen 1636 · protokol.ilan_gonderilen 34532 · alan.tetik_ilan 23400 · alan.withdrawal 2607 · protokol.ilan_alinan 194770 · alan.ilan_kabul 74586 · alan.ilan_aktif_disi 117747 · protokol.solicit_gonderilen 216 · protokol.solicit_yanitlanan 3 · protokol.istek_gonderilen 138 · politika.caution_girdi 815
+  babel: hello_gonderilen 4012 · ihu_gonderilen 43747 · dokum_gonderilen 978 · tetik_acil 36398 · tetik_normal 29481 · guncelleme_alinan 726956 · uygulanamaz_alinan 321256 · uygulanamaz_yoksayilan 10298 · secim_degisti 24762 · sira_istegi_uretilen 10974 · sira_istegi_iletilen 9031 · sira_artirildi 1326 · rota_suresi_doldu 8321 · komsu_silindi 339 · geri_cekme 48

@@ -1,0 +1,169 @@
+== 0 · GEÇERLİLİK — ikiz ==
+  desparete            1003 korunum True · çelişki 0 · atfsız 0
+  desparete            1004 korunum True · çelişki 0 · atfsız 0
+  desparete            1005 korunum True · çelişki 0 · atfsız 0
+  desparete            1006 korunum True · çelişki 0 · atfsız 0
+  babel                1003 korunum True · çelişki 0 · atfsız 0
+  babel                1004 korunum True · çelişki 0 · atfsız 0
+  babel                1005 korunum True · çelişki 0 · atfsız 0
+  babel                1006 korunum True · çelişki 0 · atfsız 0
+  en_guvenilir_kahin   1003 korunum True · çelişki 0 · atfsız 0
+  en_guvenilir_kahin   1004 korunum True · çelişki 0 · atfsız 0
+  en_guvenilir_kahin   1005 korunum True · çelişki 0 · atfsız 0
+  en_guvenilir_kahin   1006 korunum True · çelişki 0 · atfsız 0
+
+== İkiz · bütün pencere ==
+  desparete            PDR 0.7679 · R 0.0536 · I 0.1785 · K 0.0000 · T 0.0000 · kalan 0.0000 · doğan 43195
+      sebepler: iletim_basarisiz 0.1785 · rota_gecersiz 0.0510 · hedef_yok 0.0026
+  babel                PDR 0.9196 · R 0.0001 · I 0.0802 · K 0.0000 · T 0.0000 · kalan 0.0000 · doğan 43195
+      sebepler: iletim_basarisiz 0.0802 · rota_gecersiz 0.0001
+  en_guvenilir_kahin   PDR 0.9125 · R 0.0000 · I 0.0875 · K 0.0000 · T 0.0000 · kalan 0.0000 · doğan 43195
+      sebepler: iletim_basarisiz 0.0875
+  G = PDR(Babel) − PDR(DESPARETE) = +0.1518
+  E_g ve pay: R +0.0535 (pay 35%) · I +0.0983 (pay 65%) · K +0.0000 (pay 0%) · T +0.0000 (pay 0%) · kalan farkı +0.0000
+  kâhine oran: DESPARETE 0.841 · Babel 1.008
+  tohum başına PDR ve G:
+    1003: D 0.7522 · B 0.9438 · G +0.1916 (R +0.0598 · İ +0.1318)
+    1004: D 0.7970 · B 0.9542 · G +0.1572 (R +0.0560 · İ +0.1011)
+    1005: D 0.7181 · B 0.8629 · G +0.1448 (R +0.0789 · İ +0.0659)
+    1006: D 0.8042 · B 0.9177 · G +0.1135 (R +0.0192 · İ +0.0943)
+
+== Bağ seçimi — ikiz ==
+  desparete            karar               iyi 98.9% · orta 1.0% · kötü 0.1% (n 139160)
+  desparete            karar (tek deneme)  iyi 63.0% · orta 32.3% · kötü 4.7% (n 139160)
+  desparete            başarısız           iyi 87.4% · orta 11.2% · kötü 1.5% (n 9037)
+  desparete            karar mesafesi km, tohum başına: 1003: {'p10': 2.63, 'p50': 7.5, 'p90': 12.49} | 1004: {'p10': 4.21, 'p50': 7.04, 'p90': 13.95} | 1005: {'p10': 3.38, 'p50': 6.99, 'p90': 19.87} | 1006: {'p10': 4.06, 'p50': 8.21, 'p90': 13.02}
+  desparete            başarısız mesafe km: 1003: {'p10': 7.39, 'p50': 12.48, 'p90': 19.19} | 1004: {'p10': 7.02, 'p50': 12.2, 'p90': 16.73} | 1005: {'p10': 7.21, 'p50': 10.62, 'p90': 19.86} | 1006: {'p10': 8.13, 'p50': 12.32, 'p90': 16.47}
+  babel                karar               iyi 99.9% · orta 0.1% · kötü 0.0% (n 191659)
+  babel                karar (tek deneme)  iyi 77.0% · orta 21.8% · kötü 1.2% (n 191659)
+  babel                başarısız           iyi 96.7% · orta 3.3% · kötü 0.0% (n 4455)
+  babel                karar mesafesi km, tohum başına: 1003: {'p10': 2.62, 'p50': 6.37, 'p90': 11.2} | 1004: {'p10': 3.54, 'p50': 6.98, 'p90': 11.97} | 1005: {'p10': 2.77, 'p50': 5.88, 'p90': 14.68} | 1006: {'p10': 3.19, 'p50': 6.99, 'p90': 11.26}
+  babel                başarısız mesafe km: 1003: {'p10': 7.32, 'p50': 12.52, 'p90': 15.37} | 1004: {'p10': 6.98, 'p50': 9.95, 'p90': 17.48} | 1005: {'p10': 6.55, 'p50': 10.33, 'p90': 15.64} | 1006: {'p10': 6.92, 'p50': 11.26, 'p90': 16.29}
+  en_guvenilir_kahin   karar               iyi 99.6% · orta 0.4% · kötü 0.0% (n 134927)
+  en_guvenilir_kahin   karar (tek deneme)  iyi 54.8% · orta 40.2% · kötü 5.0% (n 134927)
+  en_guvenilir_kahin   başarısız           iyi 94.3% · orta 5.5% · kötü 0.2% (n 4435)
+  en_guvenilir_kahin   karar mesafesi km, tohum başına: 1003: {'p10': 2.65, 'p50': 8.08, 'p90': 13.12} | 1004: {'p10': 5.35, 'p50': 7.91, 'p90': 14.37} | 1005: {'p10': 3.98, 'p50': 7.21, 'p90': 19.9} | 1006: {'p10': 5.24, 'p50': 8.75, 'p90': 15.05}
+  en_guvenilir_kahin   başarısız mesafe km: 1003: {'p10': 9.2, 'p50': 12.53, 'p90': 24.96} | 1004: {'p10': 6.99, 'p50': 12.97, 'p90': 17.52} | 1005: {'p10': 7.21, 'p50': 13.32, 'p90': 15.86} | 1006: {'p10': 8.75, 'p50': 11.6, 'p90': 16.53}
+
+== DESPARETE onarım bölümleri — ikiz ==
+  1003: bölüm 2958 · süre (evre|son: p50/p90/toplam) once|ayni_tur 0.13/0.98/1180.4 · once|ayni_tur+U 7.12/7.27/48.8 · once|yeni_tur 0.97/3.54/163.8 · once|yeni_tur+U 7.89/9.35/187.2
+  1004: bölüm 2716 · süre (evre|son: p50/p90/toplam) once|ayni_tur 0.16/1.06/1134.5 · once|ayni_tur+U 6.55/6.71/65.8 · once|yeni_tur 0.97/4.8/175.0 · once|yeni_tur+U 7.51/7.97/156.0
+  1005: bölüm 3465 · süre (evre|son: p50/p90/toplam) once|ayni_tur 0.14/0.99/1343.5 · once|ayni_tur+U 6.47/14.93/100.2 · once|yeni_tur 1.23/3.31/78.5 · once|yeni_tur+U 7.87/8.77/156.8
+  1006: bölüm 2633 · süre (evre|son: p50/p90/toplam) once|ayni_tur 0.13/1.0/1027.0 · once|ayni_tur+U 6.36/6.4/25.3 · once|yeni_tur 0.48/3.02/58.3 · once|yeni_tur+U 7.36/7.65/77.8
+  evre once: bölüm 11772 · giriş aclik 74% · adaysiz 26% · son ayni_tur 96% · yeni_tur 3% · yeni_tur+U 1% · ayni_tur+U 0%
+      rota_gecersiz anında alan: REPAIRING 64% · UNREACHABLE 36% (n 2196)
+
+== Sayaçlar (ağ toplamı, tohum başına) — ikiz ==
+  desparete  1003: alan.onarima_girdi 3790 · alan.ulasilamaz 81 · alan.tur_artirildi 15 · alan.ardil_degisti 11036 · komsu.gecis_expired 14817 · komsu.gecis_suspect 4656 · protokol.tampon_kota_disi 441 · protokol.veri_bekletilen 21034 · protokol.istek_gonderilen 88 · protokol.istek_aclik 27
+  desparete  1004: alan.onarima_girdi 3412 · alan.ulasilamaz 69 · alan.tur_artirildi 14 · alan.ardil_degisti 10215 · komsu.gecis_expired 14875 · komsu.gecis_suspect 4331 · protokol.tampon_kota_disi 384 · protokol.veri_bekletilen 18795 · protokol.istek_gonderilen 74 · protokol.istek_aclik 20
+  desparete  1005: alan.onarima_girdi 4354 · alan.ulasilamaz 75 · alan.tur_artirildi 15 · alan.ardil_degisti 11911 · komsu.gecis_expired 16599 · komsu.gecis_suspect 5763 · protokol.tampon_kota_disi 621 · protokol.veri_bekletilen 19492 · protokol.istek_gonderilen 89 · protokol.istek_aclik 19
+  desparete  1006: alan.onarima_girdi 3456 · alan.ulasilamaz 48 · alan.tur_artirildi 8 · alan.ardil_degisti 10052 · komsu.gecis_expired 14394 · komsu.gecis_suspect 4653 · protokol.tampon_kota_disi 181 · protokol.veri_bekletilen 12651 · protokol.istek_gonderilen 59 · protokol.istek_aclik 8
+  babel      1003: secim_degisti 22799 · geri_cekme 18 · sira_istegi_uretilen 7204 · uygulanamaz_alinan 268899 · uygulanamaz_yoksayilan 6242 · sira_artirildi 1040 · komsu_silindi 259
+  babel      1004: secim_degisti 25340 · geri_cekme 0 · sira_istegi_uretilen 9225 · uygulanamaz_alinan 293528 · uygulanamaz_yoksayilan 7800 · sira_artirildi 1350 · komsu_silindi 306
+  babel      1005: secim_degisti 25093 · geri_cekme 28 · sira_istegi_uretilen 9447 · uygulanamaz_alinan 328697 · uygulanamaz_yoksayilan 7674 · sira_artirildi 1505 · komsu_silindi 376
+  babel      1006: secim_degisti 26828 · geri_cekme 1 · sira_istegi_uretilen 7164 · uygulanamaz_alinan 302247 · uygulanamaz_yoksayilan 5498 · sira_artirildi 1237 · komsu_silindi 320
+
+== 0 · GEÇERLİLİK — birincil ==
+  desparete            1003 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.5182 satır 0.5182 birebir
+  desparete            1004 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.6026 satır 0.6026 birebir
+  desparete            1005 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.4460 satır 0.4460 birebir
+  desparete            1006 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.6624 satır 0.6624 birebir
+  babel                1003 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.5471 satır 0.5471 birebir
+  babel                1004 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.7871 satır 0.7871 birebir
+  babel                1005 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.4854 satır 0.4854 birebir
+  babel                1006 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.7638 satır 0.7638 birebir
+  en_guvenilir_kahin   1003 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.7484 satır 0.7484 birebir
+  en_guvenilir_kahin   1004 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.8443 satır 0.8443 birebir
+  en_guvenilir_kahin   1005 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.6573 satır 0.6573 birebir
+  en_guvenilir_kahin   1006 korunum True · çelişki 0 · atfsız 0 · açık PDR 0.8252 satır 0.8252 birebir
+  K-244 G2ç ile (1003 · 1004):
+    desparete            1003 0.518210 ↔ 0.518210 birebir
+    desparete            1004 0.602553 ↔ 0.602553 birebir
+    babel                1003 0.547123 ↔ 0.547123 birebir
+    babel                1004 0.787122 ↔ 0.787122 birebir
+    en_guvenilir_kahin   1003 0.748401 ↔ 0.748401 birebir
+    en_guvenilir_kahin   1004 0.844296 ↔ 0.844296 birebir
+
+== Birincil · açık evre ==
+  desparete            PDR 0.5573 · R 0.2256 · I 0.2172 · K 0.0000 · T 0.0000 · kalan 0.0000 · doğan 14400
+      sebepler: rota_gecersiz 0.2174 · iletim_basarisiz 0.2172 · hedef_yok 0.0081
+  babel                PDR 0.6459 · R 0.0001 · I 0.3507 · K 0.0033 · T 0.0000 · kalan 0.0000 · doğan 14400
+      sebepler: iletim_basarisiz 0.3507 · kuyruk_tasmasi 0.0033 · rota_gecersiz 0.0001
+  en_guvenilir_kahin   PDR 0.7688 · R 0.0079 · I 0.2106 · K 0.0127 · T 0.0000 · kalan 0.0000 · doğan 14400
+      sebepler: iletim_basarisiz 0.2106 · kuyruk_tasmasi 0.0127 · hedef_yok 0.0079
+  G = PDR(Babel) − PDR(DESPARETE) = +0.0886
+  E_g ve pay: R +0.2254 (pay 100%) · I -0.1335 (pay 0%) · K -0.0033 (pay 0%) · T +0.0000 (pay 0%) · kalan farkı +0.0000
+  kâhine oran: DESPARETE 0.725 · Babel 0.840
+  tohum başına PDR ve G:
+    1003: D 0.5182 · B 0.5471 · G +0.0289 (R +0.2769 · İ -0.2480)
+    1004: D 0.6026 · B 0.7871 · G +0.1846 (R +0.1965 · İ -0.0119)
+    1005: D 0.4460 · B 0.4854 · G +0.0394 (R +0.3216 · İ -0.2691)
+    1006: D 0.6624 · B 0.7638 · G +0.1014 (R +0.1067 · İ -0.0053)
+
+== Birincil · önce evresi (karıştırıcı açılmadan) ==
+  desparete            PDR 0.7550 · R 0.0592 · I 0.1858 · K 0.0000 · T 0.0000 · kalan 0.0000 · doğan 16000
+      sebepler: iletim_basarisiz 0.1858 · rota_gecersiz 0.0563 · hedef_yok 0.0029
+  babel                PDR 0.9157 · R 0.0003 · I 0.0839 · K 0.0000 · T 0.0000 · kalan 0.0000 · doğan 16000
+      sebepler: iletim_basarisiz 0.0839 · rota_gecersiz 0.0003
+  en_guvenilir_kahin   PDR 0.9134 · R 0.0000 · I 0.0866 · K 0.0000 · T 0.0000 · kalan 0.0000 · doğan 16000
+      sebepler: iletim_basarisiz 0.0866
+  G = PDR(Babel) − PDR(DESPARETE) = +0.1607
+  E_g ve pay: R +0.0589 (pay 37%) · I +0.1019 (pay 63%) · K +0.0000 (pay 0%) · T +0.0000 (pay 0%) · kalan farkı +0.0000
+  kâhine oran: DESPARETE 0.827 · Babel 1.003
+  tohum başına PDR ve G:
+    1003: D 0.7268 · B 0.9383 · G +0.2114 (R +0.0745 · İ +0.1370)
+    1004: D 0.8035 · B 0.9550 · G +0.1515 (R +0.0428 · İ +0.1087)
+    1005: D 0.6980 · B 0.8472 · G +0.1492 (R +0.0902 · İ +0.0590)
+    1006: D 0.7917 · B 0.9225 · G +0.1308 (R +0.0280 · İ +0.1028)
+
+== Birincil · karıştırmaya özgü kayıp Δ = açık − önce ==
+  desparete            Δ -0.1977 (önce 0.7550 → açık 0.5573) · R +0.1664 · I +0.0313 · K +0.0000 · T +0.0000
+      sessiz evre PDR 0.7261
+  babel                Δ -0.2698 (önce 0.9157 → açık 0.6459) · R -0.0002 · I +0.2668 · K +0.0033 · T +0.0000
+      sessiz evre PDR 0.9031
+  en_guvenilir_kahin   Δ -0.1446 (önce 0.9134 → açık 0.7688) · R +0.0079 · I +0.1239 · K +0.0127 · T +0.0000
+      sessiz evre PDR 0.9116
+  Δ(DESPARETE) − Δ(Babel) = +0.0721 → fark ≥ 0,03
+    1003: Δ(D) -0.2086 · Δ(B) -0.3911
+    1004: Δ(D) -0.2009 · Δ(B) -0.1679
+    1005: Δ(D) -0.2520 · Δ(B) -0.3618
+    1006: Δ(D) -0.1293 · Δ(B) -0.1587
+
+== Bağ seçimi — birincil ==
+  desparete            karar               iyi 98.0% · orta 1.4% · kötü 0.7% (n 137204)
+  desparete            karar (tek deneme)  iyi 60.7% · orta 32.8% · kötü 6.5% (n 137204)
+  desparete            başarısız           iyi 83.1% · orta 12.4% · kötü 4.6% (n 9731)
+  desparete            karar mesafesi km, tohum başına: 1003: {'p10': 2.63, 'p50': 7.42, 'p90': 11.24} | 1004: {'p10': 3.59, 'p50': 7.01, 'p90': 12.83} | 1005: {'p10': 2.5, 'p50': 6.28, 'p90': 18.45} | 1006: {'p10': 3.2, 'p50': 8.17, 'p90': 12.5}
+  desparete            başarısız mesafe km: 1003: {'p10': 6.35, 'p50': 11.14, 'p90': 15.72} | 1004: {'p10': 6.37, 'p50': 11.06, 'p90': 16.71} | 1005: {'p10': 6.71, 'p50': 10.32, 'p90': 18.5} | 1006: {'p10': 7.01, 'p50': 11.29, 'p90': 16.25}
+  babel                karar               iyi 97.8% · orta 0.7% · kötü 1.5% (n 198112)
+  babel                karar (tek deneme)  iyi 72.1% · orta 23.0% · kötü 4.9% (n 198112)
+  babel                başarısız           iyi 71.0% · orta 8.7% · kötü 20.3% (n 8613)
+  babel                karar mesafesi km, tohum başına: 1003: {'p10': 2.54, 'p50': 6.02, 'p90': 11.18} | 1004: {'p10': 2.57, 'p50': 6.98, 'p90': 11.96} | 1005: {'p10': 2.52, 'p50': 5.56, 'p90': 12.5} | 1006: {'p10': 3.16, 'p50': 6.95, 'p90': 12.07}
+  babel                başarısız mesafe km: 1003: {'p10': 6.83, 'p50': 11.11, 'p90': 15.36} | 1004: {'p10': 5.78, 'p50': 9.57, 'p90': 14.83} | 1005: {'p10': 5.21, 'p50': 8.35, 'p90': 14.67} | 1006: {'p10': 6.48, 'p50': 10.81, 'p90': 16.13}
+  en_guvenilir_kahin   karar               iyi 98.2% · orta 0.7% · kötü 1.1% (n 141869)
+  en_guvenilir_kahin   karar (tek deneme)  iyi 51.4% · orta 41.9% · kötü 6.7% (n 141869)
+  en_guvenilir_kahin   başarısız           iyi 84.2% · orta 5.1% · kötü 10.7% (n 6206)
+  en_guvenilir_kahin   karar mesafesi km, tohum başına: 1003: {'p10': 2.64, 'p50': 7.55, 'p90': 12.5} | 1004: {'p10': 4.75, 'p50': 7.05, 'p90': 13.77} | 1005: {'p10': 3.89, 'p50': 7.12, 'p90': 19.9} | 1006: {'p10': 4.61, 'p50': 8.2, 'p90': 13.55}
+  en_guvenilir_kahin   başarısız mesafe km: 1003: {'p10': 7.42, 'p50': 11.2, 'p90': 24.89} | 1004: {'p10': 6.81, 'p50': 10.81, 'p90': 17.47} | 1005: {'p10': 4.08, 'p50': 10.51, 'p90': 18.49} | 1006: {'p10': 6.91, 'p50': 10.8, 'p90': 16.47}
+
+== DESPARETE onarım bölümleri — birincil ==
+  1003: bölüm 3329 · süre (evre|son: p50/p90/toplam) acik|ayni_tur 0.2/1.81/737.5 · acik|ayni_tur+U 7.25/9.91/122.5 · acik|yeni_tur 1.64/5.19/127.5 · acik|yeni_tur+U 8.07/10.79/387.8 · once|ayni_tur 0.13/0.91/426.4 · once|ayni_tur+U 6.01/6.01/6.0 · once|yeni_tur 0.94/2.87/75.8 · once|yeni_tur+U 7.77/9.36/94.3 · sessiz|ayni_tur 0.14/0.9/356.3 · sessiz|ayni_tur+U 12.1/7.43/24.2 · sessiz|yeni_tur 1.43/4.92/69.1 · sessiz|yeni_tur+U 10.29/10.86/116.3
+  1004: bölüm 3031 · süre (evre|son: p50/p90/toplam) acik|ayni_tur 0.19/1.74/714.9 · acik|ayni_tur+U 6.33/7.24/80.9 · acik|yeni_tur 2.9/5.55/234.8 · acik|yeni_tur+U 7.2/8.77/219.6 · once|ayni_tur 0.18/0.85/366.5 · once|ayni_tur+U 6.88/6.51/13.8 · once|yeni_tur 0.76/2.7/39.7 · once|yeni_tur+U 7.77/7.84/61.6 · sessiz|ayni_tur 0.15/0.89/271.8 · sessiz|ayni_tur+U 6.65/6.65/20.1 · sessiz|yeni_tur 0.65/1.52/14.9 · sessiz|yeni_tur+U 7.6/8.15/55.1
+  1005: bölüm 3827 · süre (evre|son: p50/p90/toplam) acik|ayni_tur 0.16/1.0/604.8 · acik|ayni_tur+U 6.6/8.04/76.3 · acik|yeni_tur 1.55/4.4/152.3 · acik|yeni_tur+U 14.33/17.91/775.0 · once|ayni_tur 0.14/0.94/463.6 · once|ayni_tur+U 7.39/7.39/21.8 · once|yeni_tur 2.04/4.79/52.1 · once|yeni_tur+U 8.58/18.6/107.5 · sessiz|ayni_tur 0.14/0.85/389.5 · sessiz|ayni_tur+U 6.19/6.19/6.2 · sessiz|yeni_tur 0.5/1.74/24.4 · sessiz|yeni_tur+U 8.21/11.67/102.4
+  1006: bölüm 2974 · süre (evre|son: p50/p90/toplam) acik|ayni_tur 0.15/1.14/601.5 · acik|ayni_tur+U 6.99/7.92/64.5 · acik|yeni_tur 1.37/4.67/157.1 · acik|yeni_tur+U 7.78/10.89/92.4 · once|ayni_tur 0.13/1.02/386.2 · once|ayni_tur+U 6.4/6.4/6.4 · once|yeni_tur 1.54/2.32/31.4 · once|yeni_tur+U 6.88/7.55/48.4 · sessiz|ayni_tur 0.14/1.19/313.1 · sessiz|ayni_tur+U 6.88/8.6/61.2 · sessiz|yeni_tur 0.7/0.01/1.4 · sessiz|yeni_tur+U 8.51/8.57/33.1
+  evre once: bölüm 4457 · giriş aclik 74% · adaysiz 26% · son ayni_tur 96% · yeni_tur 3% · yeni_tur+U 1% · ayni_tur+U 0%
+      rota_gecersiz anında alan: REPAIRING 64% · UNREACHABLE 36% (n 903)
+  evre acik: bölüm 5284 · giriş aclik 67% · adaysiz 33% · son ayni_tur 91% · yeni_tur 5% · yeni_tur+U 3% · ayni_tur+U 1%
+      rota_gecersiz anında alan: UNREACHABLE 59% · REPAIRING 41% (n 3003)
+  evre sessiz: bölüm 3420 · giriş aclik 74% · adaysiz 26% · son ayni_tur 96% · yeni_tur 2% · yeni_tur+U 1% · ayni_tur+U 0%
+      rota_gecersiz anında alan: REPAIRING 59% · UNREACHABLE 41% (n 1307)
+
+== Sayaçlar (ağ toplamı, tohum başına) — birincil ==
+  desparete  1003: alan.onarima_girdi 4095 · alan.ulasilamaz 134 · alan.tur_artirildi 17 · alan.ardil_degisti 10906 · komsu.gecis_expired 14177 · komsu.gecis_suspect 4656 · protokol.tampon_kota_disi 864 · protokol.veri_bekletilen 32265 · protokol.istek_gonderilen 164 · protokol.istek_aclik 34
+  desparete  1004: alan.onarima_girdi 3657 · alan.ulasilamaz 115 · alan.tur_artirildi 15 · alan.ardil_degisti 10302 · komsu.gecis_expired 13880 · komsu.gecis_suspect 4515 · protokol.tampon_kota_disi 565 · protokol.veri_bekletilen 24000 · protokol.istek_gonderilen 101 · protokol.istek_aclik 27
+  desparete  1005: alan.onarima_girdi 4631 · alan.ulasilamaz 143 · alan.tur_artirildi 19 · alan.ardil_degisti 12408 · komsu.gecis_expired 15496 · komsu.gecis_suspect 5945 · protokol.tampon_kota_disi 850 · protokol.veri_bekletilen 27958 · protokol.istek_gonderilen 200 · protokol.istek_aclik 39
+  desparete  1006: alan.onarima_girdi 3761 · alan.ulasilamaz 76 · alan.tur_artirildi 13 · alan.ardil_degisti 10761 · komsu.gecis_expired 14241 · komsu.gecis_suspect 4931 · protokol.tampon_kota_disi 536 · protokol.veri_bekletilen 21294 · protokol.istek_gonderilen 85 · protokol.istek_aclik 16
+  babel      1003: secim_degisti 24379 · geri_cekme 88 · sira_istegi_uretilen 11408 · uygulanamaz_alinan 319102 · uygulanamaz_yoksayilan 11482 · sira_artirildi 1111 · komsu_silindi 296
+  babel      1004: secim_degisti 23450 · geri_cekme 9 · sira_istegi_uretilen 10559 · uygulanamaz_alinan 295352 · uygulanamaz_yoksayilan 9878 · sira_artirildi 1329 · komsu_silindi 329
+  babel      1005: secim_degisti 24262 · geri_cekme 93 · sira_istegi_uretilen 12241 · uygulanamaz_alinan 339803 · uygulanamaz_yoksayilan 12075 · sira_artirildi 1426 · komsu_silindi 394
+  babel      1006: secim_degisti 26955 · geri_cekme 0 · sira_istegi_uretilen 9686 · uygulanamaz_alinan 330768 · uygulanamaz_yoksayilan 7758 · sira_artirildi 1440 · komsu_silindi 338

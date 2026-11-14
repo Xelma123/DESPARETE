@@ -1,0 +1,259 @@
+==============================================================================
+KAYIP ANATOMISI — dunya referans_2026 · formasyon-surekli · aile derin_sizma · yere toplama · tohum [1003, 1004, 1005, 1006]
+==============================================================================
+    1/12 babel                                      1004 · PDR(pencere) 0.8952 · 5355 s
+    2/12 babel                                      1003 · PDR(pencere) 0.8000 · 5619 s
+    3/12 babel                                      1006 · PDR(pencere) 0.8672 · 5779 s
+    4/12 desparete                                  1004 · PDR(pencere) 0.7354 · 6749 s
+    5/12 babel                                      1005 · PDR(pencere) 0.7257 · 6816 s
+    6/12 desparete                                  1003 · PDR(pencere) 0.6598 · 6898 s
+    7/12 desparete                                  1006 · PDR(pencere) 0.7340 · 7317 s
+    8/12 desparete                                  1005 · PDR(pencere) 0.5929 · 8046 s
+    9/12 en_guvenilir_kahin                         1004 · PDR(pencere) 0.9246 · 2516 s
+   10/12 en_guvenilir_kahin                         1003 · PDR(pencere) 0.8407 · 2884 s
+   11/12 en_guvenilir_kahin                         1005 · PDR(pencere) 0.8177 · 2753 s
+   12/12 en_guvenilir_kahin                         1006 · PDR(pencere) 0.8756 · 2314 s
+
+  desparete            PDR(pencere) ort 0.681 · üretilen 51195 · geçerli True
+    tohum 1003: PDR 0.6713 (pencere 0.6598) · kâhine oran (tüm koşu) 0.789 · 6898 s
+      düşen/üretilen: iletim_basarisiz 18.7% · rota_gecersiz 13.1% · hedef_yok 1.0%
+      ısınmada düşen (adet): iletim_basarisiz 329 · hedef_yok 101 · rota_gecersiz 89
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[6, 201, 24.3], [5, 145, 27.8], [2, 123, 15.1], [31, 114, 31.8], [35, 110, 29.2]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[5, 197, 27.8], [6, 192, 24.3], [4, 175, 26.1], [14, 125, 27.1], [37, 120, 31.1]]
+      evre: şok derinliği 0.16421395485853085 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.727 (4001) · acik 0.518 (3597) · sessiz 0.735 (3201)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 18/5/110 · iletim_basarisiz 712/554/1128 · rota_gecersiz 902/397/381
+      karar bağı kâhin bandı: iyi 98% · orta 2% · kotu 1% · mesafe km {'p10': 2.63, 'p50': 7.42, 'p90': 11.24}
+      karar bağı TEK deneme (yayın) bandı: iyi 63% · orta 29% · kotu 8%
+      başarısız bağ bandı:   iyi 79% · orta 14% · kotu 7% · mesafe km {'p10': 6.35, 'p50': 11.14, 'p90': 15.72} · 219 ayrı bağ, en çok [[5, 10, 152], [6, 7, 152], [14, 18, 108], [12, 18, 96], [16, 0, 84]]
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 803 · acik|aclik|ayni_tur+U 10 · acik|aclik|yeni_tur 37 · acik|aclik|yeni_tur+U 27 · acik|adaysiz|ayni_tur 354 · acik|adaysiz|ayni_tur+U 5 · acik|adaysiz|yeni_tur 15 · acik|adaysiz|yeni_tur+U 19 · once|aclik|ayni_tur 801 · once|aclik|ayni_tur+U 1 · once|aclik|yeni_tur 42 · once|aclik|yeni_tur+U 6 · once|adaysiz|ayni_tur 305 · once|adaysiz|yeni_tur 13 · once|adaysiz|yeni_tur+U 6 · sessiz|aclik|ayni_tur 574 · sessiz|aclik|ayni_tur+U 2 · sessiz|aclik|yeni_tur 19 · sessiz|aclik|yeni_tur+U 9 · sessiz|adaysiz|ayni_tur 259 · sessiz|adaysiz|yeni_tur 19 · sessiz|adaysiz|yeni_tur+U 3
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.2/1.81/737.5 · acik|ayni_tur+U 7.25/9.91/122.5 · acik|yeni_tur 1.64/5.19/127.5 · acik|yeni_tur+U 8.07/10.79/387.8 · once|ayni_tur 0.13/0.91/426.4 · once|ayni_tur+U 6.01/6.01/6.0 · once|yeni_tur 0.94/2.87/75.8 · once|yeni_tur+U 7.77/9.36/94.3 · sessiz|ayni_tur 0.14/0.9/356.3 · sessiz|ayni_tur+U 12.1/7.43/24.2 · sessiz|yeni_tur 1.43/4.92/69.1 · sessiz|yeni_tur+U 10.29/10.86/116.3
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 428 · acik|UNREACHABLE 474 · once|REPAIRING 185 · once|UNREACHABLE 107 · sessiz|REPAIRING 206 · sessiz|UNREACHABLE 191
+    tohum 1004: PDR 0.7466 (pencere 0.7354) · kâhine oran (tüm koşu) 0.802 · 6749 s
+      düşen/üretilen: iletim_basarisiz 16.1% · rota_gecersiz 8.3% · hedef_yok 1.0%
+      ısınmada düşen (adet): iletim_basarisiz 238 · hedef_yok 92 · rota_gecersiz 56
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[36, 153, 11.6], [24, 127, 7.0], [21, 62, 22.2], [8, 55, 14.9], [34, 49, 36.0]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[11, 193, 22.6], [21, 123, 22.2], [17, 108, 32.0], [6, 101, 22.6], [15, 100, 28.8]]
+      evre: şok derinliği 0.25683333333333336 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.803 (4000) · acik 0.603 (3603) · sessiz 0.800 (3195)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 30/2/99 · iletim_basarisiz 712/489/854 · rota_gecersiz 648/190/220
+      karar bağı kâhin bandı: iyi 98% · orta 1% · kotu 1% · mesafe km {'p10': 3.59, 'p50': 7.01, 'p90': 12.83}
+      karar bağı TEK deneme (yayın) bandı: iyi 46% · orta 48% · kotu 6%
+      başarısız bağ bandı:   iyi 80% · orta 14% · kotu 6% · mesafe km {'p10': 6.37, 'p50': 11.06, 'p90': 16.71} · 224 ayrı bağ, en çok [[21, 24, 106], [24, 0, 74], [11, 36, 63], [29, 24, 62], [28, 30, 50]]
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 755 · acik|aclik|ayni_tur+U 8 · acik|aclik|yeni_tur 36 · acik|aclik|yeni_tur+U 19 · acik|adaysiz|ayni_tur 410 · acik|adaysiz|ayni_tur+U 4 · acik|adaysiz|yeni_tur 42 · acik|adaysiz|yeni_tur+U 10 · once|aclik|ayni_tur 700 · once|aclik|ayni_tur+U 1 · once|aclik|yeni_tur 27 · once|aclik|yeni_tur+U 8 · once|adaysiz|ayni_tur 289 · once|adaysiz|ayni_tur+U 1 · once|adaysiz|yeni_tur 5 · sessiz|aclik|ayni_tur 475 · sessiz|aclik|ayni_tur+U 3 · sessiz|aclik|yeni_tur 9 · sessiz|aclik|yeni_tur+U 4 · sessiz|adaysiz|ayni_tur 216 · sessiz|adaysiz|yeni_tur 6 · sessiz|adaysiz|yeni_tur+U 3
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.19/1.74/714.9 · acik|ayni_tur+U 6.33/7.24/80.9 · acik|yeni_tur 2.9/5.55/234.8 · acik|yeni_tur+U 7.2/8.77/219.6 · once|ayni_tur 0.18/0.85/366.5 · once|ayni_tur+U 6.88/6.51/13.8 · once|yeni_tur 0.76/2.7/39.7 · once|yeni_tur+U 7.77/7.84/61.6 · sessiz|ayni_tur 0.15/0.89/271.8 · sessiz|ayni_tur+U 6.65/6.65/20.1 · sessiz|yeni_tur 0.65/1.52/14.9 · sessiz|yeni_tur+U 7.6/8.15/55.1
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 364 · acik|UNREACHABLE 284 · once|REPAIRING 89 · once|UNREACHABLE 75 · sessiz|REPAIRING 98 · sessiz|UNREACHABLE 92
+    tohum 1005: PDR 0.6094 (pencere 0.5929) · kâhine oran (tüm koşu) 0.733 · 8046 s
+      düşen/üretilen: iletim_basarisiz 22.2% · rota_gecersiz 15.4% · hedef_yok 1.4%
+      ısınmada düşen (adet): iletim_basarisiz 408 · hedef_yok 106 · rota_gecersiz 82
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[36, 257, 23.4], [38, 119, 14.6], [33, 119, 4.0], [11, 104, 22.8], [9, 100, 15.6]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[6, 198, 13.0], [21, 151, 12.1], [9, 135, 15.6], [36, 132, 23.4], [25, 129, 22.0]]
+      evre: şok derinliği 0.696324958123953 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.698 (4000) · acik 0.446 (3601) · sessiz 0.627 (3195)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 41/19/123 · iletim_basarisiz 829/773/1245 · rota_gecersiz 1096/442/430
+      karar bağı kâhin bandı: iyi 98% · orta 1% · kotu 0% · mesafe km {'p10': 2.5, 'p50': 6.28, 'p90': 18.45}
+      karar bağı TEK deneme (yayın) bandı: iyi 69% · orta 26% · kotu 5%
+      başarısız bağ bandı:   iyi 88% · orta 9% · kotu 3% · mesafe km {'p10': 6.71, 'p50': 10.32, 'p90': 18.5} · 260 ayrı bağ, en çok [[6, 24, 186], [36, 33, 107], [21, 33, 78], [7, 8, 78], [18, 33, 68]]
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 898 · acik|aclik|ayni_tur+U 9 · acik|aclik|yeni_tur 53 · acik|aclik|yeni_tur+U 27 · acik|adaysiz|ayni_tur 402 · acik|adaysiz|ayni_tur+U 2 · acik|adaysiz|yeni_tur 20 · acik|adaysiz|yeni_tur+U 31 · once|aclik|ayni_tur 942 · once|aclik|ayni_tur+U 3 · once|aclik|yeni_tur 20 · once|aclik|yeni_tur+U 6 · once|adaysiz|ayni_tur 296 · once|adaysiz|yeni_tur 5 · once|adaysiz|yeni_tur+U 5 · sessiz|aclik|ayni_tur 828 · sessiz|aclik|ayni_tur+U 1 · sessiz|aclik|yeni_tur 18 · sessiz|aclik|yeni_tur+U 10 · sessiz|adaysiz|ayni_tur 241 · sessiz|adaysiz|yeni_tur 9 · sessiz|adaysiz|yeni_tur+U 1
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.16/1.0/604.8 · acik|ayni_tur+U 6.6/8.04/76.3 · acik|yeni_tur 1.55/4.4/152.3 · acik|yeni_tur+U 14.33/17.91/775.0 · once|ayni_tur 0.14/0.94/463.6 · once|ayni_tur+U 7.39/7.39/21.8 · once|yeni_tur 2.04/4.79/52.1 · once|yeni_tur+U 8.58/18.6/107.5 · sessiz|ayni_tur 0.14/0.85/389.5 · sessiz|ayni_tur+U 6.19/6.19/6.2 · sessiz|yeni_tur 0.5/1.74/24.4 · sessiz|yeni_tur+U 8.21/11.67/102.4
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 307 · acik|UNREACHABLE 789 · once|REPAIRING 258 · once|UNREACHABLE 90 · sessiz|REPAIRING 231 · sessiz|UNREACHABLE 211
+    tohum 1006: PDR 0.7320 (pencere 0.7340) · kâhine oran (tüm koşu) 0.833 · 7317 s
+      düşen/üretilen: iletim_basarisiz 19.0% · rota_gecersiz 6.7% · hedef_yok 1.1%
+      ısınmada düşen (adet): iletim_basarisiz 344 · rota_gecersiz 121 · hedef_yok 92
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[4, 133, 10.1], [35, 80, 3.2], [25, 49, 10.9], [2, 47, 18.0], [38, 46, 9.7]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[2, 148, 18.0], [27, 142, 19.7], [37, 120, 25.1], [5, 115, 10.0], [31, 110, 24.3]]
+      evre: şok derinliği 0.10565141285321333 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.792 (3999) · acik 0.662 (3599) · sessiz 0.743 (3204)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 28/8/105 · iletim_basarisiz 836/536/1063 · rota_gecersiz 357/278/220
+      karar bağı kâhin bandı: iyi 98% · orta 1% · kotu 1% · mesafe km {'p10': 3.2, 'p50': 8.17, 'p90': 12.5}
+      karar bağı TEK deneme (yayın) bandı: iyi 64% · orta 29% · kotu 7%
+      başarısız bağ bandı:   iyi 84% · orta 13% · kotu 3% · mesafe km {'p10': 7.01, 'p50': 11.29, 'p90': 16.25} · 216 ayrı bağ, en çok [[37, 7, 112], [34, 35, 77], [14, 7, 75], [28, 21, 66], [5, 4, 64]]
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 788 · acik|aclik|ayni_tur+U 7 · acik|aclik|yeni_tur 54 · acik|aclik|yeni_tur+U 8 · acik|adaysiz|ayni_tur 399 · acik|adaysiz|ayni_tur+U 2 · acik|adaysiz|yeni_tur 27 · acik|adaysiz|yeni_tur+U 3 · once|aclik|ayni_tur 727 · once|aclik|ayni_tur+U 1 · once|aclik|yeni_tur 18 · once|aclik|yeni_tur+U 6 · once|adaysiz|ayni_tur 217 · once|adaysiz|yeni_tur 5 · once|adaysiz|yeni_tur+U 1 · sessiz|aclik|ayni_tur 562 · sessiz|aclik|ayni_tur+U 6 · sessiz|aclik|yeni_tur 2 · sessiz|aclik|yeni_tur+U 3 · sessiz|adaysiz|ayni_tur 135 · sessiz|adaysiz|ayni_tur+U 2 · sessiz|adaysiz|yeni_tur+U 1
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.15/1.14/601.5 · acik|ayni_tur+U 6.99/7.92/64.5 · acik|yeni_tur 1.37/4.67/157.1 · acik|yeni_tur+U 7.78/10.89/92.4 · once|ayni_tur 0.13/1.02/386.2 · once|ayni_tur+U 6.4/6.4/6.4 · once|yeni_tur 1.54/2.32/31.4 · once|yeni_tur+U 6.88/7.55/48.4 · sessiz|ayni_tur 0.14/1.19/313.1 · sessiz|ayni_tur+U 6.88/8.6/61.2 · sessiz|yeni_tur 0.7/0.01/1.4 · sessiz|yeni_tur+U 8.51/8.57/33.1
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 144 · acik|UNREACHABLE 213 · once|REPAIRING 45 · once|UNREACHABLE 54 · sessiz|REPAIRING 240 · sessiz|UNREACHABLE 38
+    evre × etki alanı                       ed               girisim                  uzak
+    PDR once                       0.787 (188)          0.824 (2420)         0.742 (13392)
+    PDR acik                       0.425 (233)          0.632 (2280)         0.546 (11887)
+    PDR sessiz                     0.785 (200)          0.827 (2050)         0.705 (10545)
+    karar payı once                       0.5%                 23.3%                 76.2%
+    karar payı acik                       0.6%                  9.8%                 89.6%
+    karar payı sessiz                     1.1%                 17.2%                 81.6%
+    düşen/üretilen (ed / girisim / uzak):
+      hedef_yok         once 0.0% / 0.1% / 0.7% · acik 0.0% / 0.0% / 0.2% · sessiz 0.0% / 0.0% / 0.1%
+      iletim_basarisiz  once 0.1% / 2.6% / 5.7% · acik 0.1% / 1.4% / 4.5% · sessiz 0.1% / 1.3% / 3.2%
+      rota_gecersiz     once 0.0% / 0.5% / 1.9% · acik 0.1% / 1.0% / 4.8% · sessiz 0.1% / 0.3% / 2.1%
+    doğum evresine göre akıbet (doğana oran, tohumlar toplanmış):
+      evre       doğan   teslim         hedef_yok  iletim_basarisiz     rota_gecersiz    kalan
+      once       16000    0.755             0.003             0.186             0.056    0.000
+      acik       14400    0.557             0.008             0.217             0.217    0.000
+      sessiz     12795    0.726             0.003             0.180             0.091    0.000
+      açık−önce          -0.198            +0.005            +0.031            +0.161   +0.000
+      acik evrede doğan, düşen × etki alanı (ed / girisim / uzak): hedef_yok 0.0% / 0.1% / 0.7% · iletim_basarisiz 0.5% / 4.9% / 16.3% · rota_gecersiz 0.7% / 3.4% / 17.7%
+      once evrede doğan, düşen × etki alanı (ed / girisim / uzak): hedef_yok 0.0% / 0.1% / 0.2% · iletim_basarisiz 0.2% / 5.6% / 12.8% · rota_gecersiz 0.0% / 1.4% / 4.2%
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    hedef_yok                  0        12       576       588      1.1%
+    iletim_basarisiz          89       711      8931      9731     19.0%
+    rota_gecersiz              0       593      4968      5561     10.9%
+    (koşu sonu kuyrukta)                                       0      0.0%
+
+  babel                PDR(pencere) ort 0.822 · üretilen 51195 · geçerli True
+    tohum 1003: PDR 0.8105 (pencere 0.8000) · kâhine oran (tüm koşu) 0.953 · 5619 s
+      düşen/üretilen: iletim_basarisiz 18.3% · hedef_yok 0.6% · rota_gecersiz 0.0%
+      ısınmada düşen (adet): iletim_basarisiz 184 · hedef_yok 81
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[6, 1, 24.3]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[5, 368, 27.8], [4, 320, 26.1], [12, 208, 28.0], [6, 199, 24.3], [39, 189, 28.3]]
+      evre: şok derinliği 0.5108864687000203 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.938 (4001) · acik 0.547 (3597) · sessiz 0.911 (3201)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 0/0/81 · iletim_basarisiz 1616/297/430 · rota_gecersiz 0/1/0
+      karar bağı kâhin bandı: iyi 97% · orta 1% · kotu 3% · mesafe km {'p10': 2.54, 'p50': 6.02, 'p90': 11.18}
+      karar bağı TEK deneme (yayın) bandı: iyi 73% · orta 20% · kotu 7%
+      başarısız bağ bandı:   iyi 56% · orta 6% · kotu 37% · mesafe km {'p10': 6.83, 'p50': 11.11, 'p90': 15.36} · 107 ayrı bağ, en çok [[5, 10, 362], [12, 18, 204], [4, 18, 202], [6, 7, 199], [35, 32, 166]]
+    tohum 1004: PDR 0.8888 (pencere 0.8952) · kâhine oran (tüm koşu) 0.955 · 5355 s
+      düşen/üretilen: iletim_basarisiz 10.6% · hedef_yok 0.5%
+      ısınmada düşen (adet): iletim_basarisiz 225 · hedef_yok 66
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[2, 139, 8.7], [21, 116, 22.2], [37, 112, 13.2], [24, 109, 7.0], [7, 101, 19.1]]
+      evre: şok derinliği 0.1266666666666666 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.955 (4000) · acik 0.787 (3603) · sessiz 0.942 (3195)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 0/0/66 · iletim_basarisiz 755/197/405
+      karar bağı kâhin bandı: iyi 99% · orta 0% · kotu 1% · mesafe km {'p10': 2.57, 'p50': 6.98, 'p90': 11.96}
+      karar bağı TEK deneme (yayın) bandı: iyi 67% · orta 30% · kotu 3%
+      başarısız bağ bandı:   iyi 81% · orta 7% · kotu 11% · mesafe km {'p10': 5.78, 'p50': 9.57, 'p90': 14.83} · 97 ayrı bağ, en çok [[21, 24, 112], [2, 39, 82], [1, 8, 74], [4, 39, 71], [24, 0, 65]]
+    tohum 1005: PDR 0.7428 (pencere 0.7257) · kâhine oran (tüm koşu) 0.893 · 6816 s
+      düşen/üretilen: iletim_basarisiz 24.7% · hedef_yok 0.5% · kuyruk_tasmasi 0.4% · rota_gecersiz 0.1%
+      ısınmada düşen (adet): iletim_basarisiz 268 · hedef_yok 61
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[36, 5, 23.4], [5, 4, 20.8], [0, 3, 0.0]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[36, 485, 23.4], [25, 305, 22.0], [6, 289, 13.0], [20, 203, 18.6], [33, 161, 4.0]]
+      evre: şok derinliği 0.7450724455611389 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.847 (4000) · acik 0.485 (3601) · sessiz 0.844 (3195)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 0/0/61 · iletim_basarisiz 1836/474/857 · kuyruk_tasmasi 47/4/0 · rota_gecersiz 2/5/5
+      karar bağı kâhin bandı: iyi 97% · orta 1% · kotu 1% · mesafe km {'p10': 2.52, 'p50': 5.56, 'p90': 12.5}
+      karar bağı TEK deneme (yayın) bandı: iyi 76% · orta 18% · kotu 6%
+      başarısız bağ bandı:   iyi 71% · orta 11% · kotu 18% · mesafe km {'p10': 5.21, 'p50': 8.35, 'p90': 14.67} · 135 ayrı bağ, en çok [[36, 20, 248], [25, 8, 240], [6, 24, 221], [36, 8, 164], [20, 26, 161]]
+    tohum 1006: PDR 0.8580 (pencere 0.8672) · kâhine oran (tüm koşu) 0.977 · 5779 s
+      düşen/üretilen: iletim_basarisiz 13.6% · hedef_yok 0.6%
+      ısınmada düşen (adet): iletim_basarisiz 310 · hedef_yok 71
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[2, 156, 18.0], [16, 156, 16.2], [20, 113, 5.5], [5, 107, 10.0], [34, 105, 15.6]]
+      evre: şok derinliği 0.2513842746400886 · toparlanma None s · tespit None s · BEYAN ETMİYOR
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.922 (3999) · acik 0.764 (3599) · sessiz 0.914 (3204)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 0/0/71 · iletim_basarisiz 850/275/621
+      karar bağı kâhin bandı: iyi 98% · orta 1% · kotu 1% · mesafe km {'p10': 3.16, 'p50': 6.95, 'p90': 12.07}
+      karar bağı TEK deneme (yayın) bandı: iyi 71% · orta 25% · kotu 4%
+      başarısız bağ bandı:   iyi 84% · orta 8% · kotu 8% · mesafe km {'p10': 6.48, 'p50': 10.81, 'p90': 16.13} · 137 ayrı bağ, en çok [[16, 25, 110], [28, 21, 94], [37, 7, 91], [2, 25, 90], [36, 5, 80]]
+    evre × etki alanı                       ed               girisim                  uzak
+    PDR once                       0.963 (188)          0.949 (2420)         0.909 (13392)
+    PDR acik                       0.811 (233)          0.688 (2280)         0.635 (11887)
+    PDR sessiz                     0.960 (200)          0.937 (2050)         0.895 (10545)
+    karar payı once                       0.9%                 26.3%                 72.8%
+    karar payı acik                       1.8%                 17.1%                 81.1%
+    karar payı sessiz                     1.3%                 17.8%                 80.9%
+    düşen/üretilen (ed / girisim / uzak):
+      hedef_yok         once 0.0% / 0.1% / 0.5%
+      iletim_basarisiz  once 0.1% / 1.9% / 2.6% · acik 1.4% / 5.2% / 3.3% · sessiz 0.1% / 0.9% / 1.5%
+      kuyruk_tasmasi    acik 0.0% / 0.0% / 0.1% · sessiz 0.0% / 0.0% / 0.0%
+      rota_gecersiz     once 0.0% / 0.0% / 0.0% · acik 0.0% / 0.0% / 0.0% · sessiz 0.0% / 0.0% / 0.0%
+    doğum evresine göre akıbet (doğana oran, tohumlar toplanmış):
+      evre       doğan   teslim  iletim_basarisiz    kuyruk_tasmasi     rota_gecersiz    kalan
+      once       16000    0.916             0.084             0.000             0.000    0.000
+      acik       14400    0.646             0.351             0.003             0.000    0.000
+      sessiz     12795    0.903             0.096             0.000             0.000    0.000
+      açık−önce          -0.270            +0.267            +0.003            -0.000   +0.000
+      acik evrede doğan, düşen × etki alanı (ed / girisim / uzak): iletim_basarisiz 4.9% / 18.2% / 11.9% · kuyruk_tasmasi 0.0% / 0.0% / 0.3% · rota_gecersiz 0.0% / 0.0% / 0.0%
+      once evrede doğan, düşen × etki alanı (ed / girisim / uzak): iletim_basarisiz 0.1% / 3.5% / 4.8% · rota_gecersiz 0.0% / 0.0% / 0.0%
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    hedef_yok                  0         0       279       279      0.5%
+    iletim_basarisiz         799      2468      5346      8613     16.8%
+    kuyruk_tasmasi             0         0        51        51      0.1%
+    rota_gecersiz              0         0        13        13      0.0%
+    (koşu sonu kuyrukta)                                       0      0.0%
+
+  en_guvenilir_kahin   PDR(pencere) ort 0.865 · üretilen 51195 · geçerli True
+    tohum 1003: PDR 0.8505 (pencere 0.8407) · 2884 s
+      düşen/üretilen: iletim_basarisiz 14.6% · hedef_yok 0.4%
+      ısınmada düşen (adet): iletim_basarisiz 193
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[6, 214, 24.3], [17, 211, 34.0], [14, 202, 27.1], [12, 169, 28.0], [4, 121, 26.1]]
+      evre: şok derinliği 0.05471336673344185 · toparlanma None s · tespit None s · BEYAN ETMİYOR
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.893 (4001) · acik 0.748 (3597) · sessiz 0.879 (3201)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 47/0/0 · iletim_basarisiz 850/394/622
+      karar bağı kâhin bandı: iyi 98% · orta 1% · kotu 1% · mesafe km {'p10': 2.64, 'p50': 7.55, 'p90': 12.5}
+      karar bağı TEK deneme (yayın) bandı: iyi 49% · orta 42% · kotu 9%
+      başarısız bağ bandı:   iyi 82% · orta 6% · kotu 12% · mesafe km {'p10': 7.42, 'p50': 11.2, 'p90': 24.89} · 82 ayrı bağ, en çok [[6, 7, 213], [17, 29, 210], [14, 18, 202], [12, 18, 169], [5, 10, 114]]
+    tohum 1004: PDR 0.9311 (pencere 0.9246) · 2516 s
+      düşen/üretilen: iletim_basarisiz 6.8% · hedef_yok 0.1%
+      ısınmada düşen (adet): iletim_basarisiz 68
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[21, 106, 22.2], [28, 104, 16.1], [29, 86, 23.9], [11, 65, 22.6], [24, 61, 7.0]]
+      evre: şok derinliği 0.1701666666666667 · toparlanma None s · tespit None s · BEYAN ETMİYOR
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.964 (4000) · acik 0.844 (3603) · sessiz 0.967 (3195)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 12/0/0 · iletim_basarisiz 542/114/214
+      karar bağı kâhin bandı: iyi 99% · orta 0% · kotu 1% · mesafe km {'p10': 4.75, 'p50': 7.05, 'p90': 13.77}
+      karar bağı TEK deneme (yayın) bandı: iyi 37% · orta 59% · kotu 5%
+      başarısız bağ bandı:   iyi 86% · orta 4% · kotu 10% · mesafe km {'p10': 6.81, 'p50': 10.81, 'p90': 17.47} · 67 ayrı bağ, en çok [[28, 30, 104], [21, 24, 102], [29, 24, 80], [24, 0, 61], [8, 30, 52]]
+    tohum 1005: PDR 0.8320 (pencere 0.8177) · 2753 s
+      düşen/üretilen: iletim_basarisiz 15.2% · kuyruk_tasmasi 1.4% · hedef_yok 0.2%
+      ısınmada düşen (adet): iletim_basarisiz 182
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[9, 347, 15.6], [33, 191, 4.0], [21, 177, 12.1], [6, 146, 13.0], [36, 123, 23.4]]
+      evre: şok derinliği 0.7923722780569514 · toparlanma None s · tespit None s · BEYAN ETMİYOR
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.901 (4000) · acik 0.657 (3601) · sessiz 0.894 (3195)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 25/0/0 · iletim_basarisiz 1030/338/574 · kuyruk_tasmasi 183/0/0
+      karar bağı kâhin bandı: iyi 98% · orta 1% · kotu 1% · mesafe km {'p10': 3.89, 'p50': 7.12, 'p90': 19.9}
+      karar bağı TEK deneme (yayın) bandı: iyi 62% · orta 33% · kotu 5%
+      başarısız bağ bandı:   iyi 82% · orta 7% · kotu 11% · mesafe km {'p10': 4.08, 'p50': 10.51, 'p90': 18.49} · 71 ayrı bağ, en çok [[9, 0, 318], [33, 0, 176], [6, 24, 143], [21, 33, 138], [36, 33, 123]]
+    tohum 1006: PDR 0.8783 (pencere 0.8756) · 2314 s
+      düşen/üretilen: iletim_basarisiz 11.9% · hedef_yok 0.2%
+      ısınmada düşen (adet): iletim_basarisiz 212
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[5, 264, 10.0], [31, 119, 24.3], [27, 104, 19.7], [37, 101, 25.1], [28, 83, 26.5]]
+      evre: şok derinliği 0.05876469117279315 · toparlanma None s · tespit None s · BEYAN ETMİYOR
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.896 (3999) · acik 0.825 (3599) · sessiz 0.907 (3204)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 30/0/0 · iletim_basarisiz 603/295/630
+      karar bağı kâhin bandı: iyi 98% · orta 0% · kotu 2% · mesafe km {'p10': 4.61, 'p50': 8.2, 'p90': 13.55}
+      karar bağı TEK deneme (yayın) bandı: iyi 58% · orta 34% · kotu 8%
+      başarısız bağ bandı:   iyi 89% · orta 1% · kotu 10% · mesafe km {'p10': 6.91, 'p50': 10.8, 'p90': 16.47} · 76 ayrı bağ, en çok [[5, 0, 223], [37, 7, 101], [27, 5, 98], [28, 21, 83], [38, 0, 70]]
+    evre × etki alanı                       ed               girisim                  uzak
+    PDR once                       0.920 (188)          0.950 (2420)         0.907 (13392)
+    PDR acik                       0.601 (233)          0.797 (2280)         0.767 (11887)
+    PDR sessiz                     0.930 (200)          0.938 (2050)         0.906 (10545)
+    karar payı once                       0.6%                 23.2%                 76.1%
+    karar payı acik                       1.4%                  9.3%                 89.3%
+    karar payı sessiz                     1.0%                 17.3%                 81.6%
+    düşen/üretilen (ed / girisim / uzak):
+      hedef_yok         acik 0.1% / 0.1% / 0.0%
+      iletim_basarisiz  once 0.0% / 1.3% / 2.7% · acik 0.8% / 1.5% / 3.6% · sessiz 0.1% / 0.6% / 1.5%
+      kuyruk_tasmasi    acik 0.0% / 0.0% / 0.4%
+    doğum evresine göre akıbet (doğana oran, tohumlar toplanmış):
+      evre       doğan   teslim         hedef_yok  iletim_basarisiz    kuyruk_tasmasi    kalan
+      once       16000    0.913             0.000             0.087             0.000    0.000
+      acik       14400    0.769             0.008             0.211             0.013    0.000
+      sessiz     12795    0.912             0.000             0.088             0.000    0.000
+      açık−önce          -0.145            +0.008            +0.124            +0.013   +0.000
+      acik evrede doğan, düşen × etki alanı (ed / girisim / uzak): hedef_yok 0.2% / 0.4% / 0.1% · iletim_basarisiz 2.7% / 5.5% / 12.9% · kuyruk_tasmasi 0.0% / 0.0% / 1.3%
+      once evrede doğan, düşen × etki alanı (ed / girisim / uzak): iletim_basarisiz 0.1% / 2.6% / 6.0%
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    hedef_yok                  0        95        19       114      0.2%
+    iletim_basarisiz         434       746      5026      6206     12.1%
+    kuyruk_tasmasi             0         7       176       183      0.4%
+    (koşu sonu kuyrukta)                                       0      0.0%
+
+  KARIŞTIRMAYA ÖZGÜ KAYIP — doğum evresine göre açık − önce (doğana oran, tohumlar toplanmış; satır toplamı 0)
+    kol                                     teslim         hedef_yok  iletim_basarisiz    kuyruk_tasmasi     rota_gecersiz             kalan
+    desparete                               -0.198            +0.005            +0.031            +0.000            +0.161            +0.000
+    babel                                   -0.270            +0.000            +0.267            +0.003            -0.000            +0.000
+    en_guvenilir_kahin                      -0.145            +0.008            +0.124            +0.013            +0.000            +0.000
+    desparete − babel                       +0.072            +0.005            -0.235            -0.003            +0.161            +0.000
+    desparete − en_guvenilir_kahin            -0.053            -0.003            -0.093            -0.013            +0.161            +0.000
+
+  bolge: ed = karistirici >= ED esigi (kanal erisim kilidi) · girisim = gurultunun ustu · uzak = karistiricidan bagimsiz
+  etki alani: karistirici o an ACIK olsaydi alinacak ORTALAMA guc (yavas kayip; kapi ve hizli sonumleme haric), ayni esikler; paket tablosunda paketin gecit disi ucunda, dogum aninda
+  iletim_basarisiz'in bolgesi ALICIDA (denenen sonraki atlama) okunur; digerleri dustugu dugumde (K-193)
+  bag bandi: kahinin tek deneme basarisindan p_atlama — iyi >= 0,90 · orta 0,50-0,90 · kotu < 0,50 (girisim haric)
+  toplam duvar suresi 9066 s
