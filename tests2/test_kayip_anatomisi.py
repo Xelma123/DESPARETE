@@ -266,3 +266,40 @@ def test_DESPARETE_KOLU_v041_ustune_yalniz_adi_verileni_acar():
     assert tek.bayraklar == PROFIL_V02 and tek.secenekler.hedefli_canlilik
     with pytest.raises(DegismezHatasi):
         _desparete_kolu("olmayan_secenek", kfg)
+
+
+def test_IKINCIL_cizelge_basina_dogan_teslim_ve_gecikme_tavani():
+    """Faz 5-2 · açık/sessiz dönemde doğan paketlerin sayımı satırın `ham`ından
+    (`analiz.satir.donem_sayim`); karıştırıcısız kolda hayalet çizelgelerle."""
+    from kalibrasyon.kayip_anatomisi import _cizelge_oku, _ikincil
+
+    assert _cizelge_oku("") == ()
+    assert _cizelge_oku("10:20,15:15") == ((10.0, 20.0), (15.0, 15.0))
+    # pencere 50–110 s · açılma 60 s · çizelge 10 s açık / 20 s sessiz:
+    # önce [50, 60) · açık [60, 70) · [90, 100) · sessiz [70, 90) · [100, 110)
+    satir = {"kapsam": {"olcum_penceresi_s": [50.0, 110.0]},
+             "konfig": {"karistirici_baslangic_s": 60.0},
+             "metrikler": {"evre_cizelge_s": [10.0, 20.0]},
+             "ham": {"dogum_s": [55.0, 61.0, 65.0, 75.0, 95.0, 105.0, 120.0],
+                     "teslim_dogum_s": [55.0, 61.0, 65.0, 95.0, 105.0],
+                     "teslim_gecikmeleri_s": [0.1, 0.2, 6.0, 4.0, 12.0]}}
+    o = _ikincil(satir, ((15.0, 15.0),))
+    assert o["pencere"] == {"dogan": 6, "teslim": 5,
+                            "teslim_tavan": {"3.5": 2, "5": 3, "10": 4}}
+    assert o["once"] == {"dogan": 1, "teslim": 1,
+                         "teslim_tavan": {"3.5": 1, "5": 1, "10": 1}}
+    c = o["cizelge"]
+    assert list(c) == ["10/20"] and c["10/20"]["hayalet"] is False
+    assert c["10/20"]["acik"] == {"dogan": 3, "teslim": 3,
+                                  "teslim_tavan": {"3.5": 1, "5": 2, "10": 3}}
+    assert c["10/20"]["sessiz"] == {"dogan": 2, "teslim": 1,
+                                    "teslim_tavan": {"3.5": 0, "5": 0, "10": 0}}
+    # Karıştırıcısız kol: satırda çizelge yok → verilen hayalet çizelgeler.
+    satir["metrikler"]["evre_cizelge_s"] = None
+    h = _ikincil(satir, ((15.0, 15.0), (10.0, 20.0)))["cizelge"]
+    assert list(h) == ["15/15", "10/20"]
+    assert all(v["hayalet"] for v in h.values())
+    assert h["10/20"]["acik"] == c["10/20"]["acik"]
+    # 15/15: açık [60, 75) · [90, 105) → doğan 61 · 65 · 95
+    assert h["15/15"]["acik"]["dogan"] == 3
+    assert h["15/15"]["sessiz"]["dogan"] == 2            # 75 · 105

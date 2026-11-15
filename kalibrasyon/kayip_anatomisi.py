@@ -6,7 +6,8 @@ KAYIP ANATOMİSİ — Faz 5.0 (`v2/12`, plan) · K-189 · genişletme K-193.
         --dunya referans_2026 [--kol formasyon] [--aile derin_sizma] \
         [--sinif surekli|yok] \
         [--protokoller aodv,olsrv2,babel,desparete,en_guvenilir_kahin] \
-        [--tohumlar 1003,1004,1005] [--kisa] [--isci 8] [--kayit <yol.json>]
+        [--tohumlar 1003,1004,1005] [--kisa] [--isci 8] [--kayit <yol.json>] \
+        [--hayalet 10:20]
 
     Kol başına konfig farkı (K-198): `aodv@rota_tamponu_kapasitesi=256`,
     birden çoğu `+` ile (`…=256+rota_tamponu_omru_s=60`); sonuç tam etiketle.
@@ -100,6 +101,16 @@ ayrıca hız uyarlamasının (ARF, K-177) o komşu için seçtiği HIZA göre sa
 kâhinin ölçüsü ARF tabanındadır, tabanın üstündeki denemenin başarısını
 göstermez. Simülatörün kendi sayaçları (MAC, alım, kontrol ve veri kanal
 süresi) kayda girer.
+
+🔒 15 Kasım · İKİNCİL METRİKLER (Faz 5-2): satırın `ham`ından, ön-kayıtlı
+ikincil metriğin kendi hesabıyla (`analiz.satir.donem_sayim`, K-243 · K-246)
+çizelgenin açık ve sessiz dönemlerinde DOĞAN paketler sayılır: doğan · teslim
+· gecikmesi tavanı (3,5 · 5 · 10 s) aşmayan teslim; ayrıca bütün pencere ve
+açılmadan önceki dilim. Çizelgeli karıştırıcıda koşunun kendi çizelgesi;
+karıştırıcısız kolda aynı zaman dilimleri HAYALET çizelgeyle okunur
+(konfigdeki çizelge ve `--hayalet açık:sessiz,…` ile verilenler) —
+fark-içinde-farkın ikiz tarafı. Çizelgeli kolda bu sayım aletin kendi evre
+sayımına (`karistirici_evresi`) EŞİT olmak zorundadır; değilse araç patlar.
 
 🔒 SİMÜLATÖR DEĞİŞMEZ: düğümün `_kayip_yeri`, `sonraki_atlama`,
 `ucustan_indir` ve `iletim_kaydet` yöntemleri ile alıcı zincirinin üç sonuç
@@ -449,6 +460,55 @@ def _desparete_kolu(acilan: str, kfg):
     return lambda i: DESPARETE(i, kfg.gecit, bayraklar=b, secenekler=sc)
 
 
+def _cizelge_oku(metin: str) -> tuple[tuple[float, float], ...]:
+    """`10:20,15:15` → ((10.0, 20.0), (15.0, 15.0)) — açık:sessiz, saniye."""
+    cikti = []
+    for parca in filter(None, metin.split(",")):
+        acik, _, sessiz = parca.partition(":")
+        cikti.append((float(acik), float(sessiz)))
+        dogrula(cikti[-1][0] > 0.0 and cikti[-1][1] > 0.0,
+                f"çizelge açık:sessiz, ikisi de pozitif: {parca!r}")
+    return tuple(cikti)
+
+
+def _ikincil(satir: dict, hayalet: tuple[tuple[float, float], ...]) -> dict:
+    """Doğum anına göre sayım, satırın `ham`ından: bütün pencere, açılmadan
+    önceki dilim ve çizelge başına açık / sessiz dönem. Her birinde doğan,
+    teslim ve gecikmesi tavanı aşmayan teslim (`analiz.satir`in tavanları).
+    Satırın kendi çizelgesi varsa o; yoksa `hayalet` çizelgeler."""
+    from analiz.satir import (GECIKME_TAVANI_DUYARLILIK_S, GECIKME_TAVANI_S,
+                              donem_sayim)
+
+    tavanlar = sorted((GECIKME_TAVANI_S, *GECIKME_TAVANI_DUYARLILIK_S))
+    bas, bitis = satir["kapsam"]["olcum_penceresi_s"]
+    acilma = satir["konfig"]["karistirici_baslangic_s"]
+    h = satir["ham"]
+
+    def say(alt: float, ust: float) -> dict:
+        gecikme = [g for d, g in zip(h["teslim_dogum_s"],
+                                     h["teslim_gecikmeleri_s"])
+                   if alt <= d < ust]
+        return {"dogan": sum(1 for d in h["dogum_s"] if alt <= d < ust),
+                "teslim": len(gecikme),
+                "teslim_tavan": {f"{s:g}": sum(1 for g in gecikme if g <= s)
+                                 for s in tavanlar}}
+
+    gercek = satir["metrikler"].get("evre_cizelge_s")
+    cizelgeler = (tuple(gercek),) if gercek is not None else hayalet
+    cizelge: dict = {}
+    for c in cizelgeler:
+        o: dict = {"hayalet": gercek is None}
+        for ad, acik in (("acik", True), ("sessiz", False)):
+            teslim, dogan = donem_sayim(satir, acik, c)
+            o[ad] = {"dogan": dogan, "teslim": teslim,
+                     "teslim_tavan": {
+                         f"{s:g}": donem_sayim(satir, acik, c, s)[0]
+                         for s in tavanlar}}
+        cizelge[f"{c[0]:g}/{c[1]:g}"] = o
+    return {"pencere": say(bas, bitis), "once": say(bas, min(acilma, bitis)),
+            "cizelge": cizelge}
+
+
 def _is_guvenli(is_) -> dict:
     """`_is`in hatası yalnız o koşuyu düşürür (K-198) — uzun partide tek
     bir işçinin istisnası bütün sonuçları kaybettirmesin."""
@@ -572,7 +632,8 @@ def _is(is_) -> dict:
     from sim2.kosum.sonuc import sonuc_satiri
     from sim2.mac.alici import AliciZinciri
 
-    etiket, tohum, kol, aile, kisa, sinif = is_
+    etiket, tohum, kol, aile, kisa, sinif, *kalan = is_
+    hayalet = kalan[0] if kalan else ()
     # K-198 · kol başına konfig farkı: `aodv@rota_tamponu_kapasitesi=256`
     # (birden çoğu `+` ile). Etiket sonuçta TAM haliyle durur.
     protokol, _, farklar = etiket.partition("@")
@@ -861,6 +922,22 @@ def _is(is_) -> dict:
             "pdr": (evre_teslim[e] / evre_dogan[e] if evre_dogan[e]
                     else None)}
         for e in ("once", "acik", "sessiz")}
+    # Faz 5-2 · ikincil metrikler; çizelgeli kolda aletin evre sayımıyla EŞİT
+    kendi = (kfg.tehdit_acik_s, kfg.tehdit_sessiz_s)
+    ikincil = _ikincil(satir, (kendi, *(c for c in hayalet if c != kendi)))
+    for c_ in ikincil["cizelge"].values():
+        if c_["hayalet"]:
+            continue
+        for e in ("acik", "sessiz"):
+            dogrula((c_[e]["dogan"], c_[e]["teslim"])
+                    == (evre_dogan[e], evre_teslim[e]),
+                    f"ikincil sayım {e} evresinde ({c_[e]['dogan']}, "
+                    f"{c_[e]['teslim']}), aletin evre sayımı "
+                    f"({evre_dogan[e]}, {evre_teslim[e]})")
+        dogrula((ikincil["once"]["dogan"], ikincil["once"]["teslim"])
+                == (evre_dogan["once"], evre_teslim["once"]),
+                "ikincil sayım açılmadan önceki dilimde aletin evre "
+                "sayımından farklı")
     # Doğum evresi: evre evre `doğan = teslim + Σ düşen + kalan` (kalan:
     # koşu sonunda kuyrukta, tamponda ya da uçuşta).
     dogum_dusen, atfsiz, celiski = _dogum_evresi(
@@ -929,6 +1006,9 @@ def _is(is_) -> dict:
             "dogum_atfsiz": dict(atfsiz),
             "dogum_celiski": celiski,
             "pdr_acik_satir": m.get("pdr_acik"),
+            "ikincil": ikincil,
+            "gecikme_s": {a: m.get(f"gecikme_{a}_s_pencere")
+                          for a in ("p50", "p95", "p99")},
             "evre_alan_paket": {a: [alan_dogan[a], alan_teslim[a]]
                                 for a in alan_dogan},
             "evre_alan_karar": dict(karar_alan),
@@ -1124,6 +1204,7 @@ def main() -> int:
                                      "1003,1004,1005").split(",")]
     isci = int(_arg(argv, "--isci", "8"))
     kayit_yolu = _arg(argv, "--kayit", "")
+    hayalet = _cizelge_oku(_arg(argv, "--hayalet", ""))
     dogrula(not argv, f"tanınmayan argüman: {argv}")
     dogrula(not any(2000 <= t <= 2039 for t in tohumlar),
             "ana deney tohumları (2000–2039) mühürden önce koşulmaz")
@@ -1133,7 +1214,7 @@ def main() -> int:
           f"tohum {tohumlar}"
           f"{' · KISA PENCERE' if kisa else ''}")
     print("=" * 78)
-    isler = [(p, t, kol, aile, kisa, sinif) for p in protokoller
+    isler = [(p, t, kol, aile, kisa, sinif, hayalet) for p in protokoller
              for t in tohumlar]
     t0 = time.perf_counter()
     # 🔒 K-198 · UZUN KOŞU GÜVENCESİ: her koşu biter bitmez ara kayda
