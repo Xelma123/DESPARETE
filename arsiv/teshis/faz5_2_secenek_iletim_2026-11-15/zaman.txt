@@ -1,0 +1,4 @@
+taban basla 15.11 01:04:53
+taban bitti 15.11 03:16:00 cikis 0
+secenek basla 15.11 03:16:00
+secenek bitti 15.11 07:18:20 cikis 0

@@ -1,0 +1,45 @@
+== A · alıcıdaki iki aşama (bütün koşu, 4 tohum) ==
+  kol     kilitlenme   kilitlenince veri çözüldü   girişimsiz beklenen g0   gerçek onay kaybı   sayaç 'onay kaybı'
+  T       64.6%        60.6%                       0.820                 2.1%               5.2%
+  C       64.6%        59.5%                       0.812                 2.2%               5.4%
+  O       61.9%        64.0%                       0.863                 2.2%               5.5%
+  CO      62.0%        62.3%                       0.855                 2.2%               5.6%
+  Babel   64.6%        74.7%                       0.905                 2.0%               4.4%
+  kâhin   70.5%        64.2%                       0.807                 1.7%               3.8%
+  kilitten sonraki başarısızlık (önbelge + gövde + gerçek onay kaybı), denemeye oranla: T 27.6% · Babel 18.3% · fark +9.2%
+    bağın kendi kalitesinden beklenen (kilitlenme × b_d): T 11.6% · Babel 6.2% · fark +5.5%
+    beklenenin üstü: T 15.9% · Babel 12.1% · fark +3.8%
+    farkın beklenenle açıklanan payı: 59%
+
+== B · tohum başına deneme başarısı ve π (T ↔ Babel) ==
+  1003  T g 0.381 = 0.810 × 0.471 · Babel g 0.489 = 0.909 × 0.538 · π 0.47 · kilitlenme T 65.6% ↔ Babel 66.2% · önbelge+gövde T 25.4% ↔ Babel 15.2%
+  1004  T g 0.370 = 0.796 × 0.464 · Babel g 0.479 = 0.896 × 0.534 · π 0.46 · kilitlenme T 67.6% ↔ Babel 67.0% · önbelge+gövde T 28.4% ↔ Babel 17.1%
+  1005  T g 0.363 = 0.851 × 0.426 · Babel g 0.436 = 0.914 × 0.477 · π 0.39 · kilitlenme T 61.0% ↔ Babel 61.1% · önbelge+gövde T 22.4% ↔ Babel 15.4%
+  1006  T g 0.368 = 0.819 × 0.449 · Babel g 0.451 = 0.896 × 0.503 · π 0.45 · kilitlenme T 64.5% ↔ Babel 64.7% · önbelge+gövde T 25.9% ↔ Babel 17.9%
+
+== C · en düşük hızdaki denemelerin alıcıdaki sonucu ==
+  T      1 Mb/s (95.8%): başarılı 38.2% · meşgul 30.7% · yarı çift 4.8% · önbelge 8.1% · gövde 18.2%
+  Babel  1 Mb/s (93.7%): başarılı 47.4% · meşgul 31.6% · yarı çift 4.1% · önbelge 5.1% · gövde 11.8%
+  kâhin  1 Mb/s (94.2%): başarılı 44.1% · meşgul 26.8% · yarı çift 2.7% · önbelge 8.5% · gövde 17.8%
+
+== D · atlama sayısı, kayıp ve kanal yükü (tohum ortalaması) ==
+  kol     karar/paket  atlama başarısızlığı  f_a/(1−g)^7  R       İ       toplam gönderim  kontrol payı  kilitlenme  k
+  T       2.72         6.49%                 1.66         0.054   0.178    573.5 s         32%           64.6%       0.452
+  C       2.65         7.00%                 1.64         0.055   0.187    574.6 s         33%           64.6%       0.446
+  O       3.19         6.16%                 1.64         0.032   0.200    721.0 s         37%           61.9%       0.434
+  CO      3.11         6.47%                 1.54         0.030   0.201    713.5 s         37%           62.0%       0.426
+  Babel   3.74         2.32%                 1.81         0.000   0.080    485.2 s         14%           64.6%       0.512
+  kâhin   2.64         3.29%                 1.79         0.000   0.087    329.3 s         6%           70.5%       0.539
+
+== E · tohum başına: toplam gönderim süresi ↔ kilitlenme ↔ k ==
+  T      1003 568 s 65.6% 0.471 · 1004 546 s 67.6% 0.464 · 1005 618 s 61.0% 0.426 · 1006 562 s 64.5% 0.449
+  C      1003 571 s 65.6% 0.466 · 1004 547 s 67.5% 0.462 · 1005 607 s 61.4% 0.416 · 1006 574 s 64.1% 0.444
+  O      1003 725 s 62.7% 0.453 · 1004 666 s 65.0% 0.450 · 1005 815 s 58.1% 0.395 · 1006 678 s 62.6% 0.445
+  CO     1003 725 s 62.9% 0.438 · 1004 652 s 64.8% 0.444 · 1005 796 s 58.4% 0.397 · 1006 681 s 62.6% 0.432
+  Babel  1003 481 s 66.2% 0.538 · 1004 468 s 67.0% 0.534 · 1005 535 s 61.1% 0.477 · 1006 457 s 64.7% 0.503
+  kâhin  1003 340 s 72.5% 0.547 · 1004 305 s 73.4% 0.564 · 1005 336 s 66.6% 0.531 · 1006 336 s 69.8% 0.517
+
+== F · seçenek kollarında tohum başına ΔR · Δİ (T'ye göre) ==
+  C   1003 -0.002 +0.005 · 1004 -0.006 -0.003 · 1005 -0.007 +0.022 · 1006 +0.022 +0.012
+  O   1003 -0.031 +0.021 · 1004 -0.044 +0.007 · 1005 +0.002 +0.057 · 1006 -0.013 +0.000
+  CO  1003 -0.036 +0.023 · 1004 -0.048 +0.002 · 1005 -0.002 +0.050 · 1006 -0.007 +0.017

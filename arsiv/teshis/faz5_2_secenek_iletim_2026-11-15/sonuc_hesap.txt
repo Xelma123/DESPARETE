@@ -1,0 +1,91 @@
+== 0 · GEÇERLİLİK ==
+  T      1003 korunum True · çelişki 0 · atfsız 0 · açık seçenekler tamam
+  T      1004 korunum True · çelişki 0 · atfsız 0 · açık seçenekler tamam
+  T      1005 korunum True · çelişki 0 · atfsız 0 · açık seçenekler tamam
+  T      1006 korunum True · çelişki 0 · atfsız 0 · açık seçenekler tamam
+  C      1003 korunum True · çelişki 0 · atfsız 0 · açık seçenekler tamam
+  C      1004 korunum True · çelişki 0 · atfsız 0 · açık seçenekler tamam
+  C      1005 korunum True · çelişki 0 · atfsız 0 · açık seçenekler tamam
+  C      1006 korunum True · çelişki 0 · atfsız 0 · açık seçenekler tamam
+  O      1003 korunum True · çelişki 0 · atfsız 0 · açık seçenekler tamam
+  O      1004 korunum True · çelişki 0 · atfsız 0 · açık seçenekler tamam
+  O      1005 korunum True · çelişki 0 · atfsız 0 · açık seçenekler tamam
+  O      1006 korunum True · çelişki 0 · atfsız 0 · açık seçenekler tamam
+  CO     1003 korunum True · çelişki 0 · atfsız 0 · açık seçenekler tamam
+  CO     1004 korunum True · çelişki 0 · atfsız 0 · açık seçenekler tamam
+  CO     1005 korunum True · çelişki 0 · atfsız 0 · açık seçenekler tamam
+  CO     1006 korunum True · çelişki 0 · atfsız 0 · açık seçenekler tamam
+  Babel  1003 korunum True · çelişki 0 · atfsız 0 · açık seçenekler —
+  Babel  1004 korunum True · çelişki 0 · atfsız 0 · açık seçenekler —
+  Babel  1005 korunum True · çelişki 0 · atfsız 0 · açık seçenekler —
+  Babel  1006 korunum True · çelişki 0 · atfsız 0 · açık seçenekler —
+  kâhin  1003 korunum True · çelişki 0 · atfsız 0 · açık seçenekler —
+  kâhin  1004 korunum True · çelişki 0 · atfsız 0 · açık seçenekler —
+  kâhin  1005 korunum True · çelişki 0 · atfsız 0 · açık seçenekler —
+  kâhin  1006 korunum True · çelişki 0 · atfsız 0 · açık seçenekler —
+  taban kolların pencere PDR'si, ilk ölçümün ikiz kaydıyla:
+    T      1003 0.752199 ↔ 0.752199 birebir
+    T      1004 0.796999 ↔ 0.796999 birebir
+    T      1005 0.718136 ↔ 0.718136 birebir
+    T      1006 0.804203 ↔ 0.804203 birebir
+    Babel  1003 0.943791 ↔ 0.943791 birebir
+    Babel  1004 0.954158 ↔ 0.954158 birebir
+    Babel  1005 0.862912 ↔ 0.862912 birebir
+    Babel  1006 0.917700 ↔ 0.917700 birebir
+    kâhin  1003 0.896287 ↔ 0.896287 birebir
+    kâhin  1004 0.961104 ↔ 0.961104 birebir
+    kâhin  1005 0.897833 ↔ 0.897833 birebir
+    kâhin  1006 0.894927 ↔ 0.894927 birebir
+
+== 1 · S1 — seçeneğin etkisi (pencere, T'ye göre) ==
+  T   PDR 0.7679 · R 0.0536 · İ 0.1785 · K 0.0000 · T 0.0000
+  C   PDR 0.7572 · ΔPDR -0.0106 · ΔR +0.0017 · Δİ +0.0090 · K 0.0000 · T 0.0000 → ayırt edilemedi
+      tohum başına ΔPDR: 1003 -0.0026 · 1004 +0.0088 · 1005 -0.0146 · 1006 -0.0342
+  O   PDR 0.7681 · ΔPDR +0.0002 · ΔR -0.0213 · Δİ +0.0211 · K 0.0000 · T 0.0000 → ayırt edilemedi
+      tohum başına ΔPDR: 1003 +0.0101 · 1004 +0.0371 · 1005 -0.0593 · 1006 +0.0128
+  CO  PDR 0.7682 · ΔPDR +0.0003 · ΔR -0.0232 · Δİ +0.0229 · K 0.0000 · T 0.0000 → ayırt edilemedi
+      tohum başına ΔPDR: 1003 +0.0131 · 1004 +0.0457 · 1005 -0.0481 · 1006 -0.0095
+  çalkantı ve kontrol (ağ toplamı, tohum ortalaması, bütün koşu):
+    T   gecis_expired 15171 · ardil_degisti 10804 · onarima_girdi 3753 · ulasilamaz 68 · solicit_gonderilen 131 · istek_gonderilen 78 · tur_artirildi 13 · probe_bosta 0 · ilan_gonderilen 35823 · veri_bekletilen 17993 · tampon_kota_disi 407 · onarım bölümü 2943 (adaysız 26%) · kontrol çerçevesi 221860 · kontrol kanal süresi 185.0 s
+    C   gecis_expired 13922 · ardil_degisti 12212 · onarima_girdi 3297 · ulasilamaz 50 · solicit_gonderilen 136 · istek_gonderilen 81 · tur_artirildi 14 · probe_bosta 4227 · ilan_gonderilen 36744 · veri_bekletilen 20982 · tampon_kota_disi 410 · onarım bölümü 2733 (adaysız 22%) · kontrol çerçevesi 228239 · kontrol kanal süresi 191.3 s
+    O   gecis_expired 16464 · ardil_degisti 18800 · onarima_girdi 3862 · ulasilamaz 0 · solicit_gonderilen 4503 · istek_gonderilen 283 · tur_artirildi 76 · probe_bosta 0 · ilan_gonderilen 55998 · veri_bekletilen 11334 · tampon_kota_disi 370 · onarım bölümü 3039 (adaysız 24%) · kontrol çerçevesi 310125 · kontrol kanal süresi 268.3 s
+    CO  gecis_expired 15022 · ardil_degisti 18985 · onarima_girdi 3283 · ulasilamaz 1 · solicit_gonderilen 3794 · istek_gonderilen 230 · tur_artirildi 72 · probe_bosta 4901 · ilan_gonderilen 53584 · veri_bekletilen 11488 · tampon_kota_disi 348 · onarım bölümü 2704 (adaysız 20%) · kontrol çerçevesi 304332 · kontrol kanal süresi 261.7 s
+
+== 2 · S2 — iletim başarısızlığının ayrımı (bütün koşu) ==
+  T      atlama: gerçekleşen 6.49% · beklenen 0.41% · fazla +6.08% | deneme (karar başına 2.50): gerçekleşen 63.0% · beklenen 18.0% · fazla +44.9%
+         deneme başarısı g 0.370 = g0 0.820 × k 0.452 · bağımsız denemeyle atlama başarısızlığı (1 − g)^7 = 3.92%
+         adreslenen alıcıda: başarılı 39.2% · meşgul 30.8% · yarı çift 4.6% · önbelge 7.7% · gövde 17.7% · duyma dışı 0.0% | onay kaybı 5.2%
+  C      atlama: gerçekleşen 7.00% · beklenen 0.46% · fazla +6.54% | deneme (karar başına 2.53): gerçekleşen 63.8% · beklenen 18.8% · fazla +45.0%
+         deneme başarısı g 0.362 = g0 0.812 × k 0.446 · bağımsız denemeyle atlama başarısızlığı (1 − g)^7 = 4.28%
+         adreslenen alıcıda: başarılı 38.4% · meşgul 30.8% · yarı çift 4.6% · önbelge 8.1% · gövde 18.1% · duyma dışı 0.0% | onay kaybı 5.4%
+  O      atlama: gerçekleşen 6.16% · beklenen 0.23% · fazla +5.94% | deneme (karar başına 2.48): gerçekleşen 62.6% · beklenen 13.7% · fazla +48.8%
+         deneme başarısı g 0.374 = g0 0.863 × k 0.434 · bağımsız denemeyle atlama başarısızlığı (1 − g)^7 = 3.76%
+         adreslenen alıcıda: başarılı 39.6% · meşgul 32.8% · yarı çift 5.3% · önbelge 6.5% · gövde 15.8% · duyma dışı 0.0% | onay kaybı 5.5%
+  CO     atlama: gerçekleşen 6.47% · beklenen 0.23% · fazla +6.24% | deneme (karar başına 2.53): gerçekleşen 63.6% · beklenen 14.5% · fazla +49.0%
+         deneme başarısı g 0.364 = g0 0.855 × k 0.426 · bağımsız denemeyle atlama başarısızlığı (1 − g)^7 = 4.19%
+         adreslenen alıcıda: başarılı 38.7% · meşgul 32.7% · yarı çift 5.2% · önbelge 6.8% · gövde 16.5% · duyma dışı 0.0% | onay kaybı 5.6%
+  Babel  atlama: gerçekleşen 2.32% · beklenen 0.06% · fazla +2.27% | deneme (karar başına 2.10): gerçekleşen 53.7% · beklenen 9.5% · fazla +44.1%
+         deneme başarısı g 0.463 = g0 0.905 × k 0.512 · bağımsız denemeyle atlama başarısızlığı (1 − g)^7 = 1.29%
+         adreslenen alıcıda: başarılı 48.3% · meşgul 31.5% · yarı çift 3.9% · önbelge 4.8% · gövde 11.5% · duyma dışı 0.0% | onay kaybı 4.4%
+  kâhin  atlama: gerçekleşen 3.29% · beklenen 0.22% · fazla +3.07% | deneme (karar başına 2.21): gerçekleşen 56.5% · beklenen 19.3% · fazla +37.2%
+         deneme başarısı g 0.435 = g0 0.807 × k 0.539 · bağımsız denemeyle atlama başarısızlığı (1 − g)^7 = 1.84%
+         adreslenen alıcıda: başarılı 45.2% · meşgul 26.9% · yarı çift 2.6% · önbelge 8.0% · gövde 17.3% · duyma dışı 0.0% | onay kaybı 3.8%
+  g(T)/g(Babel) = 0.800 = g0 oranı 0.906 × k oranı 0.882 · bağ seçiminin payı π = 0.44 → BAĞIN KENDİ KALİTESİ DIŞINDA
+  atlama düzeyi (ilk yazılan oran, betimleyici): F = +4.17% · B = +0.35% · B/F = 0.08
+  alt ayrım, deneme düzeyinde T − Babel: onbelge+govde +9.1% · onay_kaybi +0.8% · alim_red_yari_cift +0.7% · duyma_disi +0.0% · alim_red_mesgul -0.7% | beklenen farkı b_d +8.5% · toplam f_d +9.3%
+  deneme hızı — pay (adreslenen alıcıda başarı):
+    T      1 Mb/s 95.8% (38.2%) · 2 Mb/s 3.5% (59.8%) · 5.5 Mb/s 0.5% (65.0%) · 11 Mb/s 0.1% (66.8%)
+    C      1 Mb/s 95.7% (37.3%) · 2 Mb/s 3.5% (60.9%) · 5.5 Mb/s 0.7% (65.5%) · 11 Mb/s 0.1% (69.0%)
+    O      1 Mb/s 95.9% (38.7%) · 2 Mb/s 3.3% (60.3%) · 5.5 Mb/s 0.6% (64.5%) · 11 Mb/s 0.2% (70.5%)
+    CO     1 Mb/s 96.4% (37.8%) · 2 Mb/s 2.9% (59.7%) · 5.5 Mb/s 0.6% (66.1%) · 11 Mb/s 0.1% (75.4%)
+    Babel  1 Mb/s 93.7% (47.4%) · 2 Mb/s 5.1% (60.8%) · 5.5 Mb/s 1.0% (66.7%) · 11 Mb/s 0.2% (72.0%)
+    kâhin  1 Mb/s 94.2% (44.1%) · 2 Mb/s 4.7% (62.4%) · 5.5 Mb/s 0.9% (65.3%) · 11 Mb/s 0.1% (61.6%)
+    en düşük hızdaki pay, T − Babel: +2.1% → fark 10 puanın altında
+  kanal yükü (ağ toplamı, tohum ortalaması, bütün koşu):
+    T      kontrol çerçevesi 221860 · kontrol kanal süresi 185.0 s · veri kanal süresi 388.5 s · toplam gönderim 573.5 s (koşu süresinin %164'i, ağ toplamı) · veri denemesi 86816
+    C      kontrol çerçevesi 228239 · kontrol kanal süresi 191.3 s · veri kanal süresi 383.3 s · toplam gönderim 574.6 s (koşu süresinin %164'i, ağ toplamı) · veri denemesi 85769
+    O      kontrol çerçevesi 310125 · kontrol kanal süresi 268.3 s · veri kanal süresi 452.8 s · toplam gönderim 721.0 s (koşu süresinin %206'i, ağ toplamı) · veri denemesi 101203
+    CO     kontrol çerçevesi 304332 · kontrol kanal süresi 261.7 s · veri kanal süresi 451.8 s · toplam gönderim 713.5 s (koşu süresinin %204'i, ağ toplamı) · veri denemesi 100714
+    Babel  kontrol çerçevesi 97465 · kontrol kanal süresi 68.7 s · veri kanal süresi 416.5 s · toplam gönderim 485.2 s (koşu süresinin %139'i, ağ toplamı) · veri denemesi 100534
+    kâhin  kontrol çerçevesi 44486 · kontrol kanal süresi 19.6 s · veri kanal süresi 309.7 s · toplam gönderim 329.3 s (koşu süresinin %94'i, ağ toplamı) · veri denemesi 74548
+    kontrol kanal süresi, T / Babel = 2.69 → BELİRGİN YÜKSEK
