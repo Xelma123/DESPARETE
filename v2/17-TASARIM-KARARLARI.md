@@ -8,6 +8,16 @@
 
 ---
 
+## Protokolün kimliği (taslak, 16 Kasım)
+
+DESPARETE, karıştırma altında çalışan taktik İHA sürüsü için tek hedefe yönelik bir yönlendirme protokolüdür: her düğümden geçide giden telemetriyi ve geçitten düğümlere dönen komutu taşır. Çekirdeği bilinen yöntemlerden kurulur ve her birinin kaynağı yazılıdır. Bağın maliyeti iki yönde ölçülen teslim oranıdır (ETX). Döngüsüzlük, geçidin verdiği tur numarası ve uygulanabilirlik koşuluyla sağlanır (Babel ve DSDV ailesi). Selam aralığı ağın sakinliğine göre uzar (Trickle). DESPARETE'yi ayıran, karıştırmayı yerel kanıtla tanıması ve ona kanıtla karşılık vermesidir. Her düğüm teslim, sinyal gücü ve kanal işaretlerinin birbirini tutup tutmadığına bakarak karıştırmayı kötü bağdan ve çarpışmadan ayırır; karıştırılan alıcı bunu selamıyla komşularına bildirir. Karıştırılan bağ geçici olarak bırakılır, karıştırmadan önceki kalitesi hatırlanır ve kanıt kalkınca hemen geri alınır. Protokol karıştırıcının çizelgesini bilmez. Kullanmadığı bağları da ölçmeyi sürdürür ve kopan yerlerini kendiliğinden onarır. Kısa bağların karıştırmaya karşı büyük payından ayrı bir kuralla değil, ölçülen teslim oranıyla yararlanır. Kontrol yükünü düşük tutar: uzaklık ilanı selamla birlikte gider, ara ilan yalnız önemli değişimde çıkar.
+
+Bu paragraf taslaktır; 5-2'nin sonunda düzeltmelerle son hâline getirilir.
+
+**Açık nokta: komutun yolu.** Taslak, v0.4.1'in komut geri izinin (V11, K-172) korunacağını varsayıyor: her röle bir düğümün telemetrisini hangi komşudan aldığını hatırlar, o düğüme giden komut o komşuya verilir; ek ileti gerekmez. Öteki seçenekler: ayrı bir aşağı yön ilanı (RPL'nin DAO'su [63]) · geçidin telemetriden öğrenip komutun başlığına yazdığı kaynak rotası (K-232).
+
+---
+
 ## 0 · İlkeler
 
 **İlke 1 · Kısa bağ karıştırmaya dayanıklıdır, ama tek ölçüt değildir (16 Kasım).**
