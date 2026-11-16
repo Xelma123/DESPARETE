@@ -1,6 +1,6 @@
 # v2 — PROJE BELGELERİ
 
-> Her bilgi tek yerde. Durum yalnız `12`de, geçerli kararlar yalnız `04`te. Güncel: 13 Ekim 2026. Önceki hâller `arsiv/`de (git'te izlenir).
+> Her bilgi tek yerde. Durum yalnız `12`de, geçerli kararlar yalnız `04`te; DESPARETE'nin tasarım kararları `17`de (`04` §6 atıf verir). Güncel: 16 Kasım 2026. Önceki hâller `arsiv/`de (git'te izlenir).
 >
 > Belgeler bilgi kaydıdır, doğruluğun kanıtı değildir: bir iddia kodla, ölçümle ya da birincil kaynakla sınanır. Belge ile kod çelişirse hangisinin yanlış olduğu ölçülerek bulunur (`03` §1).
 
@@ -19,6 +19,7 @@
 | 13 | `13-KONTROL-DUZLEMI.md` | protokolün yapabildikleri — sözleşme |
 | 14 | `14-REFERANS-DUNYA.md` | referans dünyanın sayıları ve kaynakları |
 | 16 | `16-KAYNAKCA.md` | rapor için kaynakça (IEEE biçimi) |
+| 17 | `17-TASARIM-KARARLARI.md` | DESPARETE'nin yeni sürümü: ilkeler ve konu konu tasarım kararlarım (Faz 5-2) |
 | — | `kayit/KARAR-GUNLUGU.md` | kronolojik karar günlüğü K-090…; koddaki `K-xxx` atıflarının adresi; tarihsel kayıttır, yeniden yazılmaz |
 
 **Koddaki eski atıflar** (belgeler 28 Eylül ve 13 Ekim'de sadeleştirildi; koddaki bölüm numaraları eski sürümlerindir):
