@@ -1,0 +1,371 @@
+==============================================================================
+KAYIP ANATOMISI — dunya referans_2026 · formasyon-surekli · aile derin_sizma · yere toplama · tohum [1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]
+==============================================================================
+    1/16 desparete                                  1007 · PDR(pencere) 0.8106 · 5858 s
+    2/16 desparete                                  1004 · PDR(pencere) 0.7354 · 6556 s
+    3/16 desparete                                  1003 · PDR(pencere) 0.6598 · 6712 s
+    4/16 desparete                                  1008 · PDR(pencere) 0.7064 · 6880 s
+    5/16 desparete                                  1010 · PDR(pencere) 0.6614 · 6931 s
+    6/16 desparete                                  1006 · PDR(pencere) 0.7340 · 7186 s
+    7/16 desparete                                  1009 · PDR(pencere) 0.7272 · 7683 s
+    8/16 desparete                                  1005 · PDR(pencere) 0.5929 · 8140 s
+    9/16 desparete@tehdit_acik_s=10+tehdit_sessiz_s=20 1003 · PDR(pencere) 0.6441 · 6317 s
+   10/16 desparete@tehdit_acik_s=10+tehdit_sessiz_s=20 1004 · PDR(pencere) 0.6993 · 5907 s
+   11/16 desparete@tehdit_acik_s=10+tehdit_sessiz_s=20 1007 · PDR(pencere) 0.7931 · 5628 s
+   12/16 desparete@tehdit_acik_s=10+tehdit_sessiz_s=20 1006 · PDR(pencere) 0.7617 · 6625 s
+   13/16 desparete@tehdit_acik_s=10+tehdit_sessiz_s=20 1008 · PDR(pencere) 0.7241 · 6462 s
+   14/16 desparete@tehdit_acik_s=10+tehdit_sessiz_s=20 1005 · PDR(pencere) 0.6093 · 7275 s
+   15/16 desparete@tehdit_acik_s=10+tehdit_sessiz_s=20 1010 · PDR(pencere) 0.6733 · 5964 s
+   16/16 desparete@tehdit_acik_s=10+tehdit_sessiz_s=20 1009 · PDR(pencere) 0.7177 · 6699 s
+
+  desparete            PDR(pencere) ort 0.703 · üretilen 102391 · geçerli True
+    tohum 1003: PDR 0.6713 (pencere 0.6598) · 6712 s
+      düşen/üretilen: iletim_basarisiz 18.7% · rota_gecersiz 13.1% · hedef_yok 1.0%
+      ısınmada düşen (adet): iletim_basarisiz 329 · hedef_yok 101 · rota_gecersiz 89
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[6, 201, 24.3], [5, 145, 27.8], [2, 123, 15.1], [31, 114, 31.8], [35, 110, 29.2]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[5, 197, 27.8], [6, 192, 24.3], [4, 175, 26.1], [14, 125, 27.1], [37, 120, 31.1]]
+      evre: şok derinliği 0.16421395485853085 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.727 (4001) · acik 0.518 (3597) · sessiz 0.735 (3201)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 18/5/110 · iletim_basarisiz 712/554/1128 · rota_gecersiz 902/397/381
+      karar bağı kâhin bandı: iyi 98% · orta 2% · kotu 1% · mesafe km {'p10': 2.63, 'p50': 7.42, 'p90': 11.24}
+      karar bağı TEK deneme (yayın) bandı: iyi 63% · orta 29% · kotu 8%
+      başarısız bağ bandı:   iyi 79% · orta 14% · kotu 6% · mesafe km {'p10': 6.35, 'p50': 11.14, 'p90': 15.72} · 219 ayrı bağ, en çok [[5, 10, 152], [6, 7, 152], [14, 18, 108], [12, 18, 96], [16, 0, 84]]
+      veri denemesi 86205 · adreslenen alıcıda: alim_basarili 39.2% · alim_red_mesgul 28.7% · alim_red_per 18.1% · alim_red_onbelge 9.1% · alim_red_yari_cift 5.0% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 95.2% (37.9%) · 2e+06 3.9% (63.1%) · 5.5e+06 0.7% (68.8%) · 1.1e+07 0.2% (68.5%)
+      girişimsiz beklenen başarısızlık: deneme 21.3% · karar 1.37%
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 803 · acik|aclik|ayni_tur+U 10 · acik|aclik|yeni_tur 37 · acik|aclik|yeni_tur+U 27 · acik|adaysiz|ayni_tur 354 · acik|adaysiz|ayni_tur+U 5 · acik|adaysiz|yeni_tur 15 · acik|adaysiz|yeni_tur+U 19 · once|aclik|ayni_tur 801 · once|aclik|ayni_tur+U 1 · once|aclik|yeni_tur 42 · once|aclik|yeni_tur+U 6 · once|adaysiz|ayni_tur 305 · once|adaysiz|yeni_tur 13 · once|adaysiz|yeni_tur+U 6 · sessiz|aclik|ayni_tur 574 · sessiz|aclik|ayni_tur+U 2 · sessiz|aclik|yeni_tur 19 · sessiz|aclik|yeni_tur+U 9 · sessiz|adaysiz|ayni_tur 259 · sessiz|adaysiz|yeni_tur 19 · sessiz|adaysiz|yeni_tur+U 3
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.2/1.81/737.5 · acik|ayni_tur+U 7.25/9.91/122.5 · acik|yeni_tur 1.64/5.19/127.5 · acik|yeni_tur+U 8.07/10.79/387.8 · once|ayni_tur 0.13/0.91/426.4 · once|ayni_tur+U 6.01/6.01/6.0 · once|yeni_tur 0.94/2.87/75.8 · once|yeni_tur+U 7.77/9.36/94.3 · sessiz|ayni_tur 0.14/0.9/356.3 · sessiz|ayni_tur+U 12.1/7.43/24.2 · sessiz|yeni_tur 1.43/4.92/69.1 · sessiz|yeni_tur+U 10.29/10.86/116.3
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 428 · acik|UNREACHABLE 474 · once|REPAIRING 185 · once|UNREACHABLE 107 · sessiz|REPAIRING 206 · sessiz|UNREACHABLE 191
+    tohum 1004: PDR 0.7466 (pencere 0.7354) · 6556 s
+      düşen/üretilen: iletim_basarisiz 16.1% · rota_gecersiz 8.3% · hedef_yok 1.0%
+      ısınmada düşen (adet): iletim_basarisiz 238 · hedef_yok 92 · rota_gecersiz 56
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[36, 153, 11.6], [24, 127, 7.0], [21, 62, 22.2], [8, 55, 14.9], [34, 49, 36.0]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[11, 193, 22.6], [21, 123, 22.2], [17, 108, 32.0], [6, 101, 22.6], [15, 100, 28.8]]
+      evre: şok derinliği 0.25683333333333336 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.803 (4000) · acik 0.603 (3603) · sessiz 0.800 (3195)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 30/2/99 · iletim_basarisiz 712/489/854 · rota_gecersiz 648/190/220
+      karar bağı kâhin bandı: iyi 98% · orta 1% · kotu 1% · mesafe km {'p10': 3.59, 'p50': 7.01, 'p90': 12.83}
+      karar bağı TEK deneme (yayın) bandı: iyi 46% · orta 48% · kotu 6%
+      başarısız bağ bandı:   iyi 80% · orta 14% · kotu 6% · mesafe km {'p10': 6.37, 'p50': 11.06, 'p90': 16.71} · 224 ayrı bağ, en çok [[21, 24, 106], [24, 0, 74], [11, 36, 63], [29, 24, 62], [28, 30, 50]]
+      veri denemesi 84113 · adreslenen alıcıda: alim_basarili 38.4% · alim_red_mesgul 27.7% · alim_red_per 20.3% · alim_red_onbelge 9.3% · alim_red_yari_cift 4.3% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 97.8% (37.8%) · 2e+06 1.7% (59.5%) · 5.5e+06 0.5% (73.7%) · 1.1e+07 0.1% (65.3%)
+      girişimsiz beklenen başarısızlık: deneme 22.6% · karar 0.99%
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 755 · acik|aclik|ayni_tur+U 8 · acik|aclik|yeni_tur 36 · acik|aclik|yeni_tur+U 19 · acik|adaysiz|ayni_tur 410 · acik|adaysiz|ayni_tur+U 4 · acik|adaysiz|yeni_tur 42 · acik|adaysiz|yeni_tur+U 10 · once|aclik|ayni_tur 700 · once|aclik|ayni_tur+U 1 · once|aclik|yeni_tur 27 · once|aclik|yeni_tur+U 8 · once|adaysiz|ayni_tur 289 · once|adaysiz|ayni_tur+U 1 · once|adaysiz|yeni_tur 5 · sessiz|aclik|ayni_tur 475 · sessiz|aclik|ayni_tur+U 3 · sessiz|aclik|yeni_tur 9 · sessiz|aclik|yeni_tur+U 4 · sessiz|adaysiz|ayni_tur 216 · sessiz|adaysiz|yeni_tur 6 · sessiz|adaysiz|yeni_tur+U 3
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.19/1.74/714.9 · acik|ayni_tur+U 6.33/7.24/80.9 · acik|yeni_tur 2.9/5.55/234.8 · acik|yeni_tur+U 7.2/8.77/219.6 · once|ayni_tur 0.18/0.85/366.5 · once|ayni_tur+U 6.88/6.51/13.8 · once|yeni_tur 0.76/2.7/39.7 · once|yeni_tur+U 7.77/7.84/61.6 · sessiz|ayni_tur 0.15/0.89/271.8 · sessiz|ayni_tur+U 6.65/6.65/20.1 · sessiz|yeni_tur 0.65/1.52/14.9 · sessiz|yeni_tur+U 7.6/8.15/55.1
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 364 · acik|UNREACHABLE 284 · once|REPAIRING 89 · once|UNREACHABLE 75 · sessiz|REPAIRING 98 · sessiz|UNREACHABLE 92
+    tohum 1005: PDR 0.6094 (pencere 0.5929) · 8140 s
+      düşen/üretilen: iletim_basarisiz 22.2% · rota_gecersiz 15.4% · hedef_yok 1.4%
+      ısınmada düşen (adet): iletim_basarisiz 408 · hedef_yok 106 · rota_gecersiz 82
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[36, 257, 23.4], [38, 119, 14.6], [33, 119, 4.0], [11, 104, 22.8], [9, 100, 15.6]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[6, 198, 13.0], [21, 151, 12.1], [9, 135, 15.6], [36, 132, 23.4], [25, 129, 22.0]]
+      evre: şok derinliği 0.696324958123953 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.698 (4000) · acik 0.446 (3601) · sessiz 0.627 (3195)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 41/19/123 · iletim_basarisiz 829/773/1245 · rota_gecersiz 1096/442/430
+      karar bağı kâhin bandı: iyi 98% · orta 1% · kotu 0% · mesafe km {'p10': 2.5, 'p50': 6.28, 'p90': 18.45}
+      karar bağı TEK deneme (yayın) bandı: iyi 69% · orta 26% · kotu 5%
+      başarısız bağ bandı:   iyi 88% · orta 9% · kotu 3% · mesafe km {'p10': 6.71, 'p50': 10.32, 'p90': 18.5} · 260 ayrı bağ, en çok [[6, 24, 186], [36, 33, 107], [21, 33, 78], [7, 8, 78], [18, 33, 68]]
+      veri denemesi 91445 · adreslenen alıcıda: alim_basarili 37.4% · alim_red_mesgul 32.0% · alim_red_per 16.3% · alim_red_onbelge 8.2% · alim_red_yari_cift 6.1% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 95.5% (36.3%) · 2e+06 4.1% (60.8%) · 5.5e+06 0.4% (55.7%) · 1.1e+07 0.0% (60.0%)
+      girişimsiz beklenen başarısızlık: deneme 17.4% · karar 0.72%
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 898 · acik|aclik|ayni_tur+U 9 · acik|aclik|yeni_tur 53 · acik|aclik|yeni_tur+U 27 · acik|adaysiz|ayni_tur 402 · acik|adaysiz|ayni_tur+U 2 · acik|adaysiz|yeni_tur 20 · acik|adaysiz|yeni_tur+U 31 · once|aclik|ayni_tur 942 · once|aclik|ayni_tur+U 3 · once|aclik|yeni_tur 20 · once|aclik|yeni_tur+U 6 · once|adaysiz|ayni_tur 296 · once|adaysiz|yeni_tur 5 · once|adaysiz|yeni_tur+U 5 · sessiz|aclik|ayni_tur 828 · sessiz|aclik|ayni_tur+U 1 · sessiz|aclik|yeni_tur 18 · sessiz|aclik|yeni_tur+U 10 · sessiz|adaysiz|ayni_tur 241 · sessiz|adaysiz|yeni_tur 9 · sessiz|adaysiz|yeni_tur+U 1
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.16/1.0/604.8 · acik|ayni_tur+U 6.6/8.04/76.3 · acik|yeni_tur 1.55/4.4/152.3 · acik|yeni_tur+U 14.33/17.91/775.0 · once|ayni_tur 0.14/0.94/463.6 · once|ayni_tur+U 7.39/7.39/21.8 · once|yeni_tur 2.04/4.79/52.1 · once|yeni_tur+U 8.58/18.6/107.5 · sessiz|ayni_tur 0.14/0.85/389.5 · sessiz|ayni_tur+U 6.19/6.19/6.2 · sessiz|yeni_tur 0.5/1.74/24.4 · sessiz|yeni_tur+U 8.21/11.67/102.4
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 307 · acik|UNREACHABLE 789 · once|REPAIRING 258 · once|UNREACHABLE 90 · sessiz|REPAIRING 231 · sessiz|UNREACHABLE 211
+    tohum 1006: PDR 0.7320 (pencere 0.7340) · 7186 s
+      düşen/üretilen: iletim_basarisiz 19.0% · rota_gecersiz 6.7% · hedef_yok 1.1%
+      ısınmada düşen (adet): iletim_basarisiz 344 · rota_gecersiz 121 · hedef_yok 92
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[4, 133, 10.1], [35, 80, 3.2], [25, 49, 10.9], [2, 47, 18.0], [38, 46, 9.7]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[2, 148, 18.0], [27, 142, 19.7], [37, 120, 25.1], [5, 115, 10.0], [31, 110, 24.3]]
+      evre: şok derinliği 0.10565141285321333 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.792 (3999) · acik 0.662 (3599) · sessiz 0.743 (3204)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 28/8/105 · iletim_basarisiz 836/536/1063 · rota_gecersiz 357/278/220
+      karar bağı kâhin bandı: iyi 98% · orta 1% · kotu 1% · mesafe km {'p10': 3.2, 'p50': 8.17, 'p90': 12.5}
+      karar bağı TEK deneme (yayın) bandı: iyi 64% · orta 29% · kotu 7%
+      başarısız bağ bandı:   iyi 84% · orta 13% · kotu 3% · mesafe km {'p10': 7.01, 'p50': 11.29, 'p90': 16.25} · 216 ayrı bağ, en çok [[37, 7, 112], [34, 35, 77], [14, 7, 75], [28, 21, 66], [5, 4, 64]]
+      veri denemesi 87971 · adreslenen alıcıda: alim_basarili 38.2% · alim_red_mesgul 29.8% · alim_red_per 18.6% · alim_red_onbelge 8.7% · alim_red_yari_cift 4.7% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 96.5% (37.5%) · 2e+06 3.2% (56.6%) · 5.5e+06 0.2% (52.8%) · 1.1e+07 0.1% (70.8%)
+      girişimsiz beklenen başarısızlık: deneme 20.8% · karar 1.09%
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 788 · acik|aclik|ayni_tur+U 7 · acik|aclik|yeni_tur 54 · acik|aclik|yeni_tur+U 8 · acik|adaysiz|ayni_tur 399 · acik|adaysiz|ayni_tur+U 2 · acik|adaysiz|yeni_tur 27 · acik|adaysiz|yeni_tur+U 3 · once|aclik|ayni_tur 727 · once|aclik|ayni_tur+U 1 · once|aclik|yeni_tur 18 · once|aclik|yeni_tur+U 6 · once|adaysiz|ayni_tur 217 · once|adaysiz|yeni_tur 5 · once|adaysiz|yeni_tur+U 1 · sessiz|aclik|ayni_tur 562 · sessiz|aclik|ayni_tur+U 6 · sessiz|aclik|yeni_tur 2 · sessiz|aclik|yeni_tur+U 3 · sessiz|adaysiz|ayni_tur 135 · sessiz|adaysiz|ayni_tur+U 2 · sessiz|adaysiz|yeni_tur+U 1
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.15/1.14/601.5 · acik|ayni_tur+U 6.99/7.92/64.5 · acik|yeni_tur 1.37/4.67/157.1 · acik|yeni_tur+U 7.78/10.89/92.4 · once|ayni_tur 0.13/1.02/386.2 · once|ayni_tur+U 6.4/6.4/6.4 · once|yeni_tur 1.54/2.32/31.4 · once|yeni_tur+U 6.88/7.55/48.4 · sessiz|ayni_tur 0.14/1.19/313.1 · sessiz|ayni_tur+U 6.88/8.6/61.2 · sessiz|yeni_tur 0.7/0.01/1.4 · sessiz|yeni_tur+U 8.51/8.57/33.1
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 144 · acik|UNREACHABLE 213 · once|REPAIRING 45 · once|UNREACHABLE 54 · sessiz|REPAIRING 240 · sessiz|UNREACHABLE 38
+    tohum 1007: PDR 0.8140 (pencere 0.8106) · 5858 s
+      düşen/üretilen: iletim_basarisiz 11.4% · rota_gecersiz 6.2% · hedef_yok 0.9%
+      ısınmada düşen (adet): iletim_basarisiz 217 · hedef_yok 81 · rota_gecersiz 31
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[22, 98, 15.1], [4, 73, 18.1], [9, 69, 26.2], [21, 69, 8.1], [37, 67, 16.8]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[22, 112, 15.1], [29, 90, 33.1], [9, 79, 26.2], [36, 77, 28.7], [34, 69, 32.0]]
+      evre: şok derinliği 0.2235843071786311 · toparlanma None s · tespit 1.0 s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.873 (4000) · acik 0.669 (3597) · sessiz 0.891 (3203)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 34/1/85 · iletim_basarisiz 487/303/672 · rota_gecersiz 638/81/80
+      karar bağı kâhin bandı: iyi 99% · orta 1% · kotu 0% · mesafe km {'p10': 4.23, 'p50': 8.08, 'p90': 13.38}
+      karar bağı TEK deneme (yayın) bandı: iyi 72% · orta 24% · kotu 4%
+      başarısız bağ bandı:   iyi 81% · orta 13% · kotu 6% · mesafe km {'p10': 7.39, 'p50': 11.66, 'p90': 15.14} · 166 ayrı bağ, en çok [[22, 0, 97], [26, 21, 68], [16, 21, 55], [34, 26, 51], [9, 22, 45]]
+      veri denemesi 73990 · adreslenen alıcıda: alim_basarili 43.1% · alim_red_mesgul 29.1% · alim_red_per 16.0% · alim_red_onbelge 7.1% · alim_red_yari_cift 4.7% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 95.7% (42.3%) · 2e+06 3.9% (59.6%) · 5.5e+06 0.4% (60.3%) · 1.1e+07 0.1% (74.4%)
+      girişimsiz beklenen başarısızlık: deneme 15.9% · karar 0.61%
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 496 · acik|aclik|ayni_tur+U 6 · acik|aclik|yeni_tur 23 · acik|aclik|yeni_tur+U 27 · acik|adaysiz|ayni_tur 325 · acik|adaysiz|ayni_tur+U 5 · acik|adaysiz|yeni_tur 10 · acik|adaysiz|yeni_tur+U 19 · once|aclik|ayni_tur 421 · once|aclik|ayni_tur+U 1 · once|aclik|yeni_tur 9 · once|aclik|yeni_tur+U 3 · once|adaysiz|ayni_tur 224 · once|adaysiz|ayni_tur+U 2 · once|adaysiz|yeni_tur 4 · sessiz|aclik|ayni_tur 369 · sessiz|aclik|ayni_tur+U 1 · sessiz|aclik|yeni_tur+U 4 · sessiz|adaysiz|ayni_tur 113 · sessiz|adaysiz|yeni_tur+U 1
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.21/0.85/326.0 · acik|ayni_tur+U 6.97/7.25/75.7 · acik|yeni_tur 2.49/5.15/86.1 · acik|yeni_tur+U 9.03/13.17/433.5 · once|ayni_tur 0.12/0.84/211.6 · once|ayni_tur+U 6.29/6.29/19.6 · once|yeni_tur 0.2/1.05/8.8 · once|yeni_tur+U 8.83/8.83/31.5 · sessiz|ayni_tur 0.16/0.81/172.6 · sessiz|ayni_tur+U 6.96/6.96/7.0 · sessiz|yeni_tur+U 7.96/11.55/50.7
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 121 · acik|UNREACHABLE 517 · once|REPAIRING 5 · once|UNREACHABLE 44 · sessiz|REPAIRING 22 · sessiz|UNREACHABLE 59
+    tohum 1008: PDR 0.7064 (pencere 0.7064) · 6880 s
+      düşen/üretilen: iletim_basarisiz 17.6% · rota_gecersiz 10.9% · hedef_yok 1.0%
+      ısınmada düşen (adet): iletim_basarisiz 359 · rota_gecersiz 145 · hedef_yok 84
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[6, 156, 20.2], [21, 132, 25.8], [37, 98, 29.1], [17, 87, 11.1], [25, 67, 27.4]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[37, 172, 29.1], [21, 130, 25.8], [36, 123, 28.4], [6, 122, 20.2], [39, 110, 27.4]]
+      evre: şok derinliği 0.1606745592909079 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.772 (3999) · acik 0.562 (3596) · sessiz 0.787 (3203)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 25/10/87 · iletim_basarisiz 589/570/1088 · rota_gecersiz 936/135/318
+      karar bağı kâhin bandı: iyi 97% · orta 2% · kotu 1% · mesafe km {'p10': 3.84, 'p50': 6.95, 'p90': 13.29}
+      karar bağı TEK deneme (yayın) bandı: iyi 61% · orta 32% · kotu 7%
+      başarısız bağ bandı:   iyi 79% · orta 16% · kotu 5% · mesafe km {'p10': 6.6, 'p50': 11.33, 'p90': 17.53} · 232 ayrı bağ, en çok [[37, 27, 163], [36, 28, 79], [6, 17, 67], [29, 0, 56], [21, 6, 53]]
+      veri denemesi 74349 · adreslenen alıcıda: alim_basarili 37.3% · alim_red_mesgul 30.7% · alim_red_per 18.8% · alim_red_onbelge 9.0% · alim_red_yari_cift 4.2% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 97.9% (37.0%) · 2e+06 1.8% (50.0%) · 5.5e+06 0.2% (65.3%) · 1.1e+07 0.1% (74.5%)
+      girişimsiz beklenen başarısızlık: deneme 21.3% · karar 1.08%
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 488 · acik|aclik|ayni_tur+U 2 · acik|aclik|yeni_tur 34 · acik|aclik|yeni_tur+U 39 · acik|adaysiz|ayni_tur 367 · acik|adaysiz|ayni_tur+U 1 · acik|adaysiz|yeni_tur 30 · acik|adaysiz|yeni_tur+U 31 · once|aclik|ayni_tur 735 · once|aclik|ayni_tur+U 2 · once|aclik|yeni_tur 19 · once|aclik|yeni_tur+U 5 · once|adaysiz|ayni_tur 249 · once|adaysiz|yeni_tur 5 · sessiz|aclik|ayni_tur 585 · sessiz|aclik|ayni_tur+U 1 · sessiz|aclik|yeni_tur 4 · sessiz|aclik|yeni_tur+U 2 · sessiz|adaysiz|ayni_tur 156 · sessiz|adaysiz|yeni_tur 2 · sessiz|adaysiz|yeni_tur+U 1
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.18/1.39/467.9 · acik|ayni_tur+U 7.96/7.96/24.5 · acik|yeni_tur 2.84/5.65/203.8 · acik|yeni_tur+U 7.56/9.79/551.8 · once|ayni_tur 0.14/0.92/374.0 · once|ayni_tur+U 6.96/6.88/13.9 · once|yeni_tur 0.79/2.01/26.6 · once|yeni_tur+U 8.04/10.41/47.6 · sessiz|ayni_tur 0.16/0.97/284.4 · sessiz|ayni_tur+U 6.02/6.02/6.0 · sessiz|yeni_tur 0.6/0.64/3.8 · sessiz|yeni_tur+U 8.08/8.08/26.4
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 357 · acik|UNREACHABLE 579 · once|REPAIRING 136 · once|UNREACHABLE 37 · sessiz|REPAIRING 94 · sessiz|UNREACHABLE 41
+    tohum 1009: PDR 0.7278 (pencere 0.7272) · 7683 s
+      düşen/üretilen: iletim_basarisiz 17.5% · rota_gecersiz 8.5% · hedef_yok 1.2%
+      ısınmada düşen (adet): iletim_basarisiz 321 · hedef_yok 111 · rota_gecersiz 105
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[35, 154, 16.5], [18, 106, 15.6], [36, 91, 16.7], [30, 85, 16.2], [6, 64, 19.6]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[6, 166, 19.6], [2, 117, 26.0], [17, 113, 26.1], [9, 111, 28.4], [25, 110, 25.8]]
+      evre: şok derinliği 0.1532232783058195 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.780 (3998) · acik 0.611 (3604) · sessiz 0.792 (3195)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 25/8/121 · iletim_basarisiz 678/552/1006 · rota_gecersiz 570/233/290
+      karar bağı kâhin bandı: iyi 98% · orta 1% · kotu 1% · mesafe km {'p10': 3.53, 'p50': 6.43, 'p90': 12.75}
+      karar bağı TEK deneme (yayın) bandı: iyi 66% · orta 29% · kotu 5%
+      başarısız bağ bandı:   iyi 83% · orta 12% · kotu 5% · mesafe km {'p10': 6.74, 'p50': 10.39, 'p90': 14.55} · 242 ayrı bağ, en çok [[6, 23, 152], [21, 3, 57], [32, 29, 57], [38, 10, 45], [29, 10, 45]]
+      veri denemesi 86903 · adreslenen alıcıda: alim_basarili 39.5% · alim_red_mesgul 31.0% · alim_red_per 16.9% · alim_red_onbelge 8.4% · alim_red_yari_cift 4.2% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 95.8% (38.6%) · 2e+06 3.6% (59.0%) · 5.5e+06 0.6% (64.8%) · 1.1e+07 0.1% (54.1%)
+      girişimsiz beklenen başarısızlık: deneme 18.8% · karar 0.86%
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 642 · acik|aclik|ayni_tur+U 3 · acik|aclik|yeni_tur 36 · acik|aclik|yeni_tur+U 24 · acik|adaysiz|ayni_tur 285 · acik|adaysiz|ayni_tur+U 1 · acik|adaysiz|yeni_tur 19 · acik|adaysiz|yeni_tur+U 20 · once|aclik|ayni_tur 673 · once|aclik|ayni_tur+U 2 · once|aclik|yeni_tur 22 · once|aclik|yeni_tur+U 4 · once|adaysiz|ayni_tur 237 · once|adaysiz|ayni_tur+U 2 · once|adaysiz|yeni_tur 2 · once|adaysiz|yeni_tur+U 1 · sessiz|aclik|ayni_tur 503 · sessiz|aclik|ayni_tur+U 5 · sessiz|aclik|yeni_tur 17 · sessiz|aclik|yeni_tur+U 5 · sessiz|adaysiz|ayni_tur 154 · sessiz|adaysiz|ayni_tur+U 1 · sessiz|adaysiz|yeni_tur 3 · sessiz|adaysiz|yeni_tur+U 1
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.16/1.26/452.4 · acik|ayni_tur+U 6.26/6.35/25.3 · acik|yeni_tur 1.17/4.56/102.6 · acik|yeni_tur+U 11.43/14.79/475.1 · once|ayni_tur 0.13/0.92/340.0 · once|ayni_tur+U 6.68/6.94/27.2 · once|yeni_tur 0.55/1.54/18.6 · once|yeni_tur+U 7.61/7.71/37.6 · sessiz|ayni_tur 0.13/1.07/258.8 · sessiz|ayni_tur+U 6.9/7.29/40.9 · sessiz|yeni_tur 0.5/1.32/18.1 · sessiz|yeni_tur+U 8.24/15.59/62.0
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 165 · acik|UNREACHABLE 405 · once|REPAIRING 123 · once|UNREACHABLE 62 · sessiz|REPAIRING 27 · sessiz|UNREACHABLE 206
+    tohum 1010: PDR 0.6729 (pencere 0.6614) · 6931 s
+      düşen/üretilen: iletim_basarisiz 20.2% · rota_gecersiz 11.4% · hedef_yok 1.2%
+      ısınmada düşen (adet): iletim_basarisiz 380 · hedef_yok 87 · rota_gecersiz 53
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[14, 95, 23.4], [16, 85, 22.8], [2, 78, 24.2], [8, 78, 31.3], [11, 72, 29.5]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[23, 247, 27.7], [16, 246, 22.8], [14, 148, 23.4], [21, 138, 16.6], [2, 105, 24.2]]
+      evre: şok derinliği 0.3409802808062592 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.785 (4001) · acik 0.464 (3598) · sessiz 0.729 (3202)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 39/13/96 · iletim_basarisiz 663/754/1164 · rota_gecersiz 1149/180/128
+      karar bağı kâhin bandı: iyi 98% · orta 2% · kotu 1% · mesafe km {'p10': 3.94, 'p50': 7.2, 'p90': 12.53}
+      karar bağı TEK deneme (yayın) bandı: iyi 63% · orta 30% · kotu 7%
+      başarısız bağ bandı:   iyi 81% · orta 14% · kotu 5% · mesafe km {'p10': 6.08, 'p50': 11.0, 'p90': 18.03} · 261 ayrı bağ, en çok [[23, 7, 161], [16, 26, 111], [14, 29, 102], [23, 22, 74], [16, 29, 67]]
+      veri denemesi 79338 · adreslenen alıcıda: alim_basarili 36.5% · alim_red_mesgul 31.3% · alim_red_per 18.5% · alim_red_onbelge 9.6% · alim_red_yari_cift 4.1% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 98.0% (36.2%) · 2e+06 1.9% (50.9%) · 5.5e+06 0.2% (66.1%) · 1.1e+07 0.0% (50.0%)
+      girişimsiz beklenen başarısızlık: deneme 21.4% · karar 1.13%
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 584 · acik|aclik|ayni_tur+U 6 · acik|aclik|yeni_tur 36 · acik|aclik|yeni_tur+U 44 · acik|adaysiz|ayni_tur 442 · acik|adaysiz|ayni_tur+U 2 · acik|adaysiz|yeni_tur 43 · acik|adaysiz|yeni_tur+U 35 · once|aclik|ayni_tur 724 · once|aclik|ayni_tur+U 3 · once|aclik|yeni_tur 20 · once|aclik|yeni_tur+U 2 · once|adaysiz|ayni_tur 258 · once|adaysiz|yeni_tur 7 · once|adaysiz|yeni_tur+U 1 · sessiz|aclik|ayni_tur 749 · sessiz|aclik|ayni_tur+U 2 · sessiz|aclik|yeni_tur 22 · sessiz|aclik|yeni_tur+U 14 · sessiz|adaysiz|ayni_tur 256 · sessiz|adaysiz|ayni_tur+U 1 · sessiz|adaysiz|yeni_tur 5 · sessiz|adaysiz|yeni_tur+U 1
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.19/1.44/622.7 · acik|ayni_tur+U 6.99/7.34/55.3 · acik|yeni_tur 3.52/5.49/253.4 · acik|yeni_tur+U 7.77/9.43/636.8 · once|ayni_tur 0.14/1.06/416.1 · once|ayni_tur+U 6.25/6.25/19.4 · once|yeni_tur 1.18/5.07/53.5 · once|yeni_tur+U 7.57/7.57/22.6 · sessiz|ayni_tur 0.15/1.06/448.1 · sessiz|ayni_tur+U 6.44/6.44/19.2 · sessiz|yeni_tur 0.54/1.09/20.1 · sessiz|yeni_tur+U 9.51/12.06/151.3
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 358 · acik|UNREACHABLE 791 · once|REPAIRING 25 · once|UNREACHABLE 50 · sessiz|REPAIRING 124 · sessiz|UNREACHABLE 55
+    evre × etki alanı                       ed               girisim                  uzak
+    PDR once                       0.823 (531)          0.846 (5692)         0.763 (25775)
+    PDR acik                       0.356 (644)          0.577 (5089)         0.571 (23062)
+    PDR sessiz                     0.802 (524)          0.842 (4626)         0.744 (20448)
+    karar payı once                       1.3%                 21.9%                 76.8%
+    karar payı acik                       0.5%                 10.7%                 88.8%
+    karar payı sessiz                     1.4%                 19.4%                 79.1%
+    düşen/üretilen (ed / girisim / uzak):
+      hedef_yok         once 0.0% / 0.1% / 0.7% · acik 0.0% / 0.0% / 0.2% · sessiz 0.0% / 0.0% / 0.1%
+      iletim_basarisiz  once 0.2% / 2.9% / 5.0% · acik 0.1% / 1.4% / 3.9% · sessiz 0.1% / 1.4% / 2.9%
+      rota_gecersiz     once 0.1% / 0.5% / 1.5% · acik 0.1% / 1.4% / 4.6% · sessiz 0.2% / 0.3% / 1.4%
+    doğum evresine göre akıbet (doğana oran, tohumlar toplanmış):
+      evre       doğan   teslim         hedef_yok  iletim_basarisiz     rota_gecersiz    kalan
+      once       31998    0.779             0.002             0.176             0.043    0.000
+      acik       28795    0.567             0.008             0.196             0.229    0.000
+      sessiz     25598    0.763             0.003             0.171             0.063    0.000
+      açık−önce          -0.212            +0.006            +0.020            +0.186   +0.000
+      acik evrede doğan, düşen × etki alanı (ed / girisim / uzak): hedef_yok 0.0% / 0.1% / 0.8% · iletim_basarisiz 0.5% / 5.0% / 14.1% · rota_gecersiz 1.1% / 5.0% / 16.8%
+      once evrede doğan, düşen × etki alanı (ed / girisim / uzak): hedef_yok 0.0% / 0.0% / 0.2% · iletim_basarisiz 0.4% / 6.2% / 10.9% · rota_gecersiz 0.2% / 1.0% / 3.1%
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    hedef_yok                  0        14      1118      1132      1.1%
+    iletim_basarisiz         160      1437     16660     18257     17.8%
+    rota_gecersiz              0      1571      8728     10299     10.1%
+    (koşu sonu kuyrukta)                                       0      0.0%
+
+  desparete@tehdit_acik_s=10+tehdit_sessiz_s=20 PDR(pencere) ort 0.703 · üretilen 102391 · geçerli True
+    tohum 1003: PDR 0.6581 (pencere 0.6441) · 6317 s
+      düşen/üretilen: iletim_basarisiz 18.7% · rota_gecersiz 14.4% · hedef_yok 1.1%
+      ısınmada düşen (adet): iletim_basarisiz 329 · hedef_yok 101 · rota_gecersiz 89
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[6, 128, 24.3], [4, 104, 26.1], [2, 98, 15.1], [5, 96, 27.8], [39, 88, 28.3]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[6, 244, 24.3], [5, 227, 27.8], [37, 143, 31.1], [4, 136, 26.1], [14, 125, 27.1]]
+      evre: şok derinliği 0.329071867371503 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.728 (4001) · acik 0.351 (2399) · sessiz 0.728 (4399)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 22/5/110 · iletim_basarisiz 454/813/1128 · rota_gecersiz 994/469/381
+      karar bağı kâhin bandı: iyi 97% · orta 2% · kotu 0% · mesafe km {'p10': 2.63, 'p50': 7.45, 'p90': 12.47}
+      karar bağı TEK deneme (yayın) bandı: iyi 63% · orta 29% · kotu 8%
+      başarısız bağ bandı:   iyi 78% · orta 17% · kotu 5% · mesafe km {'p10': 6.58, 'p50': 11.22, 'p90': 15.7} · 206 ayrı bağ, en çok [[6, 7, 198], [5, 10, 187], [14, 18, 104], [37, 32, 86], [12, 18, 84]]
+      veri denemesi 82385 · adreslenen alıcıda: alim_basarili 39.1% · alim_red_mesgul 28.9% · alim_red_per 18.2% · alim_red_onbelge 9.3% · alim_red_yari_cift 4.6% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 94.9% (37.7%) · 2e+06 4.0% (62.2%) · 5.5e+06 0.9% (69.8%) · 1.1e+07 0.2% (68.5%)
+      girişimsiz beklenen başarısızlık: deneme 21.4% · karar 1.01%
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 340 · acik|aclik|ayni_tur+U 7 · acik|aclik|yeni_tur 33 · acik|aclik|yeni_tur+U 43 · acik|adaysiz|ayni_tur 257 · acik|adaysiz|ayni_tur+U 6 · acik|adaysiz|yeni_tur 39 · acik|adaysiz|yeni_tur+U 25 · once|aclik|ayni_tur 802 · once|aclik|yeni_tur 42 · once|aclik|yeni_tur+U 6 · once|adaysiz|ayni_tur 305 · once|adaysiz|yeni_tur 13 · once|adaysiz|yeni_tur+U 6 · sessiz|aclik|ayni_tur 880 · sessiz|aclik|ayni_tur+U 3 · sessiz|aclik|yeni_tur 20 · sessiz|aclik|yeni_tur+U 13 · sessiz|adaysiz|ayni_tur 302 · sessiz|adaysiz|yeni_tur 7 · sessiz|adaysiz|yeni_tur+U 2
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.16/1.47/338.6 · acik|ayni_tur+U 6.28/7.68/87.6 · acik|yeni_tur 2.47/5.32/200.8 · acik|yeni_tur+U 9.03/11.27/619.8 · once|ayni_tur 0.13/0.92/427.9 · once|yeni_tur 0.94/2.87/75.8 · once|yeni_tur+U 7.77/9.36/94.3 · sessiz|ayni_tur 0.15/1.06/516.6 · sessiz|ayni_tur+U 6.79/6.79/20.4 · sessiz|yeni_tur 1.09/2.32/33.9 · sessiz|yeni_tur+U 11.44/13.36/164.6
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 335 · acik|UNREACHABLE 659 · once|REPAIRING 185 · once|UNREACHABLE 107 · sessiz|REPAIRING 240 · sessiz|UNREACHABLE 225
+    tohum 1004: PDR 0.7161 (pencere 0.6993) · 5907 s
+      düşen/üretilen: iletim_basarisiz 14.5% · rota_gecersiz 12.8% · hedef_yok 1.1%
+      ısınmada düşen (adet): iletim_basarisiz 238 · hedef_yok 92 · rota_gecersiz 56
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[36, 176, 11.6], [30, 106, 7.0], [11, 89, 22.6], [8, 86, 14.9], [34, 71, 36.0]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[11, 160, 22.6], [21, 149, 22.2], [17, 108, 32.0], [24, 86, 7.0], [15, 85, 28.8]]
+      evre: şok derinliği 0.32210050251256284 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.802 (4000) · acik 0.377 (2398) · sessiz 0.782 (4400)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 30/8/99 · iletim_basarisiz 418/588/854 · rota_gecersiz 1021/396/220
+      karar bağı kâhin bandı: iyi 98% · orta 2% · kotu 1% · mesafe km {'p10': 4.11, 'p50': 7.02, 'p90': 13.72}
+      karar bağı TEK deneme (yayın) bandı: iyi 46% · orta 48% · kotu 6%
+      başarısız bağ bandı:   iyi 77% · orta 17% · kotu 6% · mesafe km {'p10': 6.97, 'p50': 11.27, 'p90': 16.72} · 205 ayrı bağ, en çok [[21, 24, 124], [11, 36, 83], [24, 0, 61], [29, 24, 55], [17, 18, 55]]
+      veri denemesi 76495 · adreslenen alıcıda: alim_basarili 38.8% · alim_red_mesgul 27.5% · alim_red_per 20.2% · alim_red_onbelge 9.3% · alim_red_yari_cift 4.2% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 97.8% (38.3%) · 2e+06 1.7% (58.2%) · 5.5e+06 0.4% (70.7%) · 1.1e+07 0.1% (68.1%)
+      girişimsiz beklenen başarısızlık: deneme 22.5% · karar 0.95%
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 421 · acik|aclik|ayni_tur+U 19 · acik|aclik|yeni_tur 33 · acik|aclik|yeni_tur+U 32 · acik|adaysiz|ayni_tur 252 · acik|adaysiz|ayni_tur+U 25 · acik|adaysiz|yeni_tur 17 · acik|adaysiz|yeni_tur+U 13 · once|aclik|ayni_tur 699 · once|aclik|ayni_tur+U 1 · once|aclik|yeni_tur 27 · once|aclik|yeni_tur+U 9 · once|adaysiz|ayni_tur 289 · once|adaysiz|ayni_tur+U 1 · once|adaysiz|yeni_tur 5 · sessiz|aclik|ayni_tur 744 · sessiz|aclik|ayni_tur+U 3 · sessiz|aclik|yeni_tur 11 · sessiz|aclik|yeni_tur+U 9 · sessiz|adaysiz|ayni_tur 271 · sessiz|adaysiz|yeni_tur 1 · sessiz|adaysiz|yeni_tur+U 1
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.18/1.37/361.5 · acik|ayni_tur+U 10.65/12.37/450.0 · acik|yeni_tur 1.64/5.72/123.7 · acik|yeni_tur+U 7.9/11.4/385.8 · once|ayni_tur 0.17/0.84/364.4 · once|ayni_tur+U 6.88/6.51/13.8 · once|yeni_tur 0.76/2.7/39.7 · once|yeni_tur+U 7.73/7.84/69.2 · sessiz|ayni_tur 0.2/1.07/456.0 · sessiz|ayni_tur+U 13.74/13.74/39.1 · sessiz|yeni_tur 3.83/5.39/41.1 · sessiz|yeni_tur+U 9.89/14.39/109.1
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 300 · acik|UNREACHABLE 721 · once|REPAIRING 89 · once|UNREACHABLE 75 · sessiz|REPAIRING 134 · sessiz|UNREACHABLE 262
+    tohum 1005: PDR 0.6233 (pencere 0.6093) · 7275 s
+      düşen/üretilen: iletim_basarisiz 20.5% · rota_gecersiz 15.7% · hedef_yok 1.4%
+      ısınmada düşen (adet): iletim_basarisiz 408 · hedef_yok 106 · rota_gecersiz 82
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[36, 425, 23.4], [9, 121, 15.6], [13, 120, 24.4], [33, 113, 4.0], [11, 111, 22.8]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[6, 201, 13.0], [21, 150, 12.1], [9, 136, 15.6], [36, 128, 23.4], [25, 120, 22.0]]
+      evre: şok derinliği 0.6955 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.698 (4000) · acik 0.344 (2401) · sessiz 0.673 (4395)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 31/26/123 · iletim_basarisiz 504/877/1245 · rota_gecersiz 1019/566/430
+      karar bağı kâhin bandı: iyi 99% · orta 1% · kotu 0% · mesafe km {'p10': 2.77, 'p50': 6.26, 'p90': 18.56}
+      karar bağı TEK deneme (yayın) bandı: iyi 70% · orta 25% · kotu 5%
+      başarısız bağ bandı:   iyi 87% · orta 10% · kotu 3% · mesafe km {'p10': 6.9, 'p50': 10.56, 'p90': 19.41} · 261 ayrı bağ, en çok [[6, 24, 183], [36, 33, 116], [7, 8, 73], [21, 33, 71], [31, 13, 66]]
+      veri denemesi 88097 · adreslenen alıcıda: alim_basarili 38.2% · alim_red_mesgul 31.9% · alim_red_per 16.0% · alim_red_onbelge 7.9% · alim_red_yari_cift 6.0% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 95.0% (37.0%) · 2e+06 4.4% (61.3%) · 5.5e+06 0.5% (58.7%) · 1.1e+07 0.0% (64.5%)
+      girişimsiz beklenen başarısızlık: deneme 16.8% · karar 0.60%
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 463 · acik|aclik|ayni_tur+U 17 · acik|aclik|yeni_tur 46 · acik|aclik|yeni_tur+U 21 · acik|adaysiz|ayni_tur 293 · acik|adaysiz|ayni_tur+U 18 · acik|adaysiz|yeni_tur 41 · acik|adaysiz|yeni_tur+U 16 · once|aclik|ayni_tur 941 · once|aclik|ayni_tur+U 5 · once|aclik|yeni_tur 20 · once|aclik|yeni_tur+U 5 · once|adaysiz|ayni_tur 296 · once|adaysiz|yeni_tur 5 · once|adaysiz|yeni_tur+U 5 · sessiz|aclik|ayni_tur 1031 · sessiz|aclik|ayni_tur+U 2 · sessiz|aclik|yeni_tur 35 · sessiz|aclik|yeni_tur+U 10 · sessiz|adaysiz|ayni_tur 341 · sessiz|adaysiz|yeni_tur 7 · sessiz|adaysiz|yeni_tur+U 1
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.16/1.16/384.9 · acik|ayni_tur+U 11.66/13.75/392.0 · acik|yeni_tur 1.81/5.27/196.2 · acik|yeni_tur+U 7.97/10.27/317.0 · once|ayni_tur 0.14/0.94/463.6 · once|ayni_tur+U 11.9/14.15/57.2 · once|yeni_tur 2.04/4.79/52.1 · once|yeni_tur+U 8.32/8.87/91.9 · sessiz|ayni_tur 0.16/1.0/568.3 · sessiz|ayni_tur+U 6.43/6.32/12.9 · sessiz|yeni_tur 0.71/2.57/58.4 · sessiz|yeni_tur+U 8.74/10.54/101.0
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 362 · acik|UNREACHABLE 657 · once|REPAIRING 258 · once|UNREACHABLE 90 · sessiz|REPAIRING 344 · sessiz|UNREACHABLE 221
+    tohum 1006: PDR 0.7553 (pencere 0.7617) · 6625 s
+      düşen/üretilen: iletim_basarisiz 18.5% · rota_gecersiz 5.0% · hedef_yok 1.0%
+      ısınmada düşen (adet): iletim_basarisiz 344 · rota_gecersiz 121 · hedef_yok 92
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[4, 126, 10.1], [13, 53, 16.0], [15, 46, 27.5], [25, 34, 10.9], [28, 31, 26.5]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[37, 154, 25.1], [2, 149, 18.0], [9, 125, 16.9], [31, 122, 24.3], [27, 120, 19.7]]
+      evre: şok derinliği 0.10015563592390642 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.792 (3999) · acik 0.616 (2401) · sessiz 0.814 (4402)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 15/8/105 · iletim_basarisiz 597/709/1063 · rota_gecersiz 274/141/220
+      karar bağı kâhin bandı: iyi 98% · orta 1% · kotu 1% · mesafe km {'p10': 4.0, 'p50': 8.08, 'p90': 12.87}
+      karar bağı TEK deneme (yayın) bandı: iyi 68% · orta 26% · kotu 6%
+      başarısız bağ bandı:   iyi 83% · orta 13% · kotu 4% · mesafe km {'p10': 6.91, 'p50': 12.26, 'p90': 16.34} · 219 ayrı bağ, en çok [[37, 7, 150], [28, 21, 104], [31, 7, 73], [14, 7, 72], [26, 7, 71]]
+      veri denemesi 87674 · adreslenen alıcıda: alim_basarili 39.0% · alim_red_mesgul 30.3% · alim_red_per 17.7% · alim_red_onbelge 8.5% · alim_red_yari_cift 4.5% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 96.4% (38.4%) · 2e+06 3.3% (54.4%) · 5.5e+06 0.3% (58.8%) · 1.1e+07 0.0% (69.0%)
+      girişimsiz beklenen başarısızlık: deneme 19.7% · karar 0.95%
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 526 · acik|aclik|ayni_tur+U 2 · acik|aclik|yeni_tur 39 · acik|aclik|yeni_tur+U 5 · acik|adaysiz|ayni_tur 311 · acik|adaysiz|ayni_tur+U 1 · acik|adaysiz|yeni_tur 36 · acik|adaysiz|yeni_tur+U 5 · once|aclik|ayni_tur 727 · once|aclik|ayni_tur+U 1 · once|aclik|yeni_tur 18 · once|aclik|yeni_tur+U 6 · once|adaysiz|ayni_tur 217 · once|adaysiz|yeni_tur 5 · once|adaysiz|yeni_tur+U 1 · sessiz|aclik|ayni_tur 789 · sessiz|aclik|ayni_tur+U 2 · sessiz|aclik|yeni_tur 12 · sessiz|aclik|yeni_tur+U 7 · sessiz|adaysiz|ayni_tur 226 · sessiz|adaysiz|ayni_tur+U 1 · sessiz|adaysiz|yeni_tur 5
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.17/1.4/456.1 · acik|ayni_tur+U 6.35/6.35/19.1 · acik|yeni_tur 2.38/5.26/199.0 · acik|yeni_tur+U 7.3/10.26/79.0 · once|ayni_tur 0.13/1.02/386.2 · once|ayni_tur+U 6.4/6.4/6.4 · once|yeni_tur 1.54/2.32/31.4 · once|yeni_tur+U 6.88/7.55/48.4 · sessiz|ayni_tur 0.14/0.88/378.5 · sessiz|ayni_tur+U 6.67/6.67/20.3 · sessiz|yeni_tur 0.62/1.72/21.3 · sessiz|yeni_tur+U 7.44/8.14/50.9
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 167 · acik|UNREACHABLE 107 · once|REPAIRING 45 · once|UNREACHABLE 54 · sessiz|REPAIRING 85 · sessiz|UNREACHABLE 56
+    tohum 1007: PDR 0.7993 (pencere 0.7931) · 5628 s
+      düşen/üretilen: iletim_basarisiz 12.1% · rota_gecersiz 7.0% · hedef_yok 1.0%
+      ısınmada düşen (adet): iletim_basarisiz 217 · hedef_yok 81 · rota_gecersiz 31
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[22, 86, 15.1], [16, 67, 16.0], [37, 64, 16.8], [26, 62, 21.4], [9, 61, 26.2]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[22, 119, 15.1], [9, 88, 26.2], [26, 81, 21.4], [29, 78, 33.1], [11, 77, 29.0]]
+      evre: şok derinliği 0.22487094763092264 · toparlanma None s · tespit 1.0 s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.873 (4000) · acik 0.543 (2396) · sessiz 0.856 (4404)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 23/15/85 · iletim_basarisiz 362/510/672 · rota_gecersiz 670/152/80
+      karar bağı kâhin bandı: iyi 98% · orta 2% · kotu 1% · mesafe km {'p10': 3.81, 'p50': 8.08, 'p90': 13.37}
+      karar bağı TEK deneme (yayın) bandı: iyi 73% · orta 22% · kotu 5%
+      başarısız bağ bandı:   iyi 79% · orta 15% · kotu 6% · mesafe km {'p10': 6.17, 'p50': 11.74, 'p90': 15.15} · 185 ayrı bağ, en çok [[22, 0, 104], [26, 21, 77], [16, 21, 60], [11, 16, 49], [9, 22, 43]]
+      veri denemesi 72908 · adreslenen alıcıda: alim_basarili 42.6% · alim_red_mesgul 29.1% · alim_red_per 16.2% · alim_red_onbelge 7.5% · alim_red_yari_cift 4.6% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 95.6% (41.8%) · 2e+06 4.0% (60.2%) · 5.5e+06 0.4% (60.2%) · 1.1e+07 0.0% (56.0%)
+      girişimsiz beklenen başarısızlık: deneme 17.2% · karar 0.94%
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 333 · acik|aclik|ayni_tur+U 10 · acik|aclik|yeni_tur 31 · acik|aclik|yeni_tur+U 26 · acik|adaysiz|ayni_tur 204 · acik|adaysiz|ayni_tur+U 3 · acik|adaysiz|yeni_tur 12 · acik|adaysiz|yeni_tur+U 32 · once|aclik|ayni_tur 421 · once|aclik|ayni_tur+U 1 · once|aclik|yeni_tur 9 · once|aclik|yeni_tur+U 3 · once|adaysiz|ayni_tur 224 · once|adaysiz|ayni_tur+U 2 · once|adaysiz|yeni_tur 4 · sessiz|aclik|ayni_tur 534 · sessiz|aclik|ayni_tur+U 1 · sessiz|aclik|yeni_tur 7 · sessiz|aclik|yeni_tur+U 8 · sessiz|adaysiz|ayni_tur 192 · sessiz|adaysiz|yeni_tur 4 · sessiz|adaysiz|yeni_tur+U 1
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.16/1.3/271.5 · acik|ayni_tur+U 7.11/10.83/106.0 · acik|yeni_tur 1.75/4.78/89.3 · acik|yeni_tur+U 8.63/10.6/498.3 · once|ayni_tur 0.12/0.84/211.6 · once|ayni_tur+U 6.29/6.29/19.6 · once|yeni_tur 0.2/1.05/8.8 · once|yeni_tur+U 8.19/8.19/24.3 · sessiz|ayni_tur 0.13/0.9/254.7 · sessiz|ayni_tur+U 6.81/6.81/6.8 · sessiz|yeni_tur 0.82/3.94/17.6 · sessiz|yeni_tur+U 11.51/12.88/99.6
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 69 · acik|UNREACHABLE 601 · once|REPAIRING 5 · once|UNREACHABLE 44 · sessiz|REPAIRING 45 · sessiz|UNREACHABLE 107
+    tohum 1008: PDR 0.7213 (pencere 0.7241) · 6462 s
+      düşen/üretilen: iletim_basarisiz 17.2% · rota_gecersiz 9.7% · hedef_yok 1.0%
+      ısınmada düşen (adet): iletim_basarisiz 359 · rota_gecersiz 145 · hedef_yok 84
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[36, 177, 28.4], [6, 111, 20.2], [17, 87, 11.1], [21, 70, 25.8], [19, 66, 22.6]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[36, 160, 28.4], [37, 149, 29.1], [21, 135, 25.8], [31, 106, 17.0], [16, 99, 24.7]]
+      evre: şok derinliği 0.26641773508703803 · toparlanma None s · tespit None s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.771 (3999) · acik 0.493 (2399) · sessiz 0.807 (4400)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 27/8/87 · iletim_basarisiz 385/726/1088 · rota_gecersiz 781/147/318
+      karar bağı kâhin bandı: iyi 98% · orta 2% · kotu 1% · mesafe km {'p10': 4.03, 'p50': 6.97, 'p90': 13.07}
+      karar bağı TEK deneme (yayın) bandı: iyi 64% · orta 29% · kotu 6%
+      başarısız bağ bandı:   iyi 81% · orta 14% · kotu 5% · mesafe km {'p10': 6.64, 'p50': 11.29, 'p90': 17.49} · 235 ayrı bağ, en çok [[37, 27, 142], [36, 28, 117], [29, 0, 61], [34, 33, 59], [21, 6, 58]]
+      veri denemesi 75542 · adreslenen alıcıda: alim_basarili 37.8% · alim_red_mesgul 31.4% · alim_red_per 18.3% · alim_red_onbelge 8.3% · alim_red_yari_cift 4.1% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 98.1% (37.6%) · 2e+06 1.7% (49.0%) · 5.5e+06 0.1% (67.7%) · 1.1e+07 0.1% (84.9%)
+      girişimsiz beklenen başarısızlık: deneme 19.9% · karar 1.09%
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 328 · acik|aclik|ayni_tur+U 6 · acik|aclik|yeni_tur 25 · acik|aclik|yeni_tur+U 30 · acik|adaysiz|ayni_tur 225 · acik|adaysiz|ayni_tur+U 3 · acik|adaysiz|yeni_tur 20 · acik|adaysiz|yeni_tur+U 16 · once|aclik|ayni_tur 733 · once|aclik|ayni_tur+U 3 · once|aclik|yeni_tur 19 · once|aclik|yeni_tur+U 6 · once|adaysiz|ayni_tur 248 · once|adaysiz|yeni_tur 5 · once|adaysiz|yeni_tur+U 1 · sessiz|aclik|ayni_tur 734 · sessiz|aclik|ayni_tur+U 2 · sessiz|aclik|yeni_tur 15 · sessiz|aclik|yeni_tur+U 6 · sessiz|adaysiz|ayni_tur 263 · sessiz|adaysiz|yeni_tur 4 · sessiz|adaysiz|yeni_tur+U 2
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.16/1.06/286.8 · acik|ayni_tur+U 8.33/10.99/79.7 · acik|yeni_tur 2.92/5.46/140.1 · acik|yeni_tur+U 8.31/10.27/386.9 · once|ayni_tur 0.14/0.9/365.5 · once|ayni_tur+U 6.88/6.88/20.0 · once|yeni_tur 0.79/2.01/26.6 · once|yeni_tur+U 8.04/8.23/58.9 · sessiz|ayni_tur 0.16/0.9/395.3 · sessiz|ayni_tur+U 6.14/6.03/12.3 · sessiz|yeni_tur 0.63/1.32/14.8 · sessiz|yeni_tur+U 9.46/10.91/77.9
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 257 · acik|UNREACHABLE 524 · once|REPAIRING 136 · once|UNREACHABLE 37 · sessiz|REPAIRING 78 · sessiz|UNREACHABLE 69
+    tohum 1009: PDR 0.7198 (pencere 0.7177) · 6699 s
+      düşen/üretilen: iletim_basarisiz 17.5% · rota_gecersiz 9.3% · hedef_yok 1.2%
+      ısınmada düşen (adet): iletim_basarisiz 321 · hedef_yok 111 · rota_gecersiz 105
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[8, 143, 3.7], [35, 122, 16.5], [18, 84, 15.6], [26, 68, 9.3], [5, 59, 15.5]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[6, 149, 19.6], [17, 133, 26.1], [13, 122, 25.8], [25, 118, 25.8], [7, 109, 24.7]]
+      evre: şok derinliği 0.2898899449724862 · toparlanma None s · tespit 1.0 s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.780 (3998) · acik 0.505 (2408) · sessiz 0.777 (4391)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 21/9/121 · iletim_basarisiz 516/721/1006 · rota_gecersiz 548/354/290
+      karar bağı kâhin bandı: iyi 98% · orta 1% · kotu 1% · mesafe km {'p10': 2.7, 'p50': 6.73, 'p90': 12.87}
+      karar bağı TEK deneme (yayın) bandı: iyi 65% · orta 30% · kotu 5%
+      başarısız bağ bandı:   iyi 84% · orta 11% · kotu 5% · mesafe km {'p10': 6.71, 'p50': 10.41, 'p90': 14.59} · 243 ayrı bağ, en çok [[6, 23, 133], [5, 20, 58], [17, 30, 50], [13, 22, 49], [26, 0, 48]]
+      veri denemesi 86721 · adreslenen alıcıda: alim_basarili 39.0% · alim_red_mesgul 31.3% · alim_red_per 17.0% · alim_red_onbelge 8.4% · alim_red_yari_cift 4.4% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 95.5% (38.0%) · 2e+06 3.8% (59.7%) · 5.5e+06 0.6% (61.5%) · 1.1e+07 0.1% (59.1%)
+      girişimsiz beklenen başarısızlık: deneme 18.8% · karar 1.06%
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 444 · acik|aclik|ayni_tur+U 4 · acik|aclik|yeni_tur 53 · acik|aclik|yeni_tur+U 24 · acik|adaysiz|ayni_tur 281 · acik|adaysiz|ayni_tur+U 3 · acik|adaysiz|yeni_tur 29 · acik|adaysiz|yeni_tur+U 19 · once|aclik|ayni_tur 673 · once|aclik|ayni_tur+U 2 · once|aclik|yeni_tur 22 · once|aclik|yeni_tur+U 4 · once|adaysiz|ayni_tur 237 · once|adaysiz|ayni_tur+U 2 · once|adaysiz|yeni_tur 2 · once|adaysiz|yeni_tur+U 1 · sessiz|aclik|ayni_tur 717 · sessiz|aclik|ayni_tur+U 2 · sessiz|aclik|yeni_tur 17 · sessiz|aclik|yeni_tur+U 4 · sessiz|adaysiz|ayni_tur 214 · sessiz|adaysiz|ayni_tur+U 1 · sessiz|adaysiz|yeni_tur 2 · sessiz|adaysiz|yeni_tur+U 2
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.15/1.39/402.7 · acik|ayni_tur+U 7.23/7.33/50.0 · acik|yeni_tur 1.79/4.41/178.2 · acik|yeni_tur+U 8.79/10.3/374.1 · once|ayni_tur 0.13/0.92/340.0 · once|ayni_tur+U 6.68/6.94/27.2 · once|yeni_tur 0.55/1.54/18.6 · once|yeni_tur+U 7.61/7.71/37.6 · sessiz|ayni_tur 0.14/0.94/358.0 · sessiz|ayni_tur+U 6.54/6.54/19.9 · sessiz|yeni_tur 0.29/2.41/16.0 · sessiz|yeni_tur+U 7.52/8.94/52.2
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 193 · acik|UNREACHABLE 355 · once|REPAIRING 123 · once|UNREACHABLE 62 · sessiz|REPAIRING 214 · sessiz|UNREACHABLE 140
+    tohum 1010: PDR 0.6829 (pencere 0.6733) · 5964 s
+      düşen/üretilen: iletim_basarisiz 18.5% · rota_gecersiz 12.1% · hedef_yok 1.1%
+      ısınmada düşen (adet): iletim_basarisiz 380 · hedef_yok 87 · rota_gecersiz 53
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[16, 110, 22.8], [2, 102, 24.2], [11, 79, 29.5], [39, 74, 16.0], [7, 68, 9.3]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[16, 239, 22.8], [23, 225, 27.7], [14, 141, 23.4], [21, 126, 16.6], [24, 106, 19.2]]
+      evre: şok derinliği 0.394076292956836 · toparlanma None s · tespit 1.0 s
+      karıştırıcı evresi (doğuma göre PDR · doğan): once 0.785 (4001) · acik 0.396 (2402) · sessiz 0.723 (4398)
+      açık PDR, satırın `pdr_acik`ıyla: birebir
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 25/19/96 · iletim_basarisiz 336/868/1164 · rota_gecersiz 1105/317/128
+      karar bağı kâhin bandı: iyi 98% · orta 2% · kotu 1% · mesafe km {'p10': 3.95, 'p50': 7.24, 'p90': 12.53}
+      karar bağı TEK deneme (yayın) bandı: iyi 65% · orta 29% · kotu 6%
+      başarısız bağ bandı:   iyi 82% · orta 12% · kotu 6% · mesafe km {'p10': 6.25, 'p50': 11.42, 'p90': 18.06} · 240 ayrı bağ, en çok [[23, 7, 150], [16, 26, 144], [14, 29, 105], [23, 22, 68], [8, 35, 61]]
+      veri denemesi 76059 · adreslenen alıcıda: alim_basarili 37.1% · alim_red_mesgul 32.1% · alim_red_per 17.8% · alim_red_onbelge 9.0% · alim_red_yari_cift 4.0% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 98.0% (36.8%) · 2e+06 1.8% (50.4%) · 5.5e+06 0.2% (69.8%) · 1.1e+07 0.0% (88.2%)
+      girişimsiz beklenen başarısızlık: deneme 20.1% · karar 0.95%
+      onarım bölümleri (evre|giriş|son: adet): acik|aclik|ayni_tur 200 · acik|aclik|yeni_tur 24 · acik|aclik|yeni_tur+U 54 · acik|adaysiz|ayni_tur 191 · acik|adaysiz|yeni_tur 30 · acik|adaysiz|yeni_tur+U 40 · once|aclik|ayni_tur 724 · once|aclik|ayni_tur+U 3 · once|aclik|yeni_tur 20 · once|aclik|yeni_tur+U 2 · once|adaysiz|ayni_tur 258 · once|adaysiz|yeni_tur 7 · once|adaysiz|yeni_tur+U 1 · sessiz|aclik|ayni_tur 958 · sessiz|aclik|ayni_tur+U 6 · sessiz|aclik|yeni_tur 10 · sessiz|aclik|yeni_tur+U 20 · sessiz|adaysiz|ayni_tur 284 · sessiz|adaysiz|yeni_tur 3 · sessiz|adaysiz|yeni_tur+U 3
+      onarım süresi s (evre|son: p50/p90/toplam): acik|ayni_tur 0.17/1.47/228.5 · acik|yeni_tur 2.4/5.27/135.3 · acik|yeni_tur+U 9.02/10.6/830.5 · once|ayni_tur 0.14/1.06/416.1 · once|ayni_tur+U 6.25/6.25/19.4 · once|yeni_tur 1.18/5.07/53.5 · once|yeni_tur+U 7.57/7.57/22.6 · sessiz|ayni_tur 0.17/1.15/554.1 · sessiz|ayni_tur+U 6.75/7.34/41.6 · sessiz|yeni_tur 1.04/3.54/20.2 · sessiz|yeni_tur+U 11.0/13.56/254.7
+      rota_gecersiz anında alan (evre|durum: adet, pencerede): acik|REPAIRING 102 · acik|UNREACHABLE 1003 · once|REPAIRING 25 · once|UNREACHABLE 50 · sessiz|REPAIRING 202 · sessiz|UNREACHABLE 115
+    evre × etki alanı                       ed               girisim                  uzak
+    PDR once                       0.816 (625)          0.826 (8115)         0.761 (23258)
+    PDR acik                       0.371 (528)          0.477 (5060)         0.448 (13616)
+    PDR sessiz                     0.820 (937)          0.835 (9319)         0.744 (24933)
+    karar payı once                       4.9%                 27.3%                 67.8%
+    karar payı acik                       0.9%                 20.2%                 78.8%
+    karar payı sessiz                     2.6%                 28.9%                 68.5%
+    düşen/üretilen (ed / girisim / uzak):
+      hedef_yok         once 0.0% / 0.2% / 0.6% · acik 0.0% / 0.0% / 0.2% · sessiz 0.0% / 0.0% / 0.1%
+      iletim_basarisiz  once 0.3% / 3.5% / 4.3% · acik 0.1% / 1.2% / 2.1% · sessiz 0.2% / 2.4% / 3.0%
+      rota_gecersiz     once 0.1% / 0.8% / 1.1% · acik 0.1% / 1.9% / 4.3% · sessiz 0.1% / 0.5% / 1.8%
+    doğum evresine göre akıbet (doğana oran, tohumlar toplanmış):
+      evre       doğan   teslim         hedef_yok  iletim_basarisiz     rota_gecersiz    kalan
+      once       31998    0.779             0.002             0.176             0.043    0.000
+      acik       19204    0.453             0.010             0.190             0.346    0.000
+      sessiz     35189    0.770             0.003             0.162             0.065    0.000
+      açık−önce          -0.325            +0.008            +0.015            +0.303   +0.000
+      acik evrede doğan, düşen × etki alanı (ed / girisim / uzak): hedef_yok 0.0% / 0.1% / 0.9% · iletim_basarisiz 0.7% / 6.7% / 11.7% · rota_gecersiz 0.8% / 10.6% / 23.2%
+      once evrede doğan, düşen × etki alanı (ed / girisim / uzak): hedef_yok 0.0% / 0.0% / 0.2% · iletim_basarisiz 0.6% / 7.5% / 9.5% · rota_gecersiz 0.2% / 1.5% / 2.5%
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    hedef_yok                  0        35      1083      1118      1.1%
+    iletim_basarisiz         157      1293     16154     17604     17.2%
+    rota_gecersiz              0      1922      9099     11021     10.8%
+    (koşu sonu kuyrukta)                                       0      0.0%
+
+  KARIŞTIRMAYA ÖZGÜ KAYIP — doğum evresine göre açık − önce (doğana oran, tohumlar toplanmış; satır toplamı 0)
+    kol                                     teslim         hedef_yok  iletim_basarisiz     rota_gecersiz             kalan
+    desparete                               -0.212            +0.006            +0.020            +0.186            +0.000
+    desparete@tehdit_acik_s=10+tehdit_sessiz_s=20            -0.325            +0.008            +0.015            +0.303            +0.000
+    desparete − desparete@tehdit_acik_s=10+tehdit_sessiz_s=20            +0.114            -0.002            +0.005            -0.117            +0.000
+
+  bolge: ed = karistirici >= ED esigi (kanal erisim kilidi) · girisim = gurultunun ustu · uzak = karistiricidan bagimsiz
+  etki alani: karistirici o an ACIK olsaydi alinacak ORTALAMA guc (yavas kayip; kapi ve hizli sonumleme haric), ayni esikler; paket tablosunda paketin gecit disi ucunda, dogum aninda
+  iletim_basarisiz'in bolgesi ALICIDA (denenen sonraki atlama) okunur; digerleri dustugu dugumde (K-193)
+  bag bandi: kahinin tek deneme basarisindan p_atlama — iyi >= 0,90 · orta 0,50-0,90 · kotu < 0,50 (girisim haric)
+  toplam duvar suresi 14384 s

@@ -1,0 +1,155 @@
+== 0 · GEÇERLİLİK ==
+  koşu 120/120 · eksik 0 · korunum, çelişki ya da atfsız düşüş kusuru 0 · ikincil sayımın pencere PDR'siyle tutarsızlığı 0
+  İ pencere PDR'si ↔ ikinci teşhis: 12/12 birebir
+  B pencere PDR'si ve PDR_açık ↔ ilk teşhis (12 koşu, 24 değer): 24/24 birebir
+  B PDR_açık ↔ K-244 G2ç (1003 · 1004): 10/10 birebir
+  İ hayalet PDR_açık (15/15) ↔ K-244 G1ç ve G2ç boş kol (1003 · 1004): 10/10 birebir
+
+== 1 · HÜCRE TABLOLARI (8 tohum ortalaması ± ölçüt sapması) ==
+  İ · karıştırıcısız ikiz (pencere PDR)
+    kâhin   0.917 ± 0.029 [0.893 … 0.961] · 5 s tavanlı 0.917 · p99 0.144 s · kâhine oran 1.000
+            1003 0.896 · 1004 0.961 · 1005 0.898 · 1006 0.895 · 1007 0.961 · 1008 0.916 · 1009 0.893 · 1010 0.914
+    Babel   0.930 ± 0.030 [0.863 … 0.957] · 5 s tavanlı 0.930 · p99 0.229 s · kâhine oran 1.015
+            1003 0.944 · 1004 0.954 · 1005 0.863 · 1006 0.918 · 1007 0.957 · 1008 0.940 · 1009 0.943 · 1010 0.923
+    OLSRv2  0.809 ± 0.089 [0.616 … 0.895] · 5 s tavanlı 0.807 · p99 1.029 s · kâhine oran 0.882
+            1003 0.800 · 1004 0.895 · 1005 0.616 · 1006 0.770 · 1007 0.887 · 1008 0.857 · 1009 0.806 · 1010 0.838
+    AODV-k  0.525 ± 0.066 [0.384 … 0.616] · 5 s tavanlı 0.525 · p99 0.958 s · kâhine oran 0.572
+            1003 0.514 · 1004 0.616 · 1005 0.384 · 1006 0.517 · 1007 0.562 · 1008 0.550 · 1009 0.526 · 1010 0.529
+    v0.4.1  0.785 ± 0.040 [0.718 … 0.856] · 5 s tavanlı 0.784 · p99 2.512 s · kâhine oran 0.856
+            1003 0.752 · 1004 0.797 · 1005 0.718 · 1006 0.804 · 1007 0.856 · 1008 0.795 · 1009 0.787 · 1010 0.771
+  B · birincil, 15/15 (PDR_açık)
+    kâhin   0.779 ± 0.077 [0.657 … 0.900] · 5 s tavanlı 0.776 · sessiz 0.916 · önce 0.919 · p99 0.331 s · kâhine oran 1.000
+            1003 0.748 · 1004 0.844 · 1005 0.657 · 1006 0.825 · 1007 0.900 · 1008 0.783 · 1009 0.764 · 1010 0.710
+    Babel   0.663 ± 0.139 [0.485 … 0.834] · 5 s tavanlı 0.657 · sessiz 0.916 · önce 0.932 · p99 1.313 s · kâhine oran 0.851
+            1003 0.547 · 1004 0.787 · 1005 0.485 · 1006 0.764 · 1007 0.834 · 1008 0.668 · 1009 0.731 · 1010 0.488
+    OLSRv2  0.495 ± 0.110 [0.345 … 0.643] · 5 s tavanlı 0.493 · sessiz 0.714 · önce 0.801 · p99 1.390 s · kâhine oran 0.636
+            1003 0.409 · 1004 0.499 · 1005 0.345 · 1006 0.623 · 1007 0.643 · 1008 0.534 · 1009 0.529 · 1010 0.379
+    AODV-k  0.396 ± 0.089 [0.214 … 0.475] · 5 s tavanlı 0.391 · sessiz 0.488 · önce 0.513 · p99 2.497 s · kâhine oran 0.508
+            1003 0.353 · 1004 0.421 · 1005 0.214 · 1006 0.447 · 1007 0.475 · 1008 0.451 · 1009 0.465 · 1010 0.340
+    v0.4.1  0.567 ± 0.085 [0.446 … 0.669] · 5 s tavanlı 0.561 · sessiz 0.763 · önce 0.779 · p99 3.669 s · kâhine oran 0.728
+            1003 0.518 · 1004 0.603 · 1005 0.446 · 1006 0.662 · 1007 0.669 · 1008 0.562 · 1009 0.611 · 1010 0.464
+  D · dayanıklılık, 10/20 (PDR_açık)
+    kâhin   0.685 ± 0.053 [0.605 … 0.772] · 5 s tavanlı 0.683 · sessiz 0.913 · önce 0.919 · p99 0.273 s · kâhine oran 1.000
+            1003 0.659 · 1004 0.667 · 1005 0.605 · 1006 0.772 · 1007 0.739 · 1008 0.697 · 1009 0.697 · 1010 0.645
+    Babel   0.554 ± 0.090 [0.411 … 0.675] · 5 s tavanlı 0.550 · sessiz 0.921 · önce 0.932 · p99 0.721 s · kâhine oran 0.809
+            1003 0.411 · 1004 0.546 · 1005 0.510 · 1006 0.675 · 1007 0.614 · 1008 0.583 · 1009 0.632 · 1010 0.460
+    OLSRv2  0.413 ± 0.080 [0.282 … 0.496] · 5 s tavanlı 0.412 · sessiz 0.711 · önce 0.801 · p99 1.142 s · kâhine oran 0.603
+            1003 0.282 · 1004 0.390 · 1005 0.355 · 1006 0.496 · 1007 0.484 · 1008 0.492 · 1009 0.456 · 1010 0.347
+    AODV-k  0.358 ± 0.082 [0.194 … 0.434] · 5 s tavanlı 0.349 · sessiz 0.493 · önce 0.513 · p99 2.823 s · kâhine oran 0.523
+            1003 0.336 · 1004 0.290 · 1005 0.194 · 1006 0.417 · 1007 0.417 · 1008 0.410 · 1009 0.434 · 1010 0.368
+    v0.4.1  0.453 ± 0.100 [0.344 … 0.616] · 5 s tavanlı 0.446 · sessiz 0.770 · önce 0.779 · p99 3.505 s · kâhine oran 0.662
+            1003 0.351 · 1004 0.377 · 1005 0.344 · 1006 0.616 · 1007 0.543 · 1008 0.493 · 1009 0.505 · 1010 0.396
+
+== 2 · S1 — her hücrede en güçlü rakip (ayrışma eşiği 0,02) ==
+  İ · karıştırıcısız ikiz (pencere PDR): sıra Babel 0.930 > OLSRv2 0.809 > AODV-k 0.525
+      Babel − OLSRv2: +0.122 (artı 8/8 · eksi 0/8; 1003 +0.144 · 1004 +0.059 · 1005 +0.247 · 1006 +0.148 · 1007 +0.070 · 1008 +0.083 · 1009 +0.137 · 1010 +0.085) → AYRIŞIYOR (+)
+      OLSRv2 − AODV-k: +0.284 (artı 8/8 · eksi 0/8; 1003 +0.286 · 1004 +0.280 · 1005 +0.232 · 1006 +0.253 · 1007 +0.325 · 1008 +0.307 · 1009 +0.279 · 1010 +0.309) → AYRIŞIYOR (+)
+  B · birincil, 15/15 (PDR_açık): sıra Babel 0.663 > OLSRv2 0.495 > AODV-k 0.396
+      Babel − OLSRv2: +0.168 (artı 8/8 · eksi 0/8; 1003 +0.138 · 1004 +0.288 · 1005 +0.140 · 1006 +0.141 · 1007 +0.191 · 1008 +0.135 · 1009 +0.202 · 1010 +0.109) → AYRIŞIYOR (+)
+      OLSRv2 − AODV-k: +0.099 (artı 8/8 · eksi 0/8; 1003 +0.056 · 1004 +0.078 · 1005 +0.131 · 1006 +0.176 · 1007 +0.168 · 1008 +0.083 · 1009 +0.064 · 1010 +0.039) → AYRIŞIYOR (+)
+  D · dayanıklılık, 10/20 (PDR_açık): sıra Babel 0.554 > OLSRv2 0.413 > AODV-k 0.358
+      Babel − OLSRv2: +0.141 (artı 8/8 · eksi 0/8; 1003 +0.128 · 1004 +0.156 · 1005 +0.155 · 1006 +0.180 · 1007 +0.130 · 1008 +0.091 · 1009 +0.176 · 1010 +0.113) → AYRIŞIYOR (+)
+      OLSRv2 − AODV-k: +0.055 (artı 6/8 · eksi 2/8; 1003 -0.054 · 1004 +0.101 · 1005 +0.161 · 1006 +0.078 · 1007 +0.067 · 1008 +0.083 · 1009 +0.021 · 1010 -0.020) → AYRIŞIYOR (+)
+  en güçlü rakip: ikiz Babel · birincil Babel · dayaniklilik Babel → üç hücrede de Babel
+
+== 3 · S2 — v0.4.1'in açığı (eşik 0,02; G = rakip − v0.4.1) ==
+  İ · karıştırıcısız ikiz (pencere PDR) · Babel [en güçlü]: G +0.145 (artı 8/8 · eksi 0/8; 1003 +0.192 · 1004 +0.157 · 1005 +0.145 · 1006 +0.113 · 1007 +0.101 · 1008 +0.145 · 1009 +0.156 · 1010 +0.152) → AYRIŞIYOR (v0.4.1 GERİDE)
+      açığın ayrımı (v0.4.1 − rakip): R +0.043 · I +0.102 · K +0.000 · T +0.000
+  İ · karıştırıcısız ikiz (pencere PDR) · OLSRv2: G +0.023 (artı 6/8 · eksi 2/8; 1003 +0.048 · 1004 +0.098 · 1005 -0.103 · 1006 -0.035 · 1007 +0.031 · 1008 +0.062 · 1009 +0.019 · 1010 +0.067) → AYRIŞIYOR (v0.4.1 GERİDE)
+      açığın ayrımı (v0.4.1 − rakip): R +0.020 · I +0.007 · K -0.002 · T -0.001
+  İ · karıştırıcısız ikiz (pencere PDR) · AODV-k: G -0.260 (artı 0/8 · eksi 8/8; 1003 -0.238 · 1004 -0.181 · 1005 -0.335 · 1006 -0.287 · 1007 -0.293 · 1008 -0.245 · 1009 -0.260 · 1010 -0.242) → AYRIŞIYOR (v0.4.1 İLERİDE)
+      açığın ayrımı (v0.4.1 − rakip): R -0.239 · I -0.021 · K +0.000 · T -0.000
+      v0.4.1'in kayıp grupları: R 0.043 · I 0.172 · K 0.000 · T 0.000
+  B · birincil, 15/15 (PDR_açık) · Babel [en güçlü]: G +0.096 (artı 8/8 · eksi 0/8; 1003 +0.029 · 1004 +0.185 · 1005 +0.039 · 1006 +0.101 · 1007 +0.164 · 1008 +0.106 · 1009 +0.120 · 1010 +0.024) → AYRIŞIYOR (v0.4.1 GERİDE)
+      açığın ayrımı (v0.4.1 − rakip): R +0.237 · I -0.139 · K -0.002 · T +0.000
+  B · birincil, 15/15 (PDR_açık) · OLSRv2: G -0.072 (artı 0/8 · eksi 8/8; 1003 -0.110 · 1004 -0.104 · 1005 -0.101 · 1006 -0.039 · 1007 -0.026 · 1008 -0.029 · 1009 -0.082 · 1010 -0.084) → AYRIŞIYOR (v0.4.1 İLERİDE)
+      açığın ayrımı (v0.4.1 − rakip): R +0.110 · I -0.172 · K -0.001 · T -0.009
+  B · birincil, 15/15 (PDR_açık) · AODV-k: G -0.171 (artı 0/8 · eksi 8/8; 1003 -0.165 · 1004 -0.182 · 1005 -0.232 · 1006 -0.216 · 1007 -0.194 · 1008 -0.112 · 1009 -0.146 · 1010 -0.124) → AYRIŞIYOR (v0.4.1 İLERİDE)
+      açığın ayrımı (v0.4.1 − rakip): R -0.186 · I +0.015 · K +0.000 · T -0.000
+      v0.4.1'in kayıp grupları: R 0.237 · I 0.196 · K 0.000 · T 0.000
+  D · dayanıklılık, 10/20 (PDR_açık) · Babel [en güçlü]: G +0.101 (artı 8/8 · eksi 0/8; 1003 +0.060 · 1004 +0.170 · 1005 +0.165 · 1006 +0.059 · 1007 +0.071 · 1008 +0.090 · 1009 +0.127 · 1010 +0.064) → AYRIŞIYOR (v0.4.1 GERİDE)
+      açığın ayrımı (v0.4.1 − rakip): R +0.356 · I -0.254 · K -0.001 · T +0.000
+  D · dayanıklılık, 10/20 (PDR_açık) · OLSRv2: G -0.040 (artı 2/8 · eksi 6/8; 1003 -0.069 · 1004 +0.014 · 1005 +0.011 · 1006 -0.121 · 1007 -0.059 · 1008 -0.001 · 1009 -0.050 · 1010 -0.049) → AYRIŞIYOR (v0.4.1 İLERİDE)
+      açığın ayrımı (v0.4.1 − rakip): R +0.283 · I -0.311 · K -0.000 · T -0.013
+  D · dayanıklılık, 10/20 (PDR_açık) · AODV-k: G -0.095 (artı 0/8 · eksi 8/8; 1003 -0.015 · 1004 -0.087 · 1005 -0.150 · 1006 -0.199 · 1007 -0.126 · 1008 -0.083 · 1009 -0.071 · 1010 -0.029) → AYRIŞIYOR (v0.4.1 İLERİDE)
+      açığın ayrımı (v0.4.1 − rakip): R -0.110 · I +0.015 · K +0.000 · T -0.000
+      v0.4.1'in kayıp grupları: R 0.356 · I 0.190 · K 0.000 · T 0.000
+
+== 4 · S3 — karıştırmaya özgü kayıp, Δ_k = PDR_açık(hücre) − hayalet PDR_açık(ikiz) ==
+  B · birincil, 15/15 (PDR_açık)
+    kâhin   Δ_k -0.137 ± 0.062 (hayalet 0.916 → hücre 0.779) · 1003 -0.154 · 1004 -0.111 · 1005 -0.242 · 1006 -0.064 · 1007 -0.063 · 1008 -0.128 · 1009 -0.132 · 1010 -0.204
+    Babel   Δ_k -0.265 ± 0.124 (hayalet 0.928 → hücre 0.663) · 1003 -0.398 · 1004 -0.165 · 1005 -0.378 · 1006 -0.151 · 1007 -0.116 · 1008 -0.271 · 1009 -0.207 · 1010 -0.434
+    OLSRv2  Δ_k -0.313 ± 0.107 (hayalet 0.808 → hücre 0.495) · 1003 -0.408 · 1004 -0.411 · 1005 -0.247 · 1006 -0.122 · 1007 -0.250 · 1008 -0.338 · 1009 -0.290 · 1010 -0.439
+    AODV-k  Δ_k -0.136 ± 0.068 (hayalet 0.531 → hücre 0.396) · 1003 -0.146 · 1004 -0.217 · 1005 -0.203 · 1006 -0.074 · 1007 -0.075 · 1008 -0.101 · 1009 -0.055 · 1010 -0.214
+    v0.4.1  Δ_k -0.222 ± 0.056 (hayalet 0.789 → hücre 0.567) · 1003 -0.239 · 1004 -0.183 · 1005 -0.294 · 1006 -0.156 · 1007 -0.174 · 1008 -0.265 · 1009 -0.177 · 1010 -0.292
+    Δ_k(v0.4.1) − Δ_k(Babel): +0.042 (artı 5/8 · eksi 3/8; 1003 +0.160 · 1004 -0.018 · 1005 +0.084 · 1006 -0.006 · 1007 -0.058 · 1008 +0.007 · 1009 +0.029 · 1010 +0.143) → 8 tohumda ayırt edilemedi
+    karıştırmaya özgü kaybı en büyük kol: OLSRv2
+  D · dayanıklılık, 10/20 (PDR_açık)
+    kâhin   Δ_k -0.233 ± 0.059 (hayalet 0.918 → hücre 0.685) · 1003 -0.248 · 1004 -0.291 · 1005 -0.294 · 1006 -0.115 · 1007 -0.228 · 1008 -0.216 · 1009 -0.202 · 1010 -0.272
+    Babel   Δ_k -0.375 ± 0.093 (hayalet 0.929 → hücre 0.554) · 1003 -0.535 · 1004 -0.407 · 1005 -0.352 · 1006 -0.240 · 1007 -0.335 · 1008 -0.356 · 1009 -0.305 · 1010 -0.468
+    OLSRv2  Δ_k -0.395 ± 0.109 (hayalet 0.808 → hücre 0.413) · 1003 -0.512 · 1004 -0.523 · 1005 -0.228 · 1006 -0.271 · 1007 -0.418 · 1008 -0.371 · 1009 -0.358 · 1010 -0.480
+    AODV-k  Δ_k -0.177 ± 0.089 (hayalet 0.535 → hücre 0.358) · 1003 -0.154 · 1004 -0.373 · 1005 -0.221 · 1006 -0.112 · 1007 -0.141 · 1008 -0.134 · 1009 -0.095 · 1010 -0.182
+    v0.4.1  Δ_k -0.336 ± 0.071 (hayalet 0.790 → hücre 0.453) · 1003 -0.408 · 1004 -0.414 · 1005 -0.380 · 1006 -0.207 · 1007 -0.301 · 1008 -0.331 · 1009 -0.284 · 1010 -0.367
+    Δ_k(v0.4.1) − Δ_k(Babel): +0.038 (artı 6/8 · eksi 2/8; 1003 +0.128 · 1004 -0.008 · 1005 -0.028 · 1006 +0.034 · 1007 +0.034 · 1008 +0.025 · 1009 +0.022 · 1010 +0.101) → AYRIŞIYOR (+)
+    karıştırmaya özgü kaybı en büyük kol: OLSRv2
+
+== 5 · S4 — çizelgeye duyarlılık, PDR_açık(D) − PDR_açık(B) (eşik 0,03) ==
+  kâhin   -0.094 (artı 0/8 · eksi 8/8; 1003 -0.090 · 1004 -0.177 · 1005 -0.052 · 1006 -0.053 · 1007 -0.161 · 1008 -0.086 · 1009 -0.066 · 1010 -0.065) → ÇİZELGEYE DUYARLI (−) | sessiz dönem farkı -0.003
+  Babel   -0.109 (artı 1/8 · eksi 7/8; 1003 -0.137 · 1004 -0.241 · 1005 +0.024 · 1006 -0.089 · 1007 -0.220 · 1008 -0.085 · 1009 -0.099 · 1010 -0.028) → ÇİZELGEYE DUYARLI (−) | sessiz dönem farkı +0.005
+  OLSRv2  -0.082 (artı 1/8 · eksi 7/8; 1003 -0.126 · 1004 -0.108 · 1005 +0.010 · 1006 -0.127 · 1007 -0.159 · 1008 -0.041 · 1009 -0.074 · 1010 -0.032) → ÇİZELGEYE DUYARLI (−) | sessiz dönem farkı -0.002
+  AODV-k  -0.038 (artı 1/8 · eksi 7/8; 1003 -0.017 · 1004 -0.131 · 1005 -0.020 · 1006 -0.029 · 1007 -0.058 · 1008 -0.041 · 1009 -0.031 · 1010 +0.027) → ÇİZELGEYE DUYARLI (−) | sessiz dönem farkı +0.004
+  v0.4.1  -0.114 (artı 0/8 · eksi 8/8; 1003 -0.167 · 1004 -0.226 · 1005 -0.102 · 1006 -0.046 · 1007 -0.126 · 1008 -0.069 · 1009 -0.106 · 1010 -0.068) → ÇİZELGEYE DUYARLI (−) | sessiz dönem farkı +0.007
+
+== 6 · GECİKME TAVANI — bedel = ölçü − ölçü(tavan), 8 tohum ortalaması; 5 s'de ≥ 0,02 bağlayıcı ==
+  İ · karıştırıcısız ikiz (pencere PDR)
+    kâhin   3,5 s 0.000 · 5 s 0.000 · 10 s 0.000
+    Babel   3,5 s 0.000 · 5 s 0.000 · 10 s 0.000
+    OLSRv2  3,5 s 0.002 · 5 s 0.001 · 10 s 0.000
+    AODV-k  3,5 s 0.000 · 5 s 0.000 · 10 s 0.000
+    v0.4.1  3,5 s 0.004 · 5 s 0.001 · 10 s 0.000
+  B · birincil, 15/15 (PDR_açık)
+    kâhin   3,5 s 0.004 · 5 s 0.003 · 10 s 0.001
+    Babel   3,5 s 0.009 · 5 s 0.006 · 10 s 0.002
+    OLSRv2  3,5 s 0.003 · 5 s 0.002 · 10 s 0.000
+    AODV-k  3,5 s 0.008 · 5 s 0.004 · 10 s 0.001
+    v0.4.1  3,5 s 0.018 · 5 s 0.006 · 10 s 0.000
+  D · dayanıklılık, 10/20 (PDR_açık)
+    kâhin   3,5 s 0.004 · 5 s 0.002 · 10 s 0.000
+    Babel   3,5 s 0.008 · 5 s 0.004 · 10 s 0.000
+    OLSRv2  3,5 s 0.001 · 5 s 0.001 · 10 s 0.000
+    AODV-k  3,5 s 0.015 · 5 s 0.010 · 10 s 0.000
+    v0.4.1  3,5 s 0.020 · 5 s 0.008 · 10 s 0.000
+
+== 7 · KÂHİN — tohum başına aşım (kol − kâhin > R = 0.0126) ==
+  ikiz         Babel   ortalama fark +0.013 · aşan tohum 4/8: 1003 +0.048 · 1006 +0.023 · 1008 +0.024 · 1009 +0.049
+  ikiz         OLSRv2  ortalama fark -0.108 · aşan tohum 0/8
+  ikiz         AODV-k  ortalama fark -0.392 · aşan tohum 0/8
+  ikiz         v0.4.1  ortalama fark -0.132 · aşan tohum 0/8
+  birincil     Babel   ortalama fark -0.116 · aşan tohum 0/8
+  birincil     OLSRv2  ortalama fark -0.284 · aşan tohum 0/8
+  birincil     AODV-k  ortalama fark -0.383 · aşan tohum 0/8
+  birincil     v0.4.1  ortalama fark -0.212 · aşan tohum 0/8
+  dayaniklilik Babel   ortalama fark -0.131 · aşan tohum 0/8
+  dayaniklilik OLSRv2  ortalama fark -0.272 · aşan tohum 0/8
+  dayaniklilik AODV-k  ortalama fark -0.327 · aşan tohum 0/8
+  dayaniklilik v0.4.1  ortalama fark -0.232 · aşan tohum 0/8
+
+== 8 · BETİMLEYİCİLER (tohum ortalaması; kanal yükü bütün koşu, ağ toplamı) ==
+  İ · karıştırıcısız ikiz (pencere PDR)
+    kâhin   kayıp R 0.000 · İ 0.083 · K 0.000 · T 0.000 | karar/paket 2.51 · atlama başarısızlığı 3.28% · deneme başarısı g 0.434 = g0 0.810 × k 0.536 | kontrol kanal süresi 19 s · toplam gönderim 317 s | gecikme p50 0.028 · p95 0.100 · p99 0.144 s
+    Babel   kayıp R 0.000 · İ 0.070 · K 0.000 · T 0.000 | karar/paket 3.57 · atlama başarısızlığı 2.22% · deneme başarısı g 0.469 = g0 0.910 × k 0.516 | kontrol kanal süresi 68 s · toplam gönderim 461 s | gecikme p50 0.043 · p95 0.155 · p99 0.229 s
+    OLSRv2  kayıp R 0.023 · İ 0.165 · K 0.002 · T 0.001 | karar/paket 2.88 · atlama başarısızlığı 5.66% · deneme başarısı g 0.399 = g0 0.788 × k 0.507 | kontrol kanal süresi 63 s · toplam gönderim 425 s | gecikme p50 0.033 · p95 0.205 · p99 1.029 s
+    AODV-k  kayıp R 0.282 · İ 0.193 · K 0.000 · T 0.000 | karar/paket 2.63 · atlama başarısızlığı 7.37% · deneme başarısı g 0.365 = g0 0.806 × k 0.453 | kontrol kanal süresi 281 s · toplam gönderim 635 s | gecikme p50 0.061 · p95 0.375 · p99 0.958 s
+    v0.4.1  kayıp R 0.043 · İ 0.172 · K 0.000 · T 0.000 | karar/paket 2.62 · atlama başarısızlığı 6.52% · deneme başarısı g 0.371 = g0 0.823 × k 0.451 | kontrol kanal süresi 185 s · toplam gönderim 560 s | gecikme p50 0.049 · p95 0.840 · p99 2.512 s
+  B · birincil, 15/15 (PDR_açık)
+    kâhin   kayıp R 0.008 · İ 0.206 · K 0.006 · T 0.000 | karar/paket 2.64 · atlama başarısızlığı 4.41% · deneme başarısı g 0.404 = g0 0.770 × k 0.525 | kontrol kanal süresi 20 s · toplam gönderim 351 s | gecikme p50 0.031 · p95 0.134 · p99 0.331 s
+    Babel   kayıp R 0.000 · İ 0.335 · K 0.002 · T 0.000 | karar/paket 3.64 · atlama başarısızlığı 4.32% · deneme başarısı g 0.423 = g0 0.836 × k 0.506 | kontrol kanal süresi 77 s · toplam gönderim 513 s | gecikme p50 0.052 · p95 0.337 · p99 1.313 s
+    OLSRv2  kayıp R 0.127 · İ 0.368 · K 0.001 · T 0.009 | karar/paket 3.06 · atlama başarısızlığı 7.06% · deneme başarısı g 0.384 = g0 0.744 × k 0.517 | kontrol kanal süresi 58 s · toplam gönderim 450 s | gecikme p50 0.032 · p95 0.249 · p99 1.390 s
+    AODV-k  kayıp R 0.423 · İ 0.181 · K 0.000 · T 0.000 | karar/paket 2.47 · atlama başarısızlığı 7.80% · deneme başarısı g 0.359 = g0 0.775 × k 0.464 | kontrol kanal süresi 267 s · toplam gönderim 602 s | gecikme p50 0.059 · p95 0.573 · p99 2.497 s
+    v0.4.1  kayıp R 0.237 · İ 0.196 · K 0.000 · T 0.000 | karar/paket 2.57 · atlama başarısızlığı 6.94% · deneme başarısı g 0.363 = g0 0.801 × k 0.454 | kontrol kanal süresi 187 s · toplam gönderim 560 s | gecikme p50 0.056 · p95 1.332 · p99 3.669 s
+  D · dayanıklılık, 10/20 (PDR_açık)
+    kâhin   kayıp R 0.033 · İ 0.279 · K 0.003 · T 0.000 | karar/paket 2.59 · atlama başarısızlığı 4.62% · deneme başarısı g 0.402 = g0 0.764 × k 0.527 | kontrol kanal süresi 19 s · toplam gönderim 345 s | gecikme p50 0.030 · p95 0.129 · p99 0.273 s
+    Babel   kayıp R 0.000 · İ 0.444 · K 0.001 · T 0.000 | karar/paket 3.64 · atlama başarısızlığı 4.18% · deneme başarısı g 0.427 = g0 0.841 × k 0.508 | kontrol kanal süresi 79 s · toplam gönderim 511 s | gecikme p50 0.049 · p95 0.227 · p99 0.721 s
+    OLSRv2  kayıp R 0.073 · İ 0.501 · K 0.000 · T 0.013 | karar/paket 3.11 · atlama başarısızlığı 7.23% · deneme başarısı g 0.383 = g0 0.742 × k 0.516 | kontrol kanal süresi 59 s · toplam gönderim 459 s | gecikme p50 0.033 · p95 0.192 · p99 1.142 s
+    AODV-k  kayıp R 0.466 · İ 0.175 · K 0.000 · T 0.000 | karar/paket 2.48 · atlama başarısızlığı 7.76% · deneme başarısı g 0.360 = g0 0.780 × k 0.461 | kontrol kanal süresi 268 s · toplam gönderim 606 s | gecikme p50 0.060 · p95 0.563 · p99 2.823 s
+    v0.4.1  kayıp R 0.356 · İ 0.190 · K 0.000 · T 0.000 | karar/paket 2.52 · atlama başarısızlığı 6.83% · deneme başarısı g 0.367 = g0 0.805 × k 0.456 | kontrol kanal süresi 187 s · toplam gönderim 549 s | gecikme p50 0.053 · p95 1.181 · p99 3.505 s

@@ -1,0 +1,52 @@
+== A · koşu süresi (saat; 8 işçi, 350 s'lik koşu) ==
+  kâhin   ikiz 0.59–0.74 · birincil 0.76–1.07 · dayaniklilik 0.56–0.82
+  Babel   ikiz 1.05–1.53 · birincil 1.39–2.02 · dayaniklilik 1.25–1.64
+  OLSRv2  ikiz 0.85–1.25 · birincil 1.17–1.45 · dayaniklilik 1.04–1.27
+  AODV-k  ikiz 2.96–3.72 · birincil 2.67–3.37 · dayaniklilik 2.37–3.06
+  v0.4.1  ikiz 1.44–1.87 · birincil 1.63–2.26 · dayaniklilik 1.56–2.02
+
+== B · dayanıklılık ↔ birincil, kâhine göre ==
+  kâhine oran (B → D) · D − B farkının kâhinin farkından sapması (eşli, tohum ortalaması)
+  kâhin   1.000 → 1.000 · sapma +0.000 (artı 0/8 · eksi 0/8)
+  Babel   0.851 → 0.809 · sapma -0.015 (artı 3/8 · eksi 5/8)
+  OLSRv2  0.636 → 0.603 · sapma +0.012 (artı 5/8 · eksi 3/8)
+  AODV-k  0.508 → 0.523 · sapma +0.056 (artı 8/8 · eksi 0/8)
+  v0.4.1  0.728 → 0.662 · sapma -0.020 (artı 3/8 · eksi 5/8)
+
+== C · evreler: önce · açık · sessiz (8 tohum ortalaması) ==
+  birincil
+    kâhin   önce 0.919 · açık 0.779 · sessiz 0.916 · sessiz − önce -0.003
+    Babel   önce 0.932 · açık 0.663 · sessiz 0.916 · sessiz − önce -0.016
+    OLSRv2  önce 0.801 · açık 0.495 · sessiz 0.714 · sessiz − önce -0.087
+    AODV-k  önce 0.513 · açık 0.396 · sessiz 0.488 · sessiz − önce -0.025
+    v0.4.1  önce 0.779 · açık 0.567 · sessiz 0.763 · sessiz − önce -0.016
+  dayaniklilik
+    kâhin   önce 0.919 · açık 0.685 · sessiz 0.913 · sessiz − önce -0.006
+    Babel   önce 0.932 · açık 0.554 · sessiz 0.921 · sessiz − önce -0.011
+    OLSRv2  önce 0.801 · açık 0.413 · sessiz 0.711 · sessiz − önce -0.089
+    AODV-k  önce 0.513 · açık 0.358 · sessiz 0.493 · sessiz − önce -0.021
+    v0.4.1  önce 0.779 · açık 0.453 · sessiz 0.770 · sessiz − önce -0.009
+
+== D · açık dönemde doğan paketlerin kaybı, ikizdeki pencereye göre artış ==
+  birincil
+    kâhin   R 0.000 → 0.008 (+0.008) · İ 0.083 → 0.206 (+0.123)
+    Babel   R 0.000 → 0.000 (+0.000) · İ 0.070 → 0.335 (+0.265)
+    OLSRv2  R 0.023 → 0.127 (+0.104) · İ 0.165 → 0.368 (+0.203)
+    AODV-k  R 0.282 → 0.423 (+0.141) · İ 0.193 → 0.181 (-0.012)
+    v0.4.1  R 0.043 → 0.237 (+0.195) · İ 0.172 → 0.196 (+0.024)
+  dayaniklilik
+    kâhin   R 0.000 → 0.033 (+0.033) · İ 0.083 → 0.279 (+0.196)
+    Babel   R 0.000 → 0.000 (+0.000) · İ 0.070 → 0.444 (+0.375)
+    OLSRv2  R 0.023 → 0.073 (+0.050) · İ 0.165 → 0.501 (+0.336)
+    AODV-k  R 0.282 → 0.466 (+0.184) · İ 0.193 → 0.175 (-0.018)
+    v0.4.1  R 0.043 → 0.356 (+0.313) · İ 0.172 → 0.190 (+0.018)
+
+== E · v0.4.1'in açığı tohum yarılarında (G = Babel − v0.4.1) ==
+  ikiz         1003–1006 +0.152 · 1007–1010 +0.138
+  birincil     1003–1006 +0.089 · 1007–1010 +0.104
+  dayaniklilik 1003–1006 +0.113 · 1007–1010 +0.088
+
+== F · tohumlar arası yayılım: en zor tohum ==
+  ikiz         kâhin 1009 · Babel 1005 · OLSRv2 1005 · AODV-k 1005 · v0.4.1 1005
+  birincil     kâhin 1005 · Babel 1005 · OLSRv2 1005 · AODV-k 1005 · v0.4.1 1005
+  dayaniklilik kâhin 1005 · Babel 1003 · OLSRv2 1003 · AODV-k 1005 · v0.4.1 1005

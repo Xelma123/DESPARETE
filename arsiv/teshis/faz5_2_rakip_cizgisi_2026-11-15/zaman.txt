@@ -1,0 +1,10 @@
+ikiz basla 15.11 12:53:43
+ikiz bitti 15.11 19:20:00 cikis 0
+birincil basla 15.11 19:20:00
+birincil bitti 16.11 02:26:06 cikis 0
+dayaniklilik basla 16.11 02:26:06
+dayaniklilik bitti 16.11 08:34:06 cikis 0
+v041_ikiz basla 16.11 08:34:07
+v041_ikiz bitti 16.11 10:26:08 cikis 0
+v041_karistirma basla 16.11 10:26:08
+v041_karistirma bitti 16.11 14:25:52 cikis 0
