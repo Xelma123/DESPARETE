@@ -1,0 +1,105 @@
+Faz 5-2 teşhis (d) · duman koşusu (16 Kasım 2026) — ölçüm değil, hiçbir karara girmez.
+Kısa pencere (karıştırıcı 5 s · ısınma 10 · ölçüm sonu 40 · koşu 50 s), tohum 1003, Babel-a; ikiz ve birincil hücre.
+
+Komutlar (çalışma ağacından, PYTHONIOENCODING=utf-8 DESPARETE_DUNYA=referans_2026):
+  py -3.11 -u kalibrasyon/karistirma_isaretleri.py --dunya referans_2026 --kol formasyon --tohumlar 1003 --isci 1 --protokoller babel --kisa --sinif yok|surekli --kayit …
+  py -3.11 -u kalibrasyon/kayip_anatomisi.py (aynı argümanlar) — karşılaştırma için
+Dördü 19:02–19:12 paralel; düzeltmeden sonra birincil kaydedici 19:14–19:22 tek başına.
+
+== 1 · birebirlik: kaydedici ↔ kayıp anatomisi (aynı koşu) ==
+  ikiz      gecerli      anatomi True · kaydedici True · eşit
+  ikiz      pdr          anatomi 0.8108954289292424 · kaydedici 0.8108954289292424 · eşit
+  ikiz      pdr_pencere  anatomi 0.8631051752921536 · kaydedici 0.8631051752921536 · eşit
+  ikiz      uretilen     anatomi 1597 · kaydedici 1597 · eşit
+  ikiz      teslim       anatomi 1295 · kaydedici 1295 · eşit
+  ikiz      sayaçlar     127 sayaç · farklı 0 []
+  ikiz      süre         anatomi 487.7 s · kaydedici 532.5 s (dördü paralel)
+  birincil  gecerli      anatomi True · kaydedici True · eşit
+  birincil  pdr          anatomi 0.5842204132748904 · kaydedici 0.5842204132748904 · eşit
+  birincil  pdr_pencere  anatomi 0.6260434056761269 · kaydedici 0.6260434056761269 · eşit
+  birincil  uretilen     anatomi 1597 · kaydedici 1597 · eşit
+  birincil  teslim       anatomi 933 · kaydedici 933 · eşit
+  birincil  sayaçlar     128 sayaç · farklı 0 []
+  birincil  süre         anatomi 539.9 s · kaydedici 603.3 s (dördü paralel)
+
+== 2 · düzeltme (açık dönemler) ==
+  İlk koşuda açık dönem 0 çıktı: sürekli sınıfın `gecis_anlari`'ı boş dönüyor. Evre artık dilimin başı · ortası · sonu
+  örneklenerek, açık dönem 'açık' dilimlerden kurulup uçları ikiye bölmeyle bulunuyor.
+  yeniden koşu: açık dönem 1 · PDR ve sayaçlar ilk koşuyla aynı · düğüm-saniye sınıfları aynı · tek başına 456.6 s
+  denetim: {'mesgul_s': 470.306, 'cozulen': 128425, 'phy': 49593, 'mac_olay': 6417, 'selam_gonderilen': 576, 'selam_alinan': 3074}
+
+== 3 · kaydedicinin çıktısı (ham) ==
+  ==============================================================================
+  KARISTIRMA ISARETLERI — dunya referans_2026 · formasyon-yok · aile — · tohum [1003] · KISA PENCERE
+  ==============================================================================
+      1/1 babel                                      1003 · PDR(pencere) 0.8631 · 532 s · {'mesgul_s': 499.289, 'cozulen': 160913, 'phy': 53896, 'mac_olay': 7225, 'selam_gonderilen': 575, 'selam_alinan': 3617}
+    1 koşu · 0 hata
+  ==============================================================================
+  KARISTIRMA ISARETLERI — dunya referans_2026 · formasyon-surekli · aile derin_sizma · tohum [1003] · KISA PENCERE
+  ==============================================================================
+      1/1 babel                                      1003 · PDR(pencere) 0.6260 · 457 s · {'mesgul_s': 470.306, 'cozulen': 128425, 'phy': 49593, 'mac_olay': 6417, 'selam_gonderilen': 576, 'selam_alinan': 3074}
+    1 koşu · 0 hata
+
+== 4 · sonuc_hesap.py duman kayıtlarıyla (kısa pencerede 'önce' evresi yok; birebirlik teşhis (c)'nin tam pencereli satırına karşı, farklı olması beklenir) ==
+== 0 · geçerlilik ==
+  ikiz         koşu 1 · geçerli 1 · süre 0.15–0.15 sa
+  birincil     koşu 1 · geçerli 1 · süre 0.13–0.13 sa
+  birebirlik (teşhis (c)'nin Babel satırı): 10 FARK
+    ikiz 1003: pdr 0.8108954289292424 ≠ 0.9318643538052821
+    ikiz 1003: pdr_pencere 0.8631051752921536 ≠ 0.9437910917677562
+    ikiz 1003: uretilen 1597 ≠ 12798
+    ikiz 1003: teslim 1295 ≠ 11926
+    ikiz 1003: sayaç farkı ['aktarilan_paket', 'aktarilan_paket_pencere', 'alim_basarili', 'alim_basarili_pencere', 'alim_red_mesgul', 'alim_red_mesgul_pencere', 'alim_red_onbelge', 'alim_red_onbelge_pencere']
+    birincil 1003: pdr 0.5842204132748904 ≠ 0.8105172683231755
+    birincil 1003: pdr_pencere 0.6260434056761269 ≠ 0.799981479766645
+    birincil 1003: uretilen 1597 ≠ 12798
+    birincil 1003: teslim 933 ≠ 10373
+    birincil 1003: sayaç farkı ['aktarilan_paket', 'aktarilan_paket_pencere', 'alim_basarili', 'alim_basarili_pencere', 'alim_red_mesgul', 'alim_red_mesgul_pencere', 'alim_red_onbelge', 'alim_red_onbelge_pencere']
+
+== S1a · düğüm-saniye işaretleri (G = ayırma gücü, yön +: karıştırılanda büyük) ==
+  ed       mesgul         bir — · day — → dışarıda
+  ed       aciklanamayan  bir — · day — → dışarıda
+  ed       phy            bir — · day — → dışarıda
+  ed       cozulen        bir — · day — → dışarıda
+  ed       sessizlik      bir — · day — → dışarıda
+  ed       selam_kaybi    bir — · day — → dışarıda
+  girisim  mesgul         bir — · day — → dışarıda
+  girisim  aciklanamayan  bir — · day — → dışarıda
+  girisim  phy            bir — · day — → dışarıda
+  girisim  cozulen        bir — · day — → dışarıda
+  girisim  sessizlik      bir — · day — → dışarıda
+  girisim  selam_kaybi    bir — · day — → dışarıda
+
+  Güçlü ve zayıf işaretlerde %80 yakalayan eşik ve karıştırıcısız ikizdeki yanlış alarm:
+
+  Karıştırılmayanlar temizden ayrışıyor mu (en büyük G):
+    acik|uzak  en büyük G 0.000
+    sessiz     en büyük G 0.000
+    ikiz       en büyük G 0.000
+
+== S1b · düşük teslimli (< 0,5) bağ birimlerinde RSSI (karıştırılan alıcı ↔ temiz) ==
+  birincil     AUC (karıştırılanda güçlü) — · tohum 0/1 · düşük teslim payı: karıştırılan 81.6% (38) · temiz — (0)
+  dayaniklilik AUC (karıştırılanda güçlü) — · tohum 0/0 · düşük teslim payı: karıştırılan — (0) · temiz — (0)
+  → tutarlılık kuralı: dışarıda
+
+== S2 · art arda MAC vazgeçmesi ==
+  ikiz        dizi ≥ n / çerçeve: 1: 2.48e-02 · 2: 6.82e-03 · 3: 2.87e-03 · 4: 5.38e-04 · 5: 3.59e-04 · deneme ort 2.05
+  bir temiz    dizi ≥ n / çerçeve:  · deneme ort 0.00
+  bir ed       dizi ≥ n / çerçeve: 1: 2.93e-01 · 2: 1.71e-01 · 3: 1.22e-01 · 4: 9.76e-02 · 5: 9.76e-02 · deneme ort 6.29
+  bir girisim  dizi ≥ n / çerçeve: 1: 3.88e-02 · 2: 1.59e-02 · 3: 7.05e-03 · 4: 1.76e-03 · 5: 0.00e+00 · deneme ort 4.26
+  bir uzak     dizi ≥ n / çerçeve: 1: 3.79e-02 · 2: 8.26e-03 · 3: 5.51e-03 · 4: 4.13e-03 · 5: 3.44e-03 · deneme ort 2.34
+  bir tespit (ED + girişim; ortanca s · ulaşılan pay · bağ-dönem): n=1: 1.2 · 45% · 33 · n=2: 1.405 · 24% · 33 · n=3: 1.42 · 15% · 33 · n=4: 1.49 · 9% · 33 · n=5: 1.69 · 9% · 33
+  day temiz    dizi ≥ n / çerçeve:  · deneme ort 0.00
+  day ed       dizi ≥ n / çerçeve:  · deneme ort 0.00
+  day girisim  dizi ≥ n / çerçeve:  · deneme ort 0.00
+  day uzak     dizi ≥ n / çerçeve:  · deneme ort 0.00
+  day tespit (ED + girişim; ortanca s · ulaşılan pay · bağ-dönem): n=1: None · 0% · 0 · n=2: None · 0% · 0 · n=3: None · 0% · 0 · n=4: None · 0% · 0 · n=5: None · 0% · 0
+  → yetmez (hiçbir n yanlış alarm sınırının altında değil)
+
+== S3 · bağ kalitesinin değişim hızı (kâhin, ikiz) ==
+  τ  1 s · bant değişimi 0.0% · ortalama |Δp| 0.001
+  τ  2 s · bant değişimi 0.0% · ortalama |Δp| 0.002
+  τ  4 s · bant değişimi 0.0% · ortalama |Δp| 0.001
+  τ  8 s · bant değişimi 0.0% · ortalama |Δp| 0.002
+  τ 16 s · bant değişimi 0.0% · ortalama |Δp| 0.002
+  → bant değişimi ≤ %10 olan en uzun τ: 16 s (bağ sayısı [26])
