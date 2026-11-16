@@ -22,6 +22,10 @@ Bu, yalnız kısa bağ kullanılacağı anlamına gelmez: her fazladan atlama ka
 
 İHA'ların formasyonunu ve yörüngesini değiştiremem; yalnız paketin hangi yoldan gideceğini seçerim. Bu yüzden bir bağın bugünkü kötülüğü kalıcı sayılmaz: karıştırma biter, İHA'lar yaklaşır, bağ düzelir. Kullanmadığım bağı da ölçmeye devam ederim; düzelen bağ kendiliğinden yeniden kullanılır. Böylece ağ, kopan yerlerini dışarıdan bir müdahale olmadan onarır. Uygulaması T-1 ve T-3'te.
 
+**İlke 3 · Kanıta göre davranmak, çizelgeye göre değil (16 Kasım).**
+
+Protokol karıştırıcının çizelgesini bilmez ve ona göre ayarlanmaz: bağı kanıt gelince bırakır, kanıt kalkınca geri alır. Böylece hangi çizelgede çalışırsa çalışsın karıştırıcıyı izler. Zaman sabitleri tek bir çizelgeye göre seçilmez; dayanıklılık hücresi (10 s açık · 20 s sessiz) bunu sınar. Uygulaması T-7, T-9 ve T-10'da.
+
 ---
 
 ## 1 · Komşu ve bağ kalitesi (16 Kasım)
@@ -103,3 +107,74 @@ Bu, yalnız kısa bağ kullanılacağı anlamına gelmez: her fazladan atlama ka
 - Bedeli: bağlarımız menzil sınırında olduğundan elle konan eşik zor yayılımda yanılabilir [23]; eşikler geliştirme tohumlarında ölçülerek ayarlanır.
 
 **Teşhis (d)'ye ve 5-3'e kalanlar:** kanıta girecek işaretler ve eşikleri (teşhis (d)) · alıcının bildirdiği bitlerin sayısı ve anlamı · işaretlerin birleştirilme kuralı · yanlış alarm oranı.
+
+---
+
+## 3 · Bırakma zamanı (16 Kasım)
+
+Yol iki sebeple değişir ve ikisinin kuralı ayrıdır: **zorunlu geçiş** (ardıl kullanılamaz hâle gelmiştir) ve **isteğe bağlı geçiş** (yol çalışıyor, başka bir yol daha ucuz görünüyor).
+
+**Ölçülmüş kanıt** (`arsiv/teshis/faz5_2_rakip_cizgisi_2026-11-15/sonuc.md` §1 · `arsiv/teshis/faz5_2_anatomi_2026-11-14/sonuc.md` §5 · `arsiv/teshis/faz5_2_secenek_iletim_2026-11-15/sonuc.md` §5):
+- Birincil hücrede evrelere göre teslim (önce · açık · sessiz; 8 tohum): kâhin 0,919 · 0,779 · 0,916 · Babel 0,932 · 0,663 · 0,916 · v0.4.1 0,779 · 0,567 · 0,763. Kâhin bile açık dönemde 0,14 kaybediyor; Babel 0,27, v0.4.1 0,21. Sessiz dönemde üçü de önceki düzeye yakın dönüyor; asıl iş açık dönemde.
+- Babel MAC başarısızlığını kullanmıyor ve rotası 56 s yaşıyor (`protokol_kaynaklari/faz5_arastirma_2026-10-21/NOTLAR.md` §6). Karıştırmada başarısız iletimlerinin %20'si kesik bağda.
+- v0.4.1 tek bir MAC başarısızlığında komşuyu "şüpheli" yapıp onarıma giriyor. Ardılı düğüm başına 1,3 saniyede bir değişiyor (ikiz); Babel'in seçimi düğüm–hedef çifti başına kabaca 20 saniyede bir (25 015 değişim, 40 düğüm, 39'ar hedef).
+- Kanal kalabalık: üç protokolde de veri denemelerinin yarısından fazlası başarısız. Tek bir atlama kaybı çoğu zaman karıştırma değildir.
+
+**T-9 · Zorunlu geçiş: MAC başarısızlığı kanıttır, karar değildir.**
+- MAC'in bir çerçeveden vazgeçmesi (`iletim_basarisiz`) ardılı tek başına bıraktırmaz; T-5 ve T-6'nın kanıtına girer.
+- Kanıt birikince bağ "karıştırılıyor" durumuna (T-7), kalitesi üst sınırı aşınca kullanılmaz duruma (T-3) geçer ve ardıl hazır bir yedeğe yerelde değiştirilir.
+- Onarım yalnız hiç uygun yedek yoksa başlar.
+- Gerekçe: Babel'in tepkisizliği kesik bağa göndermeyi sürdürüyor, v0.4.1'in aşırı tepkisi kalabalık kanaldaki her çarpışmada onarım başlatıyor. MAC sonucunu karar değil kanıt saymak bu ikisinin arasındaki seçimimdir.
+
+**T-10 · Kanıtın eşiği: birkaç ardışık olay, iki yönde de.**
+- "Karıştırılıyor" ve "bitti" kararları birkaç ardışık olayla verilir; sayılar 5-3'te.
+- Erken dönmenin bedeli küçüktür: karıştırma sürüyorsa bağ birkaç olayda yeniden çıkar, hatırlanan kalite korunur (T-7).
+- Karıştırmanın başlaması komşulukta bir değişim sayılır; selamlar sıklaşır (T-1) ve karıştırmanın bittiği daha çabuk duyulur.
+- Gerekçe: birincil hücrede karıştırıcı 15 s açık kalıyor; tespit 5 s sürerse açık sürenin üçte biri kesik bağda geçer. İlk olayda karar kalabalık kanalda yanlış alarm üretir; kayan bir penceredeki oran Babel'in yavaşlığına döner. Doğruluk ile tepki hızı arasındaki değiş tokuş ETX'in de uyarısıdır [36].
+
+**T-11 · İsteğe bağlı geçiş: oransal eşik.**
+- Çalışan bir yoldan, yeni yolun maliyeti bugünkünden belli bir oranda düşükse geçilir; oran 5-3'te.
+- Gerekçe: sabit fark eşiği (MRHOF'ta 1,5 beklenen gönderim [64]) maliyeti 2 olan yolda %75, maliyeti 8 olan yolda %19 iyileşme ister; kısa yol neredeyse hiç değişmez, uzun yol kolay değişir. Oransal eşik her uzunlukta aynı davranır. Düzgünleştirilmiş maliyetin de daha iyi olması şartı (Babel [55]) T-2'nin ölçüm penceresinin üstüne ikinci bir yavaşlık eklerdi.
+- Ödünç: oransal histerezis Ramachandran vd. 2007 [54]; ölçümlerinde %10 eşik baskın rotanın ömrünü 4–5 kat uzatıyor (durağan ağlar, zaman ölçeği dakika; bizimki saniye).
+
+**5-3'e kalanlar:** "karıştırılıyor" ve "bitti" için olay sayıları · isteğe bağlı geçişin oranı · kötü bağ (T-3) için de aynı olay sayısı kuralının geçerli olup olmayacağı.
+
+---
+
+## 4 · Yedek yol ve döngüsüzlük (16 Kasım)
+
+Yedek, döngü yaratmadan geçilebilecek komşudur; hangi komşunun güvenli olduğunu döngüsüzlük kuralı söyler. Bu yüzden iki konu birlikte karara bağlandı.
+
+**Ölçülmüş kanıt** (`arsiv/teshis/faz5_2_rakip_cizgisi_2026-11-15/sonuc.md` §2 · `arsiv/teshis/faz5_2_anatomi_2026-11-14/sonuc.md` §5 · `arsiv/teshis/faz5_2_secenek_iletim_2026-11-15/sonuc.md` §5–§6):
+- Birincil hücrede açık dönemde doğan paketlerin rota yokluğundan kaybı: Babel 0,000 · kâhin 0,008 · v0.4.1 0,237. Babel de FD kuralını kullanıyor; fark açlığın çözülüşünde.
+- v0.4.1'de açık evredeki onarımların %67'si açlıkla, %33'ü aday yokluğuyla başlıyor.
+- v0.4.1 açlıkta en az 6 s bekliyor ve yeni turu yalnız kendi paketiyle istiyor: ikizde 131 isteğe 2 yanıt. Babel hemen soruyor, seçili rotasına uygulanamaz bir güncelleme gelince rotayı bırakmıyor (`protokol_kaynaklari/faz5_arastirma_2026-10-21/NOTLAR.md` §5, §8).
+- Yol istemek (`onarim_edinimi`) ikizde rota kaybını %40 azalttı (0,054 → 0,032); kazanç iletimde geri gitti (paket başına atlama +%17, kontrol kanal süresi +%45).
+- Yedekleri yoklamayla canlı tutmak (`hedefli_canlilik`) rota kaybını azaltmadı. v0.4.1'de alınan duyuruların %64'ü işlenmiyordu; yedekler bilinmiyordu (T-1 bunu çözer).
+
+**T-12 · Döngüsüzlük: uygulanabilirlik koşulu ve sıra numarası.**
+- Tur (sıra numarası) geçitten çıkar. Bir komşunun ilanı ya daha yeni turdaysa ya da aynı turda bildirdiği maliyet benim bu turdaki en iyi maliyetimden (FD) küçükse kabul edilir.
+- Gerekçe: döngü hiç oluşmaz; bizim hücrelerimizde aynı kuralı kullanan Babel'in açık dönemdeki rota yokluğu kaybı 0,000. Komşulara sorarak ortak hesap (DUAL) kayıplı kanalda takılabilir; yükseklik kuralı (RPL) döngüyü önlemez, oluşunca yakalar ve her veri paketine bir alan ister. En garanti ve en çok sınanmış yol bu.
+- Ödünç: Babel [4] (RFC 8966 §3.5) ve DSDV ailesi; v0.4.1'in çekirdeği de bu aileden.
+
+**T-13 · Açlık: hemen istek.**
+- Uygun komşu kalmayınca yeni tur hemen istenir. Daha yeni turu bilen herhangi bir düğüm yanıtlar, bilmeyen isteği geçide doğru iletir; tur yalnız geçitte ve bir artar.
+- Seçili rota çalışıyorsa, ona uygulanamaz bir güncelleme geldi diye bırakılmaz; yeni tur istenir.
+- Tur düzenli aralıklarla artırılmaz: yeni tur kimi zaman önce dolambaçlı bir yoldan ulaşır ve rotalar her turda çalkalanır (T-11'e ters).
+- Gerekçe: v0.4.1'in bekleyen ve yalnız kendi paketiyle soran açlık çözümü açık dönemde 0,237'lik rota yokluğu kaybının başlıca kaynağı.
+- Bedeli kontrol trafiğidir; isteklerin yinelenmesi ve sıklığı kontrol yükü konusunda sınırlanır.
+- Ödünç: Babel [4] (RFC 8966 §3.8.1.2).
+
+**T-14 · Yedek yol: hazır yedek kümesi, tek yoldan gönderim; çoğaltma yalnız son çare.**
+- Uygulanabilirlik koşulunu (T-12) geçen bütün komşular hazır yedektir. Ardıl kullanılamaz olunca (T-3, T-7) en iyisine anında geçilir. Yedekler için ek mesaj gönderilmez; selam (T-1) ve ilanlar yeter.
+- Trafik komşulara bölünmez: bölme daha kötü bağa da trafik gönderir, açığın büyük kalemi ise zaten iletim kaybı.
+- Seçici çoğaltma çekirdekte yoktur. Kullanılırsa yalnız son çare olarak, nadiren ve sıkı bir bütçeyle kullanılan bir yan özelliktir; 5-3'te ayrı bir bayrakla ölçülür, kazandırmazsa kalmaz. Gerekçe: bizim simülatörümüzde çoğaltma çok pahalı. Kanal kalabalık (veri denemelerinin yarısından fazlası başarısız) ve her pakete kopya toplu akışta kanalı boğuyor (JarmRout, K-238).
+- Ödünç: hazır yedek fikri DUAL'ın uygulanabilir ardılı [65] (RFC 7868) ve RPL'nin ebeveyn kümesi [63]; seçici çoğaltma ilk taslağımdan (PROTECT).
+
+**T-15 · Yedeklerin ayrışması: kanıtla.**
+- "Karıştırılıyor" işaretli komşu (T-7) yedek sayılmaz. Karıştırılan bölge kanıttan görünür; konum gerekmez.
+- Konum selama eklenmez: karıştırıcının yeri bilinmediği için ardıldan uzak bir yedeğin neye yarayacağı belli değil, bedeli ise her selamda ödenir.
+- K-230'un sorusunun cevabı budur.
+- Ödünç: ortak düğüm riski fikri Tague vd. 2011 [53].
+
+**5-3'e kalanlar:** tur isteğinin yinelenme sayısı ve aralığı · "son çare"nin tanımı ve kopya bütçesi · yedeklerin sıralanması.
