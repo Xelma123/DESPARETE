@@ -178,3 +178,37 @@ Yedek, döngü yaratmadan geçilebilecek komşudur; hangi komşunun güvenli old
 - Ödünç: ortak düğüm riski fikri Tague vd. 2011 [53].
 
 **5-3'e kalanlar:** tur isteğinin yinelenme sayısı ve aralığı · "son çare"nin tanımı ve kopya bütçesi · yedeklerin sıralanması.
+
+---
+
+## 5 · Kontrol yükü ve bekletme (16 Kasım)
+
+**Ölçülmüş kanıt** (karıştırıcısız ikiz, 350 s; `arsiv/teshis/faz5_2_secenek_iletim_2026-11-15/sonuc.md` §1, §5 · `arsiv/teshis/faz5_2_anatomi_2026-11-14/sonuc.md` §4–§5 · `arsiv/teshis/faz5_2_rakip_cizgisi_2026-11-15/sonuc.md` §2):
+- Kontrol trafiğinin toplam gönderim süresindeki payı: v0.4.1 %32 · Babel %14 · kâhin %6. v0.4.1'in kontrol kanal süresi Babel'inkinin 2,69 katı.
+- v0.4.1 ~35 000 yoklama ve 35 823 ilan gönderiyor (24 122'si tetik ilanı); aynı sürede veri iletimi 34 016.
+- Kanaldaki toplam gönderim süresi her 100 s arttığında alıcıların çerçeveye kilitlenme payı kabaca 2 puan düşüyor.
+- v0.4.1 1 s'de bir ve her ardıl değişiminde ilan ediyor (alan başına saniyede 5'e kadar). Babel'de selam 4 s, ters yön bildirimi 12 s, güncelleme 16 s'de bir (`protokoller/babel_bicim.py`); küçük değişimler için tetik yok.
+- Gecikmenin p99'u (ikiz · birincil · dayanıklılık; 8 tohum): Babel 0,23 · 1,31 · 0,72 s · v0.4.1 2,51 · 3,67 · 3,51 s · kâhin 0,14 · 0,33 · 0,27 s. 5 s'lik gecikme tavanı hiçbir hücrede sonucu değiştirmiyor (en çok 0,010).
+- v0.4.1 onarımda alan başına 6 paketi en çok 6 s bekletiyor; ikizde rota yokluğuna (`rota_gecersiz`) düşen paketlerin %64'ü bu kota doluyken düşüyor. Babel bekletmiyor.
+
+**T-16 · Uzaklık ilanı selamla tek iletidir.**
+- Selam, geçide maliyetimi ve turu da taşır; T-1'in uyarlanır aralığıyla gider. Ayrı ve düzenli bir ilan iletisi yoktur.
+- Selam bastırılmaz: komşular benim bağımı selamlarımın sıra numarasından ölçer (T-2).
+- Gerekçe: tek hedef olduğundan ilan birkaç bayttır (tur ve maliyet); her çerçevenin 64 baytlık sabit ek yükü (`13` §03.1) ve kanal erişimi bir kez ödenir. Ölçek için: 1 s'de bir ilan, 40 düğümde 350 s'de tek başına 14 000 çerçeve eder; 4 s'de bir birleşik selam 3 500.
+- Ödünç: aralığın uyarlanması Trickle [62]; Trickle'ın bastırması alınmadı. Bir pakette birden çok bilgi taşımak Babel'de de var [4] (RFC 8966 §4.2).
+
+**T-17 · Ara ilan yalnız önemli değişimde.**
+- Ara ilan şu durumlarda gider: maliyet belli bir oranda değişince · tur bir isteğe yanıt olarak değişince (T-13) · yol kaybolunca ya da geri gelince · "karıştırılıyorum" durumu değişince (T-6). Düğüm başına bir sıklık sınırı vardır.
+- Gerekçe: v0.4.1'de her ardıl değişiminde giden ilan, ardıl 1,3 saniyede bir değiştiği için kanalı dolduruyordu (24 122 tetik ilanı). Kötü haber ise beklemeden yayılmalı.
+- Ödünç: Babel [4] (RFC 8966 §3.7.2: küçük dalgalanmalar ve maliyeti belirgin değiştirmeyen ardıl değişimleri için tetik gönderilmez).
+
+**T-18 · Bekletme: kısa ve küçük tampon, dolunca en eskisi düşer.**
+- Yol yokken gelen paket, yol bulunana kadar küçük bir tamponda kısa süre tutulur; süre 5 s'lik gecikme tavanını aşmaz. Tampon dolunca en eski paket düşer.
+- Paket karıştırıcı susana kadar saklanmaz (sakla-taşı-ilet yok).
+- Gerekçe: tampon, açlıkta tur isteğinin (T-13) yanıtlanmasını köprüler. Telemetride en taze paket değerlidir. 15 s'lik saklama telemetrinin değerini yitirir ve karıştırıcı susunca biriken paketleri kanala aynı anda döker. `PDR_açık` geç teslimi de saydığı için uzun saklama ölçüyü yanıltıcı biçimde yükseltirdi (K-246).
+- Ödünç: bekletme v0.4.1'de de var (alan başına 6 paket, 6 s); dolunca baştan düşürme bilinen bir kuyruk politikasıdır.
+
+**T-19 · Kontrol yükü her ölçümde görünür.**
+- Kontrol trafiğinin kanal süresindeki payı, 5-3'teki her A/B'de ikincil ölçü olarak raporlanır. Her mekanizmanın kontrol bedeli böylece görünür kalır.
+
+**5-3'e kalanlar:** tamponun boyutu ve süresi · tetik eşikleri ve sıklık sınırı · selamın biçimi ve boyutu.
