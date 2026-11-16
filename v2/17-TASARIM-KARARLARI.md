@@ -61,3 +61,45 @@ Bu, yalnız kısa bağ kullanılacağı anlamına gelmez: her fazladan atlama ka
 - Gerekçe: yüke bağlı ölçü bir geri besleme döngüsü kurar: az yüklü yol seçilir, yüklenir, pahalılaşır, terk edilir; rotalar salınır [55]. Yoğunluk, karıştırma kanıtında ya da eşit maliyetli adaylar arasında ikincil ölçüt olarak ayrıca düşünülebilir.
 
 **5-3'e kalanlar:** selam aralığının alt ve üst sınırı ve hangi olayın "değişim" sayılacağı · teslim oranının penceresi ya da düzgünleştirmesi · iki eşiğin değerleri · veri sonuçlarının ve dinlenen çerçevelerin ölçüye katılma biçimi · selamın biçimi ve boyutu (`13` §02.1, `MesajBicimi`).
+
+---
+
+## 2 · Karıştırmanın yerel kanıtı (16 Kasım)
+
+**Ölçülmüş kanıt** (birincil hücre; `arsiv/teshis/faz5_2_anatomi_2026-11-14/sonuc.md` §5 · `arsiv/teshis/faz5_2_rakip_cizgisi_2026-11-15/sonuc.md`):
+- Babel'in bağ ölçüsü son 16 selama bakıyor (4 s aralıkla). Karıştırıcı açılınca atlama başına başarısızlığı %2,6'dan %10,0'a çıkıyor; başarısız iletimlerinin %20'si kâhinin "kötü" dediği bağda (ikizde %0). Rotasını koruyup kesik bağa göndermeyi sürdürüyor.
+- v0.4.1'de bir ardıl kopunca onarım geçide giden yol boyunca yayılıyor. Açık evredeki rota kaybı çoğunlukla karıştırıcının etki alanının dışında: uzak 0,177 · girişim 0,034 · ED 0,007.
+- Karıştırmanın getirdiği kayıp Babel'de iletim başarısızlığına, v0.4.1'de rota yokluğuna gidiyor (teşhis (c) §5).
+- Karıştırıcının etrafında üç bölge var (`kalibrasyon/kayip_anatomisi.py`'nin tanımı): ED bölgesi (karıştırıcının gücü ≥ −76 dBm; verici kanalı meşgul sanır, gönderemez) · girişim bölgesi (gürültü tabanının üstü; kanal boş görünür, alıcıda çerçeve bozulur) · uzak. Babel'in açık evrede artan iletim kaybı en çok girişim bölgesinde: 0,035 → 0,182 (ED 0,002 → 0,049 · uzak 0,048 → 0,119). Kanal doluluğu yalnız ED bölgesini görür.
+
+**T-5 · Kanıtın işaretleri: tutarlılık.**
+- Karıştırma tek bir işaretten değil, işaretlerin birbirini tutmasından anlaşılır:
+  - teslim düşüşü ile sinyal gücünün tutarlılığı: düşük teslim ve güçlü sinyal karıştırmaya, düşük teslim ve zayıf sinyal kötü bağa işaret eder;
+  - açıklanamayan kanal meşguliyeti: kanal meşgul, ama duyulan çerçeveler bu meşguliyeti açıklamıyor (ED bölgesi);
+  - bozuk çerçeve sayısı (`phy_hata`) ve beklenen selamların gelmemesi (sıra numarasındaki boşluk; komşulardan iki alım arasındaki en uzun süre).
+- Hangi işaretlerin bizim simülatörde karıştırmayı gerçekten ayırt ettiği teşhis (d)'de ölçülür; ayırt etmeyen işaret kanıta girmez.
+- Kanıt tek bir karıştırıcı türüne bağlanmaz: kanal doluluğu reaktif karıştırıcıyı görmez, teslim ve tutarlılık işaretleri iki türü de görür [23].
+- Gözlem sınırı: ölçülen gürültü kullanılamaz (K-227). RSSI'nin ölçüm hatası (σ 2 dB) sınanmamıştır; kullanıldığı için duyarlılığı ölçülür (`04` §9).
+- Ödünç: işaretler Puñal 2014 [23]; tutarlılık kuralı Xu vd. 2005 (Puñal 2014'te aktarıldığı gibi; özgün makale açılamadı).
+
+**T-6 · Kanıtı kim söyler: gönderen ve alıcı.**
+- Gönderen, kendi MAC sonuçlarından bağ başına kanıt toplar. Tek komşuya başarısızlık o bağı ya da o alıcıyı, bütün komşulara başarısızlık gönderenin kendisini gösterir.
+- Alıcı, karıştırıldığını kendi işaretlerinden anlar ve selamında birkaç bitle bildirir; bedeli selamın boyutuna eklenir (`13` §02.1). Girişim bölgesindeki düğüm gönderebildiği için bu bilgi komşularına ulaşır.
+- ED bölgesindeki düğüm gönderemez; komşuları onun sessizliğini (beklenen selamın gelmemesi) kanıt sayar.
+- Gerekçe: karıştırılan çoğu zaman alıcıdır (SINR kaybı alıcıda), gönderen bunu ancak paket kaybettikten sonra öğrenir. Komşuların kanıtını birleştirmek tespiti belirgin iyileştiriyor [23].
+- Ödünç: komşularla işbirliği Puñal 2014 [23].
+
+**T-7 · Kanıtın sonucu: ayrı bir "karıştırılıyor" durumu.**
+- Karıştırma kanıtı bulunan bağ geçici olarak kullanılmaz. Karıştırmadan önceki kalitesi hatırlanır; kanıt kalkınca bağ o değerle hemen geri döner, teslim oranının yeniden dolmasını beklemez.
+- Kötü bağ (T-3) ile karıştırılan bağ ayrı tutulur: kötü bağ kalitesi düzelince, karıştırılan bağ kanıt kalkınca döner.
+- Bağın maliyetine karıştırma cezası eklenmez: karıştırma bitince ceza yavaş söner ve maliyetteki salınım riski (T-4) geri gelir.
+- Ne kadar kanıtla "karıştırılıyor" ve "bitti" denileceği bırakma zamanının konusudur.
+- Yanlış alarmın bedeli (iyi bir bağın gereksiz bırakılması) 5-3'te ölçülür.
+- Hatırlanan kaliteyle geri dönüş benim tasarımımdır. Yakın fikirler: karıştırılan bölgenin etrafından dolaşmak, ağ katmanının bilinen karıştırma stratejisidir [59]; bağ başına karıştırmanın etkisini izleyip trafiği ona göre dağıtmak Tague vd. 2011'de var [53].
+
+**T-8 · Kurala dayalı kanıt, öğrenme yok.**
+- Kanıt, eşikleri yazılı açık kurallarla verilir; eğitilmiş sınıflandırıcı kullanılmaz.
+- Gerekçe: simülasyonun "karıştırıcı açık" etiketleriyle eğitilen bir sınıflandırıcı simülatörün karıştırıcı modelini ezberler. Bu, kâhin bilgisinin protokole girmemesi kuralına (`04` §4) dolaylı bir sızıntıdır. Açık kural raporda savunulabilir.
+- Bedeli: bağlarımız menzil sınırında olduğundan elle konan eşik zor yayılımda yanılabilir [23]; eşikler geliştirme tohumlarında ölçülerek ayarlanır.
+
+**Teşhis (d)'ye ve 5-3'e kalanlar:** kanıta girecek işaretler ve eşikleri (teşhis (d)) · alıcının bildirdiği bitlerin sayısı ve anlamı · işaretlerin birleştirilme kuralı · yanlış alarm oranı.
