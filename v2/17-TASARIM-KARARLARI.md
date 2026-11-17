@@ -177,7 +177,7 @@ Yedek, döngü yaratmadan geçilebilecek komşudur; hangi komşunun güvenli old
 - Ödünç: Babel [4] (RFC 8966 §3.5.1, §3.7.3); aynı aile DSDV'ye dayanır (De Couto 2003'te [36] aktarıldığı gibi); v0.4.1'in çekirdeği de bu aileden.
 
 **T-13 · Açlık: hemen istek.**
-- Uygun komşu kalmayınca yeni tur hemen istenir. Daha yeni turu bilen herhangi bir düğüm yanıtlar, bilmeyen isteği geçide doğru iletir; tur yalnız geçitte ve bir artar.
+- Uygun komşu kalmayınca yeni tur hemen istenir. Seçili rotasının turu istenen kadar yeni olan herhangi bir düğüm yanıtlar, olmayan isteği geçide doğru iletir; tur yalnız geçitte ve bir artar.
 - Seçili rotaya uygulanamaz bir güncelleme gelirse güncelleme yok sayılır: rota son kabul edilen maliyetiyle seçili kalır ve yeni tur istenir. Güncelleme uygulanırsa rota hemen bırakılır; uygulanamaz bir rota seçili tutulmaz (17 Kasım, denetim E-2).
 - Tur düzenli aralıklarla artırılmaz: yeni tur kimi zaman önce dolambaçlı bir yoldan ulaşır ve rotalar her turda çalkalanır (T-11'e ters).
 - Gerekçe: v0.4.1'in bekleyen ve yalnız kendi paketiyle soran açlık çözümü açık dönemde 0,237'lik rota yokluğu kaybının başlıca kaynağı; aynı FD kuralını kullanan Babel hemen soruyor ve aynı hücrede rota yokluğu kaybı 0,000.

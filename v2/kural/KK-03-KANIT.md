@@ -23,7 +23,7 @@ Karıştırmayı kötü bağdan ve kalabalık kanaldan ayırıp KK-01'e "karış
 
 **B · Komşu j'ye bağım (j OLAĞAN iken; göndericide):**
 5. j'nin selamında `karistiriliyorum` = 1 → "karıştırılıyor" (alıcı söyledi).
-6. j'nin `gecmis`inin sonunda ardışık `k` sıfır var (KK-01 kural 2'nin zaman aşımlarıyla, j'nin ilan ettiği aralığa göre) → "karıştırılıyor". `k = max(3, ⌈log 0,01 / log(1 − d_r)⌉)`: bağın kendi kayıp oranıyla %1'den düşük olasılıkla açıklanabilecek bir sessizlik. `d_r` 0,9 ya da 0,8 → 3; 0,6 → 6; 0,5 → 7. Sabit 3 olsaydı, temizde bile selamların %44'ü kaçan menzil sınırındaki bağlar (teşhis (d)) sık sık yanlışlıkla "karıştırılıyor" olurdu. ED'deki j gönderemez; sessizliği kanıttır (T-6). Ölen ya da uzaklaşan j de böyle görünür; zararı yok, bağ kullanılmaz ve `T_SILME`'de silinir.
+6. j'nin `gecmis`inin sonunda ardışık `k` sıfır var (KK-01 kural 2'nin zaman aşımlarıyla, j'nin ilan ettiği aralığa göre) → "karıştırılıyor". `k = max(3, ⌈log 0,01 / log(1 − d_r)⌉)`; `d_r` sondaki ardışık sıfırlar hariç hesaplanır (sessizlikten önceki kalite; yoksa sessizlik uzadıkça `k` da büyürdü): bağın kendi kayıp oranıyla %1'den düşük olasılıkla açıklanabilecek bir sessizlik. `d_r` 0,9 ya da 0,8 → 3; 0,6 → 6; 0,5 → 7. Sabit 3 olsaydı, temizde bile selamların %44'ü kaçan menzil sınırındaki bağlar (teşhis (d)) sık sık yanlışlıkla "karıştırılıyor" olurdu. ED'deki j gönderemez; sessizliği kanıttır (T-6). Ölen ya da uzaklaşan j de böyle görünür; zararı yok, bağ kullanılmaz ve `T_SILME`'de silinir.
 7. j'ye `MAC_ARDISIK` ardışık vazgeçme **ve** (j'den son 2 aralıkta selam yok ya da kendi girişim işaretim var) → "karıştırılıyor". Vazgeçme tek başına karar değildir (T-9); teşhis (d)'de tek başına geç ve seyrekti.
 8. **Bitti, sebebe göre** (sebep KK-01'in hatırasında):
 

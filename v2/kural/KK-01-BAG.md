@@ -23,7 +23,8 @@ Her komşu bağının ne kadar iyi olduğunu (ETX) ve şu an kullanılıp kullan
 
 ## Kurallar
 
-1. **Selam gelince:** sıra numarasıyla `beklenen` arasındaki boşluk kadar `gecmis`e 0, gelen selam için 1 eklenir (Babel'in "ileri sarma"sı, RFC 8966 Ek A). Boşluk `N`'den büyükse komşu yeniden başlamış sayılır, `gecmis` sıfırlanır (Babel'in kuralı).
+0. **Yeni komşu:** ilk selamıyla kayda girer ve KÖTÜ'de başlar (henüz aday değil); yeterli örnek ve `ETX_selam < E_DON` olunca OLAĞAN'a geçer. Selamı olmayan çerçeveler yalnız var olan kaydın `son_duyulma_t`sini tazeler.
+1. **Selam gelince:** sıra numarasıyla `beklenen` arasındaki boşluk kadar `gecmis`e 0, gelen selam için 1 eklenir (Babel'in "ileri sarma"sı, RFC 8966 Ek A). Boşluk `N`'den büyükse komşu yeniden başlamış sayılır, `gecmis` sıfırlanır (Babel'in kuralı); dondurmadan çıkıştan sonraki ilk selamda bu kural uygulanmaz (kural 7, 9).
 2. **Gelmeyen selam:** şimdi > `son_selam_t` + `ZAMAN_ASIMI` (1,5 × `a`) ise `gecmis`e bir 0 eklenir ve `beklenen` bir ilerler; sonra her `a`da bir 0 daha. Böylece hiç gelmeyen selam da sayılır. O selam geç gelirse (sıra < `beklenen`) eklenen 0 geri alınır (Babel'in "geri alma"sı, RFC 8966 Ek A).
 3. **Teslim oranı:** `d_r = gecmis'teki 1'ler / gecmis'teki örnek sayısı` (en çok `N`).
 4. **ETX:** `ETX_selam = 1 / (d_f · d_r)`; `d_f` ya da `d_r` 0 ise ∞ (tek yönlü bağ kullanılmaz). Örnek sayısı `ORNEK_EN_AZ`ın altındaysa bağ henüz aday değildir.
@@ -38,10 +39,10 @@ Her komşu bağının ne kadar iyi olduğunu (ETX) ve şu an kullanılıp kullan
 | KÖTÜ | OLAĞAN | `ETX_selam < E_DON`, yeterli örnek ve (veriyle düştüyse) `T_CEZA` doldu |
 | OLAĞAN | KARIŞTIRILIYOR | KK-03'ün "karıştırılıyor" olayı; `gecmis` (sonundaki ardışık 0'lar atılarak: onlar tespitten önce karıştırmanın biriktirdiği kayıptır), `d_f` ve olayın **sebebi** `hatira`ya alınır; hatıra ETX'i bunlardan hesaplanır (KK-03 "bitti"yi sebebe göre verir) |
 | KARIŞTIRILIYOR | OLAĞAN ya da KÖTÜ | KK-03'ün "bitti" olayı; `T_HATIRA` geçmediyse `hatira` geri yüklenir, hatıra ETX'i `E_CIK`ı aşmıyorsa OLAĞAN, aşıyorsa KÖTÜ; `T_HATIRA` geçtiyse `gecmis` boşaltılır ve bağ KÖTÜ'den yeniden ölçülerek döner |
-| herhangi biri | silinir | `T_SILME` boyunca komşudan hiçbir çerçeve duyulmadı |
+| herhangi biri | silinir | `T_SILME` boyunca komşudan hiçbir çerçeve duyulmadı; kendim karıştırılırken bu süre işlemez (kural 9) |
 
-7. **KARIŞTIRILIYOR iken** gelen selamlar `gecmis`e, komşunun bildirdiği oran `d_f`ye yazılmaz (ölçü donar, T-7); ama KK-03'e "selam geldi" olayı olarak verilir. Dönüşte `d_f` hatıradan gelir, komşunun sonraki selamıyla güncellenir. Sezilmeyen zayıf karıştırmada ölçü kendisi düşer ve rotalar kısa bağlara kayar (İlke 1).
-9. **Kendim karıştırılırken** (KK-03 kural 4, "karıştırılıyorum") hiçbir komşunun `gecmis`ine yazılmaz: ne gelen selam ne zaman aşımı sayılır. Sebep: karıştırılan benim; komşularıma ölçtüğüm oranları (selamdaki liste) bozarsam, onlar karıştırma bitince bana olan bağları hatırladıkları kaliteyle geri aldıklarında benim bildirdiğim düşük oranla hemen KÖTÜ'ye düşerler ve hatıranın anlamı kalmaz. KK-03'ün selam kaybı sayımı (`s`) bu dondurmadan bağımsız, ham gelen–beklenen sayısından yapılır.
+7. **KARIŞTIRILIYOR iken** gelen selamlar `gecmis`e, komşunun bildirdiği oran `d_f`ye yazılmaz ve zaman aşımı 0 eklemez (ölçü donar, T-7); ama `beklenen`, `son_selam_t` ve `a` gelen selamlarla izlenmeye devam eder ve selam KK-03'e "selam geldi" olayı olarak verilir. Sebep: `beklenen` donsaydı, 15 s'lik bir karıştırmadan sonra ilk selamın sıra boşluğu `N`'yi aşar, komşu yeniden başlamış sayılır ve hatıra silinirdi. Dönüşte `d_f` hatıradan gelir, komşunun sonraki selamıyla güncellenir. Sezilmeyen zayıf karıştırmada ölçü kendisi düşer ve rotalar kısa bağlara kayar (İlke 1).
+9. **Kendim karıştırılırken** (KK-03 kural 4, "karıştırılıyorum") hiçbir komşunun `gecmis`ine yazılmaz: ne gelen selam ne zaman aşımı sayılır; `beklenen` kural 7'deki gibi izlenir, silme süresi işlemez. Çıkışta her komşunun `son_selam_t`si o ana çekilir; böylece dondurma süresi geriye dönük kayıp sayılmaz. Sebep: karıştırılan benim; komşularıma ölçtüğüm oranları (selamdaki liste) bozarsam, onlar karıştırma bitince bana olan bağları hatırladıkları kaliteyle geri aldıklarında benim bildirdiğim düşük oranla hemen KÖTÜ'ye düşerler ve hatıranın anlamı kalmaz. KK-03'ün selam kaybı sayımı (`s`) bu dondurmadan bağımsız, ham gelen–beklenen sayısından yapılır.
 8. KÖTÜ bağ için karıştırma kanıtı izlenmez: zaten kullanılmıyor.
 
 ## Örnek

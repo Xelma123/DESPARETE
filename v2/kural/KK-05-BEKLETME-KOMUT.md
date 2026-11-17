@@ -18,7 +18,7 @@ Yol yokken paketi açlık çözülene kadar kısa süre tutmak; komutu telemetri
 **A · Bekletme:**
 1. Paket için yol yoksa (KK-04'te `A` boş) karar `beklet` olur; paketin ilk bekletme anı tutulur.
 2. Yeniden sorulduğunda: yol varsa gönderilir; yoksa ve bu düğümde `TUTMA_EN_COK` geçtiyse düşer (`rota_gecersiz`); değilse yine beklenir.
-3. Yeniden sorma: yol bulunduğunda hemen, tampon doluyken her 0,5 s'de bir `Uyandirma` döndürülür (simülatör tamponu yalnız uyanmadan sonra döker, K-135).
+3. Yeniden sorma: yol bulunduğunda hemen, tamponda bekleyen paket varken her 0,5 s'de bir `Uyandirma` döndürülür (simülatör tamponu yalnız uyanmadan sonra döker, K-135).
 4. Sayı tavanı simülatörün ortak tavanıdır (`rota_tamponu_kapasitesi` 64; dolunca en eski düşer); her protokole aynı. Asıl sınır süredir.
 5. Paketin yaşı görünmediği için sınır atlama başınadır; uçtan uca 5 s'yi aşan gecikme gecikme tavanlı `PDR_açık`la ölçülür (T-19).
 
