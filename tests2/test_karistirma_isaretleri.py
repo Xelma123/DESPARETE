@@ -40,6 +40,45 @@ def test_VAZGECME_DIZILERI_baslangic_ve_uzunluk():
     assert vazgecme_dizileri(s) == [(1, 2), (4, 1), (6, 3)]
 
 
+def test_MESGUL_KOPYASI_simulatorun_integraliyle_ayni_govde():
+    """Kaydedicinin `mesgul_sar`ı `Dugum.mesgul_guncelle`in kopyasıdır; tek
+    farkı parçaları dilimlere de yazan `dagit` çağrısı (5-2 denetimi K-9).
+    Simülatörün gövdesi değişirse bu test kırılır ve kopya güncellenir.
+    Karşılaştırma belge dizgisiz sözdizim ağacıyla."""
+    import ast
+    import inspect
+    import textwrap
+    from pathlib import Path
+
+    from sim2.kosum.dugum import Dugum
+
+    def govde(fonk: ast.FunctionDef) -> list:
+        g = fonk.body
+        if (isinstance(g[0], ast.Expr) and isinstance(g[0].value, ast.Constant)
+                and isinstance(g[0].value.value, str)):
+            g = g[1:]
+        return g
+
+    class DagitSil(ast.NodeTransformer):
+        def visit_Expr(self, dugum):
+            c = dugum.value
+            if (isinstance(c, ast.Call) and isinstance(c.func, ast.Name)
+                    and c.func.id == "dagit"):
+                return None
+            return dugum
+
+    asil = ast.parse(textwrap.dedent(inspect.getsource(
+        Dugum.mesgul_guncelle))).body[0]
+    kok = Path(__file__).resolve().parent.parent
+    agac = ast.parse((kok / "kalibrasyon" / "karistirma_isaretleri.py"
+                      ).read_text(encoding="utf-8"))
+    kopya = next(d for d in ast.walk(agac)
+                 if isinstance(d, ast.FunctionDef) and d.name == "mesgul_sar")
+    kopya = DagitSil().visit(kopya)
+    assert ([ast.dump(x) for x in govde(asil)]
+            == [ast.dump(x) for x in govde(kopya)])
+
+
 def test_NCI_VAZGECME_basari_sifirlar_ve_oncesi_sayilmaz():
     from kalibrasyon.karistirma_isaretleri import nci_vazgecme
     olay = [(9.0, False), (10.5, False), (11.0, True), (12.0, False),

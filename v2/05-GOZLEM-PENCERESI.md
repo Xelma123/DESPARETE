@@ -1,6 +1,6 @@
 # 05 · GÖZLEM PENCERESİ — protokolün görebildiği her şey
 
-> **Güncel:** 13 Ekim 2026 · **Türü:** sözleşme — gerekçesiz genişletilmez, değişikliğin yolu §7. Kod `sim2/gozlem/pencere.py` · yüzey testi `tests2/test_kontrol_duzlemi.py` (P6). Protokolün **yapabilecekleri** `13`te. Önceki sürümler `v2/arsiv/05-GOZLEM-PENCERESI-*.md`. Bölüm numaraları kodda atıflı, korunur.
+> **Güncel:** 17 Kasım 2026 · **Türü:** sözleşme — gerekçesiz genişletilmez, değişikliğin yolu §7. Kod `sim2/gozlem/pencere.py` · yüzey testi `tests2/test_kontrol_duzlemi.py` (P6). Protokolün **yapabilecekleri** `13`te. Önceki sürümler `v2/arsiv/05-GOZLEM-PENCERESI-*.md`. Bölüm numaraları kodda atıflı, korunur.
 
 ## 1 · Amaç
 
@@ -59,7 +59,7 @@ Komşunun girişimi, kuyruğu, konumu ve hareketi ancak başlığa konup ödenir
 | alan | gerçek karşılığı | model |
 |---|---|---|
 | `kendi_konum` · `kendi_hiz` | otopilotun GPS/INS çözümü | gerçek + hata: yatay 1,5 m CEP (G7) · dikey σ 2 m · hız σ 0,1 m/s; 1 Hz dilimde sabit. Dikey σ kaynaksız ve JarmRout konumu okuduğu için SINANMAMIŞ (K-233); hız σ okunmuyor (DUYARSIZ, K-214) |
-| `mesgul_sure_s` | sürücünün "channel busy time" sayacı (802.11k kanal yükü) | CCA'nın meşgul kaldığı toplam süre, olay güdümlü tam integral; yalnız `kanal_dolulugu_ister` diyen protokole, ötekinde `None` |
+| `mesgul_sure_s` | sürücünün "channel busy time" sayacı (802.11k kanal yükü) | CCA'nın meşgul kaldığı toplam süre, olay güdümlü tam integral; yalnız `kanal_dolulugu_ister` diyen protokole, ötekinde `None`. Beyan: çizelgeli sürekli sınıfta karıştırıcının açılıp kapandığı anda parça bölünmez (`gecis_anlari` boş), parçanın durumu ortasında okunur; etkisi bir düğümün iki çerçeve olayı arasıyla sınırlı, ölçülmedi (`arsiv/teshis/faz5_2_isaretler_2026-11-16/beklenti.md`, duman notu) |
 | `phy_hata` | CRC hatalı çerçeve sayacı | kilitlenip gövdesi çözülemeyen çerçeve. Önbelgesi hiç kilitlenmeyen uzak zayıf çerçeveler sayılmaz; gerçek telsiz onları sezmez |
 | `alinan_cerceve` | alınan çerçeve sayacı | başarıyla çözülen her çerçeve |
 

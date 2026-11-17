@@ -1,7 +1,7 @@
 # 04 · GEÇERLİ KARARLAR
 
 > Bugün geçerli kararlar, konu konu. Yazılı değilse verilmemiştir. Bir kararın nasıl ve neden verildiği, kodda geçen `K-xxx` atıfları ve eski dünyanın (1:50) kararları: `kayit/KARAR-GUNLUGU.md`. Kod ile bu belge çelişirse hangisinin yanlış olduğu ölçülerek bulunur.
-> Güncel: 16 Kasım 2026 (son K-252, 20 Ekim; tasarım kararları `17`de); önceki sürümler `arsiv/04-KARARLAR-*.md`.
+> Güncel: 17 Kasım 2026 (son K-252, 20 Ekim; tasarım kararları `17`de); önceki sürümler `arsiv/04-KARARLAR-*.md`.
 
 ## 1 · Proje ve kapsam
 
@@ -107,7 +107,7 @@ Donmuş: `AODV-k` (K-249; önceki `AODV-j`) · `OLSRv2-b` (K-239) · `Babel-a` (
   - Aynı hücrede (1003 · 1004, Faz 4b'nin G2ç'si, K-243'ten önce) `PDR_açık` DESPARETE 0,476 · 0,538 ↔ OLSRv2 0,409 · 0,602; karıştırıcısız ikizde DESPARETE OLSRv2'nin gerisinde (0,757 · 0,786 ↔ 0,817 · 0,910). İki tohum, karar değil (K-242).
 - K-244 kuyruğunda (17 Ekim, 1003 · 1004): birincil `PDR_açık` DESPARETE 0,518 · 0,603 ↔ Babel 0,547 · 0,787 · OLSRv2 0,409 · 0,499 · AODV-k 0,353 · 0,421 · kâhin 0,748 · 0,844; karıştırıcısız ikizde DESPARETE 0,757 · 0,786 ↔ Babel 0,945 · 0,952. İki tohum, karar değil.
 - **Faz 5'in planı ve hedefi (K-252):** hedefler en güçlü rakip Babel'e göre yazılır; v0.4.1'in açığının büyük kısmı genel, karıştırmaya özgü değil (yukarıdaki K-244 kuyruğu). Plan `12` §1.2: hâkimiyet → araştırma ve öğrenim → geliştirme. K-228 ve K-242'nin mekanizma sırası geçersiz; `hedefli_canlilik` (V2+) ve onarım edinimi 5-2'de teşhis ölçümü olarak sınanır. Yedek ardılın tasarımında mekânsal ayrışma sorulur (K-230).
-- **Faz 5'in konusu olan eksikler:** karıştırmaya özgü kanıt · öngörülü kaçınma · kanıta dayalı postür · PROTECT'in çok yolu ve çoğaltması · pasif dinleme (`12` Faz 5).
+- **Faz 5'in konusu olan eksikler** (K-228'in adayları: karıştırmaya özgü kanıt · öngörülü kaçınma · kanıta dayalı postür · PROTECT'in çok yolu ve çoğaltması · pasif dinleme) 5-2'nin tasarım kararlarıyla aşıldı; güncel tasarım `17`de (17 Kasım).
 - **Yeni sürümün tasarım kararları (Faz 5-2, 16 Kasım'dan):** konu konu `17`de, `T-n` numaralarıyla; tasarımın ilkeleri `17` §0.
 
 ## 7 · Ölçüm
@@ -133,7 +133,7 @@ Donmuş: `AODV-k` (K-249; önceki `AODV-j`) · `OLSRv2-b` (K-239) · `Babel-a` (
 - **Eşik:** δ = 2·SD_ref/√n; SD_ref taban protokol çiftlerinin en gürültülüsünden. DESPARETE'nin hiçbir koşusu δ'ya girmez.
 - **"Üstün"** = Holm'dan sonra p < 0,05 **ve** fark ≥ δ **ve** mekanizma kapısı: karıştırmaya özgü mekanizmalar kapatılınca `PDR_açık` anlamlı düşmeli (K-153, K-222). Kapıya karıştırmaya karşı tasarlanan mekanizmalar girer, her zaman açık olsalar bile; amaç ölçmeden önce yazılır. Genel katkıları ikiz hücredeki geliştirme ablasyonuyla beyan edilir (K-247).
 - **"Karıştırmaya özgü kazanç"** ancak ayrıca fark-içinde-fark anlamlı pozitifse söylenir (`06` §0.4.5).
-- **Mühür** ~20 Kasım (`12` Faz 6): hipotezler, eşik değerleri, parametreler, tohum sayısı (güç analiziyle), birincil metrik.
+- **Mühür** 5-3'ten sonra (`12` Faz 6; ~20 Kasım tarihi güncel değil): hipotezler, eşik değerleri, parametreler, tohum sayısı (güç analiziyle), birincil metrik.
 
 ## 9 · Yazılım altyapısı
 

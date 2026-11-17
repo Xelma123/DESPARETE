@@ -1,6 +1,8 @@
 # Faz 5-2 · teşhis (d): karıştırmanın yerel işaretleri — sonuç
 
 > 17 Kasım 2026 · ölçüt `beklenti.md` (commit `8750574`, koşudan önce) · koşu (`zaman.txt`): ikiz 16 Kasım 19:25–21:11 (1 sa 47 dk) · birincil 21:11–23:20 (2 sa 9 dk) · dayanıklılık 23:20–01:10 (1 sa 50 dk); toplam 5 sa 46 dk (tahmin 6 ± 1,5 sa) · `kopya/` = `8750574` (152 dosya birebir; satır sonları normalleştirilerek karşılaştırıldı, `kopya_ozet.txt`) · ham çıktı `isaret_*.txt`, kayıt `kayit_*.json` · karar kuralının uygulanması `sonuc_hesap.py` → `sonuc_hesap.txt` · ek sayılar `ek_hesap.py` → `ek_hesap.txt` (koşudan sonra yazıldı, karar girdisi değil).
+>
+> Denetimden sonra düzeltilenler (17 Kasım, `arsiv/denetim/DENETIM-RAPORU-5-2-2026-11-17.md`): §0 ve §8'deki düğüm sayıları (K-6) · S3'ün yorumu (§4, §5, §8; Ö-3) · §8'de ED kanıtının gözlem sözleşmesine uyumu (E-1). Ölçüm, kayıtlar ve karar kuralının hükümleri değişmedi.
 
 Hücreler teşhis (c)'deki üç hücre (İ ikiz · B birincil, 15 s açık · 15 s sessiz · D dayanıklılık, 10 s açık · 20 s sessiz), kol Babel-a, tohum 1003–1010. "Karıştırılan": açık evrede ED ya da girişim alanı; "temiz": aynı koşunun önce evresi.
 
@@ -8,7 +10,7 @@ Hücreler teşhis (c)'deki üç hücre (İ ikiz · B birincil, 15 s açık · 15
 
 - 24 koşunun hepsi kayıtta, korunum geçerli, hiçbir koşu hata vermedi (kaydedicinin iç eşitlikleri geçti). Koşu başına süre: İ 1,30–1,78 · B 1,59–2,14 · D 1,52–1,84 sa.
 - **Birebirlik tam:** 24 koşunun geçerliliği, PDR'si, pencere PDR'si, üretilen ve teslim sayısı ve bütün simülatör sayaçları teşhis (c)'nin aynı hücre ve tohumdaki Babel satırıyla aynı. Kaydedici Babel'in davranışını değiştirmedi.
-- Sınıf büyüklüğü (düğüm-saniye, 8 tohum): B'de açık evrede ED 624 · girişim 4 929 · uzak 23 247; D'de 529 · 4 948 · 13 723; temiz B ve D'de 32 000; ikiz 86 400. Açık evrede ortalama olarak ED alanında 1'den az, girişim alanında ~7 düğüm var.
+- Sınıf büyüklüğü (düğüm-saniye, 8 tohum): B'de açık evrede ED 624 · girişim 4 929 · uzak 23 247; D'de 529 · 4 948 · 13 723; temiz B ve D'de 32 000; ikiz 86 400. Açık evrede ortalama düğüm sayısı B'de ED 0,9 · girişim 6,8, D'de 1,1 · 10,3 (açık süre B'de 90, D'de 60 s).
 
 ## 1 · S1a · düğüm-saniye işaretleri
 
@@ -80,7 +82,7 @@ Tespit süresi (ED ve girişim birlikte; ortanca · dönem içinde ulaşılan pa
 
 ## 4 · S3 · bağ kalitesinin değişim hızı (ikiz, kâhin)
 
-Her tohumda en çok veri kararı taşıyan 80 bağ. Bant değişim oranı τ = 1 · 2 · 4 · 8 · 16 · 32 s'de %0,3 · %0,3 · %0,3 · %0,2 · %0,3 · %0,3; ortalama |Δp| her τ'da 0,001. Bant değişimi ≤ %10 olan en uzun τ: 32 s (ölçülen en uzun gecikme).
+Her tohumda en çok veri kararı taşıyan 80 bağ. Bant değişim oranı τ = 1 · 2 · 4 · 8 · 16 · 32 s'de %0,3 · %0,3 · %0,3 · %0,2 · %0,3 · %0,3; ortalama |Δp| her τ'da 0,001. Bant değişimi ≤ %10 olan en uzun τ: 32 s (ölçülen en uzun gecikme). Ölçü kâhinin 7 denemelik atlama başarısıdır ve doymuştur: tek deneme başarısı 0,28'in üstündeki bağ "iyi" banttadır.
 
 ## 5 · Karar kuralı
 
@@ -91,7 +93,7 @@ Her tohumda en çok veri kararı taşıyan 80 bağ. Bant değişim oranı τ = 1
    - Kurala göre güçlü işaret T-5'in kanıtına tek başına, zayıf işaret yalnız birlikte girer, dışarıda kalan girmez. Eşikler ve ikizdeki yanlış alarm §1'de; kural kâğıdının girdisidir.
 2. **S1b:** tutarlılık kuralı **zayıf** (AUC 0,705 · 0,708). T-5'in "teslim + sinyal tutarlılığı" maddesi yalnız başka işaretle birlikte girer.
 3. **S2:** `n* = 3`; B'de tespit süresinin ortancası 5,56 s, D'de 2,82 s; ulaşılan pay iki hücrede de %18 → **"olay sayısı tek başına yetmez, T-5'in işaretleriyle birleşir"**. T-10'un "birkaç"ının ilk değeri 3.
-4. **S3:** bant değişimi ölçülen en uzun gecikmede (32 s) bile %0,3; selam aralığının üst sınırına girdi: kullanılan bağların kalitesi 32 s içinde değişmiyor.
+4. **S3:** bant değişimi ölçülen en uzun gecikmede (32 s) bile %0,3; selam aralığının üst sınırına girdi: en çok kullanılan bağların 7 denemelik atlama başarısı 32 s içinde bant değiştirmiyor.
 5. **Karıştırılmayanlar:** sessiz evre (0,603) ve ikiz (0,504) temizden ayrışmıyor. Açık evrede uzak alan `cozulen`de ayrışıyor (B 0,652 · D 0,710): karıştırılan komşular susunca uzaktaki düğüm de daha az çerçeve duyuyor.
 
 ## 6 · Öngörüler (24; 14 ✓ · 10 ✗)
@@ -154,12 +156,12 @@ Tutmayan öngörülerin gerekçesi:
 ## 8 · Bundan çıkan (tasarıma girdi)
 
 - **T-5:**
-  - ED bölgesi için kanıt düğümün kendi ölçümünden gelir: açıklanamayan kanal meşguliyeti, kanal meşguliyeti, çözülen çerçeve, CRC hatası.
+  - ED bölgesi için kanıt düğümün kendi ölçümünden gelir: kanal meşguliyeti, çözülen çerçeve, CRC hatası. Açıklanamayan kanal meşguliyeti çözülen çerçevenin hava süresini ister; bu süre gözlem sözleşmesinde yok.
   - Girişim bölgesi için güçlü iki işaret çözülen çerçeve düşüşü ve selam kaybı; zayıf iki işaret kanal meşguliyetinin ve CRC hatasının düşmesi.
   - Girişimde kanıt birkaç işareti ve birkaç saniyeyi birlikte okumalı. Kuralın biçimi ve eşikleri 5-3'ün kural kâğıdında, A/B ile.
   - Sinyal tutarlılığı (RSSI) yalnız birlikte girer.
   - Girişimde son çözümden beri geçen süre ve açıklanamayan meşguliyet kanıta girmez.
-- **T-6:** ED'deki düğüm kendi karıştırılmasını kesin bilir ama bildiremez; bu yüzden komşuların "sessizleşen komşu" kanıtı gerekli. Kanıtın asıl işi girişim bölgesinde: açık evrede orada ortalama ~7 düğüm, ED'de 1'den az.
+- **T-6:** ED'deki düğüm kendi karıştırılmasını kesin bilir ama bildiremez; bu yüzden komşuların "sessizleşen komşu" kanıtı gerekli (komşu başına ölçülmedi). Kanıtın asıl işi girişim bölgesinde: açık evrede orada ortalama 6,8 (B) · 10,3 (D) düğüm, ED'de 0,9 · 1,1.
 - **T-10:** art arda üç MAC vazgeçmesi yanlış alarmı çerçevelerin %0,06'sının altında tutuyor, ama tek başına geç ve seyrek. "Karıştırılıyor" kararı MAC vazgeçmesini T-5'in işaretleriyle birlikte okumalı.
-- **T-1:** kullanılan bağların kalitesi 32 s içinde değişmiyor. Selam aralığının üst sınırını hareket değil, karıştırmaya tepki hızı ve açlık belirler.
+- **T-1:** en çok kullanılan bağların 7 denemelik atlama başarısı 32 s içinde bant değiştirmiyor. Ölçü doymuş ve selamın ölçtüğü tek deneme başarısı ölçülmedi; bu yüzden selam aralığının üst sınırı için tek başına yetmez.
 - **Kanal doluluğu girişim bölgesinde ters işaret veriyor** (karıştırılan alan daha "boş" görünür). T-4'ün yük ölçüsünü maliyete koymama kararı bunu da destekliyor.

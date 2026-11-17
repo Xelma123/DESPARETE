@@ -26,7 +26,7 @@
 | [50] | OLSR.org, OONF (olsrd2), commit 477e716, BSD-3, erişim 11 Eki. 2026. [Online]. Available: https://github.com/OLSR/OONF | R5 | uyg. |
 | [51] | C. Pu, "Jamming-Resilient Multipath Routing Protocol for Flying Ad Hoc Networks," *IEEE Access*, vol. 6, pp. 68472–68486, 2018, doi: 10.1109/ACCESS.2018.2879758. | R6 | ✓ |
 | [52] | D. Johnson, Y. Hu, D. Maltz, "The Dynamic Source Routing Protocol (DSR) for Mobile Ad Hoc Networks for IPv4," IETF RFC 4728, Feb. 2007. | R7 | ~ (ilgili bölümler) |
-| [4] | J. Chroboczek, D. Schinazi, "The Babel Routing Protocol," IETF RFC 8966, Jan. 2021. | G3 | ✓ (§1–2) |
+| [4] | J. Chroboczek, D. Schinazi, "The Babel Routing Protocol," IETF RFC 8966, Jan. 2021. | G3 | ✓ (§1–§4, Ek A–B; `02` G3) |
 | [5] | Vu Khanh Quy, Nguyen Tien Ban, Nguyen Dinh Han, "A High-Performance Routing Protocol for Multimedia Applications in MANETs," *Journal of Communications*, vol. 14, no. 4, Apr. 2019. | D | ✓ |
 
 ## Kablosuz fizik ve MAC (802.11b)

@@ -28,8 +28,8 @@ Karıştırmanın yerel işaretleri — Faz 5-2 teşhis (d), 16 Kasım 2026.
         (`cerceve_duyuldu`nun formülü: kilitlenilen güç + σ hatası);
     bağ — art arda MAC vazgeçmesi dizileri ve çerçeve başına deneme.
 Çözülen çerçevenin hava süresini gerçek telsiz çerçevenin PLCP başlığından
-bilir; gözlem penceresinde bugün yok — protokol kullanacaksa `05` §7 yolu
-ya da boyuttan tahmin (`beklenti.md` §0).
+bilir; gözlem penceresinde bugün yok. Bu yüzden "açıklanamayan meşguliyet"
+protokolün kanıtına girmez (`v2/17` T-5; 5-2 denetimi E-1).
 
 🔒 ETİKETLER YALNIZ DEĞERLENDİRMEDE (`05` §8): evre (önce · açık · sessiz;
 dilimin içinde geçiş varsa "gecis" ve dışarıda) · düğümün ETKİ ALANI

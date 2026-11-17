@@ -10,9 +10,9 @@
 
 ## Protokolün kimliği (17 Kasım)
 
-DESPARETE, karıştırma altında çalışan taktik İHA sürüsü için tek hedefe yönelik bir yönlendirme protokolüdür: her düğümden geçide giden telemetriyi taşır, geçitten düğümlere dönen komutu ise telemetrinin geldiği yolun tersinden (geri iz) götürür. Çekirdeği bilinen yöntemlerden kurulur ve her birinin kaynağı yazılıdır: bağın maliyeti iki yönde ölçülen teslim oranıdır (ETX), döngüsüzlük geçidin verdiği tur numarası ve uygulanabilirlik koşuluyla sağlanır (Babel ve DSDV ailesi), selam aralığı ağın sakinliğine göre uzar (Trickle). DESPARETE'yi ayıran, karıştırmayı yerel kanıtla tanıması ve ona kanıtla karşılık vermesidir. Her düğüm kendi kanalını ve komşularını birkaç saniye boyunca birlikte okur. Kanal dolu ama duyduğu çerçeveler bunu açıklamıyorsa ya da çözdüğü çerçeveler ve komşu selamları birlikte azalıyorsa karıştırılıyordur; tek bir kayıp ya da tek bir işaret karar için yetmez. Karıştırılan alıcı bunu selamıyla komşularına bildirir; gönderemeyecek kadar yakın olanı komşuları sessizliğinden tanır. Karıştırılan bağ geçici olarak bırakılır ve hazır bir yedeğe yerelde geçilir; bağın karıştırmadan önceki kalitesi hatırlanır ve kanıt kalkınca bağ hemen geri alınır. Protokol karıştırıcının çizelgesini bilmez. Kullanmadığı bağları da ölçmeyi sürdürür ve kopan yerlerini kendiliğinden onarır. Kısa bağların karıştırmaya karşı büyük payından ayrı bir kuralla değil, ölçülen teslim oranıyla yararlanır. Kontrol yükünü düşük tutar: uzaklık ilanı selamla birlikte gider, ara ilan yalnız önemli değişimde çıkar.
+DESPARETE, karıştırma altında çalışan taktik İHA sürüsü için tek hedefe yönelik bir yönlendirme protokolüdür: her düğümden geçide giden telemetriyi taşır, geçitten düğümlere dönen komutu ise telemetrinin geldiği yolun tersinden (geri iz) götürür. Çekirdeği bilinen yöntemlerden kurulur ve her birinin kaynağı yazılıdır: bağın maliyeti iki yönde ölçülen teslim oranıdır (ETX), döngüsüzlük geçidin verdiği tur numarası ve uygulanabilirlik koşuluyla sağlanır (Babel), selam aralığı ağın sakinliğine göre uzar (Trickle). DESPARETE'yi ayıran, karıştırmayı yerel kanıtla tanıması ve ona kanıtla karşılık vermesidir. Karıştırıcıya çok yakın düğüm bunu kendi kanal ölçümünden hemen anlar: kanalı sürekli meşgul görür. Daha uzaktaki karıştırılan düğümde tek bir işaret yetmez; düğüm çözdüğü çerçeveleri, komşularının selamlarını ve MAC sonuçlarını birkaç saniye boyunca birlikte okur. Bu birleşik kuralın biçimi ve başarısı geliştirmede ölçülür. Karıştırılan alıcı bunu selamıyla komşularına bildirir; gönderemeyecek kadar yakın olanı komşuları sessizliğinden tanır. Karıştırılan bağ geçici olarak bırakılır ve hazır bir yedeğe yerelde geçilir; bağın karıştırmadan önceki kalitesi hatırlanır ve kanıt kalkınca bağ hemen geri alınır. Protokol karıştırıcının çizelgesini bilmez. Kullanmadığı bağları da ölçmeyi sürdürür ve kopan yerlerini kendiliğinden onarır. Kısa bağların karıştırmaya karşı büyük payından ayrı bir kuralla değil, ölçülen teslim oranıyla yararlanır. Kontrol yükünü düşük tutar: uzaklık ilanı selamla birlikte gider, ara ilan yalnız önemli değişimde çıkar.
 
-Taslak 16 Kasım'da yazıldı; karıştırma kanıtını anlatan cümleler teşhis (d)'nin sonucuyla (§2, T-5), komutun yolu T-20'yle 17 Kasım'da son hâlini aldı.
+Taslak 16 Kasım'da yazıldı; karıştırma kanıtını anlatan cümleler teşhis (d)'nin sonucuyla (§2, T-5) ve 5-2'nin bağımsız denetimiyle (`arsiv/denetim/DENETIM-RAPORU-5-2-2026-11-17.md`), komutun yolu T-20'yle 17 Kasım'da son hâlini aldı.
 
 ---
 
@@ -49,16 +49,17 @@ Protokol karıştırıcının çizelgesini bilmez ve ona göre ayarlanmaz: bağ�
 - Komşudan çözülen her çerçeve (veri, onay, kontrol) o komşunun yaşadığının kanıtıdır. Bedeli yoktur (`13` §02.5, `cerceve_duyuldu`, K-172).
 - Her düğüm sıra numaralı küçük bir selam yayar. Selam, ters yönün ölçülebilmesi için duyduğum komşuları ve her birinden aldığım selam oranını da bildirir (T-2).
 - Selam aralığı uyarlanır: komşuluk sakinken uzar, değişince kısalır. Aralığın bir üst sınırı vardır; bağın kötüleştiği ya da düzeldiği ne kadar sürede fark edilecek, bu sınır belirler (T-3).
+- Selam o anki aralığını taşır. Aralık değişince alıcı, belli bir sürede kaç selam beklediğini (T-2) ve bir komşunun sustuğunu (T-6) ancak böyle bilir; sıra numarasındaki boşluk kaybı ancak sonraki selam gelince gösterir (17 Kasım, denetim Ö-5).
 - Komşu yalnız hiç duyulmayınca (ne selamı ne başka bir çerçevesi) silinir. Kötü kalite silme sebebi değildir (T-3).
 - Gerekçe: düzenli selam bütün komşuları ve iki yönü bilir ama sabit bir yük getirir. Yalnız kendi trafiğinden kanıt (v0.4.1) kullanılmayan komşuyu bilemez ve yedekleri bayatlatır. Yalnız dinleme, benden komşuya giden yönü göremez. Karma, en çok bilgiyi en az yükle verir.
-- Ödünç: selam ve ters yön bildirimi ETX [36] ve Babel [4]; uyarlanır aralık Trickle [62] (RFC 6206'da ilanlar için, burada selama uygulanır); dinleme ilk taslağımdan (`arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/`, Protokol Taslağı v0 §6).
-- **Teşhis (d)'nin sonucu (17 Kasım, `arsiv/teshis/faz5_2_isaretler_2026-11-16/sonuc.md` §4):** karıştırıcısız ikizde en çok kullanılan bağların kalitesi 32 s içinde değişmiyor (bant değişimi %0,3). Selam aralığının üst sınırını hareket değil, karıştırmaya tepki hızı (T-10) ve açlık (T-13) belirler.
+- Ödünç: selam ve ters yön bildirimi ETX [36] ve Babel [4]; selamın aralığını taşıması Babel [4] (RFC 8966 §4.6.5); uyarlanır aralık Trickle [62] (RFC 6206'da ilanlar için, burada selama uygulanır); dinleme ilk taslağımdan (`arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/`, Protokol Taslağı v0 §6).
+- **Teşhis (d)'nin sonucu (17 Kasım, `arsiv/teshis/faz5_2_isaretler_2026-11-16/sonuc.md` §4):** karıştırıcısız ikizde en çok kullanılan 80 bağın 7 denemelik atlama başarısı formasyonda 32 s içinde bant değiştirmiyor (%0,3). Bu ölçü doymuştur: tek deneme başarısı 0,28'in üstündeki bağ "iyi" banttadır. Selamın ölçtüğü tek deneme başarısı ve yedek bağlar ölçülmedi. Bu yüzden sonuç selam aralığının üst sınırı için tek başına yetmez; sınır, sessizliği fark etme süresi (T-6, T-10) ve kontrol payıyla (T-19) birlikte seçilir (§7).
 
 **T-2 · Bağ kalitesi: iki yönlü teslim oranı.**
 - Bağın maliyeti beklenen gönderim sayısıdır: `ETX = 1 / (d_f · d_r)`. `d_f` komşunun benden aldığı selam oranı (komşu bildirir), `d_r` benim komşudan aldığım selam oranı. Kaç selamın kaybolduğu sıra numarasından bilinir. Yol maliyeti, bağ maliyetlerinin toplamıdır.
 - Kullandığım bağlarda kendi unicast gönderimlerimin sonucu (`iletim_sonucu`, K-151) ek örnek olarak girer. Sebep: selam küçüktür ve büyük veri paketinin kaybını olduğundan iyi gösterir [36].
 - Dinlenen çerçeveler komşunun varlığını kanıtlar, teslim oranını tek başına vermez: komşunun kaç çerçeve gönderdiği bilinmeden "kaçını duydum" bir oran değildir.
-- Sinyal gücü (RSSI) maliyete girmez; yalnız bağlam olarak kullanılır [57].
+- Sinyal gücü (RSSI) maliyete girmez; yalnız bağlam olarak kullanılır [23], [57].
 - Gerekçe: teslim oranı kaliteyi doğrudan ölçer, en çok sınanmış ölçüdür ve raporda açıkça savunulabilir. v0.4.1'in M0.1'i yalnız kendi unicast sonuçlarını kullandığı için az trafik taşıyan iyi bir bağı belirsizlik cezasıyla pahalı gösteriyordu.
 - Ödünç: ETX [36]; selam geçmişinden ölçme biçimi Babel [4].
 
@@ -68,7 +69,7 @@ Protokol karıştırıcının çizelgesini bilmez ve ona göre ayarlanmaz: bağ�
 - Kullanıma dönüş iki eşiklidir (histerezis): bağ, kullanımdan çıktığı eşikten belirgin biçimde iyi olunca yeniden aday olur. Tek eşikte, eşiğin çevresinde dolaşan bir bağ sürekli girip çıkar ve rotalar salınır (v0.4.1'de ardıl 1,3 saniyede bir değişiyor).
 - Karıştırma bitince ya da İHA'lar yaklaşınca bağ kendiliğinden geri gelir (İlke 2).
 - Bu iki eşik bağın kullanılabilirliği içindir; bir rotadan ötekine geçişin histerezisi ayrı bir konudur (bırakma zamanı).
-- Ödünç: üst sınır ve histerezis MRHOF [64]; Babel'in histerezisi [55].
+- Ödünç: üst sınır MRHOF [64]. İki eşikli kullanılabilirlik benim uyarlamam; histerezis fikri MRHOF'ta ebeveyn seçiminde [64], Babel'de rota seçiminde [55].
 
 **T-4 · Kanal yoğunluğu bağ maliyetine girmez.**
 - Gerekçe: yüke bağlı ölçü bir geri besleme döngüsü kurar: az yüklü yol seçilir, yüklenir, pahalılaşır, terk edilir; rotalar salınır [55]. Yoğunluk, karıştırma kanıtında ya da eşit maliyetli adaylar arasında ikincil ölçüt olarak ayrıca düşünülebilir.
@@ -85,29 +86,28 @@ Protokol karıştırıcının çizelgesini bilmez ve ona göre ayarlanmaz: bağ�
 - Karıştırmanın getirdiği kayıp Babel'de iletim başarısızlığına, v0.4.1'de rota yokluğuna gidiyor (teşhis (c) §5).
 - Karıştırıcının etrafında üç bölge var (`kalibrasyon/kayip_anatomisi.py`'nin tanımı): ED bölgesi (karıştırıcının gücü ≥ −76 dBm; verici kanalı meşgul sanır, gönderemez) · girişim bölgesi (gürültü tabanının üstü; kanal boş görünür, alıcıda çerçeve bozulur) · uzak. Babel'in açık evrede artan iletim kaybı en çok girişim bölgesinde: 0,035 → 0,182 (ED 0,002 → 0,049 · uzak 0,048 → 0,119). Kanal doluluğu yalnız ED bölgesini görür.
 
-**T-5 · Kanıtın işaretleri: tutarlılık.**
-- Karıştırma tek bir işaretten değil, işaretlerin birbirini tutmasından anlaşılır:
-  - teslim düşüşü ile sinyal gücünün tutarlılığı: düşük teslim ve güçlü sinyal karıştırmaya, düşük teslim ve zayıf sinyal kötü bağa işaret eder;
-  - açıklanamayan kanal meşguliyeti: kanal meşgul, ama duyulan çerçeveler bu meşguliyeti açıklamıyor (ED bölgesi);
-  - bozuk çerçeve sayısı (`phy_hata`) ve beklenen selamların gelmemesi (sıra numarasındaki boşluk; komşulardan iki alım arasındaki en uzun süre).
-- Hangi işaretlerin bizim simülatörde karıştırmayı gerçekten ayırt ettiği teşhis (d)'de ölçülür; ayırt etmeyen işaret kanıta girmez.
-- Kanıt tek bir karıştırıcı türüne bağlanmaz: kanal doluluğu reaktif karıştırıcıyı görmez, teslim ve tutarlılık işaretleri iki türü de görür [23].
+**T-5 · Kanıtın işaretleri.**
+- Karıştırma tek bir işaretten değil, birkaç işaretin birlikte okunmasından anlaşılır. Aday işaretler (16 Kasım): teslim düşüşü ile sinyal gücünün tutarlılığı · kanal meşguliyeti · bozuk çerçeve sayısı (`phy_hata`) · çözülen çerçeve sayısı · beklenen selamların gelmemesi (sıra numarasındaki boşluk) · komşulardan iki alım arasındaki en uzun süre.
+- Hangi işaretlerin bizim simülatörde karıştırmayı gerçekten ayırt ettiği teşhis (d)'de ölçüldü; ayırt etmeyen işaret kanıta girmez.
+- **Geçerli işaret listesi (17 Kasım; teşhis (d), `arsiv/teshis/faz5_2_isaretler_2026-11-16/sonuc.md`):**
+  - **ED bölgesi:** kanal meşguliyeti (`mesgul_sure_s`) tek başına yeter: G 0,978 · 0,976; karıştırılanların %80'ini yakalayan eşikte (≥ 0,62) karıştırıcısız ikizde yanlış alarm %0,035. Çözülen çerçeve ve CRC hatasının düşmesi de güçlü. Kaydedicinin "açıklanamayan meşguliyet"i (G 0,997) çözülen çerçevenin hava süresini ister; bu süre gözlem sözleşmesinde yok (`05` §3.3a), kanıta girmez (denetim E-1).
+  - **Girişim bölgesi:** çözülen çerçeve düşüşü ve selam kaybı güçlü (G 0,81–0,85); kanal meşguliyetinin ve CRC hatasının düşmesi zayıf. Tek işaret ve tek saniye yetmiyor: %50 yakalamada ikizde yanlış alarm %6–11 (kuraldan sonra görülen). Kural birkaç işareti ve birkaç saniyeyi birlikte okur; biçimi, eşikleri ve başarısı 5-3'te, A/B ile.
+  - Selam, çözülen çerçevelerin bir parçasıdır; ikisinin birlikte düşmesi bağımsız iki kanıt sayılmaz.
+  - Çözülen çerçeve düşüşü karıştırmaya özgü değil: karıştırılan komşular susunca uzaktaki düğüm de daha az duyuyor. Kanal meşguliyeti girişim alanında düşer; karıştırılan alan "boş" görünür.
+  - Sinyal tutarlılığı zayıf (AUC 0,71; düşük teslimli bağlar iki durumda da menzil sınırında, RSSI farkı ~2 dB); yalnız birlikte girer.
+  - Dışarıda: düğüm düzeyinde son çözümden beri geçen süre (girişimde G 0,60). Puñal'in komşu başına en uzun boşluk süresi ölçülmedi (§7).
+  - Koşul: bu sonuçlar Babel-a'nın trafiğinde ve sürekli sınıfta (araç, derin sızma) ölçüldü. Yeni sürümün seyrek selamı ve daha az kontrol trafiğiyle düzeyler değişir; öteki karıştırıcı sınıflarında ölçülmedi (§7).
+- Kanıt tek bir karıştırıcı türüne bağlanmaz: Puñal 2014'te teslim oranı ve en uzun boşta kalma süresi iki türü de gösteriyor, kanal doluluğu reaktif karıştırıcıyı görmüyor [23].
 - Gözlem sınırı: ölçülen gürültü kullanılamaz (K-227). RSSI'nin ölçüm hatası (σ 2 dB) sınanmamıştır; kullanıldığı için duyarlılığı ölçülür (`04` §9).
 - Ödünç: işaretler Puñal 2014 [23]; tutarlılık kuralı Xu vd. 2005 (Puñal 2014'te aktarıldığı gibi; özgün makale açılamadı).
-- **Teşhis (d)'nin sonucu (17 Kasım, `arsiv/teshis/faz5_2_isaretler_2026-11-16/sonuc.md`):**
-  - ED bölgesinde altı işaretin altısı güçlü. Açıklanamayan kanal meşguliyeti ≥ 0,58 karıştırılanların %80'ini yakalıyor, karıştırıcısız ikizde yanlış alarm vermiyor.
-  - Girişim bölgesinde çözülen çerçeve düşüşü ve selam kaybı güçlü; kanal meşguliyetinin ve CRC hatasının düşmesi zayıf; son çözümden beri geçen süre ve açıklanamayan meşguliyet dışarıda (kanıta girmez).
-  - Girişimde tek işaret ve tek saniye yetmiyor: %50 yakalamada ikizde yanlış alarm %6–11 (kuraldan sonra görülen). Kural kâğıdında birkaç işaret ve birkaç saniye birlikte okunur; biçimi ve eşikleri 5-3'te, A/B ile.
-  - Sinyal tutarlılığı zayıf (AUC 0,71; düşük teslimli bağlar iki durumda da menzil sınırında); yalnız birlikte girer.
-  - Çözülen çerçeve düşüşü karıştırmaya özgü değil: karıştırılan komşular susunca uzaktaki düğüm de daha az duyuyor. Kanal meşguliyeti girişim alanında düşer, yani karıştırılan alan "boş" görünür.
 
 **T-6 · Kanıtı kim söyler: gönderen ve alıcı.**
 - Gönderen, kendi MAC sonuçlarından bağ başına kanıt toplar. Tek komşuya başarısızlık o bağı ya da o alıcıyı, bütün komşulara başarısızlık gönderenin kendisini gösterir.
 - Alıcı, karıştırıldığını kendi işaretlerinden anlar ve selamında birkaç bitle bildirir; bedeli selamın boyutuna eklenir (`13` §02.1). Girişim bölgesindeki düğüm gönderebildiği için bu bilgi komşularına ulaşır.
 - ED bölgesindeki düğüm gönderemez; komşuları onun sessizliğini (beklenen selamın gelmemesi) kanıt sayar.
-- Gerekçe: karıştırılan çoğu zaman alıcıdır (SINR kaybı alıcıda), gönderen bunu ancak paket kaybettikten sonra öğrenir. Komşuların kanıtını birleştirmek tespiti belirgin iyileştiriyor [23].
+- Gerekçe: karıştırılan çoğu zaman alıcıdır (SINR kaybı alıcıda), gönderen bunu ancak paket kaybettikten sonra öğrenir. Komşuların kanıtını birleştirmek Puñal'in tek atlamalı düzeneğinde tespiti iyileştiriyor [23]; çok atlamalı dünyamızdaki kazancı ölçülür (§7).
 - Ödünç: komşularla işbirliği Puñal 2014 [23].
-- **Teşhis (d):** ED'deki düğüm karıştırıldığını kendi ölçümünden tek saniyede bilir ama kanalı meşgul gördüğü için bildiremez; komşularının "sessizleşen komşu" kanıtı (selam kaybı) bu yüzden gerekli. Açık evrede ED alanında ortalama 1'den az, girişim alanında ~7 düğüm var; kanıtın asıl işi girişim bölgesinde.
+- **Teşhis (d):** ED'deki düğüm karıştırıldığını kendi kanal ölçümünden tek saniyede bilir ama kanalı meşgul gördüğü için bildiremez; onu komşuları sessizliğinden tanımalı. Bu "sessizleşen komşu" işareti komşu başınadır ve ölçülmedi: (d)'nin selam kaybı, alıcının bütün tanıdık komşularından beklediği selamların kaçan payıdır ve temizde bile 0,44. Komşu başına işaretin yanlış alarmı bu tabanla birlikte ölçülür (§7). Açık evrede ortalama düğüm sayısı birincil hücrede ED 0,9 · girişim 6,8, dayanıklılık hücresinde 1,1 · 10,3; kanıtın asıl işi girişim bölgesinde.
 
 **T-7 · Kanıtın sonucu: ayrı bir "karıştırılıyor" durumu.**
 - Karıştırma kanıtı bulunan bağ geçici olarak kullanılmaz. Karıştırmadan önceki kalitesi hatırlanır; kanıt kalkınca bağ o değerle hemen geri döner, teslim oranının yeniden dolmasını beklemez.
@@ -115,6 +115,7 @@ Protokol karıştırıcının çizelgesini bilmez ve ona göre ayarlanmaz: bağ�
 - Bağın maliyetine karıştırma cezası eklenmez: karıştırma bitince ceza yavaş söner ve maliyetteki salınım riski (T-4) geri gelir.
 - Ne kadar kanıtla "karıştırılıyor" ve "bitti" denileceği bırakma zamanının konusudur.
 - Yanlış alarmın bedeli (iyi bir bağın gereksiz bırakılması) 5-3'te ölçülür.
+- "Karıştırılıyor" iken toplanan selam ve MAC örnekleri bağ ölçüsüne (T-2) girmez; hatırlanan kalite korunur. Sezilmeyen zayıf karıştırmada bağ ölçüsü kendisi düşer ve rotalar kısa bağlara kayar (İlke 1). Bağın üç durumu (olağan · kötü · karıştırılıyor) ve geçişleri 5-3'ün ilk kural kâğıdında yazılır (17 Kasım, denetim Ö-6; §7).
 - Hatırlanan kaliteyle geri dönüş benim tasarımımdır. Yakın fikirler: karıştırılan bölgenin etrafından dolaşmak, ağ katmanının bilinen karıştırma stratejisidir [59]; bağ başına karıştırmanın etkisini izleyip trafiği ona göre dağıtmak Tague vd. 2011'de var [53].
 
 **T-8 · Kurala dayalı kanıt, öğrenme yok.**
@@ -131,7 +132,7 @@ Protokol karıştırıcının çizelgesini bilmez ve ona göre ayarlanmaz: bağ�
 Yol iki sebeple değişir ve ikisinin kuralı ayrıdır: **zorunlu geçiş** (ardıl kullanılamaz hâle gelmiştir) ve **isteğe bağlı geçiş** (yol çalışıyor, başka bir yol daha ucuz görünüyor).
 
 **Ölçülmüş kanıt** (`arsiv/teshis/faz5_2_rakip_cizgisi_2026-11-15/sonuc.md` §1 · `arsiv/teshis/faz5_2_anatomi_2026-11-14/sonuc.md` §5 · `arsiv/teshis/faz5_2_secenek_iletim_2026-11-15/sonuc.md` §5):
-- Birincil hücrede evrelere göre teslim (önce · açık · sessiz; 8 tohum): kâhin 0,919 · 0,779 · 0,916 · Babel 0,932 · 0,663 · 0,916 · v0.4.1 0,779 · 0,567 · 0,763. Kâhin bile açık dönemde 0,14 kaybediyor; Babel 0,27, v0.4.1 0,21. Sessiz dönemde üçü de önceki düzeye yakın dönüyor; asıl iş açık dönemde.
+- Birincil hücrede evrelere göre teslim (önce · açık · sessiz; 8 tohum): kâhin 0,919 · 0,779 · 0,916 · Babel 0,932 · 0,663 · 0,916 · v0.4.1 0,779 · 0,567 · 0,763. Kâhin bile açık dönemde 0,14 kaybediyor; Babel 0,27, v0.4.1 0,21 (karıştırmaya özgü kayıpta Babel ile v0.4.1'in farkı 8 tohumda ayırt edilemedi: +0,042, 5/8; teşhis (c) S3). Sessiz dönemde üçü de önceki düzeye yakın dönüyor; asıl iş açık dönemde.
 - Babel MAC başarısızlığını kullanmıyor ve rotası 56 s yaşıyor (`protokol_kaynaklari/faz5_arastirma_2026-10-21/NOTLAR.md` §6). Karıştırmada başarısız iletimlerinin %20'si kesik bağda.
 - v0.4.1 tek bir MAC başarısızlığında komşuyu "şüpheli" yapıp onarıma giriyor. Ardılı düğüm başına 1,3 saniyede bir değişiyor (ikiz); Babel'in seçimi düğüm–hedef çifti başına kabaca 20 saniyede bir (25 015 değişim, 40 düğüm, 39'ar hedef).
 - Kanal kalabalık: üç protokolde de veri denemelerinin yarısından fazlası başarısız. Tek bir atlama kaybı çoğu zaman karıştırma değildir.
@@ -147,7 +148,7 @@ Yol iki sebeple değişir ve ikisinin kuralı ayrıdır: **zorunlu geçiş** (ar
 - Erken dönmenin bedeli küçüktür: karıştırma sürüyorsa bağ birkaç olayda yeniden çıkar, hatırlanan kalite korunur (T-7).
 - Karıştırmanın başlaması komşulukta bir değişim sayılır; selamlar sıklaşır (T-1) ve karıştırmanın bittiği daha çabuk duyulur.
 - Gerekçe: birincil hücrede karıştırıcı 15 s açık kalıyor; tespit 5 s sürerse açık sürenin üçte biri kesik bağda geçer. İlk olayda karar kalabalık kanalda yanlış alarm üretir; kayan bir penceredeki oran Babel'in yavaşlığına döner. Doğruluk ile tepki hızı arasındaki değiş tokuş ETX'in de uyarısıdır [36].
-- **Teşhis (d):** art arda üç MAC vazgeçmesi yanlış alarmı çerçevelerin %0,06'sının altında tutuyor, ama tek başına geç ve seyrek: ortanca birincil hücrede 5,6 s, dayanıklılık hücresinde 2,8 s; alıcısı karıştırılan bağların yalnız %18'inde açık dönem içinde ulaşılıyor. Olay sayısının ilk değeri 3; "karıştırılıyor" kararı MAC vazgeçmesini T-5'in işaretleriyle birlikte okur.
+- **Teşhis (d):** art arda üç MAC vazgeçmesi yanlış alarmı çerçevelerin %0,06'sının altında tutuyor, ama tek başına geç ve seyrek: alıcısı karıştırılan bağların yalnız %18'inde açık dönem içinde ulaşılıyor; ulaşılanların ortancası birincil hücrede 5,6 s, dayanıklılık hücresinde 2,8 s (orada açık dönem 10 s olduğu için uzun süreler kesiliyor). Olay sayısının ilk değeri 3; "karıştırılıyor" kararı MAC vazgeçmesini T-5'in işaretleriyle birlikte okur.
 
 **T-11 · İsteğe bağlı geçiş: oransal eşik.**
 - Çalışan bir yoldan, yeni yolun maliyeti bugünkünden belli bir oranda düşükse geçilir; oran 5-3'te.
@@ -170,17 +171,18 @@ Yedek, döngü yaratmadan geçilebilecek komşudur; hangi komşunun güvenli old
 - Yedekleri yoklamayla canlı tutmak (`hedefli_canlilik`) rota kaybını azaltmadı. v0.4.1'de alınan duyuruların %64'ü işlenmiyordu; yedekler bilinmiyordu (T-1 bunu çözer).
 
 **T-12 · Döngüsüzlük: uygulanabilirlik koşulu ve sıra numarası.**
-- Tur (sıra numarası) geçitten çıkar. Bir komşunun ilanı ya daha yeni turdaysa ya da aynı turda bildirdiği maliyet benim bu turdaki en iyi maliyetimden (FD) küçükse kabul edilir.
-- Gerekçe: döngü hiç oluşmaz; bizim hücrelerimizde aynı kuralı kullanan Babel'in açık dönemdeki rota yokluğu kaybı 0,000. Komşulara sorarak ortak hesap (DUAL) kayıplı kanalda takılabilir; yükseklik kuralı (RPL) döngüyü önlemez, oluşunca yakalar ve her veri paketine bir alan ister. En garanti ve en çok sınanmış yol bu.
-- Ödünç: Babel [4] (RFC 8966 §3.5) ve DSDV ailesi; v0.4.1'in çekirdeği de bu aileden.
+- Tur (sıra numarası) geçitten çıkar. Uygulanabilirlik uzaklığı (FD), bu turda ilan ettiğim sonlu maliyetlerin en küçüğüdür: hesapladığım değil, komşulara gönderdiğim değer sayılır. İlan seyrek ve önemli değişimde gittiği için (T-16, T-17) ikisi farklı olabilir.
+- Bir komşunun ilanı ya daha yeni turdaysa ya da aynı turda bildirdiği maliyet FD'mden küçükse uygulanabilirdir.
+- Gerekçe: bu koşul döngüyü önler. Döngünün ölçülmüş göstergesi olan ömür (TTL) kaybı teşhis (c)'de bütün kollarda ≈ 0 (en çok 0,013). Komşulara sorarak ortak hesap (DUAL) kayıplı kanalda takılabilir; yükseklik kuralı (RPL) döngüyü önlemez, oluşunca yakalar ve her veri paketine bir alan ister. En garanti ve en çok sınanmış yol bu.
+- Ödünç: Babel [4] (RFC 8966 §3.5.1, §3.7.3); aynı aile DSDV'ye dayanır (De Couto 2003'te [36] aktarıldığı gibi); v0.4.1'in çekirdeği de bu aileden.
 
 **T-13 · Açlık: hemen istek.**
 - Uygun komşu kalmayınca yeni tur hemen istenir. Daha yeni turu bilen herhangi bir düğüm yanıtlar, bilmeyen isteği geçide doğru iletir; tur yalnız geçitte ve bir artar.
-- Seçili rota çalışıyorsa, ona uygulanamaz bir güncelleme geldi diye bırakılmaz; yeni tur istenir.
+- Seçili rotaya uygulanamaz bir güncelleme gelirse güncelleme yok sayılır: rota son kabul edilen maliyetiyle seçili kalır ve yeni tur istenir. Güncelleme uygulanırsa rota hemen bırakılır; uygulanamaz bir rota seçili tutulmaz (17 Kasım, denetim E-2).
 - Tur düzenli aralıklarla artırılmaz: yeni tur kimi zaman önce dolambaçlı bir yoldan ulaşır ve rotalar her turda çalkalanır (T-11'e ters).
-- Gerekçe: v0.4.1'in bekleyen ve yalnız kendi paketiyle soran açlık çözümü açık dönemde 0,237'lik rota yokluğu kaybının başlıca kaynağı.
+- Gerekçe: v0.4.1'in bekleyen ve yalnız kendi paketiyle soran açlık çözümü açık dönemde 0,237'lik rota yokluğu kaybının başlıca kaynağı; aynı FD kuralını kullanan Babel hemen soruyor ve aynı hücrede rota yokluğu kaybı 0,000.
 - Bedeli kontrol trafiğidir; isteklerin yinelenmesi ve sıklığı kontrol yükü konusunda sınırlanır.
-- Ödünç: Babel [4] (RFC 8966 §3.8.1.2).
+- Ödünç: Babel [4] (RFC 8966 §3.5.3 uygulanamaz güncelleme · §3.8.2.1 açlıkta istek · §3.8.2.2 · §3.8.1.2 isteğin yanıtı ve iletimi).
 
 **T-14 · Yedek yol: hazır yedek kümesi, tek yoldan gönderim; çoğaltma yalnız son çare.**
 - Uygulanabilirlik koşulunu (T-12) geçen bütün komşular hazır yedektir. Ardıl kullanılamaz olunca (T-3, T-7) en iyisine anında geçilir. Yedekler için ek mesaj gönderilmez; selam (T-1) ve ilanlar yeter.
@@ -209,7 +211,7 @@ Yedek, döngü yaratmadan geçilebilecek komşudur; hangi komşunun güvenli old
 - v0.4.1 onarımda alan başına 6 paketi en çok 6 s bekletiyor; ikizde rota yokluğuna (`rota_gecersiz`) düşen paketlerin %64'ü bu kota doluyken düşüyor. Babel bekletmiyor.
 
 **T-16 · Uzaklık ilanı selamla tek iletidir.**
-- Selam, geçide maliyetimi ve turu da taşır; T-1'in uyarlanır aralığıyla gider. Ayrı ve düzenli bir ilan iletisi yoktur.
+- Selam, geçide maliyetimi, turu ve o anki aralığını da taşır; T-1'in uyarlanır aralığıyla gider. Ayrı ve düzenli bir ilan iletisi yoktur.
 - Selam bastırılmaz: komşular benim bağımı selamlarımın sıra numarasından ölçer (T-2).
 - Gerekçe: tek hedef olduğundan ilan birkaç bayttır (tur ve maliyet); her çerçevenin 64 baytlık sabit ek yükü (`13` §03.1) ve kanal erişimi bir kez ödenir. Ölçek için: 1 s'de bir ilan, 40 düğümde 350 s'de tek başına 14 000 çerçeve eder; 4 s'de bir birleşik selam 3 500.
 - Ödünç: aralığın uyarlanması Trickle [62]; Trickle'ın bastırması alınmadı. Bir pakette birden çok bilgi taşımak Babel'de de var [4] (RFC 8966 §4.2).
@@ -220,13 +222,15 @@ Yedek, döngü yaratmadan geçilebilecek komşudur; hangi komşunun güvenli old
 - Ödünç: Babel [4] (RFC 8966 §3.7.2: küçük dalgalanmalar ve maliyeti belirgin değiştirmeyen ardıl değişimleri için tetik gönderilmez).
 
 **T-18 · Bekletme: kısa ve küçük tampon, dolunca en eskisi düşer.**
-- Yol yokken gelen paket, yol bulunana kadar küçük bir tamponda kısa süre tutulur; süre 5 s'lik gecikme tavanını aşmaz. Tampon dolunca en eski paket düşer.
+- Yol yokken gelen paket, yol bulunana kadar küçük bir tamponda kısa süre tutulur; bir düğümdeki tutma süresi 5 s'lik gecikme tavanını aşmaz. Tampon dolunca en eski paket düşer.
+- Paketin yaşı protokole görünmez (`dogum_s` yok, saatler eşzamanlı değil; `05` §3.2). Birkaç röle sırayla tutarsa uçtan uca gecikme 5 s'yi aşabilir. Sınırın türü (atlama başına sınır ve paketin en çok kaç kez tutulabileceği ya da başlıkta bedeli ödenen birikmiş bekleme) 5-3'te seçilir (§7).
 - Paket karıştırıcı susana kadar saklanmaz (sakla-taşı-ilet yok).
 - Gerekçe: tampon, açlıkta tur isteğinin (T-13) yanıtlanmasını köprüler. Telemetride en taze paket değerlidir. 15 s'lik saklama telemetrinin değerini yitirir ve karıştırıcı susunca biriken paketleri kanala aynı anda döker. `PDR_açık` geç teslimi de saydığı için uzun saklama ölçüyü yanıltıcı biçimde yükseltirdi (K-246).
-- Ödünç: bekletme v0.4.1'de de var (alan başına 6 paket, 6 s); dolunca baştan düşürme bilinen bir kuyruk politikasıdır.
+- Ödünç: bekletme v0.4.1'de de var (alan başına 6 paket, 6 s); dolunca en eskiyi düşürme benim seçimim.
 
-**T-19 · Kontrol yükü her ölçümde görünür.**
+**T-19 · Kontrol yükü ve gecikme her ölçümde görünür.**
 - Kontrol trafiğinin kanal süresindeki payı, 5-3'teki her A/B'de ikincil ölçü olarak raporlanır. Her mekanizmanın kontrol bedeli böylece görünür kalır.
+- Gecikme tavanlı `PDR_açık` (5 s) ve gecikmenin p99'u da her A/B'de raporlanır: bekletme davranışı değişiyor ve `PDR_açık` geç teslimi de sayıyor (K-246) (17 Kasım, denetim Ö-7).
 
 **5-3'e kalanlar:** tamponun boyutu ve süresi · tetik eşikleri ve sıklık sınırı · selamın biçimi ve boyutu.
 
@@ -243,3 +247,28 @@ Yedek, döngü yaratmadan geçilebilecek komşudur; hangi komşunun güvenli old
 - Ödünç: v0.4.1'in geri izi (V11, K-172).
 
 **5-3'e kalanlar:** izin tazelik süresi · izsiz komutun bekleme süresi.
+
+---
+
+## 7 · 5-3'ün açılış listesi (17 Kasım)
+
+Geliştirmeye geçerken ilk ele alınacaklar; bölüm sonlarındaki "5-3'e kalanlar"a ek olarak, 5-2'nin bağımsız denetiminden (`arsiv/denetim/DENETIM-RAPORU-5-2-2026-11-17.md`).
+
+**İlk kural kâğıdı:**
+1. Bağın üç durumu (olağan · kötü · karıştırılıyor) ve geçişleri: "karıştırılıyor" iken toplanan örnekler bağ ölçüsüne girmez (T-7); T-3'ün iki eşiği ile T-7'nin dönüşünün sırası; ölçüm penceresinin her durumda nasıl tutulduğu (denetim Ö-6).
+2. Selamın biçimi: aralığını taşır (T-1, T-16); ara ilan (T-17) bir selam mı (sıra numarası alır, aralığın zamanlayıcısını sıfırlar mı), ayrı bir ileti mi (Ö-10).
+3. Selam aralığının üst sınırı, sessizliği fark etme süresi (kaçan selam sayısı × aralık) ve kontrol payı (T-19) birlikte seçilir. 4 s'lik aralıkla üç kaçan selam 12 s eder; dayanıklılık hücresinin 10 s'lik açık döneminden uzun (Ö-5).
+4. Tamponun sınırının türü (T-18); komutla telemetrinin tamponu paylaşması ve önceliği (T-20). Birincil metrikte komutların yeri açık karar (KR-2, `04` §10) (Ö-7).
+5. T-20'nin izi "karıştırılıyor" (T-7) ya da "kötü" (T-3) işaretli bir komşuyu gösteriyorsa iz bayat sayılır mı (Ö-10).
+
+**Yeni sürümle ölçülecekler:**
+6. Komşu başına sessizlik ve komşu başına en uzun boşluk: ayırma gücü ve yanlış alarm, temizdeki 0,44'lük selam kaybı tabanıyla; komşuların kanıtını birleştirmenin çok atlamalı dünyamızdaki kazancı (Ö-2; Puñal'in sonucu tek atlamalı düzenekte).
+7. Girişim bölgesinde birleşik kanıt kuralının başarısı (birkaç işaret, birkaç saniye) ve düşüşün düğümün kendi yakın geçmişine göre okunması. Teşhis (d)'de alanlar karıştırmadan önce de temizden ayrışıyordu; aynı alanın öncesine göre işaretler daha güçlü (Ö-1; denetim §2.2).
+8. Bağ kalitesinin değişim hızı tek deneme başarısıyla ve yedekler dâhil bütün komşu bağlarıyla (Ö-3).
+9. İşaretlerin yeni sürümün trafiğinde ve en az bir başka karıştırıcı sınıfında (darbeli, reaktif, aldatıcı, taramalı) ya da yer karıştırıcılı ailede yeniden ölçülmesi (Ö-4).
+10. Çizelgeli karıştırmada tur artışının sayılması: yedeğe geçiş → ara ilan → uygulanamaz güncelleme → tur isteği zinciri her dönemde yinelenebilir ve T-13'ün "tur düzenli artırılmaz" gerekçesine ters işleyebilir (denetim §2.3).
+
+**Kayıt ve ön-kayıt:**
+11. Mekanizmaların ablasyon bayraklarına eşlenmesi ve Aile 3'ün mekanizma kapısına hangilerinin gireceği. `06` §0.4.5 eski adları ("5.1 karıştırma kanıtı · 5.3 postür · 5.4 PROTECT") taşıyor; mühürden önce bu belgeyle hizalanır (Ö-10).
+12. `rssi_olcum_sigma_db` ve `gps_dikey_sigma_m` SINANMAMIŞ kayıtları (`04` §9): RSSI artık okunuyor (T-5); kendi konumun okunup okunmayacağı yazılır (T-15 yalnız selama konum eklenmeyeceğini söylüyor) (Ö-10).
+13. Kaydedici yeni sürümle yeniden kullanılırsa evre, ikiye bölme, selam kaybı ve bağ birimlerinin gruplanması için sentetik testler (K-9).
