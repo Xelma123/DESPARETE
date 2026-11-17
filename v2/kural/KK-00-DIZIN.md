@@ -43,7 +43,7 @@ Her kâğıtta: amaç ve sınıf · gördüğü · tuttuğu · kurallar · örne
 | `GIRIS_SANIYE` · `CIKIS_SANIYE` | girişim 2 · 3 ardışık saniye; ED 1 · 1 | KK-03 | T-10; ED eşiğinin yanlış alarmı %0,035 |
 | `MAC_ARDISIK` | 3 vazgeçme | KK-03 | teşhis (d): `n* = 3` |
 | `GECIS_ORANI` | %10 | KK-04 | Ramachandran [54]; T-11 |
-| `ISTEK_YINELEME` | 3 kez, 0,5 s arayla | KK-04 | sayı Babel'in (`ISTEK_TEKRAR`); aralık bu tasarımın (Babel 2 s'den başlayıp katlıyor) |
+| `ISTEK_YINELEME` | ilk gönderimden sonra 3 kez daha, 0,5 s arayla | KK-04 | sayı Babel'in (`ISTEK_TEKRAR`: "en çok üç kez yeniden gönderilir", RFC 8966 Ek B); aralık bu tasarımın (Babel 2 s'den başlayıp katlıyor) |
 | `ISTEK_ARA` | 5 s | KK-04 | açlık sürerse istek dizisinin yinelenmesi; uygulanamaz ilanı yok saymanın üst süresi |
 | `ISTEK_ANIMSA` | 4 s; istek yinelendikçe tazelenir | KK-04 | iletilen isteğin yanıtını istek yolundan geri yaymak için (RFC 8966 §3.8.1.2'deki liste). Yanıt atlama başına en çok ~0,56 s geri döner (`I_MIN` + titreşim); 5 atlamada ~2,3 s, yinelemeyle (2 × 0,5 s) ~3,3 s: 2 s yetmiyordu (Y-11) |
 | `ISTEK_ATLAMA` | 64 | KK-04 | RFC 8966 §3.8.2.1: ağın çapından büyük; çap tanı kaydında ölçülür |

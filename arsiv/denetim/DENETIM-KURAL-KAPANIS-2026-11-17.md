@@ -90,3 +90,18 @@ Kodlamada bulunan boşluklar:
 | G-5 | Selam uyandırma anında kurulur, titreşim uyandırmaya eklenir | KK-02 kural 1 |
 
 Açık kalanlar: Y-3 (karıştırma kanıtının kendi durumu kodlanırken) · Y-1 (karıştırma A/B'lerinin beklentisinden önce) · Y-8'in ikinci yarısı ve Y-11'in kuralı (rota kodlanırken). Tanıda izlenecek bir sorun: olaydan sonra ilan edilen aralık 0,55 s iken iki selam art arda kaybolursa zaman aşımı üç sıfır sayar ve sessizlik kanıtı erken çıkar (yanlış alarm, iki temiz selamla geri döner).
+
+### Rota, bekletme ve geri iz (18 Kasım)
+
+`KK-04` ve `KK-05` kodlandı: `protokoller/desparete5_rota.py` · `desparete5_bekletme.py`; testler `tests2/test_desparete5_rota.py` (14 test; geçit ← X ← Y zincirinde açlık isteğinin geçide gidişi, turun yalnız geçitte bir artması ve yanıtın istek yolundan geri yayılması dâhil).
+
+| | yapılan | yer |
+|---|---|---|
+| Y-8 (ikinci yarı) | ∞ ilanın tur alanı FD'nin turu, FD yoksa 0 | KK-04 kural 6 |
+| Y-11 (kural) | İletilen isteğin kaydı aynı tur için gelen her istekte tazelenir; kayıt isteyeni tutmaz (yanıt çok-yayın) | KK-04 kural 9 |
+| G-1 | Geri iz yalnız daha yeni `kaynak_sira`yla güncellenir (v0.4.1'in V11 kuralı): çapraz giden iki paket komutu döngüye sokamaz | KK-05 kural 6 |
+| ayrıntı | Yok saymada tek alıcılı istek yalnız ilk yok saymada, istenen `FD.tur + 1`; açlık isteği hemen ve 3 kez daha 0,5 s arayla; iletim kalan atlama ≥ 2 iken bir eksiltilerek | KK-04 kural 7–9 · KK-00 |
+
+Kâğıt dışından: mimari denetiminin D13 bulgusu (teşhis (d) aletinin 16 sabitinin kökeni yazılmamıştı) köken defterine yazılarak kapandı; denetim ihlalsiz ve bulgusuz.
+
+Açık kalanlar: Y-3 (kendi durumum kodlanırken) · Y-1 (karıştırma A/B'lerinin beklentisinden önce).

@@ -1,6 +1,6 @@
 # KK-05 · Bekletme ve komutun yolu
 
-> Kararlar: T-18 · T-20 (`17`). Değerler ve genel kurallar `KK-00`. Güncel: 17 Kasım 2026 (kural kâğıtlarının bağımsız denetiminden sonra: B-19 · B-20).
+> Kararlar: T-18 · T-20 (`17`). Değerler ve genel kurallar `KK-00`. Kod `protokoller/desparete5_bekletme.py`. Güncel: 18 Kasım 2026 (kodlamada bulunan G-1: izin sıra koşulu). Önceki: 17 Kasım (bağımsız denetimden sonra: B-19 · B-20).
 
 ## Amaç ve sınıf
 
@@ -11,7 +11,7 @@ Yol yokken paketi açlık çözülene kadar kısa süre tutmak; komutu telemetri
 - Karar anında paketin başlığı (`05` §3.3): kaynak, hedef, `kaynak_sira`.
 - Bana gelen telemetri çerçevesinin göndereni (`cerceve_duyuldu`).
 - `ilk_bekletme`: paket kimliği `(kaynak, kaynak_sira)` → bu düğümde ilk bekletildiği an.
-- `iz`: kaynak → (komşu, son görülme anı).
+- `iz`: kaynak → (komşu, `kaynak_sira`, son görülme anı).
 
 ## Kurallar
 
@@ -25,7 +25,7 @@ Yol yokken paketi açlık çözülene kadar kısa süre tutmak; komutu telemetri
 
 **B · Komutun yolu**
 
-6. Geçide giden bir telemetri çerçevesi bana gelince (`cerceve_duyuldu`, hedefi ben) `iz[kaynak] ← (gönderen, şimdi)`. Bu kanca niyet döndüremez; iz tazelenince bekleyen komut bir sonraki uyanmada (en geç 0,5 s) gider.
+6. Geçide giden bir telemetri çerçevesi bana gelince (`cerceve_duyuldu`, hedefi ben) `iz[kaynak] ← (gönderen, kaynak_sira, şimdi)`, yalnız paketin `kaynak_sira`sı izdekinden büyükse. Sebep: izden ize ilerleyen her adımda sıra azalmaz; çapraz giden iki paket iki düğümü birbirine gösteremez, komut döngüye giremez. Döngü ancak aynı paketin yolunda olabilir, o yol da döngüsüzdür (v0.4.1'in V11 kuralı; 18 Kasım, kodlamada G-1). Bu kanca niyet döndüremez; iz tazelenince bekleyen komut bir sonraki uyanmada (en geç 0,5 s) gider.
 7. Komut kararı: `iz[hedef]` var, `IZ_TAZELIK` içinde ve o komşu OLAĞAN ise `sonraki = komşu`; değilse komut bekletilir (kural 1–4). Hedefin bir sonraki telemetrisi izi tazeler.
 8. İz ASKIDA, KÖTÜ ya da KARIŞTIRILIYOR bir komşuyu gösteriyorsa bayattır (`17` §7 madde 5).
 9. Komutla telemetri aynı tamponu paylaşır, öncelik yoktur: simülatör tamponu sırayla döker. Komutların birincil metrikteki yeri açık karardır (KR-2).

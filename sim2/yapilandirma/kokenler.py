@@ -799,6 +799,67 @@ MODUL_KOKENLERI: dict[str, tuple[str, str]] = {
         "`derin_sizma`nın 15 s açık · 15 s kapalı çizelgesinin üçte biri — "
         "her evre en az iki dilimle örneklenir. Başarısız bağlar dilimsiz, "
         "düşüş anında okunur. Simülasyona ve protokol kararına girmez"),
+    # Faz 5-2 teşhis (d), karıştırmanın yerel işaretleri (16 Kasım 2026); tanımlar
+    # `arsiv/teshis/faz5_2_isaretler_2026-11-16/beklenti.md`. Hepsi yalnız TEŞHİS:
+    # simülasyona ve protokol kararına girmez (18 Kasım'da yazıldı, D13).
+    "kalibrasyon/karistirma_isaretleri.py::DILIM_S": ("TURETILMIS",
+        "1 s — düğüm-saniye birimi: telsiz sayaçlarının (kanal meşgul "
+        "süresi, çözülen çerçeve, CRC hatası) okunduğu ölçek; "
+        "karıştırıcının 10–15 s'lik açık döneminde en az 10 örnek"),
+    "kalibrasyon/karistirma_isaretleri.py::BAG_DILIM_S": ("TURETILMIS",
+        "5 s — bağ birimi: en az 3 tek alıcılı çerçeve toplanabilsin; "
+        "`kayip_anatomisi.py::BAG_DILIMI_S` ile aynı gerekçe (açık dönemin "
+        "üçte biri, her evre en az iki dilimle örneklenir)"),
+    "kalibrasyon/karistirma_isaretleri.py::RSSI_PENCERE_S": ("TURETILMIS",
+        "10 s — göndericinin aynı komşudan son 10 s'de çözdüğü "
+        "çerçevelerin RSSI ortalaması: bağ biriminin iki katı, açık "
+        "dönemden uzun değil"),
+    "kalibrasyon/karistirma_isaretleri.py::SELAM_PENCERE_S": ("TURETILMIS",
+        "4 s — selam kaybı penceresi = Babel-a'nın Hello aralığı "
+        "(`babel_bicim.py::HELLO_ARALIGI_S`); ölçülen protokol Babel, "
+        "pencerede komşu başına ortalama bir selam beklenir"),
+    "kalibrasyon/karistirma_isaretleri.py::TANIDIK_S": ("TURETILMIS",
+        "16 s — tanıdık komşu: son dört Hello aralığında en az bir selamı "
+        "duyulmuş; uzun süredir duyulmayan komşunun beklenen selamları "
+        "kayba yazılmasın"),
+    "kalibrasyon/karistirma_isaretleri.py::BAG_EN_AZ_CERCEVE": ("TURETILMIS",
+        "3 — bağ biriminin en az çerçevesi: tek çerçeve deneme başarısını "
+        "yalnız 0 ya da 1 verir, üç çerçeve bir oran verir"),
+    "kalibrasyon/karistirma_isaretleri.py::DIZI_TAVAN": ("TURETILMIS",
+        "30 — art arda vazgeçme dizisi histogramının tavanı (üstü son "
+        "kutuya); S2'nin sorduğu n ≤ 5, üstü yalnız kuyruk"),
+    "kalibrasyon/karistirma_isaretleri.py::DENEME_TAVAN": ("TURETILMIS",
+        "8 — çerçeve başına deneme histogramının tavanı; referans dünyada "
+        "en çok 7 iletim (yeniden deneme sınırı 6, K-223), 8 taşma kutusu"),
+    "kalibrasyon/karistirma_isaretleri.py::GECIKME_N": ("TURETILMIS",
+        "(1…5) — S2: n'inci ardışık vazgeçmeye kadar geçen süre; T-10'un "
+        "'birkaç ardışık olay'ının aday değerleri"),
+    "kalibrasyon/karistirma_isaretleri.py::ONCEKI_BASARI_S": ("TURETILMIS",
+        "10 s — S2: açılmadan önceki 10 s'de başarılı çerçevesi olan bağ "
+        "çalışan bağ sayılır; bağ biriminin iki katı"),
+    "kalibrasyon/karistirma_isaretleri.py::S3_GECIKMELER": ("TURETILMIS",
+        "(1, 2, 4, 8, 16, 32 s) — S3: bant değişiminin gecikme ölçeği, "
+        "ikinin kuvvetleri; Babel'in 4 s'lik Hello'su ve selam aralığının "
+        "adayları aralığın içinde, en uzunu ölçüm penceresinin (270 s) "
+        "sekizde birinden kısa"),
+    "kalibrasyon/karistirma_isaretleri.py::S3_BAG_SAYISI": ("TURETILMIS",
+        "80 — S3: ikizde en çok veri kararı taşıyan bağlar; düğüm "
+        "sayısının iki katı, hesap süresini sınırlar"),
+    "kalibrasyon/karistirma_isaretleri.py::S3_EN_AZ_KARAR": ("TURETILMIS",
+        "50 — S3: bağın en az veri kararı; seyrek kullanılan bağ dışarıda "
+        "kalır"),
+    "kalibrasyon/karistirma_isaretleri.py::SESSIZLIK_TAVAN_S": ("TURETILMIS",
+        "30 s — 'son çözülen çerçeveden beri' histogramının tavanı (üstü "
+        "son kutuya); açık dönemin iki katı"),
+    "kalibrasyon/karistirma_isaretleri.py::KUTULAR": ("TURETILMIS",
+        "histogram kutuları: oranlar [0, 1] 50 kutu (0,02), selam kaybı 20 "
+        "kutu (0,05), CRC hatası ve çözülen çerçeve birim genişlikte "
+        "(0–100 · 0–300), sessizlik 0,1 s; aralık dışı değer uç kutuya "
+        "düşer. AUC kutulu histogramdan hesaplanır, kutu genişliği eşik "
+        "tablolarının çözünürlüğüdür"),
+    "kalibrasyon/karistirma_isaretleri.py::TESLIM_KUTU": ("TURETILMIS",
+        "10 — deneme başarısı histogramı 0,1 genişlikte; S1b'nin 'düşük "
+        "teslim < 0,5' eşiği bir kutu sınırında"),
     "kalibrasyon/calisma_noktasi.py::BASARI_ESIGI": ("TURETILMIS",
         "0,90 — `kahin.py::ATLAMA_ESIGI` ile aynı sayı, bilerek (iki eşik "
         "ayrışmasın)"),
