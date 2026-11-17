@@ -4,17 +4,15 @@
 >
 > Sayısal değerler (aralıklar, pencereler, eşikler) burada seçilmez; 5-3'te kural kâğıtlarında yazılır ve geliştirme tohumlarında ölçülerek ayarlanır. Zaman sabitleri tek bir karıştırıcı çizelgesine göre ayarlanmaz; dayanıklılık hücresi bunun için var (`06` §0.4.5).
 >
-> Kararlar `T-n` diye numaralanır; kod yorumları bu numaralara atıf verir. Güncel: 16 Kasım 2026.
+> Kararlar `T-n` diye numaralanır; kod yorumları bu numaralara atıf verir. Güncel: 17 Kasım 2026.
 
 ---
 
-## Protokolün kimliği (taslak, 16 Kasım)
+## Protokolün kimliği (17 Kasım)
 
-DESPARETE, karıştırma altında çalışan taktik İHA sürüsü için tek hedefe yönelik bir yönlendirme protokolüdür: her düğümden geçide giden telemetriyi ve geçitten düğümlere dönen komutu taşır. Çekirdeği bilinen yöntemlerden kurulur ve her birinin kaynağı yazılıdır. Bağın maliyeti iki yönde ölçülen teslim oranıdır (ETX). Döngüsüzlük, geçidin verdiği tur numarası ve uygulanabilirlik koşuluyla sağlanır (Babel ve DSDV ailesi). Selam aralığı ağın sakinliğine göre uzar (Trickle). DESPARETE'yi ayıran, karıştırmayı yerel kanıtla tanıması ve ona kanıtla karşılık vermesidir. Her düğüm teslim, sinyal gücü ve kanal işaretlerinin birbirini tutup tutmadığına bakarak karıştırmayı kötü bağdan ve çarpışmadan ayırır; karıştırılan alıcı bunu selamıyla komşularına bildirir. Karıştırılan bağ geçici olarak bırakılır, karıştırmadan önceki kalitesi hatırlanır ve kanıt kalkınca hemen geri alınır. Protokol karıştırıcının çizelgesini bilmez. Kullanmadığı bağları da ölçmeyi sürdürür ve kopan yerlerini kendiliğinden onarır. Kısa bağların karıştırmaya karşı büyük payından ayrı bir kuralla değil, ölçülen teslim oranıyla yararlanır. Kontrol yükünü düşük tutar: uzaklık ilanı selamla birlikte gider, ara ilan yalnız önemli değişimde çıkar.
+DESPARETE, karıştırma altında çalışan taktik İHA sürüsü için tek hedefe yönelik bir yönlendirme protokolüdür: her düğümden geçide giden telemetriyi taşır, geçitten düğümlere dönen komutu ise telemetrinin geldiği yolun tersinden (geri iz) götürür. Çekirdeği bilinen yöntemlerden kurulur ve her birinin kaynağı yazılıdır: bağın maliyeti iki yönde ölçülen teslim oranıdır (ETX), döngüsüzlük geçidin verdiği tur numarası ve uygulanabilirlik koşuluyla sağlanır (Babel ve DSDV ailesi), selam aralığı ağın sakinliğine göre uzar (Trickle). DESPARETE'yi ayıran, karıştırmayı yerel kanıtla tanıması ve ona kanıtla karşılık vermesidir. Her düğüm kendi kanalını ve komşularını birkaç saniye boyunca birlikte okur. Kanal dolu ama duyduğu çerçeveler bunu açıklamıyorsa ya da çözdüğü çerçeveler ve komşu selamları birlikte azalıyorsa karıştırılıyordur; tek bir kayıp ya da tek bir işaret karar için yetmez. Karıştırılan alıcı bunu selamıyla komşularına bildirir; gönderemeyecek kadar yakın olanı komşuları sessizliğinden tanır. Karıştırılan bağ geçici olarak bırakılır ve hazır bir yedeğe yerelde geçilir; bağın karıştırmadan önceki kalitesi hatırlanır ve kanıt kalkınca bağ hemen geri alınır. Protokol karıştırıcının çizelgesini bilmez. Kullanmadığı bağları da ölçmeyi sürdürür ve kopan yerlerini kendiliğinden onarır. Kısa bağların karıştırmaya karşı büyük payından ayrı bir kuralla değil, ölçülen teslim oranıyla yararlanır. Kontrol yükünü düşük tutar: uzaklık ilanı selamla birlikte gider, ara ilan yalnız önemli değişimde çıkar.
 
-Bu paragraf taslaktır; 5-2'nin sonunda düzeltmelerle son hâline getirilir.
-
-**Açık nokta: komutun yolu.** Taslak, v0.4.1'in komut geri izinin (V11, K-172) korunacağını varsayıyor: her röle bir düğümün telemetrisini hangi komşudan aldığını hatırlar, o düğüme giden komut o komşuya verilir; ek ileti gerekmez. Öteki seçenekler: ayrı bir aşağı yön ilanı (RPL'nin DAO'su [63]) · geçidin telemetriden öğrenip komutun başlığına yazdığı kaynak rotası (K-232).
+Taslak 16 Kasım'da yazıldı; karıştırma kanıtını anlatan cümleler teşhis (d)'nin sonucuyla (§2, T-5), komutun yolu T-20'yle 17 Kasım'da son hâlini aldı.
 
 ---
 
@@ -231,3 +229,17 @@ Yedek, döngü yaratmadan geçilebilecek komşudur; hangi komşunun güvenli old
 - Kontrol trafiğinin kanal süresindeki payı, 5-3'teki her A/B'de ikincil ölçü olarak raporlanır. Her mekanizmanın kontrol bedeli böylece görünür kalır.
 
 **5-3'e kalanlar:** tamponun boyutu ve süresi · tetik eşikleri ve sıklık sınırı · selamın biçimi ve boyutu.
+
+---
+
+## 6 · Komutun yolu (17 Kasım)
+
+**Ölçülmüş kanıt** (teşhis (c), v0.4.1, 8 tohum; `arsiv/teshis/faz5_2_rakip_cizgisi_2026-11-15/kayit_v041_ikiz.json` · `kayit_v041_karistirma.json`, `teshis_toplam`): komut iletme kararlarının ikizde %95,7'sinde, birincil ve dayanıklılık hücresinde %92,9 · %93,2'sinde taze bir geri iz hazırdı. Kalanında iz yok ya da bayat ve v0.4.1 komutu düşürüyor.
+
+**T-20 · Komut telemetrinin geri iziyle gider.**
+- Her röle, bir düğümün telemetrisini hangi komşudan aldığını hatırlar; o düğüme giden komut o komşuya verilir. Ek ileti gerekmez.
+- İzi olmayan ya da bayatlamış komut düşürülmez. Kısa tamponda (T-18) bekler; hedefin bir sonraki telemetrisi izi tazeleyince yola çıkar.
+- Gerekçe: telemetri her düğümden saniyede bir geldiği için iz tazedir. Bağ maliyeti iki yönde ölçüldüğü için (T-2) iyi bir yukarı bağın tersi de iyidir. Yukarı yol karıştırmadan kaçınca sonraki telemetri izi de yeni yola taşır. Ayrı bir aşağı yön ilanı (RPL'nin DAO'su [63]) ek kontrol trafiği ister. Kaynak rotası (K-232) her komutta adres başına bayt ister ve yolun ortasında kopan bağı onaramaz.
+- Ödünç: v0.4.1'in geri izi (V11, K-172).
+
+**5-3'e kalanlar:** izin tazelik süresi · izsiz komutun bekleme süresi.
