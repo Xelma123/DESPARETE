@@ -1,55 +1,64 @@
 # KK-03 · Karıştırma kanıtı
 
-> Kararlar: T-5 · T-6 · T-8 · T-10 (`17`). Değerler `KK-00`; eşiklerin başlangıcı teşhis (d)'nin dağılımlarından (`arsiv/teshis/faz5_2_isaretler_2026-11-16/sonuc.md`). Güncel: 17 Kasım 2026.
+> Kararlar: T-5 · T-6 · T-8 · T-9 · T-10 (`17`). Değerler ve genel kurallar `KK-00`; eşiklerin başlangıcı teşhis (d)'nin dağılımlarından (`arsiv/teshis/faz5_2_isaretler_2026-11-16/sonuc.md`). Güncel: 17 Kasım 2026 (kural kâğıtlarının bağımsız denetiminden sonra yeniden yazıldı: B-3 · B-4 · B-7 · B-11 · B-18).
 
 ## Amaç ve sınıf
 
-Karıştırmayı kötü bağdan ve kalabalık kanaldan ayırıp KK-01'e "karıştırılıyor" ve "bitti" olaylarını vermek. **Karıştırmaya karşı** (bayraklar `karistirma_durumu`, `alici_bildirimi`). Açık kurallar, eğitilmiş sınıflandırıcı yok (T-8).
+Karıştırmayı kötü bağdan ve kalabalık kanaldan ayırmak: kendi durumumu ("karıştırılıyorum") belirlemek ve KK-01'e bağ kanıtı ("karıştırılıyor", sebebiyle) ile "bitti" olaylarını vermek. **Karıştırmaya karşı** (`karistirma_durumu`, `alici_bildirimi`). Açık kurallar, eğitilmiş sınıflandırıcı yok (T-8).
 
 ## Gördüğü
 
-- Kendi telsizinin sayaçları (`05` §3.3b): kanal meşgul süresi (`mesgul_sure_s`; protokol `kanal_dolulugu_ister` der), çözülen çerçeve sayısı (`alinan_cerceve`).
-- Komşu selamları (KK-02) ve KK-01'in beklenen selam sayımı.
-- Kendi tek alıcılı gönderimlerinin sonucu (`iletim_sonucu`).
-- Gözlem sözleşmesinde olmayan hiçbir şey: ölçülen gürültü yok (K-227), çerçeve süresi yok (E-1).
+- Kendi telsizinin sayaçları (`05` §3.3b): kanal meşgul süresi (`mesgul_sure_s`; protokol `kanal_dolulugu_ister` der) ve çözülen çerçeve sayısı (`alinan_cerceve`).
+- Komşu selamları (KK-02) ve KK-01'in sayımı.
+- Kendi veri gönderimlerinin sonucu (`iletim_sonucu`).
+- Gözlem sözleşmesinde olmayan hiçbir şey: ölçülen gürültü yok (K-227), çerçeve süresi yok, RSSI okunmaz (kural 11).
 
 ## Kurallar
 
-**A · Kendi durumum (her saniye bir kez):**
-1. `m` = son saniyedeki kanal meşgul payı; `c` = son saniyede çözülen çerçeve; `c̄` = işaretsiz saniyelerin son 30 s ortalaması; `s` = son 4 s'de tanıdık komşulardan (son 16 s'de selamı duyulan) beklenen selamların kaçırılan payı. `s` ham sayımdan (beklenen ↔ gelen) hesaplanır; KK-01'in dondurmasından etkilenmez.
-2. **ED işareti:** `m ≥ ED_ESIGI`. Bir saniye yeter: ikizde yanlış alarm %0,035.
-3. **Girişim işareti:** `c < DUSUS_ORANI · c̄` **ve** `s ≥ KAYIP_ESIGI`. Tek başına her biri yanlış alarm veriyor (teşhis (d): %50 yakalamada %6–11); ikisi birlikte ve düğümün kendi ortalamasına göre okunur. Çözülen çerçeve düşüşü uzaktaki düğümde de olduğu için selam kaybı şartı onu ayırır.
-4. **Karar:** ED işareti 1 saniye ya da girişim işareti `GIRIS_SANIYE` (2) ardışık saniye → "karıştırılıyorum". Bitti: ED'den girildiyse 1 işaretsiz saniye (ED eşiğinin yanlış alarmı çok küçük, çabuk dönmek güvenli), girişimden girildiyse `CIKIS_SANIYE` (3) ardışık işaretsiz saniye. Bu durum selamın `karistiriliyorum` bitine yazılır (değişim olayı, KK-02).
+**A · Kendi durumum** (saniyelik zamanlayıcıda bir kez)
 
-**B · Komşu j'ye bağım (j OLAĞAN iken; göndericide):**
-5. j'nin selamında `karistiriliyorum` = 1 → "karıştırılıyor" (alıcı söyledi).
-6. j'nin `gecmis`inin sonunda ardışık `k` sıfır var (KK-01 kural 2'nin zaman aşımlarıyla, j'nin ilan ettiği aralığa göre) → "karıştırılıyor". `k = max(3, ⌈log 0,01 / log(1 − d_r)⌉)`; `d_r` sondaki ardışık sıfırlar hariç hesaplanır (sessizlikten önceki kalite; yoksa sessizlik uzadıkça `k` da büyürdü): bağın kendi kayıp oranıyla %1'den düşük olasılıkla açıklanabilecek bir sessizlik. `d_r` 0,9 ya da 0,8 → 3; 0,6 → 6; 0,5 → 7. Sabit 3 olsaydı, temizde bile selamların %44'ü kaçan menzil sınırındaki bağlar (teşhis (d)) sık sık yanlışlıkla "karıştırılıyor" olurdu. ED'deki j gönderemez; sessizliği kanıttır (T-6). Ölen ya da uzaklaşan j de böyle görünür; zararı yok, bağ kullanılmaz ve `T_SILME`'de silinir.
-7. j'ye `MAC_ARDISIK` ardışık vazgeçme **ve** (j'den son 2 aralıkta selam yok ya da kendi girişim işaretim var) → "karıştırılıyor". Vazgeçme tek başına karar değildir (T-9); teşhis (d)'de tek başına geç ve seyrekti.
-8. **Bitti, sebebe göre** (sebep KK-01'in hatırasında):
+1. **Büyüklükler:**
+   - `m` = son saniyedeki kanal meşgul payı;
+   - `c` = son saniyede çözülen çerçeve sayısı;
+   - `c̄` = son 30 işaretsiz saniyenin ortalaması (30'dan azsa olanların; hiç yoksa tanımsız);
+   - `s` = selam kaybı payı, aşağıdaki sayımla.
+2. **`s`'nin sayımı** (protokolün görebildiği veriyle): tanıdık komşu = son 16 s'de en az bir selamı alınmış komşu. Her tanıdık komşu j için son 4 s'de `gelen_j` = alınan selam sayısı, `kacan_j` = KK-01 kural 3'ün zaman aşımı kuralıyla, dondurmadan bağımsız (ham) sayılan kayıp. `s = Σ kacan / Σ (gelen + kacan)`. Payda 0 ise `s` tanımsızdır ve girişim işareti çıkmaz. Not: teşhis (d)'deki 0,6 eşiği göndericinin gerçek selam zamanlarıyla (protokolün göremeyeceği bilgi) ve Babel'in 4 s'lik Hello'suyla ölçüldü; buradaki sayım protokolün kendi tahminidir, eşik A/B'de yeniden ayarlanır (`17` §7 madde 7).
+3. **İşaretler:** ED işareti `m ≥ ED_ESIGI`. Girişim işareti `c̄` ve `s` tanımlıyken `c < DUSUS_ORANI · c̄` **ve** `s ≥ KAYIP_ESIGI`. "İşaretsiz saniye": iki işaret de yok.
+4. **Durum:**
+   - "karıştırılıyorum"a giriş: ED işareti 1 saniye ya da girişim işareti `GIRIS_SANIYE` ardışık saniye. Kaynak, girişe yol açan işaretin türüdür; durum sürerken öteki işaret görülürse kaynak son görülen işaretin türü olur.
+   - "bitti": kaynak ED ise 1 işaretsiz saniye (ED eşiğinin yanlış alarmı çok küçük); kaynak girişimse `CIKIS_SANIYE` ardışık işaretsiz saniye.
+   - Durum selamın `karistiriliyorum` bitine yazılır (`alici_bildirimi` açıkken; değişimi olaydır, KK-02).
 
-| "karıştırılıyor"un sebebi | "bitti" |
+**B · Komşu j'ye bağ kanıtı** (göndericide; bağ OLAĞAN ya da ASKIDA iken)
+
+5. **Bit:** j'nin selamında `karistiriliyorum` = 1 → kanıt, sebep "bit" (alıcı söyledi; `alici_bildirimi` açıkken).
+6. **Sessizlik:** j'nin `gecmis`inin sonunda ardışık `k` sıfır → kanıt, sebep "sessizlik". `k = min(N, max(3, ⌈log 0,01 / log(1 − d_r)⌉))`; `d_r` sondaki ardışık sıfırlar hariç hesaplanır (sessizlikten önceki kalite); tanımsızsa `k = N`. Örnekler: `d_r` 0,9 ya da 0,8 → 3; 0,6 → 6; 0,5 → 7; 0,25 ve altı → 16. Anlamı: bağın kendi kayıp oranıyla %1'den düşük olasılıkla açıklanabilecek bir sessizlik. ED'deki j gönderemez; sessizliği kanıttır (T-6). Ölen ya da uzaklaşan j de böyle görünür; zararı yok, bağ kullanılmaz ve `T_SILME`'de silinir.
+7. **MAC:** j'ye `MAC_ARDISIK` ardışık vazgeçme **ve** j'den son `2·a` içinde selam yok → kanıt, sebep "sessizlik". Vazgeçme tek başına kanıt değildir (T-9; teşhis (d)'de tek başına geç ve seyrekti).
+8. **Kendim karıştırılırken** MAC sonuçları bağ kanıtı sayılmaz, veri tetiğine de girmez (KK-01 kural 13); ardıl korunur. Sebep: bütün komşulara başarısızlık gönderenin kendisini gösterir (T-6); veri çerçevesi alandan dışarıdaki ardıla çoğu zaman ulaşır, onayı ise ben duyamam; yedeğe geçmek bir şey kazandırmaz (17 Kasım, denetim B-11; `17` T-9).
+9. **Bitti, sebebe göre:**
+
+| sebep | o sebebin "bitti"si |
 |---|---|
-| j'nin biti (kural 5) | j'den bit = 0 olan 2 ardışık selam |
-| j'nin sessizliği (kural 6) ya da MAC + j'nin sessizliği (kural 7) | j'den 2 ardışık selam (bit = 0) |
-| MAC + kendi girişim işaretim (kural 7) | kendi durumumun "bitti"si (kural 4) |
-| veri tetiği (KK-01 kural 5) | göstergenin kaynağına göre: j'nin biti ya da kendi durumum |
+| bit | j'den `karistiriliyorum` = 0 olan 2 ardışık selam (varış sırasıyla) |
+| sessizlik | j'den 2 ardışık selam (varış sırasıyla), ikisi de bit = 0; bit = 1 gelirse "bit" sebebi kümeye eklenir |
 
-   Sebebe bağlanmasaydı, kendi karıştırılmam yüzünden işaretlenen bir bağ, j'nin bit = 0 olan olağan selamlarıyla hemen "bitmiş" sayılır ve bağ gidip gelirdi.
+   Kümedeki bütün sebeplerin "bitti"si gelince KK-01'e "bitti" verilir. "Kendi" sebebi yoktur (kural 8): kendi karıştırılmam bağları değiştirmez.
 
-**C · Sınırlar:**
-9. Sinyal tutarlılığı (RSSI) başlangıç kuralına girmez: teşhis (d)'de zayıftı (AUC 0,71). Protokol bu sürümde RSSI okumaz; A/B'de denenirse ölçüm hatasının (σ 2 dB) duyarlılığı da ölçülür (`04` §9).
+**C · Sınırlar**
+
 10. Bütün eşikler başlangıçtır; birleşik kuralın başarısı ve yanlış alarmı A/B'de ölçülür (`17` §7 madde 6–7).
+11. Sinyal tutarlılığı (RSSI) başlangıç kuralına girmez: teşhis (d)'de zayıftı (AUC 0,71). Protokol bu sürümde RSSI okumaz; A/B'de denenirse ölçüm hatasının (σ 2 dB) duyarlılığı da ölçülür (`04` §9).
 
 ## Örnek
 
-Girişim alanındaki bir düğüm saniyede ortalama 99 çerçeve çözüyordu (`c̄`). Karıştırıcı açılınca 45 çözüyor (< 0,5 × 99) ve tanıdık komşularından beklediği selamların %70'i gelmiyor (≥ 0,6). İki saniye üst üste böyle olunca "karıştırılıyorum" der ve bunu bir sonraki selamında bildirir. Ona veri gönderen komşu, selamı görünce bu bağı KARIŞTIRILIYOR'a alır ve hazır yedeğe geçer (KK-04). Karıştırıcı susunca üç saniye işaretsiz geçer, bit 0'a döner, komşular iki temiz selamdan sonra bağı hatırlanan ETX'le geri alır.
+Girişim alanındaki bir düğüm saniyede ortalama 99 çerçeve çözüyordu (`c̄`). Karıştırıcı açılınca 45 çözüyor (< 0,5 × 99) ve tanıdık komşularından beklediği selamların %70'i gelmiyor (≥ 0,6). İki saniye üst üste böyle olunca "karıştırılıyorum" der, bunu hemen bir selamla bildirir ve kendi ölçümlerini dondurur. Bu sırada kendi gönderimleri onay alamasa da ardılını değiştirmez. Ona veri gönderen komşu selamdaki biti görünce bu bağı KARIŞTIRILIYOR'a alır ve hazır yedeğe geçer (KK-04). Karıştırıcı susunca üç işaretsiz saniye geçer, bit 0'a döner; komşular iki temiz selamdan sonra bağı hatırlanan ETX'le geri alır.
 
 ## Sınanması
 
-- `karistirma_durumu` açık ↔ kapalı: birincil ve dayanıklılık hücresinde `PDR_açık`; ikizde zarar yok (yanlış alarmın bedeli). Mekanizma kapısına girer (`06` §0.4.5).
-- `alici_bildirimi` açık ↔ kapalı: kural B5'in payı.
-- Tanı kaydı: yanlış alarm (ikizde "karıştırılıyorum" denen düğüm-saniye) ve tespit süresi (açılmadan kararın verilmesine kadar).
+- `karistirma_durumu` açık ↔ kapalı: birincil ve dayanıklılık hücresinde `PDR_açık`; ikizde zarar yok (yanlış alarmın bedeli). Mekanizma kapısına girer (`06` §0.4.5; `KK-00`).
+- `alici_bildirimi` açık ↔ kapalı: kural 5'in payı.
+- Tanı kaydı: yanlış alarm (ikizde "karıştırılıyorum" denen düğüm-saniye) · tespit süresi (açılmadan karara kadar) · girişim kaynaklı durumun bir açık dönemdeki geçiş sayısı (denetim S-4).
 
 ## Kaynak
 
-İşaretler ve en uzun boşluk Puñal 2014 [23]; komşularla birleştirme [23]; karıştırılan bölgenin etrafından dolaşma [59]; ardışık olay eşiği ve kendi ortalamasına göre düşüş bu tasarımın (teşhis (d)'nin ölçümüyle).
+İşaretler ve en uzun boşluk Puñal 2014 [23]; komşularla birleştirme [23]; karıştırılan bölgenin etrafından dolaşma [59]; ardışık olay eşiği, kendi ortalamasına göre düşüş ve sebebe göre bitiş bu tasarımın (teşhis (d)'nin ölçümüyle).

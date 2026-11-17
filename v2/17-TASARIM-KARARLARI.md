@@ -57,7 +57,7 @@ Protokol karıştırıcının çizelgesini bilmez ve ona göre ayarlanmaz: bağ�
 
 **T-2 · Bağ kalitesi: iki yönlü teslim oranı.**
 - Bağın maliyeti beklenen gönderim sayısıdır: `ETX = 1 / (d_f · d_r)`. `d_f` komşunun benden aldığı selam oranı (komşu bildirir), `d_r` benim komşudan aldığım selam oranı. Kaç selamın kaybolduğu sıra numarasından bilinir. Yol maliyeti, bağ maliyetlerinin toplamıdır.
-- Kullandığım bağlarda kendi veri gönderimlerimin sonucu (`iletim_sonucu`, K-151) kullanılabilirliğe girer, maliyete girmez: veri denemelerinin belirgin biçimde kötü gösterdiği bağ KÖTÜ olur (T-3). Sebep: selam küçüktür ve büyük veri paketinin kaybını olduğundan iyi gösterir [36]; veri denemelerinin başarısı ise kanal yüküne bağlıdır, maliyete girerse T-4'ün kaçındığı salınım geri gelir (17 Kasım; `kural/KK-01`).
+- Kullandığım bağlarda kendi veri gönderimlerimin sonucu (`iletim_sonucu`, K-151) kullanılabilirliğe girer, maliyete girmez: veri denemelerinin belirgin biçimde kötü gösterdiği bağ hemen kullanımdan çıkar (askıda); kısa süre içinde karıştırma kanıtı gelirse "karıştırılıyor" (T-7), gelmezse KÖTÜ olur (T-3). Askıda durumu, karıştırıcıya çok yakın ve selam gönderemeyen alıcının bağının kötü bağ sanılmasını önler (17 Kasım, kural kâğıtlarının bağımsız denetimi B-2; `kural/KK-01`). Sebep: selam küçüktür ve büyük veri paketinin kaybını olduğundan iyi gösterir [36]; veri denemelerinin başarısı ise kanal yüküne bağlıdır, maliyete girerse T-4'ün kaçındığı salınım geri gelir (17 Kasım; `kural/KK-01`).
 - Dinlenen çerçeveler komşunun varlığını kanıtlar, teslim oranını tek başına vermez: komşunun kaç çerçeve gönderdiği bilinmeden "kaçını duydum" bir oran değildir.
 - Sinyal gücü (RSSI) maliyete girmez; yalnız bağlam olarak kullanılır [23], [57].
 - Gerekçe: teslim oranı kaliteyi doğrudan ölçer, en çok sınanmış ölçüdür ve raporda açıkça savunulabilir. v0.4.1'in M0.1'i yalnız kendi unicast sonuçlarını kullandığı için az trafik taşıyan iyi bir bağı belirsizlik cezasıyla pahalı gösteriyordu.
@@ -141,6 +141,7 @@ Yol iki sebeple değişir ve ikisinin kuralı ayrıdır: **zorunlu geçiş** (ar
 - MAC'in bir çerçeveden vazgeçmesi (`iletim_basarisiz`) ardılı tek başına bıraktırmaz; T-5 ve T-6'nın kanıtına girer.
 - Kanıt birikince bağ "karıştırılıyor" durumuna (T-7), kalitesi üst sınırı aşınca kullanılmaz duruma (T-3) geçer ve ardıl hazır bir yedeğe yerelde değiştirilir.
 - Onarım yalnız hiç uygun yedek yoksa başlar.
+- Kendim karıştırılırken MAC başarısızlıkları bağ durumunu değiştirmez; ardıl korunur. Bütün komşulara başarısızlık gönderenin kendisini gösterir (T-6): veri çerçevesi alandan dışarıdaki ardıla çoğu zaman ulaşır, onayını ben duyamam; yedeğe geçmek bir şey kazandırmaz (17 Kasım, kural kâğıtlarının bağımsız denetimi B-11; `kural/KK-03` kural 8).
 - Gerekçe: Babel'in tepkisizliği kesik bağa göndermeyi sürdürüyor, v0.4.1'in aşırı tepkisi kalabalık kanaldaki her çarpışmada onarım başlatıyor. MAC sonucunu karar değil kanıt saymak bu ikisinin arasındaki seçimimdir.
 
 **T-10 · Kanıtın eşiği: birkaç ardışık olay, iki yönde de.**
@@ -178,7 +179,7 @@ Yedek, döngü yaratmadan geçilebilecek komşudur; hangi komşunun güvenli old
 
 **T-13 · Açlık: hemen istek.**
 - Uygun komşu kalmayınca yeni tur hemen istenir. Seçili rotasının turu istenen kadar yeni olan herhangi bir düğüm yanıtlar, olmayan isteği geçide doğru iletir; tur yalnız geçitte ve bir artar.
-- Seçili rotaya uygulanamaz bir güncelleme gelirse güncelleme yok sayılır: rota son kabul edilen maliyetiyle seçili kalır ve yeni tur istenir. Güncelleme uygulanırsa rota hemen bırakılır; uygulanamaz bir rota seçili tutulmaz (17 Kasım, denetim E-2).
+- Seçili rotaya uygulanamaz bir güncelleme gelirse güncelleme yok sayılır: rota son kabul edilen maliyetiyle seçili kalır ve yeni tur istenir. Güncelleme uygulanırsa rota hemen bırakılır; uygulanamaz bir rota seçili tutulmaz (17 Kasım, denetim E-2). Geri çekme (∞ ilan) her zaman uygulanabilirdir ve yok sayılmaz: seçili ardıldan gelirse ardıl hemen bırakılır (RFC 8966 §3.5.1; kural kâğıtlarının bağımsız denetimi B-1).
 - Tur düzenli aralıklarla artırılmaz: yeni tur kimi zaman önce dolambaçlı bir yoldan ulaşır ve rotalar her turda çalkalanır (T-11'e ters).
 - Gerekçe: v0.4.1'in bekleyen ve yalnız kendi paketiyle soran açlık çözümü açık dönemde 0,237'lik rota yokluğu kaybının başlıca kaynağı; aynı FD kuralını kullanan Babel hemen soruyor ve aynı hücrede rota yokluğu kaybı 0,000.
 - Bedeli kontrol trafiğidir; isteklerin yinelenmesi ve sıklığı kontrol yükü konusunda sınırlanır.
