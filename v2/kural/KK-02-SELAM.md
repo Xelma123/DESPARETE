@@ -29,7 +29,9 @@ Boyut: sabit 9 bayt + komşu başına 2 bayt. 15 komşuyla 39 bayt; 64 baytlık 
    - `karistiriliyorum` bitim değişti (KK-03);
    - yeni bir komşu duyuldu (iki yönlü ölçüm çabuk kurulsun).
    Bir komşunun durumunun değişmesi tek başına olay değildir: rotamı değiştiriyorsa maliyet ya da tur maddesine zaten girer. Böylece karıştırma sırasında, kanal zorlanırken selam seli oluşmaz.
+   T-10'un "karıştırma başlayınca selamlar sıklaşır"ı böyle karşılanır: karıştırılan düğüm bitini değiştirince, rotası etkilenen komşular da maliyetlerini ilan edince aralıkları en küçüğe iner.
 4. **Ara ilan ayrı bir ileti değildir:** sıra numarası alır, KK-01'in sayımına girer ve aralığı sıfırlar.
+4a. **Gönderemezken selam kurulmaz:** kendi ED işaretim varken (KK-03; kanal meşgul, gönderemem) yeni selam kurulmaz; işaret bitince hemen bir selam gönderilir. Sebep: ileti içeriği kurulduğu anda donar; karıştırma boyunca biriken selamlar kanal açılınca bayat bilgiyle (eski maliyet, eski bit) art arda giderdi.
 5. **Alınca:** KK-01'e (sıra, aralık, benim için bildirilen oran), KK-03'e (bit, selam geldi olayı), KK-04'e (tur, maliyet) dağıtılır. Göndereni listesinde beni bildirmiyorsa `d_f = 0`.
 6. `maliyet` ve `tur` ilan edildiği anda KK-04'ün FD'si güncellenir (T-12).
 

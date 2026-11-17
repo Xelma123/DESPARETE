@@ -32,7 +32,7 @@ Her kâğıtta: amaç ve sınıf · gördüğü · tuttuğu · kurallar · değe
 | `ED_ESIGI` | kanal meşgul payı ≥ 0,62 | KK-03 | teşhis (d): %80 yakalama, ikizde %0,035 yanlış alarm |
 | `DUSUS_ORANI` | çözülen < 0,5 × kendi ortalaması | KK-03 | teşhis (d): girişimde 49 ↔ 99/s |
 | `KAYIP_ESIGI` | selam kaybı ≥ 0,6 | KK-03 | teşhis (d): girişimde 0,69 ↔ temiz 0,44 |
-| `GIRIS_SANIYE` · `CIKIS_SANIYE` | 2 · 3 ardışık saniye | KK-03 | T-10 |
+| `GIRIS_SANIYE` · `CIKIS_SANIYE` | girişim 2 · 3 ardışık saniye; ED 1 · 1 | KK-03 | T-10; ED eşiğinin yanlış alarmı %0,035 |
 | `SESSIZ_SELAM` | en az 3 ardışık beklenen selam; bağın kendi kaybıyla olasılığı < %1 olacak kadar | KK-03 | T-6; temizde selam kaybı 0,44 (teşhis (d)) |
 | `MAC_ARDISIK` | 3 vazgeçme | KK-03 | teşhis (d): `n* = 3` |
 | `GECIS_ORANI` | %10 | KK-04 | Ramachandran [54]; T-11 |
@@ -41,6 +41,12 @@ Her kâğıtta: amaç ve sınıf · gördüğü · tuttuğu · kurallar · değe
 | `ISTEK_ATLAMA` | 8 | KK-04 | isteğin geçide doğru iletilme sınırı |
 | `TUTMA_EN_COK` | 2 s (atlama başına) | KK-05 | T-18 |
 | `IZ_TAZELIK` | 3 s | KK-05 | telemetri saniyede bir |
+
+## Gözlemin kullanımı (`05`; mimari denetimi D17)
+
+| okur | okumaz |
+|---|---|
+| `mesgul_sure_s` (`kanal_dolulugu_ister`) · `alinan_cerceve` · `saat_s` (yalnız süreler) · `kontrol_alindi` (selam, tur isteği) · `iletim_sonucu` · `iletim_basarisiz` · `cerceve_duyuldu`'nun göndereni, türü, hedefi ve veri çerçevesinin başlığı · karar anında paketin başlığı · geçidin kimliği (yapılandırma) | `olculen_gurultu_w` (yasak, K-227) · `cerceve_duyuldu`'nun RSSI'ı (KK-03 kural 9) · `phy_hata` (teşhis (d)'de zayıf) · `kendi_konum` · `kendi_hiz` · `komsular` (simülatörün beacon listesi; kendi selamı var, `kosum_beaconi = False`) |
 
 ## Ablasyon bayrakları ve sınıflar (K-247: sınıf ve amaç ölçmeden önce)
 
