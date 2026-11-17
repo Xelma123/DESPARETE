@@ -141,7 +141,7 @@ Yol iki sebeple değişir ve ikisinin kuralı ayrıdır: **zorunlu geçiş** (ar
 - MAC'in bir çerçeveden vazgeçmesi (`iletim_basarisiz`) ardılı tek başına bıraktırmaz; T-5 ve T-6'nın kanıtına girer.
 - Kanıt birikince bağ "karıştırılıyor" durumuna (T-7), kalitesi üst sınırı aşınca kullanılmaz duruma (T-3) geçer ve ardıl hazır bir yedeğe yerelde değiştirilir.
 - Onarım yalnız hiç uygun yedek yoksa başlar.
-- Kendim karıştırılırken MAC başarısızlıkları bağ durumunu değiştirmez; ardıl korunur. Bütün komşulara başarısızlık gönderenin kendisini gösterir (T-6): veri çerçevesi alandan dışarıdaki ardıla çoğu zaman ulaşır, onayını ben duyamam; yedeğe geçmek bir şey kazandırmaz (17 Kasım, kural kâğıtlarının bağımsız denetimi B-11; `kural/KK-03` kural 8).
+- Kendim karıştırılırken MAC başarısızlıkları bağ durumunu değiştirmez; ardıl korunur. Bütün komşulara başarısızlık gönderenin kendisini gösterir (T-6): veri çerçevesi alandan dışarıdaki ardıla çoğu zaman ulaşır, onayını ben duyamam; yedeğe geçmek bir şey kazandırmaz (17 Kasım, kural kâğıtlarının bağımsız denetimi B-11; `kural/KK-03` kural 8). Bu dondurmanın üst süresi 30 s'dir (KARIŞTIRILIYOR'unkiyle aynı): süre dolunca bağlar yeniden ölçülür, MAC sonuçları yeniden kanıt sayılır; bit, işaretler sürdükçe bildirilir. Böylece ardılım bu sırada ölür ya da uzaklaşırsa, uzun karıştırmada en geç 30 s sonra bırakılır (18 Kasım, bağımsız denetimin ikinci okuması Y-6; `kural/KK-01` kural 13).
 - Gerekçe: Babel'in tepkisizliği kesik bağa göndermeyi sürdürüyor, v0.4.1'in aşırı tepkisi kalabalık kanaldaki her çarpışmada onarım başlatıyor. MAC sonucunu karar değil kanıt saymak bu ikisinin arasındaki seçimimdir.
 
 **T-10 · Kanıtın eşiği: birkaç ardışık olay, iki yönde de.**

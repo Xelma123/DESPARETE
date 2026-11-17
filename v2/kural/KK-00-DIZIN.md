@@ -1,6 +1,6 @@
 # KK-00 · Kural kâğıtları — dizin, genel kurallar, değerler, bayraklar
 
-> Faz 5-3 (`12` §1.2). Kararlar `17`de (T-1…T-20); kural kâğıtları onları kurallara, formüllere ve başlangıç değerlerine çevirir. Kod bu kâğıtlardan yazılır; kod yorumları `KK-n` ve `T-n`e atıf verir. Değerler başlangıçtır, geliştirme tohumlarında (1003–1010) A/B ile ayarlanır. Bağımsız denetim: `arsiv/denetim/DENETIM-RAPORU-KURAL-2026-11-17.md` ve kapanışı. Güncel: 17 Kasım 2026.
+> Faz 5-3 (`12` §1.2). Kararlar `17`de (T-1…T-20); kural kâğıtları onları kurallara, formüllere ve başlangıç değerlerine çevirir. Kod bu kâğıtlardan yazılır (`protokoller/desparete5*.py`; değerler ve bayraklar `desparete5_bicim.py`); kod yorumları `KK-n` ve `T-n`e atıf verir. Değerler başlangıçtır, geliştirme tohumlarında (1003–1010) A/B ile ayarlanır. Bağımsız denetim: `arsiv/denetim/DENETIM-RAPORU-KURAL-2026-11-17.md` ve kapanışı. Güncel: 18 Kasım 2026 (kodlamayla Y-4 · Y-6 · Y-9 · Y-11).
 
 ## Kâğıtlar
 
@@ -28,12 +28,13 @@ Her kâğıtta: amaç ve sınıf · gördüğü · tuttuğu · kurallar · örne
 | `ORNEK_EN_AZ` | 4 selam | KK-01 | yeni komşu ancak ölçülünce aday |
 | `E_CIK` · `E_DON` | 4 · 3 (ETX) | KK-01 | MRHOF üst sınırı 4 [64]; iki eşik T-3 |
 | `VERI_PENCERE` · `VERI_EN_AZ` | son 8 veri çerçevesi, ≤ 10 s · en az 4 çerçeve | KK-01 | T-2'nin veri örneği; tek başarısız çerçeve tetiklemesin (denetim B-12) |
-| `ASKIDA_SURE` | `min((k + 1) · a, 10 s)`, en az 1 s (`k` KK-03 kural 6, `a` komşunun aralığı) | KK-01 | sessizlik kanıtı son selamdan `(k + 0,5) · a` sonra tamamlanır; askıda süre onu bekler |
+| `ASKIDA_SURE` | `min((k + 1) · a, 10 s)`, en az 1 s (`k` KK-03 kural 6, `a` komşunun aralığı); `karistirma_durumu` kapalıyken 0 (Y-4) | KK-01 | sessizlik kanıtı son selamdan `(k + 0,5) · a` sonra tamamlanır; askıda süre onu bekler. Bit kanıtının gecikmesini kapsayan alt sınır (Y-1) karıştırma A/B'lerinin beklentisinden önce yazılır |
 | `T_HATIRA` | 30 s | KK-01 | karıştırılıyor süresi iki çizelgede 11–15 s; teşhis (d) S3'te kullanılan bağların 7 denemelik başarısı 32 s'de bant değiştirmiyor (doymuş ölçü; tek deneme başarısı ölçülmedi, `17` §7 madde 8) |
+| `KENDI_UST_SURE` | 30 s (= `T_HATIRA`) | KK-01 | kendi "karıştırılıyorum" dondurmasının üst süresi; her dondurmanın üst süresi aynı (18 Kasım, Y-6) |
 | `T_CEZA` | 10 s; 60 s içinde yinelenirse ×2, en çok 40 s | KK-01 | veriyle KÖTÜ'ye düşen bağın gidip gelmesini önler; karıştırma kanıtıyla sınıflanan düşüşler sayılmaz |
 | `T_SILME` | 30 s hiç duyulmazsa | KK-01 | İlke 2; 15 s'lik karıştırmada silinmesin |
 | `ZAMAN_ASIMI` | 1,5 × komşunun aralığı | KK-01, KK-03 | Babel'in katsayısı (`protokoller/babel_bicim.py`, `HELLO_ZAMAN_ASIMI_KATSAYISI`) |
-| `I_MIN` · `I_MAX` | 0,5 s · 2 s | KK-02 | `k = 3` ve `a = 2 s` iken sessizlik kanıtı son selamdan 7 s, karıştırmanın başlangıcından 5–7 s sonra; yalnız `d_r ≥ 0,8` bağlarda 10 s'lik açık dönemden kısa (`d_r` 0,6 → 11–13 s); `17` §7 madde 3 |
+| `I_MIN` · `I_MAX` | 0,5 s · 2 s | KK-02 | ilan edilen aralık `I_MAX`'ın 1,1 katı, 2,2 s; `k = 3` iken sessizlik kanıtı son selamdan 7,7 s, karıştırmanın başlangıcından 5,5–7,7 s sonra; yalnız `d_r ≥ 0,8` bağlarda 10 s'lik açık dönemden kısa (`d_r` 0,6 → 12,1–14,3 s); KK-03 kural 7'nin `2·a`'sı 4,4 s; `17` §7 madde 3 (Y-9) |
 | `SELAM_ARASI_EN_AZ` | `I_MIN` | KK-02 | T-17'nin sıklık sınırı; değişimler birleşir |
 | `ILAN_ESIGI` | %15 | KK-02 | maliyet değişiminin "önemli" sayılması |
 | `ED_ESIGI` | kanal meşgul payı ≥ 0,62 | KK-03 | teşhis (d): %80 yakalama, ikizde %0,035 yanlış alarm |
@@ -44,7 +45,7 @@ Her kâğıtta: amaç ve sınıf · gördüğü · tuttuğu · kurallar · örne
 | `GECIS_ORANI` | %10 | KK-04 | Ramachandran [54]; T-11 |
 | `ISTEK_YINELEME` | 3 kez, 0,5 s arayla | KK-04 | sayı Babel'in (`ISTEK_TEKRAR`); aralık bu tasarımın (Babel 2 s'den başlayıp katlıyor) |
 | `ISTEK_ARA` | 5 s | KK-04 | açlık sürerse istek dizisinin yinelenmesi; uygulanamaz ilanı yok saymanın üst süresi |
-| `ISTEK_ANIMSA` | 2 s | KK-04 | iletilen isteğin yanıtını istek yolundan geri yaymak için (RFC 8966 §3.8.1.2'deki liste) |
+| `ISTEK_ANIMSA` | 4 s; istek yinelendikçe tazelenir | KK-04 | iletilen isteğin yanıtını istek yolundan geri yaymak için (RFC 8966 §3.8.1.2'deki liste). Yanıt atlama başına en çok ~0,56 s geri döner (`I_MIN` + titreşim); 5 atlamada ~2,3 s, yinelemeyle (2 × 0,5 s) ~3,3 s: 2 s yetmiyordu (Y-11) |
 | `ISTEK_ATLAMA` | 64 | KK-04 | RFC 8966 §3.8.2.1: ağın çapından büyük; çap tanı kaydında ölçülür |
 | `TUTMA_EN_COK` | 2 s (atlama başına) | KK-05 | T-18 |
 | `IZ_TAZELIK` | 3 s | KK-05 | telemetri saniyede bir |
@@ -60,8 +61,8 @@ Her kâğıtta: amaç ve sınıf · gördüğü · tuttuğu · kurallar · örne
 | mekanizma | kâğıt · kural | bayrak | sınıf | kapalıyken |
 |---|---|---|---|---|
 | selamdan ETX, iki eşik, silme | KK-01 1–5, 11–12, 14 | çekirdek | genel | (protokolün temeli) |
-| veri tetiği, ASKIDA, ceza | KK-01 6–8, 11 | `veri_kotu_tetigi` | genel | ETX yalnız selamdan; ASKIDA ve ceza yok |
-| kendi durumum, bağ kanıtı, KARIŞTIRILIYOR, dondurmalar, kendim karıştırılırken MAC'in yok sayılması, gönderemezken selam kurulmaması, açlıkta isteğin bastırılması | KK-03 1–9 · KK-01 9–10, 13 · KK-02 5 · KK-04 8 | `karistirma_durumu` | karıştırmaya karşı | KK-03 çalışmaz; KARIŞTIRILIYOR'a girilmez; dondurma yok; MAC sonuçları her zaman veri tetiğine girer; veri tetiğiyle ASKIDA'ya giren bağ süre dolunca KÖTÜ olur |
+| veri tetiği, ceza | KK-01 6–7, 11 | `veri_kotu_tetigi` | genel | ETX yalnız selamdan; ASKIDA ve ceza yok |
+| kendi durumum, bağ kanıtı, KARIŞTIRILIYOR, ASKIDA'nın beklemesi, dondurmalar, kendim karıştırılırken MAC'in yok sayılması, gönderemezken selam kurulmaması, açlıkta isteğin bastırılması | KK-03 1–9 · KK-01 7–10, 13 · KK-02 5 · KK-04 8 | `karistirma_durumu` | karıştırmaya karşı | KK-03 çalışmaz; KARIŞTIRILIYOR'a girilmez; dondurma yok; MAC sonuçları her zaman veri tetiğine girer; veri tetiği bağı ASKIDA'da bekletmeden KÖTÜ'ye ve cezaya götürür (Y-4); `alici_bildirimi` ve `hatirlanan_kalite` de kapalı olmak zorunda |
 | alıcının biti | KK-02 alan · KK-03 5 | `alici_bildirimi` | karıştırmaya karşı | bit hep 0 gönderilir, okunmaz, değişimi olay değildir (alan kalır, boyut aynı) |
 | hatırlanan kalite | KK-01 10 | `hatirlanan_kalite` | karıştırmaya karşı | dönüşte `gecmis` boşaltılır, bağ KÖTÜ'den yeniden ölçülür; dondurmalar sürer |
 | uyarlanır aralık | KK-02 2 | `uyarlanir_aralik` | genel | `I` sabit `I_MAX`; ara ilan sürer |

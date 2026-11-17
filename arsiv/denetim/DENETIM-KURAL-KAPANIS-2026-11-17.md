@@ -63,3 +63,30 @@ Kodlamayla birlikte kapatılacak açık bulgular (ayrıntı ikinci raporun §2's
 | Y-6 | kendi "karıştırılıyorum" durumuma üst süre (küçük bir karar) | uzun açık dönemli herhangi bir hücreden önce |
 | Y-7 … Y-12 | hatıranın kaynağı · KÖTÜ → OLAĞAN'da bit ve ∞'un tur alanı · dayanak sayıları · `kacan`'da geri alma · istek kaydının tazelenmesi ve `ISTEK_ANIMSA` · `d_r`'nin listeye girişi | kodla birlikte |
 | Z-1 … Z-4 | ASKIDA'nın yanlış alarm bedeli · yeni turun yayılma penceresi · B-11'in kanal bedeli · kenar bağlarda ASKIDA tavanı | tanı kaydında izlenir |
+
+## Kodlamada kapananlar (18 Kasım)
+
+Bağın durumu (`KK-01`) ve selam (`KK-02`) kodlandı: `protokoller/desparete5_bicim.py` · `desparete5_bag.py` · `desparete5_selam.py`; testler `tests2/test_desparete5_bag.py` · `test_desparete5_selam.py` (46 test). Kâğıtlar kodla birlikte düzeltildi.
+
+| bulgu | yapılan | yer |
+|---|---|---|
+| Y-2 | Kendi durumum başlarken ASKIDA'daki bağ girişteki ölçüyle OLAĞAN'a döner, veri penceresi boşalır, ceza sayılmaz | KK-01 kural 13 |
+| Y-4 | `karistirma_durumu` kapalıyken ASKIDA beklemesi yok: veri tetiği doğrudan KÖTÜ'ye ve cezaya; ASKIDA'nın beklemesi karıştırmaya karşı sınıfta. İlk ölçümün çekirdeğinde bu bayrak kapalı olduğu için kapının beklentisinden önce kapatıldı | KK-01 kural 7 · KK-00 |
+| Y-5 | `uyarlanir_aralik` kapalıyken ara ilan `I`'yı değiştirmez | KK-02 kural 3 |
+| Y-6 | Kararım (18 Kasım): kendi dondurmamın üst süresi 30 s (`T_HATIRA` ile aynı); süre dolunca bağlar yeniden ölçülür, MAC yeniden kanıttır; bit ve gönderemezken selam kurulmaması durum sürdükçe sürer | `17` T-9 · KK-01 kural 13 · KK-03 kural 8 · KK-00 |
+| Y-7 | Hatıra: ASKIDA'dan geliniyorsa girişteki ölçü, değilse bugünkü; sondaki 0'lar atılır, o anki `d_f` | KK-01 kural 9 |
+| Y-8 | KÖTÜ'den çıkaran selamın biti 1 ise doğrudan KARIŞTIRILIYOR (∞ ilanın tur alanı rota kâğıdıyla kodlanırken) | KK-01 kural 12 |
+| Y-9 | Dayanak sayıları ilan edilen 2,2 s'lik aralıkla düzeltildi | KK-00 |
+| Y-10 | `s` dondurulmayan gölge geçmişten: zaman aşımı, sıra boşluğu ve geri alma dâhil | KK-03 kural 2 |
+| Y-11 | `ISTEK_ANIMSA` 4 s, yinelemede tazelenir (kuralı rota kâğıdıyla kodlanırken) | KK-00 |
+| Y-12 | Listeye en az 4 örnekten sonra girilir; listede olmamak "bilinmiyor" (`d_f` değişmez), 30 s bildirilmezse tanımsız | KK-01 "Gördüğü" · KK-02 alan tablosu, kural 6 |
+
+Kodlamada bulunan boşluklar:
+
+| | yapılan | yer |
+|---|---|---|
+| G-3 | Sondaki k sıfırın KÖTÜ'ye yol açmaması kuralların sırasından gelir; `karistirma_durumu` kapalıyken istisna yok, sessiz komşu ETX'ten KÖTÜ olur | KK-01 kural 15 |
+| G-4 | Geri alma, kaynağındaki gibi fazla sayılan bütün kayıtları geri alır (yalnız sonuncuyu değil) | KK-01 kural 2 |
+| G-5 | Selam uyandırma anında kurulur, titreşim uyandırmaya eklenir | KK-02 kural 1 |
+
+Açık kalanlar: Y-3 (karıştırma kanıtının kendi durumu kodlanırken) · Y-1 (karıştırma A/B'lerinin beklentisinden önce) · Y-8'in ikinci yarısı ve Y-11'in kuralı (rota kodlanırken). Tanıda izlenecek bir sorun: olaydan sonra ilan edilen aralık 0,55 s iken iki selam art arda kaybolursa zaman aşımı üç sıfır sayar ve sessizlik kanıtı erken çıkar (yanlış alarm, iki temiz selamla geri döner).
