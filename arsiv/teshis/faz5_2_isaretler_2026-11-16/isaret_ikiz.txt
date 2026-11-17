@@ -1,0 +1,13 @@
+==============================================================================
+KARISTIRMA ISARETLERI — dunya referans_2026 · formasyon-yok · aile — · tohum [1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]
+==============================================================================
+    1/8 babel                                      1007 · PDR(pencere) 0.9569 · 4686 s · {'mesgul_s': 3374.648, 'cozulen': 1145405, 'phy': 349882, 'mac_olay': 49186, 'selam_gonderilen': 4018, 'selam_alinan': 25922}
+    2/8 babel                                      1004 · PDR(pencere) 0.9542 · 5406 s · {'mesgul_s': 3861.963, 'cozulen': 1216439, 'phy': 450953, 'mac_olay': 57735, 'selam_gonderilen': 4002, 'selam_alinan': 22813}
+    3/8 babel                                      1010 · PDR(pencere) 0.9231 · 5432 s · {'mesgul_s': 3957.766, 'cozulen': 1292321, 'phy': 467457, 'mac_olay': 52779, 'selam_gonderilen': 4008, 'selam_alinan': 24245}
+    4/8 babel                                      1008 · PDR(pencere) 0.9399 · 5497 s · {'mesgul_s': 4072.048, 'cozulen': 1383539, 'phy': 443382, 'mac_olay': 52123, 'selam_gonderilen': 4009, 'selam_alinan': 26579}
+    5/8 babel                                      1003 · PDR(pencere) 0.9438 · 5511 s · {'mesgul_s': 3919.982, 'cozulen': 1261923, 'phy': 444521, 'mac_olay': 59990, 'selam_gonderilen': 4007, 'selam_alinan': 24338}
+    6/8 babel                                      1006 · PDR(pencere) 0.9177 · 5682 s · {'mesgul_s': 3779.798, 'cozulen': 1188418, 'phy': 438524, 'mac_olay': 53770, 'selam_gonderilen': 4008, 'selam_alinan': 25185}
+    7/8 babel                                      1009 · PDR(pencere) 0.9426 · 6051 s · {'mesgul_s': 4395.487, 'cozulen': 1382385, 'phy': 531246, 'mac_olay': 60836, 'selam_gonderilen': 4007, 'selam_alinan': 25141}
+    8/8 babel                                      1005 · PDR(pencere) 0.8629 · 6393 s · {'mesgul_s': 4390.977, 'cozulen': 1308454, 'phy': 541931, 'mac_olay': 62089, 'selam_gonderilen': 4008, 'selam_alinan': 22630}
+
+  8 koşu · 0 hata

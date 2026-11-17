@@ -1,0 +1,74 @@
+== 0 · geçerlilik ==
+  ikiz         koşu 8 · geçerli 8 · süre 1.30–1.78 sa
+  birincil     koşu 8 · geçerli 8 · süre 1.59–2.14 sa
+  dayaniklilik koşu 8 · geçerli 8 · süre 1.52–1.84 sa
+  birebirlik (teşhis (c)'nin Babel satırı): tam
+
+== S1a · düğüm-saniye işaretleri (G = ayırma gücü, yön +: karıştırılanda büyük) ==
+  ed       mesgul         bir G 0.978 yön +1 tohum 8/8 n 624 · day G 0.976 yön +1 tohum 8/8 n 529 → güçlü
+  ed       aciklanamayan  bir G 0.997 yön +1 tohum 8/8 n 624 · day G 0.996 yön +1 tohum 8/8 n 529 → güçlü
+  ed       phy            bir G 0.972 yön -1 tohum 8/8 n 624 · day G 0.974 yön -1 tohum 8/8 n 529 → güçlü
+  ed       cozulen        bir G 0.982 yön -1 tohum 8/8 n 624 · day G 0.984 yön -1 tohum 8/8 n 529 → güçlü
+  ed       sessizlik      bir G 0.911 yön +1 tohum 8/8 n 624 · day G 0.903 yön +1 tohum 8/8 n 529 → güçlü
+  ed       selam_kaybi    bir G 0.937 yön +1 tohum 8/8 n 624 · day G 0.919 yön +1 tohum 8/8 n 529 → güçlü
+  girisim  mesgul         bir G 0.736 yön -1 tohum 8/8 n 4929 · day G 0.730 yön -1 tohum 8/8 n 4948 → zayıf
+  girisim  aciklanamayan  bir G 0.638 yön -1 tohum 8/8 n 4929 · day G 0.604 yön -1 tohum 7/8 n 4948 → dışarıda
+  girisim  phy            bir G 0.724 yön -1 tohum 8/8 n 4929 · day G 0.702 yön -1 tohum 8/8 n 4948 → zayıf
+  girisim  cozulen        bir G 0.812 yön -1 tohum 8/8 n 4929 · day G 0.834 yön -1 tohum 8/8 n 4948 → güçlü
+  girisim  sessizlik      bir G 0.596 yön +1 tohum 8/8 n 4929 · day G 0.595 yön +1 tohum 8/8 n 4948 → dışarıda
+  girisim  selam_kaybi    bir G 0.842 yön +1 tohum 8/8 n 4929 · day G 0.852 yön +1 tohum 8/8 n 4948 → güçlü
+
+  Güçlü ve zayıf işaretlerde %80 yakalayan eşik ve karıştırıcısız ikizdeki yanlış alarm:
+    ed       mesgul         bir eşik kutusu 31 · ikizde yanlış alarm 0.035%
+    ed       mesgul         day eşik kutusu 31 · ikizde yanlış alarm 0.035%
+    ed       aciklanamayan  bir eşik kutusu 29 · ikizde yanlış alarm 0.000%
+    ed       aciklanamayan  day eşik kutusu 29 · ikizde yanlış alarm 0.000%
+    ed       phy            bir eşik kutusu 6 · ikizde yanlış alarm 0.285%
+    ed       phy            day eşik kutusu 8 · ikizde yanlış alarm 0.786%
+    ed       cozulen        bir eşik kutusu 9 · ikizde yanlış alarm 0.098%
+    ed       cozulen        day eşik kutusu 14 · ikizde yanlış alarm 0.363%
+    ed       sessizlik      bir eşik kutusu 1 · ikizde yanlış alarm 1.831%
+    ed       sessizlik      day eşik kutusu 1 · ikizde yanlış alarm 1.831%
+    ed       selam_kaybi    bir eşik kutusu 13 · ikizde yanlış alarm 9.861%
+    ed       selam_kaybi    day eşik kutusu 12 · ikizde yanlış alarm 17.691%
+    girisim  mesgul         bir eşik kutusu 15 · ikizde yanlış alarm 54.539%
+    girisim  mesgul         day eşik kutusu 15 · ikizde yanlış alarm 54.539%
+    girisim  phy            bir eşik kutusu 36 · ikizde yanlış alarm 56.131%
+    girisim  phy            day eşik kutusu 37 · ikizde yanlış alarm 58.829%
+    girisim  cozulen        bir eşik kutusu 81 · ikizde yanlış alarm 38.994%
+    girisim  cozulen        day eşik kutusu 72 · ikizde yanlış alarm 31.920%
+    girisim  selam_kaybi    bir eşik kutusu 10 · ikizde yanlış alarm 40.777%
+    girisim  selam_kaybi    day eşik kutusu 10 · ikizde yanlış alarm 40.777%
+
+  Karıştırılmayanlar temizden ayrışıyor mu (en büyük G):
+    acik|uzak  en büyük G 0.710
+    sessiz     en büyük G 0.603
+    ikiz       en büyük G 0.504
+
+== S1b · düşük teslimli (< 0,5) bağ birimlerinde RSSI (karıştırılan alıcı ↔ temiz) ==
+  birincil     AUC (karıştırılanda güçlü) 0.705 · tohum 8/8 · düşük teslim payı: karıştırılan 66.0% (1598) · temiz 33.7% (8663)
+  dayaniklilik AUC (karıştırılanda güçlü) 0.708 · tohum 8/8 · düşük teslim payı: karıştırılan 69.7% (1565) · temiz 33.7% (8663)
+  → tutarlılık kuralı: zayıf
+
+== S2 · art arda MAC vazgeçmesi ==
+  ikiz        dizi ≥ n / çerçeve: 1: 1.82e-02 · 2: 2.42e-03 · 3: 5.90e-04 · 4: 1.82e-04 · 5: 6.61e-05 · deneme ort 1.98
+  bir temiz    dizi ≥ n / çerçeve: 1: 1.76e-02 · 2: 2.27e-03 · 3: 5.53e-04 · 4: 1.96e-04 · 5: 8.40e-05 · deneme ort 1.98
+  bir ed       dizi ≥ n / çerçeve: 1: 1.58e-01 · 2: 8.02e-02 · 3: 5.04e-02 · 4: 3.70e-02 · 5: 3.08e-02 · deneme ort 6.34
+  bir girisim  dizi ≥ n / çerçeve: 1: 1.10e-01 · 2: 4.76e-02 · 3: 2.61e-02 · 4: 1.75e-02 · 5: 1.28e-02 · deneme ort 3.93
+  bir uzak     dizi ≥ n / çerçeve: 1: 3.79e-02 · 2: 9.78e-03 · 3: 4.35e-03 · 4: 2.45e-03 · 5: 1.61e-03 · deneme ort 2.26
+  bir tespit (ED + girişim; ortanca s · ulaşılan pay · bağ-dönem): n=1: 3.63 · 48% · 1396 · n=2: 4.960000000000001 · 26% · 1396 · n=3: 5.555 · 18% · 1396 · n=4: 5.46 · 14% · 1396 · n=5: 5.81 · 12% · 1396
+  day temiz    dizi ≥ n / çerçeve: 1: 1.76e-02 · 2: 2.26e-03 · 3: 5.60e-04 · 4: 2.03e-04 · 5: 9.09e-05 · deneme ort 1.98
+  day ed       dizi ≥ n / çerçeve: 1: 1.48e-01 · 2: 7.61e-02 · 3: 6.11e-02 · 4: 4.66e-02 · 5: 3.93e-02 · deneme ort 6.55
+  day girisim  dizi ≥ n / çerçeve: 1: 1.15e-01 · 2: 5.09e-02 · 3: 2.97e-02 · 4: 1.98e-02 · 5: 1.38e-02 · deneme ort 3.95
+  day uzak     dizi ≥ n / çerçeve: 1: 4.77e-02 · 2: 1.27e-02 · 3: 5.76e-03 · 4: 3.24e-03 · 5: 2.19e-03 · deneme ort 2.39
+  day tespit (ED + girişim; ortanca s · ulaşılan pay · bağ-dönem): n=1: 2.0549999999999997 · 47% · 1893 · n=2: 2.865 · 25% · 1893 · n=3: 2.815 · 18% · 1893 · n=4: 3.69 · 14% · 1893 · n=5: 4.17 · 11% · 1893
+  → n* = 3; tek başına yetmez (tespit geç ya da seyrek)
+
+== S3 · bağ kalitesinin değişim hızı (kâhin, ikiz) ==
+  τ  1 s · bant değişimi 0.3% · ortalama |Δp| 0.001
+  τ  2 s · bant değişimi 0.3% · ortalama |Δp| 0.001
+  τ  4 s · bant değişimi 0.3% · ortalama |Δp| 0.001
+  τ  8 s · bant değişimi 0.2% · ortalama |Δp| 0.001
+  τ 16 s · bant değişimi 0.3% · ortalama |Δp| 0.001
+  τ 32 s · bant değişimi 0.3% · ortalama |Δp| 0.001
+  → bant değişimi ≤ %10 olan en uzun τ: 32 s (bağ sayısı [80, 80, 80, 80, 80, 80, 80, 80])

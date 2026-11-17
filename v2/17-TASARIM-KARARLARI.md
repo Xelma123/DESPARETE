@@ -54,6 +54,7 @@ Protokol karıştırıcının çizelgesini bilmez ve ona göre ayarlanmaz: bağ�
 - Komşu yalnız hiç duyulmayınca (ne selamı ne başka bir çerçevesi) silinir. Kötü kalite silme sebebi değildir (T-3).
 - Gerekçe: düzenli selam bütün komşuları ve iki yönü bilir ama sabit bir yük getirir. Yalnız kendi trafiğinden kanıt (v0.4.1) kullanılmayan komşuyu bilemez ve yedekleri bayatlatır. Yalnız dinleme, benden komşuya giden yönü göremez. Karma, en çok bilgiyi en az yükle verir.
 - Ödünç: selam ve ters yön bildirimi ETX [36] ve Babel [4]; uyarlanır aralık Trickle [62] (RFC 6206'da ilanlar için, burada selama uygulanır); dinleme ilk taslağımdan (`arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/`, Protokol Taslağı v0 §6).
+- **Teşhis (d)'nin sonucu (17 Kasım, `arsiv/teshis/faz5_2_isaretler_2026-11-16/sonuc.md` §4):** karıştırıcısız ikizde en çok kullanılan bağların kalitesi 32 s içinde değişmiyor (bant değişimi %0,3). Selam aralığının üst sınırını hareket değil, karıştırmaya tepki hızı (T-10) ve açlık (T-13) belirler.
 
 **T-2 · Bağ kalitesi: iki yönlü teslim oranı.**
 - Bağın maliyeti beklenen gönderim sayısıdır: `ETX = 1 / (d_f · d_r)`. `d_f` komşunun benden aldığı selam oranı (komşu bildirir), `d_r` benim komşudan aldığım selam oranı. Kaç selamın kaybolduğu sıra numarasından bilinir. Yol maliyeti, bağ maliyetlerinin toplamıdır.
@@ -95,6 +96,12 @@ Protokol karıştırıcının çizelgesini bilmez ve ona göre ayarlanmaz: bağ�
 - Kanıt tek bir karıştırıcı türüne bağlanmaz: kanal doluluğu reaktif karıştırıcıyı görmez, teslim ve tutarlılık işaretleri iki türü de görür [23].
 - Gözlem sınırı: ölçülen gürültü kullanılamaz (K-227). RSSI'nin ölçüm hatası (σ 2 dB) sınanmamıştır; kullanıldığı için duyarlılığı ölçülür (`04` §9).
 - Ödünç: işaretler Puñal 2014 [23]; tutarlılık kuralı Xu vd. 2005 (Puñal 2014'te aktarıldığı gibi; özgün makale açılamadı).
+- **Teşhis (d)'nin sonucu (17 Kasım, `arsiv/teshis/faz5_2_isaretler_2026-11-16/sonuc.md`):**
+  - ED bölgesinde altı işaretin altısı güçlü. Açıklanamayan kanal meşguliyeti ≥ 0,58 karıştırılanların %80'ini yakalıyor, karıştırıcısız ikizde yanlış alarm vermiyor.
+  - Girişim bölgesinde çözülen çerçeve düşüşü ve selam kaybı güçlü; kanal meşguliyetinin ve CRC hatasının düşmesi zayıf; son çözümden beri geçen süre ve açıklanamayan meşguliyet dışarıda (kanıta girmez).
+  - Girişimde tek işaret ve tek saniye yetmiyor: %50 yakalamada ikizde yanlış alarm %6–11 (kuraldan sonra görülen). Kural kâğıdında birkaç işaret ve birkaç saniye birlikte okunur; biçimi ve eşikleri 5-3'te, A/B ile.
+  - Sinyal tutarlılığı zayıf (AUC 0,71; düşük teslimli bağlar iki durumda da menzil sınırında); yalnız birlikte girer.
+  - Çözülen çerçeve düşüşü karıştırmaya özgü değil: karıştırılan komşular susunca uzaktaki düğüm de daha az duyuyor. Kanal meşguliyeti girişim alanında düşer, yani karıştırılan alan "boş" görünür.
 
 **T-6 · Kanıtı kim söyler: gönderen ve alıcı.**
 - Gönderen, kendi MAC sonuçlarından bağ başına kanıt toplar. Tek komşuya başarısızlık o bağı ya da o alıcıyı, bütün komşulara başarısızlık gönderenin kendisini gösterir.
@@ -102,6 +109,7 @@ Protokol karıştırıcının çizelgesini bilmez ve ona göre ayarlanmaz: bağ�
 - ED bölgesindeki düğüm gönderemez; komşuları onun sessizliğini (beklenen selamın gelmemesi) kanıt sayar.
 - Gerekçe: karıştırılan çoğu zaman alıcıdır (SINR kaybı alıcıda), gönderen bunu ancak paket kaybettikten sonra öğrenir. Komşuların kanıtını birleştirmek tespiti belirgin iyileştiriyor [23].
 - Ödünç: komşularla işbirliği Puñal 2014 [23].
+- **Teşhis (d):** ED'deki düğüm karıştırıldığını kendi ölçümünden tek saniyede bilir ama kanalı meşgul gördüğü için bildiremez; komşularının "sessizleşen komşu" kanıtı (selam kaybı) bu yüzden gerekli. Açık evrede ED alanında ortalama 1'den az, girişim alanında ~7 düğüm var; kanıtın asıl işi girişim bölgesinde.
 
 **T-7 · Kanıtın sonucu: ayrı bir "karıştırılıyor" durumu.**
 - Karıştırma kanıtı bulunan bağ geçici olarak kullanılmaz. Karıştırmadan önceki kalitesi hatırlanır; kanıt kalkınca bağ o değerle hemen geri döner, teslim oranının yeniden dolmasını beklemez.
@@ -116,7 +124,7 @@ Protokol karıştırıcının çizelgesini bilmez ve ona göre ayarlanmaz: bağ�
 - Gerekçe: simülasyonun "karıştırıcı açık" etiketleriyle eğitilen bir sınıflandırıcı simülatörün karıştırıcı modelini ezberler. Bu, kâhin bilgisinin protokole girmemesi kuralına (`04` §4) dolaylı bir sızıntıdır. Açık kural raporda savunulabilir.
 - Bedeli: bağlarımız menzil sınırında olduğundan elle konan eşik zor yayılımda yanılabilir [23]; eşikler geliştirme tohumlarında ölçülerek ayarlanır.
 
-**Teşhis (d)'ye ve 5-3'e kalanlar:** kanıta girecek işaretler ve eşikleri (teşhis (d)) · alıcının bildirdiği bitlerin sayısı ve anlamı · işaretlerin birleştirilme kuralı · yanlış alarm oranı.
+**5-3'e kalanlar:** birleşik kanıt kuralının biçimi (hangi işaretler, kaç saniye) ve eşikleri (teşhis (d)'nin eşik ve yanlış alarm tabloları girdi) · düşüşün düğümün kendi yakın geçmişine göre okunup okunmayacağı · alıcının bildirdiği bitlerin sayısı ve anlamı · yanlış alarm oranı.
 
 ---
 
@@ -141,6 +149,7 @@ Yol iki sebeple değişir ve ikisinin kuralı ayrıdır: **zorunlu geçiş** (ar
 - Erken dönmenin bedeli küçüktür: karıştırma sürüyorsa bağ birkaç olayda yeniden çıkar, hatırlanan kalite korunur (T-7).
 - Karıştırmanın başlaması komşulukta bir değişim sayılır; selamlar sıklaşır (T-1) ve karıştırmanın bittiği daha çabuk duyulur.
 - Gerekçe: birincil hücrede karıştırıcı 15 s açık kalıyor; tespit 5 s sürerse açık sürenin üçte biri kesik bağda geçer. İlk olayda karar kalabalık kanalda yanlış alarm üretir; kayan bir penceredeki oran Babel'in yavaşlığına döner. Doğruluk ile tepki hızı arasındaki değiş tokuş ETX'in de uyarısıdır [36].
+- **Teşhis (d):** art arda üç MAC vazgeçmesi yanlış alarmı çerçevelerin %0,06'sının altında tutuyor, ama tek başına geç ve seyrek: ortanca birincil hücrede 5,6 s, dayanıklılık hücresinde 2,8 s; alıcısı karıştırılan bağların yalnız %18'inde açık dönem içinde ulaşılıyor. Olay sayısının ilk değeri 3; "karıştırılıyor" kararı MAC vazgeçmesini T-5'in işaretleriyle birlikte okur.
 
 **T-11 · İsteğe bağlı geçiş: oransal eşik.**
 - Çalışan bir yoldan, yeni yolun maliyeti bugünkünden belli bir oranda düşükse geçilir; oran 5-3'te.

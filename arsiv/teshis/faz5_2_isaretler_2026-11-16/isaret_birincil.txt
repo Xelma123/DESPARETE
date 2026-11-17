@@ -1,0 +1,13 @@
+==============================================================================
+KARISTIRMA ISARETLERI — dunya referans_2026 · formasyon-surekli · aile derin_sizma · tohum [1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]
+==============================================================================
+    1/8 babel                                      1007 · PDR(pencere) 0.9196 · 5739 s · {'mesgul_s': 3479.64, 'cozulen': 1159061, 'phy': 361470, 'mac_olay': 52623, 'selam_gonderilen': 4012, 'selam_alinan': 23280}
+    2/8 babel                                      1008 · PDR(pencere) 0.8539 · 6481 s · {'mesgul_s': 4082.291, 'cozulen': 1331358, 'phy': 443887, 'mac_olay': 54171, 'selam_gonderilen': 4010, 'selam_alinan': 23754}
+    3/8 babel                                      1004 · PDR(pencere) 0.8952 · 6491 s · {'mesgul_s': 3892.581, 'cozulen': 1174096, 'phy': 452878, 'mac_olay': 60679, 'selam_gonderilen': 4010, 'selam_alinan': 20673}
+    4/8 babel                                      1010 · PDR(pencere) 0.7734 · 6642 s · {'mesgul_s': 3956.254, 'cozulen': 1233106, 'phy': 475574, 'mac_olay': 55329, 'selam_gonderilen': 4015, 'selam_alinan': 21069}
+    5/8 babel                                      1003 · PDR(pencere) 0.8000 · 6814 s · {'mesgul_s': 4080.725, 'cozulen': 1241675, 'phy': 454338, 'mac_olay': 62321, 'selam_gonderilen': 4012, 'selam_alinan': 21571}
+    6/8 babel                                      1006 · PDR(pencere) 0.8672 · 6932 s · {'mesgul_s': 3797.163, 'cozulen': 1186108, 'phy': 443834, 'mac_olay': 58532, 'selam_gonderilen': 4009, 'selam_alinan': 22550}
+    7/8 babel                                      1009 · PDR(pencere) 0.8647 · 7091 s · {'mesgul_s': 4374.185, 'cozulen': 1301111, 'phy': 515261, 'mac_olay': 62484, 'selam_gonderilen': 4013, 'selam_alinan': 22026}
+    8/8 babel                                      1005 · PDR(pencere) 0.7257 · 7719 s · {'mesgul_s': 4504.143, 'cozulen': 1274845, 'phy': 550178, 'mac_olay': 65627, 'selam_gonderilen': 4017, 'selam_alinan': 19640}
+
+  8 koşu · 0 hata

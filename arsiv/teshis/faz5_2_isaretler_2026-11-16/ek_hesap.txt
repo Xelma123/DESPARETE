@@ -1,0 +1,38 @@
+== A · sınıf büyüklüğü (düğüm-saniye, 8 tohum toplamı) ==
+  ikiz         ikiz 86400
+  birincil     acik|ed 624 · acik|girisim 4929 · acik|uzak 23247 · once|ed 526 · once|girisim 5581 · once|uzak 25893 · sessiz|ed 516 · sessiz|girisim 4489 · sessiz|uzak 20595
+  dayaniklilik acik|ed 529 · acik|girisim 4948 · acik|uzak 13723 · once|ed 719 · once|girisim 7856 · once|uzak 23425 · sessiz|ed 918 · sessiz|girisim 9140 · sessiz|uzak 25142
+
+== B · sınıf başına ortalama değer (kutu ortası) ==
+  mesgul         ikiz 0.305 · bir-temiz 0.306 · bir-ed 0.845 · bir-gir 0.203 · bir-uzak 0.279 · bir-ses-gir 0.418 · day-temiz 0.306 · day-ed 0.835 · day-gir 0.209 · day-uzak 0.269 · day-ses-gir 0.403
+  aciklanamayan  ikiz 0.114 · bir-temiz 0.115 · bir-ed 0.829 · bir-gir 0.096 · bir-uzak 0.114 · bir-ses-gir 0.153 · day-temiz 0.115 · day-ed 0.816 · day-gir 0.101 · day-uzak 0.112 · day-ses-gir 0.146
+  phy            ikiz 35.860 · bir-temiz 36.003 · bir-ed 4.620 · bir-gir 23.904 · bir-uzak 33.171 · bir-ses-gir 48.860 · day-temiz 36.003 · day-ed 4.980 · day-gir 24.902 · day-uzak 31.726 · day-ses-gir 47.452
+  cozulen        ikiz 98.582 · bir-temiz 99.037 · bir-ed 8.188 · bir-gir 48.725 · bir-uzak 76.257 · bir-ses-gir 142.185 · day-temiz 99.037 · day-ed 8.542 · day-gir 46.066 · day-uzak 67.966 · day-ses-gir 139.916
+  sessizlik      ikiz 0.052 · bir-temiz 0.052 · bir-ed 2.934 · bir-gir 0.148 · bir-uzak 0.056 · bir-ses-gir 0.050 · day-temiz 0.052 · day-ed 1.982 · day-gir 0.163 · day-uzak 0.059 · day-ses-gir 0.050
+  selam_kaybi    ikiz 0.443 · bir-temiz 0.442 · bir-ed 0.830 · bir-gir 0.691 · bir-uzak 0.494 · bir-ses-gir 0.438 · day-temiz 0.442 · day-ed 0.809 · day-gir 0.698 · day-uzak 0.505 · day-ses-gir 0.476
+
+== C · açık evrede uzak alan ↔ temiz, işaret başına G (yön) ==
+  birincil     mesgul 0.576(-1) · aciklanamayan 0.511(-1) · phy 0.553(-1) · cozulen 0.652(-1) · sessizlik 0.513(+1) · selam_kaybi 0.583(+1)
+  dayaniklilik mesgul 0.603(-1) · aciklanamayan 0.522(-1) · phy 0.584(-1) · cozulen 0.710(-1) · sessizlik 0.522(+1) · selam_kaybi 0.601(+1)
+
+== D · tespit süresi alana göre (ortanca s · ulaşılan pay · bağ-dönem) ==
+  bir ed       (115) n=1 2.62 · 72% · n=2 3.18 · 45% · n=3 2.90 · 31% · n=4 3.39 · 23% · n=5 3.78 · 20%
+  bir girisim  (1281) n=1 3.86 · 46% · n=2 5.28 · 25% · n=3 5.72 · 17% · n=4 6.08 · 13% · n=5 6.31 · 11%
+  day ed       (188) n=1 0.76 · 72% · n=2 1.46 · 38% · n=3 2.45 · 32% · n=4 3.11 · 25% · n=5 2.19 · 20%
+  day girisim  (1705) n=1 2.50 · 44% · n=2 3.24 · 24% · n=3 3.14 · 17% · n=4 3.86 · 13% · n=5 4.43 · 10%
+
+== E · girişimde yakalama payına göre ikizdeki yanlış alarm ==
+  cozulen      bir yakalama ≥ 20%: kutu 14 · FA 0.4% · yakalama ≥ 35%: kutu 28 · FA 3.1% · yakalama ≥ 50%: kutu 43 · FA 10.5% · yakalama ≥ 80%: kutu 81 · FA 39.0%
+  cozulen      day yakalama ≥ 20%: kutu 15 · FA 0.5% · yakalama ≥ 35%: kutu 28 · FA 3.1% · yakalama ≥ 50%: kutu 43 · FA 10.5% · yakalama ≥ 80%: kutu 72 · FA 31.9%
+  selam_kaybi  bir yakalama ≥ 20%: kutu 17 · FA 0.6% · yakalama ≥ 35%: kutu 15 · FA 3.4% · yakalama ≥ 50%: kutu 14 · FA 5.9% · yakalama ≥ 80%: kutu 10 · FA 40.8%
+  selam_kaybi  day yakalama ≥ 20%: kutu 16 · FA 1.6% · yakalama ≥ 35%: kutu 15 · FA 3.4% · yakalama ≥ 50%: kutu 14 · FA 5.9% · yakalama ≥ 80%: kutu 10 · FA 40.8%
+  mesgul       bir yakalama ≥ 20%: kutu 4 · FA 2.0% · yakalama ≥ 35%: kutu 7 · FA 9.8% · yakalama ≥ 50%: kutu 9 · FA 18.2% · yakalama ≥ 80%: kutu 15 · FA 54.5%
+  mesgul       day yakalama ≥ 20%: kutu 4 · FA 2.0% · yakalama ≥ 35%: kutu 7 · FA 9.8% · yakalama ≥ 50%: kutu 10 · FA 23.4% · yakalama ≥ 80%: kutu 15 · FA 54.5%
+  phy          bir yakalama ≥ 20%: kutu 10 · FA 1.7% · yakalama ≥ 35%: kutu 16 · FA 8.1% · yakalama ≥ 50%: kutu 22 · FA 19.3% · yakalama ≥ 80%: kutu 36 · FA 56.1%
+  phy          day yakalama ≥ 20%: kutu 10 · FA 1.7% · yakalama ≥ 35%: kutu 17 · FA 9.6% · yakalama ≥ 50%: kutu 24 · FA 23.9% · yakalama ≥ 80%: kutu 37 · FA 58.8%
+
+== F · S1b: düşük teslimli birimlerde RSSI ortancası (dBm) ==
+  birincil     karıştırılan n 1030 · ortanca -93.0
+  birincil     temiz        n 2916 · ortanca -95.0
+  dayaniklilik karıştırılan n 1068 · ortanca -93.0
+  dayaniklilik temiz        n 2916 · ortanca -95.0
