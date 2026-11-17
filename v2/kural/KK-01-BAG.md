@@ -23,18 +23,20 @@ Her komşu bağının ne kadar iyi olduğunu (ETX) ve şu an kullanılıp kullan
 
 ## Kurallar
 
-1. **Selam gelince:** sıra numarasıyla `beklenen` arasındaki boşluk kadar `gecmis`e 0, gelen selam için 1 eklenir (Babel'in "ileri sarma"sı, RFC 8966 Ek A).
+1. **Selam gelince:** sıra numarasıyla `beklenen` arasındaki boşluk kadar `gecmis`e 0, gelen selam için 1 eklenir (Babel'in "ileri sarma"sı, RFC 8966 Ek A). Boşluk `N`'den büyükse komşu yeniden başlamış sayılır, `gecmis` sıfırlanır (Babel'in kuralı).
 2. **Gelmeyen selam:** şimdi > `son_selam_t` + `ZAMAN_ASIMI` (1,5 × `a`) ise `gecmis`e bir 0 eklenir ve süre yeniden başlar. Böylece hiç gelmeyen selam da sayılır.
 3. **Teslim oranı:** `d_r = gecmis'teki 1'ler / gecmis'teki örnek sayısı` (en çok `N`).
 4. **ETX:** `ETX_selam = 1 / (d_f · d_r)`; `d_f` ya da `d_r` 0 ise ∞ (tek yönlü bağ kullanılmaz). Örnek sayısı `ORNEK_EN_AZ`ın altındaysa bağ henüz aday değildir.
-5. **Veri sonucu** (bayrak `veri_kotu_tetigi`): son `VERI_PENCERE` çerçevede `ETX_veri = Σ deneme / Σ başarılı` (hiç başarı yoksa ∞). Yalnız kullanılabilirliğe girer, maliyete girmez: `ETX_veri > E_CIK` ise bağ KÖTÜ olur. Sebep: veri denemelerinin başarısı kanal yüküne bağlıdır; maliyete girerse T-4'ün kaçındığı salınım geri gelir. Selam ise büyük paketin kaybını olduğundan iyi gösterir [36]; bu tetik onu yakalar.
+5. **Veri sonucu** (bayrak `veri_kotu_tetigi`): son `VERI_PENCERE` veri çerçevesinde `ETX_veri = Σ deneme / Σ başarılı` (deneme = yeniden deneme + 1; hiç başarı yoksa ∞). Yalnız kullanılabilirliğe girer, maliyete girmez. Sebep: veri denemelerinin başarısı kanal yüküne bağlıdır; maliyete girerse T-4'ün kaçındığı salınım geri gelir. Selam ise büyük paketin kaybını olduğundan iyi gösterir [36]; bu tetik onu yakalar.
+   - `ETX_veri > E_CIK` olunca: komşunun selamında `karistiriliyorum` = 1 ya da benim girişim işaretim varsa (KK-03) bağ **KARIŞTIRILIYOR** olur; karıştırma kötü bağ sanılmaz.
+   - Yoksa bağ **KÖTÜ** olur ve en az `T_CEZA` KÖTÜ kalır; 60 s içinde yinelenirse süre ikiye katlanır (en çok 40 s). Sebep: KÖTÜ bağa veri gönderilmez, `ETX_veri` 10 s sonra eskir; ceza olmasaydı bağ selam ölçüsüyle hemen geri döner, aynı yere düşer ve gidip gelirdi.
 6. **Geçişler:**
 
 | nereden | nereye | koşul |
 |---|---|---|
 | OLAĞAN | KÖTÜ | `ETX_selam > E_CIK` ya da `ETX_veri > E_CIK` |
-| KÖTÜ | OLAĞAN | `ETX_selam < E_DON` (ve yeterli örnek) |
-| OLAĞAN | KARIŞTIRILIYOR | KK-03'ün "karıştırılıyor" olayı; o anki ETX ve `gecmis` `hatira`ya alınır |
+| KÖTÜ | OLAĞAN | `ETX_selam < E_DON`, yeterli örnek ve (veriyle düştüyse) `T_CEZA` doldu |
+| OLAĞAN | KARIŞTIRILIYOR | KK-03'ün "karıştırılıyor" olayı; o anki ETX, `gecmis` ve olayın **sebebi** `hatira`ya alınır (KK-03 "bitti"yi sebebe göre verir) |
 | KARIŞTIRILIYOR | OLAĞAN ya da KÖTÜ | KK-03'ün "bitti" olayı; `T_HATIRA` geçmediyse `hatira` geri yüklenir, hatıra ETX'i `E_CIK`ı aşmıyorsa OLAĞAN, aşıyorsa KÖTÜ; `T_HATIRA` geçtiyse `gecmis` boşaltılır ve bağ KÖTÜ'den yeniden ölçülerek döner |
 | herhangi biri | silinir | `T_SILME` boyunca komşudan hiçbir çerçeve duyulmadı |
 

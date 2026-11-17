@@ -23,12 +23,21 @@ Karıştırmayı kötü bağdan ve kalabalık kanaldan ayırıp KK-01'e "karış
 
 **B · Komşu j'ye bağım (j OLAĞAN iken; göndericide):**
 5. j'nin selamında `karistiriliyorum` = 1 → "karıştırılıyor" (alıcı söyledi).
-6. j'den `SESSIZ_SELAM` ardışık beklenen selam gelmedi (j'nin ilan ettiği aralıkla) → "karıştırılıyor". ED'deki j gönderemez; sessizliği kanıttır (T-6). Ölen ya da uzaklaşan j de böyle görünür; zararı yok, bağ kullanılmaz ve `T_SILME`'de silinir.
+6. j'den art arda `k` beklenen selam gelmedi (j'nin ilan ettiği aralıkla) → "karıştırılıyor". `k = max(3, ⌈log 0,01 / log(1 − d_r)⌉)`: bağın kendi kayıp oranıyla %1'den düşük olasılıkla açıklanabilecek bir sessizlik. `d_r` 0,9 ya da 0,8 → 3; 0,6 → 6; 0,5 → 7. Sabit 3 olsaydı, temizde bile selamların %44'ü kaçan menzil sınırındaki bağlar (teşhis (d)) sık sık yanlışlıkla "karıştırılıyor" olurdu. ED'deki j gönderemez; sessizliği kanıttır (T-6). Ölen ya da uzaklaşan j de böyle görünür; zararı yok, bağ kullanılmaz ve `T_SILME`'de silinir.
 7. j'ye `MAC_ARDISIK` ardışık vazgeçme **ve** (j'den son 2 aralıkta selam yok ya da kendi girişim işaretim var) → "karıştırılıyor". Vazgeçme tek başına karar değildir (T-9); teşhis (d)'de tek başına geç ve seyrekti.
-8. **Bitti:** j'den `karistiriliyorum` = 0 olan 2 ardışık selam → "bitti" (KK-01 hatırayla döner).
+8. **Bitti, sebebe göre** (sebep KK-01'in hatırasında):
+
+| "karıştırılıyor"un sebebi | "bitti" |
+|---|---|
+| j'nin biti (kural 5) | j'den bit = 0 olan 2 ardışık selam |
+| j'nin sessizliği (kural 6) ya da MAC + j'nin sessizliği (kural 7) | j'den 2 ardışık selam (bit = 0) |
+| MAC + kendi girişim işaretim (kural 7) | kendi durumumun "bitti"si (kural 4) |
+| veri tetiği (KK-01 kural 5) | göstergenin kaynağına göre: j'nin biti ya da kendi durumum |
+
+   Sebebe bağlanmasaydı, kendi karıştırılmam yüzünden işaretlenen bir bağ, j'nin bit = 0 olan olağan selamlarıyla hemen "bitmiş" sayılır ve bağ gidip gelirdi.
 
 **C · Sınırlar:**
-9. Sinyal tutarlılığı (RSSI) başlangıç kuralına girmez: teşhis (d)'de zayıftı (AUC 0,71). A/B'de birlikte denenebilir.
+9. Sinyal tutarlılığı (RSSI) başlangıç kuralına girmez: teşhis (d)'de zayıftı (AUC 0,71). Protokol bu sürümde RSSI okumaz; A/B'de denenirse ölçüm hatasının (σ 2 dB) duyarlılığı da ölçülür (`04` §9).
 10. Bütün eşikler başlangıçtır; birleşik kuralın başarısı ve yanlış alarmı A/B'de ölçülür (`17` §7 madde 6–7).
 
 ## Örnek

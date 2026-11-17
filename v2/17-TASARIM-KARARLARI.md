@@ -57,7 +57,7 @@ Protokol karıştırıcının çizelgesini bilmez ve ona göre ayarlanmaz: bağ�
 
 **T-2 · Bağ kalitesi: iki yönlü teslim oranı.**
 - Bağın maliyeti beklenen gönderim sayısıdır: `ETX = 1 / (d_f · d_r)`. `d_f` komşunun benden aldığı selam oranı (komşu bildirir), `d_r` benim komşudan aldığım selam oranı. Kaç selamın kaybolduğu sıra numarasından bilinir. Yol maliyeti, bağ maliyetlerinin toplamıdır.
-- Kullandığım bağlarda kendi unicast gönderimlerimin sonucu (`iletim_sonucu`, K-151) ek örnek olarak girer. Sebep: selam küçüktür ve büyük veri paketinin kaybını olduğundan iyi gösterir [36].
+- Kullandığım bağlarda kendi veri gönderimlerimin sonucu (`iletim_sonucu`, K-151) kullanılabilirliğe girer, maliyete girmez: veri denemelerinin belirgin biçimde kötü gösterdiği bağ KÖTÜ olur (T-3). Sebep: selam küçüktür ve büyük veri paketinin kaybını olduğundan iyi gösterir [36]; veri denemelerinin başarısı ise kanal yüküne bağlıdır, maliyete girerse T-4'ün kaçındığı salınım geri gelir (17 Kasım; `kural/KK-01`).
 - Dinlenen çerçeveler komşunun varlığını kanıtlar, teslim oranını tek başına vermez: komşunun kaç çerçeve gönderdiği bilinmeden "kaçını duydum" bir oran değildir.
 - Sinyal gücü (RSSI) maliyete girmez; yalnız bağlam olarak kullanılır [23], [57].
 - Gerekçe: teslim oranı kaliteyi doğrudan ölçer, en çok sınanmış ölçüdür ve raporda açıkça savunulabilir. v0.4.1'in M0.1'i yalnız kendi unicast sonuçlarını kullandığı için az trafik taşıyan iyi bir bağı belirsizlik cezasıyla pahalı gösteriyordu.
@@ -211,7 +211,7 @@ Yedek, döngü yaratmadan geçilebilecek komşudur; hangi komşunun güvenli old
 - v0.4.1 onarımda alan başına 6 paketi en çok 6 s bekletiyor; ikizde rota yokluğuna (`rota_gecersiz`) düşen paketlerin %64'ü bu kota doluyken düşüyor. Babel bekletmiyor.
 
 **T-16 · Uzaklık ilanı selamla tek iletidir.**
-- Selam, geçide maliyetimi, turu ve o anki aralığını da taşır; T-1'in uyarlanır aralığıyla gider. Ayrı ve düzenli bir ilan iletisi yoktur.
+- Selam, geçide maliyetimi, seçili rotamın turunu ve o anki aralığını da taşır; T-1'in uyarlanır aralığıyla gider. Ayrı ve düzenli bir ilan iletisi yoktur.
 - Selam bastırılmaz: komşular benim bağımı selamlarımın sıra numarasından ölçer (T-2).
 - Gerekçe: tek hedef olduğundan ilan birkaç bayttır (tur ve maliyet); her çerçevenin 64 baytlık sabit ek yükü (`13` §03.1) ve kanal erişimi bir kez ödenir. Ölçek için: 1 s'de bir ilan, 40 düğümde 350 s'de tek başına 14 000 çerçeve eder; 4 s'de bir birleşik selam 3 500.
 - Ödünç: aralığın uyarlanması Trickle [62]; Trickle'ın bastırması alınmadı. Bir pakette birden çok bilgi taşımak Babel'de de var [4] (RFC 8966 §4.2).
@@ -270,5 +270,5 @@ Geliştirmeye geçerken ilk ele alınacaklar; bölüm sonlarındaki "5-3'e kalan
 
 **Kayıt ve ön-kayıt:**
 11. Mekanizmaların ablasyon bayraklarına eşlenmesi ve Aile 3'ün mekanizma kapısına hangilerinin gireceği. `06` §0.4.5 eski adları ("5.1 karıştırma kanıtı · 5.3 postür · 5.4 PROTECT") taşıyor; mühürden önce bu belgeyle hizalanır (Ö-10).
-12. `rssi_olcum_sigma_db` ve `gps_dikey_sigma_m` SINANMAMIŞ kayıtları (`04` §9): RSSI artık okunuyor (T-5); kendi konumun okunup okunmayacağı yazılır (T-15 yalnız selama konum eklenmeyeceğini söylüyor) (Ö-10).
+12. `rssi_olcum_sigma_db` ve `gps_dikey_sigma_m` SINANMAMIŞ kayıtları (`04` §9): RSSI başlangıç kuralında okunmuyor (`kural/KK-03`; tutarlılık zayıf çıktı), A/B'de okunursa duyarlılığı ölçülür; kendi konumun okunup okunmayacağı yazılır (T-15 yalnız selama konum eklenmeyeceğini söylüyor) (Ö-10).
 13. Kaydedici yeni sürümle yeniden kullanılırsa evre, ikiye bölme, selam kaybı ve bağ birimlerinin gruplanması için sentetik testler (K-9).

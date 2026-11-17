@@ -12,7 +12,7 @@ Komşuların varlığını ve iki yönlü bağ kalitesini ölçmek (KK-01), geç
 |---|---|---|
 | `sira` | 16 | her selamda bir artar (KK-01'in sayımı) |
 | `aralik` | 16 | o anki aralık, 0,01 s biriminde (Ö-5) |
-| `tur` | 16 | bildiğim en yeni geçit turu (KK-04) |
+| `tur` | 16 | seçili rotamın turu: ardılımın ilan ettiği tur, geçitte kendi turu (KK-04 kural 6) |
 | `maliyet` | 16 | geçide maliyetim, ETX × 64 tamsayı; 0xFFFF = ∞ |
 | `karistiriliyorum` | 1 | KK-03'ün kendi durumu |
 | `komsular` (tekrarlı) | 8 + 8 | komşu adresi · ondan aldığım selam oranı (`d_r` × 255) |
@@ -22,20 +22,20 @@ Boyut: sabit 9 bayt + komşu başına 2 bayt. 15 komşuyla 39 bayt; 64 baytlık 
 ## Kurallar
 
 1. **Gönderim:** her düğüm `I` aralıkla selam yayar; titreşim `I`'nın %10'u (`KontrolIstegi.jitter_s`). Zamanlayıcı `Uyandirma` ile kurulur. Selam bastırılmaz (T-16).
-2. **Aralığın uyarlanması** (Trickle mantığı [62]): olaysız geçen her selamdan sonra `I ← min(2·I, I_MAX)`. Bir **değişim olayında** `I ← I_MIN` ve selam hemen (titreşimle) gönderilir; bu, ara ilandır (T-17). İki selam arasında en az `SELAM_ARASI_EN_AZ`.
-3. **Değişim olayları:**
-   - yeni bir komşu duyuldu;
-   - bir komşunun durumu değişti (OLAĞAN ↔ KÖTÜ ↔ KARIŞTIRILIYOR, silindi; KK-01);
+2. **Aralığın uyarlanması** (Trickle mantığı [62]): olaysız geçen her selamdan sonra `I ← min(2·I, I_MAX)`. Bir **değişim olayında** `I ← I_MIN` ve selam hemen (titreşimle) gönderilir; bu, ara ilandır (T-17). İki selam arasında en az `SELAM_ARASI_EN_AZ` (= `I_MIN`) geçer; bu arada olan değişimler bir sonraki selamda birleşir.
+3. **Değişim olayları** (T-17'nin listesi):
    - geçide maliyetim son ilan ettiğimden `ILAN_ESIGI` kadar farklı ya da ∞ ↔ sonlu;
-   - turum bir isteğe yanıt olarak değişti (KK-04);
-   - `karistiriliyorum` bitim değişti (KK-03).
+   - ilan ettiğim tur değişti (KK-04);
+   - `karistiriliyorum` bitim değişti (KK-03);
+   - yeni bir komşu duyuldu (iki yönlü ölçüm çabuk kurulsun).
+   Bir komşunun durumunun değişmesi tek başına olay değildir: rotamı değiştiriyorsa maliyet ya da tur maddesine zaten girer. Böylece karıştırma sırasında, kanal zorlanırken selam seli oluşmaz.
 4. **Ara ilan ayrı bir ileti değildir:** sıra numarası alır, KK-01'in sayımına girer ve aralığı sıfırlar.
 5. **Alınca:** KK-01'e (sıra, aralık, benim için bildirilen oran), KK-03'e (bit, selam geldi olayı), KK-04'e (tur, maliyet) dağıtılır. Göndereni listesinde beni bildirmiyorsa `d_f = 0`.
 6. `maliyet` ve `tur` ilan edildiği anda KK-04'ün FD'si güncellenir (T-12).
 
 ## Örnek
 
-Sakin bir ağda düğüm 0,5 → 1 → 2 s'ye çıkar ve 2 s'de kalır. Bir komşusu karıştırılıyor olunca (durum değişti) hemen bir selam gönderir ve 0,5 s'ye iner; karıştırmanın bittiği bu yüzden 0,5–1 s aralıkla duyulur. 40 düğüm 2 s'de bir selam gönderirken bir düğümün duyduğu selamlar kanalın kabaca %1'ini kaplar (15 komşu × 0,5/s × 1 ms).
+Sakin bir ağda düğüm 0,5 → 1 → 2 s'ye çıkar ve 2 s'de kalır. Karıştırılan bir düğüm "karıştırılıyorum" bitini 1 yapınca hemen bir selam gönderir; karıştırma bitip bit 0'a dönünce yine hemen gönderir, bu yüzden bitiş beklemeden duyulur. Ardılı karıştırılan komşusu yedeğe geçer; maliyeti %15'ten çok değiştiyse o da hemen ilan eder. 40 düğüm 2 s'de bir selam gönderirken bir düğümün duyduğu selamlar kanalın kabaca %1'ini kaplar (15 komşu × 0,5/s × 1 ms).
 
 ## Sınanması
 

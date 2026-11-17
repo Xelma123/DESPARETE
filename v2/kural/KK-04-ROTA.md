@@ -21,13 +21,13 @@ Geçide giden ardılı seçmek, döngüyü önlemek, uygun komşu kalmayınca he
 3. **Maliyet:** `C = min_{j ∈ A} (ETX(i, j) + C_j)`; geçit için `C = 0`; `A` boşsa `C = ∞`.
 4. **Zorunlu geçiş:** ardıl `A`'dan çıkarsa (KÖTÜ, KARIŞTIRILIYOR, silindi, uygulanamaz) `A`'nın en ucuzuna anında geçilir; onarım yok (T-9, T-14).
 5. **İsteğe bağlı geçiş:** aday maliyeti `< (1 − GECIS_ORANI) · C` ise geçilir; değilse ardıl korunur (T-11).
-6. **İlan ve FD:** maliyet selamla ilan edilir (KK-02). Sonlu bir maliyet ilan edilirken: `tur` FD'ninkinden yeniyse `FD ← (tur, C)`; aynı turda `C < FD.maliyet` ise `FD.maliyet ← C`.
+6. **İlan ve FD:** maliyet selamla ilan edilir (KK-02). İlanın turu **seçili rotamın turudur**: ardılımın ilan ettiği tur; geçitte kendi turu. Rotası olmayan düğüm ∞ ilan eder ve daha yeni bir tur ilan etmez. Sebep: bir düğüm duyduğu ama rotasının dayanmadığı yeni bir turu ilan etseydi, komşuları onun eski bir yoldan gelen maliyetini yeni turla uygulanabilir sanır ve döngü kurulabilirdi (Babel'de sıra numarası seçili rotanınkidir, RFC 8966 §3.7). Sonlu bir maliyet ilan edilirken: `tur` FD'ninkinden yeniyse `FD ← (tur, C)`; aynı turda `C < FD.maliyet` ise `FD.maliyet ← C`.
 7. **Seçili ardıldan uygulanamaz ilan:** ilan yok sayılır, ardıl son kabul edilen `C_j` ile kalır, ardıla tek alıcılı tur isteği gider. İlan uygulanırsa ardıl hemen bırakılır; uygulanamaz bir rota seçili tutulmaz (RFC 8966 §3.5.3, §3.8.2.2).
-8. **Açlık:** `A` boş ama tabloda uygulanamaz ilanlı komşular var → komşulara tur isteği (`istenen = FD.tur + 1`), `ISTEK_YINELEME` kez. Paketler bekletilir (KK-05).
+8. **Açlık:** `A` boş ama tabloda uygulanamaz ilanlı komşular var → komşulara tur isteği (`istenen = FD.tur + 1`), `ISTEK_YINELEME` kez; açlık sürerse dizi `ISTEK_ARA`'da bir yinelenir. `A` boş ve sonlu ilanlı komşu da yoksa (adaysız) istek gönderilmez: yanıtlayabilecek kimse yok; paketler bekletilir (KK-05), sonraki selamlar beklenir.
 9. **Tur isteği gelince:**
    - bildiğim tur ≥ istenen ve maliyetim sonlu → hemen selam (ara ilan, KK-02);
    - geçitsem ve turum < istenen → tur bir artar, hemen selam;
-   - değilsem ve atlama sınırı (`ISTEK_ATLAMA`) dolmadıysa → istek ardılıma iletilir; aynı istenen tur için 1 s içinde ikinci istek iletilmez.
+   - değilsem ve atlama sınırı (`ISTEK_ATLAMA`) dolmadıysa → istek ardılıma iletilir; ardılım isteği gönderense iletilmez (RFC 8966 §3.8.1.2); aynı istenen tur için 1 s içinde ikinci istek iletilmez.
 10. **Tur yalnız istekle artar** (T-13).
 11. **İleti:** `tur_istegi` = istenen tur 16 bit · kalan atlama 8 bit (`13` §02.1).
 

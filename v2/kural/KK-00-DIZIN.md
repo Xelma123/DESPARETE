@@ -21,21 +21,23 @@ Her kâğıtta: amaç ve sınıf · gördüğü · tuttuğu · kurallar · değe
 | `N` selam geçmişi | 16 | KK-01 | Babel'in geçmişi [4] |
 | `ORNEK_EN_AZ` | 4 selam | KK-01 | yeni komşu ancak ölçülünce aday |
 | `E_CIK` · `E_DON` | 4 · 3 (ETX) | KK-01 | MRHOF üst sınırı 4 [64]; iki eşik T-3 |
-| `VERI_PENCERE` | son 8 çerçeve, ≤ 10 s | KK-01 | T-2'nin veri örneği |
+| `VERI_PENCERE` | son 8 veri çerçevesi, ≤ 10 s | KK-01 | T-2'nin veri örneği |
 | `T_HATIRA` | 30 s | KK-01 | teşhis (d) S3: 32 s'de bant değişmiyor |
+| `T_CEZA` | 10 s; 60 s içinde yinelenirse ×2, en çok 40 s | KK-01 | veriyle KÖTÜ'ye düşen bağın gidip gelmesini önler |
 | `T_SILME` | 30 s hiç duyulmazsa | KK-01 | İlke 2; 15 s'lik karıştırmada silinmesin |
 | `ZAMAN_ASIMI` | 1,5 × komşunun aralığı | KK-01, KK-03 | Babel'in katsayısı (`protokoller/babel_bicim.py`) |
 | `I_MIN` · `I_MAX` | 0,5 s · 2 s | KK-02 | 3 kaçan selam × 2 s = 6 s < 10 s açık dönem (§7 madde 3) |
-| `SELAM_ARASI_EN_AZ` | 0,25 s | KK-02 | T-17'nin sıklık sınırı |
+| `SELAM_ARASI_EN_AZ` | 0,5 s (= `I_MIN`) | KK-02 | T-17'nin sıklık sınırı; değişimler birleşir |
 | `ILAN_ESIGI` | %15 | KK-02 | maliyet değişiminin "önemli" sayılması |
 | `ED_ESIGI` | kanal meşgul payı ≥ 0,62 | KK-03 | teşhis (d): %80 yakalama, ikizde %0,035 yanlış alarm |
 | `DUSUS_ORANI` | çözülen < 0,5 × kendi ortalaması | KK-03 | teşhis (d): girişimde 49 ↔ 99/s |
 | `KAYIP_ESIGI` | selam kaybı ≥ 0,6 | KK-03 | teşhis (d): girişimde 0,69 ↔ temiz 0,44 |
 | `GIRIS_SANIYE` · `CIKIS_SANIYE` | 2 · 3 ardışık saniye | KK-03 | T-10 |
-| `SESSIZ_SELAM` | 3 ardışık beklenen selam | KK-03 | T-6 |
+| `SESSIZ_SELAM` | en az 3 ardışık beklenen selam; bağın kendi kaybıyla olasılığı < %1 olacak kadar | KK-03 | T-6; temizde selam kaybı 0,44 (teşhis (d)) |
 | `MAC_ARDISIK` | 3 vazgeçme | KK-03 | teşhis (d): `n* = 3` |
 | `GECIS_ORANI` | %10 | KK-04 | Ramachandran [54]; T-11 |
 | `ISTEK_YINELEME` | 3 kez, 0,5 s arayla | KK-04 | Babel [4] |
+| `ISTEK_ARA` | 5 s | KK-04 | açlık sürerse istek dizisinin yinelenmesi |
 | `ISTEK_ATLAMA` | 8 | KK-04 | isteğin geçide doğru iletilme sınırı |
 | `TUTMA_EN_COK` | 2 s (atlama başına) | KK-05 | T-18 |
 | `IZ_TAZELIK` | 3 s | KK-05 | telemetri saniyede bir |
