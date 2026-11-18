@@ -1,0 +1,122 @@
+==============================================================================
+KAYIP ANATOMISI — dunya referans_2026 · formasyon-yok · aile — · yere toplama · tohum [1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]
+==============================================================================
+    1/8 desparete5_cekirdek                        1004 · PDR(pencere) 0.9783 · 3062 s
+    2/8 desparete5_cekirdek                        1007 · PDR(pencere) 0.9198 · 3319 s
+    3/8 desparete5_cekirdek                        1008 · PDR(pencere) 0.8948 · 3342 s
+    4/8 desparete5_cekirdek                        1003 · PDR(pencere) 0.6933 · 3344 s
+    5/8 desparete5_cekirdek                        1010 · PDR(pencere) 0.8110 · 3590 s
+    6/8 desparete5_cekirdek                        1009 · PDR(pencere) 0.9366 · 4363 s
+    7/8 desparete5_cekirdek                        1005 · PDR(pencere) 0.4009 · 4440 s
+    8/8 desparete5_cekirdek                        1006 · PDR(pencere) 0.8435 · 4646 s
+
+  desparete5_cekirdek  PDR(pencere) ort 0.810 · üretilen 102391 · geçerli True
+    tohum 1003: PDR 0.6937 (pencere 0.6933) · 3344 s
+      düşen/üretilen: rota_gecersiz 25.2% · iletim_basarisiz 4.7% · hedef_yok 0.3% · kuyruk_tasmasi 0.2% · tampon_asimi 0.2%
+      ısınmada düşen (adet): rota_gecersiz 371 · iletim_basarisiz 180 · hedef_yok 36
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[4, 230, 26.1], [39, 212, 28.3], [24, 209, 34.2], [17, 197, 34.0], [34, 192, 12.9]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[4, 55, 26.1], [39, 53, 28.3], [35, 41, 29.2], [17, 38, 34.0], [14, 34, 27.1]]
+      evre: şok derinliği 0.08505177545346554 · toparlanma 0.0 s · tespit 34.0 s (boş kolda None olmalı — M4 kapısı)
+      karar bağı kâhin bandı: iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 2.58, 'p50': 5.78, 'p90': 10.16}
+      karar bağı TEK deneme (yayın) bandı: iyi 83% · orta 16% · kotu 1%
+      başarısız bağ bandı:   iyi 99% · orta 1% · kotu 0% · mesafe km {'p10': 4.9, 'p50': 7.9, 'p90': 12.81} · 147 ayrı bağ, en çok [[35, 32, 25], [4, 2, 12], [39, 14, 12], [39, 12, 12], [31, 37, 11]]
+      veri denemesi 80610 · adreslenen alıcıda: alim_basarili 53.8% · alim_red_mesgul 28.6% · alim_red_per 9.3% · alim_red_yari_cift 4.5% · alim_red_onbelge 3.7% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 90.3% (52.6%) · 2e+06 7.4% (64.8%) · 5.5e+06 1.8% (70.6%) · 1.1e+07 0.4% (64.4%)
+      girişimsiz beklenen başarısızlık: deneme 6.9% · karar 0.02%
+    tohum 1004: PDR 0.9740 (pencere 0.9783) · 3062 s
+      düşen/üretilen: iletim_basarisiz 2.2% · hedef_yok 0.3% · rota_gecersiz 0.1%
+      ısınmada düşen (adet): iletim_basarisiz 60 · hedef_yok 35 · rota_gecersiz 4
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[0, 10, 0.0], [24, 3, 7.0], [35, 2, 21.0], [10, 1, 21.3], [5, 1, 25.0]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[24, 30, 7.0], [36, 20, 11.6], [6, 17, 22.6], [4, 14, 8.5], [11, 14, 22.6]]
+      evre: şok derinliği -0.0007500000000000284 · toparlanma 0.0 s · tespit None s (boş kolda None olmalı — M4 kapısı)
+      karar bağı kâhin bandı: iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 3.73, 'p50': 6.98, 'p90': 12.07}
+      karar bağı TEK deneme (yayın) bandı: iyi 69% · orta 30% · kotu 0%
+      başarısız bağ bandı:   iyi 98% · orta 2% · kotu 0% · mesafe km {'p10': 5.37, 'p50': 10.63, 'p90': 14.67} · 85 ayrı bağ, en çok [[36, 0, 20], [24, 0, 15], [7, 2, 9], [13, 2, 9], [4, 39, 8]]
+      veri denemesi 85703 · adreslenen alıcıda: alim_basarili 53.4% · alim_red_mesgul 28.9% · alim_red_per 11.1% · alim_red_onbelge 4.2% · alim_red_yari_cift 2.5% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 95.2% (52.9%) · 2e+06 3.7% (59.0%) · 5.5e+06 0.8% (77.1%) · 1.1e+07 0.3% (80.9%)
+      girişimsiz beklenen başarısızlık: deneme 8.8% · karar 0.01%
+    tohum 1005: PDR 0.4035 (pencere 0.4009) · 4440 s
+      düşen/üretilen: rota_gecersiz 45.7% · iletim_basarisiz 10.9% · kuyruk_tasmasi 1.4% · tampon_asimi 1.4% · hedef_yok 0.3%
+      ısınmada düşen (adet): rota_gecersiz 756 · iletim_basarisiz 299 · hedef_yok 35 · kuyruk_tasmasi 20 · tampon_asimi 6
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[36, 478, 23.4], [11, 435, 22.8], [6, 428, 13.0], [20, 346, 18.6], [7, 315, 19.3]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[6, 79, 13.0], [25, 68, 22.0], [16, 64, 23.5], [37, 60, 18.3], [20, 58, 18.6]]
+      evre: şok derinliği -0.011009631490787264 · toparlanma 0.0 s · tespit None s (boş kolda None olmalı — M4 kapısı)
+      karar bağı kâhin bandı: iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 2.44, 'p50': 5.6, 'p90': 9.53}
+      karar bağı TEK deneme (yayın) bandı: iyi 87% · orta 13% · kotu 0%
+      başarısız bağ bandı:   iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 5.52, 'p50': 8.39, 'p90': 13.29} · 234 ayrı bağ, en çok [[6, 37, 25], [1, 13, 21], [20, 26, 19], [27, 21, 18], [26, 33, 18]]
+      veri denemesi 95933 · adreslenen alıcıda: alim_basarili 49.8% · alim_red_mesgul 31.1% · alim_red_per 9.2% · alim_red_yari_cift 6.2% · alim_red_onbelge 3.7% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 92.8% (48.7%) · 2e+06 6.0% (63.3%) · 5.5e+06 0.9% (66.3%) · 1.1e+07 0.2% (69.1%)
+      girişimsiz beklenen başarısızlık: deneme 6.0% · karar 0.01%
+    tohum 1006: PDR 0.8464 (pencere 0.8435) · 4646 s
+      düşen/üretilen: iletim_basarisiz 7.5% · rota_gecersiz 7.5% · hedef_yok 0.2% · kuyruk_tasmasi 0.1% · tampon_asimi 0.0%
+      ısınmada düşen (adet): iletim_basarisiz 157 · rota_gecersiz 85 · hedef_yok 31
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[34, 263, 15.6], [2, 131, 18.0], [14, 89, 25.8], [31, 73, 24.3], [9, 62, 16.9]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[31, 69, 24.3], [34, 58, 15.6], [14, 50, 25.8], [2, 48, 18.0], [9, 48, 16.9]]
+      evre: şok derinliği 0.012949665987925574 · toparlanma 0.0 s · tespit None s (boş kolda None olmalı — M4 kapısı)
+      karar bağı kâhin bandı: iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 3.15, 'p50': 6.5, 'p90': 10.09}
+      karar bağı TEK deneme (yayın) bandı: iyi 86% · orta 14% · kotu 0%
+      başarısız bağ bandı:   iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 5.5, 'p50': 9.31, 'p90': 12.87} · 191 ayrı bağ, en çok [[31, 12, 23], [34, 19, 20], [34, 29, 17], [17, 21, 17], [38, 0, 16]]
+      veri denemesi 113710 · adreslenen alıcıda: alim_basarili 52.3% · alim_red_mesgul 30.5% · alim_red_per 9.2% · alim_red_yari_cift 4.8% · alim_red_onbelge 3.1% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 94.2% (52.0%) · 2e+06 5.0% (57.4%) · 5.5e+06 0.6% (63.2%) · 1.1e+07 0.1% (68.8%)
+      girişimsiz beklenen başarısızlık: deneme 5.8% · karar 0.01%
+    tohum 1007: PDR 0.9227 (pencere 0.9198) · 3319 s
+      düşen/üretilen: iletim_basarisiz 4.1% · rota_gecersiz 3.2% · hedef_yok 0.2% · tampon_asimi 0.1% · kuyruk_tasmasi 0.1%
+      ısınmada düşen (adet): iletim_basarisiz 90 · hedef_yok 29 · rota_gecersiz 4
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[22, 53, 15.1], [37, 53, 16.8], [26, 49, 21.4], [32, 36, 12.4], [19, 36, 14.5]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[22, 49, 15.1], [19, 44, 14.5], [4, 30, 18.1], [26, 30, 21.4], [16, 28, 16.0]]
+      evre: şok derinliği -0.022772120200333923 · toparlanma 0.0 s · tespit None s (boş kolda None olmalı — M4 kapısı)
+      karar bağı kâhin bandı: iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 3.79, 'p50': 8.07, 'p90': 13.35}
+      karar bağı TEK deneme (yayın) bandı: iyi 85% · orta 14% · kotu 0%
+      başarısız bağ bandı:   iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 5.65, 'p50': 9.95, 'p90': 14.7} · 144 ayrı bağ, en çok [[32, 2, 16], [26, 21, 15], [16, 21, 14], [4, 8, 12], [2, 0, 11]]
+      veri denemesi 82232 · adreslenen alıcıda: alim_basarili 54.1% · alim_red_mesgul 29.7% · alim_red_per 8.8% · alim_red_yari_cift 4.0% · alim_red_onbelge 3.3% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 92.9% (53.7%) · 2e+06 6.3% (58.9%) · 5.5e+06 0.7% (61.7%) · 1.1e+07 0.1% (70.7%)
+      girişimsiz beklenen başarısızlık: deneme 6.2% · karar 0.01%
+    tohum 1008: PDR 0.8756 (pencere 0.8948) · 3342 s
+      düşen/üretilen: rota_gecersiz 8.4% · iletim_basarisiz 3.6% · hedef_yok 0.3% · kuyruk_tasmasi 0.1% · tampon_asimi 0.0%
+      ısınmada düşen (adet): rota_gecersiz 219 · iletim_basarisiz 173 · hedef_yok 35 · kuyruk_tasmasi 12 · tampon_asimi 2
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[37, 158, 29.1], [21, 151, 25.8], [26, 118, 28.1], [9, 104, 25.4], [34, 104, 30.3]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[26, 55, 28.1], [6, 33, 20.2], [29, 28, 10.0], [31, 25, 17.0], [16, 21, 24.7]]
+      evre: şok derinliği -0.07305958376071486 · toparlanma 0.0 s · tespit None s (boş kolda None olmalı — M4 kapısı)
+      karar bağı kâhin bandı: iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 3.51, 'p50': 6.85, 'p90': 11.08}
+      karar bağı TEK deneme (yayın) bandı: iyi 80% · orta 20% · kotu 0%
+      başarısız bağ bandı:   iyi 99% · orta 1% · kotu 0% · mesafe km {'p10': 6.48, 'p50': 9.64, 'p90': 14.21} · 116 ayrı bağ, en çok [[29, 0, 23], [26, 19, 14], [6, 17, 13], [6, 32, 12], [2, 19, 11]]
+      veri denemesi 76665 · adreslenen alıcıda: alim_basarili 53.2% · alim_red_mesgul 29.0% · alim_red_per 10.3% · alim_red_onbelge 3.8% · alim_red_yari_cift 3.7% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 95.4% (53.1%) · 2e+06 4.1% (54.4%) · 5.5e+06 0.3% (66.0%) · 1.1e+07 0.1% (74.4%)
+      girişimsiz beklenen başarısızlık: deneme 7.8% · karar 0.01%
+    tohum 1009: PDR 0.9347 (pencere 0.9366) · 4363 s
+      düşen/üretilen: iletim_basarisiz 4.5% · rota_gecersiz 1.8% · hedef_yok 0.2%
+      ısınmada düşen (adet): iletim_basarisiz 124 · hedef_yok 22 · rota_gecersiz 6
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[6, 40, 19.6], [21, 24, 16.9], [3, 21, 9.7], [16, 21, 21.6], [9, 15, 28.4]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[16, 47, 21.6], [6, 34, 19.6], [26, 29, 9.3], [29, 26, 20.8], [17, 26, 26.1]]
+      evre: şok derinliği -0.02877188594297142 · toparlanma 0.0 s · tespit None s (boş kolda None olmalı — M4 kapısı)
+      karar bağı kâhin bandı: iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 2.66, 'p50': 6.35, 'p90': 9.21}
+      karar bağı TEK deneme (yayın) bandı: iyi 90% · orta 10% · kotu 0%
+      başarısız bağ bandı:   iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 5.42, 'p50': 8.39, 'p90': 12.8} · 145 ayrı bağ, en çok [[26, 0, 23], [35, 5, 16], [29, 5, 16], [18, 5, 16], [6, 23, 14]]
+      veri denemesi 109348 · adreslenen alıcıda: alim_basarili 53.9% · alim_red_mesgul 32.7% · alim_red_per 7.0% · alim_red_yari_cift 3.6% · alim_red_onbelge 2.8% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 93.0% (53.5%) · 2e+06 5.9% (58.7%) · 5.5e+06 0.8% (63.5%) · 1.1e+07 0.3% (66.6%)
+      girişimsiz beklenen başarısızlık: deneme 4.0% · karar 0.00%
+    tohum 1010: PDR 0.8179 (pencere 0.8110) · 3590 s
+      düşen/üretilen: rota_gecersiz 12.7% · iletim_basarisiz 5.1% · hedef_yok 0.2% · kuyruk_tasmasi 0.1% · tampon_asimi 0.0%
+      ısınmada düşen (adet): iletim_basarisiz 155 · rota_gecersiz 102 · hedef_yok 31
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[8, 262, 31.3], [36, 208, 32.5], [37, 154, 22.2], [16, 124, 22.8], [5, 112, 22.1]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[37, 58, 22.2], [16, 48, 22.8], [5, 41, 22.1], [8, 31, 31.3], [31, 28, 24.7]]
+      evre: şok derinliği 0.1187128092768126 · toparlanma 0.0 s · tespit None s (boş kolda None olmalı — M4 kapısı)
+      karar bağı kâhin bandı: iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 3.47, 'p50': 6.35, 'p90': 9.63}
+      karar bağı TEK deneme (yayın) bandı: iyi 83% · orta 17% · kotu 1%
+      başarısız bağ bandı:   iyi 99% · orta 1% · kotu 0% · mesafe km {'p10': 5.7, 'p50': 9.35, 'p90': 14.18} · 143 ayrı bağ, en çok [[37, 10, 24], [5, 35, 19], [11, 2, 17], [37, 35, 16], [16, 26, 14]]
+      veri denemesi 84898 · adreslenen alıcıda: alim_basarili 52.4% · alim_red_mesgul 30.0% · alim_red_per 10.0% · alim_red_onbelge 4.0% · alim_red_yari_cift 3.6% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 95.5% (52.3%) · 2e+06 4.1% (53.7%) · 5.5e+06 0.4% (67.3%) · 1.1e+07 0.0% (65.5%)
+      girişimsiz beklenen başarısızlık: deneme 7.3% · karar 0.02%
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    hedef_yok                  0         0       254       254      0.2%
+    iletim_basarisiz           0         0      5457      5457      5.3%
+    kuyruk_tasmasi             0         0       262       262      0.3%
+    rota_gecersiz              0         0     13398     13398     13.1%
+    tampon_asimi               0         0       230       230      0.2%
+    (koşu sonu kuyrukta)                                       0      0.0%
+
+  bolge: ed = karistirici >= ED esigi (kanal erisim kilidi) · girisim = gurultunun ustu · uzak = karistiricidan bagimsiz
+  etki alani: karistirici o an ACIK olsaydi alinacak ORTALAMA guc (yavas kayip; kapi ve hizli sonumleme haric), ayni esikler; paket tablosunda paketin gecit disi ucunda, dogum aninda
+  iletim_basarisiz'in bolgesi ALICIDA (denenen sonraki atlama) okunur; digerleri dustugu dugumde (K-193)
+  bag bandi: kahinin tek deneme basarisindan p_atlama — iyi >= 0,90 · orta 0,50-0,90 · kotu < 0,50 (girisim haric)
+  toplam duvar suresi 4648 s

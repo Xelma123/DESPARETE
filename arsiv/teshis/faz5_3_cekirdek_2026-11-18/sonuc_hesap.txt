@@ -1,0 +1,76 @@
+== 0 · GEÇERLİLİK ==
+  kâhin     koşu 16/16 · korunum, çelişki ya da atfsız düşüş kusuru 0 · ikincil sayımın pencere PDR'siyle tutarsızlığı 0
+  Babel     koşu 16/16 · korunum, çelişki ya da atfsız düşüş kusuru 0 · ikincil sayımın pencere PDR'siyle tutarsızlığı 0
+  çekirdek  koşu 16/16 · korunum, çelişki ya da atfsız düşüş kusuru 0 · ikincil sayımın pencere PDR'siyle tutarsızlığı 0
+  v0.4.1    koşu 16/16 · korunum, çelişki ya da atfsız düşüş kusuru 0 · ikincil sayımın pencere PDR'siyle tutarsızlığı 0
+
+== 1 · HÜCRE TABLOLARI (tohum ortalaması ± ölçüt sapması) ==
+  İ · karıştırıcısız ikiz (pencere PDR)
+    kâhin     0.917 ± 0.029 [0.893 … 0.961] · 5 s tavanlı 0.917 · p99 0.144 s · kâhine oran 1.000
+              1003 0.896 · 1004 0.961 · 1005 0.898 · 1006 0.895 · 1007 0.961 · 1008 0.916 · 1009 0.893 · 1010 0.914
+    Babel     0.930 ± 0.030 [0.863 … 0.957] · 5 s tavanlı 0.930 · p99 0.229 s · kâhine oran 1.015
+              1003 0.944 · 1004 0.954 · 1005 0.863 · 1006 0.918 · 1007 0.957 · 1008 0.940 · 1009 0.943 · 1010 0.923
+    çekirdek  0.810 ± 0.187 [0.401 … 0.978] · 5 s tavanlı 0.806 · p99 3.401 s · kâhine oran 0.883
+              1003 0.693 · 1004 0.978 · 1005 0.401 · 1006 0.843 · 1007 0.920 · 1008 0.895 · 1009 0.937 · 1010 0.811
+    v0.4.1    0.785 ± 0.040 [0.718 … 0.856] · 5 s tavanlı 0.784 · p99 2.512 s · kâhine oran 0.856
+              1003 0.752 · 1004 0.797 · 1005 0.718 · 1006 0.804 · 1007 0.856 · 1008 0.795 · 1009 0.787 · 1010 0.771
+  B · birincil, 15/15 (PDR_açık)
+    kâhin     0.779 ± 0.077 [0.657 … 0.900] · 5 s tavanlı 0.776 · sessiz 0.916 · önce 0.919 · p99 0.331 s · kâhine oran 1.000
+              1003 0.748 · 1004 0.844 · 1005 0.657 · 1006 0.825 · 1007 0.900 · 1008 0.783 · 1009 0.764 · 1010 0.710
+    Babel     0.663 ± 0.139 [0.485 … 0.834] · 5 s tavanlı 0.657 · sessiz 0.916 · önce 0.932 · p99 1.313 s · kâhine oran 0.851
+              1003 0.547 · 1004 0.787 · 1005 0.485 · 1006 0.764 · 1007 0.834 · 1008 0.668 · 1009 0.731 · 1010 0.488
+    çekirdek  0.410 ± 0.123 [0.131 … 0.536] · 5 s tavanlı 0.408 · sessiz 0.612 · önce 0.820 · p99 3.808 s · kâhine oran 0.527
+              1003 0.379 · 1004 0.436 · 1005 0.131 · 1006 0.447 · 1007 0.468 · 1008 0.487 · 1009 0.536 · 1010 0.399
+    v0.4.1    0.567 ± 0.085 [0.446 … 0.669] · 5 s tavanlı 0.561 · sessiz 0.763 · önce 0.779 · p99 3.669 s · kâhine oran 0.728
+              1003 0.518 · 1004 0.603 · 1005 0.446 · 1006 0.662 · 1007 0.669 · 1008 0.562 · 1009 0.611 · 1010 0.464
+
+== 2 · S1 — genel düzey, İ: G = Babel − çekirdek (eşik 0,02) ==
+  G +0.120 (artı 7/8 · eksi 1/8; 1003 +0.250 · 1004 -0.024 · 1005 +0.462 · 1006 +0.074 · 1007 +0.037 · 1008 +0.045 · 1009 +0.006 · 1010 +0.112) → AYRIŞIYOR (+)
+  → ÇEKİRDEK GERİDE: sıradaki iş genel açığın teşhisi (kayıp grupları, atlama, kontrol payı, veri tetiği), karıştırma katmanının A/B'leri ondan sonra
+  çekirdek − v0.4.1: +0.025 (artı 6/8 · eksi 2/8; 1003 -0.059 · 1004 +0.181 · 1005 -0.317 · 1006 +0.039 · 1007 +0.064 · 1008 +0.100 · 1009 +0.150 · 1010 +0.040) → AYRIŞIYOR (+)
+
+== 3 · S2 — başlangıç çizgisi, B (betimleyici) ==
+  Babel − çekirdek: +0.253 (artı 8/8 · eksi 0/8; 1003 +0.168 · 1004 +0.351 · 1005 +0.355 · 1006 +0.316 · 1007 +0.366 · 1008 +0.181 · 1009 +0.196 · 1010 +0.089) → AYRIŞIYOR (+)
+  v0.4.1 − çekirdek: +0.157 (artı 8/8 · eksi 0/8; 1003 +0.139 · 1004 +0.167 · 1005 +0.315 · 1006 +0.215 · 1007 +0.202 · 1008 +0.075 · 1009 +0.076 · 1010 +0.064) → AYRIŞIYOR (+)
+  Δ_k = PDR_açık(B) − hayalet PDR_açık(İ, 15/15):
+    kâhin     Δ_k -0.137 ± 0.062 (hayalet 0.916 → hücre 0.779) · 1003 -0.154 · 1004 -0.111 · 1005 -0.242 · 1006 -0.064 · 1007 -0.063 · 1008 -0.128 · 1009 -0.132 · 1010 -0.204
+    Babel     Δ_k -0.265 ± 0.124 (hayalet 0.928 → hücre 0.663) · 1003 -0.398 · 1004 -0.165 · 1005 -0.378 · 1006 -0.151 · 1007 -0.116 · 1008 -0.271 · 1009 -0.207 · 1010 -0.434
+    çekirdek  Δ_k -0.391 ± 0.095 (hayalet 0.802 → hücre 0.410) · 1003 -0.228 · 1004 -0.538 · 1005 -0.291 · 1006 -0.385 · 1007 -0.434 · 1008 -0.435 · 1009 -0.401 · 1010 -0.417
+    v0.4.1    Δ_k -0.222 ± 0.056 (hayalet 0.789 → hücre 0.567) · 1003 -0.239 · 1004 -0.183 · 1005 -0.294 · 1006 -0.156 · 1007 -0.174 · 1008 -0.265 · 1009 -0.177 · 1010 -0.292
+  Δ_k(çekirdek) − Δ_k(Babel): -0.126 (artı 3/8 · eksi 5/8; 1003 +0.170 · 1004 -0.373 · 1005 +0.087 · 1006 -0.235 · 1007 -0.318 · 1008 -0.164 · 1009 -0.195 · 1010 +0.017) → 8 tohumda ayırt edilemedi
+
+== 4 · S3 — kontrol yükü ve gecikme (T-19) ==
+  İ · karıştırıcısız ikiz (pencere PDR)
+    kâhin     kontrol kanal süresi 19.0 s · toplam gönderim 317 s · kontrol payı 6.0% | tavan bedeli 3,5 s 0.000 · 5 s 0.000 · 10 s 0.000 | gecikme p50 0.028 · p95 0.100 · p99 0.144 s
+    Babel     kontrol kanal süresi 67.8 s · toplam gönderim 461 s · kontrol payı 14.7% | tavan bedeli 3,5 s 0.000 · 5 s 0.000 · 10 s 0.000 | gecikme p50 0.043 · p95 0.155 · p99 0.229 s
+    çekirdek  kontrol kanal süresi 34.6 s · toplam gönderim 412 s · kontrol payı 8.4% | tavan bedeli 3,5 s 0.009 · 5 s 0.004 · 10 s 0.000 | gecikme p50 0.044 · p95 1.232 · p99 3.401 s
+    v0.4.1    kontrol kanal süresi 185.4 s · toplam gönderim 560 s · kontrol payı 33.1% | tavan bedeli 3,5 s 0.004 · 5 s 0.001 · 10 s 0.000 | gecikme p50 0.049 · p95 0.840 · p99 2.512 s
+  B · birincil, 15/15 (PDR_açık)
+    kâhin     kontrol kanal süresi 19.5 s · toplam gönderim 351 s · kontrol payı 5.6% | tavan bedeli 3,5 s 0.004 · 5 s 0.003 · 10 s 0.001 | gecikme p50 0.031 · p95 0.134 · p99 0.331 s
+    Babel     kontrol kanal süresi 77.0 s · toplam gönderim 513 s · kontrol payı 15.0% | tavan bedeli 3,5 s 0.009 · 5 s 0.006 · 10 s 0.002 | gecikme p50 0.052 · p95 0.337 · p99 1.313 s
+    çekirdek  kontrol kanal süresi 33.5 s · toplam gönderim 357 s · kontrol payı 9.4% | tavan bedeli 3,5 s 0.004 · 5 s 0.002 · 10 s 0.001 | gecikme p50 0.040 · p95 1.649 · p99 3.808 s
+    v0.4.1    kontrol kanal süresi 186.6 s · toplam gönderim 560 s · kontrol payı 33.3% | tavan bedeli 3,5 s 0.018 · 5 s 0.006 · 10 s 0.000 | gecikme p50 0.056 · p95 1.332 · p99 3.669 s
+
+== 5 · S4 — tanı (betimleyici; kanal yükü bütün koşu, ağ toplamı, tohum ortalaması) ==
+  İ · karıştırıcısız ikiz (pencere PDR)
+    kâhin     kayıp R 0.000 · İ 0.083 · K 0.000 · T 0.000 | karar/paket 2.51 · atlama başarısızlığı 3.28% · deneme başarısı g 0.434
+    Babel     kayıp R 0.000 · İ 0.070 · K 0.000 · T 0.000 | karar/paket 3.57 · atlama başarısızlığı 2.22% · deneme başarısı g 0.469
+    çekirdek  kayıp R 0.139 · İ 0.049 · K 0.003 · T 0.000 | karar/paket 3.69 · atlama başarısızlığı 1.45% · deneme başarısı g 0.509
+    v0.4.1    kayıp R 0.043 · İ 0.172 · K 0.000 · T 0.000 | karar/paket 2.62 · atlama başarısızlığı 6.52% · deneme başarısı g 0.371
+    çekirdeğin sayaçları (koşu başına, ağ toplamı): bag.veri_kotu 399.4 · bag.askida_giris 399.4 · bag.kotu_selam 776.5 · bag.kotu_donus 1526.8 · bag.yeni_komsu 997.0 · bag.komsu_silindi 336.8 · bag.df_bayat 584.6 · rota.ardil_degisti 3368.0 · rota.zorunlu_gecis 747.4 · rota.istege_bagli_gecis 937.1 · rota.aclik 822.2 · rota.aclik_bitti 822.2 · rota.aclik_istegi 1634.1 · rota.tur_artirildi 92.0 · rota.istek_iletilen 2531.8 · rota.istek_karsilandi 1793.1 · rota.uygulanamaz_yoksayilan 228.9 · rota.geri_cekme_alinan 1146.1 · selam.selam 13745.1 · selam.ara_ilan 5232.0 · bekletme.bekletilen 4559.1 · bekletme.suresi_dolan 1706.5 · protokol.komut_gonderilen 996.0 · protokol.komut_bekletilen 2049.4 · protokol.komut_dusen 47.0 · iz.iz_eski_sira 3344.1
+    açlığın ortalama süresi 1.90 s (6578 açlık)
+  B · birincil, 15/15 (PDR_açık)
+    kâhin     kayıp R 0.008 · İ 0.206 · K 0.006 · T 0.000 | karar/paket 2.64 · atlama başarısızlığı 4.41% · deneme başarısı g 0.404
+    Babel     kayıp R 0.000 · İ 0.335 · K 0.002 · T 0.000 | karar/paket 3.64 · atlama başarısızlığı 4.32% · deneme başarısı g 0.423
+    çekirdek  kayıp R 0.512 · İ 0.077 · K 0.000 · T 0.000 | karar/paket 3.09 · atlama başarısızlığı 2.09% · deneme başarısı g 0.494
+    v0.4.1    kayıp R 0.237 · İ 0.196 · K 0.000 · T 0.000 | karar/paket 2.57 · atlama başarısızlığı 6.94% · deneme başarısı g 0.363
+    çekirdeğin sayaçları (koşu başına, ağ toplamı): bag.veri_kotu 482.2 · bag.askida_giris 482.2 · bag.kotu_selam 883.1 · bag.kotu_donus 1646.5 · bag.yeni_komsu 1009.6 · bag.komsu_silindi 356.2 · bag.df_bayat 608.2 · rota.ardil_degisti 3881.5 · rota.zorunlu_gecis 813.5 · rota.istege_bagli_gecis 863.5 · rota.aclik 1082.8 · rota.aclik_bitti 1082.8 · rota.aclik_istegi 2243.0 · rota.tur_artirildi 95.6 · rota.istek_iletilen 2637.8 · rota.istek_karsilandi 1740.9 · rota.uygulanamaz_yoksayilan 227.0 · rota.geri_cekme_alinan 1388.8 · selam.selam 14400.9 · selam.ara_ilan 5790.8 · bekletme.bekletilen 6913.1 · bekletme.suresi_dolan 3577.6 · protokol.komut_gonderilen 842.6 · protokol.komut_bekletilen 3321.4 · protokol.komut_dusen 85.6 · iz.iz_eski_sira 3156.9
+    açlığın ortalama süresi 3.12 s (8662 açlık)
+
+== 6 · KÂHİN — tohum başına aşım (kol − kâhin > R = 0.0126) ==
+  ikiz      Babel     ortalama fark +0.013 · aşan tohum 4/8: 1003 +0.048 · 1006 +0.023 · 1008 +0.024 · 1009 +0.049
+  ikiz      çekirdek  ortalama fark -0.107 · aşan tohum 2/8: 1004 +0.017 · 1009 +0.043
+  ikiz      v0.4.1    ortalama fark -0.132 · aşan tohum 0/8
+  birincil  Babel     ortalama fark -0.116 · aşan tohum 0/8
+  birincil  çekirdek  ortalama fark -0.369 · aşan tohum 0/8
+  birincil  v0.4.1    ortalama fark -0.212 · aşan tohum 0/8
