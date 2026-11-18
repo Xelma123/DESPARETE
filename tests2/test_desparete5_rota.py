@@ -287,6 +287,8 @@ def test_ZINCIR_aclik_istegi_gecide_gider_yanit_geri_yayilir():
     ilan(x, [(z, bz)], 1.2)
     ilan(z, [(y, by)], 1.3)
     assert y.ardil == Z and y.ilan()[0] == 2
+    # Tanı: açlık 1,0'da başladı, 1,3'te bitti (karara girmez).
+    assert y.sayac["aclik_bitti"] == 1 and y.sayac["aclik_sure_ms"] == 300
     assert x.tur_gecit == 1 and g.tur_gecit == 2   # tur yalnız geçitte
 
 

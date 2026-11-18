@@ -46,7 +46,7 @@ class Rota:
 
     __slots__ = ("d", "b", "kimlik", "gecit_mi", "tur_gecit", "ilanlar",
                  "ardil", "kabul", "C", "fd", "son_ilan_C", "yoksay_bitis",
-                 "aclik", "iletilen", "giden", "olay", "sayac")
+                 "aclik", "iletilen", "giden", "olay", "sayac", "_aclik_t")
 
     def __init__(self, kimlik: int, gecit: int, degerler: Degerler,
                  bayraklar: Bayraklar) -> None:
@@ -73,7 +73,12 @@ class Rota:
             "yoksay_doldu": 0, "aclik_istegi": 0, "yoksay_istegi": 0,
             "istek_yanitlanan": 0, "istek_iletilen": 0,
             "istek_bastirilan": 0, "istek_karsilandi": 0, "tur_artirildi": 0,
+            # Tanı (KK-00 tanı kaydı; karara girmez): açlıktan çıkış sayısı
+            # ve açlıkta geçen toplam süre — tur isteğinin gidiş-dönüşünün
+            # üst sınırı.
+            "aclik_bitti": 0, "aclik_sure_ms": 0,
         }
+        self._aclik_t: float | None = None
 
     # ------------------------------------------------------------------
     # KK-04/1 · uygulanabilirlik
@@ -168,6 +173,12 @@ class Rota:
             self.kabul = None if yeni is None else aday[yeni][2:]
             if yeni is None:
                 self.sayac["aclik"] += 1
+                self._aclik_t = t
+            elif eski is None and self._aclik_t is not None:
+                self.sayac["aclik_bitti"] += 1
+                self.sayac["aclik_sure_ms"] += int(round(
+                    (t - self._aclik_t) * 1000.0))
+                self._aclik_t = None
         self.ardil = yeni
         self.C = SONSUZ if yeni is None else aday[yeni][0]
         self._aclik_sec(t, baglar, kendi_donuk)
