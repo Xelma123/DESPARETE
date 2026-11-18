@@ -168,4 +168,24 @@ Bu yüzden kökün çoğunlukla bağ kaynaklı olmasını, çıkışların yarı
 
 ## Duman koşusundan sonra (ölçümden önce)
 
-(duman koşusundan sonra yazılacak)
+- **Koşu:** `sh kosu.sh duman`, 18 Kasım 20:51–20:57. Kısa pencere, tohum 1003, iki kol birlikte. Çıktı `duman_kisa.txt`, kayıt `duman/kayit_duman.json`.
+- **Kural 0 tuttu:**
+  - Çekirdek 1003'ün kısa pencere satırı ilk ölçümün dumanıyla birebir: pencere PDR'si 0,9457; PDR, üretilen, teslim, sayaçların tamamı ve doğum evresine göre düşenler aynı.
+  - İç denetimler iki kolda geçti.
+  - `vtk0`'da veri tetiği kapalı, `bag.veri_kotu` 0.
+  - Hesap uçtan uca çalıştı.
+- **Kâhin ölçüsünün sağlaması:** Penceredeki bütün bağ çıkışları iyi bantta çıktığı için ham değerlere bakıldı.
+  - Selam çıkışlarında kâhinin tek deneme başarısı en az 0,32 (`selam_asim`) ve 0,33 (`selam_alim`), medyanı ~0,73.
+  - Aynı çıkışlarda selamla ölçülen `d_f · d_r`'nin medyanı 0,23.
+  - Ölçü doğru hesaplanıyor: konumdan ve kanaldan, koşunun sırasından bağımsız. Kayıp anatomisi aleti de bantlarını aynı yoldan, koşudan sonra hesaplıyor.
+- **M2'nin okunuşu** (karar kuralı değişmedi):
+  - Kâhin girişimi dışarıda bırakır. "İyi" bant, bağın yol kaybı ve sönümleme bakımından iyi olduğunu söyler; yayın selamlarının çarpışma ve girişimle kaybı bu ölçüde görünmez.
+  - Rotanın taşıdığı veri ise tek alıcılıdır ve sekiz denemeyle girişimi çoğunlukla aşar (ilk ölçümde İ kaybı 0,049).
+  - Yanlış alarm bu anlamdadır: bağ veriyi taşıyabilirdi.
+  - Dumandaki fark (kâhin ~0,73 ↔ selam ~0,23), selam kaybının büyük kısmının bağın kendi kalitesinden değil girişimden geldiğini düşündürüyor. Bu bir gözlemdir; ölçümde sınanmaz.
+- **Kısa pencerenin tek tohumluk sayıları** yalnız aletin sınamasıdır; öngörüye ve karara girmez:
+  - pencerede 12 bölüm, 6 kök (hepsi veri tetiği);
+  - M4 0,38;
+  - `vtk0`'da pencerede açlık yok.
+- **Süre:** kol başına ~5 dk (kısa pencere). Ölçümün tahmini değişmedi (~2,5–3 sa).
+- **Öngörüler ve karar kuralı değişmedi.**

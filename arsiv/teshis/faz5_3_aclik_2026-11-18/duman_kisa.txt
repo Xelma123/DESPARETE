@@ -1,0 +1,74 @@
+==============================================================================
+AÇLIK TEŞHİSİ — dünya referans_2026 · formasyon-yok (ikiz) · kollar ['cekirdek', 'vtk0'] · tohum [1003] · KISA PENCERE
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\protokoller\desparete5.py
+==============================================================================
+    1/2 vtk0      1003 · PDR(pencere) 0.9583 · bölüm 3 · kayıp 6 · çıkış 127 · tur artışı 6 · denetim tamam · 284 s
+    2/2 cekirdek  1003 · PDR(pencere) 0.9457 · bölüm 44 · kayıp 106 · çıkış 167 · tur artışı 10 · denetim tamam · 302 s
+
+  2 koşu kayıtta · hata 0
+==============================================================================
+AÇLIK TEŞHİSİ · karar kuralı · C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_aclik_2026-11-18\duman
+==============================================================================
+
+0 · GEÇERLİLİK
+  çekirdek: 1 koşu · korunum, doğum, iç denetimler tamam
+  vtk0: 1 koşu · korunum, doğum, iç denetimler tamam
+  çekirdek kolu ilk ölçümle birebir: 1/1 (duman kaydı)
+  → GEÇERLİ
+
+1 · AÇLIĞIN KÖKÜ (çekirdek; penceredeki doğumlu, bölümde düşen telemetri paketleriyle ağırlıklı)
+  düşen paket / koşu                             21 · tohum 21
+  kapsama (bölümde + bölümsüz) / R grubu         1.000 · tohum 1.000
+  M1 bağ kökenli (kök sebep bag:*)               1.000 · tohum 1.000
+  M2 yanlış alarm (bağ kökenlide kâhin ≥ 0,90)   1.000 · tohum 1.000
+  M3 kökte OLAĞAN ama uygulanamaz komşu          1.000 · tohum 1.000
+     bunun eski turlu olanı                      0.000 · tohum 0.000
+  M3b kökte dışlanmış ama uygulanabilir komşu    1.000 · tohum 1.000
+  M4 zincir (yukarının ∞'undan) bölümde düşen    0.381 · tohum 0.381
+  kök sebep (kayıp ağırlıklı, koşu başına): {'bag:veri': '21.0 (100%)'}
+  HÜKÜM: BAĞ KÖKENLİ, YANLIŞ ALARM: bağ çıkış kuralları iyi bağları düşürüyor → bağ çıkışı seçenekleri (T-2, T-3, Y-12)
+
+2 · BÖLÜMLER (betimleyici)
+  pencere PDR                                    0.946 · tohum 0.946
+  R grubu kaybı                                  0.018 · tohum 0.018
+  bölüm / koşu                                   12 · tohum 12
+  kök bölüm / koşu                               6 · tohum 6
+  zincir bölüm payı (sayı)                       0.500 · tohum 0.500
+  süre medyanı (s)                               1.64 · tohum 1.64
+  süre p90 (s)                                   2.19 · tohum 2.19
+  süre ortalaması (s)                            2.74 · tohum 2.74
+  ≥ 2 s süren bölüm payı                         0.250 · tohum 0.250
+  ≥ 2 s süren bölümlerde düşen payı              1.000 · tohum 1.000
+  eski ardılla biten pay                         0.167 · tohum 0.167
+  yeni turla biten pay                           0.833 · tohum 0.833
+  istek dizisi başlayan pay                      0.917 · tohum 0.917
+  bölüm sebebi (sayı, koşu başına): {'bag:veri': '6.0 (50%)', 'geri_cekme': '6.0 (50%)'}
+  kök sebebi (sayı, koşu başına): {'bag:veri': '6.0 (100%)'}
+  bağ kökenli köklerde ardıl bağının kâhin bandı: {'iyi': '6.0 (100%)'}
+
+3 · BAĞ ÇIKIŞLARI (OLAĞAN'dan; betimleyici)
+  çıkış / koşu                                   109 · tohum 109
+  sebep: {'selam_asim': '51.0 (47%)', 'selam_alim': '38.0 (35%)', 'veri': '20.0 (18%)'}
+  ardıl bağında sebep: {'veri': '20.0 (95%)', 'selam_asim': '1.0 (5%)'}
+  ardıl bağı çıkışında kâhin ≥ 0,90 payı         1.000 · tohum 1.000
+  selam_alim  kâhin ≥ 0,90 payı 1.000 · KÖTÜ'de kalış medyanı 13.8 s
+  selam_asim  kâhin ≥ 0,90 payı 1.000 · KÖTÜ'de kalış medyanı 8.8 s
+  veri        kâhin ≥ 0,90 payı 1.000 · KÖTÜ'de kalış medyanı 10.0 s
+
+4 · TUR YAYILIMI (betimleyici)
+  geçidin tur artışı (pencerede)                 5 · tohum 5
+  artışlar arası medyan (s)                      5.25 · tohum 5.25
+  sonraki artıştan önce yetişen düğüm payı       1.000 · tohum 1.000
+  yetişme gecikmesi medyanı (s)                  1.43 · tohum 1.43
+
+5 · VERİ TETİĞİ KAPALI KOL (vtk0)
+  pencere PDR (vtk0)                             0.958 · tohum 0.958
+  R grubu kaybı (vtk0)                           0.000 · tohum 0.000
+  İ grubu kaybı (vtk0)                           0.042 · tohum 0.042
+  İ grubu kaybı (çekirdek)                       0.037 · tohum 0.037
+  bölüm / koşu (vtk0)                            0 · tohum 0
+  M1 (vtk0)                                      nan · tohum nan
+  M2 (vtk0)                                      nan · tohum nan
+  çıkış sebebi (vtk0): {'selam_asim': '55.0 (67%)', 'selam_alim': '27.0 (33%)'}
+  PDR(vtk0) − PDR(çekirdek): +0.013 (1 artı · 0 eksi) → ayırt edilemedi
+  bölüm sayısı oranı vtk0 / çekirdek: 0.00
