@@ -1,0 +1,180 @@
+==============================================================================
+KAYIP ANATOMISI — dunya referans_2026 · formasyon-yok · aile — · yere toplama · tohum [1003] · KISA PENCERE
+==============================================================================
+    1/2 desparete5_cekirdek                        1003 · PDR(pencere) 0.9457 · 276 s
+    2/2 babel                                      1003 · PDR(pencere) 0.8631 · 328 s
+
+  desparete5_cekirdek  PDR(pencere) ort 0.946 · üretilen 1597 · geçerli True
+    tohum 1003: PDR 0.8754 (pencere 0.9457) · 276 s
+      düşen/üretilen: rota_gecersiz 5.3% · iletim_basarisiz 5.1% · hedef_yok 2.1%
+      ısınmada düşen (adet): rota_gecersiz 46 · iletim_basarisiz 37 · hedef_yok 33
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[4, 23, 26.1], [24, 19, 34.2], [6, 10, 24.3], [34, 10, 12.9], [16, 8, 15.3]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[35, 11, 29.2], [4, 8, 26.1], [39, 7, 28.3], [22, 7, 26.6], [9, 4, 6.2]]
+      evre: TANIMSIZ — acilma ani 5.0 olcum penceresinin [10.0; 40.0) disinda
+      karar bağı kâhin bandı: iyi 100% · orta 0% · kotu 0% · mesafe km {'p10': 2.61, 'p50': 6.06, 'p90': 11.17}
+      karar bağı TEK deneme (yayın) bandı: iyi 77% · orta 23% · kotu 0%
+      başarısız bağ bandı:   iyi 96% · orta 4% · kotu 0% · mesafe km {'p10': 5.32, 'p50': 8.96, 'p90': 14.95} · 42 ayrı bağ, en çok [[35, 32, 7], [4, 2, 5], [35, 10, 4], [9, 28, 3], [38, 29, 3]]
+      veri denemesi 12831 · adreslenen alıcıda: alim_basarili 51.8% · alim_red_mesgul 30.5% · alim_red_per 9.8% · alim_red_onbelge 4.0% · alim_red_yari_cift 3.9% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 93.5% (50.8%) · 2e+06 4.2% (62.4%) · 5.5e+06 2.0% (75.3%) · 1.1e+07 0.4% (67.9%)
+      girişimsiz beklenen başarısızlık: deneme 7.5% · karar 0.04%
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    hedef_yok                  0         0        33        33      2.1%
+    iletim_basarisiz           0         0        81        81      5.1%
+    rota_gecersiz              0         0        85        85      5.3%
+    (koşu sonu kuyrukta)                                       0      0.0%
+
+  babel                PDR(pencere) ort 0.863 · üretilen 1597 · geçerli True
+    tohum 1003: PDR 0.8109 (pencere 0.8631) · 328 s
+      düşen/üretilen: iletim_basarisiz 14.3% · hedef_yok 4.6%
+      ısınmada düşen (adet): hedef_yok 73 · iletim_basarisiz 64
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[6, 53, 24.3], [5, 35, 27.8], [4, 29, 26.1], [35, 27, 29.2], [39, 22, 28.3]]
+      evre: TANIMSIZ — acilma ani 5.0 olcum penceresinin [10.0; 40.0) disinda
+      karar bağı kâhin bandı: iyi 99% · orta 1% · kotu 0% · mesafe km {'p10': 2.61, 'p50': 5.74, 'p90': 11.92}
+      karar bağı TEK deneme (yayın) bandı: iyi 75% · orta 21% · kotu 3%
+      başarısız bağ bandı:   iyi 92% · orta 8% · kotu 0% · mesafe km {'p10': 7.36, 'p50': 13.32, 'p90': 18.65} · 22 ayrı bağ, en çok [[6, 7, 53], [5, 10, 35], [4, 2, 29], [35, 10, 25], [39, 32, 22]]
+      veri denemesi 12713 · adreslenen alıcıda: alim_basarili 46.7% · alim_red_mesgul 32.3% · alim_red_per 11.4% · alim_red_onbelge 6.2% · alim_red_yari_cift 3.4% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 94.3% (45.7%) · 2e+06 4.5% (63.4%) · 5.5e+06 1.1% (65.5%) · 1.1e+07 0.1% (88.9%)
+      girişimsiz beklenen başarısızlık: deneme 13.0% · karar 0.16%
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    hedef_yok                  0         0        73        73      4.6%
+    iletim_basarisiz           0         0       229       229     14.3%
+    (koşu sonu kuyrukta)                                       0      0.0%
+
+  bolge: ed = karistirici >= ED esigi (kanal erisim kilidi) · girisim = gurultunun ustu · uzak = karistiricidan bagimsiz
+  etki alani: karistirici o an ACIK olsaydi alinacak ORTALAMA guc (yavas kayip; kapi ve hizli sonumleme haric), ayni esikler; paket tablosunda paketin gecit disi ucunda, dogum aninda
+  iletim_basarisiz'in bolgesi ALICIDA (denenen sonraki atlama) okunur; digerleri dustugu dugumde (K-193)
+  bag bandi: kahinin tek deneme basarisindan p_atlama — iyi >= 0,90 · orta 0,50-0,90 · kotu < 0,50 (girisim haric)
+  toplam duvar suresi 330 s
+==============================================================================
+KAYIP ANATOMISI — dunya referans_2026 · formasyon-surekli · aile derin_sizma · yere toplama · tohum [1003] · KISA PENCERE
+==============================================================================
+    1/2 desparete5_cekirdek                        1003 · PDR(pencere) 0.4992 · 181 s
+    2/2 babel                                      1003 · PDR(pencere) 0.6260 · 367 s
+
+  desparete5_cekirdek  PDR(pencere) ort 0.499 · üretilen 1597 · geçerli True
+    tohum 1003: PDR 0.4915 (pencere 0.4992) · 181 s
+      düşen/üretilen: rota_gecersiz 40.6% · iletim_basarisiz 7.6% · hedef_yok 2.0%
+      ısınmada düşen (adet): rota_gecersiz 75 · iletim_basarisiz 70 · hedef_yok 32
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[12, 100, 28.0], [14, 64, 27.1], [4, 60, 26.1], [13, 41, 31.2], [31, 40, 31.8]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[4, 10, 26.1], [39, 10, 28.3], [22, 10, 26.6], [35, 8, 29.2], [21, 7, 34.0]]
+      evre: TANIMSIZ — acilma ani 5.0 olcum penceresinin [10.0; 40.0) disinda
+      karıştırıcı evresi (doğuma göre PDR · doğan): once — · acik 0.423 (598) · sessiz 0.575 (600)
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 3/0/29 · iletim_basarisiz 86/14/22 · rota_gecersiz 407/241/0
+      karar bağı kâhin bandı: iyi 97% · orta 1% · kotu 2% · mesafe km {'p10': 2.06, 'p50': 5.67, 'p90': 10.48}
+      karar bağı TEK deneme (yayın) bandı: iyi 65% · orta 30% · kotu 6%
+      başarısız bağ bandı:   iyi 67% · orta 13% · kotu 20% · mesafe km {'p10': 4.26, 'p50': 8.27, 'p90': 13.27} · 67 ayrı bağ, en çok [[4, 18, 5], [35, 10, 4], [39, 12, 4], [12, 18, 4], [22, 32, 4]]
+      veri denemesi 6824 · adreslenen alıcıda: alim_basarili 48.1% · alim_red_mesgul 24.3% · alim_red_per 13.4% · alim_red_onbelge 9.9% · alim_red_yari_cift 4.4% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 95.9% (46.9%) · 2e+06 2.9% (70.5%) · 5.5e+06 1.0% (89.9%) · 1.1e+07 0.2% (90.9%)
+      girişimsiz beklenen başarısızlık: deneme 20.1% · karar 1.68%
+    evre × etki alanı                       ed               girisim                  uzak
+    PDR once                                 —                     —                     —
+    PDR acik                        0.154 (13)           0.910 (122)           0.302 (463)
+    PDR sessiz                      1.000 (14)           0.942 (137)           0.450 (449)
+    karar payı once                       1.1%                 19.9%                 79.0%
+    karar payı acik                       0.0%                 20.0%                 80.0%
+    karar payı sessiz                     2.1%                 17.2%                 80.7%
+    düşen/üretilen (ed / girisim / uzak):
+      hedef_yok         once 0.1% / 0.1% / 1.6% · acik 0.0% / 0.1% / 0.1%
+      iletim_basarisiz  once 0.0% / 0.7% / 0.7% · acik 0.7% / 2.9% / 1.8% · sessiz 0.0% / 0.2% / 0.7%
+      rota_gecersiz     acik 0.1% / 0.0% / 25.4% · sessiz 0.0% / 0.4% / 14.7%
+    doğum evresine göre akıbet (doğana oran, tohumlar toplanmış):
+      evre       doğan   teslim  iletim_basarisiz     rota_gecersiz    kalan
+      acik         598    0.423             0.059             0.502    0.017
+      sessiz       600    0.575             0.028             0.397    0.000
+      acik evrede doğan, düşen × etki alanı (ed / girisim / uzak): iletim_basarisiz 1.5% / 2.5% / 1.8% · rota_gecersiz 0.2% / 0.2% / 49.8%
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    hedef_yok                  0         1        31        32      2.0%
+    iletim_basarisiz           6        44        72       122      7.6%
+    rota_gecersiz              0         4       644       648     40.6%
+    (koşu sonu kuyrukta)                                       9      0.6%
+
+  babel                PDR(pencere) ort 0.626 · üretilen 1597 · geçerli True
+    tohum 1003: PDR 0.5842 (pencere 0.6260) · 367 s
+      düşen/üretilen: iletim_basarisiz 36.4% · hedef_yok 4.6%
+      ısınmada düşen (adet): iletim_basarisiz 141 · hedef_yok 73
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[4, 224, 26.1], [5, 129, 27.8], [6, 44, 24.3], [22, 38, 26.6], [37, 20, 31.1]]
+      evre: TANIMSIZ — acilma ani 5.0 olcum penceresinin [10.0; 40.0) disinda
+      karıştırıcı evresi (doğuma göre PDR · doğan): once — · acik 0.421 (598) · sessiz 0.830 (600)
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 0/0/73 · iletim_basarisiz 455/101/26
+      karar bağı kâhin bandı: iyi 91% · orta 3% · kotu 6% · mesafe km {'p10': 2.09, 'p50': 5.62, 'p90': 14.95}
+      karar bağı TEK deneme (yayın) bandı: iyi 68% · orta 17% · kotu 15%
+      başarısız bağ bandı:   iyi 35% · orta 12% · kotu 53% · mesafe km {'p10': 6.08, 'p50': 14.95, 'p90': 17.25} · 42 ayrı bağ, en çok [[4, 2, 137], [5, 10, 129], [4, 29, 87], [6, 7, 44], [22, 2, 38]]
+      veri denemesi 13179 · adreslenen alıcıda: alim_basarili 36.9% · alim_red_onbelge 24.0% · alim_red_mesgul 23.6% · alim_red_per 12.2% · alim_red_yari_cift 3.3% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 92.0% (34.2%) · 2e+06 5.9% (68.0%) · 5.5e+06 1.8% (69.7%) · 1.1e+07 0.3% (71.4%)
+      girişimsiz beklenen başarısızlık: deneme 34.2% · karar 6.99%
+    evre × etki alanı                       ed               girisim                  uzak
+    PDR once                                 —                     —                     —
+    PDR acik                        0.231 (13)           0.787 (122)           0.330 (463)
+    PDR sessiz                      1.000 (14)           0.942 (137)           0.791 (449)
+    karar payı once                       0.2%                 32.2%                 67.6%
+    karar payı acik                       0.3%                 30.7%                 69.0%
+    karar payı sessiz                     5.4%                 35.2%                 59.4%
+    düşen/üretilen (ed / girisim / uzak):
+      hedef_yok         once 0.1% / 0.9% / 3.5%
+      iletim_basarisiz  once 0.0% / 1.3% / 0.4% · acik 2.1% / 20.2% / 6.1% · sessiz 0.8% / 3.8% / 1.8%
+    doğum evresine göre akıbet (doğana oran, tohumlar toplanmış):
+      evre       doğan   teslim  iletim_basarisiz    kalan
+      acik         598    0.421             0.564    0.015
+      sessiz       600    0.830             0.170    0.000
+      acik evrede doğan, düşen × etki alanı (ed / girisim / uzak): iletim_basarisiz 5.7% / 35.8% / 14.9%
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    hedef_yok                  0         0        73        73      4.6%
+    iletim_basarisiz          35       327       220       582     36.4%
+    (koşu sonu kuyrukta)                                       9      0.6%
+
+  bolge: ed = karistirici >= ED esigi (kanal erisim kilidi) · girisim = gurultunun ustu · uzak = karistiricidan bagimsiz
+  etki alani: karistirici o an ACIK olsaydi alinacak ORTALAMA guc (yavas kayip; kapi ve hizli sonumleme haric), ayni esikler; paket tablosunda paketin gecit disi ucunda, dogum aninda
+  iletim_basarisiz'in bolgesi ALICIDA (denenen sonraki atlama) okunur; digerleri dustugu dugumde (K-193)
+  bag bandi: kahinin tek deneme basarisindan p_atlama — iyi >= 0,90 · orta 0,50-0,90 · kotu < 0,50 (girisim haric)
+  toplam duvar suresi 369 s
+== 0 · GEÇERLİLİK ==
+  çekirdek  koşu 2/2 · korunum, çelişki ya da atfsız düşüş kusuru 0 · ikincil sayımın pencere PDR'siyle tutarsızlığı 0
+  Babel     koşu 2/2 · korunum, çelişki ya da atfsız düşüş kusuru 0 · ikincil sayımın pencere PDR'siyle tutarsızlığı 0
+  Babel ↔ teşhis (c)'nin duman koşusu (tohum 1003, kısa pencere; dört basamak):
+      ikiz: (0.8109, 0.8631, 1597) ↔ (0.8109, 0.8631, 1597) → BİREBİR
+      birincil: (0.5842, 0.626, 1597) ↔ (0.5842, 0.626, 1597) → BİREBİR
+
+== 1 · HÜCRE TABLOLARI (tohum ortalaması ± ölçüt sapması) ==
+  İ · karıştırıcısız ikiz (pencere PDR)
+    Babel     0.863 ±   —   [0.863 … 0.863] · 5 s tavanlı 0.863 · p99 0.220 s · kâhine oran   —  
+              1003 0.863
+    çekirdek  0.946 ±   —   [0.946 … 0.946] · 5 s tavanlı 0.946 · p99 1.140 s · kâhine oran   —  
+              1003 0.946
+  B · birincil, 15/15 (PDR_açık)
+    Babel     0.421 ±   —   [0.421 … 0.421] · 5 s tavanlı 0.421 · sessiz 0.830 · önce   —   · p99 1.057 s · kâhine oran   —  
+              1003 0.421
+    çekirdek  0.423 ±   —   [0.423 … 0.423] · 5 s tavanlı 0.423 · sessiz 0.575 · önce   —   · p99 3.296 s · kâhine oran   —  
+              1003 0.423
+
+== 2 · S1 — genel düzey, İ: G = Babel − çekirdek (eşik 0,02) ==
+  G -0.083 (artı 0/1 · eksi 1/1; 1003 -0.083) → AYRIŞIYOR (−)
+  → ÇEKİRDEK İLERİDE: sıradaki iş karıştırma katmanı
+
+== 3 · S2 — başlangıç çizgisi, B (betimleyici) ==
+  Babel − çekirdek: -0.002 (artı 0/1 · eksi 1/1; 1003 -0.002) → 1 tohumda ayırt edilemedi
+  Δ_k = PDR_açık(B) − hayalet PDR_açık(İ, 15/15):
+    Babel     Δ_k -0.405 ±   —   (hayalet 0.826 → hücre 0.421) · 1003 -0.405
+    çekirdek  Δ_k -0.522 ±   —   (hayalet 0.945 → hücre 0.423) · 1003 -0.522
+  Δ_k(çekirdek) − Δ_k(Babel): -0.117 (artı 0/1 · eksi 1/1; 1003 -0.117) → AYRIŞIYOR (−)
+
+== 4 · S3 — kontrol yükü ve gecikme (T-19) ==
+  İ · karıştırıcısız ikiz (pencere PDR)
+    Babel     kontrol kanal süresi 9.2 s · toplam gönderim 62 s · kontrol payı 14.8% | tavan bedeli 3,5 s 0.000 · 5 s 0.000 · 10 s 0.000 | gecikme p50 0.051 · p95 0.174 · p99 0.220 s
+    çekirdek  kontrol kanal süresi 4.4 s · toplam gönderim 57 s · kontrol payı 7.7% | tavan bedeli 3,5 s 0.000 · 5 s 0.000 · 10 s 0.000 | gecikme p50 0.052 · p95 0.229 · p99 1.140 s
+  B · birincil, 15/15 (PDR_açık)
+    Babel     kontrol kanal süresi 9.0 s · toplam gönderim 63 s · kontrol payı 14.3% | tavan bedeli 3,5 s 0.000 · 5 s 0.000 · 10 s 0.000 | gecikme p50 0.040 · p95 0.202 · p99 1.057 s
+    çekirdek  kontrol kanal süresi 3.5 s · toplam gönderim 32 s · kontrol payı 10.9% | tavan bedeli 3,5 s 0.000 · 5 s 0.000 · 10 s 0.000 | gecikme p50 0.024 · p95 1.689 · p99 3.296 s
+
+== 5 · S4 — tanı (betimleyici; kanal yükü bütün koşu, ağ toplamı, tohum ortalaması) ==
+  İ · karıştırıcısız ikiz (pencere PDR)
+    Babel     kayıp R 0.000 · İ 0.137 · K 0.000 · T 0.000 | karar/paket 3.75 · atlama başarısızlığı 3.82% · deneme başarısı g 0.451
+    çekirdek  kayıp R 0.018 · İ 0.037 · K 0.000 · T 0.000 | karar/paket 4.07 · atlama başarısızlığı 1.25% · deneme başarısı g 0.499
+    çekirdeğin sayaçları (koşu başına, ağ toplamı): bag.veri_kotu 43.0 · bag.askida_giris 43.0 · bag.kotu_selam 124.0 · bag.kotu_donus 447.0 · bag.yeni_komsu 651.0 · bag.komsu_silindi 26.0 · bag.df_bayat 27.0 · rota.ardil_degisti 349.0 · rota.zorunlu_gecis 62.0 · rota.istege_bagli_gecis 160.0 · rota.aclik 44.0 · rota.aclik_bitti 44.0 · rota.aclik_istegi 92.0 · rota.tur_artirildi 10.0 · rota.istek_iletilen 244.0 · rota.istek_karsilandi 180.0 · rota.uygulanamaz_yoksayilan 40.0 · rota.geri_cekme_alinan 61.0 · selam.selam 1900.0 · selam.ara_ilan 715.0 · bekletme.bekletilen 482.0 · bekletme.suresi_dolan 118.0 · protokol.komut_gonderilen 131.0 · protokol.komut_bekletilen 76.0 · protokol.komut_dusen 1.0 · iz.iz_eski_sira 418.0
+    açlığın ortalama süresi 1.92 s (44 açlık)
+  B · birincil, 15/15 (PDR_açık)
+    Babel     kayıp R 0.000 · İ 0.564 · K 0.000 · T 0.000 | karar/paket 3.25 · atlama başarısızlığı 11.20% · deneme başarısı g 0.346
+    çekirdek  kayıp R 0.502 · İ 0.059 · K 0.000 · T 0.000 | karar/paket 2.03 · atlama başarısızlığı 3.77% · deneme başarısı g 0.451
+    çekirdeğin sayaçları (koşu başına, ağ toplamı): bag.veri_kotu 74.0 · bag.askida_giris 74.0 · bag.kotu_selam 156.0 · bag.kotu_donus 449.0 · bag.yeni_komsu 607.0 · bag.komsu_silindi 18.0 · bag.df_bayat 8.0 · rota.ardil_degisti 524.0 · rota.zorunlu_gecis 142.0 · rota.istege_bagli_gecis 113.0 · rota.aclik 126.0 · rota.aclik_bitti 104.0 · rota.aclik_istegi 263.0 · rota.tur_artirildi 9.0 · rota.istek_iletilen 258.0 · rota.istek_karsilandi 115.0 · rota.uygulanamaz_yoksayilan 53.0 · rota.geri_cekme_alinan 188.0 · selam.selam 1919.0 · selam.ara_ilan 763.0 · bekletme.bekletilen 1206.0 · bekletme.suresi_dolan 680.0 · protokol.komut_gonderilen 103.0 · protokol.komut_bekletilen 223.0 · protokol.komut_dusen 5.0 · iz.iz_eski_sira 316.0
+    açlığın ortalama süresi 4.49 s (104 açlık)
+
+== 6 · KÂHİN — tohum başına aşım (kol − kâhin > R = 0.0126) ==

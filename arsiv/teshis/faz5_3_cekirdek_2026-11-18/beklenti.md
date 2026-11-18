@@ -114,4 +114,20 @@ Kâhin:
 
 ## Duman koşusundan sonra (ölçümden önce)
 
-(Duman koşusundan sonra yazılır.)
+Duman koşusu (`duman_kisa.txt`; `sh kosu.sh duman`):
+- Koşul: beklentinin commit'inden (`236f7af`) sonra, çalışma ağacından; kısa pencere (karıştırıcı 5. saniyede açılır, ölçüm 10–40 s), tohum 1003.
+- Kapsam: İ ve B'de çekirdek ve Babel, 4 koşu, 12 dakika.
+
+Aleti ve hesap betiğini sınadı:
+- **Geçerlilik:** 4 koşu hatasız bitti; korunum geçerli, doğum çelişkisi ve atfsız düşüş yok; ikincil sayım pencere PDR'siyle tutarlı.
+- **Babel'in birebirliği:** Babel 1003'ün kısa pencere satırı iki hücrede de teşhis (c)'nin dumanıyla birebir: 0,8109 · 0,8631 · 1597 ve 0,5842 · 0,6260 · 1597. Babel'in satırları teşhis (c)'den kullanılabilir (kural 0).
+- **Kayıt ve hesap:** Yeni sürümün sayaçları kayda giriyor. `sonuc_hesap.py` duman kaydında baştan sona çalıştı; çıktısı `duman_kisa.txt`in sonunda.
+- **Süre:** Kısa pencerede koşu başına çekirdek 276 · 181 s, Babel 328 · 367 s. Çekirdek Babel'den hızlı; ~4 saatlik tahmin üst sınır.
+
+Ölçüm için not (karar girdisi değil; tek tohum, 30 saniyelik pencere):
+- B'de çekirdeğin açık dönem teslimi Babel'inkine yakın (0,423 ↔ 0,421). Sessiz dönemin teslimi ise düşük (0,575 ↔ 0,830).
+- Kaybı rota yokluğunda ve neredeyse tamamı karıştırıcının etki alanı dışındaki uzak düğümlerde (`rota_gecersiz` 648'in 644'ü).
+- Olası sebep: karıştırma katmanı kapalıyken veri tetiği bağı ASKIDA'sız, cezalı KÖTÜ'ye götürüyor (Y-4). Veriyle KÖTÜ B'de 74, İ'de 43. Bağ bu sırada açlık ve bekletme süresinden uzun dışarıda kalabiliyor (Z-1, S-3'ün konusu). Bu bir varsayımdır, ölçülmedi.
+- Geçidin turu kısa koşuda İ'de 10, B'de 9 kez arttı (`17` §7 madde 10). İ'deki artışların ne kadarının ısınmaya ait olduğu bilinmiyor.
+
+Bunlar S4'te sayılır; sebepleri bu ölçümün sonucuna göre ayrıca ölçülür. Karar kuralı ve öngörüler değiştirilmedi; kodda hiçbir şey değişmedi.
