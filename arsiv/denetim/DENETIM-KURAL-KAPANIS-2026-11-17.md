@@ -105,3 +105,15 @@ Açık kalanlar: Y-3 (karıştırma kanıtının kendi durumu kodlanırken) · Y
 Kâğıt dışından: mimari denetiminin D13 bulgusu (teşhis (d) aletinin 16 sabitinin kökeni yazılmamıştı) köken defterine yazılarak kapandı; denetim ihlalsiz ve bulgusuz.
 
 Açık kalanlar: Y-3 (kendi durumum kodlanırken) · Y-1 (karıştırma A/B'lerinin beklentisinden önce).
+
+### Kendi durumum, ana sınıf, bağlama (18 Kasım)
+
+Kendi "karıştırılıyorum" durumum (`KK-03` A) ve bütün parçaları simülatörün kancalarına bağlayan ana sınıf kodlandı: `protokoller/desparete5_kanit.py` · `desparete5.py`; ölçüm aletlerinde `desparete5` ve `desparete5_cekirdek` adlarıyla (`kalibrasyon/aodv_uygunluk.py`). Testler `tests2/test_desparete5_kanit.py` (7) · `test_desparete5.py` (6; küçük test dünyasında uçtan uca: defter kapanır, rotalar kurulur, karıştırma yolları işler, çekirdek profilde karıştırmaya karşı mekanizmalar çalışmaz, koşu belirlenimli, yasak gözlem alanı okunmaz).
+
+| | yapılan | yer |
+|---|---|---|
+| Y-3 | ED işareti görülen saniyede kaynak ED kalır; girişime yalnız ED'siz bir saniyede geçilir, o an selam hemen gider | KK-03 kural 4 · KK-02 kural 5 |
+| G-2 | Ölçüm beyanları (kopma, rota kuruldu, rota geçersiz) Babel ve öteki protokollerle aynı anlamda | KK-00 genel kural 4 |
+| ayrıntı | Gönderemezken değişim olayları selam planlamaz (boş uyanma döngüsü olmasın); kancaların sırası | KK-02 kural 5 · KK-00 genel kural 5 |
+
+Bütün açık bulgulardan yalnız Y-1 kaldı (karıştırma A/B'lerinin beklentisinden önce). Küçük test dünyasında görülen ve ölçümde izlenecek iki şey (karar girdisi değil): karıştırıcısız koşuda da birkaç sessizlik kanıtı çıktı (yanlış alarm); sürekli karıştırmada tur birkaç kez arttı (`17` §7 madde 10).

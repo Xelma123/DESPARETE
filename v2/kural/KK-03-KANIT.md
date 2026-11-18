@@ -1,6 +1,6 @@
 # KK-03 · Karıştırma kanıtı
 
-> Kararlar: T-5 · T-6 · T-8 · T-9 · T-10 (`17`). Değerler ve genel kurallar `KK-00`; eşiklerin başlangıcı teşhis (d)'nin dağılımlarından (`arsiv/teshis/faz5_2_isaretler_2026-11-16/sonuc.md`). Güncel: 17 Kasım 2026 (kural kâğıtlarının bağımsız denetiminden sonra yeniden yazıldı: B-3 · B-4 · B-7 · B-11 · B-18).
+> Kararlar: T-5 · T-6 · T-8 · T-9 · T-10 (`17`). Değerler ve genel kurallar `KK-00`; eşiklerin başlangıcı teşhis (d)'nin dağılımlarından (`arsiv/teshis/faz5_2_isaretler_2026-11-16/sonuc.md`). Kod: A `protokoller/desparete5_kanit.py` · B `desparete5_bag.py`. Güncel: 18 Kasım 2026 (kodlamayla Y-3 · Y-6 · Y-10). Önceki: 17 Kasım (bağımsız denetimden sonra yeniden yazıldı: B-3 · B-4 · B-7 · B-11 · B-18).
 
 ## Amaç ve sınıf
 
@@ -25,7 +25,7 @@ Karıştırmayı kötü bağdan ve kalabalık kanaldan ayırmak: kendi durumumu 
 2. **`s`'nin sayımı** (protokolün görebildiği veriyle): tanıdık komşu = son 16 s'de en az bir selamı gerçekten alınmış komşu. Her komşu için hiç dondurulmayan bir **gölge geçmiş** tutulur: KK-01 kural 2–3'ün aynısı (zaman aşımı, sıra boşluğu, geri alma), her kayıt olduğu anla. Her tanıdık komşu j için son 4 s'de `gelen_j` = gölgedeki 1'ler, `kacan_j` = gölgedeki 0'lar. Sıra boşluğu da kayıptır: aralık kısalınca kaybolan selamları zaman aşımı eksik sayar, boşluk bir sonraki selamda gösterir; geç gelen selamın geri aldığı 0'lar kayıp sayılmaz (18 Kasım, Y-10). `s = Σ kacan / Σ (gelen + kacan)`. Payda 0 ise `s` tanımsızdır ve girişim işareti çıkmaz. Not: teşhis (d)'deki 0,6 eşiği göndericinin gerçek selam zamanlarıyla (protokolün göremeyeceği bilgi) ve Babel'in 4 s'lik Hello'suyla ölçüldü; buradaki sayım protokolün kendi tahminidir, eşik A/B'de yeniden ayarlanır (`17` §7 madde 7).
 3. **İşaretler:** ED işareti `m ≥ ED_ESIGI`. Girişim işareti `c̄` ve `s` tanımlıyken `c < DUSUS_ORANI · c̄` **ve** `s ≥ KAYIP_ESIGI`. "İşaretsiz saniye": iki işaret de yok.
 4. **Durum:**
-   - "karıştırılıyorum"a giriş: ED işareti 1 saniye ya da girişim işareti `GIRIS_SANIYE` ardışık saniye. Kaynak, girişe yol açan işaretin türüdür; durum sürerken öteki işaret görülürse kaynak son görülen işaretin türü olur.
+   - "karıştırılıyorum"a giriş: ED işareti 1 saniye ya da girişim işareti `GIRIS_SANIYE` ardışık saniye. Kaynak, girişe yol açan işaretin türüdür. Durum sürerken: ED işareti görülen saniyede kaynak ED'dir; kaynak girişime yalnız ED işaretinin olmadığı bir saniyede geçer. Sebep: ED alanında girişim işaretinin iki koşulu da her saniye sağlanır (çözülen çerçeve düşer, selamlar gelmez); "son görülen" aynı saniyede tanımsız kalır ve kaynak girişime dönerse gönderemediğim hâlde selam kurulur, çıkış da 1 s yerine 3 s sürerdi (18 Kasım, Y-3). Kaynak ED'den girişime geçince gönderebilirim: selam hemen gider (KK-02 kural 5).
    - "bitti": kaynak ED ise 1 işaretsiz saniye (ED eşiğinin yanlış alarmı çok küçük); kaynak girişimse `CIKIS_SANIYE` ardışık işaretsiz saniye.
    - Durum selamın `karistiriliyorum` bitine yazılır (`alici_bildirimi` açıkken; değişimi olaydır, KK-02).
 

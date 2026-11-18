@@ -1,6 +1,6 @@
 # KK-00 · Kural kâğıtları — dizin, genel kurallar, değerler, bayraklar
 
-> Faz 5-3 (`12` §1.2). Kararlar `17`de (T-1…T-20); kural kâğıtları onları kurallara, formüllere ve başlangıç değerlerine çevirir. Kod bu kâğıtlardan yazılır (`protokoller/desparete5*.py`; değerler ve bayraklar `desparete5_bicim.py`); kod yorumları `KK-n` ve `T-n`e atıf verir. Değerler başlangıçtır, geliştirme tohumlarında (1003–1010) A/B ile ayarlanır. Bağımsız denetim: `arsiv/denetim/DENETIM-RAPORU-KURAL-2026-11-17.md` ve kapanışı. Güncel: 18 Kasım 2026 (kodlamayla Y-4 · Y-6 · Y-9 · Y-11).
+> Faz 5-3 (`12` §1.2). Kararlar `17`de (T-1…T-20); kural kâğıtları onları kurallara, formüllere ve başlangıç değerlerine çevirir. Kod bu kâğıtlardan yazılır (`protokoller/desparete5*.py`; değerler ve bayraklar `desparete5_bicim.py`); kod yorumları `KK-n` ve `T-n`e atıf verir. Değerler başlangıçtır, geliştirme tohumlarında (1003–1010) A/B ile ayarlanır. Bağımsız denetim: `arsiv/denetim/DENETIM-RAPORU-KURAL-2026-11-17.md` ve kapanışı. Güncel: 18 Kasım 2026 (kodlamayla Y-4 · Y-6 · Y-9 · Y-11; ölçüm beyanları ve kancalar genel kurallara eklendi).
 
 ## Kâğıtlar
 
@@ -19,6 +19,8 @@ Her kâğıtta: amaç ve sınıf · gördüğü · tuttuğu · kurallar · örne
 1. **Niyet döndüremeyen kancalar** (`iletim_sonucu`, `cerceve_duyuldu`; `sim2/gozlem/protokol.py`): bu kancalarda değişen durum (bağın durumu, ardıl, iz) kaydedilir; gerektirdiği niyet (selam, tur isteği, uyanma) bir sonraki niyetli kancada, en geç saniyelik zamanlayıcıda verilir.
 2. **Aynı olayda sıra:** KK-01 kural 15.
 3. **Birimler:** maliyetler ETX × 64 tamsayı (yukarı yuvarlanır; sonlu en çok 0xFFFE, 0xFFFF = ∞); FD ilan edilen (nicemlenmiş) değeri tutar. Sıra ve tur 16 bit, modüler karşılaştırılır (`sira` 0'dan, geçidin turu 1'den başlar). Bütün süreler yerel saatle (`saat_s`) ölçülür.
+4. **Ölçüm beyanları** (yalnız ölçüme gider; anlamları Babel, AODV ve OLSRv2 ile aynı, K-139; 18 Kasım, kodlamada G-2): `kopma(K)` bir önceki kanca sonunda ardılım olan K'nin bağı kullanılamaz oldu (OLAĞAN'dan çıktı ya da silindi) · `rota_kuruldu(K)` K'nin kaybından sonra yeniden ardılım var · `rota_gecersiz` daha önce yolu olan hedefe (geçide ya da izi bilinen komut hedefine) giden paket düştü; yolu hiç bilinmemişse düşüş beyansızdır.
+5. **Kancalar** (`protokoller/desparete5.py`): saniyelik zamanlayıcı (kendi durumum; ilk çağrıda selam başlar) · selam, en erken son tarih ve tamponu yeniden sorma için nesil numaralı uyandırmalar · `kontrol_alindi` (selam, tur isteği) · `iletim_sonucu` (veri tetiği, MAC kanıtı; niyetsiz) · `iletim_basarisiz` (onun niyetleri) · `cerceve_duyuldu` (komşu hâlâ orada, geri iz; niyetsiz) · `sonraki_atlama`. Her niyetli kancanın sonunda sıra: zaman olayları → rota seçimi → selam olayları → tur istekleri → tampon → son tarih → beyanlar. Ölçüm aletlerinde adlar `desparete5` (bütün bayraklar) ve `desparete5_cekirdek` (karıştırmaya karşı mekanizmalar kapalı; `kalibrasyon/aodv_uygunluk.py`).
 
 ## Başlangıç değerleri (tek yer)
 
@@ -54,7 +56,7 @@ Her kâğıtta: amaç ve sınıf · gördüğü · tuttuğu · kurallar · örne
 
 | okur | okumaz |
 |---|---|
-| `mesgul_sure_s` (`kanal_dolulugu_ister`) · `alinan_cerceve` · `saat_s` (yalnız süreler) · `kontrol_alindi` (selam, tur isteği) · `iletim_sonucu` · `iletim_basarisiz` · `cerceve_duyuldu`'nun göndereni, türü, hedefi ve veri çerçevesinin başlığı · karar anında paketin başlığı · geçidin kimliği (yapılandırma) | `olculen_gurultu_w` (yasak, K-227) · `cerceve_duyuldu`'nun RSSI'ı (KK-03 kural 11) · `phy_hata` (teşhis (d)'de zayıf) · `kendi_konum` · `kendi_hiz` · `komsular` (simülatörün beacon listesi; kendi selamı var, `kosum_beaconi = False`) |
+| `mesgul_sure_s` (`kanal_dolulugu_ister`, yalnız `karistirma_durumu` açıkken) · `alinan_cerceve` · `saat_s` (yalnız süreler) · `kontrol_alindi` (selam, tur isteği) · `iletim_sonucu` · `iletim_basarisiz` · `cerceve_duyuldu`'nun göndereni, türü, hedefi ve veri çerçevesinin başlığı · karar anında paketin başlığı · geçidin kimliği (yapılandırma) | `olculen_gurultu_w` (yasak, K-227) · `cerceve_duyuldu`'nun RSSI'ı (KK-03 kural 11) · `phy_hata` (teşhis (d)'de zayıf) · `kendi_konum` · `kendi_hiz` · `komsular` (simülatörün beacon listesi; kendi selamı var, `kosum_beaconi = False`) |
 
 ## Mekanizmalar, bayraklar, sınıflar (K-247: sınıf ve amaç ölçmeden önce)
 
