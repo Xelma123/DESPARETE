@@ -2,7 +2,7 @@
 
 > Kararlar: T-2 · T-3 · T-7 · T-9 · İlke 2 (`17`). Değerler ve genel kurallar `KK-00`. Kod `protokoller/desparete5_bag.py`. Güncel: 19 Kasım 2026 (yeniden yazıldı: veri tetiği yerine vazgeçme tetiği; askıda durumu ve veri cezası kalktı; `17` T-2). Önceki: 18 Kasım (`v2/arsiv/kural/KK-01-BAG-2026-11-18.md`; kodlamayla Y-2 · Y-4 · Y-6 · Y-7 · Y-8 · Y-12, G-3 · G-4). Kural numaraları korunur; kalkan kurallar yerinde "kalktı" diye durur.
 >
-> **Kod henüz bu kâğıda göre yazılmadı** (19 Kasım): `protokoller/desparete5*.py` 18 Kasım kâğıdını izliyor.
+> **Kod:** 19 Kasım'da bu kâğıda göre yazıldı. 18 Kasım'ın davranışı `egim` · `vazgecme_tetigi` · `duzgun_gecis` kapalı, `veri_kotu_tetigi` açık ve `DEGERLER_ESKI`yle birebir yeniden üretilir (küçük test dünyasında sekiz koşuda denetlendi: `arsiv/teshis/faz5_3_kod_2026-11-19/esdegerlik.txt`).
 
 ## Amaç ve sınıf
 

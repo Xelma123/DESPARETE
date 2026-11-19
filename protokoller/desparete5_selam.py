@@ -115,30 +115,39 @@ class SelamZamanlayici:
 # ==========================================================================
 # İleti — KK-02 alan tablosu
 # ==========================================================================
-def selam_yuku(sira: int, aralik_s: float, tur: int, maliyet: int,
+def selam_yuku(sira: int, aralik_s: float, tur: int | None, maliyet: int,
                karistiriliyorum: bool, komsu: tuple[int, ...],
                oran: tuple[int, ...]) -> dict:
     """`KontrolIstegi.kur` için yük. `aralik` 0,01 s biriminde, yukarı
-    yuvarlanır (üst sınır olduğu için)."""
+    yuvarlanır (üst sınır olduğu için). `tur` `None` ise eğimin biçimi
+    (`SELAM_E`, tur alanı yok; KK-02, 19 Kasım), değilse 18 Kasım'ın
+    `SELAM`ı."""
     aralik_cs = min(0xFFFF, max(1, math.ceil(aralik_s / ARALIK_BIRIMI_S
                                              - 1e-9)))
+    if tur is None:
+        return {"sira": sira & 0xFFFF, "aralik": aralik_cs,
+                "maliyet": min(int(maliyet), SONSUZ),
+                "karistiriliyorum": bool(karistiriliyorum),
+                "komsu": tuple(komsu), "oran": tuple(oran)}
     return {"sira": sira & 0xFFFF, "aralik": aralik_cs, "tur": tur & 0xFFFF,
             "maliyet": min(int(maliyet), SONSUZ),
             "karistiriliyorum": bool(karistiriliyorum),
             "komsu": tuple(komsu), "oran": tuple(oran)}
 
 
-def selam_coz(yuk, ben: int) -> tuple[int, float, int, int, bool,
+def selam_coz(yuk, ben: int) -> tuple[int, float, int | None, int, bool,
                                       float | None]:
-    """Döner: (sıra, aralık s, tur, maliyet, bit, benim için bildirilen
-    oran ya da `None` — gönderen beni listelemiyorsa)."""
+    """Döner: (sıra, aralık s, tur ya da `None` — eğimin biçiminde tur yok,
+    maliyet, bit, benim için bildirilen oran ya da `None` — gönderen beni
+    listelemiyorsa)."""
     y = dict(yuk)
     bildirilen = None
     for j, r in zip(y["komsu"], y["oran"]):
         if j == ben:
             bildirilen = r / ORAN_EN_COK
             break
-    return (int(y["sira"]), y["aralik"] * ARALIK_BIRIMI_S, int(y["tur"]),
+    tur = int(y["tur"]) if "tur" in y else None
+    return (int(y["sira"]), y["aralik"] * ARALIK_BIRIMI_S, tur,
             int(y["maliyet"]), bool(y["karistiriliyorum"]), bildirilen)
 
 

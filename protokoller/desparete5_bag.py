@@ -99,7 +99,12 @@ class Bag:
     son_duyulma_t: float                # komşudan çözülen son çerçeve
     d_f: float | None = None            # komşunun benim için bildirdiği oran
     d_f_t: float = -_SONSUZ             # beni son listelediği an (Y-12)
-    veri: deque = field(default_factory=deque)   # (t, deneme, başarılı)
+    veri: deque = field(default_factory=deque)   # (t, deneme, başarılı) · eski veri tetiği
+    # vazgeçme tetiği (KK-01/6–7; 19 Kasım)
+    vaz: deque = field(default_factory=deque)    # (t, vazgeçildi mi)
+    vud_bitis_t: float = -_SONSUZ                # "veriye uygun değil" bitişi
+    vud_sure: float = 0.0                        # son beklemenin süresi
+    son_vud_t: float = -_SONSUZ                  # son tetiklenme anı
     durum: str = KOTU
     bit: bool = False                   # son selamdaki `karistiriliyorum`
     mac_ardisik: int = 0                # ardışık MAC vazgeçmesi (KK-03/7)
@@ -151,6 +156,8 @@ class BagTablosu:
             "karisma_bit": 0, "karisma_sessizlik": 0, "karisma_mac": 0,
             "karisma_kotuden": 0, "karisma_bitti": 0, "karisma_ust_sure": 0,
             "askida_kendi": 0, "df_bayat": 0,
+            # vazgeçme tetiği (KK-01/6–7; 19 Kasım)
+            "vaz_kayit": 0, "vazgecme": 0, "vaz_tetik": 0, "vaz_katlama": 0,
         }
 
     # ------------------------------------------------------------------
@@ -159,6 +166,13 @@ class BagTablosu:
     def kullanilir_mi(self, j: int) -> bool:
         bag = self.baglar.get(j)
         return bag is not None and bag.durum == OLAGAN
+
+    def veriye_uygun(self, j: int, t: float) -> bool:
+        """KK-01/7: "veriye uygun değil" işareti yok ya da beklemesi doldu.
+        İşaret bağın durumunu değiştirmez; yalnız ardıl seçiminde sona
+        düşürür (KK-04/4)."""
+        bag = self.baglar.get(j)
+        return bag is None or t >= bag.vud_bitis_t
 
     def kullanilir_kume(self) -> frozenset[int]:
         return frozenset(j for j, bag in self.baglar.items()
@@ -462,6 +476,43 @@ class BagTablosu:
         if (b.veri_kotu_tetigi and bag.durum == OLAGAN and tur == "veri"
                 and self.etx_veri(bag, t) > d.E_CIK):
             self._askida_gir(bag, t)
+        # KK-01/6–7 (19 Kasım): yalnız "gitti mi, vazgeçildi mi"; kanıttan
+        # sonra (KK-01/15), yalnız OLAĞAN bağda ve veri çerçevesinde.
+        if b.vazgecme_tetigi and bag.durum == OLAGAN and tur == "veri":
+            self._vazgecme_yaz(bag, t, not basarili)
+
+    def _vazgecme_yaz(self, bag: Bag, t: float, vazgecildi: bool) -> None:
+        """KK-01/6: kaydı yaz, pencereyi buda; KK-01/7: eşiğe ulaştıysa
+        tetikle."""
+        d = self.d
+        v = bag.vaz
+        v.append((t, vazgecildi))
+        while len(v) > d.VAZ_PENCERE:
+            v.popleft()
+        alt = t - d.VAZ_PENCERE_S
+        while v and v[0][0] < alt:
+            v.popleft()
+        self.sayac["vaz_kayit"] += 1
+        if vazgecildi:
+            self.sayac["vazgecme"] += 1
+        if sum(1 for _, x in v if x) >= d.VAZ_ESIK:
+            self._vud_gir(bag, t)
+
+    def _vud_gir(self, bag: Bag, t: float) -> None:
+        """KK-01/7: "veriye uygun değil". Bekleme `VAZ_BEKLE`; önceki
+        tetiklenmeden beri `VAZ_YINELEME` geçmediyse önceki sürenin iki katı
+        (en çok `VAZ_BEKLE_EN_COK`). Kayıt boşalır; durum, ölçü ve maliyet
+        değişmez (İlke 2)."""
+        d = self.d
+        if t - bag.son_vud_t < d.VAZ_YINELEME_S:
+            bag.vud_sure = min(2.0 * bag.vud_sure, d.VAZ_BEKLE_EN_COK_S)
+            self.sayac["vaz_katlama"] += 1
+        else:
+            bag.vud_sure = d.VAZ_BEKLE_S
+        bag.son_vud_t = t
+        bag.vud_bitis_t = t + bag.vud_sure
+        bag.vaz.clear()
+        self.sayac["vaz_tetik"] += 1
 
     def etx_veri(self, bag: Bag, t: float) -> float:
         """KK-01/6: son `VERI_PENCERE` çerçevede (en çok 10 s geriye) en az
@@ -514,6 +565,10 @@ class BagTablosu:
             self.degisti = True
         bag.hatira = hatira
         bag.veri.clear()
+        # KK-01/9 (19 Kasım): vazgeçme kaydı boşalır, işaret kalkar; son
+        # tetiklenme anı ve süresi saklanır (katlama için).
+        bag.vaz.clear()
+        bag.vud_bitis_t = -_SONSUZ
         bag.sebepler = {sebep}
         bag.karisma_t = t
         bag.temiz_ardisik = 0
@@ -535,6 +590,7 @@ class BagTablosu:
         bag.sebepler.clear()
         bag.karisma_t = _SONSUZ
         bag.veri.clear()
+        bag.vaz.clear()                          # KK-01/10: boş başlar
         bag.dondurma_cikisi = True
         bag.asim_t = t + self.d.ZAMAN_ASIMI_KATSAYI * bag.a
         self.sayac["karisma_bitti"] += 1

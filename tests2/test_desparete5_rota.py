@@ -9,7 +9,8 @@ import pytest
 from protokoller.desparete5_bekletme import (
     BEKLET, DUS, GONDER, Bekletme, GeriIz)
 from protokoller.desparete5_bicim import (
-    CEKIRDEK, SONSUZ, TAM, Bayraklar, Degerler, maliyet_birimi)
+    CEKIRDEK, DEGERLER_ESKI, SONSUZ, TAM, Bayraklar, Degerler,
+    maliyet_birimi)
 from protokoller.desparete5_rota import Rota
 
 D = Degerler()
@@ -296,7 +297,8 @@ def test_ZINCIR_aclik_istegi_gecide_gider_yanit_geri_yayilir():
 # KK-05 · bekletme ve geri iz
 # ==========================================================================
 def test_BEKLETME_atlama_basina_2_s_ve_kayit_temizligi():
-    bk = Bekletme(D, TAM)
+    """18 Kasım'ın değeri (`DEGERLER_ESKI`, 2 s)."""
+    bk = Bekletme(DEGERLER_ESKI, TAM)
     p = (4, 17)
     assert bk.karar(p, 10.0, False) == BEKLET and bk.bekleyen_var
     assert bk.karar(p, 11.99, False) == BEKLET
@@ -311,6 +313,16 @@ def test_BEKLETME_atlama_basina_2_s_ve_kayit_temizligi():
     assert not bk.bekleyen_var
     kapali = Bekletme(D, Bayraklar(bekletme=False))
     assert kapali.karar(p, 0.0, False) == DUS
+
+
+def test_BEKLETME_varsayilan_1_s_19_Kasim():
+    """KK-00: `TUTMA_EN_COK` 19 Kasım'da 2 → 1 s (telemetri saniyede bir)."""
+    assert D.TUTMA_EN_COK_S == 1.0 and DEGERLER_ESKI.TUTMA_EN_COK_S == 2.0
+    bk = Bekletme(D, TAM)
+    p = (4, 17)
+    assert bk.karar(p, 10.0, False) == BEKLET
+    assert bk.karar(p, 10.99, False) == BEKLET
+    assert bk.karar(p, 11.0, False) == DUS
 
 
 def test_GERI_IZ_yalniz_daha_yeni_sirayla_tazelik_ve_komsunun_durumu_G1():

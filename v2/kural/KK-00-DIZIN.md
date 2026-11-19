@@ -2,7 +2,7 @@
 
 > Faz 5-3 (`12` §1.2). Kararlar `17`de (T-1…T-20); kural kâğıtları onları kurallara, formüllere ve başlangıç değerlerine çevirir. Kod bu kâğıtlardan yazılır (`protokoller/desparete5*.py`; değerler ve bayraklar `desparete5_bicim.py`); kod yorumları `KK-n` ve `T-n`e atıf verir. Değerler başlangıçtır, geliştirme tohumlarında (1003–1010) A/B ile ayarlanır. Bağımsız denetim: `arsiv/denetim/DENETIM-RAPORU-KURAL-2026-11-17.md` ve kapanışı. Güncel: 19 Kasım 2026 (`17` T-2, T-11, T-12, T-13: vazgeçme tetiği, maliyet eğimi ve döngü bekçisi, iki ölçülü geçiş; askıda, veri cezası, FD ve tur yeni sürümde yok). Önceki: 18 Kasım (`v2/arsiv/kural/KK-00-DIZIN-2026-11-18.md`; kodlamayla Y-4 · Y-6 · Y-9 · Y-11).
 >
-> **Kod henüz bu kâğıtlara göre yazılmadı** (19 Kasım): `protokoller/desparete5*.py` 18 Kasım kâğıtlarını izliyor. 19 Kasım önerisi olan değerler onay bekliyor (aşağıda işaretli).
+> **Kod:** 19 Kasım'da bu kâğıtlara göre yazıldı. 18 Kasım'ın davranışı `egim` · `vazgecme_tetigi` · `duzgun_gecis` kapalı, `veri_kotu_tetigi` açık ve `DEGERLER_ESKI`yle birebir yeniden üretilir (küçük test dünyasında sekiz koşuda denetlendi: `arsiv/teshis/faz5_3_kod_2026-11-19/esdegerlik.txt`). 19 Kasım'da gelen değerler aynı gün onaylandı.
 
 ## Kâğıtlar
 
@@ -31,9 +31,9 @@ Her kâğıtta: amaç ve sınıf · gördüğü · tuttuğu · kurallar · örne
 | `N` selam geçmişi | 16 | KK-01 | Babel'in geçmişi [4] |
 | `ORNEK_EN_AZ` | 4 selam | KK-01 | yeni komşu ancak ölçülünce aday |
 | `E_CIK` · `E_DON` | 4 · 3 (ETX) | KK-01 | MRHOF üst sınırı 4 [64]; iki eşik T-3 |
-| `VAZ_PENCERE` · `VAZ_PENCERE_S` | son 16 veri çerçevesi · en çok 30 s geriye (19 Kasım önerisi) | KK-01 | saniyede bir telemetri gönderen uç düğümde 16 çerçeve ~16 s; 30 s bayat kaydı atar |
-| `VAZ_ESIK` | 3 vazgeçme (19 Kasım önerisi) | KK-01 | açlık teşhisinin tetiksiz kolunda koşu başına ~690 vazgeçme, 34–50 bin karar; en kötü beş bağın dışında vazgeçme payı ~%1. Vazgeçmeler bağımsız sayılırsa böyle bir bağda 16 çerçevede en az 3 vazgeçme olasılığı ~%0,05; vazgeçme payı %5–15 olan kalıcı sorunlu bağda birkaç düzine çerçevede tetiklenir. Vazgeçmeler topaklanabildiği için gerçek yanlış alarm daha yüksek olabilir; tanıda sayılır |
-| `VAZ_BEKLE_S` · `VAZ_YINELEME_S` · `VAZ_BEKLE_EN_COK_S` | 5 s · 60 s içinde yinelenirse ×2 · en çok 40 s (19 Kasım önerisi) | KK-01 | eski cezanın katlanma yapısı; başlangıç daha kısa, çünkü bağ artık atılmıyor, yalnız sona düşüyor. Kalıcı sorunlu bağın her dönüşü en az 3 vazgeçmeye mal olur |
+| `VAZ_PENCERE` · `VAZ_PENCERE_S` | son 16 veri çerçevesi · en çok 30 s geriye (19 Kasım) | KK-01 | saniyede bir telemetri gönderen uç düğümde 16 çerçeve ~16 s; 30 s bayat kaydı atar |
+| `VAZ_ESIK` | 3 vazgeçme (19 Kasım) | KK-01 | açlık teşhisinin tetiksiz kolunda koşu başına ~690 vazgeçme, 34–50 bin karar; en kötü beş bağın dışında vazgeçme payı ~%1. Vazgeçmeler bağımsız sayılırsa böyle bir bağda 16 çerçevede en az 3 vazgeçme olasılığı ~%0,05; vazgeçme payı %5–15 olan kalıcı sorunlu bağda birkaç düzine çerçevede tetiklenir. Vazgeçmeler topaklanabildiği için gerçek yanlış alarm daha yüksek olabilir; tanıda sayılır |
+| `VAZ_BEKLE_S` · `VAZ_YINELEME_S` · `VAZ_BEKLE_EN_COK_S` | 5 s · 60 s içinde yinelenirse ×2 · en çok 40 s (19 Kasım) | KK-01 | eski cezanın katlanma yapısı; başlangıç daha kısa, çünkü bağ artık atılmıyor, yalnız sona düşüyor. Kalıcı sorunlu bağın her dönüşü en az 3 vazgeçmeye mal olur |
 | `T_HATIRA` | 30 s | KK-01 | karıştırılıyor süresi iki çizelgede 11–15 s; teşhis (d) S3'te kullanılan bağların 7 denemelik başarısı 32 s'de bant değiştirmiyor (doymuş ölçü; tek deneme başarısı ölçülmedi, `17` §7 madde 8) |
 | `KENDI_UST_SURE` | 30 s (= `T_HATIRA`) | KK-01 | kendi "karıştırılıyorum" dondurmasının üst süresi; her dondurmanın üst süresi aynı (18 Kasım, Y-6) |
 | `T_SILME` | 30 s hiç duyulmazsa | KK-01 | İlke 2; 15 s'lik karıştırmada silinmesin |
@@ -46,13 +46,13 @@ Her kâğıtta: amaç ve sınıf · gördüğü · tuttuğu · kurallar · örne
 | `KAYIP_ESIGI` | selam kaybı ≥ 0,6 | KK-03 | teşhis (d): girişimde 0,69 ↔ temiz 0,44; orada beklenen selam göndericinin gerçek selamlarından ve 4 s'lik Hello'yla sayıldı, burada protokolün kendi sayımı (KK-03 kural 2); yeniden ayarlanır; kalabalık riski KK-03 kural 12 |
 | `GIRIS_SANIYE` · `CIKIS_SANIYE` | girişim 2 · 3 ardışık saniye; ED 1 · 1 | KK-03 | T-10; ED eşiğinin yanlış alarmı %0,035 |
 | `MAC_ARDISIK` | 3 vazgeçme | KK-03 | teşhis (d): `n* = 3` |
-| `MALIYET_TAVANI` | 32 ETX (19 Kasım önerisi) | KK-04 | bağ ETX'i en çok `E_CIK` = 4; 8 atlamalık en kötü yol 32. Çekirdekte paket başına ~3,7 karar (ilk ölçüm, ikiz). Yeri tanıda yol maliyetinin dağılımıyla sınanır |
-| `DUZ_S` | 6 s = 3 × `I_MAX` (19 Kasım önerisi) | KK-04 | Babel Ek A.3: düzgünleştirmenin zaman sabiti selam aralığının ~3 katı [4] |
-| `DONGU_ANIMSA_S` | 5 s (19 Kasım önerisi) | KK-04 | döngüye giren paket birkaç atlamada döner; yoldaki iki bekletmeyi de kapsar |
-| `DONGU_DISLA_S` | 2 s (19 Kasım önerisi) | KK-04 | dışlanan komşunun düzeltici selamı en geç `I_MAX` içinde gelir; bayat bilgi olayı onu hemen de getirebilir (KK-04 kural 8) |
+| `MALIYET_TAVANI` | 32 ETX (19 Kasım) | KK-04 | bağ ETX'i en çok `E_CIK` = 4; 8 atlamalık en kötü yol 32. Çekirdekte paket başına ~3,7 karar (ilk ölçüm, ikiz). Yeri tanıda yol maliyetinin dağılımıyla sınanır |
+| `DUZ_S` | 6 s = 3 × `I_MAX` (19 Kasım) | KK-04 | Babel Ek A.3: düzgünleştirmenin zaman sabiti selam aralığının ~3 katı [4] |
+| `DONGU_ANIMSA_S` | 5 s (19 Kasım) | KK-04 | döngüye giren paket birkaç atlamada döner; yoldaki iki bekletmeyi de kapsar |
+| `DONGU_DISLA_S` | 2 s (19 Kasım) | KK-04 | dışlanan komşunun düzeltici selamı en geç `I_MAX` içinde gelir; bayat bilgi olayı onu hemen de getirebilir (KK-04 kural 8) |
 | `GECIS_ORANI` | %10 | KK-04 | yalnız `duzgun_gecis` kapalıyken; Ramachandran [54]; 16 Kasım'ın T-11'i |
 | `ISTEK_YINELEME` · `ISTEK_ARA` · `ISTEK_ANIMSA` · `ISTEK_ATLAMA` | 3 kez, 0,5 s arayla · 5 s · 4 s · 64 | arşivdeki KK-04 | yalnız `egim` kapalıyken (18 Kasım'ın açlık ve tur isteği kuralları); dayanakları arşivdeki KK-00'da |
-| `TUTMA_EN_COK` | 1 s, atlama başına (19 Kasım önerisi; 18 Kasım'da 2 s) | KK-05 | T-18: telemetri saniyede bir üretilir, 1 s'den eski paketin yerine yenisi zaten vardır; eğimde yol ancak hiç aday kalmayınca yoktur |
+| `TUTMA_EN_COK` | 1 s, atlama başına (19 Kasım; 18 Kasım'da 2 s) | KK-05 | T-18: telemetri saniyede bir üretilir, 1 s'den eski paketin yerine yenisi zaten vardır; eğimde yol ancak hiç aday kalmayınca yoktur |
 | `IZ_TAZELIK` | 3 s | KK-05 | telemetri saniyede bir |
 
 Kalkan değerler (19 Kasım; arşivdeki KK-00'da): `VERI_PENCERE` · `VERI_EN_AZ` (eski veri tetiği) · `ASKIDA_SURE` · `T_CEZA`. Kodda yalnız `veri_kotu_tetigi` açıkken kullanılır.

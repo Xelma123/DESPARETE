@@ -14,7 +14,10 @@ from pathlib import Path
 import pytest
 
 from protokoller.desparete5 import Desparete5
-from protokoller.desparete5_bicim import CEKIRDEK, TAM
+from protokoller.desparete5_bicim import (
+    CEKIRDEK, DEGERLER_ESKI, ESKI_CEKIRDEK, TAM, Bayraklar)
+from protokoller.desparete5_egim import Egim
+from protokoller.desparete5_rota import Rota
 from sim2.gozlem.teshis import teshis_dogrula
 from sim2.kosum.kosu import Kosu
 from sim2.kosum.kurulum import kurulum_yap
@@ -25,9 +28,13 @@ KOK = Path(__file__).resolve().parent.parent
 _V = Konfig(kol="t")
 _N = 12
 _EN = _V.alan_en_m * (_N / _V.dugum_sayisi) ** 0.5
+# 18 Kasım'ın tam sürümü (eski veri tetiği, FD ve tur; 19 Kasım'da yeni
+# sürümde kalktı, kodda bayrakla yeniden üretilir).
+ESKI_TAM = Bayraklar(vazgecme_tetigi=False, egim=False, duzgun_gecis=False,
+                     veri_kotu_tetigi=True)
 
 
-def _kos(senaryo: str, bayraklar) -> dict:
+def _kos(senaryo: str, bayraklar, degerler=None) -> dict:
     kfg = Konfig(kol="test", senaryo=senaryo, tohum=1000, isinma_s=50.0,
                  olcum_bitis_s=70.0, kosu_bitis_s=75.0, dugum_sayisi=_N,
                  trafik_deseni="yere_toplama", alan_en_m=_EN, alan_boy_m=_EN,
@@ -38,7 +45,8 @@ def _kos(senaryo: str, bayraklar) -> dict:
     pr: list[Desparete5] = []
 
     def fabrika(i):
-        p = Desparete5(i, kfg.gecit, bayraklar=bayraklar)
+        p = Desparete5(i, kfg.gecit, bayraklar=bayraklar,
+                       degerler=degerler)
         pr.append(p)
         return p
 
@@ -67,6 +75,11 @@ def karisik():
     return _kos("statik-surekli", TAM)
 
 
+@pytest.fixture(scope="module")
+def karisik_eski():
+    return _kos("statik-surekli", ESKI_TAM, DEGERLER_ESKI)
+
+
 def test_SAKIN_dunyada_defter_kapanir_rotalar_kurulur(sakin):
     r = sakin["korunum"]
     assert r["korunum_tamam"] and r["mutabakat_tamam"], r
@@ -78,6 +91,9 @@ def test_SAKIN_dunyada_defter_kapanir_rotalar_kurulur(sakin):
     t = sakin["toplam"]
     assert t["selam.selam"] > 0 and t["iz.iz_ogrenilen"] > 0
     assert t["protokol.komut_gonderilen"] > 0       # geri iz çalışıyor
+    assert all(isinstance(p.rota, Egim) for p in pr)
+    assert t["bag.vaz_kayit"] > 0                   # KK-01/6
+    assert t["protokol.tur_istegi_gonderilen"] == 0  # T-13: tur yok
 
 
 def test_KARISTIRMA_YOLLARI_isler_defter_kapanir(karisik):
@@ -86,12 +102,26 @@ def test_KARISTIRMA_YOLLARI_isler_defter_kapanir(karisik):
     t = karisik["toplam"]
     assert t["kendi.giris_girisim"] + t["kendi.giris_ed"] > 0     # KK-03 A
     assert t["bag.karisma_bit"] > 0 and t["bag.karisma_bitti"] > 0  # KK-01/9–10
-    assert t["rota.aclik_istegi"] > 0 and t["rota.tur_artirildi"] > 0
-    assert t["rota.istek_karsilandi"] > 0           # yanıt istek yolundan
-    gecit = karisik["protokoller"][0]
-    assert gecit.rota.tur_gecit == 1 + t["rota.tur_artirildi"]
+    assert t["protokol.tur_istegi_gonderilen"] == 0  # T-13
+    assert t["bag.askida_giris"] == 0 and t["bag.veri_kotu"] == 0  # T-2
     kd = karisik["satir"]["teshis"]["kontrol_duzlemi"]
     assert kd["tepe_bekleyen_uyandirma"] < 32       # niyet döngüsü yok
+
+
+def test_ESKI_TASARIM_karistirma_ve_tur_yollari_isler(karisik_eski):
+    """18 Kasım'ın uçtan uca kanıtı (`ESKI_TAM`, `DEGERLER_ESKI`): açlıkta
+    istek, tur artışı, istek yolundan yanıt."""
+    r = karisik_eski["korunum"]
+    assert r["korunum_tamam"] and r["mutabakat_tamam"], r
+    t = karisik_eski["toplam"]
+    assert all(isinstance(p.rota, Rota) for p in karisik_eski["protokoller"])
+    assert t["kendi.giris_girisim"] + t["kendi.giris_ed"] > 0
+    assert t["bag.karisma_bit"] > 0 and t["bag.karisma_bitti"] > 0
+    assert t["rota.aclik_istegi"] > 0 and t["rota.tur_artirildi"] > 0
+    assert t["rota.istek_karsilandi"] > 0           # yanıt istek yolundan
+    gecit = karisik_eski["protokoller"][0]
+    assert gecit.rota.tur_gecit == 1 + t["rota.tur_artirildi"]
+    assert t["bag.vaz_kayit"] == 0                  # vazgeçme tetiği kapalı
 
 
 def test_CEKIRDEK_profilde_karistirmaya_karsi_mekanizma_calismaz():
@@ -100,6 +130,16 @@ def test_CEKIRDEK_profilde_karistirmaya_karsi_mekanizma_calismaz():
     t = s["toplam"]
     assert not any(v for k, v in t.items()
                    if k.startswith("kendi.") or k.startswith("bag.karisma"))
+    assert t["bag.askida_giris"] == 0 and t["bag.veri_kotu"] == 0
+    assert t["bag.vaz_kayit"] > 0
+
+
+def test_ESKI_CEKIRDEK_profilinde_Y4():
+    """18 Kasım'ın çekirdeği: veri tetiği bağı askıda beklemeden KÖTÜ'ye
+    ve cezaya götürür (Y-4)."""
+    s = _kos("statik-surekli", ESKI_CEKIRDEK, DEGERLER_ESKI)
+    assert s["korunum"]["korunum_tamam"] and s["korunum"]["mutabakat_tamam"]
+    t = s["toplam"]
     assert t["bag.askida_giris"] == t["bag.veri_kotu"] > 0    # Y-4
 
 

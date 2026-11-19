@@ -6,7 +6,7 @@ from __future__ import annotations
 import pytest
 
 from protokoller.desparete5_bicim import (
-    SELAM, SONSUZ, TAM, TUR_ISTEGI, Bayraklar, Degerler)
+    SELAM, SELAM_E, SONSUZ, TAM, TUR_ISTEGI, Bayraklar, Degerler)
 from protokoller.desparete5_selam import (
     SelamZamanlayici, onemli_degisim, selam_coz, selam_yuku)
 from sim2.gozlem.kontrol import KontrolIstegi, Uyandirma
@@ -97,3 +97,18 @@ def test_GONDEREMEZKEN_selam_kurulmaz_bitince_hemen_KK02_5():
     (0, 0, False)])
 def test_ONEMLI_DEGISIM_yuzde_15_ve_sonsuz(yeni, ilan, beklenen):
     assert onemli_degisim(yeni, ilan, D.ILAN_ESIGI) is beklenen
+
+
+def test_EGIM_BICIMI_tur_yok_7_bayt_arti_komsu_basina_2_bayt():
+    """KK-02 (19 Kasım): eğimde tur alanı yok; sabit 49 bit → 7 bayt."""
+    bos = KontrolIstegi.kur(None, SELAM_E, selam_yuku(0, 2.2, None, 0, False,
+                                                       (), ()))
+    assert bos.mesaj_bayt == 7
+    on_bes = KontrolIstegi.kur(None, SELAM_E, selam_yuku(
+        65535, 655.0, None, SONSUZ, True, tuple(range(15)),
+        tuple([255] * 15)))
+    assert on_bes.mesaj_bayt == 37                # KK-02: 15 komşuyla 37 B
+    sira, aralik, tur, C, bit, bildirilen = selam_coz(
+        selam_yuku(7, 1.1, None, 640, True, (3, 5), (255, 128)), 5)
+    assert (sira, tur, C, bit) == (7, None, 640, True)
+    assert aralik == pytest.approx(1.1) and bildirilen == pytest.approx(128 / 255)

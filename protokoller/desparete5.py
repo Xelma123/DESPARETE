@@ -10,8 +10,13 @@ modüllerdedir:
     desparete5_bag       bağın durumu ve ölçüsü, bağa ait kanıt (KK-01, KK-03 B)
     desparete5_selam     selam ve ara ilan (KK-02)
     desparete5_kanit     kendi "karıştırılıyorum" durumum (KK-03 A)
-    desparete5_rota      rota, döngüsüzlük, açlık (KK-04)
+    desparete5_egim      rota seçimi ve döngü bekçisi (KK-04, 19 Kasım; `egim`)
+    desparete5_rota      18 Kasım'ın rotası: FD, tur, açlık (`egim` kapalıyken)
     desparete5_bekletme  bekletme ve geri iz (KK-05)
+
+🔒 İKİ TASARIM, BİR SINIF (19 Kasım): `egim` açıkken yol seçimi `Egim`,
+selam `SELAM_E` (tur alanı yok), döngü bekçisi `cerceve_duyuldu` ve
+`sonraki_atlama`da; kapalıyken 18 Kasım'ın `Rota`sı ve `SELAM`ı, değişmeden.
 
 🔒 KÂHİN ERİŞİMİ YOK. Yalnız `sim2/gozlem/`i içe aktarır ve `KK-00`ın
 "gözlemin kullanımı" tablosundakini okur: `mesgul_sure_s` (yalnız
@@ -46,7 +51,8 @@ from protokoller.desparete5_bag import BagTablosu
 from protokoller.desparete5_bekletme import (
     BEKLET, GONDER, Bekletme, GeriIz)
 from protokoller.desparete5_bicim import (
-    SELAM, TAM, TUR_ISTEGI, Bayraklar, Degerler)
+    SELAM, SELAM_E, TAM, TUR_ISTEGI, Bayraklar, Degerler)
+from protokoller.desparete5_egim import Egim
 from protokoller.desparete5_kanit import KendiDurum
 from protokoller.desparete5_rota import Rota
 from protokoller.desparete5_selam import (
@@ -85,7 +91,8 @@ class Desparete5:
         self.b = bayraklar
         self.bag = BagTablosu(d, bayraklar)
         self.selam = SelamZamanlayici(d, bayraklar)
-        self.rota = Rota(kimlik, gecit, d, bayraklar)
+        self.rota = (Egim(kimlik, gecit, d, bayraklar) if bayraklar.egim
+                     else Rota(kimlik, gecit, d, bayraklar))
         self.kendi = KendiDurum(d, bayraklar)
         self.bekletme = Bekletme(d, bayraklar)
         self.iz = GeriIz(d)
@@ -237,14 +244,18 @@ class Desparete5:
         return self._bitir(t)
 
     def _selam_kur(self, sira: int, aralik_s: float) -> KontrolIstegi:
-        """KK-02: selam o anki bilgiyle kurulur; ilan edilen (tur, maliyet)
-        FD'yi günceller (KK-02/7)."""
+        """KK-02: selam o anki bilgiyle kurulur; ilan edilen maliyet
+        `C_ilan` olur (eğim kapalıyken (tur, maliyet) FD'yi günceller;
+        KK-02/7). Eğimde tur alanı yoktur (`SELAM_E`)."""
         tur, C = self.rota.ilan()
         self.rota.ilan_edildi(tur, C)
         komsu, oran = self.bag.liste()
         bit = self._bit()
         self._bit_ilan = bit
         self._sayac["selam_gonderilen"] += 1
+        if self.b.egim:
+            return KontrolIstegi.kur(None, SELAM_E, selam_yuku(
+                sira, aralik_s, None, C, bit, komsu, oran))
         return KontrolIstegi.kur(None, SELAM, selam_yuku(
             sira, aralik_s, tur, C, bit, komsu, oran))
 
@@ -252,7 +263,7 @@ class Desparete5:
                        yuk, yayin: bool) -> tuple:
         t = float(gozlem.saat_s)
         self._zaman(t)
-        if bicim == SELAM.ad:
+        if bicim in (SELAM.ad, SELAM_E.ad):
             sira, aralik, tur, C, bit, bildirilen = selam_coz(yuk, self.kimlik)
             self.bag.selam_al(gonderen, t, sira, aralik, bildirilen, bit)
             self.rota.ilan_al(gonderen, t, tur, C)
@@ -272,7 +283,8 @@ class Desparete5:
     # ==================================================================
     def iletim_sonucu(self, gozlem: Gozlem, hedef: int, basarili: bool,
                       tekrar: int, tur: str) -> None:
-        """KK-01/6 veri tetiği · KK-03/7 MAC kanıtı (K-151)."""
+        """KK-01/6 vazgeçme kaydı (eğim kapalıyken eski veri tetiği) ·
+        KK-03/7 MAC kanıtı (K-151)."""
         t = float(gozlem.saat_s)
         self.bag.zaman_isle(t)
         self.bag.veri_sonucu(hedef, t, basarili, tekrar, tur)
@@ -280,14 +292,17 @@ class Desparete5:
 
     def cerceve_duyuldu(self, gozlem: Gozlem, gonderen: int, tur: str,
                         hedef: int | None, rssi_dbm: int, paket) -> None:
-        """KK-01/1: komşu hâlâ orada · KK-05/6: geri iz. RSSI okunmaz
-        (KK-03/11)."""
+        """KK-01/1: komşu hâlâ orada · KK-05/6: geri iz · KK-04/8 (eğim):
+        döngü bekçisinin bayat bilgi işareti ve paketi getiren komşu. RSSI
+        okunmaz (KK-03/11)."""
         t = float(gozlem.saat_s)
         self.bag.cerceve_duyuldu(gonderen, t)
         if (tur == "veri" and hedef == self.kimlik and paket is not None
                 and paket.hedef == self.gecit
                 and paket.kaynak != self.kimlik):
             self.iz.ogren(paket.kaynak, gonderen, paket.kaynak_sira, t)
+            if self.b.egim:
+                self.rota.veri_duyuldu(gonderen, paket, t)
         return None
 
     # ==================================================================
@@ -295,10 +310,13 @@ class Desparete5:
     # ==================================================================
     def sonraki_atlama(self, gozlem: Gozlem) -> Karar:
         t = float(gozlem.saat_s)
+        p = gozlem.paket
+        # KK-04/9 (eğim): döngüden dönen paket, seçimden önce denetlenir.
+        if self.b.egim and p is not None and p.hedef == self.gecit:
+            self.rota.dongu_denetle(p, t)
         hepsi = self._bitir(t)
         beyan = tuple(x for x in hepsi if isinstance(x, Beyan))
         niyet = tuple(x for x in hepsi if not isinstance(x, Beyan))
-        p = gozlem.paket
         if p is None:
             return Karar(beyan=beyan, niyetler=niyet)
         telemetri = p.hedef == self.gecit
@@ -312,6 +330,8 @@ class Desparete5:
                                     sonraki is not None)
         if karar == GONDER:
             self._sayac[tur + "_gonderilen"] += 1
+            if self.b.egim and telemetri:
+                self.rota.gonderildi(p, sonraki, t)      # KK-04/9
             return Karar(sonraki=sonraki, beyan=beyan, niyetler=niyet)
         if karar == BEKLET:
             self._sayac[tur + "_bekletilen"] += 1

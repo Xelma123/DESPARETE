@@ -13,10 +13,17 @@ karıştırıcı çizelgesine göre seçilmez (`17` İlke 3).
 
 🔒 BAYRAKLAR (KK-00 "Mekanizmalar, bayraklar, sınıflar")
 Karıştırmaya karşı: `karistirma_durumu` · `alici_bildirimi` ·
-`hatirlanan_kalite` · `cogaltma`. Genel: `veri_kotu_tetigi` ·
-`uyarlanir_aralik` · `istege_bagli_esik` · `bekletme`. Çekirdek
-mekanizmaların (selamdan ETX, iki eşik, silme, ara ilan, döngüsüzlük, geri iz)
+`hatirlanan_kalite` · `cogaltma`. Genel: `vazgecme_tetigi` · `egim` ·
+`duzgun_gecis` · `uyarlanir_aralik` · `istege_bagli_esik` · `bekletme`.
+Çekirdek mekanizmaların (selamdan ETX, iki eşik, silme, ara ilan, geri iz)
 bayrağı yoktur.
+
+🔒 18 KASIM'IN TASARIMI BAYRAKLA YENİDEN ÜRETİLİR (19 Kasım; `17` T-2,
+T-11, T-12, T-13). `egim`, `vazgecme_tetigi`, `duzgun_gecis` kapalı ve
+`veri_kotu_tetigi` açıkken protokol 18 Kasım kâğıtlarını
+(`v2/arsiv/kural/*-2026-11-18.md`) izler: FD, tur, açlık, tur isteği, eski
+veri tetiği, askıda, veri cezası. `ESKI_CEKIRDEK` + `DEGERLER_ESKI` ilk ölçümün
+çekirdeğidir ve onu birebir üretmelidir.
 """
 
 from __future__ import annotations
@@ -29,8 +36,8 @@ from sim2.gozlem.kontrol import MesajBicimi
 __all__ = [
     "OLCEK", "SONLU_EN_COK", "SONSUZ", "maliyet_birimi", "maliyet_topla",
     "sira_artir", "sira_farki", "sira_buyuk", "Degerler", "Bayraklar",
-    "TAM", "CEKIRDEK", "SELAM", "TUR_ISTEGI", "ADRES_BIT", "ORAN_EN_COK",
-    "ARALIK_BIRIMI_S",
+    "TAM", "CEKIRDEK", "ESKI_CEKIRDEK", "DEGERLER_ESKI", "SELAM", "SELAM_E",
+    "TUR_ISTEGI", "ADRES_BIT", "ORAN_EN_COK", "ARALIK_BIRIMI_S",
 ]
 
 # ==========================================================================
@@ -87,11 +94,19 @@ class Degerler:
     ORNEK_EN_AZ: int = 4                # KÖTÜ → OLAĞAN ve listeye giriş
     E_CIK: float = 4.0                  # ETX bunu aşınca kullanılmaz
     E_DON: float = 3.0                  # bunun altına inince döner
+    # vazgeçme tetiği (KK-01/6–7; 19 Kasım)
+    VAZ_PENCERE: int = 16               # son veri çerçevesi sayısı
+    VAZ_PENCERE_S: float = 30.0         # ... en çok bu kadar geriye
+    VAZ_ESIK: int = 3                   # pencerede bu kadar vazgeçme → tetik
+    VAZ_BEKLE_S: float = 5.0            # "veriye uygun değil" beklemesi
+    VAZ_YINELEME_S: float = 60.0        # bu sürede yinelenirse ×2
+    VAZ_BEKLE_EN_COK_S: float = 40.0
+    # 18 Kasım'ın veri tetiği, askıda ve cezası (yalnız `veri_kotu_tetigi`)
     VERI_PENCERE: int = 8               # son veri çerçevesi sayısı
     VERI_PENCERE_S: float = 10.0        # ... en çok bu kadar geriye
     VERI_EN_AZ: int = 4                 # pencerede en az çerçeve
     ASKIDA_TAVAN_S: float = 10.0        # ASKIDA_SURE = min((k+1)·a, tavan)
-    ASKIDA_TABAN_S: float = 1.0         # ... en az (Y-1 karıştırma A/B'sinden önce)
+    ASKIDA_TABAN_S: float = 1.0         # ... en az
     T_HATIRA_S: float = 30.0            # KARIŞTIRILIYOR'un üst süresi
     T_CEZA_S: float = 10.0              # veriyle KÖTÜ'nün en kısa süresi
     T_CEZA_EN_COK_S: float = 40.0
@@ -118,7 +133,12 @@ class Degerler:
     MAC_ARDISIK: int = 3                # ardışık vazgeçme
     KENDI_UST_SURE_S: float = 30.0      # Y-6 (18 Kasım): T_HATIRA ile aynı
     # --- KK-04 · rota -----------------------------------------------------
-    GECIS_ORANI: float = 0.10           # isteğe bağlı geçiş
+    MALIYET_TAVANI_ETX: float = 32.0    # eğim: bunu aşan yol aday değil
+    DUZ_S: float = 6.0                  # düzgünleştirmenin zaman sabiti
+    DONGU_ANIMSA_S: float = 5.0         # iletilen paketin kaydı
+    DONGU_DISLA_S: float = 2.0          # döngü kanıtında dışlama
+    GECIS_ORANI: float = 0.10           # yalnız `duzgun_gecis` kapalıyken
+    # 18 Kasım'ın açlık ve tur isteği (yalnız `egim` kapalıyken)
     ISTEK_YINELEME: int = 3             # tur isteği kaç kez
     ISTEK_YINELEME_ARA_S: float = 0.5
     ISTEK_ARA_S: float = 5.0            # dizinin yinelenmesi · yok saymanın üst süresi
@@ -126,7 +146,7 @@ class Degerler:
     ISTEK_TEKRAR_S: float = 1.0         # aynı tur için ikinci iletim yok
     ISTEK_ATLAMA: int = 64
     # --- KK-05 · bekletme ve geri iz --------------------------------------
-    TUTMA_EN_COK_S: float = 2.0         # atlama başına
+    TUTMA_EN_COK_S: float = 1.0         # atlama başına (18 Kasım'da 2 s)
     YENIDEN_SOR_S: float = 0.5          # tamponu yeniden sorma aralığı
     IZ_TAZELIK_S: float = 3.0
 
@@ -137,6 +157,18 @@ class Degerler:
             raise ValueError("0 < I_MIN ≤ I_MAX olmalı")
         if self.N < self.ORNEK_EN_AZ or self.N > 64:
             raise ValueError("ORNEK_EN_AZ ≤ N ≤ 64 olmalı")
+        if not (1 <= self.VAZ_ESIK <= self.VAZ_PENCERE):
+            raise ValueError("1 ≤ VAZ_ESIK ≤ VAZ_PENCERE olmalı (KK-01/7)")
+        if not (0.0 < self.VAZ_BEKLE_S <= self.VAZ_BEKLE_EN_COK_S):
+            raise ValueError("0 < VAZ_BEKLE ≤ VAZ_BEKLE_EN_COK olmalı")
+        if not (0.0 < self.MALIYET_TAVANI_ETX
+                and maliyet_birimi(self.MALIYET_TAVANI_ETX) < SONLU_EN_COK):
+            raise ValueError("maliyet tavanı pozitif ve sonlu olmalı (KK-04)")
+
+    @property
+    def maliyet_tavani(self) -> int:
+        """KK-04/2, 10: tavan, maliyet biriminde (ETX × 64)."""
+        return maliyet_birimi(self.MALIYET_TAVANI_ETX)
 
     @classmethod
     def adlar(cls) -> tuple[str, ...]:
@@ -155,12 +187,15 @@ class Bayraklar:
     "kapalıyken" sütunudur."""
 
     # genel
-    veri_kotu_tetigi: bool = True       # KK-01/6–8, 11
+    vazgecme_tetigi: bool = True        # KK-01/6–7 (19 Kasım)
+    egim: bool = True                   # KK-04 (19 Kasım); kapalı: 18 Kasım'ın KK-04'ü
+    duzgun_gecis: bool = True           # KK-04/5–6 (19 Kasım); kapalı: %10 eşik
+    veri_kotu_tetigi: bool = False      # 18 Kasım'ın KK-01/6–8, 11 (eski; yalnız yeniden üretim)
     uyarlanir_aralik: bool = True       # KK-02/2
     istege_bagli_esik: bool = True      # KK-04/5
     bekletme: bool = True               # KK-05/1–5
     # karıştırmaya karşı
-    karistirma_durumu: bool = True      # KK-03/1–9 · KK-01/9–10, 13 · KK-02/5 · KK-04/8
+    karistirma_durumu: bool = True      # KK-03/1–9 · KK-01/9–10, 13 · KK-02/5
     alici_bildirimi: bool = True        # KK-02 alanı · KK-03/5
     hatirlanan_kalite: bool = True      # KK-01/10
     cogaltma: bool = False              # (ileride; T-14)
@@ -175,6 +210,9 @@ class Bayraklar:
                              "`karistirma_durumu`na bağlıdır")
         if self.cogaltma:
             raise ValueError("seçici çoğaltma bu sürümde yok (T-14)")
+        if self.veri_kotu_tetigi and self.vazgecme_tetigi:
+            raise ValueError("eski veri tetiği ile vazgeçme tetiği birlikte "
+                             "açılamaz (KK-00)")
 
     @classmethod
     def adlar(cls) -> tuple[str, ...]:
@@ -189,12 +227,28 @@ TAM = Bayraklar()
 # kapısının "hepsi kapalı" kolu da budur (KK-00; `06` §0.4.5).
 CEKIRDEK = Bayraklar(karistirma_durumu=False, alici_bildirimi=False,
                      hatirlanan_kalite=False)
+# 18 Kasım'ın çekirdeği (ilk ölçüm ve açlık teşhisinin `cekirdek` kolu):
+# FD ve tur, eski veri tetiği, %10 oransal geçiş; bekletme 2 s.
+ESKI_CEKIRDEK = Bayraklar(vazgecme_tetigi=False, egim=False,
+                          duzgun_gecis=False, veri_kotu_tetigi=True,
+                          karistirma_durumu=False, alici_bildirimi=False,
+                          hatirlanan_kalite=False)
+# 18 Kasım'ın değerleri: yalnız bekletme farklı (KK-05; 19 Kasım'da 2 → 1 s).
+DEGERLER_ESKI = Degerler(TUTMA_EN_COK_S=2.0)
 
 
 # ==========================================================================
 # İLETİLER — `13` §02.1; KK-02 alan tablosu · KK-04/11
 # ==========================================================================
-# Sabit 65 bit + komşu başına 16 bit: 9 bayt + 2 bayt × komşu.
+# Eğimde (19 Kasım) sabit 49 bit + komşu başına 16 bit: 7 bayt + 2 bayt × komşu.
+SELAM_E = MesajBicimi(
+    "D5_SELAM_E",
+    alanlar=(("sira", 16), ("aralik", 16), ("maliyet", 16),
+             ("karistiriliyorum", 1)),
+    tekrarli=(("komsu", ADRES_BIT), ("oran", 8)))
+
+# `egim` kapalıyken (18 Kasım): sabit 65 bit + komşu başına 16 bit: 9 bayt +
+# 2 bayt × komşu.
 SELAM = MesajBicimi(
     "D5_SELAM",
     alanlar=(("sira", 16), ("aralik", 16), ("tur", 16), ("maliyet", 16),

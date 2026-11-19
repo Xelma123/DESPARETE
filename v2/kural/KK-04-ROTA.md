@@ -1,8 +1,8 @@
 # KK-04 · Rota seçimi ve döngü bekçisi
 
-> Kararlar: T-11 · T-12 · T-13 (kalktı) · T-14 · T-15 · T-17 (`17`). Değerler ve genel kurallar `KK-00`. Kod `protokoller/desparete5_rota.py`. Güncel: 19 Kasım 2026 (yeniden yazıldı: uygulanabilirlik koşulu ve tur yerine maliyet eğimi, son çare, maliyet tavanı ve döngü bekçisi; isteğe bağlı geçişte anlık ve düzgünleştirilmiş maliyet). Önceki: 18 Kasım (`v2/arsiv/kural/KK-04-ROTA-2026-11-18.md`: FD, tur, açlık, tur isteği, yok sayma). Bu kâğıdın kural numaraları yenidir.
+> Kararlar: T-11 · T-12 · T-13 (kalktı) · T-14 · T-15 · T-17 (`17`). Değerler ve genel kurallar `KK-00`. Kod `protokoller/desparete5_egim.py` (`egim` kapalıyken 18 Kasım'ın `desparete5_rota.py`'si). Güncel: 19 Kasım 2026 (yeniden yazıldı: uygulanabilirlik koşulu ve tur yerine maliyet eğimi, son çare, maliyet tavanı ve döngü bekçisi; isteğe bağlı geçişte anlık ve düzgünleştirilmiş maliyet). Önceki: 18 Kasım (`v2/arsiv/kural/KK-04-ROTA-2026-11-18.md`: FD, tur, açlık, tur isteği, yok sayma). Bu kâğıdın kural numaraları yenidir.
 >
-> **Kod henüz bu kâğıda göre yazılmadı** (19 Kasım): `protokoller/desparete5_rota.py` 18 Kasım kâğıdını izliyor.
+> **Kod:** 19 Kasım'da bu kâğıda göre yazıldı. 18 Kasım'ın davranışı `egim` · `vazgecme_tetigi` · `duzgun_gecis` kapalı, `veri_kotu_tetigi` açık ve `DEGERLER_ESKI`yle birebir yeniden üretilir (küçük test dünyasında sekiz koşuda denetlendi: `arsiv/teshis/faz5_3_kod_2026-11-19/esdegerlik.txt`).
 
 ## Amaç ve sınıf
 

@@ -13,10 +13,14 @@ from protokoller.desparete5_bag import (
     ASKIDA, KARISTIRILIYOR, KOTU, OLAGAN, SEBEP_BIT, SEBEP_SESSIZLIK,
     BagTablosu, k_sessizlik, sondaki_sifirsiz)
 from protokoller.desparete5_bicim import (
-    CEKIRDEK, SONSUZ, TAM, Bayraklar, Degerler, maliyet_birimi,
-    maliyet_topla, sira_buyuk, sira_farki)
+    CEKIRDEK, ESKI_CEKIRDEK, SONSUZ, TAM, Bayraklar, Degerler,
+    maliyet_birimi, maliyet_topla, sira_buyuk, sira_farki)
 
 D = Degerler()
+# 18 Kasım'ın tam sürümü: eski veri tetiği, askıda, veri cezası (19 Kasım'da
+# yeni sürümde kalktı; kodda bayrakla yeniden üretilir).
+ESKI_TAM = Bayraklar(vazgecme_tetigi=False, egim=False, duzgun_gecis=False,
+                     veri_kotu_tetigi=True)
 J = 7
 # 16 selamdan 13'ü geldi (KK-01'in örneği): d_r = 13/16 ≈ 0,81.
 DESEN_13 = [1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1]
@@ -84,7 +88,12 @@ def test_BAYRAK_BAGIMLILIKLARI():
         Bayraklar(karistirma_durumu=False)        # bit ve hatıra ona bağlı
     with pytest.raises(ValueError):
         Bayraklar(cogaltma=True)
-    assert not CEKIRDEK.karistirma_durumu and CEKIRDEK.veri_kotu_tetigi
+    with pytest.raises(ValueError):
+        Bayraklar(veri_kotu_tetigi=True)          # vazgeçme tetiğiyle birlikte
+    assert not CEKIRDEK.karistirma_durumu and CEKIRDEK.vazgecme_tetigi
+    assert CEKIRDEK.egim and not CEKIRDEK.veri_kotu_tetigi
+    assert ESKI_CEKIRDEK.veri_kotu_tetigi and not ESKI_CEKIRDEK.egim
+    assert not ESKI_CEKIRDEK.vazgecme_tetigi and not ESKI_CEKIRDEK.duzgun_gecis
 
 
 # ==========================================================================
@@ -192,8 +201,8 @@ def test_KARISTIRICIYA_COK_YAKIN_ALICI_ASKIDA_sonra_sessizlikle_KARISTIRILIYOR()
     """KK-01'in örneği: j hiç selam gönderemez; dördüncü başarısız
     çerçevede bağ ASKIDA'ya geçer, sessizlik kanıtı süre içinde gelir,
     hatıra ASKIDA'ya girişteki ölçüdür; j dönünce iki temiz selamla ceza-
-    sız OLAĞAN."""
-    tab, k, t = kur()                             # son selam 30
+    sız OLAĞAN. 18 Kasım'ın kuralı (`ESKI_TAM`)."""
+    tab, k, t = kur(ESKI_TAM)                     # son selam 30
     snapshot = tuple(bag(tab).gecmis)
     basarisiz(tab, t + 0.5, n=3)
     assert bag(tab).durum == OLAGAN               # 3 çerçeve < VERI_EN_AZ
@@ -258,8 +267,8 @@ def test_ASKIDA_kanitsiz_KOTU_ve_cezanin_katlanmasi():
     """Komşu duyuluyor (kanıt yok), veri bağı kötü: ASKIDA süresi dolunca
     veri sebepli KÖTÜ ve ceza; 60 s içinde yinelenirse 10 → 20 → 40 → 40
     (tavan); 60 s'den sonra yine 10. Eski çerçeveler ceza boyunca 10 s'lik
-    veri penceresinden çıkar."""
-    tab, k, t = kur(desen=[1] * 16)
+    veri penceresinden çıkar. 18 Kasım'ın kuralı (`ESKI_TAM`)."""
+    tab, k, t = kur(ESKI_TAM, desen=[1] * 16)
     beklenen_ceza = [10.0, 20.0, 40.0, 40.0, 10.0]
     for tur in range(5):
         if tur == 4:                              # 60 s'den uzun sakin dönem
@@ -283,7 +292,7 @@ def test_ASKIDA_kanitsiz_KOTU_ve_cezanin_katlanmasi():
 
 
 def test_KARISTIRMA_KAPALIYKEN_ASKIDA_beklemesi_yok_Y4():
-    tab, k, t = kur(CEKIRDEK, desen=[1] * 16)
+    tab, k, t = kur(ESKI_CEKIRDEK, desen=[1] * 16)
     basarisiz(tab, t + 0.2, n=4, ara=0.2)
     b = bag(tab)
     assert b.durum == KOTU and b.ceza_bekliyor and b.ceza_s == 10.0
@@ -291,8 +300,8 @@ def test_KARISTIRMA_KAPALIYKEN_ASKIDA_beklemesi_yok_Y4():
 
 def test_AYNI_OLAYDA_SIRA_once_MAC_kaniti_sonra_veri_tetigi():
     """KK-01/15: dördüncü vazgeçme hem MAC kanıtını (3 ardışık, son 2·a'da
-    selam yok) hem veri tetiğini sağlıyor; kanıt kazanır."""
-    tab, k, t = kur()
+    selam yok) hem veri tetiğini sağlıyor; kanıt kazanır (`ESKI_TAM`)."""
+    tab, k, t = kur(ESKI_TAM)
     basarisiz(tab, t + 1.0, n=3)
     assert bag(tab).durum == OLAGAN
     tab.zaman_isle(t + 4.5)
@@ -323,7 +332,7 @@ def test_KARISTIRILIYOR_ust_suresi_ve_KOTU_donuste_bit_Y8():
 # KK-01/13 · kendim karıştırılıyorum (Y-2)
 # ==========================================================================
 def test_KENDI_KARISTIRILMAM_ASKIDAyi_cezasiz_OLAGANa_dondurur_Y2():
-    tab, k, t = kur(desen=[1] * 16)
+    tab, k, t = kur(ESKI_TAM, desen=[1] * 16)
     snapshot = tuple(bag(tab).gecmis)
     basarisiz(tab, t + 0.2, n=4, ara=0.2)
     assert bag(tab).durum == ASKIDA
@@ -403,3 +412,102 @@ def test_GOLGE_GECMIS_dondurmadan_bagimsiz_sayar():
 def test_SON_TARIH_en_erken_olay():
     tab, k, t = kur(desen=[1] * 16)
     assert tab.son_tarih() == pytest.approx(t + 3.3)
+
+
+# ==========================================================================
+# KK-01/6–7 · vazgeçme tetiği (19 Kasım)
+# ==========================================================================
+def gonder(tab, t, sonuclar, ara=0.2, tekrar=6):
+    """Veri çerçevesi sonuçları: True gitti (`tekrar` yeniden denemeyle),
+    False vazgeçildi."""
+    for i, ok in enumerate(sonuclar):
+        tab.zaman_isle(t + i * ara)
+        tab.veri_sonucu(J, t + i * ara, ok, tekrar if ok else 6, "veri")
+    return t + (len(sonuclar) - 1) * ara
+
+
+def test_VAZGECME_TETIGI_yalniz_vazgecme_sayilir_bag_OLAGAN_kalir():
+    """Yeniden denemeyle giden çerçeve başarılıdır; üçüncü vazgeçmede bağ
+    "veriye uygun değil" olur ama durumu, ölçüsü ve maliyeti değişmez."""
+    tab, k, t = kur(CEKIRDEK, desen=[1] * 16)
+    b = bag(tab)
+    t = gonder(tab, t + 0.1, [True] * 20)            # hepsi 7. denemede
+    assert tab.veriye_uygun(J, t) and tab.sayac["vaz_tetik"] == 0
+    t = gonder(tab, t + 0.2, [False, True, False])    # 2 vazgeçme
+    assert tab.veriye_uygun(J, t)
+    tab.zaman_isle(t + 0.2)                           # aynı anda karşılaştır
+    maliyet = tab.maliyet(J)
+    t = gonder(tab, t + 0.2, [False])                 # 3. vazgeçme (16'da)
+    assert not tab.veriye_uygun(J, t)
+    assert b.durum == OLAGAN and tab.maliyet(J) == maliyet
+    assert b.vud_bitis_t == pytest.approx(t + D.VAZ_BEKLE_S)
+    assert len(b.vaz) == 0 and tab.sayac["vaz_tetik"] == 1
+    assert tab.veriye_uygun(J, t + D.VAZ_BEKLE_S)    # bekleme doldu
+    assert tab.sayac["vazgecme"] == 3 and tab.sayac["vaz_kayit"] == 24
+
+
+def test_VAZGECME_PENCERESI_16_cerceve_ve_30_s():
+    tab, k, t = kur(CEKIRDEK, desen=[1] * 16)
+    # İki vazgeçme 16 çerçeveden eski kalır: tetik yok.
+    t = gonder(tab, t + 0.1, [False, False] + [True] * 16 + [False])
+    assert tab.veriye_uygun(J, t) and tab.sayac["vaz_tetik"] == 0
+    # İki vazgeçme 30 s'den eski kalır: tetik yok.
+    tab2, k2, t2 = kur(CEKIRDEK, desen=[1] * 16)
+    gonder(tab2, t2 + 0.1, [False, False])
+    for i in range(1, 17):                            # bağ OLAĞAN kalsın
+        k2.selam(t2 + 2.0 * i)
+    gonder(tab2, t2 + 31.0, [False])
+    assert tab2.veriye_uygun(J, t2 + 31.0)
+    assert tab2.sayac["vaz_tetik"] == 0
+
+
+def test_VAZGECME_BEKLEMESI_60_s_icinde_katlanir_en_cok_40_s():
+    tab, k, t = kur(CEKIRDEK, desen=[1] * 16)
+    b = bag(tab)
+    beklenen = [5.0, 10.0, 20.0, 40.0, 40.0, 5.0]
+    for tur in range(6):
+        if tur == 5:                                  # 60 s'den uzun sakin
+            for _ in range(31):
+                t += 2.0
+                k.selam(t)
+        t = gonder(tab, t + 0.1, [False, False, False], ara=0.1)
+        assert b.vud_sure == beklenen[tur], tur
+        t += 1.0
+        k.selam(t)
+    assert tab.sayac["vaz_tetik"] == 6 and tab.sayac["vaz_katlama"] == 4
+
+
+def test_VAZGECME_kendi_durumumda_yazilmaz_ve_KARISTIRILIYOR_isareti_kaldirir():
+    tab, k, t = kur(desen=[1] * 16)                   # TAM
+    b = bag(tab)
+    tab.kendi_basla(t + 0.1)
+    gonder(tab, t + 0.2, [False] * 5)                 # dondurma: yazılmaz
+    assert len(b.vaz) == 0 and tab.veriye_uygun(J, t + 2.0)
+    tab.kendi_bitir(t + 2.0)
+    k.selam(t + 2.0)
+    t = gonder(tab, t + 2.1, [False] * 3, ara=0.1)
+    assert not tab.veriye_uygun(J, t) and b.durum == OLAGAN
+    k.selam(t + 0.5, bit=True)                        # alıcı: karıştırılıyorum
+    assert b.durum == KARISTIRILIYOR
+    assert tab.veriye_uygun(J, t + 0.5) and len(b.vaz) == 0
+    assert b.son_vud_t == pytest.approx(t) and b.vud_sure == D.VAZ_BEKLE_S
+
+
+def test_VAZGECME_once_MAC_kaniti_selam_yoksa_KARISTIRILIYOR():
+    """KK-01/15: selam da gelmiyorsa vazgeçmeler karıştırma kanıtıdır
+    (KK-03/7); selam geliyorsa vazgeçme tetiği."""
+    tab, k, t = kur(desen=[1] * 16)                   # TAM; son selam 30
+    t1 = gonder(tab, t + 1.0, [False] * 3, ara=0.5)   # 2·a = 4,4 s içinde
+    assert bag(tab).durum == OLAGAN and not tab.veriye_uygun(J, t1)
+    tab.zaman_isle(t + 4.5)
+    tab.veri_sonucu(J, t + 4.5, False, 6, "veri")     # 2·a'dan sonra
+    assert bag(tab).durum == KARISTIRILIYOR
+    assert tab.sayac["karisma_mac"] == 1 and tab.veriye_uygun(J, t + 4.5)
+
+
+def test_VAZGECME_TETIGI_kapaliyken_yok():
+    tab, k, t = kur(Bayraklar(vazgecme_tetigi=False, karistirma_durumu=False,
+                              alici_bildirimi=False, hatirlanan_kalite=False),
+                    desen=[1] * 16)
+    gonder(tab, t + 0.1, [False] * 6)
+    assert tab.veriye_uygun(J, t + 2.0) and tab.sayac["vaz_kayit"] == 0

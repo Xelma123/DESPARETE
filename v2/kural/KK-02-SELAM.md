@@ -2,7 +2,7 @@
 
 > Kararlar: T-1 · T-16 · T-17 (`17`). Değerler ve genel kurallar `KK-00`. Kod `protokoller/desparete5_selam.py`. Güncel: 19 Kasım 2026 (`17` T-12, T-13, T-17: eğimde tur alanı yok; ara ilan olaylarına son çare seçimi ve döngü işareti girdi, tur isteğinin yanıtı çıktı). Önceki: 18 Kasım (`v2/arsiv/kural/KK-02-SELAM-2026-11-18.md`; kodlamayla Y-5 · Y-12, G-5).
 >
-> **Kod henüz bu kâğıda göre yazılmadı** (19 Kasım).
+> **Kod:** 19 Kasım'da bu kâğıda göre yazıldı. 18 Kasım'ın davranışı `egim` · `vazgecme_tetigi` · `duzgun_gecis` kapalı, `veri_kotu_tetigi` açık ve `DEGERLER_ESKI`yle birebir yeniden üretilir (küçük test dünyasında sekiz koşuda denetlendi: `arsiv/teshis/faz5_3_kod_2026-11-19/esdegerlik.txt`).
 
 ## Amaç ve sınıf
 
