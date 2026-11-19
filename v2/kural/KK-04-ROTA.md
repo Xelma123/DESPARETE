@@ -48,7 +48,7 @@ Döngüsüzlük garanti değildir: döngü önlenmez, oluşunca yakalanır ve on
    - ardıl yeniden seçilir (kural 4) ve paket yeni ardıla gider; ardıl yoksa paket bekletilir (KK-05);
    - **değişim olayı** (selam).
 
-   Aynı atlama sayısıyla yeniden gelen paket MAC'in tekrarıdır, döngü değildir. Kendi ürettiğim paket (kaynak ben) ilk kararda atlama sayısı 0 ile kaydedilir. Kayıt, paket her gönderildiğinde o anki atlama sayısı ve komşuyla güncellenir; `DONGU_ANIMSA_S`'den yaşlı kayıt silinir. Paketin ömrü (TTL, başlangıç 32) son güvencedir.
+   Aynı atlama sayısıyla yeniden gelen paket MAC'in tekrarıdır, döngü değildir. Kendi ürettiğim paket (kaynak ben) ilk kararda atlama sayısı 0 ile kaydedilir. Kayıt, paket her gönderildiğinde o anki atlama sayısı ve komşuyla güncellenir; `DONGU_ANIMSA_S`'den yaşlı kayıt silinir. Paketin ömrü (TTL; referans dünyada başlangıç 64, K-215) son güvencedir.
 10. **Maliyet tavanı:** `m_j > MALIYET_TAVANI` olan komşu aday değildir (kural 2). Kopan bir bölgede düğümler birbirini son çare seçince maliyetler her selam alışverişinde yükselir; tavanı aşınca adaylar biter, ∞ ilan edilir ve tırmanma durur. Döngü bekçisi (kural 9) çoğu zaman bundan önce keser.
 11. **Yol yok:** `A` boşsa ardıl yoktur, `C = ∞` ilan edilir; paketler bekletilir (KK-05). Tur isteği yoktur (T-13).
 12. **Kendim karıştırılırken** (KK-03 kural 4): seçim aynı kurallarla sürer. Bağ ölçüleri dondurulduğu için (KK-01 kural 13) adaylar ve maliyetleri değişmez; MAC sonuçları bağ kanıtı sayılmaz (KK-03 kural 8), ardıl korunur.

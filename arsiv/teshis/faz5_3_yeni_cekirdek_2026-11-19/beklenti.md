@@ -168,4 +168,33 @@ Kâhin:
 
 ## Duman koşusundan sonra (ölçümden önce)
 
-(Duman koşusundan sonra yazılır.)
+Duman koşusu (`duman_kisa.txt`, kayıtlar `duman/`; `sh kosu.sh duman`):
+- Koşul: beklentinin commit'inden (`1ee0cc5`) sonra, çalışma ağacından; kısa pencere (karıştırıcı 5. saniyede açılır, ölçüm 10–40 s), tohum 1003.
+- Kapsam: iki hücrede dört kol ve 18 Kasım'ın çekirdeği (10 koşu), ayrıca çekirdek iki hücrede kaydedicisiz (2 koşu). 14:51–15:12, 21 dakika.
+
+Aleti ve hesap betiğini sınadı:
+- **Geçerlilik:** 12 koşu hatasız bitti; korunum geçerli, doğum çelişkisi ve atfsız düşüş yok, ikincil sayım pencere PDR'siyle tutarlı, kaydedicinin iç denetimleri 10 koşuda da geçti.
+- **Kaydedici koşuyu değiştirmiyor:** kaydedicili ve kaydedicisiz çekirdek iki hücrede bütün alanlarda birebir (kural 0).
+- **18 Kasım'ın çekirdeği birebir:** iki hücrede ilk ölçümün duman satırıyla birebir; ortak alanlar ve sayaçlar eşit, yeni sayaçlar sıfır (kural 0). Yeni kodun eski kipi 18 Kasım davranışını referans dünyada da birebir üretiyor; teşhis (c)'nin, ilk ölçümün ve açlık teşhisinin satırları kullanılabilir.
+- **Kayıt ve hesap:** yeni sayaçlar ve kaydedicinin özeti kayda giriyor; `sonuc_hesap.py` duman kaydında baştan sona çalıştı, çıktısı `duman_kisa.txt`in sonunda.
+
+İki düzeltme:
+- **TTL:** referans dünyada paketin başlangıç ömrü **64**'tür (`sim2/kanal/dunya.py`, `REFERANS_TTL`; K-215), 32 değil; 32 yalnız eski dünyanın değeridir. Öngörüdeki "B'de bütün kararlarda en çok 31'e kadar çıkabilir" cümlesinde sınır 63 olmalıydı. Aynı yanlış `KK-04` kural 9'da da vardı ("başlangıç 32"); kâğıtta düzeltildi (bu commit, yalnız metin; kod TTL değerine dayanmıyor). Öngörünün metni değiştirilmedi.
+- **Süre:** kısa pencerede koşu başına süre İ'de 283–328 s (18 Kasım çekirdeği 354 s), B'de 466–524 s (18 Kasım çekirdeği 275 s). Yeni kollar B'de 18 Kasım çekirdeğinden ~1,8 kat yavaş: çok daha fazla paket teslim ediliyor, kanalda daha çok çerçeve var (bütün gönderim süresi 59–66 s ↔ 32 s). İlk ölçümün tam koşu sürelerine oranlanınca adım başına İ'de ~1–1,3 sa, B'de ~2–2,3 sa çıkıyor; **toplam ~12 sa (10–14)**. Beklentideki ~7 saatlik tahmin birincil hücrede tutmuyor. Her adım yine 8 saatin altında.
+
+Ölçüm için not (karar girdisi değil; tek tohum, 30 saniyelik pencere):
+- **B'de çekirdek:** `PDR_açık` 0,654. 18 Kasım çekirdeğinde 0,423'tü; ilk ölçümün dumanında Babel'in açık dönem teslimi 0,421'di. Açık dönemde rota yokluğu kaybı 0,502'den 0,008'e indi; kalan kayıp iletimde (0,324).
+- **düz0'da (eğim + %10 eşik) B'de döngü fırtınası:**
+  - kesin döngü 2470, dışlama 4254 (çekirdekte 22 · 22);
+  - zorunlu geçiş 230 ve son çare 85 (çekirdekte 22 · 6);
+  - tavan aşımı 14; kaynak maliyeti tavana (32 ETX) dayandı; kaynağın ∞ payı 0,057;
+  - teslim edilen bir paket 52 atlamada geldi; gecikmenin p99'u 3,64 s; R 0,095.
+  - Kod KK-04'le karşılaştırıldı, kural 5'in %10 yolu kâğıttaki gibi. Görünen mekanizma: anlık maliyetle sık geçiş (ardıl değişimi 648, çekirdekte 282), bayat ilanlarla döngü, dışlanan ardılın yerine zorunlu geçiş ve son çare.
+  - TTL kaybı yok. İkizde düz0'da döngü 27, çekirdekte 1.
+  - İki ölçülü geçişin karıştırma altında yol seçimini kararlı tutup tutmadığı S4–S5'te bu sayaçlarla görülür.
+- **İkizde tek tohumda** pencere PDR'si: çekirdek 0,915 · vaz0 0,919 · düz0 0,942 · eğim0 0,896 · 18 Kasım çekirdeği 0,946. Çekirdeğin iletim kaybı vaz0'ınkinden yüksek (0,083 ↔ 0,057), vaz0'ın rota yokluğu kaybı çekirdeğinkinden yüksek (0,024 ↔ 0,003).
+- **Tetiklenen bağların kâhin bandı:** ikizde %96 iyi, B'de %51 iyi. B'de çekirdeğin tetiklerinin %66'sı en uzun beklemede (40 s): aynı bağlar 60 s içinde yeniden tetikleniyor. Ardılın işaret sürerken değiştiği pay ikizde 0,86, B'de 0,31.
+- **Kaynak maliyeti:** çekirdekte İ'de p99 15 ETX, en çok 16,7; B'de p99 20 ETX, en çok 21,6.
+- **Biçim notu:** ardılın değişme gecikmesinin medyanı bazen "−0,00 s" görünüyor. Kayıttaki tetik anı 4 basamağa yuvarlanıyor; ardıl aynı anda değişince fark yuvarlamadan ötürü −0,0 çıkabiliyor. Hata değil, ölçümde de aynı olacak.
+
+Bunlar S4–S5'te sayılır. Karar kuralı ve öngörüler değiştirilmedi; protokolün ve aletin kodunda hiçbir şey değişmedi.
