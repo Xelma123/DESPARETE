@@ -112,3 +112,22 @@ for ad, k in (("çekirdek", cek), ("vtk0", vtk)):
         if sel:
             print(f"{ad:<9} {s:<11} d_f·d_r {ist.mean(sel):.2f} · kâhin p "
                   f"{ist.mean(kh):.2f}")
+
+print("\n== vazgeçmelerin bağlara dağılımı (bütün koşu; `tablo`nun iletim_basarisiz"
+      " satırları ve anatominin en çok vazgeçilen 5 bağı; 19 Kasım'da eklendi, "
+      "`17` T-2'nin gerekçesi) ==")
+for ad, k in (("çekirdek", cek), ("vtk0", vtk)):
+    top, bag, en, pay = [], [], [], []
+    for t in TOHUM:
+        r = k[t]
+        ib = sum(v for kk, v in r["tablo"].items()
+                 if kk.startswith("iletim_basarisiz|"))
+        b5 = r["basarisiz_en_cok_5_bag"]
+        top.append(ib)
+        bag.append(r["basarisiz_bag_sayisi"])
+        en.append(b5[0][2])
+        pay.append(sum(x[2] for x in b5) / ib)
+    print(f"{ad:<9} vazgeçme/koşu {ist.mean(top):.0f} · ayrı bağ "
+          f"{ist.mean(bag):.0f} · en kötü bağ {ist.mean(en):.0f} "
+          f"({min(en)}–{max(en)}) · en kötü 5 bağın payı {ist.mean(pay):.2f} "
+          f"({min(pay):.2f}–{max(pay):.2f})")

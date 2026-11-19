@@ -125,6 +125,11 @@ Düzeltme: beklentide "T-3'ün tetik kuralı" diye geçen kural, `17`'de T-2'nin
   - kâhinin tek deneme başarısı ~0,71–0,76.
 
   Selam eşiği ardıl bağını seyrek düşürdüğü için (ardıl çıkışlarının %8'i) kayba katkısı küçük. Ama vtk0'da kalan açlıkların kökü bu. T-2'nin gerekçesi "selam küçüktür ve büyük veri paketinin kaybını olduğundan iyi gösterir" idi. Bu dünyada ve bu hücrede ise yayın selamı, bağı girişim yüzünden olduğundan kötü gösteriyor. Tek bir dünyanın sonucudur; genellenmez.
+- **Vazgeçmeler tetik kapalıyken birkaç bağda toplanıyor** (19 Kasım'da eklendi; `ek_hesap.txt`'in son bölümü; `17` T-2'nin gerekçesi):
+  - Koşu başına toplam vazgeçme iki kolda aynı: çekirdek 682 · vtk0 691.
+  - Tetik açıkken 151 ayrı bağa dağılıyor; en kötü bağda 22, en kötü beş bağda %13.
+  - Tetik kapalıyken 73 bağda toplanıyor; en kötü bağda 99 (65–200), en kötü beş bağda %41.
+  - Bu bağlar da kâhine göre iyi bantta. Selamı geçen ama veriyi taşıyamayan, kalıcı bağlar var; sebebi ölçülmedi.
 - **vtk0'da kalan açlıklar:**
   - Tohum 1005'te 155 bölüm ve 34 kök var, hepsi selam eşiğinden (PDR 0,892, R 0,011).
   - Öteki tohumlarda pencerede 5–19 bölüm var; 1003 dışında hiçbirinde bölümde paket düşmüyor.

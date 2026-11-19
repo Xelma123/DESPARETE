@@ -35,3 +35,7 @@ koşu başına: çıkış 309 · ardıl bağında 98.1% · OLAĞAN'a dönen 98.2
 çekirdek  veri        d_f·d_r 0.43 · kâhin p 0.83
 vtk0      selam_asim  d_f·d_r 0.24 · kâhin p 0.71
 vtk0      selam_alim  d_f·d_r 0.23 · kâhin p 0.71
+
+== vazgeçmelerin bağlara dağılımı (bütün koşu; `tablo`nun iletim_basarisiz satırları ve anatominin en çok vazgeçilen 5 bağı; 19 Kasım'da eklendi, `17` T-2'nin gerekçesi) ==
+çekirdek  vazgeçme/koşu 682 · ayrı bağ 151 · en kötü bağ 22 (16–25) · en kötü 5 bağın payı 0.13 (0.07–0.22)
+vtk0      vazgeçme/koşu 691 · ayrı bağ 73 · en kötü bağ 99 (65–200) · en kötü 5 bağın payı 0.41 (0.25–0.62)

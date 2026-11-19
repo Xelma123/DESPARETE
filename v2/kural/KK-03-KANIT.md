@@ -1,6 +1,8 @@
 # KK-03 · Karıştırma kanıtı
 
-> Kararlar: T-5 · T-6 · T-8 · T-9 · T-10 (`17`). Değerler ve genel kurallar `KK-00`; eşiklerin başlangıcı teşhis (d)'nin dağılımlarından (`arsiv/teshis/faz5_2_isaretler_2026-11-16/sonuc.md`). Kod: A `protokoller/desparete5_kanit.py` · B `desparete5_bag.py`. Güncel: 18 Kasım 2026 (kodlamayla Y-3 · Y-6 · Y-10). Önceki: 17 Kasım (bağımsız denetimden sonra yeniden yazıldı: B-3 · B-4 · B-7 · B-11 · B-18).
+> Kararlar: T-5 · T-6 · T-8 · T-9 · T-10 (`17`). Değerler ve genel kurallar `KK-00`; eşiklerin başlangıcı teşhis (d)'nin dağılımlarından (`arsiv/teshis/faz5_2_isaretler_2026-11-16/sonuc.md`). Kod: A `protokoller/desparete5_kanit.py` · B `desparete5_bag.py`. Güncel: 19 Kasım 2026 (`17` T-2, T-9: askıda durumu kalktı; vazgeçmelerin selamla birlikte okunması; kalabalıkla yanlış alarm riski not edildi). Önceki: 18 Kasım (`v2/arsiv/kural/KK-03-KANIT-2026-11-18.md`; kodlamayla Y-3 · Y-6 · Y-10).
+>
+> **Kod henüz bu kâğıda göre yazılmadı** (19 Kasım).
 
 ## Amaç ve sınıf
 
@@ -29,12 +31,12 @@ Karıştırmayı kötü bağdan ve kalabalık kanaldan ayırmak: kendi durumumu 
    - "bitti": kaynak ED ise 1 işaretsiz saniye (ED eşiğinin yanlış alarmı çok küçük); kaynak girişimse `CIKIS_SANIYE` ardışık işaretsiz saniye.
    - Durum selamın `karistiriliyorum` bitine yazılır (`alici_bildirimi` açıkken; değişimi olaydır, KK-02).
 
-**B · Komşu j'ye bağ kanıtı** (göndericide; bağ OLAĞAN ya da ASKIDA iken)
+**B · Komşu j'ye bağ kanıtı** (göndericide; bağ OLAĞAN iken)
 
 5. **Bit:** j'nin selamında `karistiriliyorum` = 1 → kanıt, sebep "bit" (alıcı söyledi; `alici_bildirimi` açıkken).
 6. **Sessizlik:** j'nin `gecmis`inin sonunda ardışık `k` sıfır → kanıt, sebep "sessizlik". `k = min(N, max(3, ⌈log 0,01 / log(1 − d_r)⌉))`; `d_r` sondaki ardışık sıfırlar hariç hesaplanır (sessizlikten önceki kalite); tanımsızsa `k = N`. Örnekler: `d_r` 0,9 ya da 0,8 → 3; 0,6 → 6; 0,5 → 7; 0,25 ve altı → 16. Anlamı: bağın kendi kayıp oranıyla %1'den düşük olasılıkla açıklanabilecek bir sessizlik. ED'deki j gönderemez; sessizliği kanıttır (T-6). Ölen ya da uzaklaşan j de böyle görünür; zararı yok, bağ kullanılmaz ve `T_SILME`'de silinir.
-7. **MAC:** j'ye `MAC_ARDISIK` ardışık vazgeçme **ve** j'den son `2·a` içinde selam yok → kanıt, sebep "sessizlik". Vazgeçme tek başına kanıt değildir (T-9; teşhis (d)'de tek başına geç ve seyrekti).
-8. **Kendim karıştırılırken** MAC sonuçları bağ kanıtı sayılmaz, veri tetiğine de girmez (KK-01 kural 13); ardıl korunur. Üst süresi KK-01 kural 13'ündür (30 s; 18 Kasım, Y-6). Sebep: bütün komşulara başarısızlık gönderenin kendisini gösterir (T-6); veri çerçevesi alandan dışarıdaki ardıla çoğu zaman ulaşır, onayı ise ben duyamam; yedeğe geçmek bir şey kazandırmaz (17 Kasım, denetim B-11; `17` T-9).
+7. **MAC:** j'ye `MAC_ARDISIK` ardışık vazgeçme **ve** j'den son `2·a` içinde selam yok → kanıt, sebep "sessizlik". Vazgeçme tek başına kanıt değildir (T-9; teşhis (d)'de tek başına geç ve seyrekti). Selam geliyorken vazgeçmeler bu kurala değil vazgeçme tetiğine gider: bağ veriyi taşıyamıyordur (KK-01 kural 7, 15).
+8. **Kendim karıştırılırken** MAC sonuçları bağ kanıtı sayılmaz, vazgeçme kaydına da girmez (KK-01 kural 6, 13); ardıl korunur. Üst süresi KK-01 kural 13'ündür (30 s; 18 Kasım, Y-6). Sebep: bütün komşulara başarısızlık gönderenin kendisini gösterir (T-6); veri çerçevesi alandan dışarıdaki ardıla çoğu zaman ulaşır, onayı ise ben duyamam; yedeğe geçmek bir şey kazandırmaz (17 Kasım, denetim B-11; `17` T-9).
 9. **Bitti, sebebe göre:**
 
 | sebep | o sebebin "bitti"si |
@@ -48,6 +50,7 @@ Karıştırmayı kötü bağdan ve kalabalık kanaldan ayırmak: kendi durumumu 
 
 10. Bütün eşikler başlangıçtır; birleşik kuralın başarısı ve yanlış alarmı A/B'de ölçülür (`17` §7 madde 6–7).
 11. Sinyal tutarlılığı (RSSI) başlangıç kuralına girmez: teşhis (d)'de zayıftı (AUC 0,71). Protokol bu sürümde RSSI okumaz; A/B'de denenirse ölçüm hatasının (σ 2 dB) duyarlılığı da ölçülür (`04` §9).
+12. **Bilinen risk: kalabalık** (19 Kasım; açlık teşhisi). Kalabalık kanalda yayın selamları çarpışıp kayboluyor: kâhine göre iyi olan bağlarda selamla ölçülen `d_f · d_r` ~0,23 (kâhinin tek deneme başarısı ~0,71–0,76). Kural 2'nin `s`'si ve kural 6'nın sessizliği selam kaybına dayandığı için karıştırıcı yokken de yanlış alarm verebilir (küçük test dünyasında karıştırıcısız koşuda birkaç sessizlik kanıtı görüldü; Xu vd. 2005 ve Puñal 2014'ün uyarısı [23]). Düzeltme, karıştırma katmanının A/B'lerinden önce yazılır (`v2/12`); aday: sessizlikte "selam gelmedi" yerine "hiçbir çerçevesi duyulmadı".
 
 ## Örnek
 

@@ -1,61 +1,70 @@
-# KK-04 · Rota seçimi, döngüsüzlük, açlık
+# KK-04 · Rota seçimi ve döngü bekçisi
 
-> Kararlar: T-11 · T-12 · T-13 · T-14 · T-15 (`17`). Değerler ve genel kurallar `KK-00`. Kod `protokoller/desparete5_rota.py`. Güncel: 18 Kasım 2026 (kodlamayla Y-8 · Y-11; iletimin, yinelemenin ve yok saymadaki isteğin ayrıntısı yazıldı). Önceki: 17 Kasım (bağımsız denetimden sonra: B-1 · B-8 · B-9 · B-10 · B-16 · B-17 · B-18).
+> Kararlar: T-11 · T-12 · T-13 (kalktı) · T-14 · T-15 · T-17 (`17`). Değerler ve genel kurallar `KK-00`. Kod `protokoller/desparete5_rota.py`. Güncel: 19 Kasım 2026 (yeniden yazıldı: uygulanabilirlik koşulu ve tur yerine maliyet eğimi, son çare, maliyet tavanı ve döngü bekçisi; isteğe bağlı geçişte anlık ve düzgünleştirilmiş maliyet). Önceki: 18 Kasım (`v2/arsiv/kural/KK-04-ROTA-2026-11-18.md`: FD, tur, açlık, tur isteği, yok sayma). Bu kâğıdın kural numaraları yenidir.
 >
-> **19 Kasım uyarısı:** `17`'de T-2, T-11, T-12 ve T-13 değişti (vazgeçme tetiği; anlık ve düzgünleştirilmiş maliyet birlikte; maliyet eğimi, son çare, maliyet tavanı ve döngü bekçisi; açlık ve tur kalktı). KK-01 ve KK-04 yeniden yazılana kadar bu kâğıt ve kod (`protokoller/desparete5*.py`) 18 Kasım tasarımını anlatır; ilk ölçüm ve açlık teşhisi o tasarımla yapıldı.
+> **Kod henüz bu kâğıda göre yazılmadı** (19 Kasım): `protokoller/desparete5_rota.py` 18 Kasım kâğıdını izliyor.
 
 ## Amaç ve sınıf
 
-Geçide giden ardılı seçmek, döngüyü önlemek, uygun komşu kalmayınca yeni tur istemek. **Genel** (`istege_bagli_esik`; öteki kurallar çekirdek).
+Geçide giden ardılı seçmek; düğümü, olağan ve sonlu maliyetli bir komşusu olduğu sürece yolsuz bırakmamak; oluşan döngüyü veri yolunda yakalayıp onarmak. **Genel.** Bayraklar: `egim` (kapalıyken 18 Kasım'ın kuralları: FD, tur, açlık, tur isteği, yok sayma; arşivdeki kâğıt) · `istege_bagli_esik` ve `duzgun_gecis` (kural 5).
+
+Döngüsüzlük garanti değildir: döngü önlenmez, oluşunca yakalanır ve onarılır (T-12; CTP ve RPL'nin yolu).
 
 ## Gördüğü ve tuttuğu
 
-- Her komşunun son alınan ilanı (`tur_j`, `C_j`); seçili ardıl için ayrıca son **kabul edilen** ilanı.
-- KK-01'den her bağın ETX'i ve durumu.
-- `FD = (tur, maliyet)`: bu turda **ilan ettiğim** (nicemlenmiş) sonlu maliyetlerin en küçüğü (T-12).
-- `ardil`, kendi maliyetim `C`, son ilan ettiğim maliyet.
-- Yok sayma sayacı (kural 7); son iletilen istekler: (istenen tur, isteyen, an), `ISTEK_ANIMSA` süreyle (kural 9).
-- Geçit kendi turunu tutar; geçidin kimliği yapılandırmadan gelir. Bütün maliyetler ETX × 64 tamsayı biriminde; tur 16 bit, modüler karşılaştırılır.
+- Her komşunun selamla son ilan ettiği maliyet `C_j` (sonlu ya da ∞). Tur yoktur (KK-02).
+- KK-01'den her bağın durumu, `ETX_selam`'ı ve "veriye uygun değil" işareti.
+- `ardil`, kendi maliyetim `C`, son ilan ettiğim maliyet `C_ilan` (nicemlenmiş; hiç sonlu ilan etmediysem ∞).
+- Her aday j için düzgünleştirilmiş toplam maliyet `ms_j` ve son güncelleme anı (kural 6).
+- Döngü bekçisi: son `DONGU_ANIMSA_S` içinde ilettiğim telemetri paketleri: `(kaynak, kaynak_sira)` → (o anki atlama sayısı, gönderdiğim komşu); bana gelen telemetri çerçevelerinin göndereni (`cerceve_duyuldu`), aynı anahtarla; dışlanan komşular ve dışlamanın bitişi (kural 9).
+- Bütün maliyetler ETX × 64 tamsayı biriminde (yukarı yuvarlanır; sonlu en çok 0xFFFE, 0xFFFF = ∞). Geçidin kimliği yapılandırmadan gelir; geçidin maliyeti 0'dır ve geçit ardıl seçmez.
 
 ## Kurallar
 
-1. **Uygulanabilirlik** (her seçimde güncel FD ile hesaplanır, saklanmaz; RFC 8966 §3.5.3, §3.6):
-   - ∞ ilan (geri çekme) her zaman uygulanabilirdir (RFC 8966 §3.5.1);
-   - sonlu ilan uygulanabilir ⇔ `tur_j > FD.tur` ya da (`tur_j = FD.tur` ve `C_j < FD.maliyet`);
-   - FD'si olmayan düğüm her ilanı uygulanabilir sayar.
-2. **Aday küme** `A`: durumu OLAĞAN (KK-01) ve ilanı **sonlu ve uygulanabilir** komşular. ASKIDA, KÖTÜ ve KARIŞTIRILIYOR komşu aday da yedek de değildir (T-15).
-3. **Maliyet:** kendi maliyetim seçili rotamınkidir: `C = ETX(i, ardil) + C_ardil` (ardıl için son kabul edilen ilan; yukarı yuvarlanır, 0xFFFE'de doyar); geçit için `C = 0`; ardıl yoksa `C = ∞`. Adayların maliyeti `ETX(i, j) + C_j`, ardılı seçmek için karşılaştırılır (kural 4–5). Eşit maliyette sıra: mevcut ardıl, düşük ETX, küçük adres. İlan edilen maliyetle paketin gittiği yol aynı olmalıdır (RFC 8966 §3.7).
-4. **Zorunlu geçiş:** ardıl `A`'dan çıkarsa (ASKIDA, KÖTÜ, KARIŞTIRILIYOR, silindi, ∞ ilan, kural 7'nin süresi dolmuş uygulanamaz ilan) `A`'nın en ucuzuna anında geçilir; `A` boşsa `C = ∞` ilan edilir ve kural 8 uygulanır. Onarım yok (T-9, T-14).
-5. **İsteğe bağlı geçiş** (`istege_bagli_esik`): aday maliyeti `< (1 − GECIS_ORANI) · C` ise geçilir; değilse ardıl korunur (T-11). Bayrak kapalıyken her hesapta en ucuz aday seçilir.
-6. **İlan ve FD:** maliyet selamla ilan edilir (KK-02). İlanın turu **seçili rotamın turudur**: ardılımın ilan ettiği tur; geçitte kendi turu. Rotası olmayan düğüm ∞ ilan eder ve daha yeni bir tur ilan etmez (RFC 8966 §3.7); ∞ ilanın tur alanı FD'nin turudur, FD yoksa 0 (uygulanabilirliğe etkisi yok, ∞ her zaman uygulanabilir; Y-8). Sonlu bir maliyet ilan edilirken: `tur` FD'ninkinden yeniyse `FD ← (tur, C)`; aynı turda `C < FD.maliyet` ise `FD.maliyet ← C`.
-7. **Seçili ardıldan uygulanamaz ilan:**
-   - **∞ ilan** yok sayılmaz: ardıl hemen bırakılır (kural 4).
-   - **Sonlu ve uygulanamaz ilan** yok sayılır: ardıl son kabul edilen `C_j` ile kalır; ilk yok saymada ardıla tek alıcılı tur isteği gider, istenen `FD.tur + 1` (RFC 8966 §3.5.3, §3.8.2.2); sonraki yok saymalar istek göndermez.
-   - Yok sayma ilk yok sayılan ilandan başlayarak en çok `ISTEK_ARA` sürer; sonraki yok saymalar süreyi yenilemez; süre bir `Uyandirma` ile denetlenir.
-   - Bu sürede ardıldan uygulanabilir bir ilan gelirse yok sayma biter, o ilan kabul edilir.
-   - Süre dolunca ardılın son alınan ilanı uygulanır; uygulanamıyorsa ardıl bırakılır (kural 4).
-8. **Açlık** (`A` boş):
-   - Tur isteği yalnız en az bir **OLAĞAN** komşunun **sonlu ama uygulanamaz** ilanı varsa gider: `istenen = FD.tur + 1`, komşulara çoklu yayın, hemen ve ardından `ISTEK_YINELEME` kez daha 0,5 s arayla (Babel'in "en çok üç kez yeniden gönderilir"i, RFC 8966 Ek B); açlık sürerse dizi `ISTEK_ARA`'da bir yinelenir. Açlık biter ya da koşul kalkarsa dizi durur.
-   - Öteki bütün durumlarda istek gitmez, paketler bekletilir (KK-05): sonlu ilanlı komşu yok (adaysız); uygulanamaz ilanlı komşuların hepsi ASKIDA, KÖTÜ ya da KARIŞTIRILIYOR (yeni tur onları aday yapmaz); kendim karıştırılıyorum (KK-03 kural 4; sorun benim alıcımda, yanıtları duyamam, gereksiz tur artışı bütün ağı çalkalar).
-   - Kendi karıştırılmamdan çıkınca açlık sürüyorsa istek hemen gider.
-9. **Tur isteği gelince** (isteyen g, istenen t):
-   - seçili rotamın turu ≥ t ve `C` sonlu → hemen selam (ara ilan, KK-02); yalnız duyduğum ama rotamın dayanmadığı bir tur yanıt sayılmaz;
-   - geçitsem ve turum < t → tur bir artar, hemen selam;
-   - değilsem, ardılım var, ardılım g değil ve kalan atlama en az 2 ise → istek ardılıma kalan atlama bir eksiltilerek tek alıcılı iletilir (RFC 8966 §3.8.1.2); t'nin kaydı `ISTEK_ANIMSA` süre tutulur; aynı t için 1 s içinde ikinci istek iletilmez ama kayıt tazelenir (Y-11). Yanıt çok-yayın selam olduğu için kayıt isteyeni tutmaz;
-   - ardılım yoksa ya da g ise istek iletilmez. Bu, bu tasarımın basitleştirmesidir: RFC 8966 §3.8.1.2 böyle bir isteği başka bir uygulanabilir rotanın ardılına iletmeyi ister.
-   - Tutulan bir istek varken seçili rotamın turu ≥ t olursa hemen selam gönderilir (isteği karşılayan değişim, KK-02 kural 3) ve kayıt silinir. Yanıt böylece istek yolundan geri yayılır.
-10. **Tur yalnız istekle artar** (T-13); geçidin turu 1'den başlar.
-11. **İleti:** `tur_istegi` = istenen tur 16 bit · kalan atlama 8 bit (başlangıç `ISTEK_ATLAMA`) (`13` §02.1).
+1. **Toplam maliyet:** j üzerinden yolumun maliyeti `m_j = ETX_selam(i, j) + C_j` (yukarı yuvarlanır, 0xFFFE'de doyar).
+2. **Aday küme `A`:** durumu OLAĞAN (KK-01), `C_j` sonlu, `m_j ≤ MALIYET_TAVANI` ve döngü dışlaması (kural 9) olmayan komşular. KÖTÜ ve KARIŞTIRILIYOR komşu aday da yedek de değildir (T-15).
+3. **Yokuş aşağı `D ⊆ A`:** `C_j < C_ilan`. Komşuların benim için bildiği değer `C_ilan`'dır; j'nin yolu benden geçseydi `C_j ≥ ETX(j, i) + C_ilan > C_ilan` olurdu. Bu yüzden yokuş aşağı komşu, son bildiği hâliyle paketi bana geri göndermez (LFA'nın aşağı akış koşulu [61]). Ardılım az önce kaybolduysa `C_ilan` kaybolmadan önceki değerdir. `C_ilan` ∞ ise `D = A`.
+4. **Seçim sırası** (gruplar, iyiden kötüye; grup içinde en küçük `m_j`, eşitlikte mevcut ardıl, düşük ETX, küçük adres):
+   - G1: `D` içinde ve "veriye uygun değil" olmayan;
+   - G2: `D` içinde ve "veriye uygun değil";
+   - G3: `A \ D` (yokuş yukarı) ve "veriye uygun değil" olmayan;
+   - G4: `A \ D` ve "veriye uygun değil".
+
+   Buna göre:
+   - **Ardıl kayboldu** (`A`'da değil: KÖTÜ, KARIŞTIRILIYOR, silindi, ∞ ilan etti, tavanı aştı ya da dışlandı) ya da ardıl yok: boş olmayan ilk grubun en iyisi seçilir (zorunlu geçiş; T-9). G3 ya da G4'ten seçmek **son çaredir**: maliyetim yükselir ve bu bir değişim olayıdır (kural 7). `A` boşsa ardıl yoktur (kural 11).
+   - **Ardıl "veriye uygun değil" oldu:** G1'de başka bir aday varsa onun en iyisine geçilir; yoksa ardıl kalır (`17` T-2: yedek yokken bağ kullanılmaya devam eder, açlık doğmaz).
+   - **Ardıl `A`'da ve veriye uygun:** isteğe bağlı geçiş (kural 5).
+5. **İsteğe bağlı geçiş** (T-11): adaylar G1'in öteki üyeleri. j'ye geçilir ⇔
+   - `duzgun_gecis` açıkken: `m_j < m_ardil` **ve** `ms_j < ms_ardil` (anlık ve düzgünleştirilmiş maliyet ikisi birden daha iyi; Babel [4] Ek A.3);
+   - `duzgun_gecis` kapalı, `istege_bagli_esik` açıkken: `m_j < (1 − GECIS_ORANI) · m_ardil` (16 Kasım'ın oransal eşiği);
+   - ikisi kapalıyken: `m_j < m_ardil`.
+
+   Birden çok aday geçerse en küçük `m_j`'li seçilir. `m_j < m_ardil = C` olduğu için bu adaylar zaten yokuş aşağıdır.
+6. **Düzgünleştirilmiş maliyet:** her seçimde her aday için `ms_j ← ms_j + (m_j − ms_j) · (1 − e^(−Δt / DUZ_S))`, `Δt` son güncellemeden beri geçen süre. `A`'ya yeni giren adayda `ms_j = m_j`; `A`'dan çıkan adayın kaydı silinir. Zorunlu geçişte `ms` kullanılmaz: yol kaybolunca beklenmez (Babel Ek A.3: seçili rota yoksa yalnız anlık maliyete bakılır).
+7. **Kendi maliyetim ve ilan:** `C = m_ardil`, ardıl yoksa ∞; selamla ilan edilir ve `C_ilan` olur (KK-02). Değişim olayları (hemen selam, KK-02 kural 3): `C`, `C_ilan`'dan `ILAN_ESIGI` kadar farklı ya da ∞ ↔ sonlu · son çare seçimi (kural 4) · döngü işareti (kural 8–9).
+8. **Döngü bekçisi · bayat bilgi** (`cerceve_duyuldu`; niyet döndürmez, olay bir sonraki niyetli kancada verilir, `KK-00` genel kural 1): bana iletilmek üzere telemetri çerçevesi gelir (tür veri, hedefi ben, paketin hedefi geçit, kaynağı ben değilim), gönderen s. s'nin son ilanı `C_s ≤ C` ise ya da `C` ∞ ise s'nin bildiği eğim bayattır ya da döngü vardır: **değişim olayı** (selam). Paket olağan iletilir. Sebep: CTP her veri paketine gönderenin maliyetini yazar [68]; bizde başlığa değer yazılamadığı için (`13` §02.5) aynı bilgi s'nin selamından okunur.
+9. **Döngü bekçisi · kesin döngü** (`sonraki_atlama`): kararı verilen telemetri paketi `(kaynak, kaynak_sira)` son `DONGU_ANIMSA_S` içinde bana **daha küçük bir atlama sayısıyla** gelmiş ve iletilmişse paket bir döngüden dönmüştür (atlama sayısı = başlangıç ömrü − kalan ömür, her atlamada bir artar):
+   - iki komşu `DONGU_DISLA_S` süre `A`'dan dışlanır: o paketi önceki sefer gönderdiğim komşu (döngüye giden yol) ve paketi bu sefer bana getiren komşu (yolu benden geçiyor; `cerceve_duyuldu`'nun kaydı). İki düğümlü döngüde ikisi aynıdır;
+   - ardıl yeniden seçilir (kural 4) ve paket yeni ardıla gider; ardıl yoksa paket bekletilir (KK-05);
+   - **değişim olayı** (selam).
+
+   Aynı atlama sayısıyla yeniden gelen paket MAC'in tekrarıdır, döngü değildir. Kendi ürettiğim paket (kaynak ben) ilk kararda atlama sayısı 0 ile kaydedilir. Kayıt, paket her gönderildiğinde o anki atlama sayısı ve komşuyla güncellenir; `DONGU_ANIMSA_S`'den yaşlı kayıt silinir. Paketin ömrü (TTL, başlangıç 32) son güvencedir.
+10. **Maliyet tavanı:** `m_j > MALIYET_TAVANI` olan komşu aday değildir (kural 2). Kopan bir bölgede düğümler birbirini son çare seçince maliyetler her selam alışverişinde yükselir; tavanı aşınca adaylar biter, ∞ ilan edilir ve tırmanma durur. Döngü bekçisi (kural 9) çoğu zaman bundan önce keser.
+11. **Yol yok:** `A` boşsa ardıl yoktur, `C = ∞` ilan edilir; paketler bekletilir (KK-05). Tur isteği yoktur (T-13).
+12. **Kendim karıştırılırken** (KK-03 kural 4): seçim aynı kurallarla sürer. Bağ ölçüleri dondurulduğu için (KK-01 kural 13) adaylar ve maliyetleri değişmez; MAC sonuçları bağ kanıtı sayılmaz (KK-03 kural 8), ardıl korunur.
 
 ## Örnek
 
-i'nin FD'si (tur 7, 2,0). Ardıl k'nin bağı karıştırılıyor; adaylar j (ilanı tur 7, 1,8 → uygulanabilir) ve m (tur 7, 2,5 → uygulanamaz). i anında j'ye geçer: `C = ETX(i, j) + 1,8`. Yalnız m kalsaydı ve m OLAĞAN olsaydı açlık olurdu: i, tur 8'i ister; istek ardıl zinciriyle geçide gider, geçit turu 8 yapar ve hemen ilan eder; istek yolundaki düğümler yeni turu benimseyince hemen ilan eder; yeni turda m'nin ilanı uygulanabilir olur. Bir zincirde X rotasını kaybedip ∞ ilan ederse, X'i ardıl kullanan Y bunu yok saymaz, hemen yedeğine geçer ya da ∞ ilan eder; kayıp beklemeden yayılır.
+X'in ardılı W'den yolu `C_ilan = 2,5`. W'nin bağı KÖTÜ olur.
+- Komşu Y'nin ilanı 1,9 (< 2,5, yokuş aşağı): X anında Y'ye geçer, `C = ETX(X, Y) + 1,9`.
+- Yokuş aşağı komşu yoksa ve tek aday Z ise (Z'nin yolu X'ten geçiyor, ilanı `ETX(Z, X) + 2,5 = 1,2 + 2,5 = 3,7`; iki yönde ETX 1,2): X son çare olarak Z'yi seçer, `C = 1,2 + 3,7 = 4,9` olur ve hemen ilan edilir. X'in Z'ye gönderdiği paket Z'den X'e geri döner. X onu daha büyük atlama sayısıyla görünce döngüyü anlar: Z'yi (hem önceki sefer gönderdiği hem paketi getiren komşu) 2 s dışlar, başka adayı yoksa ∞ ilan eder ve paketi bekletir. Z, ardılı X'ten ∞ duyunca o da adaysız kalır ya da kendi yedeğine geçer. Döngü tek bir paket turunda kesilir; döngü bekçisi olmasaydı maliyetler tavanı (32) aşana kadar tırmanırdı.
 
 ## Sınanması
 
-- `istege_bagli_esik` açık ↔ kapalı: ikizde pencere PDR'si, ardıl değişim sıklığı, iletim kaybı.
-- Tanı: döngünün göstergesi TTL kaybı (T grubu); tur artışı ve tur isteği sayısı (`17` §7 madde 10); en uzun atlama sayısı (`ISTEK_ATLAMA` ile karşılaştırma).
+- `egim` açık ↔ kapalı (18 Kasım'ın kuralları): ikizde ve birincil hücrede teslim, rota yokluğu kaybı (R), ömür kaybı (T grubu, döngünün göstergesi), gecikmenin p99'u, kontrol yükü.
+- `duzgun_gecis` açık ↔ kapalı: ardıl değişim sıklığı, ikizde pencere PDR'si.
+- Tanı: döngü kanıtı (kural 9) ve bayat bilgi olayı (kural 8) sayısı · son çare seçimi · tavan aşımı · yol yok bölümlerinin sayısı ve süresi · ardıl değişimi, sebebine göre (kopma, veriye uygunsuzluk, isteğe bağlı) · yol maliyetinin dağılımı (tavanın yeri için).
 
 ## Kaynak
 
-Uygulanabilirlik, geri çekmenin her zaman uygulanabilir olması, FD, tur isteği ve yanıtı Babel [4] (RFC 8966 §3.5.1, §3.5.3, §3.6, §3.7, §3.7.3, §3.8.1.2, §3.8.2.1–§3.8.2.2); DSDV ailesi (De Couto 2003'te [36] aktarıldığı gibi); hazır yedek DUAL [65] ve RPL [63]; oransal geçiş Ramachandran [54].
+Maliyet eğimi, gönderenin maliyetiyle veri yolunda döngü doğrulaması ve paketi düşürmeden onarma CTP [68] (§3.1, §4.3) ve RPL [63] (§3.7); yokuş aşağı koşulu LFA'nın aşağı akış yolu [61] (RFC 5286); anlık ve düzgünleştirilmiş maliyetle geçiş Babel [4] (RFC 8966 Ek A.3); oransal eşik Ramachandran [54]. Son çare, maliyet tavanı, başlığa yazmayan döngü bekçisi (komşunun selamından ve paketin atlama sayısından) ve veriye uygunsuz bağın sona düşmesi bu tasarımın.
