@@ -1,0 +1,31 @@
+Aletin sınaması (19 Kasım 2026, beklentinin commit'inden önce) — ölçüm değil,
+hiçbir karara girmez. Eski `olcek_1_50` dünyası (referans dünya değil), kısa
+pencere, tohum 1003; çalışma ağacından, kod `d9a6df7` + bu dizinin
+`olcum.py`'si (beklentinin commit'indekiyle aynı). Amaç: aletin hatasız
+koştuğunu, iç denetimlerin geçtiğini ve kaydedicinin koşuyu değiştirmediğini
+göstermek.
+
+Komutlar (depo kökünden; S = bu dizin):
+
+    export PYTHONIOENCODING=utf-8 PYTHONDONTWRITEBYTECODE=1 DESPARETE_DUNYA=olcek_1_50
+    py -3.11 -u arsiv/teshis/faz5_3_yeni_cekirdek_2026-11-19/olcum.py --dunya olcek_1_50 --kisa \
+        --hucre ikiz --kollar cekirdek,vaz0,duz0,egim0,eski --tohumlar 1003 --isci 5 --kayit S/kayit_ikiz.json
+    py -3.11 -u arsiv/teshis/faz5_3_yeni_cekirdek_2026-11-19/olcum.py --dunya olcek_1_50 --kisa \
+        --hucre birincil --kollar cekirdek --tohumlar 1003 --isci 1 --kayit S/kayit_birincil.json > S/kayit_birincil.txt
+    py -3.11 -u kalibrasyon/kayip_anatomisi.py --dunya olcek_1_50 --kol formasyon --kisa --sinif yok \
+        --hayalet 10:20 --protokoller desparete5_cekirdek --tohumlar 1003 --isci 1 --kayit S/duz_ikiz.json > S/duz_ikiz.txt
+    py -3.11 -u kalibrasyon/kayip_anatomisi.py --dunya olcek_1_50 --kol formasyon --kisa --sinif surekli \
+        --protokoller desparete5_cekirdek --tohumlar 1003 --isci 1 --kayit S/duz_birincil.json > S/duz_birincil.txt
+    py -3.11 arsiv/teshis/faz5_3_yeni_cekirdek_2026-11-19/sonuc_hesap.py S > S/sonuc_hesap.txt
+
+İlk komutun ekran çıktısı saklanmadı; koşular `kayit_ikiz.json`da.
+Koşular geçici dizinde yapıldı, kayıtlar buraya kopyalandı;
+`sonuc_hesap.txt` bu dizinden yeniden üretildi.
+
+`sonuc_hesap.txt`te:
+- "Kaydedici koşuyu değiştirmiyor": iki hücrede BİREBİR (bütün alanlar).
+- "`eski` ↔ ilk ölçümün duman kaydı": FARKLI. Beklenen: karşılaştırılan
+  kayıt referans dünyanın, bu sınama `olcek_1_50`nin. Bu denetim yalnız
+  duman koşusunda (referans dünya) anlamlıdır.
+- Teşhis (c), ilk ölçüm ve açlık teşhisinin satırları duman kipinde
+  okunmaz; S1, S2 ve kâhin bölümleri bu yüzden boş.

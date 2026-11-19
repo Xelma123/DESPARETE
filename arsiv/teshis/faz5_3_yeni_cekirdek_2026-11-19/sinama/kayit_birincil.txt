@@ -1,0 +1,7 @@
+==============================================================================
+YENİ ÇEKİRDEK — dünya olcek_1_50 · formasyon-surekli (birincil) · kollar ['cekirdek'] · tohum [1003] · KISA PENCERE
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\protokoller\desparete5.py
+==============================================================================
+    1/1 cekirdek 1003 · PDR(pencere) 0.8940 · tetik 63 · en çok atlama 15 · denetim tamam · 501 s
+
+  1 koşu kayıtta · hata 0

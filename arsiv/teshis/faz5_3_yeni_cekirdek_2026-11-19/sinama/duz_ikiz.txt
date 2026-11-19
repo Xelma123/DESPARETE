@@ -1,0 +1,27 @@
+==============================================================================
+KAYIP ANATOMISI — dunya olcek_1_50 · formasyon-yok · aile — · yere toplama · tohum [1003] · KISA PENCERE
+==============================================================================
+    1/1 desparete5_cekirdek                        1003 · PDR(pencere) 0.9341 · 430 s
+
+  desparete5_cekirdek  PDR(pencere) ort 0.934 · üretilen 1597 · geçerli True
+    tohum 1003: PDR 0.8760 (pencere 0.9341) · 430 s
+      düşen/üretilen: iletim_basarisiz 7.8% · hedef_yok 4.6%
+      ısınmada düşen (adet): hedef_yok 74 · iletim_basarisiz 45
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[26, 17, 1.0], [20, 16, 0.6], [31, 10, 1.7], [19, 8, 0.6], [32, 7, 1.2]]
+      evre: TANIMSIZ — acilma ani 5.0 olcum penceresinin [10.0; 40.0) disinda
+      karar bağı kâhin bandı: iyi 97% · orta 2% · kotu 0% · mesafe km {'p10': 0.22, 'p50': 0.36, 'p90': 0.68}
+      karar bağı TEK deneme (yayın) bandı: iyi 38% · orta 54% · kotu 8%
+      başarısız bağ bandı:   iyi 70% · orta 24% · kotu 6% · mesafe km {'p10': 0.5, 'p50': 0.71, 'p90': 0.98} · 40 ayrı bağ, en çok [[20, 0, 16], [31, 7, 9], [26, 23, 8], [19, 0, 8], [32, 28, 7]]
+      veri denemesi 8175 · adreslenen alıcıda: alim_basarili 59.0% · alim_red_per 18.9% · alim_red_mesgul 13.1% · alim_red_onbelge 8.9% · alim_red_yari_cift 0.0% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 0 100.0% (59.0%)
+      girişimsiz beklenen başarısızlık: deneme 23.4% · karar 1.17%
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    hedef_yok                  0         0        74        74      4.6%
+    iletim_basarisiz           0         0       124       124      7.8%
+    (koşu sonu kuyrukta)                                       0      0.0%
+
+  bolge: ed = karistirici >= ED esigi (kanal erisim kilidi) · girisim = gurultunun ustu · uzak = karistiricidan bagimsiz
+  etki alani: karistirici o an ACIK olsaydi alinacak ORTALAMA guc (yavas kayip; kapi ve hizli sonumleme haric), ayni esikler; paket tablosunda paketin gecit disi ucunda, dogum aninda
+  iletim_basarisiz'in bolgesi ALICIDA (denenen sonraki atlama) okunur; digerleri dustugu dugumde (K-193)
+  bag bandi: kahinin tek deneme basarisindan p_atlama — iyi >= 0,90 · orta 0,50-0,90 · kotu < 0,50 (girisim haric)
+  toplam duvar suresi 431 s
