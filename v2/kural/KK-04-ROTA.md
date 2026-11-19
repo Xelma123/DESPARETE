@@ -1,6 +1,8 @@
 # KK-04 · Rota seçimi, döngüsüzlük, açlık
 
 > Kararlar: T-11 · T-12 · T-13 · T-14 · T-15 (`17`). Değerler ve genel kurallar `KK-00`. Kod `protokoller/desparete5_rota.py`. Güncel: 18 Kasım 2026 (kodlamayla Y-8 · Y-11; iletimin, yinelemenin ve yok saymadaki isteğin ayrıntısı yazıldı). Önceki: 17 Kasım (bağımsız denetimden sonra: B-1 · B-8 · B-9 · B-10 · B-16 · B-17 · B-18).
+>
+> **19 Kasım uyarısı:** `17`'de T-2, T-11, T-12 ve T-13 değişti (vazgeçme tetiği; anlık ve düzgünleştirilmiş maliyet birlikte; maliyet eğimi, son çare, maliyet tavanı ve döngü bekçisi; açlık ve tur kalktı). KK-01 ve KK-04 yeniden yazılana kadar bu kâğıt ve kod (`protokoller/desparete5*.py`) 18 Kasım tasarımını anlatır; ilk ölçüm ve açlık teşhisi o tasarımla yapıldı.
 
 ## Amaç ve sınıf
 

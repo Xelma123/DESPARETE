@@ -1,6 +1,8 @@
 # KK-00 · Kural kâğıtları — dizin, genel kurallar, değerler, bayraklar
 
 > Faz 5-3 (`12` §1.2). Kararlar `17`de (T-1…T-20); kural kâğıtları onları kurallara, formüllere ve başlangıç değerlerine çevirir. Kod bu kâğıtlardan yazılır (`protokoller/desparete5*.py`; değerler ve bayraklar `desparete5_bicim.py`); kod yorumları `KK-n` ve `T-n`e atıf verir. Değerler başlangıçtır, geliştirme tohumlarında (1003–1010) A/B ile ayarlanır. Bağımsız denetim: `arsiv/denetim/DENETIM-RAPORU-KURAL-2026-11-17.md` ve kapanışı. Güncel: 18 Kasım 2026 (kodlamayla Y-4 · Y-6 · Y-9 · Y-11; ölçüm beyanları ve kancalar genel kurallara eklendi).
+>
+> **19 Kasım uyarısı:** `17`'de T-2, T-11, T-12 ve T-13 değişti (vazgeçme tetiği; anlık ve düzgünleştirilmiş maliyet birlikte; maliyet eğimi, son çare, maliyet tavanı ve döngü bekçisi; açlık ve tur kalktı). KK-01 ve KK-04 yeniden yazılana kadar bu kâğıt ve kod (`protokoller/desparete5*.py`) 18 Kasım tasarımını anlatır; ilk ölçüm ve açlık teşhisi o tasarımla yapıldı.
 
 ## Kâğıtlar
 

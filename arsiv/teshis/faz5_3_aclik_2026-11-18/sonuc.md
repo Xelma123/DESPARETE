@@ -30,7 +30,7 @@ Kayıp ağırlıklı, köke göre; 8 tohum ortalaması (tohum başına değerler
 
 **Hüküm: bağ kökenli, yanlış alarm.** Bağ çıkış kuralları gerçekte iyi bağları düşürüyor. Karar kuralının 1. maddesi gereği sıradaki iş bağ çıkışının seçenekleri.
 
-**Kâhin bandının anlamı** (beklentinin duman bölümü): kâhin girişimi dışarıda bırakır. "İyi", bağın yol kaybı ve sönümleme bakımından iyi olduğunu söyler. Rotanın taşıdığı veri tek alıcılıdır ve sekiz denemeyle girişimi çoğunlukla aşar.
+**Kâhin bandının anlamı** (beklentinin duman bölümü): kâhin girişimi dışarıda bırakır. "İyi", bağın yol kaybı ve sönümleme bakımından iyi olduğunu söyler. Rotanın taşıdığı veri tek alıcılıdır ve yedi denemeyle (ilk gönderim + 6 yeniden deneme) girişimi çoğunlukla aşar.
 
 ## 2 · S4 — zincir
 
@@ -128,3 +128,8 @@ Düzeltme: beklentide "T-3'ün tetik kuralı" diye geçen kural, `17`'de T-2'nin
 - **vtk0'da kalan açlıklar:**
   - Tohum 1005'te 155 bölüm ve 34 kök var, hepsi selam eşiğinden (PDR 0,892, R 0,011).
   - Öteki tohumlarda pencerede 5–19 bölüm var; 1003 dışında hiçbirinde bölümde paket düşmüyor.
+
+## 7 · Düzeltme (19 Kasım, sonuç yazıldıktan sonra)
+
+- **Deneme sayısı:** referans dünyada bir veri çerçevesi için en çok **7 deneme** var (yeniden deneme sınırı 6; `DS.konfig(...).yeniden_deneme_siniri`, kayıttaki `aclik.deneme` = 7). Beklentide kâhin bandı `p_atlama = 1 − (1 − p)^8` diye ve iki yerde "sekiz deneme" diye yazılmıştı (`beklenti.md` §Tanımlar, §Öngörü gerekçesi, duman bölümü). Beklentiye dokunulmadı.
+- **Sonuçlar etkilenmedi:** `sonuc_hesap.py` üssü kayıttan okudu (`a["deneme"]` = 7). İyi bandın sınırı tek deneme başarısı ~0,28'dir (teşhis (d)'deki "7 denemelik" ölçüyle aynı). Bu belgedeki "sekiz" de "yedi" olarak düzeltildi (§1).

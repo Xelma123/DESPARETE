@@ -1,6 +1,8 @@
 # KK-01 · Bağın durumu ve ölçüsü
 
 > Kararlar: T-2 · T-3 · T-7 · T-9 · İlke 2 (`17`). Değerler ve genel kurallar `KK-00`. Kod `protokoller/desparete5_bag.py`. Güncel: 18 Kasım 2026 (kodlamayla açık bulgular kapandı: Y-2 · Y-4 · Y-6 · Y-7 · Y-8 · Y-12; kodlamada bulunan iki boşluk: G-3 · G-4). Önceki: 17 Kasım (bağımsız denetimden sonra yeniden yazıldı: B-2 · B-3 · B-4 · B-5 · B-11 · B-12).
+>
+> **19 Kasım uyarısı:** `17`'de T-2, T-11, T-12 ve T-13 değişti (vazgeçme tetiği; anlık ve düzgünleştirilmiş maliyet birlikte; maliyet eğimi, son çare, maliyet tavanı ve döngü bekçisi; açlık ve tur kalktı). KK-01 ve KK-04 yeniden yazılana kadar bu kâğıt ve kod (`protokoller/desparete5*.py`) 18 Kasım tasarımını anlatır; ilk ölçüm ve açlık teşhisi o tasarımla yapıldı.
 
 ## Amaç ve sınıf
 

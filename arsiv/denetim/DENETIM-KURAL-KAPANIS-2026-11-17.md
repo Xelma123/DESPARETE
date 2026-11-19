@@ -117,3 +117,7 @@ Kendi "karıştırılıyorum" durumum (`KK-03` A) ve bütün parçaları simüla
 | ayrıntı | Gönderemezken değişim olayları selam planlamaz (boş uyanma döngüsü olmasın); kancaların sırası | KK-02 kural 5 · KK-00 genel kural 5 |
 
 Bütün açık bulgulardan yalnız Y-1 kaldı (karıştırma A/B'lerinin beklentisinden önce). Küçük test dünyasında görülen ve ölçümde izlenecek iki şey (karar girdisi değil): karıştırıcısız koşuda da birkaç sessizlik kanıtı çıktı (yanlış alarm); sürekli karıştırmada tur birkaç kez arttı (`17` §7 madde 10).
+
+## 19 Kasım · tasarım değişikliğinden sonra
+
+Y-1'in konusu (askıda süresinin bit kanıtının gecikmesini kapsaması; KÖTÜ'de gelen geç kanıtın cezayı kaldırması) kalktı: `17` T-2 yeniden yazıldı, veri tetiği vazgeçme tetiğine dönüştü; askıda durumu ve veri cezası yok (açlık teşhisi, `arsiv/teshis/faz5_3_aclik_2026-11-18/sonuc.md`). Askıda durumuna ait Y-2, Y-4 ve Y-7 kodda yalnız eski tetiğin bayrağı açıkken geçerli. Yeniden yazılacak KK-01 ve KK-04 yeni bir bağımsız okumadan geçer.

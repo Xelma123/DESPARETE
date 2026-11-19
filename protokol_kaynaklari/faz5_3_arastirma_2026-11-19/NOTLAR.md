@@ -23,7 +23,7 @@
   - Tam sürümde iletim kaybı 10 → 75 paket, teslim 818 → 752 / 839. Çekirdekte 817 → 801.
 
   Tetiğin gerçek bir işlevi var: "selam geçiyor, veri geçmiyor" bağını yakalamak. Bu, ETX makalesinin bilinen uyarısıdır (5-2 notları §2). Referans ikizde ise zararı faydasından çok büyük.
-- **Selam bağı olduğundan kötü gösteriyor:** selam eşiğiyle çıkan bağlarda, çıkış anında selamın ölçtüğü `d_f · d_r` ~0,23; kâhinin tek deneme başarısı ~0,73 (girişim hariç).
+- **Selam bağı olduğundan kötü gösteriyor:** selam eşiğiyle çıkan bağlarda, çıkış anında selamın ölçtüğü `d_f · d_r` ~0,23; kâhinin tek deneme başarısı ~0,71–0,76 (girişim hariç; açlık teşhisinin `ek_hesap.txt`'i).
 
 **Sonuç:** Selam tek başına bağı kötü, veri tek başına (tetik olarak) bağı aşırı sert ölçüyor. İkisinin birleşimi ve bu birleşimin yol seçimine nasıl gireceği asıl soru.
 
@@ -53,7 +53,7 @@
     - maliyetin 1,5 ETX'ten fazla düşmesi;
     - komşunun "çek" (P) biti. Yolu olmayan düğüm bu biti koyar ve komşularından selam ister.
 - **İletim** (§5): paket başına **32 yeniden denemeye** kadar. Düşürmek yerine bekleme ile topolojinin onarımını birleştirir; tek hedef olduğundan sıradaki paketin sonucu da aynı olurdu.
-- **Ölçek:** 12 deney ağında, 20–310 düğüm, durağan. Hareketli ağ değil.
+- **Ölçek** (§1): 12 deney ağı, 20–310 düğüm, yedi donanım; yazarların deyişiyle sahada değil, laboratuvar deney ağları. Hareketlilik yok.
 
 **Babel'in yol seçimi** ✓ [RFC 8966 Ek A.3, depoda]:
 - Her rota için anlık maliyet ve düzgünleştirilmiş maliyet tutulur. Düzgünleştirmenin zaman sabiti selam aralığının ~3 katıdır.
@@ -80,7 +80,7 @@
   - Selam tahmini pencereli üstel ortalamadan hesaplanır.
   - İki tahmin ikinci bir üstel ortalamada birleşir. Ağır trafikte veri, sessizken selam baskın olur.
   - Selam, tahminin yalnız başlangıcını sağlar; sonra veri inceltir.
-- **Sonuç:** 85 ve 94 düğümlü iki durağan deney ağında maliyet %29 ve %44 düşer, teslim ~%99 (özet). Düşük güçte kaybın azlığı tahmincinin kayıpları fark edip yolu değiştirecek kadar çevik olduğunu gösteriyor (§4).
+- **Sonuç** (§1): karşılaştırma MultihopLQI'yle (CC2420 telsizinin kalite göstergesine dayanan tahminci). Mirage'da (85 düğüm) paket başına iletim maliyeti %29 düşer, teslim %99,9 (MultihopLQI %93); TutorNet'te (94 düğüm) %44 düşer, teslim %99 (MultihopLQI %85). Deney ağları sabit düğümlü. Düşük güçte kaybın azlığı, tahmincinin kayıpları fark edip yolu değiştirecek kadar çevik olduğunu gösteriyor (§4).
 - **Bizim için anlamı:** veri sonucu bağı bir **tetikle kesip atmıyor**, **maliyetini** yükseltiyor. Pahalılaşan bağdan ancak daha iyi bir yol varsa ayrılınır; yol yoksa bağ kullanılmaya devam eder.
 - **Risk:** T-2, veri sonucunu maliyete sokmayı yük salınımı (T-4) yüzünden reddetmişti; veri başarısı kanal yüküne bağlıdır. 4B ve CTP bunu histerezisle (1,5 ETX) yönetiyor. Jonglez & Chroboczek'in (5-2 notları §2) çaresi de doyma ve histerezis.
 
@@ -129,7 +129,7 @@
 |---|---|---|---|---|
 | bekletme 2 s / atlama | KK-05 | T-18: bir düğümde tutma 5 s'lik gecikme tavanını aşmaz (K-246: ArduPilot, MAVLink kopma sınırı) | yalnız yol yokken; olağan pakette gecikme p50 0,04 · p99 0,30 s (tetiksiz ikiz) | telemetri 1 Hz: 1 s'den eski paketin yerine yenisi zaten var; 1 s ya da "kaynak başına en yeni paket" daha anlamlı olabilir. Komut (0,25 Hz) farklı |
 | yeniden sorma 0,5 s | KK-05 | simülatör tamponu yalnız uyandırmadan sonra döker (K-135) | yol bulununca 1 ms'de gönderilir; 0,5 s yalnız yedek | sorun değil |
-| selam 0,5–2 s | KK-02 | Trickle; sessizlik kanıtının süresi (Y-9) | kopuşun fark edilmesi ~1,5–3,5 aralık | CTP 64 ms – 1 saat; Babel 4 s |
+| selam 0,5–2 s | KK-02 | Trickle; sessizlik kanıtının süresi (Y-9) | kopuşun ne kadar sürede fark edileceği (Babel'in RFC'sine göre 1,5–3,5 selam aralığı; bizde ölçülmedi) | CTP 64 ms – 1 saat; Babel 4 s |
 | silme 30 s | KK-01/14 | İlke 2: 15 s'lik karıştırmada komşu silinmesin | yalnız kayıt; bağ çok önce kullanım dışı kalır | yol seçimini etkilemez |
 | `T_HATIRA` 30 s | KK-01/10 | karıştırılıyor süresi iki çizelgede 11–15 s | "bitti" hiç gelmezse üst süre; normalde iki temiz selamda çıkılır | yedek; hatıranın 30 s geçerli sayılması hareketlilikte uzun olabilir |
 | `KENDI_UST_SURE` 30 s | KK-01/13 | Y-6, 18 Kasım (seçenek A) | kendi karıştırılmamda ölçümleri dondurmanın üst sınırı | dondurma sürerken komşular uzaklaşırsa ölçü bayatlar; ölçülmedi |
@@ -204,3 +204,9 @@ Değerlerin hiçbiri referans dünyada taranmadı (`KK-00`: "değerler başlang�
 | IAMP | Kan & Fan, EURASIP JWCN 2012 — doi 10.1186/1687-1499-2012-267 | ↪ |
 | Tetikleyen düğümler | Xuan, Shen, Nguyen, Thai, IEEE TMC 11(5), 2012 | ↪ |
 | Pirayesh & Zeng 2022 | `protokol_kaynaklari/pirayesh_zeng_2021_jamming_survey.pdf` | 5-2 notlarında ✓ (WLAN bölümü) |
+
+---
+
+## 8 · Sonrası (19 Kasım)
+
+Kararlar `v2/17`'de: T-2 vazgeçme tetiği (veri sonucu maliyete girmez; yalnız MAC vazgeçmeleri sayılır; bağ yalnız yedek varken bırakılır; §6'daki üç seçeneğin dışında bir dördüncü yol, kayıtlardaki vazgeçme dağılımına dayanarak) · T-11 anlık ve düzgünleştirilmiş maliyet birlikte · T-12 maliyet eğimi, son çare, maliyet tavanı ve başlıksız döngü bekçisi (§6'nın B'si, uyarlanmış) · T-13 açlık ve tur kalktı. Karıştırma işaretlerinin kalabalıkla yanlış alarmı karıştırma katmanının A/B'leriyle düzeltilecek; bölge risk skoru fikir olarak duruyor.
