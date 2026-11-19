@@ -360,3 +360,19 @@ Faz 5'in araştırma aşamasında (`v2/12` §1.2, K-252) indirilen 15 dosya. Not
 - Dosyalar önce ayrı geçici klasörlerde denetlendi, sonra buraya kopyalandı.
 
 **Alınamayanlar** (`NOTLAR.md` §10): Xu vd. 2005 (ACM, açık kopya yok) · Greco vd. 2021 (yazar sayfasının sertifikası geçersiz; TLS denetimi atlanmadı) · Mahmud & Cho 2019 · PMC 2021 · ExOR (sunucuya ulaşılamadı).
+
+## Faz 5-3 araştırma kaynakları — 19 Kasım 2026 (`faz5_3_arastirma_2026-11-19/`)
+
+Yol seçimi ve bağın ölçüsü için indirilen 2 dosya (indirme izni 19 Kasım). Notlar ve kullanım aynı klasörde `NOTLAR.md`. İkisi de yazarın üniversite sayfasından, açık erişim.
+
+| dosya | künye (kısa) | alındığı yer | boyut (bayt) · SHA-256 |
+|---|---|---|---|
+| `fonseca_2007_4b_link_estimation.pdf` | R. Fonseca, O. Gnawali, K. Jamieson, P. Levis, "Four-Bit Wireless Link Estimation", HotNets VI, 2007 | `https://www2.cs.uh.edu/~gnawali/papers/4blehotnets2007.pdf` (ortak yazarın sayfası) | 227 392 · `ca8f90e35fc2092fcee62d06ae4e8ab8359966d2589423994c786f1764f8f795` |
+| `gnawali_2009_ctp.pdf` | O. Gnawali, R. Fonseca, K. Jamieson, D. Moss, P. Levis, "Collection Tree Protocol", ACM SenSys 2009 | `https://www2.cs.uh.edu/~gnawali/papers/ctpsensys2009.pdf` (ilk yazarın sayfası) | 597 271 · `a57f99b46675877eef50b86d3e3f28ea651b51926e8ac572f67fe7fc6fbbb0fe` |
+
+**Gerçeklik denetimi:** PDF imzası `%PDF-1.4`; 7 ve 14 sayfa; ilk sayfanın başlığı ve yazarları künyeyle tutarlı; CTP'nin ilk sayfasında ACM telif notu ("SenSys'09, November 4–6, 2009, Berkeley").
+
+**Güvenlik denetimi:**
+- Ham PDF baytlarında `/JavaScript`, `/Launch`, `/EmbeddedFile`, `/AA` **yok**. `/OpenAction` ikisinde de yalnız ilk sayfayı gösteriyor (`/GoTo … /FitH`); `/URI` bağlantıları kaynakçadaki TinyOS, IETF ve veri sayfası bağlantıları.
+- Metinde gömülü talimat kalıbı taraması: **eşleşme yok**.
+- Dosyalar önce oturumun geçici klasörüne indirildi, denetlendikten sonra buraya kopyalandı.

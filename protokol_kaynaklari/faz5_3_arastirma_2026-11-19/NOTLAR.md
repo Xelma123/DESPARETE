@@ -8,7 +8,7 @@
 >
 > **Bu notlarda tasarım kararı verilmez;** seçenekler kararlarımın girdisidir.
 > İşaretler: ✓ ilgili bölüm okundu · ↪ yalnız özetinden ya da arama sonucundan biliniyor · ○ açılmadı.
-> Bu oturumda okunan iki makalenin (4B, CTP) dosyaları henüz bu klasöre alınmadı; rapora girmeden önce alınıp SHA-256'larıyla `protokol_kaynaklari/README.md`ye yazılmalı.
+> Okunan iki makalenin (4B, CTP) dosyaları bu klasörde; künye, SHA-256 ve denetimler `protokol_kaynaklari/README.md`de.
 
 ---
 
@@ -191,8 +191,8 @@ Değerlerin hiçbiri referans dünyada taranmadı (`KK-00`: "değerler başlang�
 
 | kısa ad | künye | durum |
 |---|---|---|
-| 4B | Fonseca, Gnawali, Jamieson, Levis, "Four-Bit Wireless Link Estimation", HotNets 2007 — www2.cs.uh.edu/~gnawali/papers/4blehotnets2007.pdf | ✓ §2.2, §3.3, §4 (dosya klasöre alınmadı) |
-| CTP | Gnawali, Fonseca, Jamieson, Moss, Levis, "Collection Tree Protocol", SenSys 2009 — www2.cs.uh.edu/~gnawali/papers/ctpsensys2009.pdf | ✓ §3.1, §3.2, §4.1, §4.3, §5 (dosya klasöre alınmadı) |
+| 4B | Fonseca, Gnawali, Jamieson, Levis, "Four-Bit Wireless Link Estimation", HotNets 2007 — www2.cs.uh.edu/~gnawali/papers/4blehotnets2007.pdf | ✓ §2.2, §3.3, §4 · `fonseca_2007_4b_link_estimation.pdf` |
+| CTP | Gnawali, Fonseca, Jamieson, Moss, Levis, "Collection Tree Protocol", SenSys 2009 — www2.cs.uh.edu/~gnawali/papers/ctpsensys2009.pdf | ✓ §3.1, §3.2, §4.1, §4.3, §5 · `gnawali_2009_ctp.pdf` |
 | RFC 8966 Ek A.3, Ek B | `protokol_kaynaklari/rfc8966_babel.txt` | ✓ |
 | F-ETX | Bindel, Chaumette, Hilt, hal.archives-ouvertes.fr/hal-01277084 | ↪ |
 | ETT, Roofnet | Bicket vd., MobiCom 2005 | ↪ |
