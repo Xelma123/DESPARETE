@@ -1,0 +1,37 @@
+== pencere PDR, tohum başına ==
+kol        ort      1003   1004   1005   1006   1007   1008   1009   1010
+kâhin     0.917  0.896 0.961 0.898 0.895 0.961 0.916 0.893 0.914
+Babel     0.930  0.944 0.954 0.863 0.918 0.957 0.940 0.943 0.923
+çekirdek  0.810  0.693 0.978 0.401 0.843 0.920 0.895 0.937 0.811
+vtk0      0.946  0.959 0.971 0.892 0.937 0.969 0.953 0.946 0.939
+
+== eşli farklar (eşik 0,02; ayrışma: ort ≥ eşik ve ≥ 6/8 aynı yön) ==
+vtk0 − Babel: +0.016 (8 artı · 0 eksi) → ayırt edilemedi · +0.015 +0.016 +0.029 +0.019 +0.012 +0.013 +0.003 +0.016
+vtk0 − kâhin: +0.029 (7 artı · 1 eksi) → ayrışıyor · +0.063 +0.010 -0.006 +0.042 +0.008 +0.038 +0.052 +0.025
+vtk0 − çekirdek: +0.136 (7 artı · 1 eksi) → ayrışıyor · +0.266 -0.008 +0.491 +0.094 +0.049 +0.058 +0.009 +0.128
+
+== kayıp grupları, gecikme, kontrol yükü (8 tohum ortalaması) ==
+kâhin     R 0.000 · İ 0.083 · K 0.000 · 5 s tavanın bedeli 0.000 · p50 0.03 · p99 0.14 s · kontrol 19.0 s (6.0%)
+Babel     R 0.000 · İ 0.070 · K 0.000 · 5 s tavanın bedeli 0.000 · p50 0.04 · p99 0.23 s · kontrol 67.8 s (14.7%)
+çekirdek  R 0.139 · İ 0.049 · K 0.003 · 5 s tavanın bedeli 0.004 · p50 0.04 · p99 3.40 s · kontrol 34.6 s (8.4%)
+vtk0      R 0.003 · İ 0.052 · K 0.000 · 5 s tavanın bedeli 0.000 · p50 0.04 · p99 0.30 s · kontrol 22.0 s (6.1%)
+
+== vtk0'da kalan açlıklar (pencerede başlayan) ==
+1003: bölüm 19 · kök 6 · bölümde düşen 68 · sebep {'bag:selam_alim': 3, 'bag:selam_asim': 3, 'geri_cekme': 13}
+1004: bölüm 5 · kök 4 · bölümde düşen 0 · sebep {'bag:selam_alim': 3, 'geri_cekme': 1, 'bag:selam_asim': 1}
+1005: bölüm 155 · kök 34 · bölümde düşen 116 · sebep {'bag:selam_alim': 17, 'geri_cekme': 121, 'bag:selam_asim': 17}
+1006: bölüm 7 · kök 5 · bölümde düşen 0 · sebep {'bag:selam_asim': 3, 'bag:selam_alim': 1, 'geri_cekme': 2, 'yoksay_doldu': 1}
+1007: bölüm 5 · kök 3 · bölümde düşen 0 · sebep {'bag:selam_alim': 2, 'bag:selam_asim': 1, 'geri_cekme': 2}
+1008: bölüm 11 · kök 6 · bölümde düşen 0 · sebep {'bag:selam_asim': 6, 'geri_cekme': 5}
+1009: bölüm 10 · kök 8 · bölümde düşen 0 · sebep {'bag:selam_alim': 4, 'bag:selam_asim': 4, 'geri_cekme': 2}
+1010: bölüm 9 · kök 6 · bölümde düşen 0 · sebep {'bag:selam_alim': 6, 'geri_cekme': 3}
+
+== çekirdekte veri tetiğinin çıkışları (pencerede) ==
+koşu başına: çıkış 309 · ardıl bağında 98.1% · OLAĞAN'a dönen 98.2%
+
+== bağ çıkışı anında selamın ölçtüğü ↔ kâhinin tek deneme başarısı (pencerede; tohum başına medyanların ortalaması) ==
+çekirdek  selam_asim  d_f·d_r 0.24 · kâhin p 0.76
+çekirdek  selam_alim  d_f·d_r 0.23 · kâhin p 0.76
+çekirdek  veri        d_f·d_r 0.43 · kâhin p 0.83
+vtk0      selam_asim  d_f·d_r 0.24 · kâhin p 0.71
+vtk0      selam_alim  d_f·d_r 0.23 · kâhin p 0.71

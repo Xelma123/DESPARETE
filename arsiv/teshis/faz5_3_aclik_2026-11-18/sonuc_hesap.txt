@@ -1,0 +1,66 @@
+==============================================================================
+AÇLIK TEŞHİSİ · karar kuralı · C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_aclik_2026-11-18
+==============================================================================
+
+0 · GEÇERLİLİK
+  çekirdek: 8 koşu · korunum, doğum, iç denetimler tamam
+  vtk0: 8 koşu · korunum, doğum, iç denetimler tamam
+  çekirdek kolu ilk ölçümle birebir: 8/8 (kayit_cekirdek_ikiz.json)
+  → GEÇERLİ
+
+1 · AÇLIĞIN KÖKÜ (çekirdek; penceredeki doğumlu, bölümde düşen telemetri paketleriyle ağırlıklı)
+  düşen paket / koşu                             1431 · tohum 2815 3 4922 820 394 815 198 1481
+  kapsama (bölümde + bölümsüz) / R grubu         0.850 · tohum 0.985 0.214 0.943 0.940 0.925 0.970 0.861 0.965
+  M1 bağ kökenli (kök sebep bag:*)               1.000 · tohum 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000
+  M2 yanlış alarm (bağ kökenlide kâhin ≥ 0,90)   0.997 · tohum 0.994 1.000 0.994 1.000 1.000 1.000 1.000 0.991
+  M3 kökte OLAĞAN ama uygulanamaz komşu          0.922 · tohum 0.962 1.000 0.896 0.932 0.939 0.955 0.848 0.844
+     bunun eski turlu olanı                      0.465 · tohum 0.222 1.000 0.491 0.459 0.416 0.167 0.646 0.317
+  M3b kökte dışlanmış ama uygulanabilir komşu    0.847 · tohum 0.680 1.000 0.803 0.822 0.858 0.908 0.808 0.900
+  M4 zincir (yukarının ∞'undan) bölümde düşen    0.305 · tohum 0.451 0.000 0.360 0.184 0.325 0.461 0.278 0.385
+  kök sebep (kayıp ağırlıklı, koşu başına): {'bag:veri': '1420.9 (99%)', 'bag:selam_alim': '5.4 (0%)', 'bag:selam_asim': '4.8 (0%)'}
+  HÜKÜM: BAĞ KÖKENLİ, YANLIŞ ALARM: bağ çıkış kuralları iyi bağları düşürüyor → bağ çıkışı seçenekleri (T-2, T-3, Y-12)
+
+2 · BÖLÜMLER (betimleyici)
+  pencere PDR                                    0.810 · tohum 0.693 0.978 0.401 0.843 0.920 0.895 0.937 0.811
+  R grubu kaybı                                  0.139 · tohum 0.265 0.001 0.483 0.081 0.039 0.078 0.021 0.142
+  bölüm / koşu                                   679 · tohum 817 69 1784 920 438 396 307 702
+  kök bölüm / koşu                               176 · tohum 155 38 434 258 123 96 130 178
+  zincir bölüm payı (sayı)                       0.692 · tohum 0.810 0.449 0.757 0.720 0.719 0.758 0.577 0.746
+  süre medyanı (s)                               1.13 · tohum 1.53 0.52 1.28 0.92 0.77 1.78 1.05 1.16
+  süre p90 (s)                                   3.92 · tohum 6.51 1.39 4.89 2.39 2.41 5.25 2.82 5.71
+  süre ortalaması (s)                            1.73 · tohum 2.80 0.63 2.09 1.16 1.07 2.38 1.44 2.24
+  ≥ 2 s süren bölüm payı                         0.268 · tohum 0.399 0.029 0.364 0.174 0.137 0.470 0.254 0.319
+  ≥ 2 s süren bölümlerde düşen payı              0.966 · tohum 0.978 1.000 0.941 0.891 0.962 1.000 0.995 0.962
+  eski ardılla biten pay                         0.199 · tohum 0.154 0.203 0.225 0.171 0.256 0.182 0.182 0.221
+  yeni turla biten pay                           0.857 · tohum 0.906 0.899 0.826 0.813 0.788 0.894 0.853 0.880
+  istek dizisi başlayan pay                      0.868 · tohum 0.880 0.913 0.843 0.889 0.881 0.831 0.883 0.828
+  bölüm sebebi (sayı, koşu başına): {'geri_cekme': '503.0 (74%)', 'bag:veri': '166.6 (25%)', 'bag:selam_asim': '5.0 (1%)', 'bag:selam_alim': '4.4 (1%)', 'yoksay_doldu': '0.1 (0%)'}
+  kök sebebi (sayı, koşu başına): {'bag:veri': '166.6 (94%)', 'bag:selam_asim': '5.0 (3%)', 'bag:selam_alim': '4.4 (2%)', 'geri_cekme': '0.4 (0%)', 'yoksay_doldu': '0.1 (0%)'}
+  bağ kökenli köklerde ardıl bağının kâhin bandı: {'iyi': '175.4 (100%)', 'orta': '0.6 (0%)'}
+
+3 · BAĞ ÇIKIŞLARI (OLAĞAN'dan; betimleyici)
+  çıkış / koşu                                   902 · tohum 748 577 1297 1109 862 723 1011 892
+  sebep: {'selam_asim': '345.9 (38%)', 'veri': '308.9 (34%)', 'selam_alim': '247.6 (27%)'}
+  ardıl bağında sebep: {'veri': '302.9 (92%)', 'selam_asim': '14.1 (4%)', 'selam_alim': '12.9 (4%)'}
+  ardıl bağı çıkışında kâhin ≥ 0,90 payı         0.998 · tohum 0.993 1.000 0.997 1.000 1.000 1.000 1.000 0.994
+  selam_alim  kâhin ≥ 0,90 payı 0.996 · KÖTÜ'de kalış medyanı 14.3 s
+  selam_asim  kâhin ≥ 0,90 payı 0.997 · KÖTÜ'de kalış medyanı 12.2 s
+  veri        kâhin ≥ 0,90 payı 0.998 · KÖTÜ'de kalış medyanı 22.6 s
+
+4 · TUR YAYILIMI (betimleyici)
+  geçidin tur artışı (pencerede)                 75 · tohum 69 47 89 98 69 69 72 87
+  artışlar arası medyan (s)                      3.05 · tohum 3.04 5.01 2.52 2.60 2.37 3.49 2.82 2.56
+  sonraki artıştan önce yetişen düğüm payı       0.814 · tohum 0.769 0.923 0.564 0.846 0.846 0.897 0.846 0.821
+  yetişme gecikmesi medyanı (s)                  1.60 · tohum 1.73 1.56 2.44 1.58 1.25 1.22 1.74 1.27
+
+5 · VERİ TETİĞİ KAPALI KOL (vtk0)
+  pencere PDR (vtk0)                             0.946 · tohum 0.959 0.971 0.892 0.937 0.969 0.953 0.946 0.939
+  R grubu kaybı (vtk0)                           0.003 · tohum 0.007 0.000 0.011 0.000 0.000 0.001 0.001 0.000
+  İ grubu kaybı (vtk0)                           0.052 · tohum 0.034 0.029 0.096 0.063 0.031 0.046 0.053 0.061
+  İ grubu kaybı (çekirdek)                       0.049 · tohum 0.039 0.020 0.101 0.074 0.040 0.027 0.042 0.046
+  bölüm / koşu (vtk0)                            28 · tohum 19 5 155 7 5 11 10 9
+  M1 (vtk0)                                      nan · tohum 1.000 nan 1.000 nan nan nan nan nan
+  M2 (vtk0)                                      nan · tohum 1.000 nan 1.000 nan nan nan nan nan
+  çıkış sebebi (vtk0): {'selam_asim': '272.0 (61%)', 'selam_alim': '173.5 (39%)'}
+  PDR(vtk0) − PDR(çekirdek): +0.136 (7 artı · 1 eksi) → ayrışıyor
+  bölüm sayısı oranı vtk0 / çekirdek: 0.03

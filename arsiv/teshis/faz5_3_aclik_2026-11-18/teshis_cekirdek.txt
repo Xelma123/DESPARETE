@@ -1,0 +1,14 @@
+==============================================================================
+AÇLIK TEŞHİSİ — dünya referans_2026 · formasyon-yok (ikiz) · kollar ['cekirdek'] · tohum [1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_aclik_2026-11-18\kopya\protokoller\desparete5.py
+==============================================================================
+    1/8 cekirdek  1004 · PDR(pencere) 0.9783 · bölüm 90 · kayıp 288 · çıkış 740 · tur artışı 55 · denetim tamam · 2532 s
+    2/8 cekirdek  1008 · PDR(pencere) 0.8948 · bölüm 589 · kayıp 1118 · çıkış 1016 · tur artışı 90 · denetim tamam · 2742 s
+    3/8 cekirdek  1007 · PDR(pencere) 0.9198 · bölüm 467 · kayıp 997 · çıkış 1061 · tur artışı 78 · denetim tamam · 2746 s
+    4/8 cekirdek  1003 · PDR(pencere) 0.6933 · bölüm 1032 · kayıp 2086 · çıkış 1018 · tur artışı 89 · denetim tamam · 2760 s
+    5/8 cekirdek  1010 · PDR(pencere) 0.8110 · bölüm 842 · kayıp 1554 · çıkış 1174 · tur artışı 108 · denetim tamam · 2951 s
+    6/8 cekirdek  1009 · PDR(pencere) 0.9366 · bölüm 369 · kayıp 868 · çıkış 1331 · tur artışı 91 · denetim tamam · 3554 s
+    7/8 cekirdek  1005 · PDR(pencere) 0.4009 · bölüm 2151 · kayıp 3654 · çıkış 1671 · tur artışı 105 · denetim tamam · 3618 s
+    8/8 cekirdek  1006 · PDR(pencere) 0.8435 · bölüm 1038 · kayıp 1992 · çıkış 1396 · tur artışı 120 · denetim tamam · 3778 s
+
+  8 koşu kayıtta · hata 0

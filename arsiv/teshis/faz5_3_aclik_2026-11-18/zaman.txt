@@ -1,0 +1,4 @@
+cekirdek basla 19.11 00:48:31
+cekirdek bitti 19.11 01:51:32 cikis 0
+vtk0 basla 19.11 01:51:32
+vtk0 bitti 19.11 02:40:31 cikis 0

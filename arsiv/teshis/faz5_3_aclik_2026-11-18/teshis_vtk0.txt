@@ -1,0 +1,14 @@
+==============================================================================
+AÇLIK TEŞHİSİ — dünya referans_2026 · formasyon-yok (ikiz) · kollar ['vtk0'] · tohum [1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_aclik_2026-11-18\kopya\protokoller\desparete5.py
+==============================================================================
+    1/8 vtk0      1007 · PDR(pencere) 0.9690 · bölüm 5 · kayıp 25 · çıkış 562 · tur artışı 18 · denetim tamam · 2048 s
+    2/8 vtk0      1004 · PDR(pencere) 0.9706 · bölüm 6 · kayıp 28 · çıkış 445 · tur artışı 18 · denetim tamam · 2099 s
+    3/8 vtk0      1010 · PDR(pencere) 0.9392 · bölüm 11 · kayıp 40 · çıkış 524 · tur artışı 23 · denetim tamam · 2192 s
+    4/8 vtk0      1008 · PDR(pencere) 0.9530 · bölüm 11 · kayıp 33 · çıkış 558 · tur artışı 25 · denetim tamam · 2230 s
+    5/8 vtk0      1006 · PDR(pencere) 0.9370 · bölüm 9 · kayıp 57 · çıkış 581 · tur artışı 20 · denetim tamam · 2572 s
+    6/8 vtk0      1009 · PDR(pencere) 0.9456 · bölüm 15 · kayıp 71 · çıkış 747 · tur artışı 23 · denetim tamam · 2588 s
+    7/8 vtk0      1003 · PDR(pencere) 0.9593 · bölüm 22 · kayıp 64 · çıkış 508 · tur artışı 23 · denetim tamam · 2672 s
+    8/8 vtk0      1005 · PDR(pencere) 0.8921 · bölüm 168 · kayıp 392 · çıkış 863 · tur artışı 41 · denetim tamam · 2936 s
+
+  8 koşu kayıtta · hata 0
