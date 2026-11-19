@@ -162,7 +162,7 @@ Kopya `protokol_kaynaklari/rfc3561_aodv.txt`.
 - MAVLink heartbeat servisi: *"components typically publish their heartbeat at 1 Hz and consider another system to have disconnected if four or five messages are not received"*.
 - Gecikme tavanlı `PDR_açık`ın eşikleri: 5 s ana, 3,5 s ve 10 s duyarlılık. Zaman aşımları heartbeat'ler arası boşluğu ölçer; veri yaşı tavanı olarak kullanılması modelleme seçimidir.
 
-## F · Faz 5'in araştırma kaynakları (K-252) — kopyaları ve denetimleri `protokol_kaynaklari/README.md`, notlar `protokol_kaynaklari/faz5_arastirma_2026-10-21/NOTLAR.md`
+## F · Faz 5'in araştırma kaynakları (K-252) — kopyaları ve denetimleri `protokol_kaynaklari/README.md`, notlar `protokol_kaynaklari/faz5_arastirma_2026-10-21/NOTLAR.md` (F18–F19: `protokol_kaynaklari/faz5_3_arastirma_2026-11-19/NOTLAR.md`)
 
 | # | ne için | kaynak | durum |
 |---|---|---|---|
@@ -183,6 +183,8 @@ Kopya `protokol_kaynaklari/rfc3561_aodv.txt`.
 | F15 | DUAL: uygulanabilirlik koşulu, uygulanabilir yedek, etkin durum ve komşularla ortak hesap | RFC 7868 | ✓ §2.2, §3 |
 | F16 | teslim ↔ sinyal gücü tutarlılık denetimi (klasik) | Xu, Trappe, Zhang, Wood, *"The Feasibility of Launching and Detecting Jamming Attacks in Wireless Networks"*, MobiHoc 2005 | ↪ F2'nin [24]'ü, F6'nın [2]'si; açık kopya bulunamadı |
 | F17 | İHA ağında verim, teslim ve RSSI'den öğrenmeli karıştırma tespiti | Greco, Pace, Basagni, Fortino, *Applied Soft Computing* 111, 2021 | ○ yazar sayfasının sertifikası geçersiz; açılamadı |
+| F18 | Toplama ağacı: maliyet eğimi; ebeveyn değişiminde 1,5 ETX histerezisi; veri yolunda döngü doğrulaması (gönderenin maliyeti pakette, tutarsızlıkta selam, paket düşürülmez); Trickle'lı uyarlanır selam (64 ms – 1 sa); 32'ye kadar yeniden deneme | Gnawali, Fonseca, Jamieson, Moss, Levis, *"Collection Tree Protocol"*, SenSys 2009 | ✓ §3.1, §3.2, §4.1, §4.3, §5 |
+| F19 | Selam ve veri onayından birleşik bağ tahmini: yayın yoklamalı tahmin veri trafiğinden kopuk; tek alıcılı ETX her k_u gönderimde (hiç onay yoksa son başarıdan beri başarısız sayısı); iki ortalama birleşir, ağır trafikte veri baskın | Fonseca, Gnawali, Jamieson, Levis, *"Four-Bit Wireless Link Estimation"*, HotNets 2007 | ✓ §2.2, §3.3, §4 |
 
 ## S · Açık kaynak soruları
 

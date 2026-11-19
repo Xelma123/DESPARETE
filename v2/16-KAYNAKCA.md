@@ -111,5 +111,7 @@
 | [65] | D. Savage, J. Ng, S. Moore, D. Slice, P. Paluch, R. White, "Cisco's Enhanced Interior Gateway Routing Protocol (EIGRP)," IETF RFC 7868 (Informational), May 2016. | F15 | ✓ (ilgili bölümler) |
 | [66] | W. Xu, W. Trappe, Y. Zhang, T. Wood, "The Feasibility of Launching and Detecting Jamming Attacks in Wireless Networks," in *Proc. ACM MobiHoc*, 2005, pp. 46–57, doi: 10.1145/1062689.1062697. | F16 | ↪ [23] ve [56] üzerinden; açılmadı |
 | [67] | Greco, Pace, Basagni, Fortino, "Jamming detection at the edge of drone networks using Multi-layer Perceptrons and Decision Trees," *Applied Soft Computing*, vol. 111, art. 107806, 2021. | F17 | ○ |
+| [68] | O. Gnawali, R. Fonseca, K. Jamieson, D. Moss, P. Levis, "Collection Tree Protocol," in *Proc. ACM SenSys*, 2009, pp. 1–14, doi: 10.1145/1644038.1644040. | F18 | ✓ (ilgili bölümler) |
+| [69] | R. Fonseca, O. Gnawali, K. Jamieson, P. Levis, "Four-Bit Wireless Link Estimation," in *Proc. ACM HotNets VI*, 2007. | F19 | ✓ (ilgili bölümler) |
 
 **Açık işler (rapor yazımından önce):** ○ işaretlilerin açılması · künyesi eksiklerin (yazar listesi, yer, yıl, sayfa) kaynaktan tamamlanması · ↪ işaretliler için raporda "… aktarıldığı gibi" dili ya da kaynağın kendisine erişim.
