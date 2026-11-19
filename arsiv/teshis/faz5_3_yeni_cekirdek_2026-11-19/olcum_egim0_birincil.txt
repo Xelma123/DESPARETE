@@ -1,0 +1,14 @@
+==============================================================================
+YENİ ÇEKİRDEK — dünya referans_2026 · formasyon-surekli (birincil) · kollar ['egim0'] · tohum [1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_yeni_cekirdek_2026-11-19\kopya\protokoller\desparete5.py
+==============================================================================
+    1/8 egim0    1007 · PDR(pencere) 0.9116 · tetik 0 · en çok atlama 9 · denetim tamam · 2774 s
+    2/8 egim0    1008 · PDR(pencere) 0.8573 · tetik 0 · en çok atlama 11 · denetim tamam · 3102 s
+    3/8 egim0    1004 · PDR(pencere) 0.9112 · tetik 0 · en çok atlama 9 · denetim tamam · 3208 s
+    4/8 egim0    1010 · PDR(pencere) 0.7830 · tetik 0 · en çok atlama 13 · denetim tamam · 3366 s
+    5/8 egim0    1009 · PDR(pencere) 0.8593 · tetik 0 · en çok atlama 11 · denetim tamam · 3466 s
+    6/8 egim0    1006 · PDR(pencere) 0.8929 · tetik 0 · en çok atlama 8 · denetim tamam · 3484 s
+    7/8 egim0    1003 · PDR(pencere) 0.7945 · tetik 0 · en çok atlama 12 · denetim tamam · 3542 s
+    8/8 egim0    1005 · PDR(pencere) 0.7081 · tetik 0 · en çok atlama 11 · denetim tamam · 3887 s
+
+  8 koşu kayıtta · hata 0

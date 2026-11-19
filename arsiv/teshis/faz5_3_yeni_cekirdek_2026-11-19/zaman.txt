@@ -1,0 +1,16 @@
+cekirdek_ikiz basla 19.11 16:04:28
+cekirdek_ikiz bitti 19.11 16:55:09 cikis 0
+cekirdek_birincil basla 19.11 16:55:09
+cekirdek_birincil bitti 19.11 18:12:07 cikis 0
+vaz0_ikiz basla 19.11 18:12:07
+vaz0_ikiz bitti 19.11 19:11:48 cikis 0
+vaz0_birincil basla 19.11 19:11:48
+vaz0_birincil bitti 19.11 20:22:43 cikis 0
+egim0_ikiz basla 19.11 20:22:43
+egim0_ikiz bitti 19.11 21:13:32 cikis 0
+egim0_birincil basla 19.11 21:13:32
+egim0_birincil bitti 19.11 22:18:22 cikis 0
+duz0_ikiz basla 19.11 22:18:22
+duz0_ikiz bitti 19.11 23:13:43 cikis 0
+duz0_birincil basla 19.11 23:13:43
+duz0_birincil bitti 20.11 00:36:37 cikis 0

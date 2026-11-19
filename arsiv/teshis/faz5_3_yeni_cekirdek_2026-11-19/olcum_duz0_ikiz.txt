@@ -1,0 +1,14 @@
+==============================================================================
+YENİ ÇEKİRDEK — dünya referans_2026 · formasyon-yok (ikiz, hayalet 10:20) · kollar ['duz0'] · tohum [1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_yeni_cekirdek_2026-11-19\kopya\protokoller\desparete5.py
+==============================================================================
+    1/8 duz0     1007 · PDR(pencere) 0.9693 · tetik 54 · en çok atlama 8 · denetim tamam · 2234 s
+    2/8 duz0     1004 · PDR(pencere) 0.9787 · tetik 34 · en çok atlama 5 · denetim tamam · 2310 s
+    3/8 duz0     1008 · PDR(pencere) 0.9608 · tetik 105 · en çok atlama 9 · denetim tamam · 2513 s
+    4/8 duz0     1010 · PDR(pencere) 0.9547 · tetik 113 · en çok atlama 12 · denetim tamam · 2602 s
+    5/8 duz0     1009 · PDR(pencere) 0.9580 · tetik 101 · en çok atlama 8 · denetim tamam · 2912 s
+    6/8 duz0     1003 · PDR(pencere) 0.9605 · tetik 95 · en çok atlama 24 · denetim tamam · 2930 s
+    7/8 duz0     1006 · PDR(pencere) 0.9501 · tetik 118 · en çok atlama 7 · denetim tamam · 2964 s
+    8/8 duz0     1005 · PDR(pencere) 0.8642 · tetik 261 · en çok atlama 34 · denetim tamam · 3313 s
+
+  8 koşu kayıtta · hata 0

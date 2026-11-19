@@ -1,0 +1,187 @@
+== 0 · GEÇERLİLİK ==
+  kâhin     koşu 16/16 · korunum, çelişki ya da atfsız düşüş kusuru 0 · ikincil sayımın tutarsızlığı 0
+  Babel     koşu 16/16 · korunum, çelişki ya da atfsız düşüş kusuru 0 · ikincil sayımın tutarsızlığı 0
+  v0.4.1    koşu 16/16 · korunum, çelişki ya da atfsız düşüş kusuru 0 · ikincil sayımın tutarsızlığı 0
+  eski çek. koşu 16/16 · korunum, çelişki ya da atfsız düşüş kusuru 0 · ikincil sayımın tutarsızlığı 0
+  vtk0      koşu 8/8 · korunum, çelişki ya da atfsız düşüş kusuru 0 · ikincil sayımın tutarsızlığı 0
+  çekirdek  koşu 16/16 · korunum, çelişki ya da atfsız düşüş kusuru 0 · ikincil sayımın tutarsızlığı 0 · kaydedicinin iç denetimi tamam
+  vaz0      koşu 16/16 · korunum, çelişki ya da atfsız düşüş kusuru 0 · ikincil sayımın tutarsızlığı 0 · kaydedicinin iç denetimi tamam
+  düz0      koşu 16/16 · korunum, çelişki ya da atfsız düşüş kusuru 0 · ikincil sayımın tutarsızlığı 0 · kaydedicinin iç denetimi tamam
+  eğim0     koşu 16/16 · korunum, çelişki ya da atfsız düşüş kusuru 0 · ikincil sayımın tutarsızlığı 0 · kaydedicinin iç denetimi tamam
+
+== 1 · HÜCRE TABLOLARI (tohum ortalaması ± ölçüt sapması) ==
+  İ · karıştırıcısız ikiz (pencere PDR)
+    kâhin     0.917 ± 0.029 [0.893 … 0.961] · 5 s tavanlı 0.917 · p99 0.144 s · kâhine oran 1.000
+              1003 0.896 · 1004 0.961 · 1005 0.898 · 1006 0.895 · 1007 0.961 · 1008 0.916 · 1009 0.893 · 1010 0.914
+    Babel     0.930 ± 0.030 [0.863 … 0.957] · 5 s tavanlı 0.930 · p99 0.229 s · kâhine oran 1.015
+              1003 0.944 · 1004 0.954 · 1005 0.863 · 1006 0.918 · 1007 0.957 · 1008 0.940 · 1009 0.943 · 1010 0.923
+    v0.4.1    0.785 ± 0.040 [0.718 … 0.856] · 5 s tavanlı 0.784 · p99 2.512 s · kâhine oran 0.856
+              1003 0.752 · 1004 0.797 · 1005 0.718 · 1006 0.804 · 1007 0.856 · 1008 0.795 · 1009 0.787 · 1010 0.771
+    eski çek. 0.810 ± 0.187 [0.401 … 0.978] · 5 s tavanlı 0.806 · p99 3.401 s · kâhine oran 0.883
+              1003 0.693 · 1004 0.978 · 1005 0.401 · 1006 0.843 · 1007 0.920 · 1008 0.895 · 1009 0.937 · 1010 0.811
+    vtk0      0.946 ± 0.025 [0.892 … 0.971] · 5 s tavanlı 0.946 · p99 0.300 s · kâhine oran 1.032
+              1003 0.959 · 1004 0.971 · 1005 0.892 · 1006 0.937 · 1007 0.969 · 1008 0.953 · 1009 0.946 · 1010 0.939
+    çekirdek  0.954 ± 0.020 [0.911 … 0.977] · 5 s tavanlı 0.954 · p99 0.221 s · kâhine oran 1.041
+              1003 0.965 · 1004 0.972 · 1005 0.911 · 1006 0.945 · 1007 0.977 · 1008 0.958 · 1009 0.952 · 1010 0.951
+    vaz0      0.940 ± 0.043 [0.839 … 0.975] · 5 s tavanlı 0.940 · p99 0.238 s · kâhine oran 1.025
+              1003 0.960 · 1004 0.975 · 1005 0.839 · 1006 0.932 · 1007 0.964 · 1008 0.959 · 1009 0.945 · 1010 0.943
+    düz0      0.950 ± 0.036 [0.864 … 0.979] · 5 s tavanlı 0.950 · p99 0.298 s · kâhine oran 1.036
+              1003 0.960 · 1004 0.979 · 1005 0.864 · 1006 0.950 · 1007 0.969 · 1008 0.961 · 1009 0.958 · 1010 0.955
+    eğim0     0.943 ± 0.023 [0.905 … 0.966] · 5 s tavanlı 0.943 · p99 0.182 s · kâhine oran 1.028
+              1003 0.943 · 1004 0.966 · 1005 0.905 · 1006 0.912 · 1007 0.966 · 1008 0.951 · 1009 0.951 · 1010 0.948
+  B · birincil, 15/15 (PDR_açık)
+    kâhin     0.779 ± 0.077 [0.657 … 0.900] · 5 s tavanlı 0.776 · sessiz 0.916 · önce 0.919 · p99 0.331 s · kâhine oran 1.000
+              1003 0.748 · 1004 0.844 · 1005 0.657 · 1006 0.825 · 1007 0.900 · 1008 0.783 · 1009 0.764 · 1010 0.710
+    Babel     0.663 ± 0.139 [0.485 … 0.834] · 5 s tavanlı 0.657 · sessiz 0.916 · önce 0.932 · p99 1.313 s · kâhine oran 0.851
+              1003 0.547 · 1004 0.787 · 1005 0.485 · 1006 0.764 · 1007 0.834 · 1008 0.668 · 1009 0.731 · 1010 0.488
+    v0.4.1    0.567 ± 0.085 [0.446 … 0.669] · 5 s tavanlı 0.561 · sessiz 0.763 · önce 0.779 · p99 3.669 s · kâhine oran 0.728
+              1003 0.518 · 1004 0.603 · 1005 0.446 · 1006 0.662 · 1007 0.669 · 1008 0.562 · 1009 0.611 · 1010 0.464
+    eski çek. 0.410 ± 0.123 [0.131 … 0.536] · 5 s tavanlı 0.408 · sessiz 0.612 · önce 0.820 · p99 3.808 s · kâhine oran 0.527
+              1003 0.379 · 1004 0.436 · 1005 0.131 · 1006 0.447 · 1007 0.468 · 1008 0.487 · 1009 0.536 · 1010 0.399
+    çekirdek  0.663 ± 0.199 [0.314 … 0.879] · 5 s tavanlı 0.657 · sessiz 0.854 · önce 0.954 · p99 1.770 s · kâhine oran 0.851
+              1003 0.512 · 1004 0.820 · 1005 0.314 · 1006 0.813 · 1007 0.879 · 1008 0.653 · 1009 0.798 · 1010 0.514
+    vaz0      0.672 ± 0.139 [0.438 … 0.852] · 5 s tavanlı 0.667 · sessiz 0.874 · önce 0.947 · p99 1.520 s · kâhine oran 0.863
+              1003 0.592 · 1004 0.736 · 1005 0.438 · 1006 0.804 · 1007 0.852 · 1008 0.672 · 1009 0.734 · 1010 0.547
+    düz0      0.671 ± 0.170 [0.362 … 0.889] · 5 s tavanlı 0.666 · sessiz 0.834 · önce 0.956 · p99 1.427 s · kâhine oran 0.861
+              1003 0.581 · 1004 0.682 · 1005 0.362 · 1006 0.824 · 1007 0.889 · 1008 0.688 · 1009 0.788 · 1010 0.551
+    eğim0     0.665 ± 0.141 [0.470 … 0.813] · 5 s tavanlı 0.660 · sessiz 0.911 · önce 0.940 · p99 1.083 s · kâhine oran 0.854
+              1003 0.527 · 1004 0.800 · 1005 0.470 · 1006 0.813 · 1007 0.807 · 1008 0.700 · 1009 0.682 · 1010 0.519
+
+== 2 · S1 — genel düzey, İ: G = Babel − çekirdek (eşik 0.02) ==
+  G -0.024 (artı 0/8 · eksi 8/8; 1003 -0.021 · 1004 -0.018 · 1005 -0.048 · 1006 -0.028 · 1007 -0.020 · 1008 -0.018 · 1009 -0.010 · 1010 -0.028) → AYRIŞIYOR (−)
+  → ÇEKİRDEK İLERİDE: S4'te zararlı bileşen yoksa sıradaki iş karıştırma katmanı
+  çekirdek − vtk0: +0.008 (artı 8/8 · eksi 0/8; 1003 +0.005 · 1004 +0.001 · 1005 +0.019 · 1006 +0.008 · 1007 +0.008 · 1008 +0.005 · 1009 +0.007 · 1010 +0.012) → 8 tohumda ayırt edilemedi
+  çekirdek − eski çek.: +0.144 (artı 7/8 · eksi 1/8; 1003 +0.271 · 1004 -0.006 · 1005 +0.510 · 1006 +0.102 · 1007 +0.057 · 1008 +0.064 · 1009 +0.016 · 1010 +0.140) → AYRIŞIYOR (+)
+  çekirdek − v0.4.1: +0.169 (artı 8/8 · eksi 0/8; 1003 +0.213 · 1004 +0.175 · 1005 +0.193 · 1006 +0.141 · 1007 +0.122 · 1008 +0.163 · 1009 +0.166 · 1010 +0.180) → AYRIŞIYOR (+)
+
+== 3 · S2 — başlangıç çizgisi, B (betimleyici) ==
+  Babel − çekirdek: +0.000 (artı 3/8 · eksi 5/8; 1003 +0.035 · 1004 -0.033 · 1005 +0.171 · 1006 -0.049 · 1007 -0.045 · 1008 +0.015 · 1009 -0.066 · 1010 -0.026) → 8 tohumda ayırt edilemedi
+  v0.4.1 − çekirdek: -0.096 (artı 2/8 · eksi 6/8; 1003 +0.006 · 1004 -0.218 · 1005 +0.132 · 1006 -0.151 · 1007 -0.209 · 1008 -0.091 · 1009 -0.186 · 1010 -0.051) → AYRIŞIYOR (−)
+  eski çek. − çekirdek: -0.253 (artı 0/8 · eksi 8/8; 1003 -0.133 · 1004 -0.384 · 1005 -0.184 · 1006 -0.366 · 1007 -0.411 · 1008 -0.166 · 1009 -0.262 · 1010 -0.115) → AYRIŞIYOR (−)
+  Δ_k = PDR_açık(B) − hayalet PDR_açık(İ, 15/15):
+    kâhin     Δ_k -0.137 ± 0.062 (hayalet 0.916 → hücre 0.779) · 1003 -0.154 · 1004 -0.111 · 1005 -0.242 · 1006 -0.064 · 1007 -0.063 · 1008 -0.128 · 1009 -0.132 · 1010 -0.204
+    Babel     Δ_k -0.265 ± 0.124 (hayalet 0.928 → hücre 0.663) · 1003 -0.398 · 1004 -0.165 · 1005 -0.378 · 1006 -0.151 · 1007 -0.116 · 1008 -0.271 · 1009 -0.207 · 1010 -0.434
+    v0.4.1    Δ_k -0.222 ± 0.056 (hayalet 0.789 → hücre 0.567) · 1003 -0.239 · 1004 -0.183 · 1005 -0.294 · 1006 -0.156 · 1007 -0.174 · 1008 -0.265 · 1009 -0.177 · 1010 -0.292
+    eski çek. Δ_k -0.391 ± 0.095 (hayalet 0.802 → hücre 0.410) · 1003 -0.228 · 1004 -0.538 · 1005 -0.291 · 1006 -0.385 · 1007 -0.434 · 1008 -0.435 · 1009 -0.401 · 1010 -0.417
+    çekirdek  Δ_k -0.290 ± 0.178 (hayalet 0.953 → hücre 0.663) · 1003 -0.460 · 1004 -0.154 · 1005 -0.565 · 1006 -0.138 · 1007 -0.100 · 1008 -0.303 · 1009 -0.159 · 1010 -0.439
+    vaz0      Δ_k -0.265 ± 0.108 (hayalet 0.937 → hücre 0.672) · 1003 -0.368 · 1004 -0.240 · 1005 -0.379 · 1006 -0.136 · 1007 -0.114 · 1008 -0.278 · 1009 -0.217 · 1010 -0.388
+    düz0      Δ_k -0.273 ± 0.137 (hayalet 0.943 → hücre 0.671) · 1003 -0.374 · 1004 -0.301 · 1005 -0.447 · 1006 -0.126 · 1007 -0.074 · 1008 -0.273 · 1009 -0.173 · 1010 -0.412
+    eğim0     Δ_k -0.281 ± 0.135 (hayalet 0.946 → hücre 0.665) · 1003 -0.426 · 1004 -0.168 · 1005 -0.433 · 1006 -0.101 · 1007 -0.158 · 1008 -0.255 · 1009 -0.273 · 1010 -0.433
+  Δ_k(çekirdek) − Δ_k(Babel): -0.025 (artı 4/8 · eksi 4/8; 1003 -0.062 · 1004 +0.011 · 1005 -0.187 · 1006 +0.012 · 1007 +0.016 · 1008 -0.032 · 1009 +0.048 · 1010 -0.004) → 8 tohumda ayırt edilemedi
+
+== 4 · S3 — kontrol yükü ve gecikme (T-19) ==
+  İ · karıştırıcısız ikiz (pencere PDR)
+    kâhin     kontrol kanal süresi 19.0 s · toplam gönderim 317 s · kontrol payı 6.0% | tavan bedeli 3,5 s 0.000 · 5 s 0.000 · 10 s 0.000 | gecikme p50 0.028 · p95 0.100 · p99 0.144 s
+    Babel     kontrol kanal süresi 67.8 s · toplam gönderim 461 s · kontrol payı 14.7% | tavan bedeli 3,5 s 0.000 · 5 s 0.000 · 10 s 0.000 | gecikme p50 0.043 · p95 0.155 · p99 0.229 s
+    v0.4.1    kontrol kanal süresi 185.4 s · toplam gönderim 560 s · kontrol payı 33.1% | tavan bedeli 3,5 s 0.004 · 5 s 0.001 · 10 s 0.000 | gecikme p50 0.049 · p95 0.840 · p99 2.512 s
+    eski çek. kontrol kanal süresi 34.6 s · toplam gönderim 412 s · kontrol payı 8.4% | tavan bedeli 3,5 s 0.009 · 5 s 0.004 · 10 s 0.000 | gecikme p50 0.044 · p95 1.232 · p99 3.401 s
+    vtk0      kontrol kanal süresi 22.0 s · toplam gönderim 363 s · kontrol payı 6.1% | tavan bedeli 3,5 s 0.000 · 5 s 0.000 · 10 s 0.000 | gecikme p50 0.035 · p95 0.137 · p99 0.300 s
+    çekirdek  kontrol kanal süresi 21.3 s · toplam gönderim 358 s · kontrol payı 6.0% | tavan bedeli 3,5 s 0.000 · 5 s 0.000 · 10 s 0.000 | gecikme p50 0.034 · p95 0.122 · p99 0.221 s
+    vaz0      kontrol kanal süresi 21.2 s · toplam gönderim 366 s · kontrol payı 5.8% | tavan bedeli 3,5 s 0.000 · 5 s 0.000 · 10 s 0.000 | gecikme p50 0.038 · p95 0.143 · p99 0.238 s
+    düz0      kontrol kanal süresi 21.6 s · toplam gönderim 368 s · kontrol payı 5.9% | tavan bedeli 3,5 s 0.000 · 5 s 0.000 · 10 s 0.000 | gecikme p50 0.036 · p95 0.134 · p99 0.298 s
+    eğim0     kontrol kanal süresi 21.6 s · toplam gönderim 360 s · kontrol payı 6.0% | tavan bedeli 3,5 s 0.000 · 5 s 0.000 · 10 s 0.000 | gecikme p50 0.035 · p95 0.124 · p99 0.182 s
+  B · birincil, 15/15 (PDR_açık)
+    kâhin     kontrol kanal süresi 19.5 s · toplam gönderim 351 s · kontrol payı 5.6% | tavan bedeli 3,5 s 0.004 · 5 s 0.003 · 10 s 0.001 | gecikme p50 0.031 · p95 0.134 · p99 0.331 s
+    Babel     kontrol kanal süresi 77.0 s · toplam gönderim 513 s · kontrol payı 15.0% | tavan bedeli 3,5 s 0.009 · 5 s 0.006 · 10 s 0.002 | gecikme p50 0.052 · p95 0.337 · p99 1.313 s
+    v0.4.1    kontrol kanal süresi 186.6 s · toplam gönderim 560 s · kontrol payı 33.3% | tavan bedeli 3,5 s 0.018 · 5 s 0.006 · 10 s 0.000 | gecikme p50 0.056 · p95 1.332 · p99 3.669 s
+    eski çek. kontrol kanal süresi 33.5 s · toplam gönderim 357 s · kontrol payı 9.4% | tavan bedeli 3,5 s 0.004 · 5 s 0.002 · 10 s 0.001 | gecikme p50 0.040 · p95 1.649 · p99 3.808 s
+    çekirdek  kontrol kanal süresi 23.7 s · toplam gönderim 430 s · kontrol payı 5.5% | tavan bedeli 3,5 s 0.009 · 5 s 0.006 · 10 s 0.002 | gecikme p50 0.039 · p95 0.418 · p99 1.770 s
+    vaz0      kontrol kanal süresi 22.0 s · toplam gönderim 412 s · kontrol payı 5.3% | tavan bedeli 3,5 s 0.007 · 5 s 0.005 · 10 s 0.002 | gecikme p50 0.041 · p95 0.248 · p99 1.520 s
+    düz0      kontrol kanal süresi 23.6 s · toplam gönderim 431 s · kontrol payı 5.5% | tavan bedeli 3,5 s 0.007 · 5 s 0.005 · 10 s 0.002 | gecikme p50 0.041 · p95 0.346 · p99 1.427 s
+    eğim0     kontrol kanal süresi 23.1 s · toplam gönderim 396 s · kontrol payı 5.8% | tavan bedeli 3,5 s 0.006 · 5 s 0.005 · 10 s 0.002 | gecikme p50 0.040 · p95 0.199 · p99 1.083 s
+
+== 5 · S4 — bileşenler: açık − kapalı, eşli (eşik 0.02) ==
+  vazgeçme tetiği: çekirdek − vaz0
+    ikiz      +0.014 (artı 6/8 · eksi 2/8; 1003 +0.005 · 1004 -0.003 · 1005 +0.072 · 1006 +0.013 · 1007 +0.013 · 1008 -0.000 · 1009 +0.007 · 1010 +0.008) → 8 tohumda ayırt edilemedi → katkı ayırt edilemedi
+    birincil  -0.009 (artı 4/8 · eksi 4/8; 1003 -0.080 · 1004 +0.084 · 1005 -0.124 · 1006 +0.009 · 1007 +0.027 · 1008 -0.018 · 1009 +0.063 · 1010 -0.033) → 8 tohumda ayırt edilemedi → zarar yok (ayırt edilemedi)
+  iki ölçülü geçiş: çekirdek − düz0
+    ikiz      +0.005 (artı 3/8 · eksi 5/8; 1003 +0.004 · 1004 -0.007 · 1005 +0.047 · 1006 -0.005 · 1007 +0.008 · 1008 -0.003 · 1009 -0.006 · 1010 -0.003) → 8 tohumda ayırt edilemedi → katkı ayırt edilemedi
+    birincil  -0.008 (artı 2/8 · eksi 6/8; 1003 -0.069 · 1004 +0.138 · 1005 -0.047 · 1006 -0.011 · 1007 -0.011 · 1008 -0.034 · 1009 +0.009 · 1010 -0.037) → 8 tohumda ayırt edilemedi → zarar yok (ayırt edilemedi)
+  eğim (tetiksiz): vaz0 − eğim0
+    ikiz      -0.003 (artı 4/8 · eksi 4/8; 1003 +0.016 · 1004 +0.008 · 1005 -0.066 · 1006 +0.020 · 1007 -0.001 · 1008 +0.007 · 1009 -0.006 · 1010 -0.005) → 8 tohumda ayırt edilemedi → katkı ayırt edilemedi
+    birincil  +0.007 (artı 4/8 · eksi 4/8; 1003 +0.065 · 1004 -0.064 · 1005 -0.032 · 1006 -0.009 · 1007 +0.044 · 1008 -0.028 · 1009 +0.052 · 1010 +0.028) → 8 tohumda ayırt edilemedi → zarar yok (ayırt edilemedi)
+  → zararlı bileşen yok
+  Betimleyici:
+    yeni yol seçimi bütünüyle, ikiz: çekirdek − eğim0 +0.011 (artı 8/8 · eksi 0/8; 1003 +0.021 · 1004 +0.006 · 1005 +0.006 · 1006 +0.033 · 1007 +0.011 · 1008 +0.007 · 1009 +0.001 · 1010 +0.003) → 8 tohumda ayırt edilemedi
+    yeni yol seçimi bütünüyle, birincil: çekirdek − eğim0 -0.002 (artı 4/8 · eksi 4/8; 1003 -0.015 · 1004 +0.020 · 1005 -0.156 · 1006 +0.000 · 1007 +0.071 · 1008 -0.046 · 1009 +0.116 · 1010 -0.004) → 8 tohumda ayırt edilemedi
+    19 Kasım ↔ 18 Kasım çekirdeği, ikiz: çekirdek − eski çek. +0.144 (artı 7/8 · eksi 1/8; 1003 +0.271 · 1004 -0.006 · 1005 +0.510 · 1006 +0.102 · 1007 +0.057 · 1008 +0.064 · 1009 +0.016 · 1010 +0.140) → AYRIŞIYOR (+)
+    19 Kasım ↔ 18 Kasım çekirdeği, birincil: çekirdek − eski çek. +0.253 (artı 8/8 · eksi 0/8; 1003 +0.133 · 1004 +0.384 · 1005 +0.184 · 1006 +0.366 · 1007 +0.411 · 1008 +0.166 · 1009 +0.262 · 1010 +0.115) → AYRIŞIYOR (+)
+    bekletme 1 s ↔ 2 s (18 Kasım yol seçimi, tetiksiz), ikiz: eğim0 − vtk0 -0.003 (artı 3/8 · eksi 5/8; 1003 -0.016 · 1004 -0.005 · 1005 +0.013 · 1006 -0.025 · 1007 -0.003 · 1008 -0.002 · 1009 +0.006 · 1010 +0.009) → 8 tohumda ayırt edilemedi
+
+== 6 · S5 — tanı (betimleyici; sayaçlar bütün koşu, ağ toplamı, koşu başına) ==
+  İ · karıştırıcısız ikiz (pencere PDR)
+    kâhin     kayıp R 0.000 · İ 0.083 · K 0.000 · T 0.000 | karar/paket 2.51 · atlama başarısızlığı 3.28% · deneme başarısı g 0.434
+    Babel     kayıp R 0.000 · İ 0.070 · K 0.000 · T 0.000 | karar/paket 3.57 · atlama başarısızlığı 2.22% · deneme başarısı g 0.469
+    v0.4.1    kayıp R 0.043 · İ 0.172 · K 0.000 · T 0.000 | karar/paket 2.62 · atlama başarısızlığı 6.52% · deneme başarısı g 0.371
+    eski çek. kayıp R 0.139 · İ 0.049 · K 0.003 · T 0.000 | karar/paket 3.69 · atlama başarısızlığı 1.45% · deneme başarısı g 0.509
+    vtk0      kayıp R 0.003 · İ 0.052 · K 0.000 · T 0.000 | karar/paket 3.16 · atlama başarısızlığı 1.71% · deneme başarısı g 0.482
+    çekirdek  kayıp R 0.002 · İ 0.044 · K 0.000 · T 0.000 | karar/paket 3.18 · atlama başarısızlığı 1.44% · deneme başarısı g 0.492
+    vaz0      kayıp R 0.006 · İ 0.054 · K 0.000 · T 0.000 | karar/paket 3.18 · atlama başarısızlığı 1.79% · deneme başarısı g 0.479
+    düz0      kayıp R 0.006 · İ 0.044 · K 0.000 · T 0.000 | karar/paket 3.27 · atlama başarısızlığı 1.38% · deneme başarısı g 0.493
+    eğim0     kayıp R 0.002 · İ 0.055 · K 0.000 · T 0.000 | karar/paket 3.12 · atlama başarısızlığı 1.83% · deneme başarısı g 0.478
+    vazgeçmelerin bağlara dağılımı (bütün koşu): vazgeçme · ayrı bağ · en kötü bağ · en kötü 5 bağın payı
+      eski çek. 682 · 151 · 22 (16–25) · 0.13 (0.07–0.22)
+      vtk0      691 · 73 · 99 (65–200) · 0.41 (0.25–0.62)
+      çekirdek  586 · 77 · 73 (43–130) · 0.36 (0.26–0.50)
+      vaz0      727 · 78 · 91 (48–151) · 0.39 (0.26–0.48)
+      düz0      576 · 83 · 66 (36–100) · 0.36 (0.29–0.46)
+      eğim0     732 · 75 · 100 (67–128) · 0.40 (0.33–0.45)
+    sayaçlar (koşu başına):
+      çekirdek  vaz_tetik 112.6 · vazgecme 730.4 · vaz_katlama 58.5 · kotu_selam 625.1 · kotu_donus 986.6 · komsu_silindi 425.6 · df_bayat 618.2 · ardil_degisti 759.1 · zorunlu_gecis 55.2 · istege_bagli_gecis 575.5 · veri_gecis 86.4 · son_care 9.1 · yol_yok 3.0 · tavan_asimi 0.0 · bayat_bilgi 94.4 · dongu 73.4 · dislama 102.9 · selam 8633.4 · ara_ilan 1338.0 · bekletilen 140.6 · suresi_dolan 93.9 · komut_gonderilen 901.5 · komut_bekletilen 108.1 · komut_dusen 7.6
+                yol yok bölümünün ortalama süresi 4.20 s (3.0 biten bölüm)
+      vaz0      vaz_tetik 0.0 · vazgecme 0.0 · vaz_katlama 0.0 · kotu_selam 577.6 · kotu_donus 935.6 · komsu_silindi 424.9 · df_bayat 602.9 · ardil_degisti 630.5 · zorunlu_gecis 92.2 · istege_bagli_gecis 487.2 · veri_gecis 0.0 · son_care 19.8 · yol_yok 12.0 · tavan_asimi 4.4 · bayat_bilgi 113.6 · dongu 465.6 · dislama 685.9 · selam 8515.8 · ara_ilan 1270.4 · bekletilen 218.0 · suresi_dolan 134.8 · komut_gonderilen 889.4 · komut_bekletilen 210.2 · komut_dusen 13.1
+                yol yok bölümünün ortalama süresi 3.47 s (12.0 biten bölüm)
+      düz0      vaz_tetik 110.1 · vazgecme 718.1 · vaz_katlama 58.1 · kotu_selam 594.6 · kotu_donus 953.1 · komsu_silindi 408.0 · df_bayat 608.8 · ardil_degisti 738.1 · zorunlu_gecis 85.4 · istege_bagli_gecis 525.2 · veri_gecis 76.9 · son_care 23.0 · yol_yok 11.6 · tavan_asimi 2.1 · bayat_bilgi 148.0 · dongu 424.4 · dislama 554.4 · selam 8503.6 · ara_ilan 1262.0 · bekletilen 211.8 · suresi_dolan 139.6 · komut_gonderilen 931.6 · komut_bekletilen 159.5 · komut_dusen 9.9
+                yol yok bölümünün ortalama süresi 3.61 s (11.6 biten bölüm)
+      eğim0     vaz_tetik 0.0 · vazgecme 0.0 · vaz_katlama 0.0 · kotu_selam 606.2 · kotu_donus 966.5 · komsu_silindi 419.4 · df_bayat 606.2 · ardil_degisti 551.2 · zorunlu_gecis 49.0 · istege_bagli_gecis 427.8 · aclik 17.8 · tur_artirildi 26.1 · selam 8635.4 · ara_ilan 1301.1 · bekletilen 157.4 · suresi_dolan 91.1 · komut_gonderilen 899.1 · komut_bekletilen 123.5 · komut_dusen 8.6
+    kaynağın geçide maliyeti (penceredeki telemetri, ETX; 1 ETX'lik kutunun alt sınırı) · teslim edilenin atlama sayısı
+      çekirdek  maliyet p50 5 · p90 8 · p99 14 · en çok 29.4 · ≥ 16 ETX 0.0044 · ∞ 0.0011 | atlama p50 3 · p90 5 · p99 8 · en çok (teslim) 26 · en çok (bütün kararlar) 25
+      vaz0      maliyet p50 5 · p90 10 · p99 17 · en çok 32.0 · ≥ 16 ETX 0.0154 · ∞ 0.0039 | atlama p50 3 · p90 5 · p99 8 · en çok (teslim) 36 · en çok (bütün kararlar) 35
+      düz0      maliyet p50 5 · p90 9 · p99 14 · en çok 31.9 · ≥ 16 ETX 0.0070 · ∞ 0.0037 | atlama p50 3 · p90 5 · p99 8 · en çok (teslim) 29 · en çok (bütün kararlar) 34
+      eğim0     maliyet p50 5 · p90 8 · p99 12 · en çok 16.8 · ≥ 16 ETX 0.0003 · ∞ 0.0023 | atlama p50 3 · p90 5 · p99 8 · en çok (teslim) 9 · en çok (bütün kararlar) 8
+    vazgeçme tetiği (penceredeki tetikler; kâhin bandı 7 denemelik atlama başarısından)
+      çekirdek  tetik/koşu 92.1 · kâhin iyi 0.99 · orta 0.01 · kötü 0.00 · ardıl payı 1.00 · ardılın değiştiği pay 0.77 (medyan 0.00 s) · işaretliyken veri sonucu/tetik 6.92 · vazgeçme/tetik 0.92 · bekleme 5 s 0.42 · 10 s 0.21 · 20 s 0.12 · 40 s 0.25
+      düz0      tetik/koşu 92.2 · kâhin iyi 0.99 · orta 0.01 · kötü 0.00 · ardıl payı 0.99 · ardılın değiştiği pay 0.70 (medyan 0.00 s) · işaretliyken veri sonucu/tetik 7.67 · vazgeçme/tetik 1.12 · bekleme 5 s 0.43 · 10 s 0.19 · 20 s 0.10 · 40 s 0.28
+  B · birincil, 15/15 (PDR_açık)
+    kâhin     kayıp R 0.008 · İ 0.206 · K 0.006 · T 0.000 | karar/paket 2.64 · atlama başarısızlığı 4.41% · deneme başarısı g 0.404
+    Babel     kayıp R 0.000 · İ 0.335 · K 0.002 · T 0.000 | karar/paket 3.64 · atlama başarısızlığı 4.32% · deneme başarısı g 0.423
+    v0.4.1    kayıp R 0.237 · İ 0.196 · K 0.000 · T 0.000 | karar/paket 2.57 · atlama başarısızlığı 6.94% · deneme başarısı g 0.363
+    eski çek. kayıp R 0.512 · İ 0.077 · K 0.000 · T 0.000 | karar/paket 3.09 · atlama başarısızlığı 2.09% · deneme başarısı g 0.494
+    çekirdek  kayıp R 0.042 · İ 0.287 · K 0.008 · T 0.000 | karar/paket 3.52 · atlama başarısızlığı 3.38% · deneme başarısı g 0.444
+    vaz0      kayıp R 0.020 · İ 0.302 · K 0.006 · T 0.000 | karar/paket 3.32 · atlama başarısızlığı 3.87% · deneme başarısı g 0.433
+    düz0      kayıp R 0.035 · İ 0.289 · K 0.006 · T 0.000 | karar/paket 3.58 · atlama başarısızlığı 3.32% · deneme başarısı g 0.448
+    eğim0     kayıp R 0.037 · İ 0.297 · K 0.001 · T 0.000 | karar/paket 3.16 · atlama başarısızlığı 3.92% · deneme başarısı g 0.432
+    vazgeçmelerin bağlara dağılımı (bütün koşu): vazgeçme · ayrı bağ · en kötü bağ · en kötü 5 bağın payı
+      eski çek. 827 · 183 · 20 (16–27) · 0.10 (0.07–0.12)
+      çekirdek  1525 · 146 · 139 (36–271) · 0.30 (0.20–0.45)
+      vaz0      1644 · 119 · 212 (94–290) · 0.38 (0.31–0.49)
+      düz0      1519 · 153 · 166 (44–342) · 0.32 (0.23–0.46)
+      eğim0     1584 · 111 · 207 (106–394) · 0.39 (0.32–0.49)
+    sayaçlar (koşu başına):
+      çekirdek  vaz_tetik 440.5 · vazgecme 1893.0 · vaz_katlama 309.0 · kotu_selam 780.6 · kotu_donus 1068.6 · komsu_silindi 418.5 · df_bayat 670.5 · ardil_degisti 1532.0 · zorunlu_gecis 475.5 · istege_bagli_gecis 703.4 · veri_gecis 196.9 · son_care 141.0 · yol_yok 117.2 · tavan_asimi 26.5 · bayat_bilgi 594.6 · dongu 3620.2 · dislama 5618.9 · selam 9759.4 · ara_ilan 2343.2 · bekletilen 867.8 · suresi_dolan 489.8 · komut_gonderilen 931.1 · komut_bekletilen 557.6 · komut_dusen 37.6
+                yol yok bölümünün ortalama süresi 2.21 s (117.2 biten bölüm)
+      vaz0      vaz_tetik 0.0 · vazgecme 0.0 · vaz_katlama 0.0 · kotu_selam 676.6 · kotu_donus 965.1 · komsu_silindi 444.6 · df_bayat 656.0 · ardil_degisti 931.5 · zorunlu_gecis 287.2 · istege_bagli_gecis 551.2 · veri_gecis 0.0 · son_care 84.9 · yol_yok 54.0 · tavan_asimi 11.1 · bayat_bilgi 329.9 · dongu 2140.0 · dislama 3428.4 · selam 9023.4 · ara_ilan 1731.2 · bekletilen 551.4 · suresi_dolan 342.0 · komut_gonderilen 875.0 · komut_bekletilen 474.1 · komut_dusen 34.1
+                yol yok bölümünün ortalama süresi 2.54 s (54.0 biten bölüm)
+      düz0      vaz_tetik 443.1 · vazgecme 1883.9 · vaz_katlama 312.1 · kotu_selam 765.4 · kotu_donus 1052.8 · komsu_silindi 414.9 · df_bayat 660.2 · ardil_degisti 1521.2 · zorunlu_gecis 460.0 · istege_bagli_gecis 722.8 · veri_gecis 191.1 · son_care 147.2 · yol_yok 108.4 · tavan_asimi 15.1 · bayat_bilgi 618.4 · dongu 3515.5 · dislama 5288.6 · selam 9477.6 · ara_ilan 2144.0 · bekletilen 855.9 · suresi_dolan 521.2 · komut_gonderilen 937.6 · komut_bekletilen 479.9 · komut_dusen 36.8
+                yol yok bölümünün ortalama süresi 2.37 s (108.4 biten bölüm)
+      eğim0     vaz_tetik 0.0 · vazgecme 0.0 · vaz_katlama 0.0 · kotu_selam 752.5 · kotu_donus 1044.2 · komsu_silindi 448.0 · df_bayat 647.5 · ardil_degisti 845.4 · zorunlu_gecis 112.8 · istege_bagli_gecis 487.6 · aclik 103.0 · tur_artirildi 32.5 · selam 9384.4 · ara_ilan 1833.8 · bekletilen 524.8 · suresi_dolan 348.2 · komut_gonderilen 893.2 · komut_bekletilen 446.4 · komut_dusen 31.6
+    kaynağın geçide maliyeti (penceredeki telemetri, ETX; 1 ETX'lik kutunun alt sınırı) · teslim edilenin atlama sayısı
+      çekirdek  maliyet p50 6 · p90 14 · p99 25 · en çok 32.0 · ≥ 16 ETX 0.0677 · ∞ 0.0228 | atlama p50 3 · p90 6 · p99 11 · en çok (teslim) 39 · en çok (bütün kararlar) 60
+      vaz0      maliyet p50 6 · p90 12 · p99 22 · en çok 32.0 · ≥ 16 ETX 0.0437 · ∞ 0.0130 | atlama p50 3 · p90 6 · p99 9 · en çok (teslim) 41 · en çok (bütün kararlar) 40
+      düz0      maliyet p50 6 · p90 13 · p99 24 · en çok 32.0 · ≥ 16 ETX 0.0575 · ∞ 0.0222 | atlama p50 4 · p90 6 · p99 10 · en çok (teslim) 40 · en çok (bütün kararlar) 40
+      eğim0     maliyet p50 6 · p90 11 · p99 17 · en çok 25.6 · ≥ 16 ETX 0.0168 · ∞ 0.0246 | atlama p50 3 · p90 6 · p99 8 · en çok (teslim) 14 · en çok (bütün kararlar) 13
+    vazgeçme tetiği (penceredeki tetikler; kâhin bandı 7 denemelik atlama başarısından)
+      çekirdek  tetik/koşu 419.6 · kâhin iyi 0.49 · orta 0.11 · kötü 0.40 · ardıl payı 0.99 · ardılın değiştiği pay 0.47 (medyan 0.00 s) · işaretliyken veri sonucu/tetik 7.90 · vazgeçme/tetik 1.90 · bekleme 5 s 0.28 · 10 s 0.14 · 20 s 0.08 · 40 s 0.50
+      düz0      tetik/koşu 425.2 · kâhin iyi 0.49 · orta 0.11 · kötü 0.40 · ardıl payı 0.99 · ardılın değiştiği pay 0.45 (medyan 0.00 s) · işaretliyken veri sonucu/tetik 8.64 · vazgeçme/tetik 1.92 · bekleme 5 s 0.28 · 10 s 0.13 · 20 s 0.08 · 40 s 0.51
+
+== 7 · KÂHİN — tohum başına aşım (kol − kâhin > R = 0.0126) ==
+  ikiz      Babel     ortalama fark +0.013 · aşan tohum 4/8: 1003 +0.048 · 1006 +0.023 · 1008 +0.024 · 1009 +0.049
+  ikiz      çekirdek  ortalama fark +0.037 · aşan tohum 7/8: 1003 +0.068 · 1005 +0.013 · 1006 +0.050 · 1007 +0.017 · 1008 +0.043 · 1009 +0.059 · 1010 +0.037
+  ikiz      vaz0      ortalama fark +0.023 · aşan tohum 6/8: 1003 +0.063 · 1004 +0.013 · 1006 +0.037 · 1008 +0.043 · 1009 +0.051 · 1010 +0.029
+  ikiz      düz0      ortalama fark +0.033 · aşan tohum 6/8: 1003 +0.064 · 1004 +0.018 · 1006 +0.055 · 1008 +0.045 · 1009 +0.065 · 1010 +0.040
+  ikiz      eğim0     ortalama fark +0.026 · aşan tohum 5/8: 1003 +0.047 · 1006 +0.017 · 1008 +0.036 · 1009 +0.058 · 1010 +0.034
+  birincil  Babel     ortalama fark -0.116 · aşan tohum 0/8
+  birincil  çekirdek  ortalama fark -0.116 · aşan tohum 1/8: 1009 +0.034
+  birincil  vaz0      ortalama fark -0.107 · aşan tohum 0/8
+  birincil  düz0      ortalama fark -0.108 · aşan tohum 1/8: 1009 +0.025
+  birincil  eğim0     ortalama fark -0.114 · aşan tohum 0/8

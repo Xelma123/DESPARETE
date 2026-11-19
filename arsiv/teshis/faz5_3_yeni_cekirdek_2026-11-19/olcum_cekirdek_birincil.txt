@@ -1,0 +1,14 @@
+==============================================================================
+YENİ ÇEKİRDEK — dünya referans_2026 · formasyon-surekli (birincil) · kollar ['cekirdek'] · tohum [1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_yeni_cekirdek_2026-11-19\kopya\protokoller\desparete5.py
+==============================================================================
+    1/8 cekirdek 1007 · PDR(pencere) 0.9380 · tetik 189 · en çok atlama 8 · denetim tamam · 2985 s
+    2/8 cekirdek 1004 · PDR(pencere) 0.9212 · tetik 224 · en çok atlama 19 · denetim tamam · 3366 s
+    3/8 cekirdek 1008 · PDR(pencere) 0.8324 · tetik 522 · en çok atlama 32 · denetim tamam · 3431 s
+    4/8 cekirdek 1010 · PDR(pencere) 0.7737 · tetik 585 · en çok atlama 29 · denetim tamam · 3642 s
+    5/8 cekirdek 1009 · PDR(pencere) 0.8932 · tetik 331 · en çok atlama 13 · denetim tamam · 3935 s
+    6/8 cekirdek 1006 · PDR(pencere) 0.8999 · tetik 296 · en çok atlama 14 · denetim tamam · 3986 s
+    7/8 cekirdek 1003 · PDR(pencere) 0.7499 · tetik 512 · en çok atlama 60 · denetim tamam · 4140 s
+    8/8 cekirdek 1005 · PDR(pencere) 0.6116 · tetik 865 · en çok atlama 36 · denetim tamam · 4614 s
+
+  8 koşu kayıtta · hata 0
