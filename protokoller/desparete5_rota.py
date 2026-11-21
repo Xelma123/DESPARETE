@@ -227,9 +227,9 @@ class Rota:
             return self.kabul[0], self.C
         return (self.fd[0] if self.fd is not None else 0), SONSUZ
 
-    def ilan_edildi(self, tur: int, C: int) -> None:
+    def ilan_edildi(self, tur: int, C: int, t: float | None = None) -> None:
         """Selam kurulurken: FD ilan edilen (nicemlenmiş) değerle güncellenir
-        (KK-02/7)."""
+        (KK-02/7). `t` eğimin arayüzü içindir (KK-04/14), burada kullanılmaz."""
         self.son_ilan_C = C
         if C >= SONSUZ or self.gecit_mi:
             return

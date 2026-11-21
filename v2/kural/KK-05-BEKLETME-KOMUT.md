@@ -1,8 +1,8 @@
 # KK-05 · Bekletme ve komutun yolu
 
-> Kararlar: T-18 · T-20 (`17`). Değerler ve genel kurallar `KK-00`. Kod `protokoller/desparete5_bekletme.py`. Güncel: 19 Kasım 2026 (`17` T-12, T-13, T-18: açlık yok, bekletme yalnız hiç aday kalmayınca; askıda durumu kalktı). Önceki: 18 Kasım (`v2/arsiv/kural/KK-05-BEKLETME-KOMUT-2026-11-18.md`; G-1).
+> Kararlar: T-18 · T-20 (`17`). Değerler ve genel kurallar `KK-00`. Kod `protokoller/desparete5_bekletme.py`. Güncel: 20 Kasım 2026 (kural 1: KK-04 kural 13'ün bekletmesi; kural 14'ün kopması zaten "ardıl yok"tur). Önceki: 19 Kasım (`v2/arsiv/kural/KK-05-BEKLETME-KOMUT-2026-11-19.md`: `17` T-12, T-13, T-18) · 18 Kasım (`v2/arsiv/kural/KK-05-BEKLETME-KOMUT-2026-11-18.md`; G-1).
 >
-> **Kod:** 19 Kasım'da bu kâğıda göre yazıldı. 18 Kasım'ın davranışı `egim` · `vazgecme_tetigi` · `duzgun_gecis` kapalı, `veri_kotu_tetigi` açık ve `DEGERLER_ESKI`yle birebir yeniden üretilir (küçük test dünyasında sekiz koşuda denetlendi: `arsiv/teshis/faz5_3_kod_2026-11-19/esdegerlik.txt`).
+> **Kod:** 19 Kasım'da bu kâğıda göre yazıldı; kural 1'in KK-04 kural 13'ten gelen bekletmesi 20 Kasım'da (`desparete5.py` `sonraki_atlama`). 18 Kasım'ın davranışı `egim` · `vazgecme_tetigi` · `duzgun_gecis` kapalı, `veri_kotu_tetigi` açık ve `DEGERLER_ESKI`yle birebir yeniden üretilir (küçük test dünyasında sekiz koşuda denetlendi: `arsiv/teshis/faz5_3_kod_2026-11-19/esdegerlik.txt`).
 
 ## Amaç ve sınıf
 
@@ -19,7 +19,7 @@ Yol yokken (KK-04'te hiç aday kalmayınca) paketi kısa süre tutmak; komutu te
 
 **A · Bekletme**
 
-1. Paket için yol yoksa (KK-04'te `A` boş, ardıl yok) karar `beklet` olur; paketin ilk bekletme anı tutulur. Bayrak kapalıyken paket düşer (`rota_gecersiz`).
+1. Paket için yol yoksa (KK-04'te `A` boş, ardıl yok; ya da ardıl paketi getiren komşu ve yokuş aşağı başka aday yok, KK-04 kural 13) karar `beklet` olur; paketin ilk bekletme anı tutulur. Bayrak kapalıyken paket düşer (`rota_gecersiz`).
 2. Yeniden sorulduğunda: yol varsa gönderilir; yoksa ve bu düğümde `TUTMA_EN_COK` geçtiyse düşer (`rota_gecersiz`); değilse yine beklenir.
 3. Yeniden sorma: yol bulunduğunda bir sonraki niyetli kancada, tamponda bekleyen paket varken her 0,5 s'de bir `Uyandirma` döndürülür (simülatör tamponu yalnız uyanmadan sonra döker, K-135; niyet döndüremeyen kancalar için `KK-00` genel kural 1).
 4. `ilk_bekletme` kaydı `TUTMA_EN_COK + 1 s`'den yaşlıysa silinir: simülatörün sayı tavanıyla (`tampon_asimi`) düşen paketlerin kaydı kalmaz, gereksiz uyanma üretmez.

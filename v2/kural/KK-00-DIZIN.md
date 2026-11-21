@@ -1,8 +1,8 @@
 # KK-00 · Kural kâğıtları — dizin, genel kurallar, değerler, bayraklar
 
-> Faz 5-3 (`12` §1.2). Kararlar `17`de (T-1…T-20); kural kâğıtları onları kurallara, formüllere ve başlangıç değerlerine çevirir. Kod bu kâğıtlardan yazılır (`protokoller/desparete5*.py`; değerler ve bayraklar `desparete5_bicim.py`); kod yorumları `KK-n` ve `T-n`e atıf verir. Değerler başlangıçtır, geliştirme tohumlarında (1003–1010) A/B ile ayarlanır. Bağımsız denetim: `arsiv/denetim/DENETIM-RAPORU-KURAL-2026-11-17.md` ve kapanışı. Güncel: 19 Kasım 2026 (`17` T-2, T-11, T-12, T-13: vazgeçme tetiği, maliyet eğimi ve döngü bekçisi, iki ölçülü geçiş; askıda, veri cezası, FD ve tur yeni sürümde yok). Önceki: 18 Kasım (`v2/arsiv/kural/KK-00-DIZIN-2026-11-18.md`; kodlamayla Y-4 · Y-6 · Y-9 · Y-11).
+> Faz 5-3 (`12` §1.2). Kararlar `17`de (T-1…T-20); kural kâğıtları onları kurallara, formüllere ve başlangıç değerlerine çevirir. Kod bu kâğıtlardan yazılır (`protokoller/desparete5*.py`; değerler ve bayraklar `desparete5_bicim.py`); kod yorumları `KK-n` ve `T-n`e atıf verir. Değerler başlangıçtır, geliştirme tohumlarında (1003–1010) A/B ile ayarlanır. Bağımsız denetim: `arsiv/denetim/DENETIM-RAPORU-KURAL-2026-11-17.md` ve kapanışı. Güncel: 20 Kasım 2026 (KK-04 kural 13 geri gönderme yasağı ve kural 14 sınırlı yükselme: iki bayrak, iki değer, tanı). Önceki: 19 Kasım (`v2/arsiv/kural/KK-00-DIZIN-2026-11-19.md`: `17` T-2, T-11, T-12, T-13) · 18 Kasım (`v2/arsiv/kural/KK-00-DIZIN-2026-11-18.md`; kodlamayla Y-4 · Y-6 · Y-9 · Y-11).
 >
-> **Kod:** 19 Kasım'da bu kâğıtlara göre yazıldı. 18 Kasım'ın davranışı `egim` · `vazgecme_tetigi` · `duzgun_gecis` kapalı, `veri_kotu_tetigi` açık ve `DEGERLER_ESKI`yle birebir yeniden üretilir (küçük test dünyasında sekiz koşuda denetlendi: `arsiv/teshis/faz5_3_kod_2026-11-19/esdegerlik.txt`). 19 Kasım'da gelen değerler aynı gün onaylandı.
+> **Kod:** 19 Kasım'da bu kâğıtlara göre yazıldı; KK-04 kural 13–14 20 Kasım'da kodlandı, iki bayrak kapalıyken 19 Kasım'ın kodu birebir yeniden üretilir (`CEKIRDEK_19K`; küçük test dünyasında 12 koşu: `arsiv/teshis/faz5_3_kod_2026-11-20/esdegerlik.txt`). 18 Kasım'ın davranışı `egim` · `vazgecme_tetigi` · `duzgun_gecis` kapalı, `veri_kotu_tetigi` açık ve `DEGERLER_ESKI`yle birebir yeniden üretilir (küçük test dünyasında sekiz koşuda denetlendi: `arsiv/teshis/faz5_3_kod_2026-11-19/esdegerlik.txt`). 19 Kasım'da gelen değerler aynı gün onaylandı.
 
 ## Kâğıtlar
 
@@ -22,7 +22,7 @@ Her kâğıtta: amaç ve sınıf · gördüğü · tuttuğu · kurallar · örne
 2. **Aynı olayda sıra:** KK-01 kural 15.
 3. **Birimler:** maliyetler ETX × 64 tamsayı (yukarı yuvarlanır; sonlu en çok 0xFFFE, 0xFFFF = ∞); `C_ilan` (`egim` kapalıyken FD) ilan edilen (nicemlenmiş) değeri tutar. Sıra 16 bit, modüler karşılaştırılır (`sira` 0'dan başlar); `egim` kapalıyken tur da 16 bit, geçidin turu 1'den başlar. Bütün süreler yerel saatle (`saat_s`) ölçülür.
 4. **Ölçüm beyanları** (yalnız ölçüme gider; anlamları Babel, AODV ve OLSRv2 ile aynı, K-139; 18 Kasım, kodlamada G-2): `kopma(K)` bir önceki kanca sonunda ardılım olan K'nin bağı kullanılamaz oldu (OLAĞAN'dan çıktı ya da silindi) · `rota_kuruldu(K)` K'nin kaybından sonra yeniden ardılım var · `rota_gecersiz` daha önce yolu olan hedefe (geçide ya da izi bilinen komut hedefine) giden paket düştü; yolu hiç bilinmemişse düşüş beyansızdır. "Veriye uygun değil" işareti ve döngü dışlaması bağı kullanılamaz yapmaz; kopma beyanı değildir.
-5. **Kancalar** (`protokoller/desparete5.py`): saniyelik zamanlayıcı (kendi durumum; ilk çağrıda selam başlar) · selam, en erken son tarih ve tamponu yeniden sorma için nesil numaralı uyandırmalar · `kontrol_alindi` (selam; `egim` kapalıyken tur isteği) · `iletim_sonucu` (vazgeçme kaydı, MAC kanıtı; niyetsiz) · `iletim_basarisiz` (onun niyetleri) · `cerceve_duyuldu` (komşu hâlâ orada, geri iz, döngü bekçisinin bayat bilgi işareti; niyetsiz) · `sonraki_atlama` (döngü bekçisinin kesin döngü denetimi, bekletme). Her niyetli kancanın sonunda sıra: zaman olayları → rota seçimi → selam olayları → (`egim` kapalıyken tur istekleri) → tampon → son tarih → beyanlar. Ölçüm aletlerinde adlar `desparete5` (bütün bayraklar), `desparete5_cekirdek` (karıştırmaya karşı mekanizmalar kapalı) ve `desparete5_eski_cekirdek` (18 Kasım'ın çekirdeği: `egim`, `vazgecme_tetigi`, `duzgun_gecis` kapalı, `veri_kotu_tetigi` açık; ilk ölçümü birebir üretmeli) (`kalibrasyon/aodv_uygunluk.py`).
+5. **Kancalar** (`protokoller/desparete5.py`): saniyelik zamanlayıcı (kendi durumum; ilk çağrıda selam başlar) · selam, en erken son tarih ve tamponu yeniden sorma için nesil numaralı uyandırmalar · `kontrol_alindi` (selam; `egim` kapalıyken tur isteği) · `iletim_sonucu` (vazgeçme kaydı, MAC kanıtı; niyetsiz) · `iletim_basarisiz` (onun niyetleri) · `cerceve_duyuldu` (komşu hâlâ orada, geri iz, döngü bekçisinin bayat bilgi işareti; niyetsiz) · `sonraki_atlama` (döngü bekçisinin kesin döngü denetimi, geri gönderme yasağı, bekletme). Her niyetli kancanın sonunda sıra: zaman olayları → rota seçimi → selam olayları → (`egim` kapalıyken tur istekleri) → tampon → son tarih → beyanlar. Ölçüm aletlerinde adlar `desparete5` (bütün bayraklar), `desparete5_cekirdek` (karıştırmaya karşı mekanizmalar kapalı), `desparete5_eski_cekirdek` (18 Kasım'ın çekirdeği: `egim`, `vazgecme_tetigi`, `duzgun_gecis`, `geri_yasagi`, `sinirli_yukselme` kapalı, `veri_kotu_tetigi` açık; ilk ölçümü birebir üretmeli) ve `desparete5_cekirdek_19k` (19 Kasım'ın çekirdeği: `geri_yasagi` ve `sinirli_yukselme` kapalı; yeni çekirdeğin ölçümündeki `cekirdek` kolunu birebir üretmeli) (`kalibrasyon/aodv_uygunluk.py`).
 
 ## Başlangıç değerleri (tek yer)
 
@@ -47,6 +47,8 @@ Her kâğıtta: amaç ve sınıf · gördüğü · tuttuğu · kurallar · örne
 | `GIRIS_SANIYE` · `CIKIS_SANIYE` | girişim 2 · 3 ardışık saniye; ED 1 · 1 | KK-03 | T-10; ED eşiğinin yanlış alarmı %0,035 |
 | `MAC_ARDISIK` | 3 vazgeçme | KK-03 | teşhis (d): `n* = 3` |
 | `MALIYET_TAVANI` | 32 ETX (19 Kasım) | KK-04 | bağ ETX'i en çok `E_CIK` = 4; 8 atlamalık en kötü yol 32. Çekirdekte paket başına ~3,7 karar (ilk ölçüm, ikiz). Yeri tanıda yol maliyetinin dağılımıyla sınanır |
+| `YUKSELME_PAYI` | 4 ETX (20 Kasım) | KK-04 | bir bağın aday kalabileceği en büyük ETX `E_CIK`: kopan ardılın yerine geçen yol en çok bir bağ kadar pahalı olabilsin. MRHOF'a göre pay, ardıl değiştirme eşiğinden küçük olmamalı [64] (MRHOF'ta 1,5 ETX; bizde iki ölçülü geçiş, eşik yok). İki düğümlü tırmanmada her tur maliyeti en az 2 ETX artırır; pay en çok üç turda aşılır. RFC 6550 varsayılan vermez. Taranmadı; tanıda sınır yüzünden kaybedilen ardıl sayılır |
+| `YUKSELME_UNUT_S` | 4 s = 2 × `I_MAX` (20 Kasım) | KK-04 | `L`'nin unutulması (RPL'de yeni sürümün yerine). Bu sürede her komşudan en az bir yeni selam gelir (aralık en çok 2,2 s), bayat ilanlar tazelenmiş olur. Tırmanma ara ilan hızında (en sık 0,5 s'de bir) ilerlediği için pay bu süre dolmadan aşılır. Taranmadı |
 | `DUZ_S` | 6 s = 3 × `I_MAX` (19 Kasım) | KK-04 | Babel Ek A.3: düzgünleştirmenin zaman sabiti selam aralığının ~3 katı [4] |
 | `DONGU_ANIMSA_S` | 5 s (19 Kasım) | KK-04 | döngüye giren paket birkaç atlamada döner; yoldaki iki bekletmeyi de kapsar |
 | `DONGU_DISLA_S` | 2 s (19 Kasım) | KK-04 | dışlanan komşunun düzeltici selamı en geç `I_MAX` içinde gelir; bayat bilgi olayı onu hemen de getirebilir (KK-04 kural 8) |
@@ -77,11 +79,13 @@ Kalkan değerler (19 Kasım; arşivdeki KK-00'da): `VERI_PENCERE` · `VERI_EN_AZ
 | ara ilan | KK-02 3 | çekirdek | genel | (T-17) |
 | maliyet eğimi, yokuş aşağı, son çare, maliyet tavanı, döngü bekçisi | KK-04 1–4, 7–12 | `egim` | genel | 18 Kasım'ın kuralları (arşivdeki KK-04: FD, tur, açlık, tur isteği, yok sayma); selamda tur alanı |
 | isteğe bağlı geçiş | KK-04 5–6 | `istege_bagli_esik` · `duzgun_gecis` | genel | `duzgun_gecis` kapalı: %10 oransal eşik; ikisi kapalı: her hesapta daha ucuz aday |
+| geri gönderme yasağı (20 Kasım) | KK-04 13 | `geri_yasagi` | genel | paket getiren komşuya da gönderilebilir (19 Kasım'ın davranışı) |
+| sınırlı yükselme (20 Kasım) | KK-04 14 | `sinirli_yukselme` | genel | yükselmenin tek sınırı `MALIYET_TAVANI`; ∞ ilanından sonra `D = A` (19 Kasım'ın davranışı) |
 | bekletme | KK-05 1–5 | `bekletme` | genel | yol yoksa paket düşer |
 | geri iz | KK-05 6–9 | çekirdek | genel | (T-20) |
 | seçici çoğaltma | (ileride) | `cogaltma` | karıştırmaya karşı | varsayılan kapalı (T-14) |
 
-**Mekanizma kapısının "hepsi kapalı" yapılandırması** (`06` §0.4.5): `karistirma_durumu`, `alici_bildirimi`, `hatirlanan_kalite` ve `cogaltma` kapalı; genel bayraklar açık. Kapı, karıştırmaya karşı mekanizmalar birlikte kapatılınca `PDR_açık`ın anlamlı düşmesini ister. `vazgecme_tetigi`, `egim` ve `duzgun_gecis` genel sınıftadır, kapıya girmez (K-247).
+**Mekanizma kapısının "hepsi kapalı" yapılandırması** (`06` §0.4.5): `karistirma_durumu`, `alici_bildirimi`, `hatirlanan_kalite` ve `cogaltma` kapalı; genel bayraklar açık. Kapı, karıştırmaya karşı mekanizmalar birlikte kapatılınca `PDR_açık`ın anlamlı düşmesini ister. `vazgecme_tetigi`, `egim`, `duzgun_gecis`, `geri_yasagi` ve `sinirli_yukselme` genel sınıftadır, kapıya girmez (K-247).
 
 ## A/B ölçütleri (sınıfa göre)
 
@@ -94,7 +98,7 @@ Kalkan değerler (19 Kasım; arşivdeki KK-00'da): `VERI_PENCERE` · `VERI_EN_AZ
 ## Tanı kaydı (her A/B'de sayılır)
 
 - Vazgeçme tetiği: tetik sayısı, tetiklenen bağın kâhin bandı, tetikten sonra ardılın değişip değişmediği ve o bağdaki vazgeçmeler, vazgeçmelerin bağlara dağılımı (en kötü beş bağın payı) (açlık teşhisi; denetim S-1'in yerine).
-- Yol seçimi: döngü kanıtı ve bayat bilgi olayı sayısı · son çare seçimi · tavan aşımı · yol yok bölümlerinin sayısı ve süresi · ömür (TTL) kaybı · en uzun atlama sayısı · yol maliyetinin dağılımı · ardıl değişimi, sebebine göre (`17` T-12; S-2 ve S-5'in yerine).
+- Yol seçimi: döngü kanıtı ve bayat bilgi olayı sayısı · son çare seçimi · tavan aşımı · yol yok bölümlerinin sayısı ve süresi · ömür (TTL) kaybı · en uzun atlama sayısı · yol maliyetinin dağılımı · ardıl değişimi, sebebine göre (`17` T-12; S-2 ve S-5'in yerine) · geri gönderme yasağının başka adaya yönlendirdiği ve beklettiği paketler · sınırlı yükselme yüzünden kaybedilen ardıl (KK-04 kural 13–14).
 - "Karıştırılıyorum" yanlış alarmı (ikizde), tespit süresi, girişim kaynaklı durumun açık dönemdeki geçiş sayısı (S-4).
 - Sessiz dönemin ilk saniyelerindeki teslim (S-3).
 - Bağ kalitesinin değişim hızı, tek deneme başarısıyla ve yedekler dâhil (`17` §7 madde 8); başka bir karıştırıcı sınıfı ya da yer karıştırıcılı aile (`17` §7 madde 9).

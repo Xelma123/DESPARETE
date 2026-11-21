@@ -15,7 +15,7 @@ import pytest
 
 from protokoller.desparete5 import Desparete5
 from protokoller.desparete5_bicim import (
-    CEKIRDEK, DEGERLER_ESKI, ESKI_CEKIRDEK, TAM, Bayraklar)
+    CEKIRDEK, CEKIRDEK_19K, DEGERLER_ESKI, ESKI_CEKIRDEK, TAM, Bayraklar)
 from protokoller.desparete5_egim import Egim
 from protokoller.desparete5_rota import Rota
 from sim2.gozlem.teshis import teshis_dogrula
@@ -141,6 +141,20 @@ def test_ESKI_CEKIRDEK_profilinde_Y4():
     assert s["korunum"]["korunum_tamam"] and s["korunum"]["mutabakat_tamam"]
     t = s["toplam"]
     assert t["bag.askida_giris"] == t["bag.veri_kotu"] > 0    # Y-4
+
+
+def test_GERI_YASAGI_ve_SINIRLI_YUKSELME_uctan_uca():
+    """KK-04/13–14 (20 Kasım): yeni çekirdekte defter kapanır, iki kuralın
+    sayaçları teşhise girer; 19 Kasım'ın çekirdeğinde hiç çalışmazlar."""
+    yeni = _kos("statik-surekli", CEKIRDEK)
+    eski = _kos("statik-surekli", CEKIRDEK_19K)
+    for s in (yeni, eski):
+        r = s["korunum"]
+        assert r["korunum_tamam"] and r["mutabakat_tamam"], r
+    adlar = ("rota.geri_yasagi", "rota.geri_bekletme", "rota.yukselme_kopma")
+    assert all(k in yeni["toplam"] for k in adlar)
+    assert not any(eski["toplam"][k] for k in adlar)
+    assert yeni["toplam"] != eski["toplam"]         # kurallar davranışa girer
 
 
 def test_BELIRLENIMCI_ayni_tohum_ayni_satir(sakin):

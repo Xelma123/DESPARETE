@@ -273,3 +273,88 @@ def test_DONGU_KAYDI_5_s_sonra_unutulur_kendi_paketim_0_atlamayla():
     e.zaman_isle(7.1, b, False)                 # 5 s'den yaşlı kayıt silinir
     e.dongu_denetle(paket(5, 2, 4), 7.1)
     assert e.sayac["dongu"] == 1 and (5, 2) not in e.gonderilen.kayit
+
+
+# ==========================================================================
+# KK-04/14 · sınırlı yükselme (20 Kasım)
+# ==========================================================================
+def _ornek(bayraklar=TAM):
+    """KK-04'ün örneği: X (5) W (1) üzerinden 2,5; Z (3) yolu X'ten geçer,
+    ilanı 3,7; iki yönde ETX 1,2."""
+    e, b = kur(bayraklar)
+    b.ekle(1)
+    ilan(e, 1, 1.5)                             # m = 2,5
+    b.ekle(3, etx=1.2)
+    ilan(e, 3, 3.7)                             # m = 4,9
+    e.sec(0.0, b, False)
+    assert e.ardil == 1
+    e.ilan_edildi(0, e.C, 0.0)                  # L = 2,5
+    b.ekle(1, durum="kotu")
+    e.sec(1.0, b, False)                        # son çare: Z
+    assert e.ardil == 3 and e.sayac["son_care"] == 1
+    e.ilan_edildi(0, e.C, 1.0)                  # 4,9 ilan edildi
+    ilan(e, 3, 6.1, t=1.5)                      # Z: 1,2 + 4,9
+    e.sec(1.5, b, False)
+    return e, b
+
+
+def test_SINIRLI_YUKSELME_ornek_tirmanma_bir_turda_durur():
+    e, b = _ornek()
+    # 1,2 + 6,1 = 7,3 > L + 4 = 6,5: ardıl sınır yüzünden kayboldu.
+    assert e.ardil is None and e.C == SONSUZ
+    assert e.sayac["yukselme_kopma"] == 1 and e.sayac["tavan_asimi"] == 0
+    assert e._L(1.5) == E(2.5) and D.yukselme_payi == 4 * 64
+
+
+def test_SINIRLI_YUKSELME_kapali_19_Kasim_davranisi():
+    e, b = _ornek(Bayraklar(sinirli_yukselme=False))
+    assert e.ardil == 3 and e.C == E(1.2) + E(6.1)    # tırmanma sürer
+    assert e.sayac["yukselme_kopma"] == 0 and e._L(1.5) is None
+
+
+def test_SINIRLI_YUKSELME_sonsuzdan_sonra_olcut_L():
+    """∞ ilanından sonra yokuş aşağı `C_j < L`: L'den yüksek komşu son
+    çaredir. Bayrak kapalıyken `D = A`, son çare sayılmaz."""
+    for bay, son_care in ((TAM, 2), (Bayraklar(sinirli_yukselme=False), 1)):
+        e, b = _ornek(bay)
+        if e.ardil is not None:                 # bayrak kapalı: Z'yi bırak
+            b.ekle(3, durum="kotu")
+            e.sec(1.6, b, False)
+        assert e.ardil is None
+        e.ilan_edildi(0, e.C, 1.6)              # ∞ (geçmişe girmez)
+        b.ekle(6)
+        ilan(e, 6, 3.0, t=2.0)                  # m = 4,0 ≤ 6,5; 3,0 ≥ L
+        e.sec(2.0, b, False)
+        assert e.ardil == 6 and e.sayac["son_care"] == son_care
+
+
+def test_SINIRLI_YUKSELME_L_4_s_sonra_unutulur():
+    e, b = _ornek()
+    assert e._L(4.0) == E(2.5)                  # 0. saniyenin ilanı içeride
+    assert e._L(4.5) == E(1.2) + E(3.7)         # 0. saniye düştü; 4,9 kaldı
+    e.sec(4.5, b, False)
+    assert e.ardil == 3                         # 7,3 ≤ 4,9 + 4 = 8,9
+    assert e._L(5.1) is None                    # hepsi düştü: sınır yok
+
+
+# ==========================================================================
+# KK-04/13 · geri gönderme yasağı (20 Kasım)
+# ==========================================================================
+def test_GERI_YASAGI_yokus_asagi_alternatif_yoksa_bekletme():
+    e, b = kur(ilan_C=3.0)
+    for j, C in ((1, 1.0), (2, 1.5), (3, 3.5)):  # 3 yokuş yukarı
+        b.ekle(j)
+        ilan(e, j, C)
+    e.sec(0.0, b, False)
+    assert e.ardil == 1
+    p = paket(9, 1, 2)
+    e.veri_duyuldu(1, p, 0.1)                   # paketi ardılım getirdi
+    assert e.getiren_oku(p, 0.2) == 1
+    assert e.geri_alternatif(1, 0.2, b) == 2 and e.ardil == 1
+    b.k[2][2] = 10.0                            # 2 veriye uygun değil: G2
+    assert e.geri_alternatif(1, 0.3, b) == 2
+    b.ekle(2, durum="kotu")
+    e.sec(0.4, b, False)
+    assert e.geri_alternatif(1, 0.4, b) is None  # yokuş yukarı 3 kullanılmaz
+    assert e.sayac["geri_yasagi"] == 2 and e.sayac["geri_bekletme"] == 1
+    assert e.ardil == 1

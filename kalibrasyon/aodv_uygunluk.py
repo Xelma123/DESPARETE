@@ -131,7 +131,7 @@ from protokoller.babel import Babel  # noqa: E402
 from protokoller.desparete_bayrak import PROFIL_V02, SECENEK_V041  # noqa: E402
 from protokoller.desparete5 import Desparete5  # noqa: E402
 from protokoller.desparete5_bicim import (  # noqa: E402
-    CEKIRDEK, DEGERLER_ESKI, ESKI_CEKIRDEK, TAM)
+    CEKIRDEK, CEKIRDEK_19K, DEGERLER_ESKI, ESKI_CEKIRDEK, TAM)
 from sim2.kosum.kosu import Kosu  # noqa: E402
 from sim2.kosum.kurulum import kurulum_yap  # noqa: E402
 from sim2.kosum.sonuc import sonuc_satiri  # noqa: E402
@@ -155,10 +155,15 @@ PROTOKOLLER = {"aodv": AODV, "olsr": OLSR, "aomdv": AOMDV,
                # 18 Kasım'ın çekirdeği (FD ve tur, eski veri tetiği; 19 Kasım):
                # ilk ölçümü ve açlık teşhisinin `cekirdek` kolunu birebir
                # üretmeli (`v2/kural/KK-00` genel kural 5).
-               "desparete5_eski_cekirdek": Desparete5}
+               "desparete5_eski_cekirdek": Desparete5,
+               # 19 Kasım'ın çekirdeği (KK-04 kural 13–14 öncesi; 20 Kasım):
+               # yeni çekirdeğin ölçümündeki `cekirdek` kolunu birebir
+               # üretmeli.
+               "desparete5_cekirdek_19k": Desparete5}
 # DESPARETE 5'in bayrak profilleri (`protokoller/desparete5_bicim.py`).
 DESPARETE5_PROFILLERI = {"desparete5": TAM, "desparete5_cekirdek": CEKIRDEK,
-                         "desparete5_eski_cekirdek": ESKI_CEKIRDEK}
+                         "desparete5_eski_cekirdek": ESKI_CEKIRDEK,
+                         "desparete5_cekirdek_19k": CEKIRDEK_19K}
 # Varsayılandan ayrılan değerler (yoksa `Degerler()`).
 DESPARETE5_DEGERLERI = {"desparete5_eski_cekirdek": DEGERLER_ESKI}
 # 🔒 DESPARETE v0.1 tek-sink işletme profilidir: U1'i YERE TOPLAMADA koşulur
@@ -167,7 +172,8 @@ DESPARETE5_DEGERLERI = {"desparete5_eski_cekirdek": DEGERLER_ESKI}
 TRAFIK_DESENI: dict[str, str] = {"desparete": "yere_toplama",
                                  "desparete5": "yere_toplama",
                                  "desparete5_cekirdek": "yere_toplama",
-                                 "desparete5_eski_cekirdek": "yere_toplama"}
+                                 "desparete5_eski_cekirdek": "yere_toplama",
+                                 "desparete5_cekirdek_19k": "yere_toplama"}
 
 
 # 🔒 Faz 4.3 (K-189) — `--desen esler_arasi|yere_toplama`: planın "U1 hem
@@ -261,7 +267,7 @@ ACIKLANMIS_DUSUK: dict[str, dict[tuple[str, int], str]] = {"aodv": {
         "Ag hicbir anda bolunmuyor. K-137 §4",
 }, "olsr": {}, "desparete": {}, "jarmrout": {}, "olsrv2": {}, "babel": {},
     "desparete5": {}, "desparete5_cekirdek": {},
-    "desparete5_eski_cekirdek": {},
+    "desparete5_eski_cekirdek": {}, "desparete5_cekirdek_19k": {},
     "aomdv": {
     # 🔒 AOMDV, AODV'nin atlama sayısıyla yönlendirmesini miras alır; bağ
     # kalitesi kabul eşiği YOKTUR. Ölçüm tam pencerede, bu hücrede yapıldı
@@ -398,7 +404,7 @@ ACIKLANMIS_DUSUK_REFERANS: dict[str, dict[tuple[str, str, int], str]] = {
         ("statik-yok", 1000), ("statik-yok", 1002), ("bagimsiz-yok", 1000))},
     "desparete": {}, "olsrv2": {}, "babel": {},
     "desparete5": {}, "desparete5_cekirdek": {},
-    "desparete5_eski_cekirdek": {},
+    "desparete5_eski_cekirdek": {}, "desparete5_cekirdek_19k": {},
     "jarmrout": {h: (f"{_JARMROUT_K238} · bu hucre: oran {o}, rota tamponu "
                      f"girisi {g}, tepe {t}/64"
                      + (" · esler arasi kesifsel (K-218)"

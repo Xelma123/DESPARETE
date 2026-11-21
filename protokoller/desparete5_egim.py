@@ -18,6 +18,15 @@ yakalanır, başlığa değer yazılmaz (`13` §02.5):
     komşu kısa süre dışlanır, ardıl yeniden seçilir, selam (KK-04/9).
 
 🔒 TUR YOK (T-13): selamda tur alanı yok (`SELAM_E`), tur isteği yok, FD yok.
+
+🔒 DÖNGÜNÜN KURULMASI ZORLAŞTIRILIR (20 Kasım; RPL [63] §11.1, §8.2.2.4)
+  · geri gönderme yasağı (`geri_yasagi`, KK-04/13): ardıl, paketi bana
+    getiren komşuysa o paket D'deki başka bir adaya gider, yoksa bekletilir
+    (`geri_alternatif`; karar `Desparete5.sonraki_atlama`da);
+  · sınırlı yükselme (`sinirli_yukselme`, KK-04/14): maliyetim, son
+    `YUKSELME_UNUT_S` içinde ilan ettiğim en küçük sonlu maliyetin (L)
+    `YUKSELME_PAYI` fazlasını aşamaz; ∞ ilanından sonra yokuş aşağının ölçütü
+    L'dir. İkisi kapalıyken davranış 19 Kasım'ınkidir.
 """
 
 from __future__ import annotations
@@ -69,7 +78,8 @@ class Egim:
 
     __slots__ = ("d", "b", "kimlik", "gecit_mi", "ilanlar", "ardil", "C",
                  "son_ilan_C", "ms", "disla", "gonderilen", "getiren",
-                 "olay", "_bayat_bildirildi", "sayac", "_yolsuz_t")
+                 "olay", "_bayat_bildirildi", "sayac", "_yolsuz_t",
+                 "_ilan_gecmisi")
 
     def __init__(self, kimlik: int, gecit: int, degerler: Degerler,
                  bayraklar: Bayraklar) -> None:
@@ -94,8 +104,12 @@ class Egim:
             "veri_gecis": 0, "son_care": 0, "yol_yok": 0, "yol_yok_bitti": 0,
             "yol_yok_sure_ms": 0, "tavan_asimi": 0, "bayat_bilgi": 0,
             "dongu": 0, "dislama": 0,
+            # 20 Kasım (KK-04/13–14); karar başına
+            "geri_yasagi": 0, "geri_bekletme": 0, "yukselme_kopma": 0,
         }
         self._yolsuz_t: float | None = None
+        # KK-04/14: (an, ilan edilen sonlu maliyet), zaman sırasıyla
+        self._ilan_gecmisi: deque = deque()
 
     # ------------------------------------------------------------------
     # İlanlar — KK-02/6–7
@@ -109,10 +123,57 @@ class Egim:
         yalnız arayüzün biçimidir (`Desparete5` onu selama yazmaz)."""
         return 0, (0 if self.gecit_mi else self.C)
 
-    def ilan_edildi(self, tur: int, C: int) -> None:
-        """KK-02/7: ilan edilen (nicemlenmiş) maliyet `C_ilan` olur."""
+    def ilan_edildi(self, tur: int, C: int, t: float | None = None) -> None:
+        """KK-02/7: ilan edilen (nicemlenmiş) maliyet `C_ilan` olur. Sonlu
+        ilan, anıyla birlikte L'nin geçmişine yazılır (KK-04/14; `t`
+        verilmezse yazılmaz)."""
         self.son_ilan_C = C
         self._bayat_bildirildi = False
+        if t is not None and C < SONSUZ and not self.gecit_mi:
+            self._ilan_gecmisi.append((float(t), int(C)))
+
+    # ------------------------------------------------------------------
+    # Sınırlı yükselme ve aday küme — KK-04/2–3, 14
+    # ------------------------------------------------------------------
+    def _L(self, t: float) -> int | None:
+        """KK-04/14: son `YUKSELME_UNUT_S` içinde ilan ettiğim en küçük
+        sonlu maliyet; bayrak kapalıysa ya da yoksa None."""
+        if not self.b.sinirli_yukselme:
+            return None
+        q = self._ilan_gecmisi
+        alt = t - self.d.YUKSELME_UNUT_S
+        while q and q[0][0] < alt:
+            q.popleft()
+        return min((C for _, C in q), default=None)
+
+    def _adaylar(self, baglar, L: int | None) -> tuple[dict, set]:
+        """KK-04/2: aday küme `A` (j → m_j) ve yalnız sınırlı yükselme
+        yüzünden dışarıda kalanlar. Durumu değiştirmez."""
+        tavan = self.d.maliyet_tavani
+        sinir = _INF if L is None else L + self.d.yukselme_payi
+        A: dict[int, int] = {}
+        sinir_disi: set[int] = set()
+        for j in sorted(self.ilanlar):
+            Cj = self.ilanlar[j]
+            if (Cj >= SONSUZ or not baglar.kullanilir_mi(j)
+                    or j in self.disla):
+                continue
+            m = maliyet_topla(baglar.maliyet(j), Cj)
+            if m > tavan:
+                continue                             # KK-04/10
+            if m > sinir:
+                sinir_disi.add(j)                    # KK-04/14
+                continue
+            A[j] = m
+        return A, sinir_disi
+
+    def _c_ref(self, L: int | None) -> int:
+        """KK-04/3: yokuş aşağının ölçütü `C_ilan`; ∞ ilanından sonra
+        (sınırlı yükselmede) L; ikisi de yoksa ∞ (`D = A`)."""
+        C_ref = self.son_ilan_C if self.son_ilan_C is not None else SONSUZ
+        if C_ref >= SONSUZ and L is not None:
+            C_ref = L
+        return C_ref
 
     # ------------------------------------------------------------------
     # Seçim — KK-04/1–7, 10–11
@@ -128,17 +189,8 @@ class Egim:
             del self.ilanlar[j]                      # silinen komşu
         for j in [j for j, s in self.disla.items() if s <= t]:
             del self.disla[j]
-        tavan = d.maliyet_tavani
-        A: dict[int, int] = {}
-        for j in sorted(self.ilanlar):
-            Cj = self.ilanlar[j]
-            if (Cj >= SONSUZ or not baglar.kullanilir_mi(j)
-                    or j in self.disla):
-                continue
-            m = maliyet_topla(baglar.maliyet(j), Cj)
-            if m > tavan:
-                continue                             # KK-04/10
-            A[j] = m
+        L = self._L(t)
+        A, sinir_disi = self._adaylar(baglar, L)
         # KK-04/6: düzgünleştirilmiş maliyet
         for j in [j for j in self.ms if j not in A]:
             del self.ms[j]
@@ -150,7 +202,7 @@ class Egim:
                 dt = max(0.0, t - k[1])
                 k[0] += (m - k[0]) * (1.0 - math.exp(-dt / d.DUZ_S))
                 k[1] = t
-        C_ref = self.son_ilan_C if self.son_ilan_C is not None else SONSUZ
+        C_ref = self._c_ref(L)
         eski = self.ardil
 
         def uygun(j: int) -> bool:
@@ -175,9 +227,13 @@ class Egim:
                     son_care = k >= 2
                     break
             sebep = "zorunlu" if eski is not None else None
-            # Tanı: ardıl olağan, sonlu ilanlı ve dışlanmamışken A'da
-            # değilse tek sebep tavandır (KK-04/10).
-            if (eski is not None and self.ilanlar.get(eski, SONSUZ) < SONSUZ
+            # Tanı: ardıl yalnız sınırlı yükselme yüzünden A'da değilse
+            # yükselme kopması (KK-04/14); olağan, sonlu ilanlı ve
+            # dışlanmamışken başka sebeple A'da değilse tavan (KK-04/10).
+            if eski is not None and eski in sinir_disi:
+                self.sayac["yukselme_kopma"] += 1
+            elif (eski is not None
+                    and self.ilanlar.get(eski, SONSUZ) < SONSUZ
                     and baglar.kullanilir_mi(eski)
                     and eski not in self.disla):
                 self.sayac["tavan_asimi"] += 1
@@ -269,11 +325,39 @@ class Egim:
                             (paket.atlama_sayisi, komsu), t)
 
     # ------------------------------------------------------------------
+    # Geri gönderme yasağı — KK-04/13
+    # ------------------------------------------------------------------
+    def getiren_oku(self, paket, t: float) -> int | None:
+        """Paketi bana getiren komşu (`cerceve_duyuldu`'nun kaydı)."""
+        return self.getiren.oku((paket.kaynak, paket.kaynak_sira), t)
+
+    def geri_alternatif(self, g: int, t: float, baglar) -> int | None:
+        """KK-04/13: ardıl paketi getiren g iken bu paketin gideceği komşu:
+        `D`'deki öteki adaylardan en iyisi (önce veriye uygun olanlar, G1;
+        sonra G2); yoksa None (paket bekletilir). Yokuş yukarı aday
+        kullanılmaz. Ardıl ve öteki durum değişmez; yalnız sayılır. Aynı
+        anda `sec`ten sonra çağrılır."""
+        L = self._L(t)
+        A, _ = self._adaylar(baglar, L)
+        C_ref = self._c_ref(L)
+        D = [j for j in A if j != g and self.ilanlar[j] < C_ref]
+        G = ([j for j in D if baglar.veriye_uygun(j, t)]
+             or [j for j in D if not baglar.veriye_uygun(j, t)])
+        if not G:
+            self.sayac["geri_bekletme"] += 1
+            return None
+        self.sayac["geri_yasagi"] += 1
+        return min(G, key=lambda j: (A[j], baglar.etx(j), j))
+
+    # ------------------------------------------------------------------
     # Zaman ve 18 Kasım arayüzünün boş kalan parçaları
     # ------------------------------------------------------------------
     def zaman_isle(self, t: float, baglar, kendi_donuk: bool) -> None:
         self.gonderilen.buda(t)
         self.getiren.buda(t)
+        q, alt = self._ilan_gecmisi, t - self.d.YUKSELME_UNUT_S
+        while q and q[0][0] < alt:
+            q.popleft()
 
     def son_tarih(self) -> float:
         return _INF

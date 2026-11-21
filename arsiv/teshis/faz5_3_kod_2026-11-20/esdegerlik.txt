@@ -1,0 +1,15 @@
+eski kod: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_yeni_cekirdek_2026-11-19\kopya
+yeni kod: C:\Users\Xelma123\Desktop\desparete_pls
+statik-yok         cekirdek  PDR 0.9558998808104887 · ortak sayaç 56 · yeni sayaç 3 → BİREBİR
+statik-yok         tam       PDR 0.929678188319428 · ortak sayaç 56 · yeni sayaç 3 → BİREBİR
+statik-yok         eski      PDR 0.9737783075089392 · ortak sayaç 60 · yeni sayaç 0 → BİREBİR
+statik-surekli     cekirdek  PDR 0.7818831942789034 · ortak sayaç 56 · yeni sayaç 3 → BİREBİR
+statik-surekli     tam       PDR 0.735399284862932 · ortak sayaç 56 · yeni sayaç 3 → BİREBİR
+statik-surekli     eski      PDR 0.6066746126340882 · ortak sayaç 60 · yeni sayaç 0 → BİREBİR
+formasyon-yok      cekirdek  PDR 0.9475566150178785 · ortak sayaç 56 · yeni sayaç 3 → BİREBİR
+formasyon-yok      tam       PDR 0.9475566150178785 · ortak sayaç 56 · yeni sayaç 3 → BİREBİR
+formasyon-yok      eski      PDR 0.9702026221692491 · ortak sayaç 60 · yeni sayaç 0 → BİREBİR
+formasyon-surekli  cekirdek  PDR 0.8021454112038141 · ortak sayaç 56 · yeni sayaç 3 → BİREBİR
+formasyon-surekli  tam       PDR 0.6483909415971395 · ortak sayaç 56 · yeni sayaç 3 → BİREBİR
+formasyon-surekli  eski      PDR 0.6269368295589988 · ortak sayaç 60 · yeni sayaç 0 → BİREBİR
+SONUÇ: hepsi birebir

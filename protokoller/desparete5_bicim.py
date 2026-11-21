@@ -138,6 +138,10 @@ class Degerler:
     DONGU_ANIMSA_S: float = 5.0         # iletilen paketin kaydı
     DONGU_DISLA_S: float = 2.0          # döngü kanıtında dışlama
     GECIS_ORANI: float = 0.10           # yalnız `duzgun_gecis` kapalıyken
+    # sınırlı yükselme (KK-04/14; 20 Kasım): maliyet ≤ L + pay, L son
+    # `YUKSELME_UNUT_S` içinde ilan edilen en küçük sonlu maliyet
+    YUKSELME_PAYI_ETX: float = 4.0      # = E_CIK: bir bağ kadar
+    YUKSELME_UNUT_S: float = 4.0        # = 2 × I_MAX
     # 18 Kasım'ın açlık ve tur isteği (yalnız `egim` kapalıyken)
     ISTEK_YINELEME: int = 3             # tur isteği kaç kez
     ISTEK_YINELEME_ARA_S: float = 0.5
@@ -164,11 +168,21 @@ class Degerler:
         if not (0.0 < self.MALIYET_TAVANI_ETX
                 and maliyet_birimi(self.MALIYET_TAVANI_ETX) < SONLU_EN_COK):
             raise ValueError("maliyet tavanı pozitif ve sonlu olmalı (KK-04)")
+        if not (0.0 < self.YUKSELME_PAYI_ETX
+                and maliyet_birimi(self.YUKSELME_PAYI_ETX) < SONLU_EN_COK):
+            raise ValueError("yükselme payı pozitif ve sonlu olmalı (KK-04/14)")
+        if not self.YUKSELME_UNUT_S > 0.0:
+            raise ValueError("YUKSELME_UNUT pozitif olmalı (KK-04/14)")
 
     @property
     def maliyet_tavani(self) -> int:
         """KK-04/2, 10: tavan, maliyet biriminde (ETX × 64)."""
         return maliyet_birimi(self.MALIYET_TAVANI_ETX)
+
+    @property
+    def yukselme_payi(self) -> int:
+        """KK-04/14: pay, maliyet biriminde (ETX × 64)."""
+        return maliyet_birimi(self.YUKSELME_PAYI_ETX)
 
     @classmethod
     def adlar(cls) -> tuple[str, ...]:
@@ -190,6 +204,8 @@ class Bayraklar:
     vazgecme_tetigi: bool = True        # KK-01/6–7 (19 Kasım)
     egim: bool = True                   # KK-04 (19 Kasım); kapalı: 18 Kasım'ın KK-04'ü
     duzgun_gecis: bool = True           # KK-04/5–6 (19 Kasım); kapalı: %10 eşik
+    geri_yasagi: bool = True            # KK-04/13 (20 Kasım); yalnız eğimde
+    sinirli_yukselme: bool = True       # KK-04/14 (20 Kasım); yalnız eğimde
     veri_kotu_tetigi: bool = False      # 18 Kasım'ın KK-01/6–8, 11 (eski; yalnız yeniden üretim)
     uyarlanir_aralik: bool = True       # KK-02/2
     istege_bagli_esik: bool = True      # KK-04/5
@@ -227,10 +243,16 @@ TAM = Bayraklar()
 # kapısının "hepsi kapalı" kolu da budur (KK-00; `06` §0.4.5).
 CEKIRDEK = Bayraklar(karistirma_durumu=False, alici_bildirimi=False,
                      hatirlanan_kalite=False)
+# 19 Kasım'ın çekirdeği (yeni çekirdeğin ölçümündeki `cekirdek` kolu): geri
+# gönderme yasağı ve sınırlı yükselme yok (KK-04/13–14 öncesi).
+CEKIRDEK_19K = Bayraklar(geri_yasagi=False, sinirli_yukselme=False,
+                         karistirma_durumu=False, alici_bildirimi=False,
+                         hatirlanan_kalite=False)
 # 18 Kasım'ın çekirdeği (ilk ölçüm ve açlık teşhisinin `cekirdek` kolu):
 # FD ve tur, eski veri tetiği, %10 oransal geçiş; bekletme 2 s.
 ESKI_CEKIRDEK = Bayraklar(vazgecme_tetigi=False, egim=False,
-                          duzgun_gecis=False, veri_kotu_tetigi=True,
+                          duzgun_gecis=False, geri_yasagi=False,
+                          sinirli_yukselme=False, veri_kotu_tetigi=True,
                           karistirma_durumu=False, alici_bildirimi=False,
                           hatirlanan_kalite=False)
 # 18 Kasım'ın değerleri: yalnız bekletme farklı (KK-05; 19 Kasım'da 2 → 1 s).

@@ -231,7 +231,7 @@ class Desparete5:
             sonuc, sonraki = self.selam.kur(t, self.kendi.gonderemez)
             ek: list = []
             if sonuc is not None:
-                ek.append(self._selam_kur(*sonuc))
+                ek.append(self._selam_kur(*sonuc, t))
             if sonraki is not None:
                 ek.append(sonraki)
             return tuple(ek) + niyet
@@ -243,12 +243,14 @@ class Desparete5:
                 self._tampon_planli = -_INF
         return self._bitir(t)
 
-    def _selam_kur(self, sira: int, aralik_s: float) -> KontrolIstegi:
+    def _selam_kur(self, sira: int, aralik_s: float,
+                   t: float) -> KontrolIstegi:
         """KK-02: selam o anki bilgiyle kurulur; ilan edilen maliyet
         `C_ilan` olur (eğim kapalıyken (tur, maliyet) FD'yi günceller;
-        KK-02/7). Eğimde tur alanı yoktur (`SELAM_E`)."""
+        KK-02/7; eğimde anıyla sınırlı yükselmenin geçmişine girer, KK-04/14).
+        Eğimde tur alanı yoktur (`SELAM_E`)."""
         tur, C = self.rota.ilan()
-        self.rota.ilan_edildi(tur, C)
+        self.rota.ilan_edildi(tur, C, t)
         komsu, oran = self.bag.liste()
         bit = self._bit()
         self._bit_ilan = bit
@@ -322,6 +324,12 @@ class Desparete5:
         telemetri = p.hedef == self.gecit
         if telemetri:
             sonraki, biliniyor = self.rota.ardil, self._rota_vardi
+            # KK-04/13: paket, getiren komşuya geri gönderilmez; ardıl o
+            # komşuysa bu paket D'deki başka bir adaya gider ya da bekletilir.
+            if (self.b.egim and self.b.geri_yasagi and sonraki is not None
+                    and p.kaynak != self.kimlik
+                    and self.rota.getiren_oku(p, t) == sonraki):
+                sonraki = self.rota.geri_alternatif(sonraki, t, self.bag)
         else:
             sonraki = self.iz.sonraki(p.hedef, t, self.bag.kullanilir_mi)
             biliniyor = self.iz.biliniyor(p.hedef)

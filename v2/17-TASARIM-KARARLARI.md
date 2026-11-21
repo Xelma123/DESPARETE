@@ -4,7 +4,7 @@
 >
 > Sayısal değerler (aralıklar, pencereler, eşikler) burada seçilmez; 5-3'te kural kâğıtlarında yazılır ve geliştirme tohumlarında ölçülerek ayarlanır. Zaman sabitleri tek bir karıştırıcı çizelgesine göre ayarlanmaz; dayanıklılık hücresi bunun için var (`06` §0.4.5).
 >
-> Kararlar `T-n` diye numaralanır; kod yorumları bu numaralara atıf verir. Güncel: 17 Kasım 2026.
+> Kararlar `T-n` diye numaralanır; kod yorumları bu numaralara atıf verir. Güncel: 20 Kasım 2026 (T-12'ye geri gönderme yasağı ve sınırlı yükselme).
 
 ---
 
@@ -169,7 +169,7 @@ Yol iki sebeple değişir ve ikisinin kuralı ayrıdır: **zorunlu geçiş** (ar
 
 ## 4 · Yedek yol ve döngüsüzlük (16 Kasım)
 
-Yedek, döngü yaratmadan geçilebilecek komşudur; hangi komşunun güvenli olduğunu döngüsüzlük kuralı söyler. Bu yüzden iki konu birlikte karara bağlandı. 19 Kasım'da T-12 ve T-13 değişti: döngü önlenmek yerine veri yolunda yakalanıp onarılır, açlık kalkar.
+Yedek, döngü yaratmadan geçilebilecek komşudur; hangi komşunun güvenli olduğunu döngüsüzlük kuralı söyler. Bu yüzden iki konu birlikte karara bağlandı. 19 Kasım'da T-12 ve T-13 değişti: döngü önlenmek yerine veri yolunda yakalanıp onarılır, açlık kalkar. 20 Kasım'da T-12'ye döngünün kurulmasını zorlaştıran iki kural eklendi.
 
 **Ölçülmüş kanıt** (`arsiv/teshis/faz5_2_rakip_cizgisi_2026-11-15/sonuc.md` §2 · `arsiv/teshis/faz5_2_anatomi_2026-11-14/sonuc.md` §5 · `arsiv/teshis/faz5_2_secenek_iletim_2026-11-15/sonuc.md` §5–§6):
 - Birincil hücrede açık dönemde doğan paketlerin rota yokluğundan kaybı: Babel 0,000 · kâhin 0,008 · v0.4.1 0,237. Babel de FD kuralını kullanıyor; fark açlığın çözülüşünde.
@@ -189,7 +189,11 @@ Yedek, döngü yaratmadan geçilebilecek komşudur; hangi komşunun güvenli old
 - Döngüsüzlük artık garanti değildir: döngü önlenmez, oluşunca yakalanır ve onarılır. Bu RPL'nin ve CTP'nin yoludur [63], [68].
 - Gerekçe: açlık teşhisi (yukarıda). Uygulanabilirlik koşulu, elde sonlu maliyetli komşu varken düğümü yolsuz bırakıyor (kayıp ağırlıklı köklerin %92'si); ∞ ilanı bunu aşağıdaki düğümlere taşıyor. Açlığı başlatan ise %99 veri tetiğiydi (T-2). CTP döngüyü veri yolunda yakalıyor, paketi düşürmüyor ve seyrek geçici döngünün bedelini genel iletim bedeline göre küçük buluyor [68]. CTP gönderenin maliyetini her veri paketine yazıyor; bizim simülatörde başlığa değer yazılamadığı için aynı bilgi komşunun selamından okunur, döngü de paketin kimliğinden ve atlama sayısından anlaşılır.
 - Önceki karar (16 Kasım): uygulanabilirlik koşulu ve geçidin tur numarası (Babel [4], RFC 8966 §3.5.1, §3.7.3). Kodda bayrakla kalır; ikisi ölçülerek karşılaştırılır.
-- Ödünç: maliyet eğimi ve veri yolunda doğrulama CTP [68] ve RPL [63]; "yokuş aşağı" koşulu LFA'nın aşağı akış yolu [61]. Son çare, maliyet tavanı ve başlıksız döngü bekçisi benim uyarlamam.
+- **20 Kasım eki: geri gönderme yasağı ve sınırlı yükselme.** Yeni çekirdeğin ölçümünde birincil hücrede eğimli kollar koşu başına binlerce döngü dönüşü yaşadı. Döngü sayısı son çareyle birlikte artıyor (48 koşuda r = 0,95) ve en kötü tohumda teslimi düşürüyor (`arsiv/teshis/faz5_3_yeni_cekirdek_2026-11-19/sonuc.md`). İki kural eklendi (KK-04 kural 13–14):
+  - Telemetri paketi, onu bana getiren komşuya geri gönderilmez. Ardılım o komşuysa paket başka bir yokuş aşağı komşuya gider, yoksa bekletilir (RPL'nin "split horizon"u [63] §11.1).
+  - Maliyetim, kısa bir süre içinde ilan ettiğim en düşük maliyetin belli bir payından fazla yükselemez; yükselecekse ∞ ilan edip beklerim (RPL'nin sınırlı yükselmesi ve zehirlemesi [63] §8.2.2.4–8.2.2.5). Son çare böylece sınırsız tırmanamaz; tavan son güvence olarak kalır.
+  - İki kural ölçülene kadar denemedir. Sonuç kötü çıkarsa uygulanabilirlik koşuluna (16 Kasım kararı) dönüş konuşulur.
+- Ödünç: maliyet eğimi ve veri yolunda doğrulama CTP [68] ve RPL [63]; "yokuş aşağı" koşulu LFA'nın aşağı akış yolu [61]. Geri gönderme yasağı ve sınırlı yükselme RPL [63] §11.1, §8.2.2.4–8.2.2.5. Son çare, maliyet tavanı, başlıksız döngü bekçisi ve sınırın süreyle unutulması benim uyarlamam.
 
 **T-13 · Açlık ve tur isteği (19 Kasım'da kalktı).**
 - Eğimle (T-12) düğüm, olağan ve sonlu maliyetli bir komşusu olduğu sürece yolsuz kalmaz. Geçidin turu, açlıkta tur isteği, isteğin iletilmesi ve uygulanamaz güncellemenin yok sayılması gereksiz kalır.
