@@ -1,0 +1,18 @@
+== 1 · dört profil ==
+statik-surekli  19 Kasım      teslim 656/839 · dongu 4 · son_care 0 · yol_yok 0 · tavan_asimi 0 · geri_yasagi 0 · geri_bekletme 0 · yukselme_kopma 0
+statik-surekli  yalnız geri   teslim 657/839 · dongu 4 · son_care 0 · yol_yok 0 · tavan_asimi 0 · geri_yasagi 1 · geri_bekletme 0 · yukselme_kopma 0
+statik-surekli  yalnız sınır  teslim 627/839 · dongu 26 · son_care 7 · yol_yok 4 · tavan_asimi 0 · geri_yasagi 0 · geri_bekletme 0 · yukselme_kopma 6
+statik-surekli  ikisi         teslim 617/839 · dongu 32 · son_care 10 · yol_yok 8 · tavan_asimi 0 · geri_yasagi 0 · geri_bekletme 19 · yukselme_kopma 7
+statik-yok      19 Kasım      teslim 802/839 · dongu 0 · son_care 0 · yol_yok 0 · tavan_asimi 0 · geri_yasagi 0 · geri_bekletme 0 · yukselme_kopma 0
+statik-yok      yalnız geri   teslim 802/839 · dongu 0 · son_care 0 · yol_yok 0 · tavan_asimi 0 · geri_yasagi 0 · geri_bekletme 0 · yukselme_kopma 0
+statik-yok      yalnız sınır  teslim 802/839 · dongu 0 · son_care 0 · yol_yok 0 · tavan_asimi 0 · geri_yasagi 0 · geri_bekletme 0 · yukselme_kopma 0
+statik-yok      ikisi         teslim 802/839 · dongu 0 · son_care 0 · yol_yok 0 · tavan_asimi 0 · geri_yasagi 0 · geri_bekletme 0 · yukselme_kopma 0
+
+== 2 · yükselme kopmaları (statik-surekli, yalnız sınır) ==
+t · düğüm · eski ardıl · L · eski C · ardıl üzerinden yeni m (ETX) · eski ardılın ardılı · yeni ardıl
+(25.77, 2, 4, 3.0, 5.328, 7.078, 3, 7)
+(31.36, 4, 2, 3.047, 5.859, 7.688, 4, 10)
+(31.85, 1, 5, 4.047, 6.016, 9.031, 2, 4)
+(41.14, 2, 7, 3.781, 7.531, 7.828, 3, None)
+(41.57, 7, 2, 3.859, 7.453, 8.688, 7, 3)
+(42.19, 5, 2, 4.781, 8.531, 8.828, 7, None)
