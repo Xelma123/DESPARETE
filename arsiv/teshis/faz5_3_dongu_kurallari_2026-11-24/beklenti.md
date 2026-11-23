@@ -121,4 +121,29 @@ Kâhin: İ'de iki kol da kâhini 5–8 tohumda `R`'den fazla aşar; B'de en çok
 
 ## Duman koşusundan sonra (ölçümden önce)
 
-(Duman koşusundan sonra yazılır.)
+Duman koşusu (`duman_kisa.txt`, kayıtlar `duman/`; `sh kosu.sh duman`):
+- Koşul: beklentinin commit'inden (`520319e`) sonra, çalışma ağacından; kısa pencere (karıştırıcı 5. saniyede açılır, ölçüm 10–40 s), tohum 1003.
+- Kapsam: iki hücrede iki kol ve 19 Kasım çekirdeği (6 koşu), ayrıca geri+sınır iki hücrede kaydedicisiz (2 koşu). 24 Kasım 00:16–00:32, 16 dakika.
+
+Aleti ve hesap betiğini sınadı:
+- **Geçerlilik:** 8 koşu hatasız bitti; korunum geçerli, kusur yok, kaydedicinin iç denetimleri 6 koşuda da geçti.
+- **Kaydedici koşuyu değiştirmiyor:** kaydedicili ve kaydedicisiz geri+sınır iki hücrede bütün alanlarda birebir (kural 0).
+- **19 Kasım çekirdeği birebir:** iki hücrede yeni çekirdeğin ölçümünün `cekirdek` duman satırıyla birebir; ortak alanlar ve sayaçlar eşit, yeni sayaçlar sıfır, kaydedicinin özeti bayrak listesi dışında eşit (kural 0). Karşılaştırma satırları kullanılabilir.
+- **Hesap:** `sonuc_hesap.py` duman kipinde baştan sona çalıştı; çıktısı `duman_kisa.txt`in sonunda.
+- **Süre:** kısa pencerede koşu başına İ'de 237–265 s, B'de 341–390 s (3 işçi); yeni çekirdeğin dumanındaki eğimli kollarla aynı düzeyde. Süre tahmini (~4,5 sa) değişmedi.
+
+Ölçüm için not (karar girdisi değil; tek tohum, 30 saniyelik pencere):
+- **B'de yalnız geri gönderme yasağı döngü fırtınasına girdi:**
+  - `PDR_açık` 0,401 (19 Kasım 0,654 · geri+sınır 0,619);
+  - döngü dönüşü 1161 (19 Kasım 22 · geri+sınır 48), dışlama 1974;
+  - tavan aşımı 19; kaynağın ∞ payı 0,114;
+  - rota yokluğu kaybı 0,172; başka adaya yönlendirilen 179, bekletilen 617 karar.
+- **Olası mekanizma** (varsayım, ölçülmedi):
+  1. Kural 13 paketi getirene geri göndermeyince, kural 9'un iki düğümlü döngüyü yakalaması için gereken kanıt (paketin daha büyük atlama sayısıyla geri dönmesi) hiç oluşmuyor.
+  2. Komşu dışlanmıyor, ardıl yeniden seçilmiyor; iki düğüm birbirini ardıl tutmayı sürdürüyor.
+  3. Kural 8'in selamı yalnız maliyetleri birbirine göre güncelliyor ve maliyetler tavana tırmanıyor. Paketler bu sırada bekletiliyor ya da yokuş aşağı başka adaya gidiyor.
+  4. Sınırlı yükselme tırmanmayı kestiği için iki kural birlikte bu fırtınayı tutuyor (yükselme kopması 67, tavan aşımı 0).
+- **İkizde** üç kol tek tohumda yakın: 19 Kasım 0,915 · geri 0,912 · geri+sınır 0,927; döngü dönüşü 1 · 2 · 0.
+- Yeni çekirdeğin dumanında düz0'ın döngü fırtınası tam koşuda düz0'a özgü çıkmamıştı. Tek tohumluk dumandan yorum çıkarılmaz; bu sayılar S1–S4'te 8 tohumla görülür.
+
+Karar kuralı ve öngörüler değiştirilmedi; protokolün ve aletin kodunda hiçbir şey değişmedi.

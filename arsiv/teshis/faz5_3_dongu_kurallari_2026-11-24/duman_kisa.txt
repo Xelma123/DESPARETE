@@ -1,0 +1,88 @@
+==============================================================================
+DÖNGÜ KURALLARI — dünya referans_2026 · formasyon-yok (ikiz, hayalet 10:20) · kollar ['geri_sinir', 'geri', 'c19'] · tohum [1003] · KISA PENCERE
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\protokoller\desparete5.py
+==============================================================================
+    1/3 geri_sinir 1003 · PDR(pencere) 0.9274 · tetik 35 · en çok atlama 8 · denetim tamam · 237 s
+    2/3 geri     1003 · PDR(pencere) 0.9115 · tetik 36 · en çok atlama 10 · denetim tamam · 258 s
+    3/3 c19      1003 · PDR(pencere) 0.9149 · tetik 38 · en çok atlama 9 · denetim tamam · 265 s
+
+  3 koşu kayıtta · hata 0
+==============================================================================
+DÖNGÜ KURALLARI — dünya referans_2026 · formasyon-surekli (birincil) · kollar ['geri_sinir', 'geri', 'c19'] · tohum [1003] · KISA PENCERE
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\protokoller\desparete5.py
+==============================================================================
+    1/3 geri_sinir 1003 · PDR(pencere) 0.6987 · tetik 108 · en çok atlama 11 · denetim tamam · 341 s
+    2/3 geri     1003 · PDR(pencere) 0.5676 · tetik 123 · en çok atlama 29 · denetim tamam · 383 s
+    3/3 c19      1003 · PDR(pencere) 0.8055 · tetik 100 · en çok atlama 11 · denetim tamam · 390 s
+
+  3 koşu kayıtta · hata 0
+KISA PENCERE — duman; ölçüm değil, hiçbir karara girmez
+
+== 0 · GEÇERLİLİK ==
+  geri       koşu 2/2 · kusur 0 · kaydedicinin iç denetimi tamam
+  geri+sınır koşu 2/2 · kusur 0 · kaydedicinin iç denetimi tamam
+  19 Kasım   koşu 2/2 · kusur 0 · kaydedicinin iç denetimi tamam
+  Kaydedici koşuyu değiştirmiyor — kaydedicili `geri_sinir` ↔ doğrudan kayıp anatomisi aleti (tohum 1003, kısa pencere):
+      ikiz: BİREBİR (bütün alanlar)
+      birincil: BİREBİR (bütün alanlar)
+  `c19` ↔ yeni çekirdeğin ölçümünün `cekirdek` duman satırı (tohum 1003, kısa pencere; ortak alanlar ve sayaçlar eşit, yeni sayaçlar sıfır; kaydedicinin özeti bayrak listesi dışında eşit):
+      ikiz: BİREBİR
+      birincil: BİREBİR
+
+== 1 · DÜZEYLER (tohum ortalaması ± ölçüt sapması) ==
+  İ · karıştırıcısız ikiz (pencere PDR)
+    19 Kasım   0.915 ±   —   · en düşük 0.915 · p99 0.236 s · döngü dönüşü/koşu 1
+               1003 0.915
+    geri       0.912 ±   —   · en düşük 0.912 · p99 0.217 s · döngü dönüşü/koşu 2
+               1003 0.912
+    geri+sınır 0.927 ±   —   · en düşük 0.927 · p99 0.179 s · döngü dönüşü/koşu 0
+               1003 0.927
+  B · birincil, 15/15 (PDR_açık)
+    19 Kasım   0.654 ±   —   · en düşük 0.654 · sessiz 0.957 · p99 0.531 s · döngü dönüşü/koşu 22
+               1003 0.654
+    geri       0.401 ±   —   · en düşük 0.401 · sessiz 0.733 · p99 1.327 s · döngü dönüşü/koşu 1161
+               1003 0.401
+    geri+sınır 0.619 ±   —   · en düşük 0.619 · sessiz 0.778 · p99 1.068 s · döngü dönüşü/koşu 48
+               1003 0.619
+
+== 2 · S1 — geri gönderme yasağı: geri − 19 Kasım, eşli (eşik 0.02) ==
+  ikiz      -0.003 (artı 0/1 · eksi 1/1; 1003 -0.003) → 1 tohumda ayırt edilemedi
+  birincil  -0.253 (artı 0/1 · eksi 1/1; 1003 -0.253) → AYRIŞIYOR (−)
+  ikiz      döngü dönüşü/koşu geri 2 ↔ 19 Kasım 1
+  birincil  döngü dönüşü/koşu geri 1161 ↔ 19 Kasım 22
+
+== 3 · S2 — sınırlı yükselme: geri+sınır − geri, eşli (eşik 0.02) ==
+  ikiz      +0.016 (artı 1/1 · eksi 0/1; 1003 +0.016) → 1 tohumda ayırt edilemedi
+  birincil  +0.217 (artı 1/1 · eksi 0/1; 1003 +0.217) → AYRIŞIYOR (+)
+  ikiz      döngü dönüşü/koşu geri+sınır 0 ↔ geri 2
+  birincil  döngü dönüşü/koşu geri+sınır 48 ↔ geri 1161
+
+== 5 · S4 — tanı (betimleyici; sayaçlar bütün koşu, ağ toplamı, koşu başına) ==
+  İ · karıştırıcısız ikiz (pencere PDR)
+    19 Kasım   kayıp R 0.003 · İ 0.083 · K 0.000 · T 0.000 | kontrol payı 6.2% · bütün gönderim 54 s
+    geri       kayıp R 0.002 · İ 0.087 · K 0.000 · T 0.000 | kontrol payı 6.1% · bütün gönderim 52 s
+    geri+sınır kayıp R 0.000 · İ 0.073 · K 0.000 · T 0.000 | kontrol payı 6.2% · bütün gönderim 49 s
+    19 Kasım   dongu 1.0 · dislama 1.0 · bayat_bilgi 43.0 · son_care 2.0 · zorunlu_gecis 9.0 · istege_bagli_gecis 155.0 · veri_gecis 30.0 · yol_yok 0.0 · tavan_asimi 0.0 · geri_yasagi 0.0 · geri_bekletme 0.0 · yukselme_kopma 0.0 · vaz_tetik 38.0 · ara_ilan 559.0 · bekletilen 120.0 · suresi_dolan 74.0
+               maliyet p50 7 · p99 15 · en çok 16.7 · ∞ 0.0000 | teslimde ≥ 12 atlama 0.0000 · en çok (kararlar) 9
+    geri       dongu 2.0 · dislama 3.0 · bayat_bilgi 25.0 · son_care 3.0 · zorunlu_gecis 10.0 · istege_bagli_gecis 153.0 · veri_gecis 24.0 · yol_yok 0.0 · tavan_asimi 0.0 · geri_yasagi 2.0 · geri_bekletme 1.0 · yukselme_kopma 0.0 · vaz_tetik 36.0 · ara_ilan 496.0 · bekletilen 121.0 · suresi_dolan 73.0
+               maliyet p50 7 · p99 13 · en çok 14.5 · ∞ 0.0000 | teslimde ≥ 12 atlama 0.0000 · en çok (kararlar) 10
+    geri+sınır dongu 0.0 · dislama 0.0 · bayat_bilgi 21.0 · son_care 2.0 · zorunlu_gecis 11.0 · istege_bagli_gecis 136.0 · veri_gecis 18.0 · yol_yok 2.0 · tavan_asimi 0.0 · geri_yasagi 0.0 · geri_bekletme 11.0 · yukselme_kopma 1.0 · vaz_tetik 35.0 · ara_ilan 448.0 · bekletilen 118.0 · suresi_dolan 72.0
+               yol yok bölümünün ortalama süresi 0.10 s
+               maliyet p50 6 · p99 10 · en çok 12.5 · ∞ 0.0000 | teslimde ≥ 12 atlama 0.0000 · en çok (kararlar) 8
+  B · birincil, 15/15 (PDR_açık)
+    19 Kasım   kayıp R 0.008 · İ 0.324 · K 0.000 · T 0.000 | kontrol payı 5.3% · bütün gönderim 66 s
+    geri       kayıp R 0.172 · İ 0.411 · K 0.000 · T 0.000 | kontrol payı 5.8% · bütün gönderim 61 s
+    geri+sınır kayıp R 0.043 · İ 0.321 · K 0.000 · T 0.000 | kontrol payı 5.8% · bütün gönderim 56 s
+    19 Kasım   dongu 22.0 · dislama 22.0 · bayat_bilgi 80.0 · son_care 6.0 · zorunlu_gecis 22.0 · istege_bagli_gecis 176.0 · veri_gecis 43.0 · yol_yok 2.0 · tavan_asimi 0.0 · geri_yasagi 0.0 · geri_bekletme 0.0 · yukselme_kopma 0.0 · vaz_tetik 100.0 · ara_ilan 596.0 · bekletilen 125.0 · suresi_dolan 77.0
+               yol yok bölümünün ortalama süresi 1.82 s
+               maliyet p50 8 · p99 20 · en çok 21.6 · ∞ 0.0026 | teslimde ≥ 12 atlama 0.0064 · en çok (kararlar) 11
+    geri       dongu 1161.0 · dislama 1974.0 · bayat_bilgi 230.0 · son_care 31.0 · zorunlu_gecis 125.0 · istege_bagli_gecis 211.0 · veri_gecis 60.0 · yol_yok 36.0 · tavan_asimi 19.0 · geri_yasagi 179.0 · geri_bekletme 617.0 · yukselme_kopma 0.0 · vaz_tetik 123.0 · ara_ilan 857.0 · bekletilen 572.0 · suresi_dolan 301.0
+               yol yok bölümünün ortalama süresi 3.69 s
+               maliyet p50 7 · p99 30 · en çok 31.9 · ∞ 0.1139 | teslimde ≥ 12 atlama 0.0030 · en çok (kararlar) 29
+    geri+sınır dongu 48.0 · dislama 78.0 · bayat_bilgi 99.0 · son_care 26.0 · zorunlu_gecis 139.0 · istege_bagli_gecis 180.0 · veri_gecis 54.0 · yol_yok 35.0 · tavan_asimi 0.0 · geri_yasagi 27.0 · geri_bekletme 50.0 · yukselme_kopma 67.0 · vaz_tetik 108.0 · ara_ilan 665.0 · bekletilen 296.0 · suresi_dolan 195.0
+               yol yok bölümünün ortalama süresi 3.00 s
+               maliyet p50 7 · p99 20 · en çok 22.6 · ∞ 0.0941 | teslimde ≥ 12 atlama 0.0086 · en çok (kararlar) 11
+    tohum başına döngü dönüşü (B):
+      19 Kasım   1003 22
+      geri       1003 1161
+      geri+sınır 1003 48
