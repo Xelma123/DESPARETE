@@ -19,7 +19,8 @@
 | 13 | `13-KONTROL-DUZLEMI.md` | protokolün yapabildikleri — sözleşme |
 | 14 | `14-REFERANS-DUNYA.md` | referans dünyanın sayıları ve kaynakları |
 | 16 | `16-KAYNAKCA.md` | rapor için kaynakça (IEEE biçimi) |
-| 17 | `17-TASARIM-KARARLARI.md` | DESPARETE'nin yeni sürümü: ilkeler ve konu konu tasarım kararlarım (Faz 5-2) |
+| 17 | `17-TASARIM-KARARLARI.md` | DESPARETE'nin yeni sürümü: ilkeler ve konu konu tasarım kararlarım (Faz 5-2); 24 Kasım'dan beri önceki tasarım, `18` donana kadar bugünkü kodun belgesi |
+| 18 | `18-YENI-TASARIM.md` | DESPARETE'nin baştan, bileşen bileşen tasarımı (24 Kasım): yöntem, aşamalar, eksiksizlik listesi; bileşen kararları |
 | — | `kural/KK-*.md` | Faz 5-3'ün kural kâğıtları: `17`nin kararlarından kurallar, formüller, başlangıç değerleri ve ablasyon bayrakları (`KK-00` dizin) |
 | — | `kayit/KARAR-GUNLUGU.md` | kronolojik karar günlüğü K-090…; koddaki `K-xxx` atıflarının adresi; tarihsel kayıttır, yeniden yazılmaz |
 
