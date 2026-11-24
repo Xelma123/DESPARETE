@@ -1,0 +1,26 @@
+ölçü: ikizde pencere PDR'si, birincil ve dayanıklılıkta PDR_açık (8 tohum, 1003–1010)
+
+== ikiz ==
+  aodv                 n 8 · ölçü 0.525 ± 0.066 · en kötü 0.384 · p99 0.96 s · kontrol payı 44.3%
+  olsrv2               n 8 · ölçü 0.809 ± 0.089 · en kötü 0.616 · p99 1.03 s · kontrol payı 14.9%
+  babel                n 8 · ölçü 0.930 ± 0.030 · en kötü 0.863 · p99 0.23 s · kontrol payı 14.7%
+  en_guvenilir_kahin   n 8 · ölçü 0.917 ± 0.029 · en kötü 0.893 · p99 0.14 s · kontrol payı 6.0%
+  19 Kasım çekirdeği   n 8 · ölçü 0.954 ± 0.020 · en kötü 0.911 · p99 0.22 s · kontrol payı 6.0%
+  geri+sınır           n 8 · ölçü 0.958 ± 0.013 · en kötü 0.937 · p99 0.17 s · kontrol payı 5.9%
+
+== birincil ==
+  aodv                 n 8 · ölçü 0.396 ± 0.089 · en kötü 0.214 · sessiz 0.488 · p99 2.50 s · kontrol payı 44.3%
+  olsrv2               n 8 · ölçü 0.495 ± 0.110 · en kötü 0.345 · sessiz 0.714 · p99 1.39 s · kontrol payı 12.9%
+  babel                n 8 · ölçü 0.663 ± 0.139 · en kötü 0.485 · sessiz 0.916 · p99 1.31 s · kontrol payı 15.0%
+  en_guvenilir_kahin   n 8 · ölçü 0.779 ± 0.077 · en kötü 0.657 · sessiz 0.916 · p99 0.33 s · kontrol payı 5.6%
+  19 Kasım çekirdeği   n 8 · ölçü 0.663 ± 0.199 · en kötü 0.314 · sessiz 0.854 · p99 1.77 s · kontrol payı 5.5%
+  geri+sınır           n 8 · ölçü 0.659 ± 0.156 · en kötü 0.408 · sessiz 0.863 · p99 1.24 s · kontrol payı 5.6%
+
+== dayaniklilik ==
+  aodv                 n 8 · ölçü 0.358 ± 0.082 · en kötü 0.194 · sessiz 0.493 · p99 2.82 s · kontrol payı 44.3%
+  olsrv2               n 8 · ölçü 0.413 ± 0.080 · en kötü 0.282 · sessiz 0.711 · p99 1.14 s · kontrol payı 12.8%
+  babel                n 8 · ölçü 0.554 ± 0.090 · en kötü 0.411 · sessiz 0.921 · p99 0.72 s · kontrol payı 15.4%
+  en_guvenilir_kahin   n 8 · ölçü 0.685 ± 0.053 · en kötü 0.605 · sessiz 0.913 · p99 0.27 s · kontrol payı 5.6%
+  (yeni sürümler bu hücrede ölçülmedi)
+
+birincilde kâhin − Babel: +0.116 (eşli farkın sapması 0.073); hedef Babel + 0,05 = 0.713

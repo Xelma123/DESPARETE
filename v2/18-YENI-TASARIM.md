@@ -8,7 +8,7 @@
 
 | aşama | durum |
 |---|---|
-| 1 · Zemin | sırada |
+| 1 · Zemin | 1.1 hedef ve başarı ölçütü karara bağlandı (24 Kasım); sırada 1.2 kısıtlar |
 | 2 · Bileşen bileşen tasarım | bekliyor |
 | 3 · Bütünlük ve donma | bekliyor |
 | 4 · Kod ve ölçüm | bekliyor |
@@ -89,6 +89,57 @@ Sıra bileşenlerin birbirine bağımlılığına göre. Her bileşenin yanında
    - kollar: tam sürüm ve her mekanizmanın ablasyonu;
    - karşılaştırma: Babel ve kâhin.
 3. **Geliştirme:** sonuçtan sonra sürer.
+
+## Zemin
+
+### 1.1 · Hedef ve başarı ölçütü (24 Kasım, kararım)
+
+Sayılar `arsiv/teshis/faz5_3_tasarim_zemini_2026-11-24/hedef_sayilari.py` → `hedef_sayilari.txt` (teşhis (c) ve 19–24 Kasım ölçümlerinin kayıtları; tohum 1003–1010).
+
+**Neden bu çizgi.** Ana deneyin hükmünü bağlayıcı ön-kayıt verir (`06` §0.4, K-153 · K-222):
+- birincil test H2.c, DESPARETE ↔ Babel: birincil hücrede `PDR_açık`, 40 tohum; "üstün" için ortalama fark ≥ `Δ_hedef` = 0,05 ve ≥ δ, Holm'dan sonra p < 0,05 ve mekanizma kapısı;
+- "karıştırmayı çözer" iddiası için ayrıca fark-içinde-fark (birincildeki fark − ikizdeki fark) anlamlı pozitif ve mekanizma kapısı geçmiş;
+- dayanıklılık hücresi (10 s açık · 20 s sessiz) ön-kayıtlı ikincil test.
+
+Tasarım bu çizgiye göre kurulur; kurulmazsa ana deneyde "ayırt edilemedi" ya da "kazanç var, karıştırmaya bağlanamadı" hükmü çıkar.
+
+**Bugünkü yer** (8 tohum ortalaması; ikizde pencere PDR'si, ötekilerde `PDR_açık`):
+
+| | ikiz | birincil (15/15) | dayanıklılık (10/20) |
+|---|---|---|---|
+| AODV | 0,525 | 0,396 | 0,358 |
+| OLSRv2 | 0,809 | 0,495 | 0,413 |
+| Babel | 0,930 · en kötü 0,863 | 0,663 · en kötü 0,485 · sessiz 0,916 · p99 1,31 s · kontrol %15,0 | 0,554 · en kötü 0,411 · sessiz 0,921 · p99 0,72 s · kontrol %15,4 |
+| kâhin | 0,917 | 0,779 | 0,685 |
+| 19 Kasım çekirdeği | 0,954 | 0,663 · en kötü 0,314 · sessiz 0,854 · p99 1,77 s · kontrol %5,5 | ölçülmedi |
+| geri+sınır (20 Kasım) | 0,958 · en kötü 0,937 | 0,659 · en kötü 0,408 · sessiz 0,863 · p99 1,24 s · kontrol %5,6 | ölçülmedi |
+
+Birincilde kâhin Babel'in +0,116 önünde (eşli farkın tohumlar arası sapması 0,073).
+
+**1 · Ana hedef.** Birincil hücrede `PDR_açık`'ta Babel'den en az **+0,05** önde, yani ~0,71. Geliştirme ölçümünde (8 tohum) eşli fark ≥ 0,05 ve 8 tohumun en az 6'sında aynı yön. Babel en güçlü rakip; onu bu farkla geçen tasarım AODV'yi ve OLSRv2'yi de geçer.
+
+**2 · Karıştırmaya özgü olması için:**
+- **Fark-içinde-fark:** Babel'e farkım birincilde ikizdekinden büyük. Bugün ikizde +0,028 öndeyim; birincildeki fark bunu aşmalı.
+- **Mekanizma kapısı:** karıştırmaya karşı mekanizmalar birlikte kapatılınca birincilde `PDR_açık` en az 0,02 düşer (6/8 tohum).
+
+**3 · Koruma ölçütleri** (hiçbiri bozulmaz; "kötü değil" = eşli fark eksi yönde ayrışmıyor, eşik 0,02, 8 tohumun en az 6'sı):
+
+| ölçüt | Babel | koşul |
+|---|---|---|
+| ikizde teslim | 0,930 | Babel'den kötü değil; karıştırma katmanı açıkken kapalı hâlinden de kötü değil (yanlış alarm zararı yok) |
+| dayanıklılık hücresinde teslim | 0,554 | Babel'den kötü değil; hedef orada da +0,05 (tasarım tek bir 15/15 çizelgesine ayarlanmasın) |
+| birincilde en kötü tohum | 0,485 | Babel'inkinin en çok 0,02 altında (≥ 0,465; tek sayı olduğu için eşli fark yerine döngü kuralları ölçümündeki K3'ün biçimi) |
+| birincilde sessiz dönem | 0,916 | Babel'den kötü değil (karıştırma bitince toparlanma) |
+| birincilde gecikmenin p99'u | 1,31 s | Babel'inkinden büyük değil |
+| kontrol payı | %15 | Babel'den düşük; bugünkü %6 korunmaya çalışılır, %10'u aşan tasarım gerekçe ister |
+| yer karıştırıcılı aile | ölçülmedi | Babel'den kötü değil; büyük ölçümde Babel de orada koşulur |
+
+**Neden +0,05:**
+- +0,02 ana deneyde "ayırt edilemedi" riskini yüksek bırakır.
+- Kâhine yakın bir hedef (ör. 0,75) gerçekçi değil: kâhin girişimi görmeyen, her şeyi bilen bir referans (K-248).
+- +0,05 ön-kaydın kendi eşiği; kâhinin bıraktığı boşluğun içinde.
+
+**Not:** bu ölçütler tasarımın pusulası ve büyük geliştirme ölçümünün (Aşama 4) karar kuralının çekirdeğidir. Asıl hüküm ana deneyde, 40 tohumla ve `06`'nın kurallarıyla verilir. `Δ_hedef` ve δ Faz 6'da referans dünyanın gürültüsüyle yeniden değerlendirilir (`06` §0.4.2–0.4.4).
 
 ## Eksiksizlik listesi
 
