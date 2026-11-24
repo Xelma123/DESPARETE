@@ -1,0 +1,14 @@
+==============================================================================
+DÖNGÜ KURALLARI — dünya referans_2026 · formasyon-yok (ikiz, hayalet 10:20) · kollar ['geri_sinir'] · tohum [1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_dongu_kurallari_2026-11-24\kopya\protokoller\desparete5.py
+==============================================================================
+    1/8 geri_sinir 1007 · PDR(pencere) 0.9757 · tetik 43 · en çok atlama 6 · denetim tamam · 2228 s
+    2/8 geri_sinir 1004 · PDR(pencere) 0.9718 · tetik 59 · en çok atlama 5 · denetim tamam · 2357 s
+    3/8 geri_sinir 1008 · PDR(pencere) 0.9583 · tetik 111 · en çok atlama 13 · denetim tamam · 2512 s
+    4/8 geri_sinir 1010 · PDR(pencere) 0.9528 · tetik 113 · en çok atlama 7 · denetim tamam · 2618 s
+    5/8 geri_sinir 1009 · PDR(pencere) 0.9553 · tetik 108 · en çok atlama 7 · denetim tamam · 2949 s
+    6/8 geri_sinir 1003 · PDR(pencere) 0.9652 · tetik 56 · en çok atlama 12 · denetim tamam · 2999 s
+    7/8 geri_sinir 1006 · PDR(pencere) 0.9477 · tetik 132 · en çok atlama 8 · denetim tamam · 3006 s
+    8/8 geri_sinir 1005 · PDR(pencere) 0.9366 · tetik 172 · en çok atlama 8 · denetim tamam · 3060 s
+
+  8 koşu kayıtta · hata 0

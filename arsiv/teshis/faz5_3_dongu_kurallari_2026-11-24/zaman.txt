@@ -1,0 +1,8 @@
+geri_sinir_ikiz basla 24.11 00:51:53
+geri_sinir_ikiz bitti 24.11 01:42:56 cikis 0
+geri_sinir_birincil basla 24.11 01:42:56
+geri_sinir_birincil bitti 24.11 02:47:18 cikis 0
+geri_ikiz basla 24.11 02:47:18
+geri_ikiz bitti 24.11 03:43:38 cikis 0
+geri_birincil basla 24.11 03:43:38
+geri_birincil bitti 24.11 04:52:57 cikis 0

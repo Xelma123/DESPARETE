@@ -1,0 +1,37 @@
+== 1 · İkizde geri+sınır − Babel · − eğim0 · − 19 Kasım ==
+  − Babel     +0.028 (artı 8/8 · eksi 0/8; 1003 +0.021 · 1004 +0.018 · 1005 +0.074 · 1006 +0.030 · 1007 +0.019 · 1008 +0.018 · 1009 +0.013 · 1010 +0.030) → AYRIŞIYOR (+)
+  − eğim0     +0.015 (artı 8/8 · eksi 0/8; 1003 +0.022 · 1004 +0.006 · 1005 +0.032 · 1006 +0.036 · 1007 +0.010 · 1008 +0.007 · 1009 +0.004 · 1010 +0.005) → 8 tohumda ayırt edilemedi
+  − 19 Kasım  +0.004 (artı 5/8 · eksi 1/8; 1003 +0.000 · 1004 +0.000 · 1005 +0.025 · 1006 +0.002 · 1007 -0.002 · 1008 +0.000 · 1009 +0.003 · 1010 +0.001) → 8 tohumda ayırt edilemedi
+
+== 2 · Kural 13'ün kural 9'la etkileşimi (tohum başına) ==
+  ikiz: tavan aşımı · döngü dönüşü (19 Kasım → geri → geri+sınır)
+    1003  tavan 0 → 0 → 0 · döngü 66 → 74 → 70
+    1004  tavan 0 → 0 → 0 · döngü 0 → 0 → 0
+    1005  tavan 0 → 15 → 0 · döngü 500 → 2123 → 0
+    1006  tavan 0 → 0 → 0 · döngü 7 → 0 → 0
+    1007  tavan 0 → 0 → 0 · döngü 0 → 0 → 0
+    1008  tavan 0 → 0 → 0 · döngü 3 → 3 → 8
+    1009  tavan 0 → 0 → 0 · döngü 11 → 0 → 0
+    1010  tavan 0 → 0 → 0 · döngü 0 → 0 → 0
+    19 Kasım   iki düğümlü dönüşlerin üst sınırı 0.60 (döngü 73/koşu)
+    geri       iki düğümlü dönüşlerin üst sınırı 0.19 (döngü 275/koşu)
+    geri+sınır iki düğümlü dönüşlerin üst sınırı 0.37 (döngü 10/koşu)
+  birincil: tavan aşımı · döngü dönüşü (19 Kasım → geri → geri+sınır)
+    1003  tavan 59 → 73 → 0 · döngü 7827 → 10560 → 2500
+    1004  tavan 0 → 58 → 7 · döngü 183 → 1854 → 1277
+    1005  tavan 124 → 84 → 0 · döngü 13251 → 5513 → 2524
+    1006  tavan 0 → 0 → 0 · döngü 41 → 296 → 27
+    1007  tavan 0 → 0 → 0 · döngü 477 → 97 → 118
+    1008  tavan 10 → 14 → 0 · döngü 3830 → 2039 → 1066
+    1009  tavan 0 → 13 → 3 · döngü 326 → 1655 → 82
+    1010  tavan 19 → 80 → 10 · döngü 3027 → 3293 → 514
+    19 Kasım   iki düğümlü dönüşlerin üst sınırı 0.45 (döngü 3620/koşu)
+    geri       iki düğümlü dönüşlerin üst sınırı 0.28 (döngü 3163/koşu)
+    geri+sınır iki düğümlü dönüşlerin üst sınırı 0.24 (döngü 1014/koşu)
+
+== 3 · B'de evreler ve açık dönemin kayıp grupları ==
+  Babel      önce 0.932 · açık 0.663 · sessiz 0.916 | R 0.000 · İ 0.335 · K 0.002
+  eğim0      önce 0.940 · açık 0.665 · sessiz 0.911 | R 0.037 · İ 0.297 · K 0.001
+  19 Kasım   önce 0.954 · açık 0.663 · sessiz 0.854 | R 0.042 · İ 0.287 · K 0.008
+  geri       önce 0.955 · açık 0.666 · sessiz 0.826 | R 0.052 · İ 0.280 · K 0.002
+  geri+sınır önce 0.956 · açık 0.659 · sessiz 0.863 | R 0.066 · İ 0.267 · K 0.008

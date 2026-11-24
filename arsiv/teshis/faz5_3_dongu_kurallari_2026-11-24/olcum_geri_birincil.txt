@@ -1,0 +1,14 @@
+==============================================================================
+DÖNGÜ KURALLARI — dünya referans_2026 · formasyon-surekli (birincil) · kollar ['geri'] · tohum [1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_dongu_kurallari_2026-11-24\kopya\protokoller\desparete5.py
+==============================================================================
+    1/8 geri     1007 · PDR(pencere) 0.9419 · tetik 194 · en çok atlama 11 · denetim tamam · 2912 s
+    2/8 geri     1008 · PDR(pencere) 0.8464 · tetik 460 · en çok atlama 44 · denetim tamam · 3363 s
+    3/8 geri     1004 · PDR(pencere) 0.8253 · tetik 342 · en çok atlama 29 · denetim tamam · 3449 s
+    4/8 geri     1010 · PDR(pencere) 0.7612 · tetik 577 · en çok atlama 31 · denetim tamam · 3644 s
+    5/8 geri     1009 · PDR(pencere) 0.8545 · tetik 398 · en çok atlama 34 · denetim tamam · 3883 s
+    6/8 geri     1006 · PDR(pencere) 0.8936 · tetik 309 · en çok atlama 17 · denetim tamam · 3973 s
+    7/8 geri     1003 · PDR(pencere) 0.7395 · tetik 480 · en çok atlama 39 · denetim tamam · 4000 s
+    8/8 geri     1005 · PDR(pencere) 0.7003 · tetik 696 · en çok atlama 49 · denetim tamam · 4156 s
+
+  8 koşu kayıtta · hata 0
