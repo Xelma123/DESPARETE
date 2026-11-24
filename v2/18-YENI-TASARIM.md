@@ -9,7 +9,7 @@
 | aşama | durum |
 |---|---|
 | 1 · Zemin | tamam (24 Kasım): 1.1 hedef ve başarı ölçütü, 1.2 kısıtlar, 1.3 kanıt envanteri, 1.4 mimari iskelet |
-| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); sırada 2.2 karıştırma kanıtı (B2) |
+| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı: kararım verildi (24 Kasım, alıcı ve gönderici birlikte), kuralları için teşhis ölçümünün beklentisi yazıldı, duman ve koşu sırada |
 | 3 · Bütünlük ve donma | bekliyor |
 | 4 · Kod ve ölçüm | bekliyor |
 
@@ -366,6 +366,49 @@ Kök: ölçü verinin kendi bedelini ölçmüyordu.
 Seçilmeyenler: 1, kanıtlanmış iki yanılgıyı bıraktığı için; 3, kontrol payını Babel'in (%15) ve hedefin %10 sınırının (§1.1) üstüne çıkardığı ve yine de verinin denemesini ve onayını ölçmediği için.
 
 **B3'e kalan riskler:** veri ölçüsü kanal yüküyle oynar; maliyete girerse rotalar salınabilir (`17` T-4). Kullanılan bağ veriyle, kullanılmayan bağ selamla ölçülür. İki ölçünün aynı bağda ne kadar ayrıştığı B3'ün kararından önce kısa bir teşhis ölçümüyle sınanabilir.
+
+### 2.2 · B2 · Karıştırma kanıtı (24 Kasım, kararım)
+
+Kâğıt: teşhis ölçümünden sonra (`arsiv/teshis/faz5_3_b2_isaretler_2026-11-24/`).
+
+**Sorun.** B2 iki soruyu cevaplar: "ben karıştırılıyor muyum" (yok · girişim · kanal kilidi) ve "hangi komşumla bağım karıştırılıyor". Karar vermez: bağı bırakmak B3'ün, yolu değiştirmek B4'ün işidir. Karıştırıcının çevresinde iki bölge vardır:
+- **kanal kilidi** (ED, karıştırıcıya çok yakın): düğüm kanalı hep dolu görür, ne gönderebilir ne duyabilir; birincilde açık dönemde ortalama 0,9 düğüm;
+- **girişim** (daha uzak): düğüm gönderebilir ama duyamaz, bozulan alıcı tarafıdır; ortalama 6,8 düğüm, dayanıklılıkta 10,3.
+
+Temel güçlük: bilgi alıcıda, karar göndericidedir. Karıştırılan düğüm durumu kendi alımının çökmesinden anlar; ona paket gönderen komşu ise ancak paketleri boşa gidince fark eder.
+
+**Neden şart:**
+- Birincilde ortalamayı yol seçimi belirlemiyor (beş farklı yol seçimi 0,659–0,666); kaybın büyüğü karıştırılan bağda, iletimde (açık dönemde 0,267–0,335; `arsiv/teshis/faz5_3_dongu_kurallari_2026-11-24/sonuc.md` §8). Kâhin karıştırılan bağları bildiği için 0,779'a çıkıyor.
+- Ön-kayda göre karıştırmaya karşı mekanizma yoksa "üstün" hükmü verilemez (`06` §0.4.2, §0.4.5).
+
+**Kanıt** (teşhis (d), Babel'in trafiğinde, 8 tohum; `arsiv/teshis/faz5_2_isaretler_2026-11-16/sonuc.md`):
+- Kanal kilidi kendini tek saniyede tanır: kanal meşgul payı ≥ 0,62 karıştırılanların %80'ini yakalıyor, ikizde yanlış alarm %0,035. Ama gönderemediği için söyleyemez.
+- Girişimde tek işaret yetmiyor: çözülen çerçeve düşüşü (49 ↔ 99/s) ve selam kaybı (0,69 ↔ 0,44) güçlü; ama karıştırılanların yarısını yakalayan eşikte ikizde düğüm-saniyelerin %10,5'inde ve %5,9'unda yanlış alarm. Birleşik kural hiç ölçülmedi (kayıt yalnız işaret başına dağılım tutuyordu).
+- Yanıltıcı işaretler: girişimde kanal meşguliyeti düşer (0,20 ↔ 0,31); çözülen çerçeve uzak alanda da düşer (76 ve 68 ↔ 99/s).
+- Göndericinin gördüğü: karıştırılan alıcıya giden veri çerçevesi ortalama 6,3 (kanal kilidi) ve 3,9 (girişim) deneme harcıyor, temizde 2,0. "Art arda 3 vazgeçme" ise geç ve seyrek: birincilde ortanca 5,6 s, karıştırılan bağların yalnız %18'inde açık dönem içinde ulaşılıyor.
+- Komşunun sessizliğinden tanımak yavaş: bugünkü selam aralığıyla üç kaçan selam, karıştırma başladıktan 5,5–7,7 s sonra (iyi bağda); `d_r` 0,6 olan bağda 12–14 s (önceki KK-00).
+- RSSI zayıf (AUC 0,71). Kanal doluluğu tepkisel karıştırıcıyı görmez (Puñal 2014).
+- Yanlış alarmın bedeli ağır: 18 Kasım'ın veri tetiği iyi bağları bırakıp açlık doğurdu. Yalancı bir "karıştırılıyorum" bütün komşulara o düğümü bıraktırır.
+- Kalabalık: temizde bile selam kaybı 0,44 (önceki KK-03 kural 12'nin riski).
+- Hiç ölçülmeyen: karıştırma katmanının bütünü; işaretlerin bizim trafiğimizdeki (0,5–2 s'de bir selam, kontrol payı %6) düzeyi.
+
+**Seçenekler:**
+
+| | kanıtı kim toplar | artı | eksi ve bedel |
+|---|---|---|---|
+| **A · alıcı ve gönderici birlikte** | alıcı kendi durumunu kendi işaretlerinden belirler, selamında bir bitle bildirir; gönderici bağ başına kendi kanıtını toplar (deneme sayısı ve vazgeçme, B1'in veri kaydından; komşunun sessizliği) | bilgi doğduğu yerden, en hızlı yoldan gelir; kullanılmayan yedeklerin durumu da bilinir; bedeli selamda 1 bit | alıcının girişim kuralı ölçülmedi; yanlış alarmı bütün komşulara yayılır |
+| B · yalnız gönderici | bit yok; gönderici yalnız kendi MAC sonuçlarından ve komşunun sessizliğinden; düğümün kendi durumu yalnız kendi MAC sonuçlarını yorumlamak için | yanlış alarm komşulara yayılmaz; daha basit | paket harcayarak ve yalnız kullandığı bağ için öğrenir; yedeğin durumu deneyerek bulunur |
+| C · A + bölge hafızası | A'ya ek: bildirimler bölge olarak birleşir ya da sık karıştırılan bağdan bir süre kaçınılır (JAM, IAMP, Tague; `12`'de fikir olarak duran bölge risk skoru) | çizelgeli karıştırıcıda bir sonraki açık dönemden önceden kaçınabilir | İlke 3'e ters (kanıt kalkınca geri al); sessiz dönemde de kaçınırsa toparlanma düşer; en karmaşığı |
+| D · açık kanıt yok | karıştırmaya yalnız genel ölçüler (B1) karşılık verir | en basiti | ön-kayda göre "üstün" hükmü verilemez; protokolün kimliğine (`17`) ters; elendi |
+
+**Kararım: A.**
+- Bilgi alıcıda doğuyor; girişimdeki düğüm gönderebildiği için bitini hemen yayabilir.
+- Kullanılmayan yedeklerin karıştırıldığı da bilinir; ardıl bırakılınca doğrudan temiz bir yedeğe geçilir. Kâhinin kazancı da bu dolaşmadan gelir.
+- A'nın gönderici tarafı B'nin kendisidir: bitin bayrağı kapatılınca A, B olur. Bitin katkısı Aşama 4'ün büyük ölçümünde ablasyonla ölçülür.
+
+Seçilmeyenler: B güvenli ama yavaş ve kör; C İlke 3'e ters ve sessiz dönem bir koruma ölçütü (§1.1); A ölçüldükten sonra ek olarak düşünülebilir.
+
+**Kuralların seçimi ölçümle.** A'nın en riskli parçası alıcının girişim kuralıdır. Kural ve eşikler tahminle değil, önceden yazılı bir teşhis ölçümüyle seçilir (yöntem: girdi eksikse kısa teşhis). Sorular, karar kuralı ve öngörüler `arsiv/teshis/faz5_3_b2_isaretler_2026-11-24/beklenti.md`de; B2'nin kâğıdı sonucuna göre yazılır.
 
 ## Eksiksizlik listesi
 

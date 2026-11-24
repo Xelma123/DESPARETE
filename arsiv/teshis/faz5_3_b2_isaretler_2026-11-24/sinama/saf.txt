@@ -1,0 +1,70 @@
+1 · sıra farkı
+  tamam · 65535 → 0
+  tamam · 0 → 65535
+  tamam · 3 → 5
+2 · düzenli selam ve zaman aşımı
+  tamam · T=10 (n1, n0, sondaki, dr, son, a)
+  tamam · T=12
+  tamam · sıfırlar
+3 · ileri sarma (sıfırlar araya dağıtılır)
+  tamam · T=0
+  tamam · T=1
+  tamam · zaman aşımı sıfırı yok
+4 · geri alma (zaman aşımının fazla saydığı sıfırlar)
+  tamam · sıfırlar
+  tamam · T=3
+  tamam · T=4 (sıfırlar silindi)
+5 · yeniden başlama (fark > 64)
+  tamam · T=1
+6 · silme (30 s selam yok) ve yeniden kayıt
+  tamam · sıfır sayısı (3, 5, …, 29)
+  tamam · T=29 sondaki
+  tamam · T=30 silindi
+  tamam · T=35 kayıt yok
+  tamam · T=40 yeni kayıt
+7 · selam kaybı payı (tanıdık komşular)
+  tamam · s
+  tamam · hiç tanıdık yok
+8 · uyarlanır k (önceki KK-03 kural 6)
+  tamam · d_r 0,9
+  tamam · d_r 0,6
+  tamam · d_r 0,5
+  tamam · d_r 0,25
+  tamam · tanımsız
+9 · veri kuralları
+  tamam · kural sayısı
+  tamam · VAZ1
+  tamam · VAZ2
+  tamam · VAZ3
+  tamam · DEN4x2
+  tamam · DEN7x3
+  tamam · BIR6_10x1 (selam 2 s önce)
+  tamam · BIR6_15x2
+  tamam · BIR6_10x1 (selam taze)
+  tamam · BIR6_10x2
+  tamam · BIR6_15x1
+  tamam · BIR6_15x2
+  tamam · ilk ateş [4, 8)
+  tamam · ilk ateş yok
+10 · sessizlik kuralları
+  tamam · SES2
+  tamam · SES3
+  tamam · SES4
+  tamam · SESu (d_r 0,9 → k 3)
+11 · girişim işareti ve c̄
+  tamam · ilk 40 s işaretsiz
+  tamam · son 5 s işaretli
+  tamam · G: yalnız S
+  tamam · GM: S ve M
+  tamam · c̄ yokken C yok
+12 · durum (giriş 2, çıkış 2)
+  tamam · durum
+13 · dönem ölçüsü
+  tamam · giriş 2 s, çıkış 3 s
+  tamam · yakalanmadı
+  tamam · karar dönem bitince: yok
+14 · ızgara
+  tamam · kendi durumum kural sayısı
+  tamam · eski kural ızgarada
+
+54 denetim geçti
