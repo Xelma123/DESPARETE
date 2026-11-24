@@ -2,14 +2,14 @@
 
 > 24 Kasım 2026'da başladı (`12` §1.2 madde 3b). Faz 5-3'te üç sürüm ölçüldü: 18 Kasım çekirdeği, 19 Kasım çekirdeği ve bileşenleri, 20 Kasım'ın döngü kuralları. Her biri bir sorunu çözerken başka bir sorun açtı. Öğrenilenlerle protokolü baştan, tek tek ve eksiksiz tasarlamak istiyorum; ölçüm tasarım donduktan sonra yapılır.
 >
-> Bu belge yöntemi, eksiksizlik listesini ve aşamaların durumunu tutar. Bileşen kararları burada (bileşen başına bir bölüm), kuralları yeni kural kâğıtlarında yazılır. `17` ve `kural/KK-*` önceki tasarımdır: yeni tasarım donana kadar bugünkü kodun ve ölçümlerin belgesi olarak kalır, sonra arşive gider.
+> Bu belge yöntemi, eksiksizlik listesini ve aşamaların durumunu tutar. Bileşen kararları burada (bileşen başına bir bölüm, "Bileşenler"), kuralları yeni kural kâğıtlarında (`bilesen/`) yazılır; değerler, bayraklar ve gözlemin kullanımı tek yerde, `bilesen/00-DIZIN.md`de. `17` ve `kural/KK-*` önceki tasarımdır: yeni tasarım donana kadar bugünkü kodun ve ölçümlerin belgesi olarak kalır, sonra arşive gider.
 
 ## Durum
 
 | aşama | durum |
 |---|---|
 | 1 · Zemin | tamam (24 Kasım): 1.1 hedef ve başarı ölçütü, 1.2 kısıtlar, 1.3 kanıt envanteri, 1.4 mimari iskelet |
-| 2 · Bileşen bileşen tasarım | sırada: 2.1 komşu ve bağın ölçüsü (B1) |
+| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); sırada 2.2 karıştırma kanıtı (B2) |
 | 3 · Bütünlük ve donma | bekliyor |
 | 4 · Kod ve ölçüm | bekliyor |
 
@@ -45,7 +45,7 @@
 Sıra bileşenlerin birbirine bağımlılığına göre. Her bileşenin yanında, ilk elde dayanacağı ölçülmüş kanıt var.
 
 1. **Komşu ve bağın ölçüsü.**
-   - Selam, girişimde bağı olduğundan kötü gösteriyor: bağ çıkışı anında selamın ölçtüğü `d_f · d_r` ~0,23–0,24, kâhinin tek deneme başarısı ~0,71–0,76 (`arsiv/teshis/faz5_3_aclik_2026-11-18/sonuc.md` §6).
+   - Selam eşiğiyle düşen bağlar kâhine göre iyi: tek deneme başarısı ~0,71–0,76 (kâhin ağın kendi trafiğinden gelen çarpışmayı saymaz). Selamın o andaki `d_f · d_r`'si ~0,23–0,24; eşik (ETX 4) gereği 0,25'in hemen altında (`arsiv/teshis/faz5_3_aclik_2026-11-18/sonuc.md` §6; okunuşu §2.1'de).
    - Veri tetiği kapalıyken vazgeçmelerin %41'i en kötü beş bağda; selamı geçen ama veriyi taşıyamayan kalıcı bağlar var (aynı belge §6).
    - Veri denemelerinin yarısından fazlası başarısız, denemelerin %94–96'sı en düşük hızda (`arsiv/teshis/faz5_2_secenek_iletim_2026-11-15/sonuc.md`).
 2. **Karıştırma kanıtı.**
@@ -234,7 +234,8 @@ Faz 5'te ölçülenler, tarihleriyle. Hepsi referans dünyada, geliştirme tohum
 
 **Biliyoruz** (ölçüldü):
 1. **Bağın ölçüsü:**
-   - Yayın selamı girişimde bağı olduğundan kötü gösteriyor. Bağ çıkışı anında selamın `d_f · d_r`'si ~0,23–0,24, kâhinin tek deneme başarısı ~0,71–0,76 (açlık teşhisi §6).
+   - Selam eşiğiyle düşen bağlar kâhine göre iyi: tek deneme başarısı ~0,71–0,76; kâhin ağın kendi trafiğinden gelen çarpışmayı saymaz. Selamın o andaki `d_f · d_r`'si ~0,23–0,24; eşik (ETX 4) gereği 0,25'in hemen altında, tek başına bilgi taşımaz (açlık teşhisi §6; okunuşu §2.1'de, 24 Kasım).
+   - Alıcının çözdüğü veri çerçevelerinin onayı %94–96 geri geliyor: tek denemede kaybolan onay denemelerin %1,7–2,1'i (seçenek-iletim teşhisi §5).
    - Selamı geçen ama veriyi taşıyamayan kalıcı bağlar var; tetiksiz kolda vazgeçmelerin %41'i en kötü beş bağda.
    - Veriden hızlı tetik yanlış alarm verir: 18 Kasım'ın veri tetiği iyi bağları düşürüp açlığı başlattı.
    - Vazgeçme tetiği (19 Kasım) ikizde +0,014 (6/8), birincilde −0,009; ayırt edilemedi.
@@ -321,6 +322,50 @@ Niyet döndüremeyen kancalarda (`iletim_sonucu`, `cerceve_duyuldu`) yalnız 1. 
 | sonraki atlama | B4: döngü kanıtı | 2–7, B5'in kararı |
 
 **Karıştırma katmanı kapalıyken çekirdek:** B1, B3'ün çekirdeği, B4, B5'in çekirdeği, B6, B7. Çekirdek kendi başına eksiksiz bir yönlendirme protokolüdür; ikizde zarar olmadığını ve kapı ölçümünü bu kol verir.
+
+## Bileşenler
+
+Her bileşenin sorunu, kanıtı, seçenekleri ve kararım burada; kuralları `bilesen/` altındaki kâğıdında, değerleri `bilesen/00-DIZIN.md`de.
+
+### 2.1 · B1 · Komşu ve bağın ölçüsü (24 Kasım, kararım)
+
+Kâğıt: `bilesen/B1-KOMSU-VE-BAG.md` (onaylandı, 24 Kasım). Kâğıttaki yapı kararları: ölçü hiç donmaz, her örnek zamanıyla tutulur ve yukarıdaki bileşen sayılmayacak aralıkları söyler (kural 10); onay çerçevesi yalnız kendi çerçeveme yanıtsa varlık kanıtıdır (kural 2); geri almanın ve yeniden başlamanın sınırı 64 selam (kural 4); kendi karıştırılmamda komşu silme durmaz (§11).
+
+**Sorun.** Önceki tasarımda bağın iyiliği yalnız yayın selamıyla ölçülüyordu. Yol seçiminin bilmesi gereken ise bir veri paketinin o bağda kaça mal olduğudur. Selam bunu üç yerden farklı ölçer (simülatörün kodu: `sim2/kanal/cerceve.py`, `sim2/kosum/kontrol.py`, `sim2/yapilandirma/konfig.py`):
+- **boy:** selam ~100 bayt (15 komşuyla 101), veri 512 bayt;
+- **deneme:** selam bir kez ve onaysız gider; veri en çok 7 kez denenir;
+- **ters yön:** selamda ters yönü komşunun yayın selamı ölçer, veride ters yön 14 baytlık onaydır.
+
+Hız farkı küçüktür: selam temel hızda (1 Mb/s) gider, veri denemelerinin de %94–96'sı 1 Mb/s'de.
+
+**Kanıt** (ölçüldü):
+- Selam eşiğiyle düşen bağlar kâhine göre iyi: tek deneme başarısı 0,71–0,76. Kâhin ağın kendi trafiğinden gelen çarpışmayı saymaz; selam ise çarpışmalar dâhil iki yönü tek denemeyle ölçer. Selamın o andaki `d_f · d_r`'si (~0,23–0,24) eşik (ETX 4) gereği 0,25'in hemen altındadır, tek başına bilgi taşımaz. Veri tetiği kapalı kolda kalan açlıkların kökü bu çıkışlar: 1005'te 155 bölüm, hepsi selam eşiğinden (`arsiv/teshis/faz5_3_aclik_2026-11-18/sonuc.md` §6).
+- Selamı geçen ama veriyi taşıyamayan kalıcı bağlar var: tetik kapalıyken vazgeçmelerin %41'i en kötü beş bağda ve bu bağlar kâhine göre iyi bantta (aynı belge §6). Sebebi ölçülmedi; en güçlü aday boy farkı (varsayım).
+- Ters yön: alıcının çözdüğü veri çerçevelerinin onayı %94–96 geri geliyor (`arsiv/teshis/faz5_2_secenek_iletim_2026-11-15/sonuc.md` §5). ETX'in ters yön terimi bu onayı temsil eder; selamdan ölçülen ters yön onu olduğundan kötü gösterebilir (varsayım, ölçülmedi).
+- Açığı ölçünün üstüne eklenen tetiklerle kapatma denemeleri: 18 Kasım'ın veri tetiği attığı bağların %99,7'si iyiydi ve açlık doğurdu (açlık teşhisi); 19 Kasım'ın vazgeçme tetiği ayırt edilemedi (ikizde +0,014, birincilde −0,009) ve iki hücrede ters yönde çalıştı (`arsiv/teshis/faz5_3_yeni_cekirdek_2026-11-19/sonuc.md` §5, §9).
+- Babel yalnız selamla ölçüyor; birincilde başarısız iletimlerinin %20'si kâhinin kötü dediği bağda (`arsiv/teshis/faz5_2_anatomi_2026-11-14/sonuc.md` §5).
+- Kanal kalabalık: ikizde veri denemelerinin yarısından fazlası başarısız; tek deneme başarısı Babel'de ve 19–24 Kasım sürümlerimizde 0,46–0,49 (seçenek-iletim teşhisi §2, yeni çekirdek §6).
+
+Kök: ölçü verinin kendi bedelini ölçmüyordu.
+
+**Seçenekler:**
+
+| | ne ölçülür | artı | eksi ve bedel |
+|---|---|---|---|
+| 1 · yalnız selam, veriden yalnız vazgeçme sayımı (önceki tasarım) | bağ kalitesi selamdan; veriden "gitti mi, vazgeçildi mi" | ölçüldü, basit; Babel'in yolu | kanıtlanmış iki yanılgı kalır; veri kanıtı ancak paket kaybolunca ve kaba gelir |
+| **2 · selam ve verinin kendi ölçüsü** | selam iki yönde ayrı ayrı; her veri gönderiminin kaçıncı denemede geçtiği ya da vazgeçildiği; varlık için duyulan çerçeveler | kullanılan bağın bedeli doğrudan ölçülür; ek ileti yok; kullanılmayan bağlar selamla bilinmeye devam eder | kullanılan ve kullanılmayan bağ farklı kaynakla ölçülür; veri ölçüsü kanal yüküyle oynar; daha çok kayıt |
+| 3 · selamı veriye benzetmek (veri boyunda yoklama) | kullanılmayan bağlar da veri boyunda ölçülür | ölçü verinin boyunda | selam ~4,3 kat uzar (1 Mb/s'de önbelge dâhil ~1,0 → ~4,3 ms); kaba kestirimle kontrol payı %6'dan ~%21'e çıkar (ikizde selamın kanal süresi 21,3 s, yeni çekirdek §4); hâlâ yayın: 7 deneme ve onay yok |
+
+Önceden elenenler: yalnız veriden ölçmek (`17` T-1: kullanılmayan yedekler bilinmiyordu; v0.4.1'de koşu başına 15 171 komşu silinmesi, Babel'de 315) · RSSI (kaybın büyüğü çarpışma ve RSSI onu göstermez; karıştırmada fark ~2 dB, ölçüm hatası düzeyinde, teşhis (d) §6; okunursa ölçüm hatasının duyarlılığı mühürden önce ölçülür, K-233).
+
+**Kararım: seçenek 2.** B1 selamın ölçüsünü (iki yön ayrı) ve verinin kendi ölçüsünü ham ve aynı birimde (beklenen deneme sayısı), örnek sayıları ve tazelikleriyle verir; karar vermez.
+- Sorunun kökünü tetik eklemeden çözer.
+- Ek ileti ve kontrol yükü getirmez: MAC'in sonucu zaten gelir (`13` §02.5, K-151).
+- Ölçülerin birleştirilmesini ve kullanımını bütün bilgiyle B3'e bırakır.
+
+Seçilmeyenler: 1, kanıtlanmış iki yanılgıyı bıraktığı için; 3, kontrol payını Babel'in (%15) ve hedefin %10 sınırının (§1.1) üstüne çıkardığı ve yine de verinin denemesini ve onayını ölçmediği için.
+
+**B3'e kalan riskler:** veri ölçüsü kanal yüküyle oynar; maliyete girerse rotalar salınabilir (`17` T-4). Kullanılan bağ veriyle, kullanılmayan bağ selamla ölçülür. İki ölçünün aynı bağda ne kadar ayrıştığı B3'ün kararından önce kısa bir teşhis ölçümüyle sınanabilir.
 
 ## Eksiksizlik listesi
 

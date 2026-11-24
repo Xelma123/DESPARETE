@@ -1,6 +1,6 @@
 # v2 — PROJE BELGELERİ
 
-> Her bilgi tek yerde. Durum yalnız `12`de, geçerli kararlar yalnız `04`te; DESPARETE'nin tasarım kararları `17`de (`04` §6 atıf verir). Güncel: 17 Kasım 2026. Önceki hâller `arsiv/`de (git'te izlenir).
+> Her bilgi tek yerde. Durum yalnız `12`de, geçerli kararlar yalnız `04`te; DESPARETE'nin tasarım kararları `17`de (`04` §6 atıf verir), 24 Kasım'dan beri yeniden tasarımı `18`de. Güncel: 24 Kasım 2026. Önceki hâller `arsiv/`de (git'te izlenir).
 >
 > Belgeler bilgi kaydıdır, doğruluğun kanıtı değildir: bir iddia kodla, ölçümle ya da birincil kaynakla sınanır. Belge ile kod çelişirse hangisinin yanlış olduğu ölçülerek bulunur (`03` §1).
 
@@ -21,7 +21,8 @@
 | 16 | `16-KAYNAKCA.md` | rapor için kaynakça (IEEE biçimi) |
 | 17 | `17-TASARIM-KARARLARI.md` | DESPARETE'nin yeni sürümü: ilkeler ve konu konu tasarım kararlarım (Faz 5-2); 24 Kasım'dan beri önceki tasarım, `18` donana kadar bugünkü kodun belgesi |
 | 18 | `18-YENI-TASARIM.md` | DESPARETE'nin baştan, bileşen bileşen tasarımı (24 Kasım): yöntem, aşamalar, eksiksizlik listesi; bileşen kararları |
-| — | `kural/KK-*.md` | Faz 5-3'ün kural kâğıtları: `17`nin kararlarından kurallar, formüller, başlangıç değerleri ve ablasyon bayrakları (`KK-00` dizin) |
+| — | `kural/KK-*.md` | Faz 5-3'ün kural kâğıtları: `17`nin kararlarından kurallar, formüller, başlangıç değerleri ve ablasyon bayrakları (`KK-00` dizin); 24 Kasım'dan beri önceki tasarım |
+| — | `bilesen/*.md` | yeni tasarımın (`18`) bileşen kâğıtları; değerler, bayraklar ve gözlemin kullanımı tek yerde, `bilesen/00-DIZIN.md` |
 | — | `kayit/KARAR-GUNLUGU.md` | kronolojik karar günlüğü K-090…; koddaki `K-xxx` atıflarının adresi; tarihsel kayıttır, yeniden yazılmaz |
 
 **Koddaki eski atıflar** (belgeler 28 Eylül ve 13 Ekim'de sadeleştirildi; koddaki bölüm numaraları eski sürümlerindir):
