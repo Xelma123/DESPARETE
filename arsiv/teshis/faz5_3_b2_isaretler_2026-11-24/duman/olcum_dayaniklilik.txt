@@ -1,0 +1,8 @@
+==============================================================================
+B2 TEŞHİSİ — dünya referans_2026 · dayaniklilik (formasyon-surekli, derin_sizma, tehdit_acik_s=10+tehdit_sessiz_s=20) · kol desparete5_cekirdek · tohum [1003] · KISA PENCERE
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\protokoller\desparete5.py
+  saf işlevler: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b2_isaretler_2026-11-24\isaret.py
+==============================================================================
+    1/1 1003 · PDR(pencere) 0.7429 · denetim tamam · 433 s
+
+  1 koşu kayıtta · hata 0

@@ -162,3 +162,39 @@ Gerekçe: teşhis (d)'nin dağılımları (Babel'in trafiği) ve bizim trafiğim
 - Yalnız sürekli karıştırıcı (`derin_sizma`, `cephe_hatti`). Kanal doluluğu tepkisel karıştırıcıyı görmez (Puñal 2014); öteki sınıflar ölçülmez.
 - B1'in silmesi teşhiste yalnız selamlardan yaklaşıklanır (veri çerçevesi duyulması kaydı tazelemez). Etkisi 30 s'den uzun sessizlikle sınırlı.
 - Bağ kurallarının sayımı gönderici açısındandır. Göndericinin kendisi karıştırılırken (onayları duyamaz) de sayılır; KK-03 kural 8 ile önceki tasarım bunu kendi durumla bastırıyordu. Bu yüzden açık dönemde "uzak" sınıfındaki ateşlenmeler raporlanır ama seçime girmez.
+
+## Duman notu (25 Kasım; dumandan sonra yazıldı, karar girdisi değil)
+
+**Koşu:**
+- `kosu.sh duman`, beklentinin commit'inden (`7add3e8`) sonra, çalışma ağacından; toplam 927 s.
+- Kısa pencere, tohum 1003.
+- Dört hücre kaydediciyle (300–502 s), sonra dört hücre kaydedicisiz (265–424 s); her grup yan yana. Kaydedicinin ek yükü %13–18.
+- Çıktılar `duman/`, karar hesabının raporu `duman_kisa.txt`.
+
+**Geçerlilik:**
+- Dört hücrede kaydedicinin iç denetimleri geçti: dilimlere yazılan meşgul süresi düğümlerin toplamına, çözülen çerçeve, CRC hatası, MAC sonucu ve selam kurma sayıları sayaçlara eşit.
+- Kaydedicili ve kaydedicisiz satırlar dört hücrede de bütün alanlarda birebir (PDR, pencere PDR'si, üretilen, teslim, simülatör ve protokol sayaçları).
+- İkiz ve birincil ayrıca döngü kuralları ölçümünün `geri_sinir` duman satırıyla birebir.
+- Sonuç: kaydedici, kanal meşgul sayacını açmak dâhil, davranışı değiştirmiyor.
+
+**Aletin çalışması:** karar hesabının bütün bölümleri doldu (K0–K7 ve betimleyici). Kısa pencerede iki bölüm beklendiği gibi boş kaldı:
+- Karıştırıcı 5 s'de açılıyor, pencere 10–40 s: "önce" evresi yok. K2–K4'te adaylık önce evresindeki yanlış alarmı istediği için dumanda hiçbir kural aday olamadı.
+- Birincilde ve dayanıklılıkta tek açık dönem var, o da pencerenin sonuyla kesilmiş (35–40 s).
+- Cephe hattında karıştırıcı pencereden önce açıldığı için dönem birimi yok (K6 ve K7'de cephe boş).
+
+Tam pencerede önce evresi 50–150 s, bütün hücrelerde açılma 150 s'dir.
+
+**Tek tohumda görülenler** (karar girdisi değil; tek tohum, 30 s'lik pencere):
+- İkizde selam kaybı payının ortalaması 0,477, öngörü 3'ün aralığının üst ucunda. G alanında 0,77–0,79, açık dönemde uzak alanda 0,54. Cephe hattının E alanında kanal meşgul payı 1,00 ve çözülen çerçeve 0.
+- Kanal kilidi: bütün θ değerleri E alanındaki 3 düğüm-dönemin hepsini 1 s'de yakaladı; ikizde yanlış alarm yok.
+- Önceki KK-03 kuralı: ikizde yanlış alarm yok (1 200 düğüm-saniye). Açık dönemde uzak alanda %1,0–4,0, sessiz dönemde %0,8–1,0. Uzak alandaki %1'lik adaylık sınırı tam koşuda belirleyici olabilir.
+- Bağ kuralları ikizde:
+  - tek çerçeveli veri kuralları 1000 çerçevede 14–102;
+  - art arda 2–3 çerçeveli olanlar 1000 çerçevede 1,3–21;
+  - sessizlik kuralları 1000 kullanılabilir bağ-saniyesinde 13–43;
+  - en düşükleri VAZ3 binde 1,26 ve BIR6_15x2 binde 1,77; hiçbiri binde 1'in altında değil.
+
+  Tam koşuda K3 ve K4'te sınırı geçen kural çıkmaması olası. Tek çerçeveli kuralların yanlış alarmı tek denemede başarısızlığın yaygınlığıyla tutarlı: DEN4x1'in binde 102'si, deneme başına ~%50 başarısızlıkla ilk üç denemenin de başarısız olma olasılığına (~%12) yakın.
+- Bitin ulaşması: G alanındaki düğümün açık dönemdeki selamlarının uzak komşulara ulaşan payı 0,44 ve 0,40 (öngörü 15'in aralığının altında). G komşulara 0,23 ve 0,27, E komşulara 0.
+
+**Değişmeyenler:** öngörüler, karar kuralı ve alet değişmedi. Süre tahmini aynı: adım başına 1–2 saat, toplam 4,5–6,5 saat.

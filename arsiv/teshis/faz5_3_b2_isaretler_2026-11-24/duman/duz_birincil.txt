@@ -1,0 +1,47 @@
+==============================================================================
+KAYIP ANATOMISI — dunya referans_2026 · formasyon-surekli · aile derin_sizma · yere toplama · tohum [1003] · KISA PENCERE
+==============================================================================
+    1/1 desparete5_cekirdek                        1003 · PDR(pencere) 0.6987 · 357 s
+
+  desparete5_cekirdek  PDR(pencere) ort 0.699 · üretilen 1597 · geçerli True
+    tohum 1003: PDR 0.6481 (pencere 0.6987) · 357 s
+      düşen/üretilen: iletim_basarisiz 22.4% · rota_gecersiz 7.8% · hedef_yok 4.4%
+      ısınmada düşen (adet): iletim_basarisiz 129 · hedef_yok 71
+      en çok rota_gecersiz (düğüm, adet, geçide km): [[17, 18, 34.0], [4, 12, 26.1], [6, 11, 24.3], [5, 10, 27.8], [14, 6, 27.1]]
+      en çok iletim_basarisiz (düğüm, adet, geçide km): [[4, 68, 26.1], [6, 58, 24.3], [39, 35, 28.3], [17, 28, 34.0], [14, 19, 27.1]]
+      evre: TANIMSIZ — acilma ani 5.0 olcum penceresinin [10.0; 40.0) disinda
+      karıştırıcı evresi (doğuma göre PDR · doğan): once — · acik 0.619 (598) · sessiz 0.778 (600)
+      düşen evreye göre (açık/sessiz/önce): hedef_yok 0/0/71 · iletim_basarisiz 296/34/27 · rota_gecersiz 27/97/0
+      karar bağı kâhin bandı: iyi 95% · orta 2% · kotu 3% · mesafe km {'p10': 2.63, 'p50': 6.34, 'p90': 11.19}
+      karar bağı TEK deneme (yayın) bandı: iyi 62% · orta 29% · kotu 9%
+      başarısız bağ bandı:   iyi 48% · orta 10% · kotu 43% · mesafe km {'p10': 5.14, 'p50': 11.11, 'p90': 14.96} · 69 ayrı bağ, en çok [[6, 7, 58], [4, 2, 39], [4, 18, 29], [17, 29, 19], [14, 18, 14]]
+      veri denemesi 12492 · adreslenen alıcıda: alim_basarili 39.7% · alim_red_mesgul 25.8% · alim_red_onbelge 15.4% · alim_red_per 15.3% · alim_red_yari_cift 3.8% · duyma dışı 0.0%
+      hıza göre deneme payı (adreslenen alıcıda başarı): 1e+06 95.8% (38.6%) · 2e+06 3.1% (63.4%) · 5.5e+06 1.1% (70.4%) · 1.1e+07 0.0% (0.0%)
+      girişimsiz beklenen başarısızlık: deneme 26.9% · karar 3.63%
+    evre × etki alanı                       ed               girisim                  uzak
+    PDR once                                 —                     —                     —
+    PDR acik                        0.154 (13)           0.820 (122)           0.579 (463)
+    PDR sessiz                      1.000 (14)           0.934 (137)           0.724 (449)
+    karar payı once                       0.7%                 31.7%                 67.6%
+    karar payı acik                       0.4%                 23.4%                 76.3%
+    karar payı sessiz                     1.9%                 37.3%                 60.9%
+    düşen/üretilen (ed / girisim / uzak):
+      hedef_yok         once 0.1% / 0.7% / 3.6%
+      iletim_basarisiz  once 0.1% / 0.8% / 0.8% · acik 1.5% / 13.0% / 4.0% · sessiz 0.1% / 0.8% / 1.3%
+      rota_gecersiz     acik 0.0% / 0.1% / 1.6% · sessiz 0.0% / 0.3% / 5.8%
+    doğum evresine göre akıbet (doğana oran, tohumlar toplanmış):
+      evre       doğan   teslim  iletim_basarisiz     rota_gecersiz    kalan
+      acik         598    0.619             0.321             0.043    0.017
+      sessiz       600    0.778             0.058             0.163    0.000
+      acik evrede doğan, düşen × etki alanı (ed / girisim / uzak): iletim_basarisiz 3.5% / 21.1% / 7.5% · rota_gecersiz 0.0% / 0.3% / 4.0%
+    sebep                     ed   girisim      uzak    toplam  üretilene
+    hedef_yok                  0         0        71        71      4.4%
+    iletim_basarisiz          31       174       152       357     22.4%
+    rota_gecersiz              0         1       123       124      7.8%
+    (koşu sonu kuyrukta)                                      10      0.6%
+
+  bolge: ed = karistirici >= ED esigi (kanal erisim kilidi) · girisim = gurultunun ustu · uzak = karistiricidan bagimsiz
+  etki alani: karistirici o an ACIK olsaydi alinacak ORTALAMA guc (yavas kayip; kapi ve hizli sonumleme haric), ayni esikler; paket tablosunda paketin gecit disi ucunda, dogum aninda
+  iletim_basarisiz'in bolgesi ALICIDA (denenen sonraki atlama) okunur; digerleri dustugu dugumde (K-193)
+  bag bandi: kahinin tek deneme basarisindan p_atlama — iyi >= 0,90 · orta 0,50-0,90 · kotu < 0,50 (girisim haric)
+  toplam duvar suresi 358 s

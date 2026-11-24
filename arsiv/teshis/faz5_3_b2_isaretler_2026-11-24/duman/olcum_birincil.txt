@@ -1,0 +1,8 @@
+==============================================================================
+B2 TEŞHİSİ — dünya referans_2026 · birincil (formasyon-surekli, derin_sizma) · kol desparete5_cekirdek · tohum [1003] · KISA PENCERE
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\protokoller\desparete5.py
+  saf işlevler: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b2_isaretler_2026-11-24\isaret.py
+==============================================================================
+    1/1 1003 · PDR(pencere) 0.6987 · denetim tamam · 425 s
+
+  1 koşu kayıtta · hata 0
