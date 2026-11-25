@@ -1,0 +1,54 @@
+B3 teşhisi · karar hesabı · C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b3_bag_olculeri_2026-11-25\duman · DUMAN (hüküm yok)
+
+== K0 · geçerlilik ==
+  ikiz      koşu 1 · geçersiz yok · iç denetim tamam · veri örneği 1256 · ızgara 3475 · kâhin çağrısı 3475
+  birincil  koşu 1 · geçersiz yok · iç denetim tamam · veri örneği 1188 · ızgara 3362 · kâhin çağrısı 3362
+  birebirlik ikiz      ↔ faz5_3_b2_isaretler_2026-11-24\duman\duz_ikiz.json: 1 eşleşen · birebir
+  birebirlik birincil  ↔ faz5_3_b2_isaretler_2026-11-24\duman\duz_birincil.json: 1 eşleşen · birebir
+  hüküm: geçerli
+
+== S1 · ayrışma: log2(E_veri / E_selam), kullanılan bağ (temiz sınıf, ≥ 8 önceki kayıt, E_selam sonlu) ==
+  ikiz      n 963 · ortanca +0.329 · çeyrekler +0.035 … +0.622 · E_veri > E_selam payı 0.782
+  birincil  n 414 · ortanca +0.294 · çeyrekler +0.029 … +0.754 · E_veri > E_selam payı 0.763
+
+== K1 · selamın dönüşümü (S4) ==
+  genel katsayı (seçim yarısı): log2 k = +0.265 (k = 1.201)
+  seçim yarısı (n 1512): OMH D0 0.380 · D1 0.340 · D2 0.394 bit
+  seçilen: D0
+  aktarılabilirlik (ızgara, temiz sınıf): log2(E_selam · p) ortancası kullanılan 0.564 (n 1230) · kullanılmayan 0.962 (n 2932) · fark 0.398 bit → aktarılabilir
+
+== K2 · verinin üstünlüğü (S2): OMH(E_veri, ≤ 16 kayıt) ↔ OMH(Ês*) ==
+  seçim     n 1196 · E_veri 0.242 · Ês* 0.391 bit
+    ikiz      n 817 · E_veri 0.237 · Ês* 0.394
+    birincil  n 379 · E_veri 0.260 · Ês* 0.366
+
+== K3 · yeterli kayıt ve tazelik (S3) ==
+  seçim: n · örnek · OMH E_veri(son n) · OMH Ês* (aynı örnekler)
+     1 ·   1481 · 0.710 · 0.380
+     2 ·   1445 · 0.515 · 0.380
+     3 ·   1412 · 0.415 · 0.384
+     4 ·   1367 · 0.363 · 0.384
+     6 ·   1286 · 0.303 · 0.385
+     8 ·   1196 · 0.295 · 0.391
+    12 ·   1014 · 0.243 · 0.384
+    16 ·    863 · 0.222 · 0.394
+  VERI_EN_AZ (seçim yarısı): 6
+  tazelik, seçim: üst sınır (s) · örnek · OMH E_veri · OMH Ês*
+    ≤    2 ·   1214 · 0.237 · 0.375
+    ≤    5 ·     31 · 0.310 · 0.592
+    ≤   20 ·     38 · 0.442 · 0.618
+    ≤   30 ·      3 · 0.746 · 1.455
+  VERI_TAZE_S (seçim yarısı): 30.0 s
+
+== K4 · yükle oynama (S5), ikiz, bütün tohumlar ==
+  çift 437 · ≥ 1 bit değişen 0 · pay 0.000 → oynama küçük
+  sıra korelasyonu log2 E_veri ↔ göndericinin yükü -0.067 · ↔ alıcının yükü 0.408 (n 963)
+
+== K5 · selamı geçen, veriyi taşımayan bağ (S6; betimleyici) ==
+  ikiz      örneklerin 0.0280'ü (n 963) · bağların 0.087'i (6/69) · süre ortancası 2.0 s · kâhine göre iyi payı 1.000
+  birincil  örneklerin 0.0072'ü (n 414) · bağların 0.031'i (2/65) · süre ortancası 1.5 s · kâhine göre iyi payı 1.000
+
+== K6 · karıştırma altında (S7; betimleyici), birincil ==
+  G (bağ-dönem 23; dönem içinde örneği olan 0.739): E_veri 2 katına 3 s içinde 0.217 · dönem içinde 0.348 | E_selam 3 s içinde 0.000 · dönem içinde 0.000
+  E (bağ-dönem 4; dönem içinde örneği olan 1.000): E_veri 2 katına 3 s içinde 0.250 · dönem içinde 0.250 | E_selam 3 s içinde 0.000 · dönem içinde 0.000
+

@@ -155,3 +155,31 @@ Ardıl bağları bugünkü selam ölçüsüyle seçildiği için selamın en iyi
 - F yalnız örnekten sonra da aynı bağ kullanıldıysa tanımlıdır; ardıl değişince kesilir (seçim yanlılığı).
 - B1'in silmesi teşhiste yalnız selamla ve onaylanan çerçevelerle tazelenir; j'den duyulan öteki çerçeveler yok sayılır. Fark ancak 30 s'den uzun sessizlikte ortaya çıkar.
 - Yalnız formasyon kolu ölçülür; hareketli kollar (bağımsız, görev) ölçülmez.
+
+## Duman notu (25 Kasım; dumandan sonra yazıldı, karar girdisi değil)
+
+**Koşu:**
+- `kosu.sh duman`, beklentinin commit'inden (`08b180e`) sonra, çalışma ağacından; 23:01–23:12, toplam ~12 dk.
+- Kısa pencere, tohum 1003, iki hücre kaydediciyle, yan yana: ikiz 443 s (özeti 19 s), birincil 704 s (özeti 30 s).
+- Çıktılar `duman/`, karar hesabının raporu `duman_kisa.txt`. Kayıt koşu başına ~53 KB (sıkıştırılmış).
+
+**Geçerlilik:**
+- İki hücrede kaydedicinin iç denetimleri geçti: meşgul dilimleri düğümlerin toplamına, MAC sonucu sayısı sayaca eşit; selam alındı; veri örneği var.
+- Satırlar B2 teşhisinin kaydedicisiz duman satırlarıyla (`duz_ikiz.json`, `duz_birincil.json`) bütün alanlarda birebir.
+- Sonuç: kaydedici, kanal meşgul sayacını açmak dâhil, davranışı değiştirmiyor.
+
+**Aletin çalışması:**
+- Karar hesabının bütün bölümleri doldu (K0–K6 ve S1).
+- Kâhin çağrısı ızgara örneği sayısına eşit (3475 · 3362): veri örneklerinin dilimleri ızgaranınkilerle aynı, önbellekten okunuyor.
+- Kısa pencerede tazelik dilimleri az örnekli. 5–10 s dilimi 30'dan az örnekle sonrakiyle birleşti; son dilim (20–30 s) 3 örnekle kaldı ve kural onu kendi başına değerlendirdi, çünkü sonrası yok. Tam koşuda örnek sayısı kabaca 9 (pencere) × 8 (tohum) katıdır.
+
+**Tek tohumda görülenler** (karar girdisi değil; tek tohum, 30 s'lik pencere):
+- S1: veri selamdan pahalı gösteriyor. log2(`E_veri` / `E_selam`)'ın ortancası ikizde +0,33, birincilde +0,29; örneklerin %76–78'inde `E_veri` > `E_selam`.
+- K1: D1, D0'dan 0,04 bit iyi (0,10 sınırının altında), seçim D0; aktarılabilirlik farkı 0,40 bit.
+- K2: `E_veri` 0,24 ↔ Ês* 0,39 bit.
+- K3: `E_veri`'nin OMH'si kayıt sayısıyla düşüyor (1 kayıtta 0,71, 16 kayıtta 0,22 bit); 0,05 bitlik farkı ilk 6 kayıtta sağlıyor.
+- K4: 437 çiftin hiçbiri 10 s'de iki katına değişmedi. `E_veri` ile alıcının yükü arasında sıra korelasyonu 0,41, göndericininkiyle −0,07.
+- K5: ikizde örneklerin %2,8'i, bağların 6/69'u; hepsi kâhine göre iyi bantta.
+- K6: `E_selam` hiçbir bağ-dönemde iki katına çıkmadı; `E_veri` 3 s içinde G alanında %22, E alanında 4 bağ-dönemin 1'inde.
+
+**Değişmeyenler:** öngörüler, karar kuralı ve alet değişmedi. Süre tahmini aynı: adım başına ~1–1,5 saat, toplam ~2–3 saat. Tam pencerede özet koşu başına birkaç dakika ekler; adımın süresi en uzun tohumunkidir.

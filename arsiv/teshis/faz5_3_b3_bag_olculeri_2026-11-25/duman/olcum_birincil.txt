@@ -1,0 +1,8 @@
+==============================================================================
+B3 TEŞHİSİ — dünya referans_2026 · birincil (formasyon-surekli, derin_sizma) · kol desparete5_cekirdek · tohum [1003] · KISA PENCERE
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\protokoller\desparete5.py
+  saf işlevler: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b3_bag_olculeri_2026-11-25\bag.py
+==============================================================================
+    1/1 1003 · PDR(pencere) 0.6987 · veri örneği 1188 · ızgara 3362 · denetim tamam · 704 s (özet 30 s)
+
+  1 koşu kayıtta · hata 0
