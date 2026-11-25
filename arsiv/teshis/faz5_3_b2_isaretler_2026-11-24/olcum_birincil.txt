@@ -1,0 +1,15 @@
+==============================================================================
+B2 TEŞHİSİ — dünya referans_2026 · birincil (formasyon-surekli, derin_sizma) · kol desparete5_cekirdek · tohum [1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b2_isaretler_2026-11-24\kopya\protokoller\desparete5.py
+  saf işlevler: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b2_isaretler_2026-11-24\isaret.py
+==============================================================================
+    1/8 1007 · PDR(pencere) 0.9387 · denetim tamam · 3218 s
+    2/8 1008 · PDR(pencere) 0.8478 · denetim tamam · 3530 s
+    3/8 1010 · PDR(pencere) 0.7706 · denetim tamam · 3721 s
+    4/8 1004 · PDR(pencere) 0.8374 · denetim tamam · 3727 s
+    5/8 1009 · PDR(pencere) 0.8668 · denetim tamam · 3850 s
+    6/8 1006 · PDR(pencere) 0.9048 · denetim tamam · 4135 s
+    7/8 1003 · PDR(pencere) 0.7864 · denetim tamam · 4154 s
+    8/8 1005 · PDR(pencere) 0.6827 · denetim tamam · 4290 s
+
+  8 koşu kayıtta · hata 0

@@ -1,0 +1,8 @@
+ikiz basla 25.11 00:21:05
+ikiz bitti 25.11 01:13:08 cikis 0
+birincil basla 25.11 01:13:08
+birincil bitti 25.11 02:24:39 cikis 0
+dayaniklilik basla 25.11 02:24:39
+dayaniklilik bitti 25.11 03:32:46 cikis 0
+cephe basla 25.11 03:32:46
+cephe bitti 25.11 05:19:31 cikis 0

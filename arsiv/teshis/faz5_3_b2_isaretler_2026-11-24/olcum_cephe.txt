@@ -1,0 +1,15 @@
+==============================================================================
+B2 TEŞHİSİ — dünya referans_2026 · cephe (formasyon-surekli, cephe_hatti) · kol desparete5_cekirdek · tohum [1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b2_isaretler_2026-11-24\kopya\protokoller\desparete5.py
+  saf işlevler: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b2_isaretler_2026-11-24\isaret.py
+==============================================================================
+    1/8 1004 · PDR(pencere) 0.8991 · denetim tamam · 4513 s
+    2/8 1003 · PDR(pencere) 0.8569 · denetim tamam · 4548 s
+    3/8 1007 · PDR(pencere) 0.9187 · denetim tamam · 4900 s
+    4/8 1008 · PDR(pencere) 0.9316 · denetim tamam · 5047 s
+    5/8 1010 · PDR(pencere) 0.9134 · denetim tamam · 5244 s
+    6/8 1009 · PDR(pencere) 0.9115 · denetim tamam · 5317 s
+    7/8 1006 · PDR(pencere) 0.9091 · denetim tamam · 5742 s
+    8/8 1005 · PDR(pencere) 0.8045 · denetim tamam · 6404 s
+
+  8 koşu kayıtta · hata 0

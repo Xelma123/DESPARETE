@@ -1,0 +1,100 @@
+== E1 · kanal kilidi: E alanındaki düğüm-dönemlerde meşgul payı (m) ==
+  birincil: birim 43
+    +0 s: ortanca 0.28 · çeyrekler 0.15–0.88 · m ≥ 0,55 payı 0.30 (n 43)
+    +1 s: ortanca 0.32 · çeyrekler 0.18–0.90 · m ≥ 0,55 payı 0.37 (n 43)
+    +2 s: ortanca 0.35 · çeyrekler 0.21–0.90 · m ≥ 0,55 payı 0.40 (n 43)
+    +3 s: ortanca 0.44 · çeyrekler 0.25–0.95 · m ≥ 0,55 payı 0.42 (n 43)
+    +4 s: ortanca 0.71 · çeyrekler 0.34–1.00 · m ≥ 0,55 payı 0.60 (n 43)
+    +5 s: ortanca 0.80 · çeyrekler 0.39–1.00 · m ≥ 0,55 payı 0.65 (n 43)
+    +6 s: ortanca 0.91 · çeyrekler 0.57–1.00 · m ≥ 0,55 payı 0.74 (n 43)
+    +7 s: ortanca 0.98 · çeyrekler 0.70–1.00 · m ≥ 0,55 payı 0.95 (n 43)
+    ilk m ≥ 0,55 saniyesi (dönem başından): 0: 13 · 1: 5 · 2: 2 · 3: 2 · 4: 6 · 5: 1 · ≥6: 12 · yok: 2
+    birim başına kapsama (dönemin m ≥ 0,55 saniyelerinin payı): < 0,2: 7 · 0,2–0,8: 21 · ≥ 0,8: 15
+  dayaniklilik: birim 52
+    +0 s: ortanca 0.26 · çeyrekler 0.16–0.81 · m ≥ 0,55 payı 0.33 (n 52)
+    +1 s: ortanca 0.28 · çeyrekler 0.20–0.98 · m ≥ 0,55 payı 0.35 (n 52)
+    +2 s: ortanca 0.32 · çeyrekler 0.23–0.99 · m ≥ 0,55 payı 0.44 (n 52)
+    +3 s: ortanca 0.73 · çeyrekler 0.23–0.99 · m ≥ 0,55 payı 0.56 (n 52)
+    +4 s: ortanca 0.92 · çeyrekler 0.58–1.00 · m ≥ 0,55 payı 0.77 (n 52)
+    +5 s: ortanca 0.94 · çeyrekler 0.72–1.00 · m ≥ 0,55 payı 0.87 (n 52)
+    +6 s: ortanca 0.95 · çeyrekler 0.36–1.00 · m ≥ 0,55 payı 0.65 (n 52)
+    +7 s: ortanca 0.89 · çeyrekler 0.39–1.00 · m ≥ 0,55 payı 0.62 (n 52)
+    ilk m ≥ 0,55 saniyesi (dönem başından): 0: 17 · 1: 3 · 2: 4 · 3: 7 · 4: 9 · 5: 7 · yok: 5
+    birim başına kapsama (dönemin m ≥ 0,55 saniyelerinin payı): < 0,2: 10 · 0,2–0,8: 24 · ≥ 0,8: 18
+  cephe: birim 4
+    +0 s: ortanca 1.00 · çeyrekler 0.99–1.00 · m ≥ 0,55 payı 1.00 (n 4)
+    +1 s: ortanca 1.00 · çeyrekler 1.00–1.00 · m ≥ 0,55 payı 1.00 (n 4)
+    +2 s: ortanca 1.00 · çeyrekler 0.99–1.00 · m ≥ 0,55 payı 1.00 (n 4)
+    +3 s: ortanca 1.00 · çeyrekler 1.00–1.00 · m ≥ 0,55 payı 1.00 (n 4)
+    +4 s: ortanca 1.00 · çeyrekler 1.00–1.00 · m ≥ 0,55 payı 1.00 (n 4)
+    +5 s: ortanca 1.00 · çeyrekler 1.00–1.00 · m ≥ 0,55 payı 1.00 (n 4)
+    +6 s: ortanca 1.00 · çeyrekler 1.00–1.00 · m ≥ 0,55 payı 1.00 (n 4)
+    +7 s: ortanca 1.00 · çeyrekler 1.00–1.00 · m ≥ 0,55 payı 1.00 (n 4)
+    ilk m ≥ 0,55 saniyesi (dönem başından): 0: 4
+    birim başına kapsama (dönemin m ≥ 0,55 saniyelerinin payı): < 0,2: 0 · 0,2–0,8: 0 · ≥ 0,8: 4
+
+== E2 · kendi durumumun birleşimi: kanal kilidi VEYA girişim kuralı ==
+  birincil      E (n 43): ED erken 0.465 · dönem içinde 0.953 | G erken 0.488 · dönem içinde 0.884 | ED|G erken 0.605 · dönem içinde 0.953
+  birincil      G (n 323): ED erken 0.056 · dönem içinde 0.183 | G erken 0.341 · dönem içinde 0.554 | ED|G erken 0.356 · dönem içinde 0.604
+  dayaniklilik  E (n 52): ED erken 0.462 · dönem içinde 0.904 | G erken 0.404 · dönem içinde 0.846 | ED|G erken 0.558 · dönem içinde 0.923
+  dayaniklilik  G (n 502): ED erken 0.062 · dönem içinde 0.145 | G erken 0.359 · dönem içinde 0.536 | ED|G erken 0.390 · dönem içinde 0.594
+  cephe         E (n 4): ED erken 1.000 · dönem içinde 1.000 | G erken 0.500 · dönem içinde 1.000 | ED|G erken 1.000 · dönem içinde 1.000
+  cephe         G (n 45): ED erken 0.022 · dönem içinde 0.289 | G erken 0.133 · dönem içinde 0.556 | ED|G erken 0.156 · dönem içinde 0.600
+
+== E3 · girişim kuralının işaretleri G alanındaki düğüm-dönemlerde ==
+  saniye · ortanca s · ortanca c / (dönemden önceki 30 s'nin c ortalaması)
+  birincil
+    +  0 s: s 0.59 · c oranı 0.52 (n 323)
+    +  1 s: s 0.67 · c oranı 0.53 (n 323)
+    +  2 s: s 0.73 · c oranı 0.58 (n 323)
+    +  3 s: s 0.80 · c oranı 0.57 (n 323)
+    +  5 s: s 0.81 · c oranı 0.50 (n 323)
+  dayaniklilik
+    +  0 s: s 0.57 · c oranı 0.44 (n 502)
+    +  1 s: s 0.63 · c oranı 0.44 (n 502)
+    +  2 s: s 0.70 · c oranı 0.44 (n 502)
+    +  3 s: s 0.78 · c oranı 0.45 (n 502)
+    +  5 s: s 0.78 · c oranı 0.47 (n 502)
+  cephe
+    +  0 s: s 0.50 · c oranı 0.74 (n 45)
+    +  1 s: s 0.55 · c oranı 0.65 (n 45)
+    +  2 s: s 0.60 · c oranı 0.75 (n 45)
+    +  3 s: s 0.62 · c oranı 0.79 (n 45)
+    +  5 s: s 0.63 · c oranı 0.78 (n 45)
+    + 10 s: s 0.58 · c oranı 0.60 (n 45)
+    + 20 s: s 0.52 · c oranı 0.87 (n 45)
+    + 40 s: s 0.58 · c oranı 0.73 (n 45)
+    + 80 s: s 0.51 · c oranı 0.78 (n 45)
+    +160 s: s 0.48 · c oranı 0.84 (n 45)
+
+== E4 · göndericinin birleşik kuralı: VAZ3 veya DEN7x3 (bütün tohumlar) ==
+  ikizde yanlış alarm: VAZ3 0.24‰ · DEN7x3 0.46‰ · birleşimin üst sınırı 0.69‰
+  E · birincil      erken 0.256 · dönem içinde 0.651 (n 43)
+  E · dayaniklilik  erken 0.262 · dönem içinde 0.615 (n 65)
+  G · birincil      erken 0.173 · dönem içinde 0.302 (n 510)
+  G · dayaniklilik  erken 0.195 · dönem içinde 0.315 (n 765)
+
+== E5 · bitin ulaşması: selam başına ulaşma payından kaba kestirim ==
+  (selamlar bağımsız sayılırsa) bir uzak komşuya n selamdan en az birinin ulaşma olasılığı
+  birincil      p 0.346 · n=1 0.35 · n=2 0.57 · n=3 0.72 · n=5 0.88
+  dayaniklilik  p 0.345 · n=1 0.35 · n=2 0.57 · n=3 0.72 · n=5 0.88
+  cephe         p 0.420 · n=1 0.42 · n=2 0.66 · n=3 0.80 · n=5 0.93
+
+== E6 · alanın dönem içinde değişmesi (yer–hava görüş hattı) ==
+  birincil      E (n 43): dönemin bu alanda geçen payı ortanca 0.60 · tamamı bu alanda 0.21 · alana ilk giriş (dönem başından, s): 0: 14 · 1: 4 · 2: 1 · 3: 3 · 4–6: 12 · ≥7: 9
+  birincil      G (n 323): dönemin bu alanda geçen payı ortanca 1.00 · tamamı bu alanda 0.74 · alana ilk giriş (dönem başından, s): 0: 284 · 1: 4 · 2: 3 · 3: 4 · 4–6: 15 · ≥7: 13
+  birincil      açık dönemde ardışık iki saniye arasında alan değişimi: 888 / 26880 (3.30%)
+  dayaniklilik  E (n 52): dönemin bu alanda geçen payı ortanca 0.60 · tamamı bu alanda 0.21 · alana ilk giriş (dönem başından, s): 0: 17 · 1: 3 · 2: 4 · 3: 7 · 4–6: 21
+  dayaniklilik  G (n 502): dönemin bu alanda geçen payı ortanca 1.00 · tamamı bu alanda 0.79 · alana ilk giriş (dönem başından, s): 0: 444 · 1: 11 · 2: 7 · 3: 9 · 4–6: 31
+  dayaniklilik  açık dönemde ardışık iki saniye arasında alan değişimi: 589 / 17280 (3.41%)
+  cephe         E (n 4): dönemin bu alanda geçen payı ortanca 1.00 · tamamı bu alanda 0.75 · alana ilk giriş (dönem başından, s): 0: 4
+  cephe         G (n 45): dönemin bu alanda geçen payı ortanca 0.17 · tamamı bu alanda 0.11 · alana ilk giriş (dönem başından, s): 0: 16 · 1: 3 · 2: 2 · 4–6: 7 · ≥7: 17
+  cephe         açık dönemde ardışık iki saniye arasında alan değişimi: 4220 / 54080 (7.80%)
+
+== E7 · alana GİRİŞTEN itibaren gecikme ==
+  birincil      kanal kilidi ED(0,55)  birim 43 · girişten 3 s içinde 0.953 · dönem içinde 0.953 · gecikme ortancası 1.0 s
+  birincil      girişim G              birim 323 · girişten 3 s içinde 0.375 · dönem içinde 0.548 · gecikme ortancası 2.0 s
+  dayaniklilik  kanal kilidi ED(0,55)  birim 52 · girişten 3 s içinde 0.904 · dönem içinde 0.904 · gecikme ortancası 1.0 s
+  dayaniklilik  girişim G              birim 502 · girişten 3 s içinde 0.392 · dönem içinde 0.534 · gecikme ortancası 2.0 s
+  cephe         kanal kilidi ED(0,55)  birim 4 · girişten 3 s içinde 1.000 · dönem içinde 1.000 · gecikme ortancası 1.0 s
+  cephe         girişim G              birim 45 · girişten 3 s içinde 0.156 · dönem içinde 0.556 · gecikme ortancası 12.0 s

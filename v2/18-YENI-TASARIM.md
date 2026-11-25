@@ -9,7 +9,7 @@
 | aşama | durum |
 |---|---|
 | 1 · Zemin | tamam (24 Kasım): 1.1 hedef ve başarı ölçütü, 1.2 kısıtlar, 1.3 kanıt envanteri, 1.4 mimari iskelet |
-| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı: kararım verildi (24 Kasım, alıcı ve gönderici birlikte), kuralları için teşhis ölçümünün beklentisi yazıldı, duman ve koşu sırada |
+| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı: kararım verildi (24 Kasım, alıcı ve gönderici birlikte), teşhis ölçümü koşuldu (25 Kasım), kâğıdı sırada |
 | 3 · Bütünlük ve donma | bekliyor |
 | 4 · Kod ve ölçüm | bekliyor |
 
@@ -409,6 +409,12 @@ Temel güçlük: bilgi alıcıda, karar göndericidedir. Karıştırılan düğ�
 Seçilmeyenler: B güvenli ama yavaş ve kör; C İlke 3'e ters ve sessiz dönem bir koruma ölçütü (§1.1); A ölçüldükten sonra ek olarak düşünülebilir.
 
 **Kuralların seçimi ölçümle.** A'nın en riskli parçası alıcının girişim kuralıdır. Kural ve eşikler tahminle değil, önceden yazılı bir teşhis ölçümüyle seçilir (yöntem: girdi eksikse kısa teşhis). Sorular, karar kuralı ve öngörüler `arsiv/teshis/faz5_3_b2_isaretler_2026-11-24/beklenti.md`de; B2'nin kâğıdı sonucuna göre yazılır.
+
+**Teşhisin sonucu** (25 Kasım, `arsiv/teshis/faz5_3_b2_isaretler_2026-11-24/sonuc.md`; çekirdeğimizin trafiği, dört hücre, 32 koşu):
+- **Girişim kuralı var** (K2): G(α 0,4 · β 0,6 · giriş 2 s · çıkış 1 s), yani çözülen çerçeve kendi ortalamasının %40'ının altında ve selam kaybı ≥ 0,6, iki saniye üst üste. Doğrulama yarısında ikizde yanlış alarm %0,002; karıştırılan düğümlerin %34–35'i 3 s içinde, %53–55'i dönem içinde yakalanıyor.
+- **Kanal kilidi kuralı tutmaz** (K1, önceden yazılı birimle). Kuraldan sonra görülen: yer–hava görüş hattı aynı dönem içinde açılıp kapandığı için düğümler kanal kilidine dönemin ortasında giriyor. Girişten itibaren kural (m ≥ 0,55) %90–95'ini 3 s içinde, ortanca 1 s'de yakalıyor.
+- **Göndericinin bağ kanıtı tanımıyor** (K3, K4): en iyileri art arda 3 vazgeçme ve art arda 3 tam denemeli çerçeve; yanlış alarmları düşük, ama 3 s içinde E alanında %27–35, G alanında %18–21 yakalıyorlar.
+- **Yük koruması gerekmiyor** (K5). Girişimdeki düğümün selamlarının uzak komşulara ulaşma payı 0,35 (K6). Girişim kuralı cephe hattında düşüyor (K7); orada G alanı görüş hattıyla titriyor.
 
 ## Eksiksizlik listesi
 

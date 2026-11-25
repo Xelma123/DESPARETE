@@ -1,0 +1,155 @@
+B2 teşhisi · karar hesabı · C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b2_isaretler_2026-11-24 · hücreler {'ikiz': 8, 'birincil': 8, 'dayaniklilik': 8, 'cephe': 8}
+
+== K0 · geçerlilik ==
+  ikiz          koşu 8 · geçersiz yok · iç denetim tamam
+  birincil      koşu 8 · geçersiz yok · iç denetim tamam
+  dayaniklilik  koşu 8 · geçersiz yok · iç denetim tamam
+  cephe         koşu 8 · geçersiz yok · iç denetim tamam
+  birebirlik ikiz          ↔ faz5_3_dongu_kurallari_2026-11-24\kayit_geri_sinir_ikiz.json: 8 eşleşen · birebir
+  birebirlik birincil      ↔ faz5_3_dongu_kurallari_2026-11-24\kayit_geri_sinir_birincil.json: 8 eşleşen · birebir
+  hüküm: geçerli
+
+== Betimleyici · işaretlerin ortalaması (bütün tohumlar) ==
+  hücre · sınıf · düğüm-saniye · m · c (çerçeve/s) · s
+  ikiz          ikiz      86400 · 0.258 · 71.4 · 0.463
+  birincil      once      32000 · 0.254 · 69.8 · 0.461
+  birincil      sessiz    25600 · 0.285 · 81.4 · 0.464
+  birincil      uzak      23247 · 0.257 · 60.9 · 0.545
+  birincil      G          4929 · 0.187 · 38.3 · 0.734
+  birincil      E           624 · 0.847 · 6.2 · 0.864
+  dayaniklilik  once      32000 · 0.254 · 69.8 · 0.461
+  dayaniklilik  sessiz    35200 · 0.290 · 82.4 · 0.480
+  dayaniklilik  uzak      13723 · 0.252 · 56.2 · 0.554
+  dayaniklilik  G          4948 · 0.192 · 37.1 · 0.722
+  dayaniklilik  E           529 · 0.835 · 6.3 · 0.831
+  cephe         once      32000 · 0.254 · 69.8 · 0.461
+  cephe         uzak      47263 · 0.264 · 72.0 · 0.500
+  cephe         G          6120 · 0.133 · 26.6 · 0.563
+  cephe         E          1017 · 0.922 · 0.8 · 0.795
+
+== K1 · kanal kilidi: kendi durumum (m ≥ θ) ==
+  seçim yarısı: θ · ikizde yanlış alarm · önce · E alanında erken yakalama · dönem içinde · gecikme ortancası (s)
+    0.50 · 0.354% · 0.206% · 0.463 (n 41) · 0.951 · 4.00
+    0.55 · 0.037% · 0.025% · 0.463 (n 41) · 0.927 · 3.50
+    0.60 · 0.000% · 0.000% · 0.366 (n 41) · 0.854 · 4.00
+    0.62 · 0.000% · 0.000% · 0.341 (n 41) · 0.780 · 4.00
+    0.65 · 0.000% · 0.000% · 0.341 (n 41) · 0.780 · 4.00
+    0.70 · 0.000% · 0.000% · 0.341 (n 41) · 0.707 · 4.00
+    0.80 · 0.000% · 0.000% · 0.317 (n 41) · 0.634 · 3.50
+  seçilen: ED(θ=0.55)
+  doğrulama: ikizde yanlış alarm 0.007% · erken yakalama 0.463 (n 54) · gecikme 3.50 s
+  hüküm K1: tutmaz
+
+== K2 · girişim: kendi durumum ==
+  ızgara 288 kural · seçim yarısında yanlış alarm sınırını (ikiz ve önce ≤ 0.1%, açık dönemde uzak ≤ 1%) geçen 61
+  seçim yarısında en iyi 10 (erken yakalamaya göre):
+    G(α=0.4, β=0.6, giriş 2, çıkış 1)        ikiz 0.002% · önce 0.000% · erken 0.359 · dönem içinde 0.548 · gecikme 2.00 s · kapsama 0.315
+    G(α=0.4, β=0.5, giriş 3, çıkış 1)        ikiz 0.002% · önce 0.006% · erken 0.313 · dönem içinde 0.513 · gecikme 3.00 s · kapsama 0.281
+    G(α=0.5, β=0.7, giriş 2, çıkış 1)        ikiz 0.000% · önce 0.000% · erken 0.310 · dönem içinde 0.565 · gecikme 3.00 s · kapsama 0.318
+    GM(α=0.4, β=0.7, giriş 2, çıkış 2)       ikiz 0.005% · önce 0.000% · erken 0.281 · dönem içinde 0.513 · gecikme 3.00 s · kapsama 0.316
+    G(α=0.5, β=0.8, giriş 1, çıkış 1)        ikiz 0.000% · önce 0.000% · erken 0.278 · dönem içinde 0.533 · gecikme 3.00 s · kapsama 0.288
+    GM(α=0.4, β=0.7, giriş 2, çıkış 1)       ikiz 0.002% · önce 0.000% · erken 0.278 · dönem içinde 0.510 · gecikme 3.00 s · kapsama 0.275
+    G(α=0.4, β=0.7, giriş 2, çıkış 1)        ikiz 0.000% · önce 0.000% · erken 0.270 · dönem içinde 0.496 · gecikme 3.00 s · kapsama 0.269
+    G(α=0.4, β=0.7, giriş 2, çıkış 2)        ikiz 0.000% · önce 0.000% · erken 0.270 · dönem içinde 0.496 · gecikme 3.00 s · kapsama 0.306
+    G(α=0.4, β=0.7, giriş 2, çıkış 3)        ikiz 0.000% · önce 0.000% · erken 0.270 · dönem içinde 0.496 · gecikme 3.00 s · kapsama 0.323
+    GM(α=0.4, β=0.8, giriş 1, çıkış 1)       ikiz 0.007% · önce 0.000% · erken 0.264 · dönem içinde 0.528 · gecikme 3.50 s · kapsama 0.267
+  seçilen: G(α=0.4, β=0.6, giriş 2, çıkış 1)
+  seçilen · seçim · birincil     ikiz 0.002% · önce 0.000% · sessiz 0.227% · uzak 0.725% · erken 0.336 (n 140) · dönem içinde 0.586 · gecikme 3.00 s · kapsama 0.320 · çıkış 1.00 s (çıkılmayan 0.000)
+  seçilen · seçim · dayaniklilik ikiz 0.002% · önce 0.000% · sessiz 0.068% · uzak 1.139% · erken 0.376 (n 205) · dönem içinde 0.522 · gecikme 2.00 s · kapsama 0.309 · çıkış 1.00 s (çıkılmayan 0.000)
+  seçilen · doğrulama · birincil     ikiz 0.002% · önce 0.006% · sessiz 0.094% · uzak 0.498% · erken 0.344 (n 183) · dönem içinde 0.530 · gecikme 3.00 s · kapsama 0.321 · çıkış 1.00 s (çıkılmayan 0.000)
+  seçilen · doğrulama · dayaniklilik ikiz 0.002% · önce 0.006% · sessiz 0.017% · uzak 1.508% · erken 0.347 (n 297) · dönem içinde 0.545 · gecikme 3.00 s · kapsama 0.342 · çıkış 1.00 s (çıkılmayan 0.000)
+  önceki KK-03 kuralı · seçim · birincil     ikiz 0.030% · önce 0.000% · sessiz 2.109% · uzak 3.368% · erken 0.414 (n 140) · dönem içinde 0.693 · gecikme 3.00 s · kapsama 0.458 · çıkış 3.00 s (çıkılmayan 0.000)
+  önceki KK-03 kuralı · seçim · dayaniklilik ikiz 0.030% · önce 0.000% · sessiz 1.801% · uzak 6.201% · erken 0.454 (n 205) · dönem içinde 0.629 · gecikme 2.00 s · kapsama 0.462 · çıkış 3.00 s (çıkılmayan 0.000)
+  önceki KK-03 kuralı · doğrulama · birincil     ikiz 0.030% · önce 0.062% · sessiz 2.172% · uzak 3.244% · erken 0.410 (n 183) · dönem içinde 0.661 · gecikme 3.00 s · kapsama 0.453 · çıkış 3.00 s (çıkılmayan 0.000)
+  önceki KK-03 kuralı · doğrulama · dayaniklilik ikiz 0.030% · önce 0.062% · sessiz 2.597% · uzak 6.932% · erken 0.434 (n 297) · dönem içinde 0.694 · gecikme 3.00 s · kapsama 0.499 · çıkış 3.00 s (çıkılmayan 0.000)
+  hüküm K2: girişim kuralı var
+
+== K3 · kanal kilidindeki alıcı: göndericinin bağ kanıtı (veri taşıyan bağlar) ==
+  seçim yarısı: kural · ikizde ‰ · önce ‰ · erken · dönem içinde · gecikme ortancası (s) · birim
+    VAZ1         13.60 ·   14.32 · 0.409 · 0.773 · 2.83 · 44
+    VAZ2          1.32 ·    1.50 · 0.227 · 0.500 · 3.06 · 44
+    VAZ3          0.30 ·    0.27 · 0.205 · 0.432 · 3.92 · 44
+    DEN4x1       92.42 ·   95.79 · 0.545 · 0.841 · 1.94 · 44
+    DEN4x2       17.27 ·   18.66 · 0.273 · 0.568 · 3.04 · 44
+    DEN4x3        4.57 ·    4.96 · 0.227 · 0.500 · 4.24 · 44
+    DEN5x1       57.29 ·   59.40 · 0.500 · 0.795 · 2.01 · 44
+    DEN5x2        8.15 ·    8.72 · 0.273 · 0.591 · 3.06 · 44
+    DEN5x3        1.99 ·    2.25 · 0.227 · 0.477 · 3.92 · 44
+    DEN6x1       34.96 ·   36.51 · 0.432 · 0.773 · 2.77 · 44
+    DEN6x2        4.05 ·    4.29 · 0.250 · 0.545 · 3.06 · 44
+    DEN6x3        0.93 ·    1.03 · 0.227 · 0.455 · 3.35 · 44
+    DEN7x1       21.68 ·   22.65 · 0.455 · 0.795 · 2.76 · 44
+    DEN7x2        2.34 ·    2.40 · 0.227 · 0.500 · 3.06 · 44
+    DEN7x3        0.51 ·    0.51 · 0.205 · 0.432 · 3.92 · 44
+    BIR4_10x1    26.50 ·   27.05 · 0.250 · 0.523 · 3.33 · 44
+    BIR4_10x2     4.69 ·    5.09 · 0.136 · 0.432 · 3.81 · 44
+    BIR4_15x1    17.44 ·   17.45 · 0.182 · 0.455 · 3.90 · 44
+    BIR4_15x2     2.86 ·    3.00 · 0.068 · 0.341 · 5.28 · 44
+    BIR6_10x1    10.48 ·   10.82 · 0.227 · 0.523 · 3.33 · 44
+    BIR6_10x2     1.07 ·    1.12 · 0.114 · 0.386 · 3.81 · 44
+    BIR6_15x1     6.84 ·    6.89 · 0.182 · 0.432 · 3.53 · 44
+    BIR6_15x2     0.68 ·    0.79 · 0.068 · 0.341 · 5.28 · 44
+    SES2         45.05 ·   45.27 · 0.136 · 0.682 · 6.60 · 44
+    SES3         21.43 ·   21.32 · 0.000 · 0.409 · 8.80 · 44
+    SES4         16.16 ·   16.05 · 0.000 · 0.364 · 10.56 · 44
+    SESu         14.40 ·   14.48 · 0.000 · 0.409 · 8.80 · 44
+  yanlış alarm sınırını (≤ 1‰) geçen 3 · seçilen: VAZ3
+  doğrulama · birincil     ikiz 0.17‰ · önce 0.15‰ · erken 0.348 (n 23) · dönem içinde 0.739 · gecikme 3.24 s
+  doğrulama · dayaniklilik ikiz 0.17‰ · önce 0.15‰ · erken 0.268 (n 41) · dönem içinde 0.780 · gecikme 4.43 s
+    yaprak benzeri  erken 0.277 (n 47)
+    röle            erken 0.353 (n 17)
+  hüküm K3: göndericide tanınmaz
+
+== K4 · girişimdeki alıcı: göndericinin bağ kanıtı (veri taşıyan bağlar) ==
+  seçim yarısı: kural · ikizde ‰ · önce ‰ · erken · dönem içinde · gecikme ortancası (s) · birim
+    VAZ1         13.60 ·   14.32 · 0.370 · 0.566 · 1.41 · 548
+    VAZ2          1.32 ·    1.50 · 0.239 · 0.370 · 1.96 · 548
+    VAZ3          0.30 ·    0.27 · 0.141 · 0.234 · 2.65 · 548
+    DEN4x1       92.42 ·   95.79 · 0.467 · 0.692 · 1.13 · 548
+    DEN4x2       17.27 ·   18.66 · 0.323 · 0.505 · 1.88 · 548
+    DEN4x3        4.57 ·    4.96 · 0.243 · 0.401 · 2.55 · 548
+    DEN5x1       57.29 ·   59.40 · 0.436 · 0.648 · 1.06 · 548
+    DEN5x2        8.15 ·    8.72 · 0.294 · 0.465 · 1.85 · 548
+    DEN5x3        1.99 ·    2.25 · 0.223 · 0.359 · 2.48 · 548
+    DEN6x1       34.96 ·   36.51 · 0.403 · 0.599 · 1.05 · 548
+    DEN6x2        4.05 ·    4.29 · 0.286 · 0.434 · 1.82 · 548
+    DEN6x3        0.93 ·    1.03 · 0.192 · 0.299 · 2.48 · 548
+    DEN7x1       21.68 ·   22.65 · 0.396 · 0.580 · 1.11 · 548
+    DEN7x2        2.34 ·    2.40 · 0.257 · 0.403 · 1.96 · 548
+    DEN7x3        0.51 ·    0.51 · 0.159 · 0.266 · 2.68 · 548
+    BIR4_10x1    26.50 ·   27.05 · 0.261 · 0.476 · 2.72 · 548
+    BIR4_10x2     4.69 ·    5.09 · 0.155 · 0.297 · 2.84 · 548
+    BIR4_15x1    17.44 ·   17.45 · 0.179 · 0.380 · 3.16 · 548
+    BIR4_15x2     2.86 ·    3.00 · 0.100 · 0.217 · 3.60 · 548
+    BIR6_10x1    10.48 ·   10.82 · 0.232 · 0.407 · 2.30 · 548
+    BIR6_10x2     1.07 ·    1.12 · 0.141 · 0.243 · 2.76 · 548
+    BIR6_15x1     6.84 ·    6.89 · 0.151 · 0.316 · 3.11 · 548
+    BIR6_15x2     0.68 ·    0.79 · 0.084 · 0.184 · 3.45 · 548
+    SES2         45.05 ·   45.27 · 0.126 · 0.507 · 5.07 · 548
+    SES3         21.43 ·   21.32 · 0.069 · 0.270 · 5.57 · 548
+    SES4         16.16 ·   16.05 · 0.046 · 0.199 · 6.18 · 548
+    SESu         14.40 ·   14.48 · 0.047 · 0.197 · 5.94 · 548
+  yanlış alarm sınırını (≤ 1‰) geçen 3 · seçilen: DEN7x3
+  doğrulama · birincil     ikiz 0.40‰ · önce 0.52‰ · erken 0.184 (n 277) · dönem içinde 0.307 · gecikme 2.74 s
+  doğrulama · dayaniklilik ikiz 0.40‰ · önce 0.52‰ · erken 0.213 (n 450) · dönem içinde 0.358 · gecikme 2.62 s
+    yaprak benzeri  erken 0.159 (n 515)
+    röle            erken 0.307 (n 212)
+  hüküm K4: göndericide tanınmaz
+
+== K5 · kalabalık: G(α=0.4, β=0.6, giriş 2, çıkış 1) ikizde yükün üçte birlerine göre yanlış alarm ==
+  düşük   meşgul payı 0.01–0.21 · yanlış alarm 0.007% (2 / 28657)
+  orta    meşgul payı 0.21–0.30 · yanlış alarm 0.000% (0 / 28634)
+  yüksek  meşgul payı 0.30–0.58 · yanlış alarm 0.000% (0 / 29109)
+  hüküm K5: yük koruması gerekmez (en yüklü üçte birde 0.000%, sınır 0.300%)
+
+== K6 · bitin ulaşması: G alanındaki düğümün açık dönemdeki selamlarından tanıdık komşulara ulaşan pay ==
+  birincil      alıcı U: 0.346 (39579) · alıcı G: 0.268 (13334) · alıcı E: 0.166 (1835)
+  dayaniklilik  alıcı U: 0.345 (33453) · alıcı G: 0.251 (19267) · alıcı E: 0.093 (1837)
+  cephe         alıcı U: 0.420 (53002) · alıcı G: 0.283 (8871) · alıcı E: 0.000 (700)
+
+== K7 · genelleme: seçilen kurallar cephe hattında (bütün tohumlar) ve birincilde ==
+  kanal kilidi: ED(θ=0.55) · cephe önce yanlış alarm 0.013% · erken 1.000 (n 4) · kapsama 0.939 · çıkılmayan 1.000 ↔ birincil 0.465 (n 43)
+  girişim: G(α=0.4, β=0.6, giriş 2, çıkış 1) · cephe önce yanlış alarm 0.003% · erken 0.133 (n 45) · kapsama 0.130 · çıkılmayan 0.000 ↔ birincil 0.341 (n 323) · GENELLEMEDE DÜŞÜYOR
+  bağ (E): VAZ3 · cephe önce 0.22‰ · erken 0.600 (n 5) ↔ birincil 0.256 (n 43)
+  bağ (G): DEN7x3 · cephe önce 0.52‰ · erken 0.046 (n 65) ↔ birincil 0.171 (n 510) · GENELLEMEDE DÜŞÜYOR
+
