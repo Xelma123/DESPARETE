@@ -9,7 +9,7 @@
 | aşama | durum |
 |---|---|
 | 1 · Zemin | tamam (24 Kasım): 1.1 hedef ve başarı ölçütü, 1.2 kısıtlar, 1.3 kanıt envanteri, 1.4 mimari iskelet |
-| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); sırada 2.3 B3 bağın durumu |
+| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu: kararım verildi (25 Kasım: kullanılan bağın maliyeti veriden, kullanılmayanınki selamdan, eşikle düşürme yok; karıştırılan bağ son çare), teşhis ölçümünün beklentisi yazıldı (25 Kasım), sırada duman ve koşu |
 | 3 · Bütünlük ve donma | bekliyor |
 | 4 · Kod ve ölçüm | bekliyor |
 
@@ -425,6 +425,47 @@ Seçilmeyenler: B güvenli ama yavaş ve kör; C İlke 3'e ters ve sessiz dönem
 | 3 · kanal kilidi durumunu kaldırmak | kendi durumum yalnız yok · girişim | kilitli düğüm daha geç ve daha az tanınır (girişim kuralı E alanında 3 s içinde 0,40–0,49; teşhis §8.2); hariç aralık zayıflar |
 
 Kararım: 1. Hüküm işaretin zayıflığından değil, birimin tanımından geliyor; 2 aynı yere varır, 3 iyi çalışan bir işareti atar. Kuralın katkısı Aşama 4'te ablasyonla ölçülür (`bilesen/B2-KARISTIRMA-KANITI.md` §15).
+
+### 2.3 · B3 · Bağın durumu (25 Kasım, kararım)
+
+Kâğıt: teşhis ölçümünden sonra (`arsiv/teshis/faz5_3_b3_bag_olculeri_2026-11-25/`).
+
+**Sorun.** B3 her bağ için iki şeye karar verir: bağ kullanılabilir mi (ve hangi sırada) ve maliyeti ne (B4 yol seçerken toplar). Girdileri B1'in iki ölçüsü (`E_selam`, `E_veri`; ikisi de beklenen deneme sayısı) ve B2'nin kanıtıdır. Önceki tasarımda eşikler iyi bağları düşürüyordu; karıştırılan bağ ise hiç kullanılmıyordu (`kural/KK-01`).
+
+**Kanıt** (ölçüldü):
+- Selam eşiğiyle çıkan bağlar kâhine göre iyi: çıkış anında `d_f · d_r` ~0,23–0,24, kâhinin tek deneme başarısı ~0,71–0,76. Veri tetiği kapalıyken kalan açlıkların kökü bu: tohum 1005'teki 155 bölümün hepsi selam eşiğinden (`arsiv/teshis/faz5_3_aclik_2026-11-18/sonuc.md` §6).
+- Veriden hızlı tetik iyi bağları attı (%99,7'si iyi); kalkınca ikizde 0,810 → 0,946 (aynı belge §1–§3).
+- Vazgeçme tetiği ayırt edilemedi: ikizde +0,014 (6/8), birincilde −0,009. Birincilde tetiklediği bağların %40'ı kâhine göre kötü bantta; iki hücrede döngüyü ters yönde etkiledi (`arsiv/teshis/faz5_3_yeni_cekirdek_2026-11-19/sonuc.md` §5, §6, §9).
+- Eski veri tetiği yokken ikizde vazgeçmelerin %36–41'i en kötü beş bağda ve bu bağlar kâhine göre iyi bantta: selamı geçen ama veriyi taşımayan bağlar (açlık teşhisi §6; yeni çekirdek §6). Sebebi ölçülmedi.
+- Kanal kalabalık: veri denemelerinde tek deneme başarısı 0,46–0,49; onay %94–96 geri geliyor (§2.1).
+- Birincilde açık dönem kaybının büyüğü karıştırılan bağda, iletimde (0,267–0,335); kâhin bu bağları bildiği için 0,779 (§2.2).
+- Karıştırılan alıcıya giden veri çerçevesi başına deneme: girişimde 3,9, kanal kilidinde 6,3, temizde 2,0 (`arsiv/teshis/faz5_2_isaretler_2026-11-16/sonuc.md` §3). Vazgeçme 7 deneme olduğundan girişimdeki alıcıya giden çerçevelerin önemli bir kısmı ulaşıyor olmalı (varsayım; payı ölçülmedi).
+- Sessiz dönemde teslim: eğimli kollar 0,826–0,863, uygulanabilirlik koşulu 0,911, Babel 0,916. Farkın büyüğü yol seçiminden (B4); B3'ün payı karıştırma bitince bağın dönüş hızıdır.
+
+**Seçenekler · çekirdek** (iki ölçüden maliyet ve kullanılabilirlik):
+
+| | ne | artı | eksi ve bedel |
+|---|---|---|---|
+| 1 · önceki yol | maliyet selamdan; iki eşikle (4'te çıkar, 3'te döner) KÖTÜ; veri yalnız uyarı (vazgeçme işareti) | ölçüldü, basit | eşiğin yanılgısı kalır (iyi bağlar düşer, açlığın kökü); vazgeçme işareti ayırt edilemedi; `E_veri` kullanılmaz |
+| **2 · kullanılan bağ veriyle, kullanılmayan selamla; eşikle düşürme yok** | yeterli ve taze veri kaydı varsa maliyet `E_veri`, yoksa `E_selam`; bağ yalnız maliyeti ∞ ise kullanılmaz (tek yönlü ya da verisi hiç geçmiyor); kötü bağ pahalıdır, yedeği varsa yol seçimi onu bırakır | kullanılan bağın gerçek bedeli, çarpışmalar dâhil; eşik çıkışı yok; veriyi taşımayan bağ pahalılaşır; veri tetik değil maliyettir (4B [69]) | iki kaynak aynı terazide: selam kötümser olduğundan veriyle ölçülen ardıl, selamla ölçülen yedekten ucuz görünebilir; veri ölçüsü yükle oynar (salınım, `17` T-4; histerezis B4'te); değerleri ölçülmedi |
+| 3 · tek birleşik tahmin (4B gibi) | selam başlatır, veri inceltir; tek üstel ortalama | tek sayı, kaynak geçişi yok; 4B sabit deney ağlarında paket başına iletimi %29–44 azalttı | selamın kötümserliği ortalamaya karışır; iki zaman sabiti; karıştırmaya yavaş tepki; bizde ölçülmedi |
+
+**Seçenekler · karıştırma eki** (B2'nin kanıtı bağa ne yapar):
+
+| | ne | artı | eksi ve bedel |
+|---|---|---|---|
+| **E1 · son çare** | kanıt varken bağ, karıştırılmayan aday yoksa kullanılır; kanıt kalkınca eski maliyetiyle hemen döner | yedek varken kâhin gibi dolaşır; yedek yokken paketi yine dener; açlık doğurmaz | kanal kilidindeki alıcıya gönderim çoğu zaman boşa kanal süresidir |
+| E2 · kullanım dışı (önceki `17` T-7) | kanıt varken bağ hiç kullanılmaz | en basit; kilitli alıcıya boşa gönderim yok | yedek yoksa yol yok: paket bekler ya da düşer (açlık riski) |
+| E3 · maliyete karıştırma payı | kanıt varken maliyet bir katsayıyla büyür | maliyet sırası korunur | katsayı tahmine dayanır; önceki tasarım reddetti (T-7: ceza yavaş söner, salınım); pay kanıt kalkınca hemen silinirse E1'e yaklaşır |
+
+**Kararım: 2 ve E1.**
+- 2, sorunun kökü olan eşikle düşürmeyi tetik eklemeden kaldırır ve kullanılan bağın gerçek bedelini ölçer. Selamı geçen ama veriyi taşımayan bağ pahalılaşır, yedek varsa bırakılır. B1'in iki ölçüsü de kullanılır.
+- E1, yedek varken E2 gibi davranır. Yedek yokken girişimdeki alıcıya göndermek göndermemekten iyidir (çerçeve başına 3,9 deneme). Açlık doğurmaz.
+- Ek ne olursa olsun: dondurma yok, karıştırmadan önceki kalite B1'in hariç aralığıyla korunur; kendi karıştırılmamda bağlar MAC sonucuyla değişmez (B2 ayıklar); kanıt kalkınca hemen dönüş (İlke 3).
+
+Seçilmeyenler: 1, kanıtlanmış yanılgıyı bıraktığı ve `E_veri`'yi kullanmadığı için; 3, selamın kötümserliğini veriye karıştırdığı ve karıştırmaya yavaş kaldığı için; E2, yedek yokken yol bırakmadığı için; E3, katsayısı tahmine dayandığı için. Karıştırma eki hiç ölçülmedi; katkısı Aşama 4'te ablasyonla ölçülür.
+
+**Kâğıttan önce teşhis.** 2'nin iki riski ve değerleri ölçülmedi: (a) iki kaynak aynı terazide, (b) veri ölçüsünün yükle oynaması; ayrıca kaç veri kaydının "yeterli" olduğu ve selamın veri cinsine çevrilip çevrilmeyeceği. Kısa, önceden yazılı bir teşhis (yöntem: girdi eksikse kısa teşhis): bugünkü çekirdeğin trafiğinde aynı bağda `E_selam`, `E_veri`, kâhinin tek deneme başarısı ve bağın sonraki veri bedeli yan yana. Sorular, karar kuralı ve öngörüler beklentide.
 
 ## Eksiksizlik listesi
 
