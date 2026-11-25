@@ -9,7 +9,7 @@
 | aşama | durum |
 |---|---|
 | 1 · Zemin | tamam (24 Kasım): 1.1 hedef ve başarı ölçütü, 1.2 kısıtlar, 1.3 kanıt envanteri, 1.4 mimari iskelet |
-| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı: kararım verildi (24 Kasım, alıcı ve gönderici birlikte), teşhis ölçümü koşuldu (25 Kasım), kâğıdı sırada |
+| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); sırada 2.3 B3 bağın durumu |
 | 3 · Bütünlük ve donma | bekliyor |
 | 4 · Kod ve ölçüm | bekliyor |
 
@@ -369,7 +369,7 @@ Seçilmeyenler: 1, kanıtlanmış iki yanılgıyı bıraktığı için; 3, kontr
 
 ### 2.2 · B2 · Karıştırma kanıtı (24 Kasım, kararım)
 
-Kâğıt: teşhis ölçümünden sonra (`arsiv/teshis/faz5_3_b2_isaretler_2026-11-24/`).
+Kâğıt: `bilesen/B2-KARISTIRMA-KANITI.md` (onaylandı, 25 Kasım); teşhis ölçümü `arsiv/teshis/faz5_3_b2_isaretler_2026-11-24/`. Kâğıttaki yapı kararları: kendi durumum iki kuralın birleşimi, kanal kilidi öncelikli (kural 7); kendi aralıklarımın başlangıcı geriye dönük, işaretli ilk saniyeden (kural 8); bit, durum "yok" değilken 1 (kural 9); göndericinin kanıtı art arda 3 tam denemeli çerçeve (art arda 3 vazgeçmeyi kapsar), kendi aralığıma düşen olay geçersiz (kural 12–13); sessizlik kuralı yok (§2); B2 kanıt verir, bağın durumu ve süreleri B3'ün (§11); kendi durumun üst süresi yok (§4); c̄'nin dışlama eşiği ölçüldüğü gibi 0,62 (`bilesen/00-DIZIN.md`); cephe hattı kapsam sınırı (§15).
 
 **Sorun.** B2 iki soruyu cevaplar: "ben karıştırılıyor muyum" (yok · girişim · kanal kilidi) ve "hangi komşumla bağım karıştırılıyor". Karar vermez: bağı bırakmak B3'ün, yolu değiştirmek B4'ün işidir. Karıştırıcının çevresinde iki bölge vardır:
 - **kanal kilidi** (ED, karıştırıcıya çok yakın): düğüm kanalı hep dolu görür, ne gönderebilir ne duyabilir; birincilde açık dönemde ortalama 0,9 düğüm;
@@ -415,6 +415,16 @@ Seçilmeyenler: B güvenli ama yavaş ve kör; C İlke 3'e ters ve sessiz dönem
 - **Kanal kilidi kuralı tutmaz** (K1, önceden yazılı birimle). Kuraldan sonra görülen: yer–hava görüş hattı aynı dönem içinde açılıp kapandığı için düğümler kanal kilidine dönemin ortasında giriyor. Girişten itibaren kural (m ≥ 0,55) %90–95'ini 3 s içinde, ortanca 1 s'de yakalıyor.
 - **Göndericinin bağ kanıtı tanımıyor** (K3, K4): en iyileri art arda 3 vazgeçme ve art arda 3 tam denemeli çerçeve; yanlış alarmları düşük, ama 3 s içinde E alanında %27–35, G alanında %18–21 yakalıyorlar.
 - **Yük koruması gerekmiyor** (K5). Girişimdeki düğümün selamlarının uzak komşulara ulaşma payı 0,35 (K6). Girişim kuralı cephe hattında düşüyor (K7); orada G alanı görüş hattıyla titriyor.
+
+**Kanal kilidi kuralı** (25 Kasım, kararım). K1'in hükmü önceden yazılı birimle "tutmaz"; beklentinin bu hükme yazdığı sonuç "kanal kilidi için başka işaret aranır". Kuraldan sonra ölçülen: K1'in birimi gecikmeyi dönem başından sayıyor ve yer–hava görüş hattı yüzünden E birimlerinin yarısından fazlası alana dönemin 3. saniyesinden sonra giriyor. Bu birimle ulaşılabilecek en yüksek erken yakalama doğrulamada 0,463, kuralınki de 0,463 (`ek_hesap.txt` E8).
+
+| | ne | bedel |
+|---|---|---|
+| **1 · kuralı kullanmak, dayanağın sonuçtan sonra olduğunu açıkça yazmak** | `m` ≥ 0,55; dayanak alana girişten ölçü (E7), tavan (E8) ve teşhis (d); `06` §10'a kayıt | dayanağın bir kısmı sonuç görüldükten sonra kuruldu |
+| 2 · önceden yazılı sonuca uymak: başka işaret (çözülen çerçeve, CRC hatası) | kayıtlar elde, yeni koşu gerekmez | hesap yine sonuçtan sonra; aynı birimle aynı tavana takılır |
+| 3 · kanal kilidi durumunu kaldırmak | kendi durumum yalnız yok · girişim | kilitli düğüm daha geç ve daha az tanınır (girişim kuralı E alanında 3 s içinde 0,40–0,49; teşhis §8.2); hariç aralık zayıflar |
+
+Kararım: 1. Hüküm işaretin zayıflığından değil, birimin tanımından geliyor; 2 aynı yere varır, 3 iyi çalışan bir işareti atar. Kuralın katkısı Aşama 4'te ablasyonla ölçülür (`bilesen/B2-KARISTIRMA-KANITI.md` §15).
 
 ## Eksiksizlik listesi
 

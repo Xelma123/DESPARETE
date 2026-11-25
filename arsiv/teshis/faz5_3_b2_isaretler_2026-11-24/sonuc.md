@@ -150,6 +150,7 @@ Yanlış alarm sınırını (≤ binde 1, ikiz ve önce) geçen yalnız üç kur
 
   Kural, teşhis (d)'deki gibi düğümü kanal kilidine girdiği saniyede tanıyor.
 - **Ölçü neden ayrıştı:** K1'in birimi (alan dönemin ortasında, gecikme dönem başından) bu modelde düğümün kanal kilidine girmesini bekleme süresini de gecikmeye katıyor.
+- **Tavan** (E8; 25 Kasım, kanal kilidi kararından sonra eklendi): K1'in birimiyle bir kuralın ulaşabileceği en yüksek erken yakalama, alana ilk girişi dönem başından 3 s içinde karara izin veren birimlerin payıdır. Doğrulamada (birincil ve dayanıklılık birlikte) tavan 0,463 (25/54), kanal kilidi kuralı 0,463 (25/54); seçimde 0,439 ve 0,463 (kural bir birimi geçiş saniyesinde, alan etiketinden önce yakaladı). K1'in 0,80 sınırına bu birimle hiçbir kanal kilidi kuralı ulaşamazdı.
 - **Aynı etki öteki birimlerde:** K2–K4 de dönem başından ölçüldü. G alanında küçük, çünkü birimlerin %74–79'u bütün dönem G alanında. Girişim kuralının girişten itibaren 3 s içinde yakalaması 0,375–0,392 (dönem başından 0,341–0,359). Bağ birimlerinde alıcının kimliği kayda girmediği için girişe göre yeniden hesaplanamadı.
 
 **8.2 · Kendi durumumun birleşimi** (E2), kanal kilidi VEYA girişim kuralı:
@@ -179,7 +180,7 @@ Tek başına kurallardan belirgin iyi değil.
   - Yanlış alarmı ikizde %0,002, açık dönemde uzak alanda %0,5–1,5.
   - Karıştırılan düğümlerin üçte birini 3 s içinde, yarısından fazlasını dönem içinde yakalıyor.
   - Bit için kullanılabilir.
-- **Kanal kilidi:** K1'in hükmü "tutmaz". Kuraldan sonra görülen, kuralın (m ≥ 0,55) düğümü kanal kilidine girdiği saniyede tanıdığı (§8.1). Hangisine dayanılacağı B2'nin kâğıdında karara bağlanır.
+- **Kanal kilidi:** K1'in hükmü "tutmaz". Kuraldan sonra görülen, kuralın (m ≥ 0,55) düğümü kanal kilidine girdiği saniyede tanıdığı (§8.1). Hangisine dayanılacağı B2'nin kâğıdında karara bağlanır. → 25 Kasım kararım: kural alındı; dayanağı §8.1 (E7, E8) ve teşhis (d), sonuçtan sonra diye `v2/06` §10'a yazıldı (`v2/18` §2.2, `v2/bilesen/B2-KARISTIRMA-KANITI.md` §15).
 - **Göndericinin kanıtı yavaş:** hiçbir bağ kuralı 3 s içinde E alanının yarısını, G alanının üçte birini yakalamıyor. En iyileri art arda vazgeçme ve tam deneme dizileri; yanlış alarmları düşük ama geç. Karıştırılan bağın hızlı kanıtı alıcının bitidir.
 - **Karıştırmanın düğümdeki etkisi aynı açık dönem içinde açılıp kapanabiliyor** (yer–hava görüş hattı). B2'nin girişi ve çıkışı hızlı olmalı; seçilen kuralın 1 s'lik çıkışı buna uygun.
 - **Bitin selam başına ulaşma payı düşük** (0,35). Bitin değişince hemen bir selamla gitmesi ve birkaç selam boyunca tekrarlanması B6'dan beklenir.

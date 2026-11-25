@@ -18,6 +18,10 @@ E6 alanın dönem içinde değişmesi (yer–hava görüş hattının açılıp 
 E7 alana GİRİŞTEN itibaren gecikme: kanal kilidi kuralı E birimlerinde,
    girişim kuralı G birimlerinde (birim tanımı K1–K2'ninkiyle aynı; yalnız
    gecikmenin başlangıcı dönem başı yerine alana ilk giriş).
+E8 (25 Kasım, kanal kilidi kararından sonra eklendi; E1–E7'nin çıktısı
+   değişmez) K1'in birimiyle ulaşılabilecek en yüksek erken yakalama: alana
+   ilk girişi, dönem başından 3 s içinde karara izin veren E birimlerinin
+   payı; yanında ED(0,55)'in K1'in yoluyla hesaplanan erken yakalaması.
 """
 
 from __future__ import annotations
@@ -236,3 +240,37 @@ for h in ("birincil", "dayaniklilik", "cephe"):
                   f"{sum(g <= SH.ERKEN_S for g in var) / len(gec):.3f} · dönem "
                   f"içinde {len(var) / len(gec):.3f} · gecikme ortancası "
                   f"{(np.median(var) if var else float('nan')):.1f} s")
+print()
+
+print("== E8 · K1'in birimiyle ulaşılabilecek en yüksek erken yakalama ==")
+print("  birim K1'inki: dönemin ortasında E alanında olan düğüm-dönem; gecikme "
+      "dönem başından, karar saniye sonunda")
+print("  tavan: alana ilk giriş saniyesinin sonu dönem başından en çok 3 s sonra "
+      "olan birimlerin payı. Alan saniyenin ortasında okunur;")
+print("  kural geçiş saniyesinde alan etiketinden önce de ateşlenebilir, tavan "
+      "bu yüzden yaklaşıktır")
+for yari_ad, tohumlar in (("seçim", SH.SECIM), ("doğrulama", SH.DOGRULAMA)):
+    for hucreler in (("birincil",), ("dayaniklilik",), SH.KARISTIRMA):
+        say = tavan = erken = 0
+        for h in hucreler:
+            for tohum, x in hazir[h]:
+                if tohum not in tohumlar:
+                    continue
+                dur = durum_ed(x)
+                for n, q, alan, on, off, son in x["birim"]:
+                    if alan != "E":
+                        continue
+                    say += 1
+                    T0, T1 = int(on), min(int(off), x["S"])
+                    kd = x["kod"][n][T0:T1]
+                    giris = next((T0 + d for d in range(kd.size)
+                                  if kd[d] == KOD["E"]), None)
+                    if giris is not None and giris + 1 - on <= SH.ERKEN_S + 1e-9:
+                        tavan += 1
+                    g = I.donem_olcusu(list(dur[n]), on, off, son)[0]
+                    if g is not None and g <= SH.ERKEN_S:
+                        erken += 1
+        if say:
+            print(f"  {yari_ad:<9} {' + '.join(hucreler):<23} birim {say:>3} · "
+                  f"tavan {tavan / say:.3f} ({tavan}/{say}) · ED(0,55) erken "
+                  f"{erken / say:.3f} ({erken}/{say})")

@@ -98,3 +98,14 @@
   dayaniklilik  girişim G              birim 502 · girişten 3 s içinde 0.392 · dönem içinde 0.534 · gecikme ortancası 2.0 s
   cephe         kanal kilidi ED(0,55)  birim 4 · girişten 3 s içinde 1.000 · dönem içinde 1.000 · gecikme ortancası 1.0 s
   cephe         girişim G              birim 45 · girişten 3 s içinde 0.156 · dönem içinde 0.556 · gecikme ortancası 12.0 s
+
+== E8 · K1'in birimiyle ulaşılabilecek en yüksek erken yakalama ==
+  birim K1'inki: dönemin ortasında E alanında olan düğüm-dönem; gecikme dönem başından, karar saniye sonunda
+  tavan: alana ilk giriş saniyesinin sonu dönem başından en çok 3 s sonra olan birimlerin payı. Alan saniyenin ortasında okunur;
+  kural geçiş saniyesinde alan etiketinden önce de ateşlenebilir, tavan bu yüzden yaklaşıktır
+  seçim     birincil                birim  17 · tavan 0.353 (6/17) · ED(0,55) erken 0.412 (7/17)
+  seçim     dayaniklilik            birim  24 · tavan 0.500 (12/24) · ED(0,55) erken 0.500 (12/24)
+  seçim     birincil + dayaniklilik birim  41 · tavan 0.439 (18/41) · ED(0,55) erken 0.463 (19/41)
+  doğrulama birincil                birim  26 · tavan 0.500 (13/26) · ED(0,55) erken 0.500 (13/26)
+  doğrulama dayaniklilik            birim  28 · tavan 0.429 (12/28) · ED(0,55) erken 0.429 (12/28)
+  doğrulama birincil + dayaniklilik birim  54 · tavan 0.463 (25/54) · ED(0,55) erken 0.463 (25/54)
