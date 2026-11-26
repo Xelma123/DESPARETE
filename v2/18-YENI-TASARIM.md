@@ -9,7 +9,7 @@
 | aşama | durum |
 |---|---|
 | 1 · Zemin | tamam (24 Kasım): 1.1 hedef ve başarı ölçütü, 1.2 kısıtlar, 1.3 kanıt envanteri, 1.4 mimari iskelet |
-| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu tamam (26 Kasım: teşhis ölçümüyle seçenek 2'nin dayanağı tutmadı, yeniden kararım A: bağın maliyeti selamdan, eşikle düşürme yok, veri yalnız güvenlik ağı; karıştırılan bağ son çare; kâğıt onaylandı); sırada 2.4 B4 yol |
+| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu tamam (26 Kasım: teşhis ölçümüyle seçenek 2'nin dayanağı tutmadı, yeniden kararım A: bağın maliyeti selamdan, eşikle düşürme yok, veri yalnız güvenlik ağı; karıştırılan bağ son çare; kâğıt onaylandı); 2.4 B4 yol tamam (26 Kasım: uygulanabilirlik koşulu, Babel ailesi; olağan bağlar son çaredekilerden önce; kâğıt onaylandı); sırada 2.5 B5 iletim kararı |
 | 3 · Bütünlük ve donma | bekliyor |
 | 4 · Kod ve ölçüm | bekliyor |
 
@@ -497,6 +497,57 @@ Seçilmeyenler: 1, kanıtlanmış yanılgıyı bıraktığı ve `E_veri`'yi kull
 - Asıl zarar eşikteydi; A onu kaldırıyor. Tek terazi en sade çözüm.
 - Karıştırma ekinde E1 değişmedi.
 - B1'in kararı (iki ölçü ham ve aynı birimde) değişmez; birleştirmek B3'ün işiydi (§2.1). Veri ölçüsü B3'te yalnız güvenlik ağında ve tanıda kullanılır.
+
+### 2.4 · B4 · Yol (26 Kasım, kararım)
+
+Kâğıt: `bilesen/B4-YOL.md` (onaylandı, 26 Kasım). Kâğıttaki yapı kararları:
+- adaylar iki sınıf: B3'te olağan olanlar (O) son çaredekilerden (S) önce, sınıf içinde maliyetle (kural 3, 5);
+- geçiş Babel'in histerezisiyle: anlık ve düzgünleştirilmiş maliyet birlikte (kural 5–6);
+- ilanın ömrü: komşunun son ilanı selam aralığının 3,5 katından eskiyse ∞ (kural 4);
+- FD ilan için verildiği anda güncellenir (tutucu; kural 9);
+- uygulanamaz ilan 5 s'ye kadar yok sayılır ve tur istenir (kural 10);
+- tur isteği yalnız kullanılır bağlı ama uygulanamaz ilanlı komşu varken gider ve kendi karıştırılmamda bastırılır (kural 11, 14);
+- karıştırma ilana yansıtılmaz (§11 madde 3);
+- eski döngü bekçisi ve geri gönderme yasağı gerekmez, döngü yalnız tanıda sayılır (kural 17).
+
+**Sorun.** B4 geçide giden yolu seçer:
+- hangi komşu ardıl olur, hangileri sıralı yedektir;
+- düğümün kendi maliyeti nedir;
+- döngü nasıl önlenir.
+
+Girdileri B3'ün bağ maliyetleri ve durumları (olağan · son çare · kullanılmaz) ile komşuların ilanlarıdır. Önceki tasarımda iki yol ölçüldü: uygulanabilirlik koşulu (18 Kasım; Babel'in yolu) açlık yüzünden, maliyet eğimi (19–20 Kasım; CTP ve RPL'nin yolu) döngü yüzünden zorlandı.
+
+**Kanıt** (ölçüldü; 8 tohum; `arsiv/teshis/faz5_3_dongu_kurallari_2026-11-24/sonuc.md` §1, §5, §8 · `arsiv/teshis/faz5_3_yeni_cekirdek_2026-11-19/sonuc.md` §6, §9):
+
+| | ikiz | birincil `PDR_açık` | en kötü tohum | sessiz dönem | gecikme p99 | döngü dönüşü / koşu (birincil) |
+|---|---|---|---|---|---|---|
+| Babel | 0,930 | 0,663 | 0,485 | 0,916 | 1,31 s | — |
+| uygulanabilirlik koşulu (eğim0) | 0,943 | 0,665 | 0,470 | 0,911 | 1,08 s | 0 |
+| eğim (19 Kasım) | 0,954 | 0,663 | 0,314 | 0,854 | 1,77 s | 3 620 |
+| eğim + geri yasağı + sınırlı yükselme | 0,958 | 0,659 | 0,408 | 0,863 | 1,24 s | 1 014 |
+
+- **Ortalamayı yol seçimi belirlemiyor:** birincilde beş yol seçiminin ortalaması 0,659–0,666; kayıp karıştırılan bağda, iletimde.
+- **Koruma ölçütleri:** en kötü tohum ≥ 0,465, sessiz dönem Babel'den kötü değil, p99 ≤ 1,31 s (§1.1). Hepsini geçen tek ölçülmüş yol uygulanabilirlik koşulu.
+- **Eğimin ikizdeki üstünlüğü iletim kaybından geliyor:** 0,044 ↔ 0,055; atlama başına başarısızlık %1,44 ↔ %1,83. Eğimde daha çok komşu aday olabiliyor.
+- **Uygulanabilirlik koşulunun açlığı:** ilk çekirdekte ikizde koşu başına 822; kökün %99'u eski veri tetiğiydi. Tetik kapalıyken ikizde koşu başına 18–31, birincilde (eğim0) 103; kalanın kökü selam eşiğiydi (açlık teşhisi §6). İki kök de kalktı (19 Kasım; B3).
+- **Babel aynı koşulla birincilde rota yokluğundan hiç kaybetmiyor** (açık dönemde 0,000; eğim0'da 0,037). Babel açlığı hemen tur isteğiyle çözüyor ve uygulanamaz bir güncelleme gelince seçili rotasını hemen bırakmıyor (`17` §4).
+- **Eğime eklenen iki kural döngüyü çözmedi:** geri gönderme yasağı döngü bekçisinin kanıtını sildi; sınırlı yükselme döngüyü %68 azalttı ama rota yokluğunu artırdı.
+
+**Seçenekler:**
+
+| | ne | artı | eksi ve bedel |
+|---|---|---|---|
+| **Y1 · uygulanabilirlik koşulu** (Babel ailesi: geçidin turu, tur isteği) | aday yalnız uygulanabilir komşudur; olağan bağlar son çaredekilerden önce, kendi aralarında maliyetle sıralanır; aday kalmayınca yeni tur istenir | döngüsüzlük garanti (ölçüldü: 0); koruma ölçütlerini geçen tek ölçülmüş yol; RFC 8966'nın sınanmış mekanizması; açlığın iki kökü kalktı | ikizde eğimden geride (0,943 ↔ 0,958); aday kalmayınca açlık ve tur isteği; selamda tur alanı ve tur isteği iletisi |
+| Y2 · maliyet eğimi + döngü bekçisi (önceki tasarım) | maliyeti benimkinden küçük her komşu aday, yoksa son çare; döngü veri yolunda yakalanır | ikizde en iyi; açlık yok | karıştırmada koşu başına 1 000–3 600 döngü; en kötü tohum ve sessiz dönem koruma ölçütünü geçmiyor; eklenen iki kural döngüyü çözmedi, biri döngü kanıtını sildi |
+| Y3 · karma | normalde uygulanabilirlik; aday kalmayınca yeni tur gelene kadar eğimle son çare ve döngü bekçisi | normalde döngüsüz, açlıkta da paket ilerler | hiç ölçülmedi; iki mekanizmanın karmaşıklığı; açlık B3'ten sonra seyrekse kazancı küçük |
+
+**Kararım: Y1.**
+- Ölçülen yollar içinde koruma ölçütlerinin hepsini geçen tek yol; döngüsüzlüğü garanti.
+- Zayıflığının (açlığın) iki kökü kalktı.
+- İkizde Babel'in önünde (0,943 ↔ 0,930): "ikizde zarar yok" ölçütü tutuyor.
+- Döngü kuralları ölçümünün önceden yazılı hükmü de "uygulanabilirlik koşuluna dönüş yeniden tasarımda konuşulur" diyordu.
+
+Seçilmeyenler: Y2, en kötü tohumda ve sessiz dönemde koruma ölçütlerini geçemediği ve döngüyü iki kuralla da çözemediği için; Y3, ölçülmediği ve iki mekanizmayı birlikte taşıdığı için. Açlığın yeni tasarımdaki sıklığı Aşama 4'te ölçülür. Yüksek kalırsa Y3'ün açlıktaki son çaresi o zaman düşünülür.
 
 ## Eksiksizlik listesi
 
