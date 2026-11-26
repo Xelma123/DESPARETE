@@ -1,6 +1,6 @@
 # 13 · KONTROL DÜZLEMİ — protokolün YAPABİLECEKLERİ
 
-> **Durum: sözleşme uygulandı.** Güncel 13 Ekim 2026; tarihçe ve kapanmış risklerin ayrıntısı `v2/arsiv/13-KONTROL-DUZLEMI-*.md`. Bölüm numaraları kodda atıflı, korunur (testlerdeki "§09" = §05). Karar K-112 · kapılar `tests2/test_kontrol_duzlemi.py` (bağlayıcı) · `python -u kalibrasyon/kontrol_duzlemi_kapilari.py` (40 düğümde kanıt).
+> **Durum: sözleşme uygulandı.** Güncel 13 Ekim 2026 (26 Kasım: §07'deki DESPARETE cümlesi yeni tasarıma göre); tarihçe ve kapanmış risklerin ayrıntısı `v2/arsiv/13-KONTROL-DUZLEMI-*.md`. Bölüm numaraları kodda atıflı, korunur (testlerdeki "§09" = §05). Karar K-112 · kapılar `tests2/test_kontrol_duzlemi.py` (bağlayıcı) · `python -u kalibrasyon/kontrol_duzlemi_kapilari.py` (40 düğümde kanıt).
 
 ---
 
@@ -82,7 +82,7 @@ Kapanmış riskler (koddaki atıflar için): R1 seyirci onay kredisi → onay ya
 
 ## 07 · Uçtan uca kopya — D-23 · K-231
 
-JarmRout her veri paketini iki düğüm-ayrık yoldan gönderir (Pu 2018 §VI.B; K-230); DESPARETE'nin PROTECT'i (Faz 5.4) de kopyaya dayanır. Tanımlar ölçmeden önce (denetim D-23):
+JarmRout her veri paketini iki düğüm-ayrık yoldan gönderir (Pu 2018 §VI.B; K-230); DESPARETE'de kopyanın kullanılıp kullanılmayacağı yeni tasarımın iletim kararında (`18`, B5) karara bağlanır; ilk taslaktaki PROTECT (Faz 5.4) alınmadı. Tanımlar ölçmeden önce (denetim D-23):
 
 - **İstek:** `Karar(sonraki=j, kopyalar=(k, …))` — paket `j`ye, eşleri `k`lere. `kopyalar` yalnız gönderilen pakette; tekil ve `sonraki`den farklı. Eş düğümün kuyruğunun sonuna girer ve kuyruk başına gelince protokole yeniden sorulmadan o komşuya iletilir (karar kopya anında verildi). Kuyruk doluysa eş `kuyruk_tasmasi` ile düşer.
 - **Kimlik:** eş aynı paketin kopya numaralı eşidir (`Paket.kopya` ≥ 1, ağ genelinde tekil); kimliği aynıdır, gözlem penceresine açılmaz.

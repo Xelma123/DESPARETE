@@ -1,5 +1,7 @@
 # KK-03 · Karıştırma kanıtı
 
+> **Önceki tasarım (26 Kasım notu):** bu kâğıt 5-3'ün ilk tasarımının kuralıdır (kararları `17`); bugünkü kodun (`protokoller/desparete5*.py`) ve 18–24 Kasım ölçümlerinin belgesi olarak kalır, yeni tasarım donunca arşive gider. Yeni tasarım `18`de, kuralları `bilesen/`de (K-253).
+
 > Kararlar: T-5 · T-6 · T-8 · T-9 · T-10 (`17`). Değerler ve genel kurallar `KK-00`; eşiklerin başlangıcı teşhis (d)'nin dağılımlarından (`arsiv/teshis/faz5_2_isaretler_2026-11-16/sonuc.md`). Kod: A `protokoller/desparete5_kanit.py` · B `desparete5_bag.py`. Güncel: 19 Kasım 2026 (`17` T-2, T-9: askıda durumu kalktı; vazgeçmelerin selamla birlikte okunması; kalabalıkla yanlış alarm riski not edildi). Önceki: 18 Kasım (`v2/arsiv/kural/KK-03-KANIT-2026-11-18.md`; kodlamayla Y-3 · Y-6 · Y-10).
 >
 > **Kod:** 19 Kasım'da bu kâğıda göre yazıldı. 18 Kasım'ın davranışı `egim` · `vazgecme_tetigi` · `duzgun_gecis` kapalı, `veri_kotu_tetigi` açık ve `DEGERLER_ESKI`yle birebir yeniden üretilir (küçük test dünyasında sekiz koşuda denetlendi: `arsiv/teshis/faz5_3_kod_2026-11-19/esdegerlik.txt`).

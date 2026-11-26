@@ -1,7 +1,7 @@
 # 04 · GEÇERLİ KARARLAR
 
 > Bugün geçerli kararlar, konu konu. Yazılı değilse verilmemiştir. Bir kararın nasıl ve neden verildiği, kodda geçen `K-xxx` atıfları ve eski dünyanın (1:50) kararları: `kayit/KARAR-GUNLUGU.md`. Kod ile bu belge çelişirse hangisinin yanlış olduğu ölçülerek bulunur.
-> Güncel: 17 Kasım 2026 (son K-252, 20 Ekim; tasarım kararları `17`de); önceki sürümler `arsiv/04-KARARLAR-*.md`.
+> Güncel: 26 Kasım 2026 (son K-253, 24 Kasım'ın yeniden tasarım kararı; DESPARETE'nin güncel tasarımı `18`de, önceki tasarım `17`de); önceki sürümler `arsiv/04-KARARLAR-*.md`.
 
 ## 1 · Proje ve kapsam
 
@@ -95,20 +95,29 @@ Donmuş: `AODV-k` (K-249; önceki `AODV-j`) · `OLSRv2-b` (K-239) · `Babel-a` (
 
 ## 6 · DESPARETE
 
-- Bağlayıcı olan bugünkü koddur (`protokoller/desparete*.py`). İlk tasarım taslağı (v0.1, 22 Eylül) bayattır ve arşivdedir: `arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/`. Kod yorumlarındaki `protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/` yolları bu klasörü gösterir.
-- v0.4.1 bir taslaktır. Faz 5'te tasarım kararlarımla geliştirilir, gerekirse baştan yazılır; döngüsüzlük çekirdeğinin Babel ailesinden gelmesi tasarımı bağlamaz (13 Ekim).
-- **K-250 · K-251 (19 Ekim):** DESPARETE özgün bir protokol olacak: mevcut bir protokolü alıp üstüne ekleme yaparak yeni protokol diye sunulmaz. Başka protokollerden özellik alınabilir (v0.4.1'de olduğu gibi). Amacım, protokole çalışma mantığından formüllerine kadar hâkim olmak ve onu kendim üretmek. Faz 5'te yapay zekâ danışman ve öğretmen olarak kullanılır. Faz 5 üç aşamalıdır: (1) mevcut DESPARETE'ye (v0.4.1) tam hâkimiyet · (2) araştırma ve öğrenim · (3) geliştirme (`12` §1.2).
-- **Bugünkü kod hâli v0.4.1:** bayrak profili `PROFIL_V02` (yalın) + `SECENEK_V041` (V1 · V5 · V7 · V8 · V10 · V11 komut geri izi). Sekiz ablasyon bayrağı; güvenlik değişmezleri bayrakla kapanmaz (K-159…K-172).
-- **Komutlar:** DESPARETE yalnız geçit alanı kurar; komut V11 geri iziyle taşınır; trafik herkes için aynıdır (K-160, K-172).
-- **Birincil hücrede ölçüm — Faz 5.0** (K-228; tohum 1003–1006, ana deney değil; görüş hattı düzeltmesinden (K-243) önceki dünyada, Faz 4'ün rakipleriyle: AODV-j · AOMDV · OLSR): `PDR_açık` DESPARETE 0,551 · AODV 0,444 · kâhin 0,780.
-  - Karıştırmaya özgü kayıp (doğum evresine göre açık − önce): DESPARETE −0,204 · AODV −0,138 · kâhin −0,134.
-  - v0.4.1'in AODV'ye üstünlüğü karıştırmadan bağımsızdır; karıştırıcı açılınca DESPARETE daha çok kaybeder.
-  - Fazla kaybın tamamı "rota yok" (`rota_gecersiz`): ardılı karıştırılan alan onarıma girer; çoğu karıştırıcıdan uzak rölelerdedir. Fazla kayıp 4 tohumun 4'ünde pozitif ama anlamlı değil (t = 2,92 < 3,18). "Kota %52 / ulaşılamaz %48" ve "girişi %64 açlık" payları kanıt değildir: aletin açlık tanımı protokolünkiyle uyuşmuyor (denetim DD-11).
+- **Güncel tasarım `18`de** (24 Kasım'dan beri yeniden tasarım, K-253): protokol baştan, bileşen bileşen ve eksiksiz tasarlanır. Her bileşende sorun ve ölçülmüş kanıt, en az iki seçenek, kararım, eksiksizlik listesine göre kural kâğıdı (`bilesen/`) ve onayım. Tasarım sırasında A/B yapılmaz; bir kararın girdisi eksikse kısa, önceden yazılı bir teşhis ölçümü yapılır. Ölçüm tasarım donduktan sonra, tek büyük ölçümle yapılır (Aşama 4). Değerler, bayraklar ve gözlemin kullanımı tek yerde: `bilesen/00-DIZIN.md`.
+- **Hedef ve başarı ölçütü** (`18` §1.1, 24 Kasım): birincil hücrede `PDR_açık`'ta Babel'den en az +0,05; fark-içinde-fark ve mekanizma kapısı; yedi koruma ölçütü (ikizde zarar yok, dayanıklılık hücresi, en kötü tohum, sessiz dönem, gecikmenin p99'u, kontrol payı, yer karıştırıcılı aile). Asıl hüküm ana deneyde, `06`'nın kurallarıyla.
+- **Mimari iskelet** (`18` §1.4): yedi bileşen B1–B7; tek yönlü akış ve gözlemlerin sahibine gitmesi; karıştırmaya karşı mekanizmalar ayrı bir katmandır ve tek bayrak grubuyla (`karistirma_katmani`) kapanır; rota durumu ile paket kararı ayrıdır.
+- **Bileşen kararları** (`18` §2; kâğıtlar `bilesen/`, hepsi onaylı):
+  - B1 komşu ve bağın ölçüsü (24 Kasım): selamın ölçüsü ve verinin kendi ölçüsü, ham ve aynı birimde;
+  - B2 karıştırma kanıtı (24–25 Kasım): alıcı ve gönderici birlikte; kurallar önceden yazılı teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı (`06` §10);
+  - B3 bağın durumu (25–26 Kasım): maliyet selamdan, eşikle düşürme yok, veri yalnız güvenlik ağı; karıştırılan bağ son çare;
+  - B4 yol (26 Kasım): uygulanabilirlik koşulu, Babel ailesi; olağan bağlar son çaredekilerden önce.
+
+  B5 iletim kararı, B6 kontrol iletileri ve B7 bekletme ve komut sırada (`12`).
+- **Özgünlük (K-250 · K-251, 19 Ekim):** DESPARETE özgün bir protokoldür: mevcut bir protokolü alıp üstüne ekleme yaparak yeni protokol diye sunulmaz. Başka protokollerden özellik alınabilir; kaynağı her kâğıdın "Kaynak" bölümünde yazılır. Amacım, protokole çalışma mantığından formüllerine kadar hâkim olmak ve onu kendim üretmek. Faz 5'te yapay zekâ danışman ve öğretmen olarak kullanılır. Faz 5 üç aşamalıdır: (1) mevcut DESPARETE'ye (v0.4.1) tam hâkimiyet · (2) araştırma ve öğrenim · (3) geliştirme (`12` §1.2).
+- **Bugünkü kod** önceki tasarımlardır; yeni tasarım Aşama 4'te yeni modüllerle yazılır:
+  - **5-3'ün ilk tasarımı** (`protokoller/desparete5*.py`): kararları `17` (T-1…T-20), kuralları `kural/KK-00…KK-05`; ölçümleri `12` §1.3.
+  - **v0.4.1** (`protokoller/desparete.py`): bayrak profili `PROFIL_V02` (yalın) + `SECENEK_V041` (V1 · V5 · V7 · V8 · V10 · V11 komut geri izi); sekiz ablasyon bayrağı; güvenlik değişmezleri bayrakla kapanmaz (K-159…K-172). İlk tasarım taslağı (v0.1, 22 Eylül) bayattır ve arşivdedir: `arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/`. Kod yorumlarındaki `protokol_kaynaklari/DESPARETE_TASARIM_PAKETI/` yolları bu klasörü gösterir.
+- **Komutlar:** DESPARETE yalnız geçide giden yolu kurar; komut telemetrinin geri iziyle taşınır (v0.4.1'de V11, 5-3'ün ilk tasarımında `17` T-20; yeni tasarımda B7'nin sorusu); trafik herkes için aynıdır (K-160, K-172).
+- **v0.4.1'in ölçümleri** (geliştirme tohumları, ana deney değil):
+  - **Faz 5.0** (K-228; tohum 1003–1006; görüş hattı düzeltmesinden (K-243) önceki dünyada, Faz 4'ün rakipleriyle: AODV-j · AOMDV · OLSR): `PDR_açık` DESPARETE 0,551 · AODV 0,444 · kâhin 0,780. Karıştırmaya özgü kayıp (doğum evresine göre açık − önce): DESPARETE −0,204 · AODV −0,138 · kâhin −0,134. v0.4.1'in AODV'ye üstünlüğü karıştırmadan bağımsızdır; karıştırıcı açılınca DESPARETE daha çok kaybeder. Fazla kaybın tamamı "rota yok" (`rota_gecersiz`): ardılı karıştırılan alan onarıma girer; çoğu karıştırıcıdan uzak rölelerdedir. Fazla kayıp 4 tohumun 4'ünde pozitif ama anlamlı değil (t = 2,92 < 3,18). "Kota %52 / ulaşılamaz %48" ve "girişi %64 açlık" payları kanıt değildir: aletin açlık tanımı protokolünkiyle uyuşmuyor (denetim DD-11).
   - Aynı hücrede (1003 · 1004, Faz 4b'nin G2ç'si, K-243'ten önce) `PDR_açık` DESPARETE 0,476 · 0,538 ↔ OLSRv2 0,409 · 0,602; karıştırıcısız ikizde DESPARETE OLSRv2'nin gerisinde (0,757 · 0,786 ↔ 0,817 · 0,910). İki tohum, karar değil (K-242).
-- K-244 kuyruğunda (17 Ekim, 1003 · 1004): birincil `PDR_açık` DESPARETE 0,518 · 0,603 ↔ Babel 0,547 · 0,787 · OLSRv2 0,409 · 0,499 · AODV-k 0,353 · 0,421 · kâhin 0,748 · 0,844; karıştırıcısız ikizde DESPARETE 0,757 · 0,786 ↔ Babel 0,945 · 0,952. İki tohum, karar değil.
-- **Faz 5'in planı ve hedefi (K-252):** hedefler en güçlü rakip Babel'e göre yazılır; v0.4.1'in açığının büyük kısmı genel, karıştırmaya özgü değil (yukarıdaki K-244 kuyruğu). Plan `12` §1.2: hâkimiyet → araştırma ve öğrenim → geliştirme. K-228 ve K-242'nin mekanizma sırası geçersiz; `hedefli_canlilik` (V2+) ve onarım edinimi 5-2'de teşhis ölçümü olarak sınanır. Yedek ardılın tasarımında mekânsal ayrışma sorulur (K-230).
-- **Faz 5'in konusu olan eksikler** (K-228'in adayları: karıştırmaya özgü kanıt · öngörülü kaçınma · kanıta dayalı postür · PROTECT'in çok yolu ve çoğaltması · pasif dinleme) 5-2'nin tasarım kararlarıyla aşıldı; güncel tasarım `17`de (17 Kasım).
-- **Yeni sürümün tasarım kararları (Faz 5-2, 16 Kasım'dan):** konu konu `17`de, `T-n` numaralarıyla; tasarımın ilkeleri `17` §0.
+  - K-244 kuyruğunda (17 Ekim, 1003 · 1004): birincil `PDR_açık` DESPARETE 0,518 · 0,603 ↔ Babel 0,547 · 0,787 · OLSRv2 0,409 · 0,499 · AODV-k 0,353 · 0,421 · kâhin 0,748 · 0,844; karıştırıcısız ikizde DESPARETE 0,757 · 0,786 ↔ Babel 0,945 · 0,952. İki tohum, karar değil.
+  - Teşhis (c) (16 Kasım, 1003–1010, 8 tohum; `arsiv/teshis/faz5_2_rakip_cizgisi_2026-11-15/sonuc.md`): birincil 0,567 · dayanıklılık 0,453 · ikiz 0,785; Babel 0,663 · 0,554 · 0,930.
+- **5-3'ün ölçümleri ve bugünkü yer:** `12` §1 ve §1.3; özeti `18` §1.1 ve §1.3.
+- **Faz 5'in planı ve hedefi (K-252):** hedefler en güçlü rakip Babel'e göre yazılır; v0.4.1'in açığının büyük kısmı genel, karıştırmaya özgü değil (yukarıdaki K-244 kuyruğu). Plan `12` §1.2: hâkimiyet → araştırma ve öğrenim → geliştirme. K-228 ve K-242'nin mekanizma sırası geçersiz; `hedefli_canlilik` (V2+) ve onarım edinimi 5-2'de teşhis ölçümü olarak sınandı (`arsiv/teshis/faz5_2_secenek_iletim_2026-11-15/sonuc.md`). 5-3'ün yöntemi 24 Kasım'da değişti (K-253).
+- **Faz 5'in konusu olan eksikler** (K-228'in adayları: karıştırmaya özgü kanıt · öngörülü kaçınma · kanıta dayalı postür · PROTECT'in çok yolu ve çoğaltması · pasif dinleme) 5-2'nin tasarım kararlarıyla (`17`) aşıldı; 24 Kasım'dan beri tasarım `18`de baştan yapılıyor.
 
 ## 7 · Ölçüm
 
@@ -155,7 +164,7 @@ Donmuş: `AODV-k` (K-249; önceki `AODV-j`) · `OLSRv2-b` (K-239) · `Babel-a` (
 |---|---|---|
 | Yer–hava ortamının duyarlılığı: banliyö (birincil) ↔ açık arazi; açık arazide aynı güç sürüyü karartır, kısmi rejim için güç ya da konum ayarı gerekir (denetim DD-01, K-242) | ölçüm planı, ardından karar | Faz 6 |
 | KR-2 · birincil metrikte komutlar (öneri: birincil telemetri, bütün trafik ikincil) | karar | Faz 6 |
-| DESPARETE'nin güncel tasarım belgesi (v0.1 paketi arşivde; Faz 5 mekanizmalarıyla birlikte yeniden yazılır) | yazım | Faz 5.7 |
+| DESPARETE'nin donmuş tasarım belgesi: `18` ve `bilesen/` donar; `17`, `kural/` ve v0.1 paketi arşive gider | bütünlük denetimi, bağımsız denetim, donma | Faz 5-3 Aşama 3 |
 | temas kaybı metriğinin tanımı ve T eşiği (otopilot kaynağı, K-230) | kaynak, ardından karar | mühür |
 | pencere üçlüsü (ısınma · ölçüm bitişi · koşu bitişi): koşu uzunluğundan bağımsızlık, birincil hücrede, taban protokollerle. Trafik ölçüm bitişinde durduğu için uzun bekleyişli protokolde son doğumlar boşalan ağda teslim edilir (JarmRout'ta son 5 s'nin PDR'si 0,53 · 0,59; K-239) | ölçüm, ardından karar | Faz 6 |
 | `06` H1.3'ün aldatıcı ↔ sürekli kontrastı referansta (10 W aldatıcı ED'yle ağı susturuyor, K-219) · Rician K ekseninin keşifsel tekrarı (6 · 15 dB) | öneri, ardından karar | Faz 6 |

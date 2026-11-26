@@ -1,6 +1,6 @@
 # 02 — DOĞRULANMIŞ KAYNAKLAR
 
-> Güncel: 21 Ekim 2026. Önceki sürümler `arsiv/02-DOGRULANMIS-KAYNAKLAR-*.md`, `arsiv/10-LITERATUR-KOD-KARSILASTIRMA-*.md`.
+> Güncel: 19 Kasım 2026 (F18 CTP ve F19 4B eklendi). Önceki sürümler `arsiv/02-DOGRULANMIS-KAYNAKLAR-*.md`, `arsiv/10-LITERATUR-KOD-KARSILASTIRMA-*.md`.
 > Buradaki her kaynak açılıp okunmuş ve iddiayı destekleyip desteklemediği kontrol edilmiştir. **Kural:** bulunamayan bir atıf rapora giremez; yapay zekâ aracının verdiği hiçbir atıf, kaynak fiilen açılmadan kullanılmaz; rapora girecek her sayı için birincil kaynak açılır. İkinci el tarama (`protokol_kaynaklari/literatur_taramasi_2026-08-31/`) bunun yerini almaz (§L). Dosya kopyaları ve SHA-256'lar `protokol_kaynaklari/README.md`de, rapor künyeleri `16`da.
 > **İşaretler:** ✓ doğrulandı · ~ kısmen ya da ilgili bölüm · ✗ bulunamadı / yeniden doğrulanamadı · ○ ertelendi.
 

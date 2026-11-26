@@ -1,5 +1,7 @@
 # 17 · TASARIM KARARLARI — DESPARETE'nin yeni sürümü
 
+> **Önceki tasarım (26 Kasım notu):** 24 Kasım'da protokolün baştan yeniden tasarımı başladı (K-253); güncel tasarım `18-YENI-TASARIM.md` ve `bilesen/`. Bu belge 5-2'nin ve 5-3'ün ilk tasarımının kararlarıdır: bugünkü kodun (`protokoller/desparete5*.py`) ve 18–24 Kasım ölçümlerinin belgesi olarak kalır, yeni tasarım donunca arşive gider. Buradaki bir karar yeni tasarımı bağlamaz; yeni tasarım bir parçasını alırsa `18`de yeniden yazılır.
+
 > Faz 5-2'nin çıktısı (`12` §1.2, K-252). Her konuda: ölçülmüş kanıt, kararım ve gerekçesi, ödünç alınan her özelliğin kaynağı. Seçeneklerin ayrıntısı ve kaynak notları `protokol_kaynaklari/faz5_arastirma_2026-10-21/NOTLAR.md`de, ölçümler `arsiv/teshis/faz5_2_*/sonuc.md`de. Köşeli parantezli numaralar `16`nın kaynaklarıdır.
 >
 > Sayısal değerler (aralıklar, pencereler, eşikler) burada seçilmez; 5-3'te kural kâğıtlarında yazılır ve geliştirme tohumlarında ölçülerek ayarlanır. Zaman sabitleri tek bir karıştırıcı çizelgesine göre ayarlanmaz; dayanıklılık hücresi bunun için var (`06` §0.4.5).
@@ -202,7 +204,7 @@ Yedek, döngü yaratmadan geçilebilecek komşudur; hangi komşunun güvenli old
 **T-14 · Yedek yol: hazır yedek kümesi, tek yoldan gönderim; çoğaltma yalnız son çare.**
 - Olağan ve sonlu ilanlı bütün komşular yedektir; önce maliyeti benimkinden küçük olanlar (T-12; 19 Kasım). Ardıl kullanılamaz olunca (T-2, T-3, T-7) en iyisine anında geçilir. Yedekler için ek mesaj gönderilmez; selam (T-1) ve ilanlar yeter.
 - Trafik komşulara bölünmez: bölme daha kötü bağa da trafik gönderir, açığın büyük kalemi ise zaten iletim kaybı.
-- Seçici çoğaltma çekirdekte yoktur. Kullanılırsa yalnız son çare olarak, nadiren ve sıkı bir bütçeyle kullanılan bir yan özelliktir; 5-3'te ayrı bir bayrakla ölçülür, kazandırmazsa kalmaz. Gerekçe: bizim simülatörümüzde çoğaltma çok pahalı. Kanal kalabalık (veri denemelerinin yarısından fazlası başarısız) ve her pakete kopya toplu akışta kanalı boğuyor (JarmRout, K-238).
+- Seçici çoğaltma çekirdekte yoktur. Kullanılırsa yalnız son çare olarak, nadiren ve sıkı bir bütçeyle kullanılan bir yan özelliktir; 5-3'te ayrı bir bayrakla ölçülür, kazandırmazsa kalmaz. Gerekçe: bizim simülatörümüzde çoğaltma çok pahalı. Kanal kalabalık (veri denemelerinin yarısından fazlası başarısız) ve her pakete kopya toplu akışta kanalı boğuyor (JarmRout, K-238). (Düzeltme, 26 Kasım: K-238'in incelemesine göre JarmRout'un çöküşünün ~%90'ı yinelenen RREQ kuralındandı; kopyanın payı ayrıca ölçülmedi, `arsiv/teshis/jarmrout_sel_2026-10-12/inceleme.md` §3.)
 - Ödünç: hazır yedek fikri DUAL'ın uygulanabilir ardılı [65] (RFC 7868) ve RPL'nin ebeveyn kümesi [63]; 19 Kasım'dan beri yedek, RPL ve CTP'deki gibi maliyeti benimkinden düşük komşudur (T-12) [68]; seçici çoğaltma ilk taslağımdan (PROTECT).
 
 **T-15 · Yedeklerin ayrışması: kanıtla.**

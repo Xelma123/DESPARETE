@@ -1,5 +1,7 @@
 # KK-05 · Bekletme ve komutun yolu
 
+> **Önceki tasarım (26 Kasım notu):** bu kâğıt 5-3'ün ilk tasarımının kuralıdır (kararları `17`); bugünkü kodun (`protokoller/desparete5*.py`) ve 18–24 Kasım ölçümlerinin belgesi olarak kalır, yeni tasarım donunca arşive gider. Yeni tasarım `18`de, kuralları `bilesen/`de (K-253).
+
 > Kararlar: T-18 · T-20 (`17`). Değerler ve genel kurallar `KK-00`. Kod `protokoller/desparete5_bekletme.py`. Güncel: 20 Kasım 2026 (kural 1: KK-04 kural 13'ün bekletmesi; kural 14'ün kopması zaten "ardıl yok"tur). Önceki: 19 Kasım (`v2/arsiv/kural/KK-05-BEKLETME-KOMUT-2026-11-19.md`: `17` T-12, T-13, T-18) · 18 Kasım (`v2/arsiv/kural/KK-05-BEKLETME-KOMUT-2026-11-18.md`; G-1).
 >
 > **Kod:** 19 Kasım'da bu kâğıda göre yazıldı; kural 1'in KK-04 kural 13'ten gelen bekletmesi 20 Kasım'da (`desparete5.py` `sonraki_atlama`). 18 Kasım'ın davranışı `egim` · `vazgecme_tetigi` · `duzgun_gecis` kapalı, `veri_kotu_tetigi` açık ve `DEGERLER_ESKI`yle birebir yeniden üretilir (küçük test dünyasında sekiz koşuda denetlendi: `arsiv/teshis/faz5_3_kod_2026-11-19/esdegerlik.txt`).

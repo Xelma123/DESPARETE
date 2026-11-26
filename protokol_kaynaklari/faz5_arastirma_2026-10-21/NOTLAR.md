@@ -114,13 +114,13 @@
   - Kaynak trafiği yollar arasında finanstaki portföy seçimi gibi böler: beklenen teslimi artırırken riski (değişkenlik, ortak düğümler) azaltır.
   - Yollar ayrık olmak zorunda değil; ortak düğümler riskin bir parçası. Kaynak rotalamalı ve merkezî hesaplı bir model, fikir olarak yararlı.
 - **Atlama başına çok yol** ✓ [Zhao vd. 2026]: her İHA trafiği geçide doğru birden çok komşuya böler. Öğrenmesiz karşılaştırma yöntemleri: eşit bölme ve kapasiteye göre bölme. Önerdikleri yöntem çok etmenli derin öğrenme (MAPPO), bizde kapsam dışı (`v2/01` §3).
-- **AOMDV** ✓ (depoda, Marina & Das 2001) ve **JarmRout** ✓ (depoda, Pu 2018): keşifle çok yol; JarmRout her paketi iki yoldan yolluyor ve toplu akışta tıkanıyordu (K-238).
+- **AOMDV** ✓ (depoda, Marina & Das 2001) ve **JarmRout** ✓ (depoda, Pu 2018): keşifle çok yol; JarmRout her paketi iki yoldan yolluyor ve toplu akışta tıkanıyordu (K-238; tıkanmanın ~%90'ı yinelenen RREQ kuralından, 26 Kasım notu).
 - **İHA komut paketlerini çoğaltma** ○ [PMC 2021, "Enabling Reliable UAV Control by Utilizing Multiple Protocols and Paths for Transmitting Duplicated Control Packets", dosya alınamadı].
 
 **Seçenekler:**
 1. **Hazır yedek, çoğaltmasız:** ardıl + 1–2 uygulanabilir yedek canlı tutulur (yoklama ya da dinlemeyle). Kopuşta anında geçilir. v0.4.1'in `hedefli_canlilik` seçeneği bunun bir hâli; eski dünyada reddedilmişti (K-165, DD-28).
 2. **Atlama başına bölme:** trafik birden çok uygulanabilir komşuya bölünür. Artı: tek bağın kopması paketlerin yalnız bir kısmını vurur. Eksi: kötü bağa da trafik gider.
-3. **Seçici çoğaltma** (ilk tasarımımdaki CRISIS/PROTECT): yalnız kanıt kötüyse, sınırlı bütçeyle, farklı ilk atlamalara kopya. Simülatörde kopya defteri hazır (K-231). JarmRout'un dersi: her pakete kopya toplu akışta kanalı boğar.
+3. **Seçici çoğaltma** (ilk tasarımımdaki CRISIS/PROTECT): yalnız kanıt kötüyse, sınırlı bütçeyle, farklı ilk atlamalara kopya. Simülatörde kopya defteri hazır (K-231). JarmRout'un dersi: her pakete kopya toplu akışta kanalı boğar. (Düzeltme, 26 Kasım: K-238'in incelemesine göre JarmRout'un çöküşünün ~%90'ı yinelenen RREQ kuralındandı; kopyanın payı ayrıca ölçülmedi, `arsiv/teshis/jarmrout_sel_2026-10-12/inceleme.md` §3.)
 4. **Yedeklerin mekânsal ayrışması:** ortak bir karıştırıcıya aynı anda yakalanmamaları için. Konum ancak ödenmiş mesajla gelir (`v2/05` §3.3); Tague'nin "ortak düğüm riski" fikri.
 
 ---

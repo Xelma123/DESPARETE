@@ -1,6 +1,6 @@
 # 06 · ÖN-KAYIT TASLAĞI
 
-> **Durum:** taslak — mühürlenmedi; mühür Faz 6'da (~20 Kasım, `12`). Bağlayıcı hükümler (§0.2, §0.4.1–0.4.2, §4.4, §7) değişmez; sonuçtan sonra değişen her ölçüt ve mühürden sonraki her değişiklik §10'a tarihiyle yazılır. Güncel: 14 Ekim 2026 (üçüncü rakip Babel, gecikme tavanlı ikincil metrik, G1ç/G2ç kaydı; K-242). Önceki sürümler `arsiv/06-ON-KAYIT-*.md`.
+> **Durum:** taslak — mühürlenmedi; mühür Faz 6'da (tarihi 5-3'ten sonra yazılır, `12`). Bağlayıcı hükümler (§0.2, §0.4.1–0.4.2, §4.4, §7) değişmez; sonuçtan sonra değişen her ölçüt ve mühürden sonraki her değişiklik §10'a tarihiyle yazılır. Güncel: 26 Kasım 2026 (§10'a 25 Kasım'ın kanal kilidi kuralı satırı; §0.4.5'e yeni tasarımın bayrak grubu notu; önceki büyük güncelleme 14 Ekim: üçüncü rakip Babel, gecikme tavanlı ikincil metrik, G1ç/G2ç kaydı, K-242). Önceki sürümler `arsiv/06-ON-KAYIT-*.md`.
 
 ---
 
@@ -43,7 +43,7 @@ Yalnız Aile 2 (üstünlük) ve Aile 3 (mekanizma) için; Aile 1 yalnız taban p
 
 **0.4.5 · Karıştırmaya özgü kazanç ve mekanizma kapısı** (9 Ekim 2026, K-222 — DESPARETE'nin ilk koşularından SONRA yazıldı; yönü DESPARETE aleyhine tutucu, §10):
 - **İkincil test — fark-içinde-fark.** Her H2.x çifti için aynı 40 tohumda karıştırıcısız ikiz hücre (`formasyon-yok`, aynı desen) koşulur; "açık" orada aynı çizelgenin hayalet dönemleridir. `DiD(s) = [PDR_açık(D) − PDR_açık(R)]_birincil − [PDR_açık(D) − PDR_açık(R)]_ikiz`; eşleştirilmiş çift yönlü Wilcoxon (DiD ↔ 0), Holm üç rakiplik ailede (`analiz/hucre.py::fark_icinde_fark_tablosu`). Eşiği (δ_DiD) mühürde §0.4.2'nin formülüyle ikiz hücrenin gürültüsünden.
-- **Mekanizma kapısı (Aile 3, H2.x "üstün" için şart).** Karıştırmaya özgü mekanizmalar (Faz 5.1 karıştırma kanıtı · 5.3 postür · 5.4 PROTECT; bayrak adları Faz 5'te kesinleşir) birlikte kapatılınca birincil hücrede `PDR_açık` tam DESPARETE'ye göre anlamlı düşmeli (eşleştirilmiş Wilcoxon, aynı 40 tohum). Geçmezse hüküm "fark var, karıştırmaya özgü mekanizmaya bağlanamadı".
+- **Mekanizma kapısı (Aile 3, H2.x "üstün" için şart).** Karıştırmaya özgü mekanizmalar (K-228'in adlarıyla Faz 5.1 karıştırma kanıtı · 5.3 postür · 5.4 PROTECT; yeni tasarımda karıştırmaya karşı mekanizmalar tek bayrak grubundadır, `karistirma_katmani`, `bilesen/00-DIZIN.md`; adlar mühürden önce kesinleşir) birlikte kapatılınca birincil hücrede `PDR_açık` tam DESPARETE'ye göre anlamlı düşmeli (eşleştirilmiş Wilcoxon, aynı 40 tohum). Geçmezse hüküm "fark var, karıştırmaya özgü mekanizmaya bağlanamadı".
 - **Kapıya giriş (K-247, Faz 5'in mekanizmalarından önce).** Karıştırmaya karşı tasarlanan mekanizma kapıya girer, her zaman açık olsa bile. Amacı mekanizmanın tasarımında ve kendi A/B beklentisinde, ölçmeden önce yazılır ve sonradan değişmez. Genel iyileştirme için tasarlananlar (ör. `hedefli_canlilik`) girmez.
 - **Genel katkı beyanı (K-247).** Kapıdaki her mekanizmanın geliştirme ablasyonu birincil hücrede ve karıştırıcısız ikizde koşulur (Faz 5'in hücreleri, 1003–1010). İkizdeki etkisi o mekanizmanın genel katkısı olarak, geliştirme tohumlarında ölçüldüğü belirtilerek raporlanır. Kapı kolu ana deneyde ikizde koşulmaz.
 - **İddia dili.** H2.x "üstün" → *karıştırma altında daha yüksek teslim*. *Karıştırmaya özgü kazanç / karıştırmayı çözer* ancak H2.x üstün **ve** DiD anlamlı pozitif **ve** mekanizma kapısı geçerse söylenir.

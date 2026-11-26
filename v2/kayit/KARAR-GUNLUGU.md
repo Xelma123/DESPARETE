@@ -183,8 +183,9 @@ Hangisinin geçerli olduğu **burada** yazılı.
 | K-250 | FAZ 4b KAPANDI, FAZ 5 AÇILDI — DESPARETE tamamen özgün bir tasarım olacak; Faz 5'te tasa | 🟢 geçerli |
 | K-251 | K-250'NİN AÇIKLAMASI — "özgün" mevcut bir protokolü alıp üstüne ekleyerek sunmamak demek | 🟢 geçerli |
 | K-252 | FAZ 5'İN PLANI — hedefler en güçlü rakibe, Babel'e göre; hâkimiyet → araştırma ve öğreni | 🟢 geçerli |
+| K-253 | FAZ 5-3'TE YENİDEN TASARIM — protokol baştan, bileşen bileşen ve eksiksiz tasarlanır · t | 🟢 geçerli |
 
-**163 kayıt · 9 revize · 154 geçerli**
+**164 kayıt · 9 revize · 155 geçerli**
 
 <!-- INDEKS SONU -->
 
@@ -2158,3 +2159,21 @@ Referans dünya, birincil hücre (`formasyon · yere_toplama · derin_sizma · s
   - `12` §3: Babel'in ölçülen koşu süresi (1,35–1,43 sa);
   - `protokoller/desparete.py`: iki satırı birleşik kalmış bir koşul ayrıldı. Sözdizim ağacı birebir; dosyanın kod özeti değişti, bir sonraki regresyonda beklenen fark.
 - Güncellenen: `04` §2 · §6 · `06` §9 · `08` §03 · `12` §1 · §1.2 · §2 · §3 · `protokoller/desparete.py`.
+# K-253 · FAZ 5-3'TE YENİDEN TASARIM — protokol baştan, bileşen bileşen ve eksiksiz tasarlanır · tasarım sırasında A/B yok, girdi eksikse önceden yazılı kısa teşhis · ölçüm tasarım donunca tek büyük ölçümle · hedef birincilde Babel'den en az +0,05 · `17` ve `kural/KK-*` önceki tasarım
+> 24 Kasım · kararım (kayda 26 Kasım'da geçti; o güne kadar `12` §1.2 madde 3b'de ve `18`de yazılıydı) · gerekçe 18–24 Kasım ölçümleri
+
+- **Neden:** 5-3'te üç sürüm parça parça eklenerek ölçüldü; her biri bir sorunu çözerken başkasını açtı:
+  - 18 Kasım çekirdeği: veri tetiği iyi ardıl bağlarını düşürdü, açlık doğdu (ikizde 0,810 ↔ Babel 0,930; `arsiv/teshis/faz5_3_cekirdek_2026-11-18/sonuc.md`, `arsiv/teshis/faz5_3_aclik_2026-11-18/sonuc.md`);
+  - 19 Kasım'ın maliyet eğimi: açlık kalktı, ikizde Babel'in önüne geçti (0,954), ama karıştırma altında döngü yaptı (birincilde koşu başına 3 620 döngü dönüşü, en kötü tohum 0,314; `arsiv/teshis/faz5_3_yeni_cekirdek_2026-11-19/sonuc.md`);
+  - 20 Kasım'ın döngü kuralları: geri gönderme yasağı döngü bekçisinin kanıtını sildi, sınırlı yükselme rota yokluğunu artırdı; hiçbir kol uygulanabilirlik koşullu kolun kuyruk ve toparlanma düzeyine gelmedi (`arsiv/teshis/faz5_3_dongu_kurallari_2026-11-24/sonuc.md`).
+
+  Kurallar arası etkileşim önceden düşünülmemişti.
+- **Karar · yöntem** (`18` "Yöntem" ve "Aşamalar"):
+  - Protokol baştan, bileşen bileşen ve eksiksiz tasarlanır. Her bileşende: sorun ve ölçülmüş kanıt · en az iki seçenek ve bedelleri · kararım · `18`'in eksiksizlik listesine göre kural kâğıdı (`bilesen/`) · sade anlatım ve onayım. Bileşenin ana seçeneği benimdir; kâğıt onayımla girer.
+  - Tasarım sırasında A/B yapılmaz. Bir kararın girdisi eksikse kısa, önceden yazılı bir teşhis ölçümü yapılır (geliştirme tohumları 1003–1010; beklenti koşudan önce commit'le girer).
+  - Aşamalar: 1 · zemin · 2 · bileşen bileşen tasarım (B1–B7) · 3 · bütünlük denetimi, bağımsız denetim, donma · 4 · kod ve tek büyük ölçüm (ikiz, birincil, dayanıklılık, yer karıştırıcılı aile; tam sürüm ve her mekanizmanın ablasyonu; Babel ve kâhinle).
+  - K-252'nin 5-3 planındaki "mekanizma başına A/B" bu kararla kalktı; mekanizmaların katkısı Aşama 4'te ablasyonla ölçülür.
+- **Karar · hedef** (`18` §1.1): birincil hücrede `PDR_açık`'ta Babel'den en az +0,05 (~0,71), geliştirme ölçümünde 8 tohumun en az 6'sında aynı yön; fark-içinde-fark ve mekanizma kapısı; yedi koruma ölçütü. Asıl hüküm ana deneyde, `06`'nın kurallarıyla.
+- **Önceki tasarım:** `17` (T-1…T-20) ve `kural/KK-*` bugünkü kodun (`protokoller/desparete5*.py`) ve 18–24 Kasım ölçümlerinin belgesi olarak kalır; yeni tasarım donunca arşive gider.
+- **Sonrası** (24–26 Kasım; `12` §1.3): Aşama 1 tamam; B1–B4'ün kararları ve kâğıtları onaylandı; B2 ve B3 için önceden yazılı teşhis ölçümleri koşuldu; B2'nin kanal kilidi kuralı sonuçtan sonra karara bağlandı (`06` §10).
+- Güncellenen: `04` §6 · §10 · `12` §1 · §1.2 · §1.3 · §2 · §3 · `18` · `17` ve `kural/KK-*` başlıkları · `README.md` · `v2/README.md` · `DEVIR-PROMPT.md` (git dışı).

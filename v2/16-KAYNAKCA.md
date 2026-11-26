@@ -1,6 +1,6 @@
 # 16 · KAYNAKÇA — rapor için (IEEE biçimi)
 
-> **Güncel:** 21 Ekim 2026. Projede kullanılan bütün kaynakların rapora girecek biçimi. Doğrulama ayrıntısı `v2/02`de (sütundaki kimlik), dosya kopyaları ve SHA-256'lar `protokol_kaynaklari/README.md`de.
+> **Güncel:** 19 Kasım 2026 ([68] CTP ve [69] 4B eklendi). Projede kullanılan bütün kaynakların rapora girecek biçimi. Doğrulama ayrıntısı `v2/02`de (sütundaki kimlik), dosya kopyaları ve SHA-256'lar `protokol_kaynaklari/README.md`de.
 > **Kural (`02`):** açılıp okunmamış bir kaynak rapora giremez. Durum sütunu:
 > - ✓ açıldı, okundu (tamamı ya da ilgili bölüm);
 > - ~ kısmen, ya da iddia kaynağın söylediğinden farklı;

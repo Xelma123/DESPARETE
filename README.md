@@ -21,11 +21,12 @@ Bir İHA sürüsünde düğümler birbirinin paketini taşır: telemetri yer ist
 
 Çalışma bir tasarım projesidir: çözüm kurulur ve kontrollü bir ortamda ölçülür. Önceden ilan edilmiş bir yanlışlanma koşulu tetiklenirse sonuç negatif sonuç olarak raporlanır.
 
-## Durum — 14 Ekim 2026
+## Durum — 26 Kasım 2026
 
 - **Simülatör:** gerçek ölçekli referans dünyada kalibre edildi ve doğrulandı (Faz 4).
-- **Taban protokoller:** AODV ve OLSRv2 kaynaklarına kural kural sadık yazıldı, kabul testinden geçti ve donduruldu; bağımsız denetimin (14 Ekim) bulduğu üç AODV sapması düzeltiliyor. Üçüncü rakip Babel (RFC 8966) gerçekleniyor.
-- **Sıradaki:** DESPARETE'nin karıştırmaya özgü mekanizmalarının geliştirilmesi (Faz 5), ön-kayıt mühürü (~20 Kasım) ve ana deney.
+- **Taban protokoller:** AODV, OLSRv2 ve Babel kaynaklarına kural kural sadık yazıldı; kabul testinden ve bağımsız denetimden geçti ve donduruldu (`AODV-k` · `OLSRv2-b` · `Babel-a`). Rakiplerin en güçlüsü Babel.
+- **DESPARETE (Faz 5):** hâkimiyet (5-1) ve araştırma (5-2) tamamlandı; 5-3'te ilk tasarım kodlandı ve ölçüldü. 24 Kasım'dan beri protokol baştan, bileşen bileşen yeniden tasarlanıyor ([`v2/18`](v2/18-YENI-TASARIM.md)); yedi bileşenin dördü onaylandı. Ölçüm tasarım donduktan sonra yapılır.
+- **Sıradaki:** kalan üç bileşen; bütünlük denetimi, bağımsız denetim ve donma; kod ve büyük ölçüm; ardından ön-kayıt mührü (Faz 6) ve ana deney (Faz 7).
 - **Teslim:** proje hedefi 19 Aralık 2026 (resmî son başvuru 4 Ocak 2027).
 
 Güncel durum ve plan: [`v2/12-YOL-HARITASI.md`](v2/12-YOL-HARITASI.md).
@@ -79,16 +80,17 @@ Kabul kapısı (U1): karıştırıcısız kollarda protokolün teslim oranı ayn
 
 ## DESPARETE
 
-> Bu bölüm bugünkü kodu (v0.4.1, taslak) anlatır. Faz 5'te DESPARETE'yi özgün tasarımımla yeniden yazacağım (K-250).
+> Bu bölüm tasarımın bugünkü hâlini özetler. Bağlayıcı olan tasarım belgeleridir ([`v2/18`](v2/18-YENI-TASARIM.md), [`v2/bilesen/`](v2/bilesen)); kod Aşama 4'te bu belgelerden yazılır.
 
-Hedef-yönlü bir uzaklık-vektörü protokolü: hedef (öncelikle geçit) ağa kendi "alanını" yayar, düğümler paketi bu alan boyunca iletir.
+Tek hedefe (geçide) yönelik bir yönlendirme protokolü: telemetriyi her düğümden geçide taşır, komutu telemetrinin geldiği yolun tersinden götürür. Yedi bileşenden kurulur. Karıştırmaya karşı mekanizmalar ayrı bir katmandır ve tek bayrak grubuyla kapatılabilir; böylece kazancın karıştırmaya özgü olup olmadığı ölçülebilir.
 
-- **Döngüsüzlük** TTL'ye değil, hedefin ürettiği sıra numarasına ve uygulanabilirlik mesafesine dayanır (Babel, RFC 8966 ailesinin koşulu).
-- **Yönlü bağ maliyeti** kalite ve riskten oluşur; kalite düğümün kendi iletim sonuçlarından ölçülür.
-- **Postür** (STEADY · CAUTION): gözlenen bozunmaya kademeli tepki; PROTECT bugünkü kodda kapalıdır (yedeklilik yok).
-- **Geliştirilmekte olanlar:** karıştırmaya özgü kanıt (RSSI, kanal doluluğu, PHY hataları), yedek ardıl, kanıta dayalı postür, seçici çok yol ve çoğaltma. "Karıştırıcı tespiti" iddiası yoktur; protokol yalnız yerel olarak ölçebildiğine göre davranır.
+- **Komşu ve bağın ölçüsü (B1):** selamın iki yönlü teslim oranı ve veri çerçevelerinin kendi deneme sayısı, ikisi ham ve aynı birimde (beklenen deneme sayısı, ETX).
+- **Karıştırma kanıtı (B2):** düğüm kendi kanal ölçümünden ve çözdüğü çerçevelerden karıştırıldığını anlar ve selamındaki bir bitle bildirir; gönderici de veri çerçevelerinin sonucundan bağ başına kanıt toplar. Kurallar ve eşikler önceden yazılı bir teşhis ölçümüyle seçildi. "Karıştırıcı tespiti" iddiası yoktur; protokol yalnız yerel olarak ölçebildiğine göre davranır.
+- **Bağın durumu (B3):** bağın maliyeti selamdan, eşikle düşürme yok; karıştırılan bağ son çare olur, kanıt kalkınca karıştırmadan önceki kalitesiyle hemen döner.
+- **Yol (B4):** Babel ailesinin uygulanabilirlik koşuluyla döngüsüz yol; olağan bağlar son çaredekilerden önce.
+- **Sırada:** iletim kararı (B5), kontrol iletileri (B6), bekletme ve komut (B7).
 
-Bağlayıcı olan bugünkü koddur (v0.4.1). İlk tasarım taslağı (v0.1, 22 Eylül) arşivdedir: [`arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/`](arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22).
+Kodda bugün iki önceki sürüm durur: ilk taslak v0.4.1 (`protokoller/desparete.py`) ve 5-3'ün ilk tasarımı (`protokoller/desparete5*.py`; kararları [`v2/17`](v2/17-TASARIM-KARARLARI.md)). İlk tasarım taslağı (v0.1, 22 Eylül) arşivdedir: [`arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22/`](arsiv/DESPARETE_TASARIM_PAKETI_v0.1_2026-09-22).
 
 ## Yöntem
 

@@ -67,7 +67,7 @@ Sıra bileşenlerin birbirine bağımlılığına göre. Her bileşenin yanında
    - Sınırlı yükselme döngüyü %68 azaltıyor ama rota yokluğunu artırıyor.
 5. **Karıştırma altında iletim** (yedek, gerekirse çoğaltma ya da fırsatçı iletim).
    - Birincilde beş farklı yol seçiminin `PDR_açık` ortalaması 0,659–0,666; kayıp çoğunlukla iletimde (0,267–0,335); kâhin 0,779. Kazanılabilecek pay burada.
-   - Çoğaltma yalnız son çare (`17` T-14); her pakete kopya kanalı boğuyor (K-238).
+   - Çoğaltma önceki tasarımda yalnız son çareydi (`17` T-14). Kopyanın bu dünyadaki bedeli ölçülmedi: kopya kullanan tek protokol JarmRout'tu ve toplu akıştaki çöküşünün ~%90'ı yinelenen RREQ kuralındandı; yinelenen RREQ yayılmayınca, veri kopyaları sürerken PDR 0,599'dan 0,914'e çıktı (statik, karıştırıcısız, tek koşu; `arsiv/teshis/jarmrout_sel_2026-10-12/inceleme.md` §3, K-238). Önceki metin çöküşü kopyaya bağlıyordu (26 Kasım'da düzeltildi).
    - Fırsatçı iletim simülatörde yeni bir iletim türü ister (`protokol_kaynaklari/faz5_3_arastirma_2026-11-19/NOTLAR.md` §3).
 6. **Kontrol düzlemi** (selam aralığı, ara ilan, ileti boyutları).
    - Bugünkü tasarımda kontrol payı %6, Babel %15; eğimin selamı 7 bayt + komşu başına 2 bayt.
@@ -258,7 +258,7 @@ Faz 5'te ölçülenler, tarihleriyle. Hepsi referans dünyada, geliştirme tohum
 4. Selam kaybının ne kadarının tıkanıklıktan geldiği. Kalabalığın karıştırma işaretlerinde yarattığı yanlış alarm (`kural/KK-03` kural 12) yeni trafikte ölçülmedi.
 5. Bağ kalitesinin değişim hızı, tek deneme başarısıyla (`17` §7 madde 8).
 6. RSSI'nin karıştırma kanıtındaki değeri: teşhis (d)'de sinyal tutarlılığı zayıftı; RSSI'nin hata modeli sınanmadı.
-7. Kopyanın ya da fırsatçı iletimin bu dünyadaki bedeli. Yalnız her pakete kopya ölçüldü: JarmRout, kanalı tıkadı (K-238).
+7. Kopyanın ya da fırsatçı iletimin bu dünyadaki bedeli. Kopya kullanan tek protokol JarmRout'tu; toplu akıştaki çöküşünün ~%90'ı yinelenen RREQ kuralındandı ve kopyanın payı ayrıca ölçülmedi (K-238; 26 Kasım'da düzeltildi, önceki metin çöküşü kopyaya bağlıyordu).
 8. Döngülerin hangi evrede biriktiği (karıştırma açıkken mi, bittikten sonra mı); sessiz dönemdeki yavaş toparlanmanın kesin sebebi.
 
 ### 1.4 · Mimari iskelet (24 Kasım, kararım)
