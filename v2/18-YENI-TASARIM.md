@@ -9,7 +9,7 @@
 | aşama | durum |
 |---|---|
 | 1 · Zemin | tamam (24 Kasım): 1.1 hedef ve başarı ölçütü, 1.2 kısıtlar, 1.3 kanıt envanteri, 1.4 mimari iskelet |
-| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu: kararım verildi (25 Kasım: kullanılan bağın maliyeti veriden, kullanılmayanınki selamdan, eşikle düşürme yok; karıştırılan bağ son çare), teşhis ölçümü koşuldu (26 Kasım): veri ölçüsü selamdan önceden yazılı farkla iyi değil, çekirdeğin seçeneği yeniden konuşuluyor |
+| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu tamam (26 Kasım: teşhis ölçümüyle seçenek 2'nin dayanağı tutmadı, yeniden kararım A: bağın maliyeti selamdan, eşikle düşürme yok, veri yalnız güvenlik ağı; karıştırılan bağ son çare; kâğıt onaylandı); sırada 2.4 B4 yol |
 | 3 · Bütünlük ve donma | bekliyor |
 | 4 · Kod ve ölçüm | bekliyor |
 
@@ -426,9 +426,17 @@ Seçilmeyenler: B güvenli ama yavaş ve kör; C İlke 3'e ters ve sessiz dönem
 
 Kararım: 1. Hüküm işaretin zayıflığından değil, birimin tanımından geliyor; 2 aynı yere varır, 3 iyi çalışan bir işareti atar. Kuralın katkısı Aşama 4'te ablasyonla ölçülür (`bilesen/B2-KARISTIRMA-KANITI.md` §15).
 
-### 2.3 · B3 · Bağın durumu (25 Kasım, kararım)
+### 2.3 · B3 · Bağın durumu (25–26 Kasım, kararım)
 
-Kâğıt: teşhis ölçümünden sonra (`arsiv/teshis/faz5_3_b3_bag_olculeri_2026-11-25/`).
+Kâğıt: `bilesen/B3-BAG-DURUMU.md` (onaylandı, 26 Kasım); teşhis ölçümü `arsiv/teshis/faz5_3_b3_bag_olculeri_2026-11-25/`. Kâğıttaki yapı kararları:
+- üç durum, OLAĞAN · SON ÇARE · KULLANILMAZ; eşik yok (kural 3–4);
+- maliyet `n_s` ≥ `ORNEK_EN_AZ` ile; tamsayı birimi 1 ETX = 64 (kural 1–2);
+- gönderici kanıtı başarısızlık sürdükçe uzar, son başarısızlıktan 5 s sonra kalkar ve bağ yeniden denenir (kural 6);
+- "veri yok" güvenlik ağı: son 4 kaydın hepsi vazgeçme (kural 7);
+- geçide giden bağ karıştırma kanıtıyla sona düşmez (kural 8);
+- hariç aralık: kendi aralıklarım ve 3 s öne çekilmiş bildirim aralıkları, her biri en çok 30 s (kural 9);
+- komşulara oran yalnız kendi aralıklarımla bildirilir (kural 10);
+- B1'in sondaki sessizliği kullanılmıyor.
 
 **Sorun.** B3 her bağ için iki şeye karar verir: bağ kullanılabilir mi (ve hangi sırada) ve maliyeti ne (B4 yol seçerken toplar). Girdileri B1'in iki ölçüsü (`E_selam`, `E_veri`; ikisi de beklenen deneme sayısı) ve B2'nin kanıtıdır. Önceki tasarımda eşikler iyi bağları düşürüyordu; karıştırılan bağ ise hiç kullanılmıyordu (`kural/KK-01`).
 
@@ -473,7 +481,22 @@ Seçilmeyenler: 1, kanıtlanmış yanılgıyı bıraktığı ve `E_veri`'yi kull
 - Selamın veri cinsine çevrilmesi kazanç getirmiyor (K1: genel katsayıyla 0,016 bit).
 - Veri yükle oynamıyor (K4: çiftlerin %0,5'i 10 s'de iki katına değişiyor). Selamı geçen ama veriyi taşımayan bağ seyrek ve kısa (K5: örneklerin %1,1–1,3'ü, ortanca 2 s).
 - Karıştırmada selam hiç tepki vermiyor; veri, bağ-dönemlerin ~%40'ında dönem içinde iki katına çıkıyor (K6).
-- Kuraldan sonra görülen: önceki tasarımın eşiği (`E_selam` > 4) kullanılmayan bağlarda kâhine göre iyi olanların %45'ini dışarıda bırakırdı. Zarar ölçüden değil eşikten geliyordu (sonuç §10.2).
+- Kuraldan sonra görülen: önceki tasarımın eşiğini (`E_selam` > 4) aşan bağların kullanılmayanlarda %45'i, kullanılanlarda %99'u kâhine göre iyiydi. Zarar ölçüden değil eşikten geliyordu (sonuç §10.2).
+
+**Yeniden karar · çekirdek** (26 Kasım, kararım). K2'nin hükmüyle seçenek 2'nin dayanağı tutmadı. Seçenekler:
+
+| | ne | artı | eksi ve bedel |
+|---|---|---|---|
+| **A · selam maliyet, eşikle düşürme yok** | bütün bağların maliyeti `E_selam` (tek terazi); bağ yalnız maliyeti ∞ iken kullanılmaz; veri yalnız güvenlik ağı: son kayıtlarda hiç onay yoksa bağ "veriyi taşımıyor" sayılır | kanıtlanmış zarar (eşik) kalkar; tek terazi; selamın hatası veriden yalnız 0,074 bit fazla; en basiti; çekirdek karıştırmaya tepki vermediğinden karıştırmaya özgü kazanç B2'nin katmanında ölçülür | selam ölçeği sıkıştırır: iyi bağ ~%20 ucuz, kenar bağ ~%15–28 pahalı görünür (sonuç §10.1); kullanılan bağın gerçek bedeli maliyete girmez |
+| B · seçenek 2'de kalmak | kullanılan bağ en az 12 kayıtla veriden, değilse selamdan | kullanılan bağda daha doğru maliyet; çekirdek karıştırmaya biraz tepki verir | önceden yazılı eşiği geçemedi; iki terazi, ardıl ile yedeğin sırası ~%10 değişir (sonuç §10.3); 12 kayıt gerekir; çekirdeğin tepkisi genel mekanizma sayıldığından mekanizma kapısındaki farkı küçültebilir |
+
+Önceki tasarımın eşikli yolu (seçenek 1) kuraldan sonra görülenle elendi: eşiği aşan bağların %45–99'u kâhine göre iyiydi (sonuç §10.2).
+
+**Kararım: A.**
+- Önceden yazılı kural, verinin yeterince üstün olmadığını söylüyor.
+- Asıl zarar eşikteydi; A onu kaldırıyor. Tek terazi en sade çözüm.
+- Karıştırma ekinde E1 değişmedi.
+- B1'in kararı (iki ölçü ham ve aynı birimde) değişmez; birleştirmek B3'ün işiydi (§2.1). Veri ölçüsü B3'te yalnız güvenlik ağında ve tanıda kullanılır.
 
 ## Eksiksizlik listesi
 

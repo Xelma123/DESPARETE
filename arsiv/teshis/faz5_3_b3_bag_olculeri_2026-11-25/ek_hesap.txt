@@ -17,3 +17,16 @@
   aynı düğüm, aynı an: kullanılan bağ (≥ 8 önceki kayıt) × kullanılmayan
   bağ (E_selam sonlu); kullanılanın maliyeti E_veri ya da E_selam
   çift 472579 · sıra değişen 45594 (0.0965)
+
+== E4 · güvenlik ağının adayı: son n veri kaydının hepsi vazgeçme ==
+  veri örneği · sınıf (açık dönemde alıcının alanı) · n: koşulu sağlayan / en az n önceki kaydı olan (pay; kâhine göre iyi olan)
+  ikiz      temiz     3: 45/84094 (0.0005; iyi 41) · 4: 9/82424 (0.0001; iyi 7) · 6: 1/79167 (0.0000; iyi 0) · 8: 1/75288 (0.0000; iyi 0)
+                        n = 4 ve F tanımlı 6: F ortancası 7.833 · F = ∞ payı 0.000
+  birincil  temiz     3: 175/54727 (0.0032; iyi 175) · 4: 81/53530 (0.0015; iyi 81) · 6: 44/51170 (0.0009; iyi 44) · 8: 29/48674 (0.0006; iyi 29)
+                        n = 4 ve F tanımlı 64: F ortancası 2.835 · F = ∞ payı 0.000
+  birincil  açık · G  3: 404/4406 (0.0917; iyi 35) · 4: 297/4267 (0.0696; iyi 13) · 6: 201/4041 (0.0497; iyi 3) · 8: 164/3799 (0.0432; iyi 1)
+                        n = 4 ve F tanımlı 254: F ortancası 64.000 · F = ∞ payı 0.465
+  birincil  açık · E  3: 105/336 (0.3125; iyi 7) · 4: 83/320 (0.2594; iyi 6) · 6: 63/291 (0.2165; iyi 3) · 8: 57/267 (0.2135; iyi 1)
+                        n = 4 ve F tanımlı 75: F ortancası 64.000 · F = ∞ payı 0.613
+  birincil  açık · U  3: 249/21906 (0.0114; iyi 122) · 4: 120/21342 (0.0056; iyi 50) · 6: 41/20266 (0.0020; iyi 15) · 8: 20/19238 (0.0010; iyi 4)
+                        n = 4 ve F tanımlı 79: F ortancası 9.111 · F = ∞ payı 0.038

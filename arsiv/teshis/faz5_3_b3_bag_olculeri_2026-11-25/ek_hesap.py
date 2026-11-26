@@ -16,6 +16,10 @@ E3 ardıl ile yedeğin aynı terazide karşılaştırılması: ızgarada aynı d
    kullanılanın E_veri ile E_selam'ı farklı sıraya koyduğu çiftlerin payı
    (kullanılan, E_selam'a göre yedekten ucuzken E_veri'ye göre pahalı ya da
    tersi).
+E4 (26 Kasım, çekirdek için A kararından sonra eklendi; E1–E3'ün çıktısı
+   değişmez) güvenlik ağının adayı: veri örneklerinde son n kaydın hepsi
+   vazgeçme (n ∈ {3, 4, 6, 8}); sınıfa ve açık dönemde alıcının alanına göre;
+   bu örneklerde kâhine göre iyi olanlar ve n = 4'te sonraki veri bedeli.
 """
 
 from __future__ import annotations
@@ -110,3 +114,32 @@ for h, rs in kayit.items():
                     ters += (es_k < es_y) != (SH.kap(ev_k) < es_y)
 print(f"  çift {cift} · sıra değişen {ters} ({ters / cift:.4f})" if cift
       else "  çift yok")
+print()
+
+print("== E4 · güvenlik ağının adayı: son n veri kaydının hepsi vazgeçme ==")
+print("  veri örneği · sınıf (açık dönemde alıcının alanı) · n: koşulu sağlayan /"
+      " en az n önceki kaydı olan (pay; kâhine göre iyi olan)")
+SINIFLAR = (("temiz", lambda o: o.evre in SH.TEMIZ),
+            ("açık · G", lambda o: o.evre == "a" and o.alan == "G"),
+            ("açık · E", lambda o: o.evre == "a" and o.alan == "E"),
+            ("açık · U", lambda o: o.evre == "a" and o.alan == "U"))
+for h in SH.HUCRELER:
+    for sinif_ad, uyar in SINIFLAR:
+        k = [o for o in ornek if o.hucre == h and uyar(o)]
+        if not k:
+            continue
+        parca = []
+        for n in (3, 4, 6, 8):
+            kn = [o for o in k if len(o.once) >= n]
+            hepsi = [o for o in kn if o.once[-n:] == "x" * n]
+            iyi = sum(o.p >= SH.KAHIN_IYI for o in hepsi)
+            parca.append(f"{n}: {len(hepsi)}/{len(kn)} "
+                         f"({len(hepsi) / len(kn):.4f}; iyi {iyi})"
+                         if kn else f"{n}: —")
+        print(f"  {h:<9} {sinif_ad:<9} " + " · ".join(parca))
+        h4 = [o for o in k if len(o.once) >= 4 and o.once[-4:] == "xxxx"
+              and o.F is not None]
+        if h4:
+            print(f"  {'':<9} {'':<9}   n = 4 ve F tanımlı {len(h4)}: F ortancası "
+                  f"{f(omh([SH.kap(o.F) for o in h4]))} · F = ∞ payı "
+                  f"{sum(math.isinf(o.F) for o in h4) / len(h4):.3f}")

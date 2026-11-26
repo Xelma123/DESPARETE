@@ -1,6 +1,6 @@
 # Bileşen kâğıtları — dizin, değerler, bayraklar, gözlemin kullanımı
 
-> Yeni tasarımın (`../18-YENI-TASARIM.md`) kural kâğıtları: bileşen başına bir kâğıt. Bileşenin sorunu, kanıtı, seçenekleri ve kararım `18`'in "Bileşenler" bölümünde; kuralları kâğıdında. Değerler, bayraklar ve gözlemin kullanımı **yalnız bu dosyada** tutulur; kâğıtlar adlarıyla anar (`18` bütünlük listesi madde 1). Kod Aşama 4'te bu kâğıtlardan yazılır. Önceki tasarımın kâğıtları `../kural/KK-*`; yeni tasarım donana kadar bugünkü kodun belgesidir. Güncel: 25 Kasım 2026 (B2).
+> Yeni tasarımın (`../18-YENI-TASARIM.md`) kural kâğıtları: bileşen başına bir kâğıt. Bileşenin sorunu, kanıtı, seçenekleri ve kararım `18`'in "Bileşenler" bölümünde; kuralları kâğıdında. Değerler, bayraklar ve gözlemin kullanımı **yalnız bu dosyada** tutulur; kâğıtlar adlarıyla anar (`18` bütünlük listesi madde 1). Kod Aşama 4'te bu kâğıtlardan yazılır. Önceki tasarımın kâğıtları `../kural/KK-*`; yeni tasarım donana kadar bugünkü kodun belgesidir. Güncel: 26 Kasım 2026 (B3).
 
 ## Kâğıtlar
 
@@ -8,8 +8,8 @@
 |---|---|---|---|
 | B1 | komşu ve bağın ölçüsü | `B1-KOMSU-VE-BAG.md` | onaylandı (24 Kasım) |
 | B2 | karıştırma kanıtı | `B2-KARISTIRMA-KANITI.md` | onaylandı (25 Kasım) |
-| B3 | bağın durumu | — | sırada |
-| B4 | yol | — | bekliyor |
+| B3 | bağın durumu | `B3-BAG-DURUMU.md` | onaylandı (26 Kasım) |
+| B4 | yol | — | sırada |
 | B5 | iletim kararı | — | bekliyor |
 | B6 | kontrol iletileri | — | bekliyor |
 | B7 | bekletme ve komut | — | bekliyor |
@@ -18,7 +18,8 @@
 
 - **Süre:** saniye, düğümün kendi saatiyle (`saat_s`); saatler senkron değildir, yalnız süreler kullanılır (`05` §3.2).
 - **Sıra numarası:** 16 bit, modüler karşılaştırılır: fark = (yeni − eski) mod 2^16, [−32768, 32767] aralığına çevrilir.
-- **Bağın ölçüleri (B1):** gerçek sayı; birimi beklenen deneme sayısı (ETX). Maliyetin tamsayı birimi ve ilan biçimi B3, B4 ve B6'da yazılır.
+- **Bağın ölçüleri (B1):** gerçek sayı; birimi beklenen deneme sayısı (ETX).
+- **Bağın maliyeti (B3):** gerçek E (ETX) ve tamsayı M = min(⌈`MALIYET_BIRIM` · E⌉, 0xFFFE); ∞ = 0xFFFF (B3 kural 2). İlan biçimi B4 ve B6'da yazılır.
 - **Kanıt aralıkları (B2):** [başlangıç, bitiş], kendi saatimle; sürmekteki aralığın bitişi ∞. B1'in hariç aralığıyla aynı biçimdedir (B1 kural 10).
 
 ## Değerler (tek yer)
@@ -46,6 +47,11 @@ Her değer için: kuralı, kaynağı ve gerekçesi, küçük ve büyük olursa n
 | `KAYIP_PENCERE_S` | 4 s | B2/3 | önceki KK-03 kural 2; teşhisin kuralı | `s` gürültülü olur (0,5–2,2 s'lik selamlarla komşu başına 2–8 örnek) · `s` geç yükselir (G alanında dönemin ilk saniyesinde 0,57–0,59, 3 s'de 0,78–0,80; teşhis §8.3) | Aşama 4'te bakılır |
 | `TANIDIK_S` | 16 s | B2/3 | önceki KK-03 kural 2; teşhisin kuralı | karıştırılan komşu tanıdık sayılmaktan erken çıkar, sıfırları sayılmaz · ölen ya da uzaklaşan komşunun sıfırları `s`'yi şişirir | hayır |
 | `GK_DENEME` · `GK_ARDISIK` | 7 deneme · 3 ardışık kayıt | B2/12 | B2 teşhisinin K4 seçimi (DEN7x3): ikizde ve önce evresinde 1000 çerçevede 1 sınırını 27 kuraldan üçü geçti, G alanında en erken yakalayan bu; doğrulamada ikizde 1000 çerçevede 0,40. Art arda 3 vazgeçmeyi kapsar; E alanında onunla aynı sayılar (seçim yarısı) | DEN6x3 ikizde 1000 çerçevede 0,93, DEN7x2 2,34 (seçim) · daha geç yakalar | Aşama 4'te bakılır |
+| `MALIYET_BIRIM` | 1 ETX = 64 birim | B3/2 | önceki tasarımın birimi (KK-00 genel kural 3: ETX × 64); 1/64 ETX çözünürlük (~%1,6); 16 bitlik alan ~1 000 ETX'e kadar taşır | maliyet kabalaşır, yakın bağlar eşit görünür · 16 bitlik alan taşar | hayır |
+| `KANIT_OMUR_S` | 5 s | B3/6–7 | son başarısızlıktan sonra gönderici ve veri yok kanıtının ömrü; bağ kullanılmazken yeni kanıt gelmediği için yeniden denemenin aralığı (İlke 3). Birincilde açık dönem 15 s, dayanıklılıkta 10 s; G alanındaki alıcıların çoğu bütün dönem karıştırılıyor (B2 teşhisi §8.1): dönem başına 1–2 yeniden deneme, her biri bir çerçeve; karıştırma bitince bağ en çok 5 s geç döner | karıştırılan bağa sık yeniden deneme, boşa kanal süresi · karıştırma bitince bağ geç döner (sessiz dönem) | Aşama 4'te bakılır |
+| `VERI_YOK_N` | 4 kayıt | B3/7 | B3 teşhisi `ek_hesap.txt` E4 (kuraldan sonra): son 4 kaydın hepsinin vazgeçme olması temiz kanalda veri örneklerinin %0,01–0,15'i, karıştırılan alıcıda %7–26'sı; 3 kayıtla temizde %0,05–0,32. B1'in `ORNEK_EN_AZ`'ıyla aynı | 3: temizde yanlış alarm ~2–5 kat · 6–8: kalıcı sorunda geç | Aşama 4'te bakılır |
+| `BILDIRIM_PAYI_S` | 3 s | B3/9 | komşu durumunu geç bulur: girişim kuralı 3 s içinde %34–35, alana girişten gecikme ortancası 2 s (B2 teşhisi E7); bit selam başına %35 olasılıkla ulaşır | komşunun sezilmemiş karıştırmasındaki düşük bildirimler ölçüye girer · sağlam örnekler gereksiz dışarıda kalır | hayır |
+| `HARIC_UST_S` | 30 s | B3/9–10 | İlke 2 (ölçmeyi bırakmamak); B1'in `SELAM_SAKLA`'sı 30 s'lik hariç aralığa göre seçildi; önceki tasarımın `T_HATIRA`'sı ve `KENDI_UST_SURE`'si | uzun karıştırmada kalite erken bozulur · uzun karıştırmada bağın yeni hâli geç görülür, B1'in saklaması yetmez | hayır |
 | `KANIT_SAKLA` | 128 aralık ya da olay | B2/8, 10, 12 | bellek sınırı. B1'in selam saklaması (128 örnek) en uzun aralıkta (2,2 s) ~280 s'ye yayılır; 1 s'lik giriş ve çıkışla bu sürede en çok ~140 aralık oluşabilir, birincilde düğüm başına dönem başına birkaç | eski örneklerin aralığı unutulur, hariç aralık eksik kalır · bellek | hayır |
 
 ## Bayraklar ve sınıflar
@@ -58,6 +64,10 @@ Her mekanizmanın bayrağı, sınıfı (karıştırmaya karşı ya da genel; K-2
 | kendi durumum, kendi aralıklarım, işaretler; B3 ve B5'in karıştırma ekleri | B2 1–9, 14, 17 | `karistirma_katmani` (grup) | karıştırmaya karşı | B2 çalışmaz, `kanal_dolulugu_ister` denmez; durum hep "yok", aralık ve kanıt yok, bit hep 0 (alan kalır); B1'in hariç aralık listesi boş; alt bayraklar etkisiz (B2 §10) |
 | alıcının biti | B2 9–11 | `alici_bildirimi` | karıştırmaya karşı | bit hep 0 gider, alınan bit okunmaz, "bit değişti" olayı yok (alan kalır, boy aynı); kendi durumum ve aralıklar sürer; A, B olur (`18` §2.2) |
 | göndericinin kanıtı | B2 12–13 | `gonderici_kaniti` | karıştırmaya karşı | gönderici olayı oluşmaz |
+| bağın maliyeti (selamdan, eşiksiz), durumu, KULLANILMAZ | B3 1–4, 11–12 | yok (çekirdek) | genel | — (maliyetsiz yol seçilemez) |
+| veri yok güvenlik ağı | B3 7 | `veri_yok` | genel | sebep oluşmaz |
+| karıştırılan bağın son çare olması (bildirim, gönderici), geçit istisnası | B3 5–6, 8 | `karistirma_katmani` (grup) | karıştırmaya karşı | sebep oluşmaz |
+| hariç aralık, karıştırmadan önceki oranın bildirilmesi | B3 9–10 | `haric_aralik` | karıştırmaya karşı | liste boş: B1 ham ölçer, oran ham bildirilir; SON ÇARE sebepleri sürer |
 
 **Mekanizma kapısının "hepsi kapalı" kolu** (`06` §0.4.5): `karistirma_katmani` kapalı, genel mekanizmalar açık.
 
@@ -67,11 +77,14 @@ Her mekanizmanın bayrağı, sınıfı (karıştırmaya karşı ya da genel; K-2
 |---|---|---|
 | B1 | selam: göndereni, sırası, aralığı, benim için bildirilen oran (B6 çözer) · `iletim_sonucu`: hedef, başarı, `tekrar` (ölçüye yalnız tür `veri`; onayın gelmesi her türde varlık kanıtı) · `cerceve_duyuldu`: göndereni, yalnız tür `veri` ve `kontrol` · `saat_s` (yalnız süreler) | `olculen_gurultu_w` (yasak, K-227) · RSSI · `phy_hata` · `alinan_cerceve` · `mesgul_sure_s` · `kendi_konum` · `kendi_hiz` · `komsular` (simülatörün beacon listesi) · kuyruk · duyulan onay ve kontrol onayının göndereni (gerçek 802.11 onayı verici adresi taşımaz) |
 | B2 | `mesgul_sure_s` (`kanal_dolulugu_ister`; yalnız `karistirma_katmani` açıkken) · `alinan_cerceve` · selam: göndereni ve karıştırma biti (B6 çözer) · B1'in çıktıları: selam örnekleri, `son_selam_t`, komşu kümesi ve olayları, veri kayıtları · `saat_s` (yalnız süreler) | `olculen_gurultu_w` (yasak, K-227) · RSSI · `phy_hata` · `kanal_mesgul_mu` · `iletim_sonucu` ve `cerceve_duyuldu` doğrudan (veri sonucu B1'in kaydından) · `kendi_konum` · `kendi_hiz` · `komsular` · kuyruk |
+| B3 | yalnız B1'in ve B2'nin çıktıları (B3 §2) · yapılandırma: geçidin kimliği | gözlem sözleşmesinin hiçbir alanını doğrudan okumaz · `olculen_gurultu_w` (yasak, K-227) · RSSI · konum |
 
 ## Aşama 3'e açık kalanlar
 
 - **Olay sırası:** B1, bir gözlemi işlemeden önce o ana kadarki kendi zaman olaylarını işler (B1 kural 20); `18` §1.4'ün olay sırasında gözlemin dağıtımı (1) zaman olaylarından (2) önce yazılı. Bütün bileşenler için ortak kural bütünlük denetiminde yazılır.
 - **Bileşenler arası beklentiler:** B1'in B6'dan beklentileri (B1 §6, Ö-1…Ö-7); B3 ile B6 arasında komşulara hangi oranın bildirileceği (B1 §11 madde 3); B2'nin B6'dan beklentileri (B2 §6, Ö-1…Ö-5); B2'nin B3'e bıraktıkları (B2 §11 madde 2).
 - **İskeletin kanca tablosu** (`18` §1.4): iletim sonucu B2'ye ayrıca dağıtılmaz; B2 veri sonucunu B1'in kaydından okur (B2 §2, sözleşme 3). Tablo bütünlük denetiminde buna göre düzeltilir.
-- **B1'in sondaki sessizliği** (B1 kural 16): B2 kullanmıyor (B2 §2). B3 kullanmazsa kaldırılır.
+- **B1'in sondaki sessizliği** (B1 kural 16): ne B2 (B2 §2) ne B3 (B3 §2) kullanıyor; kaldırılır.
+- **B3'ün B4'ten beklentileri** (B3 §6, §11 madde 3): olağan adaylar SON ÇARE'den önce; yol değişiminin histerezisi B4'te.
+- **Ortak sözlük:** B3'ün SON ÇARE durumu ile B4'ün aday türlerinin adları karışmamalı.
 - **İki meşgul payı eşiği:** `ED_ESIK` (0,55) ve `CBAR_ED_ESIK` (0,62). Birleştirmek ölçülen kuralı değiştirir; Aşama 4'te bakılır.

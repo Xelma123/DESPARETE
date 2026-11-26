@@ -146,7 +146,8 @@ Selam karıştırmaya neredeyse hiç tepki vermiyor. Veri, bağ-dönemlerin ~%40
 **10.2 · Önceki tasarımın selam eşiği** (E2; `E_selam` > 4 → KÖTÜ):
 - Kullanılan bağ örneklerinin yalnız %0,07'si (81/118 101) eşiğin üstünde: çekirdek böyle bağları zaten ardıl seçmiyor. Onlarda F'nin ortancası 4,2; %32'sinde F ≤ 3.
 - Izgarada eşiğin üstündeki bağ-dilimlerde kâhine göre iyi olanların payı: kullanılan bağlarda %99,4 (4 128), kullanılmayanlarda %44,8 (167 805).
-- Eşik, iyi bağların büyük bölümünü dışarıda bırakırdı. Önceki tasarımdaki zararın kaynağı ölçünün kendisi değil, eşikti.
+- Eşiğin dışarıda bırakacağı bağların büyük bölümü kâhine göre iyiydi. Önceki tasarımdaki zararın kaynağı ölçünün kendisi değil, eşikti.
+- Düzeltme (26 Kasım): ilk yazımda "eşik, iyi bağların büyük bölümünü dışarıda bırakırdı" yazıyordu. Sayılar, eşiği aşan bağlar içinde iyi olanların payıdır; iyi bağların ne kadarının eşiği aştığını göstermez.
 
 **10.3 · Ardıl ile yedek aynı terazide** (E3): kullanılan bağın maliyeti `E_veri`'den alınırsa, aynı düğümün kullanılmayan bağlarıyla sırası çiftlerin %9,65'inde (45 594/472 579) değişiyor. İki kaynağı karıştırmanın etkisi budur.
 
