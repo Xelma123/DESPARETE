@@ -34,8 +34,11 @@ değerlendirmede, `05` §8)
         geçit mi · ardılın kanıt maskesi (`iletim.K_*`) · sıradaki aday k1 ve
         en iyi O adayı (sınıf, alan, kâhinin p₇'si, M, ilanı) · ardılın p₇'si
         ve M'si · hızlı sapma tetiklerinin maskesi (`iletim.SAPMA_ADAYLARI`) ·
-        o atlamanın MAC sonucu · kaybın kararı mı. Görünüm yeni tasarımın
-        kurallarıyla, yalnız karardan önceki olaylarla hesaplanır (`iletim.py`).
+        o atlamanın MAC sonucu · kaybın kararı mı · yalnız uygulanabilirlik
+        yüzünden aday olmayan en iyi komşu (kayıtlı, bağı kullanılır, ilanı
+        taze ve sonlu; alanı ve p₇'si; S6, dumandan sonra eklendi). Görünüm
+        yeni tasarımın kurallarıyla, yalnız karardan önceki olaylarla
+        hesaplanır (`iletim.py`).
     kayıp — her kayıp için: kararın sırası, açık dönem, dönem başından,
         alana girişten ve kanıtın başlangıcından gecikme, düşüş anı, düşüş
         anında alıcının etki alanı (kayıp anatomisinin tanımı).
@@ -82,7 +85,9 @@ AILE = "derin_sizma"
 HUCRE = {"ikiz": ("yok", "10:20"), "birincil": ("surekli", "")}
 KARAR_ALANLAR = ("t_ms", "i", "j", "evre", "zj", "j_gecit", "kanit", "k1",
                  "k1_O", "zk1", "p7k1", "Mk1", "Ck1", "bO", "zbO", "p7bO",
-                 "p7j", "tetik", "den", "ok", "kayip", "Mj")
+                 "p7j", "tetik", "den", "ok", "kayip", "Mj",
+                 # S6 (dumandan sonra eklendi, `beklenti.md` duman notu)
+                 "uK", "zuK", "p7uK")
 KAYIP_ALANLAR = ("karar", "donem", "dt_donem_ms", "dt_alan_ms",
                  "dt_kanit_A_ms", "dt_kanit_G_ms", "t_dusus_ms", "z_dusus")
 
@@ -541,6 +546,7 @@ class Kaydedici:
                 if Mj >= L.SONSUZ:
                     msk |= L.K_KULLANILMAZ
                 aday: list = []
+                engelli: list = []      # S6: yalnız FD yüzünden aday değil
                 ilan_C: dict = {}
                 for k_ in komsular_i.get(i, []):
                     if k_ == j:
@@ -548,15 +554,19 @@ class Kaydedici:
                     b1k = b1[k_][x]
                     Mk = M_ani(b1k)
                     il = son_ilan(i, k_, t)
-                    if not L.aday_mi(b1k[3], Mk, il, t, fd):
-                        continue
-                    sk = maske(k_, b1k) & sinir
-                    aday.append((k_, L.maliyet_topla(Mk, il[2]), Mk,
-                                 "S" if sk else "O"))
-                    ilan_C[k_] = il[2]
+                    if L.aday_mi(b1k[3], Mk, il, t, fd):
+                        sk = maske(k_, b1k) & sinir
+                        aday.append((k_, L.maliyet_topla(Mk, il[2]), Mk,
+                                     "S" if sk else "O"))
+                        ilan_C[k_] = il[2]
+                    elif L.aday_mi(b1k[3], Mk, il, t, None):
+                        sk = maske(k_, b1k) & sinir
+                        engelli.append((k_, L.maliyet_topla(Mk, il[2]), Mk,
+                                        "S" if sk else "O"))
                 sirali = L.sirala(aday)
                 k1 = sirali[0] if sirali else None
                 bO = next((a_ for a_ in sirali if a_[3] == "O"), None)
+                uK = L.sirala(engelli)[0] if engelli else None
 
                 def alan(k_: int) -> str:
                     return z[k_][T] if acik else "U"
@@ -580,7 +590,10 @@ class Kaydedici:
                     "-" if bO is None else alan(bO[0]),
                     -1 if bO is None else _bin(p7_kahin(i, bO[0], t)),
                     _bin(p7j), tmsk, den,
-                    -1 if ok is None else int(ok), int(kay), Mj])
+                    -1 if ok is None else int(ok), int(kay), Mj,
+                    -1 if uK is None else uK[0],
+                    "-" if uK is None else alan(uK[0]),
+                    -1 if uK is None else _bin(p7_kahin(i, uK[0], t))])
                 if kay:
                     t_d = dusus_paket[kayip_karar[(i, q)]][0]
                     dq = donem(t)

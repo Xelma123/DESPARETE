@@ -216,3 +216,53 @@ Gerekçe:
 - **Ağırlık kâhindendir:** ağın kendi girişimini saymaz, k1'in geçide kalan yolunu görmez. Ağırlıklı pay bu yüzden bir üst sınırdır.
 - **Kuralların kâğıdı yok:** sapma, kopya ve kurtarma kuralları burada yalnız ulaşılabilecek payı ve kaba bedeli kestirmek için tanımlıdır.
 - **Kapsam:** yalnız formasyon kolu ve sürekli karıştırıcı ölçülür. Dayanıklılık hücresi ve yer karıştırıcılı aile ölçülmez.
+
+## Duman notu (27 Kasım; dumandan sonra yazıldı, karar girdisi değil)
+
+**Koşu:**
+- **Mekanik denetim** (commit'ten önce): tohum 1001, kısa pencere, iki hücre. İç denetimler geçti, karar hesabı hatasız bitti. Sayılar okunmadı; çıktısı depoya alınmadı.
+- **Duman:** `kosu.sh duman`, beklentinin commit'inden (`cdb1a48`) sonra, çalışma ağacından; 00:00–00:07, toplam ~6 dk.
+  - Kısa pencere, tohum 1003, iki hücre kaydediciyle, yan yana: ikiz 239 s (özeti 2 s), birincil 368 s (özeti 4 s).
+  - Ekten sonra (aşağıda) aynı duman ekli aletle yeniden koşuldu: 00:34–00:40; ikiz 242 s (özeti 3 s), birincil 358 s (özeti 5 s).
+  - `duman/` ekli aletin dumanıdır; karar hesabının raporu `duman/sonuc_hesap.txt`. Kayıt koşu başına ~38–46 KB (sıkıştırılmış).
+
+**Geçerlilik:**
+- İki hücrede satırlar yeni çekirdek ölçümünün duman kaydındaki `eğim0` satırlarıyla bütün alanlarda birebir.
+- İç denetimler geçti:
+  - meşgul dilimleri, çözülen çerçeve, MAC sonucu, selam kurma, karar ve vazgeçme sayıları sayaçlarla aynı;
+  - her karar bir MAC sonucuyla eşleşti; her alınan selamın kurulma kaydı var; çift düşüş yok;
+  - kayıp, alan başına kayıp anatomisiyle aynı.
+- Kaydedicinin iletim kaybı (0,4147) kayıp anatomisininkiyle aynı.
+
+**Aletin çalışması:** karar hesabının bütün bölümleri doldu (K0–K5).
+
+**Tek tohumda görülenler** (karar girdisi değil; tek tohum, 30 s'lik pencere; paylar açık dönemde doğan paketlere oranla):
+- **K1:** J1 0,047 · J2 0,027 (anında; gerçekçi 0,033) · J3 0,087 (ağırlıklı 0,027) · J4 0,141 · J5 0 · U1 0,043 · U2 0,054 · komut 0,017.
+- **J4'ün sebebi** (kuraldan sonra; `duman/j4_sebep.py` → `duman/j4_sebep.txt`, aynı tohumun yeniden koşusu, aynı kaydedici):
+  - J4'ün 84 kaybının 77'si iki bağda: 12 → 18 (42) ve 39 → 32 (35).
+  - Bu iki göndericinin alımı karıştırılmıyor: B2 durumu "yok", alanı U.
+  - Öteki komşuların çoğu kayıtlı, bağları kullanılır, ilanları taze ve sonlu; ama uygulanabilirlik koşulunu geçemiyor. Düğüm 12'nin açık evredeki adaysız kararlarında komşu başına sebeplerin en büyüğü "uygulanamaz" (1 240 / 1 872).
+  - Karıştırılan ardıl tek uygulanabilir komşu kalıyor. B4 bu durumda tur istemez (kural 11: yalnız hiç aday yokken), ardılı son çare olarak kullanmayı sürdürür (E1).
+  - İkizde aynı iki düğümün kararlarında başka aday %1 ve %4 yok; birincilin açık evresinde %86 ve %32.
+- **Ardılın kanıtı temiz kanalda:** ikizde kararların %3,9'unda ardılın kanıtı var, %3,3'ü ilanın bayatlamasından (selam aralığının 3,5 katı boyunca selam gelmemiş). Birincilin karıştırıcısız evrelerinde ilan bayatlığı %6,5 (önce) ve %7,9 (sessiz).
+- **K2:** J1 + J2'de 44 kayıp. Dönem başından ortanca 6,4 s; ilk 3 s'de %32.
+- **K3:** altı adayın temiz sapması %4,6–27,5; en düşüğü DEN7x2, W 1 s.
+- **K4:** C1'in yayın eki birincilde %31, ikizde %9,5; C2'ninki %2,0 ve %0,2.
+- **K5:** kurtarmanın yayın eki birincilde %9,2, ikizde %5,8.
+- **K6** (ekten sonra): yalnız uygulanabilirlik yüzünden aday olmayan temiz bir komşu J4'ün 0,141'lik kaybının 0,109'unda, J3'ün 0,087'sinin 0,067'sinde, U2'nin 0,054'ünün 0,044'ünde var. Ardılın kanıtı temiz kararlarda %3,9–10,5; sebebinin büyüğü ilanın bayatlaması (%3,3–8,1).
+
+**Dumandan sonra eklenen betimleyici ölçü (S6; 27 Kasım, kararım):**
+- **Sebep:** dumanda J4'ün kaybı, karıştırılan ardıl tek uygulanabilir komşu kaldığı için B4'ün tur istememesinden doğdu (yukarıda). Bu kayba B5'in hiçbir ailesi ulaşmaz; yeni bir tur ulaşabilir. Ayrıca ilanın ömrü temiz kanalda ardılı kanıtlı gösterdi.
+- **S6 · Uygulanabilirlik koşulunun ve ilanın ömrünün bedeli (betimleyici):**
+  - Kaydedici her kararda, yalnız uygulanabilirlik yüzünden aday olmayan en iyi komşuyu yazar: kayıtlı, bağı kullanılır, ilanı taze ve sonlu, ama FD'yi geçemiyor; B4'ün sırasıyla; alanı ve p₇'siyle (`uK`, `zuK`, `p7uK`).
+  - **K6** (karar hesabı): J3, J4 ve U2'nin kayıplarında böyle temiz bir komşunun bulunduğu pay (yeni bir tur onu aday yapardı), ham ve p₇'siyle ağırlıklı. Ayrıca ardılın kanıtının temiz kararlarda sebebe göre payı.
+  - K6 karar kuralının dışındadır ve öngörüsü yoktur (dumandan sonra yazıldı). B4'ün tur isteği ve ilanın ömrü için tanıdır.
+- **Denetim:**
+  - Ek, kaydın var olan alanlarını değiştirmez.
+  - Ekli aletle mekanik denetim (tohum 1001) yeniden koşuldu: iç denetimler geçti, karar hesabı hatasız bitti.
+  - Duman ekli aletle yeniden koşuldu. Satırlar yine birebir. Kayıp anatomisinin alanları, kaydedicinin öteki alanları ve karar satırlarının ilk 22 sütunu ilk dumanınkiyle aynı; K0–K5'in raporu aynı. Yalnız kâhin çağrısının sayısı arttı (818 → 1 316 · 891 → 1 390; yeni sütunun p₇'si).
+  - İlk dumanın kaydı aynı sayıları verdiği için depoya alınmadı.
+
+**Süre:** adım başına ~1–1,5 saat, toplam ~2–3 saat. Dumanda koşular B3 teşhisinin dumanından kısa sürdü (239 · 368 s ↔ 443 · 704 s); B3'ün tam adımları 1 sa 50 dk ve 1 sa 19 dk sürmüştü. Özet dumanda 2–4 s.
+
+**Değişmeyenler:** öngörüler ve karar kuralı (K0–K5) değişmedi. Alete yalnız yukarıdaki betimleyici ek (S6, K6) girdi.

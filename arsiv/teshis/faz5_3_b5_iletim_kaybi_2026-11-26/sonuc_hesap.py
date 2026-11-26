@@ -1,6 +1,7 @@
 """
 Faz 5-3 · B5 teşhisinin karar hesabı (`beklenti.md` "Karar kuralı", K0–K5).
-Kayıtlardan okur; simülasyon yok.
+K6 betimleyicidir: dumandan sonra eklendi, karar kuralının dışında
+(`beklenti.md` duman notu). Kayıtlardan okur; simülasyon yok.
 
     PYTHONIOENCODING=utf-8 py -3.11 <bu dosya> [<klasör>] > sonuc_hesap.txt
 
@@ -79,7 +80,7 @@ def bant(p7: float) -> int:
 class Karar:
     __slots__ = ("t", "i", "j", "evre", "zj", "gecit", "kanit", "k1", "k1_O",
                  "zk1", "p7k1", "Mk1", "Ck1", "bO", "zbO", "p7bO", "p7j",
-                 "tetik", "den", "ok", "kayip", "Mj")
+                 "tetik", "den", "ok", "kayip", "Mj", "uK", "zuK", "p7uK")
 
     @classmethod
     def kur(cls, satir: list, alanlar: list) -> "Karar":
@@ -96,6 +97,10 @@ class Karar:
         o.p7j = d["p7j"] / 1000.0
         o.tetik, o.den, o.ok = d["tetik"], d["den"], d["ok"]
         o.kayip, o.Mj = bool(d["kayip"]), d["Mj"]
+        # S6 (dumandan sonra eklendi); eski kayıtta alan yoksa komşu yok
+        o.uK, o.zuK = d.get("uK", -1), d.get("zuK", "-")
+        p = d.get("p7uK", -1)
+        o.p7uK = None if p < 0 else p / 1000.0
         return o
 
     def sinif(self, bicim: str) -> str:
@@ -443,6 +448,71 @@ def k5(kayit: dict, kip: str) -> None:
     print("\n".join(sat) + "\n")
 
 
+# ==============================================================================
+# K6 · uygulanabilirlik koşulunun ve ilanın ömrünün bedeli (S6) — betimleyici;
+# dumandan sonra eklendi, karar kuralının dışında, öngörüsü yok
+# ==============================================================================
+KANIT_ADLARI = (("bildirim (gerçekçi)", L.K_BILDIRIM_G),
+                ("bildirim (anında)", L.K_BILDIRIM_A),
+                ("gönderici", L.K_GONDERICI), ("veri yok", L.K_VERI_YOK),
+                ("ilan bayat", L.K_ILAN_BAYAT),
+                ("kullanılmaz", L.K_KULLANILMAZ))
+
+
+def k6(kayit: dict, kip: str) -> None:
+    print("== K6 · uygulanabilirlik koşulunun ve ilanın ömrünün bedeli (S6), "
+          "betimleyici; dumandan sonra eklendi ==")
+    sat: list[str] = []
+    rs = kayit.get("birincil", [])
+    if rs:
+        sat.append("  J3 · J4 · U2'de yalnız uygulanabilirlik yüzünden aday "
+                   "olmayan temiz komşu (yeni bir tur onu aday yapardı); pay "
+                   "açık dönemde doğana oranla, sekiz tohumun ortalaması:")
+        for s in ("J3", "J4", "U2"):
+            ham, var, agr = [], [], []
+            for r in rs:
+                n = dogan(r)
+                kl = kararlar(r)
+                h_ = v_ = 0
+                a_ = 0.0
+                for o, _ in kayiplar(r, kl):
+                    if o.sinif("A") != s:
+                        continue
+                    h_ += 1
+                    if o.uK >= 0 and L.temiz(o.zuK, o.p7uK):
+                        v_ += 1
+                        a_ += o.p7uK
+                ham.append(h_ / n)
+                var.append(v_ / n)
+                agr.append(a_ / n)
+            sat.append(f"    {s} · sınıfın payı {ist.mean(ham):.4f} · temiz "
+                       f"engelli komşusu olan {ist.mean(var):.4f} · ağırlıklı "
+                       f"{ist.mean(agr):.4f}")
+    sat.append("  ardılın kanıtı, temiz kararlarda, sebebe göre (kararların "
+               "payı; bir karar birden çok sebep taşıyabilir):")
+    for h, rs_ in kayit.items():
+        gruplar: dict[str, list] = defaultdict(list)
+        for r in rs_:
+            for o in kararlar(r):
+                if not o.temiz_karar():
+                    continue
+                g = {"i": "ikiz", "o": "önce", "s": "sessiz", "a": "açık·U"}[
+                    o.evre]
+                gruplar[g].append(o)
+        for g in sorted(gruplar):
+            kl = gruplar[g]
+            herhangi = sum(1 for o in kl if o.kanit & L.KANIT_A) / len(kl)
+            parca = " · ".join(
+                f"{ad} {yuzde(sum(1 for o in kl if o.kanit & b) / len(kl))}"
+                for ad, b in KANIT_ADLARI)
+            sat.append(f"    {h:<9} {g:<7} karar {len(kl)} · herhangi "
+                       f"{yuzde(herhangi)} · {parca}")
+    if kip == "mekanik":
+        print("  K6 · hesaplandı\n")
+        return
+    print("\n".join(sat) + "\n")
+
+
 def main() -> int:
     klasor = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else D
     kip = ("mekanik" if klasor.name == "mekanik"
@@ -459,6 +529,7 @@ def main() -> int:
     k3(kayit, kip)
     k4(kayit, kip)
     k5(kayit, kip)
+    k6(kayit, kip)
     if kip == "tam" and not gecerli:
         print("UYARI: K0 tutmadı — tablolar kullanılmaz, sebep ölçülür.")
     return 0 if gecerli else 1

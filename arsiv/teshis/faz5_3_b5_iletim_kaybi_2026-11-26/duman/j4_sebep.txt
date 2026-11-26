@@ -1,0 +1,13 @@
+# komut: cd <depo kökü>; PYTHONIOENCODING=utf-8 PYTHONDONTWRITEBYTECODE=1 DESPARETE_DUNYA=referans_2026 py -3.11 -u arsiv/teshis/faz5_3_b5_iletim_kaybi_2026-11-26/duman/j4_sebep.py (27 Kasım, çalışma ağacı = cdb1a48)
+00:09:13 basla
+düğüm 12: açık evrede telemetri kararı 136 · başka aday yok 117
+  aday olmayan komşuların sebebi (karar × komşu): {'uygulanamaz': 1240, 'bag_kullanilmaz(df yok)': 234, 'kayitsiz': 117, 'bag_kullanilmaz': 117, 'ilan_sonsuz': 108, 'ilan_bayat': 56}
+  göndericinin kendi B2 durumu: {'-': 117}
+  göndericinin etki alanı: {'uzak': 117}
+düğüm 39: açık evrede telemetri kararı 130 · başka aday yok 41
+  aday olmayan komşuların sebebi (karar × komşu): {'uygulanamaz': 314, 'kayitsiz': 136, 'bag_kullanilmaz(dr 0)': 82, 'ilan_bayat': 42, 'bag_kullanilmaz(df yok)': 41, 'bag_kullanilmaz': 41}
+  göndericinin kendi B2 durumu: {'-': 41}
+  göndericinin etki alanı: {'uzak': 41}
+cikis=0
+00:17:13 bitti
+

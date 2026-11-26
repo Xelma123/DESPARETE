@@ -1,0 +1,8 @@
+==============================================================================
+B5 TEŞHİSİ — dünya referans_2026 · ikiz (formasyon-yok, hayalet 10:20) · kol desparete5_egim0 · tohum [1003] · KISA PENCERE
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\protokoller\desparete5.py
+  saf işlevler: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b5_iletim_kaybi_2026-11-26\iletim.py · C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b2_isaretler_2026-11-24\isaret.py · C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b3_bag_olculeri_2026-11-25\bag.py
+==============================================================================
+    1/1 1003 · karar 4639 · kayıp 0 · denetim tamam · 242 s (özet 3 s)
+
+  1 koşu kayıtta · hata 0

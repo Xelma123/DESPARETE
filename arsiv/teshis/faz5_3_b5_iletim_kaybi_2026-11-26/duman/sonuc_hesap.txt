@@ -1,0 +1,58 @@
+B5 teşhisinin karar hesabı · C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b5_iletim_kaybi_2026-11-26\duman · kip duman · hücreler ('ikiz', 'birincil')
+
+== K0 · geçerlilik ==
+  ikiz      koşu 1 · geçersiz yok · iç denetim tamam
+  birincil  koşu 1 · geçersiz yok · iç denetim tamam
+  birebirlik ikiz      ↔ faz5_3_yeni_cekirdek_2026-11-19\duman\kayit_duman_ikiz.json: 1 eşleşen · birebir
+  birebirlik birincil  ↔ faz5_3_yeni_cekirdek_2026-11-19\duman\kayit_duman_birincil.json: 1 eşleşen · birebir
+  hüküm: geçerli
+
+== K1 · kaybın yeri (S1): açık dönemde doğan paketlerin iletim kaybı, karar anına göre ==
+  sınıf · ham · ağırlıklı (anında biçim) · ham (gerçekçi biçim) · tohum başına ağırlıklı (anında)
+    J1 · 0.0468 · 0.0468 · 0.0401 · 0.047
+    J2 · 0.0268 · 0.0267 · 0.0334 · 0.027
+    J3 · 0.0870 · 0.0270 · 0.0870 · 0.027
+    J4 · 0.1405 · 0.0000 · 0.1405 · 0.000
+    J5 · 0.0000 · 0.0000 · 0.0000 · 0.000
+    U1 · 0.0435 · 0.0431 · 0.0435 · 0.043
+    U2 · 0.0535 · 0.0362 · 0.0535 · 0.036
+    komut kaybı · 0.0167
+    toplam (iletim kaybı, telemetri + komut) · 0.4147
+    kayıp anatomisinin iletim kaybı · 0.4147
+  duman: elemeler ve hüküm verilmez
+
+== K2 · zaman (S2): J1 + J2'deki kayıp (anında biçim), saniye ==
+  kayıp 44 · dönem başından 6.44 (2.32–8.60) · alana girişten 6.30 (2.02–8.45) · J1'de kanıttan 8.30 (2.70–9.60)
+  dönemin ilk 3 s'sinde olan pay %31.82
+
+== K3 · hızlı sapmanın tetiği (S3) ==
+    DEN7x1 W1  yakalama %24.98 · temiz sapma %17.50 · k1'in bandı kötü %12.52
+    DEN7x1 W3  yakalama %31.23 · temiz sapma %27.54 · k1'in bandı kötü %9.34
+    VAZ1 W1    yakalama %24.98 · temiz sapma %13.38 · k1'in bandı kötü %15.63
+    VAZ1 W3    yakalama %31.23 · temiz sapma %21.71 · k1'in bandı kötü %11.30
+    DEN7x2 W1  yakalama %0.00 · temiz sapma %4.62 · k1'in bandı kötü %29.15
+    DEN7x2 W3  yakalama %6.25 · temiz sapma %7.62 · k1'in bandı kötü %25.00
+  duman: seçim yapılmaz
+
+== K4 · kopyanın bedeli (S4), betimleyici ==
+    ikiz      C1 · ateşleme ikiz %3.13 · yayın eki %9.50 · kapsadığı kayıp {}
+    ikiz      C2 · ateşleme ikiz %0.06 · yayın eki %0.16 · kapsadığı kayıp {}
+    birincil  C1 · ateşleme açık·E %20.00 · açık·G %21.92 · açık·U %8.55 · sessiz %7.53 · önce %3.13 · yayın eki %30.75 · kapsadığı kayıp {'J1': 28, 'J3': 35, 'U1': 4, 'U2': 13}
+    birincil  C2 · ateşleme açık·E %0.00 · açık·G %0.00 · açık·U %0.40 · sessiz %0.39 · önce %0.67 · yayın eki %2.01 · kapsadığı kayıp {'U2': 4}
+
+== K5 · kurtarmanın kestirimi (S5), betimleyici ==
+  ağırlıklı pay (birincil): J2 0.0267 · J3 0.0270 · U1 0.0431 · toplam 0.0968
+  ikiz      vazgeçme 211 · k1'i olan %80.57 · yayın eki %5.80
+  birincil  vazgeçme 478 · k1'i olan %62.55 · yayın eki %9.19
+
+== K6 · uygulanabilirlik koşulunun ve ilanın ömrünün bedeli (S6), betimleyici; dumandan sonra eklendi ==
+  J3 · J4 · U2'de yalnız uygulanabilirlik yüzünden aday olmayan temiz komşu (yeni bir tur onu aday yapardı); pay açık dönemde doğana oranla, sekiz tohumun ortalaması:
+    J3 · sınıfın payı 0.0870 · temiz engelli komşusu olan 0.0669 · ağırlıklı 0.0669
+    J4 · sınıfın payı 0.1405 · temiz engelli komşusu olan 0.1087 · ağırlıklı 0.1087
+    U2 · sınıfın payı 0.0535 · temiz engelli komşusu olan 0.0435 · ağırlıklı 0.0435
+  ardılın kanıtı, temiz kararlarda, sebebe göre (kararların payı; bir karar birden çok sebep taşıyabilir):
+    ikiz      ikiz    karar 4639 · herhangi %3.88 · bildirim (gerçekçi) %0.24 · bildirim (anında) %0.30 · gönderici %0.32 · veri yok %0.06 · ilan bayat %3.26 · kullanılmaz %0.00
+    birincil  açık·U  karar 1485 · herhangi %9.09 · bildirim (gerçekçi) %1.01 · bildirim (anında) %0.20 · gönderici %1.48 · veri yok %0.47 · ilan bayat %8.08 · kullanılmaz %0.00
+    birincil  sessiz  karar 2562 · herhangi %8.98 · bildirim (gerçekçi) %1.56 · bildirim (anında) %1.05 · gönderici %0.08 · veri yok %0.08 · ilan bayat %7.88 · kullanılmaz %0.00
+    birincil  önce    karar 447 · herhangi %10.51 · bildirim (gerçekçi) %0.89 · bildirim (anında) %3.13 · gönderici %0.89 · veri yok %0.45 · ilan bayat %6.49 · kullanılmaz %0.00
+
