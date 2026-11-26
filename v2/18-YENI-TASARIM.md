@@ -9,7 +9,7 @@
 | aşama | durum |
 |---|---|
 | 1 · Zemin | tamam (24 Kasım): 1.1 hedef ve başarı ölçütü, 1.2 kısıtlar, 1.3 kanıt envanteri, 1.4 mimari iskelet |
-| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu tamam (26 Kasım: teşhis ölçümüyle seçenek 2'nin dayanağı tutmadı, yeniden kararım A: bağın maliyeti selamdan, eşikle düşürme yok, veri yalnız güvenlik ağı; karıştırılan bağ son çare; kâğıt onaylandı); 2.4 B4 yol tamam (26 Kasım: uygulanabilirlik koşulu, Babel ailesi; olağan bağlar son çaredekilerden önce; kâğıt onaylandı); sırada 2.5 B5 iletim kararı |
+| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu tamam (26 Kasım: teşhis ölçümüyle seçenek 2'nin dayanağı tutmadı, yeniden kararım A: bağın maliyeti selamdan, eşikle düşürme yok, veri yalnız güvenlik ağı; karıştırılan bağ son çare; kâğıt onaylandı); 2.4 B4 yol tamam (26 Kasım: uygulanabilirlik koşulu, Babel ailesi; olağan bağlar son çaredekilerden önce; kâğıt onaylandı); 2.5 B5 iletim kararı sürüyor (26 Kasım: ana seçenekten önce teşhis, beklentisi yazıldı) |
 | 3 · Bütünlük ve donma | bekliyor |
 | 4 · Kod ve ölçüm | bekliyor |
 
@@ -548,6 +548,47 @@ Girdileri B3'ün bağ maliyetleri ve durumları (olağan · son çare · kullan�
 - Döngü kuralları ölçümünün önceden yazılı hükmü de "uygulanabilirlik koşuluna dönüş yeniden tasarımda konuşulur" diyordu.
 
 Seçilmeyenler: Y2, en kötü tohumda ve sessiz dönemde koruma ölçütlerini geçemediği ve döngüyü iki kuralla da çözemediği için; Y3, ölçülmediği ve iki mekanizmayı birlikte taşıdığı için. Açlığın yeni tasarımdaki sıklığı Aşama 4'te ölçülür. Yüksek kalırsa Y3'ün açlıktaki son çaresi o zaman düşünülür.
+
+### 2.5 · B5 · İletim kararı (26 Kasım; ana seçenekten önce teşhis)
+
+**Sorun.** B5 her veri paketi için üç şeye karar verir:
+- hangi komşuya: B4'ün sıralı aday listesinden; listedeki her aday uygulanabilir olduğu için döngü oluşmaz (`bilesen/B4-YOL.md` §15);
+- şimdi mi, yoksa tutulsun mu (B7 ile);
+- kopyalı mı.
+
+Komutun sonraki atlaması B7'nin geri izindendir.
+
+Simülatörün çerçevesi (kod):
+- protokole atlama başına bir kez sorulur, geri çekilme bitip çerçeve havaya çıkarken (`sim2/kosum/gonderim.py`, `iletime_basla`); MAC aynı komşuya en çok 7 kez dener;
+- 7 deneme de boşa giderse ve alıcı çerçeveyi çözmediyse paket düşer; protokol bunu sonra öğrenir (`sim2/kosum/kosu.py`: önce `vazgec`, sonra `iletim_sonucu` ve `iletim_basarisiz`). Başarısız paketi başka komşuya göndermek (kurtarma) bugün yoktur;
+- kopya kuyruğun sonuna girer ve asıl paket geçse de gönderilir; ara düğüm onu tanımaz (`13` §07);
+- kendi kanal kilidimde kanal hep meşgul olduğu için geri çekilme bitmez, protokole sorulmaz.
+
+**Kanıt** (ölçüldü):
+- Birincilde açık dönem kaybının büyüğü iletimde. Uygulanabilirlik koşulunu kullanan kolda (`eğim0`) iletim 0,297 · rota yokluğu 0,037; Babel'de 0,335 · 0 (`arsiv/teshis/faz5_3_dongu_kurallari_2026-11-24/ek_hesap.txt` §3).
+- `eğim0`'da iletim kaybı alıcıya göre: kanal kilidi 0,048 · girişim 0,168 · uzak 0,081 (`arsiv/teshis/faz5_3_yeni_cekirdek_2026-11-19/kayit_egim0_birincil.json`, `dogum_evre_dusen`).
+- Karıştırılan alıcıya çerçeve başına deneme: girişimde 3,9, kanal kilidinde 6,3, temizde 2,0 (`arsiv/teshis/faz5_2_isaretler_2026-11-16/sonuc.md` §3).
+- Kanal kalabalık: denemelerin yarısından fazlası başarısız. Ağın toplam yayın süresi 100 s artınca alıcıların çerçeveye kilitlenmesi ~2 puan düşüyor (`arsiv/teshis/faz5_2_secenek_iletim_2026-11-15/sonuc.md` §5).
+- Kopyanın bu dünyadaki bedeli ölçülmedi (§1.3, bilmiyoruz 7).
+- Önceki tasarımda paket hep ardıla gitti; çoğaltma `17` T-14'te yazılmıştı ama kodlanmadı.
+
+**Seçenek aileleri** (karar değil):
+
+| | ne | artı | eksi ve bedel |
+|---|---|---|---|
+| A · tek yol | paket hep ardıla; karıştırmaya karşılık B2 → B3 → B4'ten | en basiti; fazladan yayın yok | kanıt gelene kadar ve temiz aday yokken paket karıştırılan bağa gider |
+| B · paket başına hızlı sapma | ardıla giden çerçeve kötü bitince sonraki paketler kısa süre sıradaki adaya; yol durumu değişmez | göndericinin en hızlı işareti; bağ atılmadığı için açlık doğmaz | temiz kanalda yanlış sapma; ikinci aday daha pahalı |
+| C · seçici kopya | ardılın kanıtı varken bir eş sıradaki adaya da | iki bağımsız şans | kalabalık kanala yayın; eş asıl geçse de gider; bedeli bilinmiyor |
+| D · kurtarma | MAC vazgeçince paket düşmez, sıradaki adaya gider (DSR'nin "salvaging"i, RFC 4728 §3.4.1) | yalnız başarısızlıkta harcar | simülatörün yetenek sözleşmesini (`13`) genişletir; kapsam kararı |
+
+Fırsatçı iletim (ExOR, ORW) MAC'te yeni bir iletim türü ister; en büyük değişikliktir ve bu karara girmez. Bekletme ayrı bir aile değil, bir alt sorudur: yalnız son çare adayı varken paketi kısa süre tutmak.
+
+**Kararım (26 Kasım): ana seçenekten önce kısa bir teşhis.** Ailelerin her biri iletim kaybının başka bir parçasına ulaşıyor ve bu parçaların büyüklüğü ölçülmedi:
+- kaybın ne kadarı karıştırılan alıcıda ve kanıttan önce oluyor;
+- ne kadarı temiz aday yokken oluyor;
+- ne kadarı temiz alıcıda oluyor.
+
+Teşhis: `arsiv/teshis/faz5_3_b5_iletim_kaybi_2026-11-26/`. Bugünkü kodun `eğim0` kolunun trafiğinde, ikiz ve birincil, 16 koşu. Her iletim kaybı, karar anındaki duruma göre yeni tasarımın kurallarıyla sınıflanır; ulaşabileceği pay 0,02'nin altında kalan aile elenir. Sorular, karar kuralı ve öngörüler `beklenti.md`de.
 
 ## Eksiksizlik listesi
 
