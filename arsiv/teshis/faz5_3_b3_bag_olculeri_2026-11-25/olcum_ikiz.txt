@@ -1,0 +1,15 @@
+==============================================================================
+B3 TEŞHİSİ — dünya referans_2026 · ikiz (formasyon-yok, hayalet 10:20) · kol desparete5_cekirdek · tohum [1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b3_bag_olculeri_2026-11-25\kopya\protokoller\desparete5.py
+  saf işlevler: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b3_bag_olculeri_2026-11-25\bag.py
+==============================================================================
+    1/8 1007 · PDR(pencere) 0.9757 · veri örneği 10943 · ızgara 30996 · denetim tamam · 5194 s (özet 241 s)
+    2/8 1004 · PDR(pencere) 0.9718 · veri örneği 10958 · ızgara 30300 · denetim tamam · 5414 s (özet 218 s)
+    3/8 1008 · PDR(pencere) 0.9583 · veri örneği 11205 · ızgara 35546 · denetim tamam · 5708 s (özet 242 s)
+    4/8 1010 · PDR(pencere) 0.9528 · veri örneği 11413 · ızgara 32841 · denetim tamam · 5900 s (özet 214 s)
+    5/8 1009 · PDR(pencere) 0.9553 · veri örneği 11426 · ızgara 35835 · denetim tamam · 6430 s (özet 136 s)
+    6/8 1003 · PDR(pencere) 0.9652 · veri örneği 11176 · ızgara 29642 · denetim tamam · 6500 s (özet 104 s)
+    7/8 1006 · PDR(pencere) 0.9477 · veri örneği 11165 · ızgara 31825 · denetim tamam · 6522 s (özet 112 s)
+    8/8 1005 · PDR(pencere) 0.9366 · veri örneği 11383 · ızgara 33797 · denetim tamam · 6621 s (özet 121 s)
+
+  8 koşu kayıtta · hata 0

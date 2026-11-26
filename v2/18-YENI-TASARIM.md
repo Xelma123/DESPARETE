@@ -9,7 +9,7 @@
 | aşama | durum |
 |---|---|
 | 1 · Zemin | tamam (24 Kasım): 1.1 hedef ve başarı ölçütü, 1.2 kısıtlar, 1.3 kanıt envanteri, 1.4 mimari iskelet |
-| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu: kararım verildi (25 Kasım: kullanılan bağın maliyeti veriden, kullanılmayanınki selamdan, eşikle düşürme yok; karıştırılan bağ son çare), teşhis ölçümünün beklentisi yazıldı (25 Kasım), sırada duman ve koşu |
+| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu: kararım verildi (25 Kasım: kullanılan bağın maliyeti veriden, kullanılmayanınki selamdan, eşikle düşürme yok; karıştırılan bağ son çare), teşhis ölçümü koşuldu (26 Kasım): veri ölçüsü selamdan önceden yazılı farkla iyi değil, çekirdeğin seçeneği yeniden konuşuluyor |
 | 3 · Bütünlük ve donma | bekliyor |
 | 4 · Kod ve ölçüm | bekliyor |
 
@@ -466,6 +466,14 @@ Kâğıt: teşhis ölçümünden sonra (`arsiv/teshis/faz5_3_b3_bag_olculeri_202
 Seçilmeyenler: 1, kanıtlanmış yanılgıyı bıraktığı ve `E_veri`'yi kullanmadığı için; 3, selamın kötümserliğini veriye karıştırdığı ve karıştırmaya yavaş kaldığı için; E2, yedek yokken yol bırakmadığı için; E3, katsayısı tahmine dayandığı için. Karıştırma eki hiç ölçülmedi; katkısı Aşama 4'te ablasyonla ölçülür.
 
 **Kâğıttan önce teşhis.** 2'nin iki riski ve değerleri ölçülmedi: (a) iki kaynak aynı terazide, (b) veri ölçüsünün yükle oynaması; ayrıca kaç veri kaydının "yeterli" olduğu ve selamın veri cinsine çevrilip çevrilmeyeceği. Kısa, önceden yazılı bir teşhis (yöntem: girdi eksikse kısa teşhis): bugünkü çekirdeğin trafiğinde aynı bağda `E_selam`, `E_veri`, kâhinin tek deneme başarısı ve bağın sonraki veri bedeli yan yana. Sorular, karar kuralı ve öngörüler beklentide.
+
+**Teşhisin sonucu** (26 Kasım, `arsiv/teshis/faz5_3_b3_bag_olculeri_2026-11-25/sonuc.md`; çekirdeğimizin trafiği, ikiz ve birincil, 16 koşu):
+- **Veri üstün değil** (K2): veri ölçüsü kullanılan bağın sonraki veri bedelini daha iyi kestiriyor (doğrulamada ortanca hata 0,231 ↔ 0,305 bit, yani ~%17 ↔ ~%24), ama fark önceden yazılı 0,10 bitlik sınırın altında. Beklentinin hükmüyle seçenek 2'nin dayanağı tutmadı; çekirdeğin seçeneği yeniden konuşulur.
+- Veri ölçüsü selamı ancak 12 kayıtla 0,05 bit geçiyor (K3); 6 kayıtla iyi değil. 30 s'ye kadar tazelik sorun değil.
+- Selamın veri cinsine çevrilmesi kazanç getirmiyor (K1: genel katsayıyla 0,016 bit).
+- Veri yükle oynamıyor (K4: çiftlerin %0,5'i 10 s'de iki katına değişiyor). Selamı geçen ama veriyi taşımayan bağ seyrek ve kısa (K5: örneklerin %1,1–1,3'ü, ortanca 2 s).
+- Karıştırmada selam hiç tepki vermiyor; veri, bağ-dönemlerin ~%40'ında dönem içinde iki katına çıkıyor (K6).
+- Kuraldan sonra görülen: önceki tasarımın eşiği (`E_selam` > 4) kullanılmayan bağlarda kâhine göre iyi olanların %45'ini dışarıda bırakırdı. Zarar ölçüden değil eşikten geliyordu (sonuç §10.2).
 
 ## Eksiksizlik listesi
 

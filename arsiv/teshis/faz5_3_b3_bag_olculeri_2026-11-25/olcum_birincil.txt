@@ -1,0 +1,15 @@
+==============================================================================
+B3 TEŞHİSİ — dünya referans_2026 · birincil (formasyon-surekli, derin_sizma) · kol desparete5_cekirdek · tohum [1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b3_bag_olculeri_2026-11-25\kopya\protokoller\desparete5.py
+  saf işlevler: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b3_bag_olculeri_2026-11-25\bag.py
+==============================================================================
+    1/8 1007 · PDR(pencere) 0.9387 · veri örneği 11106 · ızgara 29666 · denetim tamam · 3613 s (özet 194 s)
+    2/8 1008 · PDR(pencere) 0.8478 · veri örneği 11246 · ızgara 34371 · denetim tamam · 3953 s (özet 214 s)
+    3/8 1010 · PDR(pencere) 0.7706 · veri örneği 11078 · ızgara 31854 · denetim tamam · 4144 s (özet 184 s)
+    4/8 1004 · PDR(pencere) 0.8374 · veri örneği 10954 · ızgara 29395 · denetim tamam · 4172 s (özet 168 s)
+    5/8 1009 · PDR(pencere) 0.8668 · veri örneği 11150 · ızgara 34810 · denetim tamam · 4313 s (özet 163 s)
+    6/8 1006 · PDR(pencere) 0.9048 · veri örneği 11305 · ızgara 30832 · denetim tamam · 4572 s (özet 129 s)
+    7/8 1003 · PDR(pencere) 0.7864 · veri örneği 10976 · ızgara 28781 · denetim tamam · 4590 s (özet 116 s)
+    8/8 1005 · PDR(pencere) 0.6827 · veri örneği 10969 · ızgara 33199 · denetim tamam · 4758 s (özet 115 s)
+
+  8 koşu kayıtta · hata 0
