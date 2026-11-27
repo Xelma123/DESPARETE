@@ -1,0 +1,64 @@
+B5 teşhisinin karar hesabı · C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b5_iletim_kaybi_2026-11-26 · kip tam · hücreler ('ikiz', 'birincil')
+
+== K0 · geçerlilik ==
+  ikiz      koşu 8 · geçersiz yok · iç denetim tamam
+  birincil  koşu 8 · geçersiz yok · iç denetim tamam
+  birebirlik ikiz      ↔ faz5_3_yeni_cekirdek_2026-11-19\kayit_egim0_ikiz.json: 8 eşleşen · birebir
+  birebirlik birincil  ↔ faz5_3_yeni_cekirdek_2026-11-19\kayit_egim0_birincil.json: 8 eşleşen · birebir
+  hüküm: geçerli
+
+== K1 · kaybın yeri (S1): açık dönemde doğan paketlerin iletim kaybı, karar anına göre ==
+  sınıf · ham · ağırlıklı (anında biçim) · ham (gerçekçi biçim) · tohum başına ağırlıklı (anında)
+    J1 · 0.0489 · 0.0485 · 0.0447 · 0.094 0.013 0.049 0.026 0.029 0.011 0.075 0.091
+    J2 · 0.0221 · 0.0220 · 0.0267 · 0.036 0.018 0.030 0.016 0.011 0.011 0.027 0.027
+    J3 · 0.0816 · 0.0360 · 0.0812 · 0.093 0.024 0.015 0.003 0.017 0.062 0.018 0.057
+    J4 · 0.0529 · 0.0000 · 0.0529 · 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+    J5 · 0.0062 · 0.0000 · 0.0062 · 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+    U1 · 0.0428 · 0.0426 · 0.0428 · 0.023 0.067 0.055 0.076 0.028 0.023 0.023 0.044
+    U2 · 0.0369 · 0.0105 · 0.0369 · 0.002 0.016 0.013 0.016 0.004 0.012 0.010 0.012
+    komut kaybı · 0.0055
+    toplam (iletim kaybı, telemetri + komut) · 0.2971
+    kayıp anatomisinin iletim kaybı · 0.2971
+  elemeler (ağırlıklı, anında; eşik 0.02):
+    B · J2 = 0.0220 → elenmez
+    C · J3 = 0.0360 → elenmez
+    D · J2 + J3 + U1 = 0.1005 → elenmez
+  hüküm K1: elenmeyen aileler A · B · C · D
+  hedefe yeter mi (betimleyici): J1 + J2 + J3 (ağırlıklı) = 0.1065 ↔ gereken 0.048
+
+== K2 · zaman (S2): J1 + J2'deki kayıp (anında biçim), saniye ==
+  kayıp 2046 · dönem başından 7.76 (4.18–11.21) · alana girişten 5.72 (1.88–9.86) · J1'de kanıttan 3.08 (1.03–6.35)
+  dönemin ilk 3 s'sinde olan pay %17.79
+
+== K3 · hızlı sapmanın tetiği (S3) ==
+  aday · seçim (yakalama · temiz sapma) · doğrulama (yakalama · temiz sapma) · sapan temiz kararda k1'in bandı kötü (seçim)
+    DEN7x1 W1  %61.66 · %12.38 · %55.30 · %11.22 · %11.89
+    DEN7x1 W3  %72.09 · %21.71 · %64.76 · %20.84 · %10.58
+    VAZ1 W1    %57.25 · %8.61 · %52.05 · %7.50 · %12.92
+    VAZ1 W3    %69.34 · %15.73 · %60.78 · %14.84 · %11.57
+    DEN7x2 W1  %33.34 · %2.19 · %28.79 · %1.52 · %15.70
+    DEN7x2 W3  %44.83 · %4.38 · %33.15 · %3.43 · %14.10
+  hüküm K3: tetik yok (hiçbir aday temiz sapma sınırını geçmedi)
+
+== K4 · kopyanın bedeli (S4), betimleyici ==
+    ikiz      C1 · ateşleme ikiz %1.60 · yayın eki %5.76 · kapsadığı kayıp {}
+    ikiz      C2 · ateşleme ikiz %0.01 · yayın eki %0.04 · kapsadığı kayıp {}
+    birincil  C1 · ateşleme açık·E %57.22 · açık·G %27.19 · açık·U %3.80 · sessiz %2.97 · önce %1.59 · yayın eki %21.71 · kapsadığı kayıp {'J1': 1409, 'J3': 1668, 'U1': 208, 'U2': 91}
+    birincil  C2 · ateşleme açık·E %2.98 · açık·G %4.34 · açık·U %0.19 · sessiz %0.35 · önce %0.02 · yayın eki %3.79 · kapsadığı kayıp {'J3': 452, 'U1': 1, 'U2': 12}
+
+== K5 · kurtarmanın kestirimi (S5), betimleyici ==
+  ağırlıklı pay (birincil): J2 0.0220 · J3 0.0360 · U1 0.0426 · toplam 0.1005
+  ikiz      vazgeçme 6995 · k1'i olan %85.49 · yayın eki %4.89
+  birincil  vazgeçme 15322 · k1'i olan %76.24 · yayın eki %10.96
+
+== K6 · uygulanabilirlik koşulunun ve ilanın ömrünün bedeli (S6), betimleyici; dumandan sonra eklendi ==
+  J3 · J4 · U2'de yalnız uygulanabilirlik yüzünden aday olmayan temiz komşu (yeni bir tur onu aday yapardı); pay açık dönemde doğana oranla, sekiz tohumun ortalaması:
+    J3 · sınıfın payı 0.0816 · temiz engelli komşusu olan 0.0623 · ağırlıklı 0.0622
+    J4 · sınıfın payı 0.0529 · temiz engelli komşusu olan 0.0455 · ağırlıklı 0.0455
+    U2 · sınıfın payı 0.0369 · temiz engelli komşusu olan 0.0288 · ağırlıklı 0.0288
+  ardılın kanıtı, temiz kararlarda, sebebe göre (kararların payı; bir karar birden çok sebep taşıyabilir):
+    ikiz      ikiz    karar 311882 · herhangi %2.30 · bildirim (gerçekçi) %0.10 · bildirim (anında) %0.07 · gönderici %0.12 · veri yok %0.02 · ilan bayat %2.12 · kullanılmaz %0.00
+    birincil  açık·U  karar 63737 · herhangi %5.49 · bildirim (gerçekçi) %0.53 · bildirim (anında) %0.91 · gönderici %0.61 · veri yok %0.36 · ilan bayat %4.13 · kullanılmaz %0.00
+    birincil  sessiz  karar 94382 · herhangi %4.23 · bildirim (gerçekçi) %1.55 · bildirim (anında) %1.35 · gönderici %0.16 · veri yok %0.07 · ilan bayat %2.89 · kullanılmaz %0.00
+    birincil  önce    karar 142693 · herhangi %2.16 · bildirim (gerçekçi) %0.06 · bildirim (anında) %0.06 · gönderici %0.11 · veri yok %0.02 · ilan bayat %2.00 · kullanılmaz %0.00
+

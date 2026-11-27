@@ -1,0 +1,15 @@
+==============================================================================
+B5 TEŞHİSİ — dünya referans_2026 · ikiz (formasyon-yok, hayalet 10:20) · kol desparete5_egim0 · tohum [1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]
+  kod: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b5_iletim_kaybi_2026-11-26\kopya\protokoller\desparete5.py
+  saf işlevler: C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b5_iletim_kaybi_2026-11-26\iletim.py · C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b2_isaretler_2026-11-24\isaret.py · C:\Users\Xelma123\Desktop\desparete_pls\arsiv\teshis\faz5_3_b3_bag_olculeri_2026-11-25\bag.py
+==============================================================================
+    1/8 1007 · karar 34417 · kayıp 0 · denetim tamam · 2604 s (özet 51 s)
+    2/8 1004 · karar 36762 · kayıp 0 · denetim tamam · 2720 s (özet 50 s)
+    3/8 1008 · karar 33410 · kayıp 0 · denetim tamam · 2794 s (özet 46 s)
+    4/8 1010 · karar 35354 · kayıp 0 · denetim tamam · 2837 s (özet 43 s)
+    5/8 1009 · karar 39409 · kayıp 0 · denetim tamam · 3170 s (özet 38 s)
+    6/8 1006 · karar 38232 · kayıp 0 · denetim tamam · 3231 s (özet 33 s)
+    7/8 1003 · karar 47617 · kayıp 0 · denetim tamam · 3275 s (özet 29 s)
+    8/8 1005 · karar 46681 · kayıp 0 · denetim tamam · 3596 s (özet 27 s)
+
+  8 koşu kayıtta · hata 0

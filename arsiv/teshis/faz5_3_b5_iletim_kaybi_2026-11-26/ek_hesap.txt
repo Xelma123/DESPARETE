@@ -1,0 +1,23 @@
+== E1 · kayıp anatomisinin alanıyla iletim kaybı (birincil, açık doğum) ==
+  ed 0.0479 · girisim 0.1678 · uzak 0.0814
+
+== E2 · kopya kuralları: açık evre kararlarında ateşleme ve kapsadığı kaybın ağırlıklı payı ==
+  C1 · açık evre kararlarının %8.95'i ateşler · J1 dışında kapsadığı kaybın ağırlıklı payı 0.0333 · sınıflar {'J3': 1668, 'U1': 208, 'U2': 91}
+  C2 · açık evre kararlarının %0.98'i ateşler · J1 dışında kapsadığı kaybın ağırlıklı payı 0.0043 · sınıflar {'J3': 452, 'U1': 1, 'U2': 12}
+
+== E3 · J2 (ağırlıklı, anında) tohum başına ==
+  1003 0.0359 · 1004 0.0179 · 1005 0.0304 · 1006 0.0157 · 1007 0.0111 · 1008 0.0113 · 1009 0.0268 · 1010 0.0269
+  0,02'yi geçen tohum 4/8
+
+== E4 · kurtarmanın ikizdeki karşılığı (genel kazancın üst sınırı) ==
+  ikiz      vazgeçen kararlarda temiz k1'in p₇'si, penceredeki doğuma oranla: 0.0631 (tohum başına 0.047 0.044 0.080 0.106 0.043 0.049 0.069 0.066)
+  birincil  vazgeçen kararlarda temiz k1'in p₇'si, penceredeki doğuma oranla: 0.0886 (tohum başına 0.090 0.073 0.115 0.108 0.059 0.054 0.092 0.117)
+  (bütün evreler; vazgeçme onayı kaybolmuş ama alıcıya ulaşmış paketleri de içerir, yani üst sınırdır)
+
+== E5 · koşu başına telemetri kararı ve açık doğumlu kayıp ==
+  ikiz      karar 33410–47617 (ortalama 38985) · kayıp 0–0 (ortalama 0)
+  birincil  karar 34620–45061 (ortalama 39534) · kayıp 644–1534 (ortalama 1050)
+
+== E6 · yayın ekleri saniye cinsinden (koşu başına ortalama, 350 s'lik koşu) ==
+  ikiz      veri yayın süresi 338 s · ek: C1 19 s · C2 0.1 s · D 17 s
+  birincil  veri yayın süresi 372 s · ek: C1 81 s · C2 14.1 s · D 41 s

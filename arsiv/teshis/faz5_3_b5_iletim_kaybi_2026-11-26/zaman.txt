@@ -1,0 +1,4 @@
+ikiz basla 27.11 00:43:43
+ikiz bitti 27.11 01:43:44 cikis 0
+birincil basla 27.11 01:43:44
+birincil bitti 27.11 02:59:58 cikis 0
