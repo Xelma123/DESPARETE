@@ -10,8 +10,23 @@ E2 · iki kopya kuralının açık evredeki ateşleme payı ve kapsadığı kayb
 E3 · J2'nin (ağırlıklı, anında) tohum başına 0,02'yi geçtiği tohum sayısı
 E4 · kurtarmanın ikizdeki karşılığı: vazgeçen telemetri kararlarında k1
      temizse p₇'si, penceredeki doğuma oranla (genel kazancın üst sınırı;
-     fark-içinde-fark için)
+     fark-içinde-fark için). Düzeltme (27 Kasım): ilk hesap pencerenin
+     dışındaki (0–50 s) kararları da sayıyordu, payda ise yalnız penceredeki
+     doğumdu; iki sayı yan yana yazılır, geçerli olan pencere içindekidir.
 E5 · karar sayısının ve kaybın koşu başına aralığı (öngörü 15)
+
+Ana seçeneğin kararı için eklenenler (27 Kasım; yine kuraldan sonra):
+E7 · J1'de ardılın kanıtının kaynağı: yalnız karıştırma katmanının kanıtı
+     (bildirim, gönderici) mı, çekirdeğin bir kanıtı da (veri yok, ilan
+     bayat, kullanılmaz) var mı. Katman kapatılınca (mekanizma kapısının
+     kolu) çekirdeğin kanıtı kalır; katmanın kendine ait payı birincisidir.
+E8 · K6'nın temiz engelli komşusu, ardılın durumuna göre: hangi kayıplarda
+     "ardıl S'de, olağan aday yok" durumu bir tur isteğini tetikleyebilirdi
+     (RFC 8966 §3.8.2.2'nin ikinci paragrafı, B4'te yok); hangisinde B4
+     kural 11 zaten ister (açlık); hangisinde ardılın kanıtı yok.
+E9 · temiz kararlarda ardılın ilanının bayatlığı: o kararlarda ardıla
+     giden çerçevenin onay payı, ardılın bağının bandı, ardıldan başka aday
+     olup olmadığı (`ILAN_OMUR_KAT`'ın girdisi).
 """
 
 from __future__ import annotations
@@ -82,20 +97,26 @@ def main() -> None:
     print("== E4 · kurtarmanın ikizdeki karşılığı (genel kazancın üst sınırı) "
           "==")
     for h in ("ikiz", "birincil"):
-        v = []
+        v, v_hepsi = [], []
         for r in kayit[h]:
             evre = r["karistirici_evresi"]
             n = sum(evre[e]["dogan"] for e in ("once", "acik", "sessiz"))
-            w = 0.0
+            lo, hi = r["kaydedici"]["pencere"]
+            w = w_hepsi = 0.0
             for o in SH.kararlar(r):
                 if o.ok == 0 and o.k1 >= 0 and L.temiz(o.zk1, o.p7k1):
-                    w += o.p7k1
+                    w_hepsi += o.p7k1
+                    if lo <= o.t < hi:
+                        w += o.p7k1
             v.append(w / n)
+            v_hepsi.append(w_hepsi / n)
         print(f"  {h:<9} vazgeçen kararlarda temiz k1'in p₇'si, penceredeki "
               f"doğuma oranla: {ist.mean(v):.4f} (tohum başına "
-              f"{' '.join(f'{x:.3f}' for x in v)})")
-    print("  (bütün evreler; vazgeçme onayı kaybolmuş ama alıcıya ulaşmış "
-          "paketleri de içerir, yani üst sınırdır)\n")
+              f"{' '.join(f'{x:.3f}' for x in v)}) · ilk hesap, pencere "
+              f"dışındaki kararlarla: {ist.mean(v_hepsi):.4f}")
+    print("  (pencere içindeki kararlar, bütün evreler; vazgeçme onayı "
+          "kaybolmuş ama alıcıya ulaşmış paketleri de içerir, yani üst "
+          "sınırdır)\n")
 
     print("== E5 · koşu başına telemetri kararı ve açık doğumlu kayıp ==")
     for h in ("ikiz", "birincil"):
@@ -130,6 +151,114 @@ def main() -> None:
         print(f"  {h:<9} veri yayın süresi {ist.mean(veri):.0f} s · ek: C1 "
               f"{ist.mean(c1):.0f} s · C2 {ist.mean(c2):.1f} s · D "
               f"{ist.mean(d):.0f} s")
+    print()
+
+    e7(rs)
+    e8(rs)
+    e9(kayit)
+
+
+KATMAN = L.K_BILDIRIM_A | L.K_GONDERICI
+CEKIRDEK = L.K_VERI_YOK | L.K_ILAN_BAYAT | L.K_KULLANILMAZ
+ADAY_DISI = L.K_ILAN_BAYAT | L.K_KULLANILMAZ
+
+
+def e7(rs: list[dict]) -> None:
+    print("== E7 · J1'de ardılın kanıtının kaynağı (birincil; ağırlıklı, açık "
+          "doğana oranla) ==")
+    adlar = ("yalnız katman (bildirim, gönderici)", "çekirdeğin kanıtı da var",
+             "  veri yok", "  ilan bayat", "  kullanılmaz", "J1 toplamı")
+    pay: dict[str, list] = {a: [] for a in adlar}
+    for r in rs:
+        n = SH.dogan(r)
+        kl = SH.kararlar(r)
+        a = dict.fromkeys(adlar, 0.0)
+        for o, _ in SH.kayiplar(r, kl):
+            if o.sinif("A") != "J1":
+                continue
+            w = o.agirlik("J1")
+            a["J1 toplamı"] += w
+            if o.kanit & CEKIRDEK:
+                a["çekirdeğin kanıtı da var"] += w
+                for ad, b in (("  veri yok", L.K_VERI_YOK),
+                              ("  ilan bayat", L.K_ILAN_BAYAT),
+                              ("  kullanılmaz", L.K_KULLANILMAZ)):
+                    if o.kanit & b:
+                        a[ad] += w
+            elif o.kanit & KATMAN:
+                a["yalnız katman (bildirim, gönderici)"] += w
+        for ad in adlar:
+            pay[ad].append(a[ad] / n)
+    for ad in adlar:
+        v = pay[ad]
+        print(f"  {ad:<38} {ist.mean(v):.4f} (tohum başına "
+              f"{' '.join(f'{x:.3f}' for x in v)})")
+    print("  (çekirdeğin alt satırları örtüşebilir: bir karar birden çok "
+          "sebep taşıyabilir)\n")
+
+
+def e8(rs: list[dict]) -> None:
+    print("== E8 · K6'nın temiz engelli komşusu, ardılın durumuna göre "
+          "(birincil; p₇ ile ağırlıklı, açık doğana oranla) ==")
+    adlar = ("a1 · ardıl aday dışı, başka aday yok: açlık, B4 kural 11 ister",
+             "a2 · ardılın kanıtı var, olağan aday yok: yeni kural ister",
+             "     bunun yalnız katman kanıtlı kısmı",
+             "b  · ardılın kanıtı var, olağan aday var (k1 kirli)",
+             "c  · ardılın kanıtı yok")
+    for s in ("J3", "J4", "U2"):
+        pay: dict[str, list] = {a: [] for a in adlar}
+        for r in rs:
+            n = SH.dogan(r)
+            kl = SH.kararlar(r)
+            a = dict.fromkeys(adlar, 0.0)
+            for o, _ in SH.kayiplar(r, kl):
+                if o.sinif("A") != s:
+                    continue
+                if not (o.uK >= 0 and L.temiz(o.zuK, o.p7uK)):
+                    continue
+                w = o.p7uK
+                if not o.kanit & L.KANIT_A:
+                    a[adlar[4]] += w
+                elif o.k1 >= 0 and o.k1_O == 1:
+                    a[adlar[3]] += w
+                elif o.kanit & ADAY_DISI and o.k1 < 0:
+                    a[adlar[0]] += w
+                else:
+                    a[adlar[1]] += w
+                    if o.kanit & KATMAN and not o.kanit & CEKIRDEK:
+                        a[adlar[2]] += w
+            for ad in adlar:
+                pay[ad].append(a[ad] / n)
+        print(f"  {s}")
+        for ad in adlar:
+            print(f"    {ad:<66} {ist.mean(pay[ad]):.4f}")
+    print()
+
+
+def e9(kayit: dict) -> None:
+    print("== E9 · temiz kararlarda ardılın ilanının bayatlığı (pencere içi) "
+          "==")
+    for h, rs in kayit.items():
+        g: dict[str, list] = {}
+        for r in rs:
+            lo, hi = r["kaydedici"]["pencere"]
+            for o in SH.kararlar(r):
+                if not o.temiz_karar() or not lo <= o.t < hi:
+                    continue
+                m = o.kanit & L.KANIT_A
+                ad = ("kanıt yok" if not m else "yalnız ilan bayat"
+                      if m == L.K_ILAN_BAYAT else "öteki kanıtlar")
+                x = g.setdefault(ad, [0, 0, 0, 0])
+                x[0] += 1
+                x[1] += o.ok == 1
+                x[2] += o.p7j >= 0.90
+                x[3] += o.k1 < 0
+        for ad in ("kanıt yok", "yalnız ilan bayat", "öteki kanıtlar"):
+            n, ok, iyi, tek = g[ad]
+            print(f"  {h:<9} {ad:<18} karar {n:>7} · ardıla giden çerçevenin "
+                  f"onayı {SH.yuzde(ok / n)} · ardılın bağı iyi bantta "
+                  f"{SH.yuzde(iyi / n)} · ardıldan başka aday yok "
+                  f"{SH.yuzde(tek / n)}")
 
 
 if __name__ == "__main__":

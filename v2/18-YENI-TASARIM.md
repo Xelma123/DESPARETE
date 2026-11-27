@@ -9,7 +9,7 @@
 | aşama | durum |
 |---|---|
 | 1 · Zemin | tamam (24 Kasım): 1.1 hedef ve başarı ölçütü, 1.2 kısıtlar, 1.3 kanıt envanteri, 1.4 mimari iskelet |
-| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu tamam (26 Kasım: teşhis ölçümüyle seçenek 2'nin dayanağı tutmadı, yeniden kararım A: bağın maliyeti selamdan, eşikle düşürme yok, veri yalnız güvenlik ağı; karıştırılan bağ son çare; kâğıt onaylandı); 2.4 B4 yol tamam (26 Kasım: uygulanabilirlik koşulu, Babel ailesi; olağan bağlar son çaredekilerden önce; kâğıt onaylandı); 2.5 B5 iletim kararı sürüyor (26 Kasım: ana seçenekten önce teşhis, beklentisi yazıldı) |
+| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu tamam (26 Kasım: teşhis ölçümüyle seçenek 2'nin dayanağı tutmadı, yeniden kararım A: bağın maliyeti selamdan, eşikle düşürme yok, veri yalnız güvenlik ağı; karıştırılan bağ son çare; kâğıt onaylandı); 2.4 B4 yol tamam (26 Kasım: uygulanabilirlik koşulu, Babel ailesi; olağan bağlar son çaredekilerden önce; kâğıt onaylandı); 2.5 B5 iletim kararı sürüyor (26 Kasım: ana seçenekten önce teşhis; 27 Kasım: teşhis koşuldu, hiçbir aile elenmedi; ana seçenek sırada) |
 | 3 · Bütünlük ve donma | bekliyor |
 | 4 · Kod ve ölçüm | bekliyor |
 
@@ -589,6 +589,19 @@ Fırsatçı iletim (ExOR, ORW) MAC'te yeni bir iletim türü ister; en büyük d
 - ne kadarı temiz alıcıda oluyor.
 
 Teşhis: `arsiv/teshis/faz5_3_b5_iletim_kaybi_2026-11-26/`. Bugünkü kodun `eğim0` kolunun trafiğinde, ikiz ve birincil, 16 koşu. Her iletim kaybı, karar anındaki duruma göre yeni tasarımın kurallarıyla sınıflanır; ulaşabileceği pay 0,02'nin altında kalan aile elenir. Sorular, karar kuralı ve öngörüler `beklenti.md`de.
+
+**Teşhisin sonucu** (27 Kasım, `arsiv/teshis/faz5_3_b5_iletim_kaybi_2026-11-26/sonuc.md`; `eğim0`'ın trafiği, ikiz ve birincil, 16 koşu). Paylar açık dönemde doğan paketlere oranladır. "Ağırlıklı" pay, sıradaki adaya gidilseydi geçme olasılığının kâhine göre üst sınırıdır.
+- **Elenen aile yok** (K1):
+  - B'nin hedefi (J2: alıcı karıştırılıyor, kanıt henüz yok, sıradaki aday temiz) 0,022; 8 tohumun 4'ünde 0,02'yi geçiyor.
+  - C'ninki (J3: sıradaki aday kirli) 0,036; D'ninki (J2 + J3 + U1) 0,100.
+  - Katmanın kendi payı (J1: kanıt var ve temiz bir olağan aday var) 0,0485; hedefe gereken 0,048.
+- **B'nin tetiği yok** (K3): hiçbir aday temiz kanalda kararların %2'sinden azını saptırmıyor. En yakını art arda iki tam denemeli çerçeve: seçimde %2,19, doğrulamada %1,52.
+- **Kopya pahalı** (K4, E6): C1 birincilde koşu başına veri yayın süresine 81 s ekliyor (372 s'nin %22'si), ikizde 19 s. C2 ucuz ama yalnız 0,004'e ulaşıyor.
+- **Kurtarmanın kazancı büyük ama önemli bir kısmı genel** (K5, E4, E6): ikizde de üst sınır 0,0525. Yayın eki birincilde 41 s, ikizde 17 s. Simülatörün yetenek sözleşmesini (`13`) genişletir.
+- **Kuraldan sonra görülenler** (karar kuralının girdisi değil; `ek_hesap.txt` E7–E9):
+  - J1'in 0,032'sinde karar anında çekirdeğin bir kanıtı da var (veri yok, ilan bayat). Katmanın kendine ait payı en çok 0,016. Mekanizma kapısının kolunda (katman kapalı, genel mekanizmalar açık) çekirdeğin kanıtı kalır; genel bir kurtarma bu kolda katmanın kayıplarını da kurtarır.
+  - Yalnız uygulanabilirlik koşulu yüzünden aday olmayan temiz bir komşu J3, J4 ve U2'de 0,137 payda var. Bunun 0,038'inde ardılın kanıtı var ve olağan aday yok. RFC 8966 §3.8.2.2'nin ikinci paragrafı böyle bir komşuya tur isteği gönderilmesini ister (SHOULD); B4'te bu kural yok, Babel-a'da var.
+  - İkizde kararların %2,1'inde ardılın ilanı bayat, ama ardıla giden çerçevenin onayı %96. Bu kararların %31'inde ardıldan başka aday yok; yeni tasarımda ardıl bu kararlarda aday olmaktan çıkar. RFC 8966 §3.8.2.3 seçili rotanın süresi dolmadan istek gönderilmesini ister (SHOULD); B4'te bu kural yok, Babel-a'da var.
 
 ## Eksiksizlik listesi
 

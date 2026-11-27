@@ -3,7 +3,7 @@
 > 27 Kasım 2026 · ölçüt `beklenti.md` (öngörüler ve karar kuralı commit `cdb1a48`, dumandan önce; duman notu ve dumandan sonra eklenen betimleyici ölçü S6 commit `09ba063`).
 > - **Koşu** (`zaman.txt`): 00:43–02:59, toplam 2 sa 16 dk (tahmin ~2–3 sa). Adımlar: ikiz 1 sa 0 dk · birincil 1 sa 16 dk.
 > - **Kopya:** `kopya/` = `09ba063`, 166 dosya birebir (satır sonları normalleştirilerek; `kopya_ozet.txt`).
-> - **Çıktılar:** ham çıktı `olcum_*.txt`, kayıt `kayit_*.json.gz`; karar kuralı `sonuc_hesap.py` → `sonuc_hesap.txt`; ek sayılar `ek_hesap.py` → `ek_hesap.txt` (koşudan sonra yazıldı, karar girdisi değil).
+> - **Çıktılar:** ham çıktı `olcum_*.txt`, kayıt `kayit_*.json.gz`; karar kuralı `sonuc_hesap.py` → `sonuc_hesap.txt`; ek sayılar `ek_hesap.py` → `ek_hesap.txt` (koşudan sonra yazıldı, karar girdisi değil; E4'ün düzeltmesi ve E7–E9 27 Kasım'da, ana seçenekten önce eklendi).
 >
 > Paylar açık dönemde doğan paketlere oranladır (`PDR_açık`'ın birimi), sekiz tohumun ortalamasıdır. "Ağırlıklı" pay, sıradaki adaya gidilseydi geçme olasılığının kâhine göre üst sınırıdır.
 
@@ -130,8 +130,9 @@ Tutmayanların gerekçesi:
   - C1, J1 dışındaki kaybın ağırlıklı 0,033'üne ulaşıyor. Ama birincilde koşu başına veri yayın süresine 81 s ekliyor (372 s'nin %22'si), ikizde 19 s.
   - C2 ucuz (14 s · 0,1 s) ama yalnız 0,004'e ulaşıyor.
   - Kalabalık kanalda toplam gönderim 100 s artınca alıcıların kilitlenmesi kabaca 2 puan düşüyordu (`arsiv/teshis/faz5_2_secenek_iletim_2026-11-15/sonuc.md` §5). Bu ilişkiyle C1'in eki bütün iletimlere ~1,6 puanlık bir kilitlenme kaybı olarak yansır (kaba kestirim).
-- **D'nin kazancı büyük ama çoğu genel** (E4, E6):
-  - Vazgeçen kararlarda temiz k1'in p₇'si, penceredeki doğuma oranla ikizde 0,063, birincilde (bütün evreler) 0,089. İkisi de üst sınırdır; onayı kaybolmuş ama alıcıya ulaşmış paketleri de içerir.
+- **D'nin kazancı büyük ama önemli bir kısmı genel** (E4, E6):
+  - Vazgeçen kararlarda temiz k1'in p₇'si, penceredeki doğuma oranla ikizde 0,0525, birincilde (bütün evreler) 0,078. İkisi de üst sınırdır; onayı kaybolmuş ama alıcıya ulaşmış paketleri de içerir.
+  - Düzeltme (27 Kasım): ilk hesap pencerenin dışındaki (0–50 s) kararları da sayıyordu, payda ise yalnız penceredeki doğumdu; 0,063 ve 0,089 vermişti. Sayılar pencere içindeki kararlarla yeniden hesaplandı (E4).
   - D karıştırmasız ağda da kazandırır, yani genel bir mekanizmadır (K-247). Fark-içinde-farka katkısı birincildeki fazlası kadardır, mekanizma kapısına girmez.
   - Yayın eki birincilde 41 s, ikizde 17 s.
 - **J1 (katmanın kendi payı) 0,0485**, gereken 0,048 kadar bir üst sınır. Bu kayıplarda B2–B4'ün kanıtı ortanca 3,1 s önce gelmiş ve temiz bir olağan aday var. Yeni tasarımda bu paketler çoğunlukla temiz adaya giderdi; B3'ün 5 s'lik yeniden denemesi bir kısmını yine kaybettirirdi.
@@ -142,6 +143,19 @@ Tutmayanların gerekçesi:
   - Ardılın ilanı ikizde kararların %2,1'inde bayat. Birincilin önce evresinde %2,0, sessiz evresinde %2,9, açık evrede alıcısı uzak olanlarda %4,1.
   - Yeni tasarımda bu kararlarda ardıl aday olmaktan çıkar (zorunlu geçiş).
   - Bu, `ILAN_OMUR_KAT`'ın (3,5 × a; `v2/bilesen/00-DIZIN.md`, "Aşama 4'te bakılır") girdisidir.
+
+**Ana seçeneğin kararı için eklenen okumalar** (27 Kasım; kuraldan sonra, yalnız kayıtlardan; `ek_hesap.txt` E7–E9):
+- **J1'in çoğu çekirdeğin kanıtıyla da görülüyor** (E7):
+  - J1'in 0,0485'inin 0,0324'ünde karar anında çekirdeğin bir kanıtı da var: veri yok 0,0289, ilan bayat 0,0093 (ikisi örtüşebilir). Yalnız karıştırma katmanının kanıtıyla (bildirim, gönderici) görülen pay 0,0161.
+  - Mekanizma kapısının kolunda (katman kapalı, genel mekanizmalar açık) çekirdeğin kanıtı kalır. Katmanın J1'deki kendi payı bu yüzden en çok 0,016'dır (üst sınır).
+  - Genel bir kurtarma (D) bu kolda katmanın yakalayacağı kayıpları da kurtarır. Katmanın kapıdaki payını daha da küçültür.
+- **K6'nın temiz engelli komşusu, ardılın durumuna göre** (E8; p₇ ile ağırlıklı):
+  - "Ardılın kanıtı var, olağan aday yok" durumunda 0,0382 (J3 0,0116 · J4 0,0256 · U2 0,0010); bunun yalnız katman kanıtlı kısmı 0,0143. Bu durumda bir tur isteği tetiklenebilirdi: RFC 8966 §3.8.2.2'nin ikinci paragrafı, seçili olmayan bir komşudan seçili rotadan iyi ama uygulanamaz bir ilan gelince o komşuya tek alıcılı istek gönderilmesini ister (SHOULD). B4'te bu kural yok; Babel-a'da var (`protokoller/babel_bicim.py`, eşiği 512).
+  - Açlıkta B4 kural 11'in zaten istediği pay 0,0072. Ardılın kanıtı varken olağan ama kirli bir adayın bulunduğu pay 0,0347. Ardılın kanıtı olmayan pay 0,0563.
+- **İlanın bayatlığı temiz kanalda çoğunlukla yanlış alarm** (E9, pencere içi):
+  - İkizde kararların %2,06'sında ardılın tek kanıtı ilanın bayatlığı. Bu kararlarda ardıla giden çerçevenin onayı %96,1 (kanıtsız kararlarda %97,9) ve ardılın bağı hep iyi bantta. Birincilin temiz kararlarında %90,2 ↔ %97,4.
+  - Bu kararların %30,6'sında ardıldan başka aday yok. Yeni tasarımda ardıl bu kararlarda aday olmaktan çıkar; üçte birinde açlık ve tur isteği doğar.
+  - Babel-a seçili rotanın süresi dolmadan ilan edene tek alıcılı istek gönderiyor (RFC 8966 §3.8.2.3, SHOULD; süresinin 7/8'inde). B4'te bu kural yok.
 
 ## 9 · Bundan çıkan
 
@@ -154,8 +168,8 @@ Tutmayanların gerekçesi:
   | B · hızlı sapma | 0,022 (4/8 tohum ≥ 0,02) | tetik yok: en iyi aday temiz kararların %1,5–2,2'sini saptırır |
   | C1 · kopya | 0,033 (J1 dışında) | +81 s · +19 s |
   | C2 · kopya | 0,004 | +14 s · +0,1 s |
-  | D · kurtarma | 0,100 (birincil); ikizde 0,063 (genel) | +41 s · +17 s; simülatörün yetenek sözleşmesini (`13`) genişletir |
+  | D · kurtarma | 0,100 (birincil); ikizde 0,0525 (genel) | +41 s · +17 s; simülatörün yetenek sözleşmesini (`13`) genişletir; mekanizma kapısının kolunda katmanın kayıplarını da kurtarır (E7) |
 
 - **B4'e iki soru** (onaylı kâğıt):
-  1. son çaredeki ardıl için tur isteği (K6: 0,137'lik üst sınır);
-  2. ilanın ömrünün değeri (temiz kanalda kararların %2–4'ünde ardıl bayat).
+  1. son çaredeki ardıl için tur isteği (K6: 0,137'lik üst sınır; ardılın kanıtı varken olağan aday yoksa 0,038, E8; RFC 8966 §3.8.2.2'nin ikinci paragrafı);
+  2. ilanın ömrü (temiz kanalda kararların %2–4'ünde ardıl bayat, çoğu yanlış alarm, E9; RFC 8966 §3.8.2.3).

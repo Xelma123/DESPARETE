@@ -10,9 +10,9 @@
   0,02'yi geçen tohum 4/8
 
 == E4 · kurtarmanın ikizdeki karşılığı (genel kazancın üst sınırı) ==
-  ikiz      vazgeçen kararlarda temiz k1'in p₇'si, penceredeki doğuma oranla: 0.0631 (tohum başına 0.047 0.044 0.080 0.106 0.043 0.049 0.069 0.066)
-  birincil  vazgeçen kararlarda temiz k1'in p₇'si, penceredeki doğuma oranla: 0.0886 (tohum başına 0.090 0.073 0.115 0.108 0.059 0.054 0.092 0.117)
-  (bütün evreler; vazgeçme onayı kaybolmuş ama alıcıya ulaşmış paketleri de içerir, yani üst sınırdır)
+  ikiz      vazgeçen kararlarda temiz k1'in p₇'si, penceredeki doğuma oranla: 0.0525 (tohum başına 0.038 0.038 0.071 0.092 0.035 0.040 0.051 0.055) · ilk hesap, pencere dışındaki kararlarla: 0.0631
+  birincil  vazgeçen kararlarda temiz k1'in p₇'si, penceredeki doğuma oranla: 0.0780 (tohum başına 0.082 0.067 0.106 0.093 0.051 0.045 0.075 0.106) · ilk hesap, pencere dışındaki kararlarla: 0.0886
+  (pencere içindeki kararlar, bütün evreler; vazgeçme onayı kaybolmuş ama alıcıya ulaşmış paketleri de içerir, yani üst sınırdır)
 
 == E5 · koşu başına telemetri kararı ve açık doğumlu kayıp ==
   ikiz      karar 33410–47617 (ortalama 38985) · kayıp 0–0 (ortalama 0)
@@ -21,3 +21,40 @@
 == E6 · yayın ekleri saniye cinsinden (koşu başına ortalama, 350 s'lik koşu) ==
   ikiz      veri yayın süresi 338 s · ek: C1 19 s · C2 0.1 s · D 17 s
   birincil  veri yayın süresi 372 s · ek: C1 81 s · C2 14.1 s · D 41 s
+
+== E7 · J1'de ardılın kanıtının kaynağı (birincil; ağırlıklı, açık doğana oranla) ==
+  yalnız katman (bildirim, gönderici)    0.0161 (tohum başına 0.021 0.004 0.028 0.004 0.008 0.004 0.019 0.042)
+  çekirdeğin kanıtı da var               0.0324 (tohum başına 0.074 0.009 0.020 0.023 0.022 0.007 0.056 0.049)
+    veri yok                             0.0289 (tohum başına 0.064 0.008 0.019 0.018 0.018 0.007 0.051 0.048)
+    ilan bayat                           0.0093 (tohum başına 0.033 0.006 0.002 0.007 0.009 0.000 0.014 0.004)
+    kullanılmaz                          0.0000 (tohum başına 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000)
+  J1 toplamı                             0.0485 (tohum başına 0.094 0.013 0.049 0.026 0.029 0.011 0.075 0.091)
+  (çekirdeğin alt satırları örtüşebilir: bir karar birden çok sebep taşıyabilir)
+
+== E8 · K6'nın temiz engelli komşusu, ardılın durumuna göre (birincil; p₇ ile ağırlıklı, açık doğana oranla) ==
+  J3
+    a1 · ardıl aday dışı, başka aday yok: açlık, B4 kural 11 ister     0.0000
+    a2 · ardılın kanıtı var, olağan aday yok: yeni kural ister         0.0116
+         bunun yalnız katman kanıtlı kısmı                             0.0053
+    b  · ardılın kanıtı var, olağan aday var (k1 kirli)                0.0333
+    c  · ardılın kanıtı yok                                            0.0173
+  J4
+    a1 · ardıl aday dışı, başka aday yok: açlık, B4 kural 11 ister     0.0056
+    a2 · ardılın kanıtı var, olağan aday yok: yeni kural ister         0.0256
+         bunun yalnız katman kanıtlı kısmı                             0.0083
+    b  · ardılın kanıtı var, olağan aday var (k1 kirli)                0.0000
+    c  · ardılın kanıtı yok                                            0.0143
+  U2
+    a1 · ardıl aday dışı, başka aday yok: açlık, B4 kural 11 ister     0.0016
+    a2 · ardılın kanıtı var, olağan aday yok: yeni kural ister         0.0010
+         bunun yalnız katman kanıtlı kısmı                             0.0007
+    b  · ardılın kanıtı var, olağan aday var (k1 kirli)                0.0014
+    c  · ardılın kanıtı yok                                            0.0247
+
+== E9 · temiz kararlarda ardılın ilanının bayatlığı (pencere içi) ==
+  ikiz      kanıt yok          karar  261418 · ardıla giden çerçevenin onayı %97.92 · ardılın bağı iyi bantta %99.99 · ardıldan başka aday yok %22.99
+  ikiz      yalnız ilan bayat  karar    5521 · ardıla giden çerçevenin onayı %96.14 · ardılın bağı iyi bantta %100.00 · ardıldan başka aday yok %30.61
+  ikiz      öteki kanıtlar     karar     462 · ardıla giden çerçevenin onayı %80.74 · ardılın bağı iyi bantta %98.92 · ardıldan başka aday yok %16.88
+  birincil  kanıt yok          karar  246918 · ardıla giden çerçevenin onayı %97.39 · ardılın bağı iyi bantta %99.37 · ardıldan başka aday yok %25.76
+  birincil  yalnız ilan bayat  karar    6879 · ardıla giden çerçevenin onayı %90.22 · ardılın bağı iyi bantta %93.55 · ardıldan başka aday yok %32.87
+  birincil  öteki kanıtlar     karar    2510 · ardıla giden çerçevenin onayı %83.39 · ardılın bağı iyi bantta %90.40 · ardıldan başka aday yok %17.01
