@@ -85,7 +85,7 @@ Takılı kalma yok: her plan bir uyandırmayla biter; kilitten çıkış B2'nin 
    - selam: sıra, aralık ve benim için bildirilen oran B1'e; bit B2'ye; tur ve maliyet B4'e. Gönderen beni listelemiyorsa oran "bilinmiyor"dur (B1 kural 7);
    - tur isteği: gönderen, istenen tur ve kalan atlama B4'e.
 
-   Çözme, olay sırasının 1. adımıdır (`18` §1.4): alanlar öteki bileşenlerin o kancadaki işinden önce dağıtılır.
+   Çözme, olay sırasının 2. adımıdır (`18` §1.4, 28 Kasım düzeltmesi): alanlar B1'in zaman olaylarından sonra, öteki bileşenlerin o kancadaki kararlarından önce dağıtılır.
 
 **B · Selamın zamanlaması** (Z1; Trickle'ın aralığı, RFC 6206 §4.2 kural 5–6)
 

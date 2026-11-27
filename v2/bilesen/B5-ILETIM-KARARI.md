@@ -36,7 +36,7 @@ Rota durumunu değiştirmez (`18` §1.4 sözleşme 5). Karıştırmaya karşıl�
 
 B5 durum tutmaz. Her karar o kancadaki B4 ve B7 durumundan verilir.
 
-İskelet (`18` §1.4) B5'e paket başına kayıt öngörmüştü (getiren, gönderilen, denemeler); bunlar paket başına sapma ve kopya içindi, A'da gerekmedi. Paketi getiren komşu B7'nin geri izine ve B4'ün döngü tanısına gider (sözleşme 2). İskeletin B5 satırı Aşama 3'te düzeltilir (`00-DIZIN`).
+İskelet (`18` §1.4) B5'e paket başına kayıt öngörmüştü (getiren, gönderilen, denemeler); bunlar paket başına sapma ve kopya içindi, A'da gerekmedi. Paketin kaynağı ve sırası B7'nin geri izine (getiren komşuyla) ve B4'ün döngü tanısına (atlama sayısıyla) gider (sözleşme 2). İskeletin B5 satırı Aşama 3'te düzeltildi (28 Kasım, `01-BUTUNLUK.md` §11).
 
 **Bellek:** yok.
 
@@ -94,7 +94,7 @@ B7'den beklediklerim (Aşama 2.7'de kapanır):
 - **Ö-1** Açlıkta telemetri için karar: bekletme ya da düşürme, düşürmede sebep. Bekletmenin sınırı B7'nindir (`17` T-18: kısa ve küçük tampon).
 - **Ö-2** Komutun sonraki atlaması (geri iz, `17` T-20) ya da bekletme ve düşürme.
 - **Ö-3** Bekletilen paket için uyandırma: B7 paketi yeniden sordurur; B5 o anki ardılla karar verir (kural 1).
-- **Ö-4** B7'nin cevabı B5'ten önce hesaplanır. İskelet B5'in B7'ye danışmasını öngörüyor; sözleşme 1'e göre B7 bu iş için B5'in altında sayılır (`00-DIZIN`, Aşama 3'e açık kalanlar).
+- **Ö-4** B7'nin cevabı B5'ten önce hesaplanır. İskelet B5'in B7'ye danışmasını öngörüyor; sözleşme 1'e göre B7 bu iş için B5'in altında sayılır (`18` §1.4 sözleşme 1; 28 Kasım'da iskelete işlendi).
 
 ## 7 · Değerler
 
@@ -144,7 +144,7 @@ B5'in bayrağı yoktur: paket B5 olmadan gönderilemez. Karıştırma eki yoktur
 3. **Kanıtı silmeme** (sözleşme 4):
    - S'deki ardıla giden paketler veri kaydı üretir; B2'nin gönderici kanıtı ve B3'ün "veri yok"u sürer.
    - Ardıl değişince eski ardıla paket gitmez, yeni kayıt oluşmaz. Kanıt B3 kural 6–7'nin süresiyle kalkar ve bağ yeniden denenir (B3 §11 madde 7). Bu, B3'te zaten yazılı etkileşimdir.
-   - Paketi getiren komşunun bilgisi B5'te kullanılmaz ve silinmez; B4'e ve B7'ye gider.
+   - Paketin başlığı B5'te yalnız hedef için okunur. Kaynağı, sırası ve atlama sayısı B4'ün döngü tanısına, getiren komşuyla birlikte B7'nin geri izine gider; B5 hiçbirini silmez.
 4. **B2:** B5 B2'yi okumaz. Kendi karıştırılmamda karar değişmez (kural 6); kendi aralığıma düşen MAC sonuçları kanıttan B2'de ayıklanır (B2 kural 12–13).
 5. **B7:** açlıkta ve komutta karar B7'nindir (kural 2–3). Bekletilen paket yeniden sorulunca kural 1'le karar verilir.
 6. **Mekanizma kapısı:** B5 genel ve tek yollu olduğu için kapının iki kolunda aynı çalışır; karıştırma katmanının payını küçültmez. B5 teşhisinde J1'in (katmanın kurtarabileceği kayıp, 0,0485) yalnız 0,016'sı katmana aitti (`ek_hesap.txt` E7). Genel bir kurtarma kapının kolunda bu payı da kurtarırdı; D bu yüzden alınmadı.

@@ -15,7 +15,7 @@ Paketin yönünü seçmez: aday listesinden paketi hangi komşuya göndereceğin
 
 **Sınıf:** genel (K-247), çekirdek. B3'ün son çare durumunu sıralamada kullanır (kural 5); bu durumun karıştırma sebepleri B3'ün karıştırma ekinden gelir. B4'ün iki kuralı karıştırma katmanına bağlıdır: kendi karıştırılmamda ilanların yaşının durması (kural 4) ve isteğin bastırılması (kural 14). İkisi de B2'nin çıktısını okur; katman kapalıyken B2 hep "yok" dediği için etkisizdir (§10).
 
-**Hizmet ettiği hedef** (`18` §1.1): koruma ölçütleri. Ölçülen yollar içinde en kötü tohum, sessiz dönem ve gecikmenin p99'u ölçütlerinin hepsini geçen tek yol bu koşul (`18` §2.4). Birincilde ortalamayı yol seçimi belirlemiyor; asıl kazanç B2, B3 ve B5'ten beklenir. 27 Kasım eki iki kayba karşıdır: yalnız uygulanabilirlik koşulu yüzünden aday olmayan temiz komşunun kaybı (kural 10a) ve temiz kanalda ilanın yanlış bayatlaması (kural 4a).
+**Hizmet ettiği hedef** (`18` §1.1): koruma ölçütleri. Ölçülen yollar içinde en kötü tohum, sessiz dönem ve gecikmenin p99'u ölçütlerinin hepsini geçen tek yol bu koşul (`18` §2.4). Birincilde ortalamayı yol seçimi belirlemiyor; asıl kazanç B2 ile B3'ün karıştırma ekinden beklenir (B5'in kararı A, tek yol: `18` §2.5). 27 Kasım eki iki kayba karşıdır: yalnız uygulanabilirlik koşulu yüzünden aday olmayan temiz komşunun kaybı (kural 10a) ve temiz kanalda ilanın yanlış bayatlaması (kural 4a).
 
 ## 2 · Gördüğü (`05`; yasak alanlar okunmaz)
 
@@ -23,13 +23,14 @@ Paketin yönünü seçmez: aday listesinden paketi hangi komşuya göndereceğin
 |---|---|---|
 | komşunun ilanı (selamda; iletiyi B6 çözer) | tur ve maliyet (kural 1–4) | öteki alanlar (B1'in, B2'nin) |
 | tur isteği (`kontrol_alindi`; B6 çözer) | gönderen, istenen tur, kalan atlama (kural 12) | — |
+| paket başlığı (`sonraki_atlama`) | kaynak, `kaynak_sira`, atlama sayısı: yalnız döngü tanısı (kural 17) | hedef ve yön (B5'in) |
 | B1 | komşu kümesi, yeni ve silinen komşu olayları; komşunun ilan ettiği selam aralığı `a` (kural 4) | ölçüler (B3 üzerinden) |
 | B2 | kendi durumum "yok" mu (kural 14) · kendi aralıklarım (kural 4) | öteki çıktılar (B3 üzerinden) |
 | B3 | bağ başına durum ve maliyet (M) | sebepler (yalnız tanı) |
 | `saat_s` | yalnız süreler | — |
 | yapılandırma | geçidin kimliği; ben geçit miyim | — |
 
-**Okumadıkları:** gözlem sözleşmesinin öteki alanları · `olculen_gurultu_w` (yasak, K-227) · konum · paket başlığı (B5'in, B7'nin).
+**Okumadıkları:** gözlem sözleşmesinin öteki alanları · `olculen_gurultu_w` (yasak, K-227) · konum · paket başlığının öteki alanları (B5'in, B7'nin).
 
 ## 3 · Tuttuğu
 
@@ -53,10 +54,11 @@ Düğüm başına:
 | son tur isteğim: istenen tur ve anı (kural 10, 10a, 11) | yok | her tur isteğimde | `YOK_SAYMA_S`'den eski olunca |
 | iletilen istekler: (istenen tur, isteyen, an) | boş | kural 12 | `ISTEK_ANIMSA_S`'den eski olunca |
 | geçitte kendi turum | `TUR_BASLANGIC` | kural 13 | — |
+| döngü tanısı: kaynak başına en yeni paket (`kaynak_sira`, atlama sayısı) ve sayaç | yok · 0 | kural 17 | — |
 
 Kanca başına olaylar: "hemen gönder" (B6 için), tur isteği iletileri (B6 gönderir), ardıl değişti (B5, B7 için). Bir sonraki kancanın başında boşalır.
 
-**Bellek:** komşu başına sabit alanlar (en çok 255 komşu); iletilen istek kaydı `ISTEK_ANIMSA_S` içindekilerle sınırlı (aynı tur için bastırma, kural 12).
+**Bellek:** komşu başına sabit alanlar (en çok 255 komşu); iletilen istek kaydı `ISTEK_ANIMSA_S` içindekilerle sınırlı (aynı tur için bastırma, kural 12); döngü tanısının kaydı kaynak başına bir (en çok 255).
 
 ## 4 · Durumlar ve geçişler
 
@@ -184,7 +186,7 @@ Açlık dizisi kendi durumumda bekler (kural 14) ve açlık bitince durur. Yok s
     9. istekler (kural 12).
 
     Selam niyetli bir kancada gelir (`kontrol_alindi`); ilanı o kancada işlenir.
-17. **Döngü tanısı** (yalnız ölçüm): paket bana daha büyük bir atlama sayısıyla yeniden gelirse sayılır. Uygulanabilirlik koşuluyla bu sayı 0 olmalıdır (§15). Bir mekanizma değildir; sınamada 0'dan büyük çıkması hatadır.
+17. **Döngü tanısı** (yalnız ölçüm): paket bana daha büyük bir atlama sayısıyla yeniden gelirse sayılır. Kaynak başına en yeni paket (`kaynak_sira` ve atlama sayısı) tutulur; aynı paket daha büyük atlama sayısıyla gelirse döngüdür. MAC'in yeniden denemelerini simülatör bastırır, protokole gelmez. Yalnız kaynağın en yeni paketi izlendiği için sayı bir alt sınırdır. Uygulanabilirlik koşuluyla bu sayı 0 olmalıdır (§15). Bir mekanizma değildir; sınamada 0'dan büyük çıkması hatadır. Girdisi ve kaydı 28 Kasım'da (Aşama 3) §2–3'e yazıldı.
 
 ## 6 · İletiler
 

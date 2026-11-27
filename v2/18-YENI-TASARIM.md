@@ -10,7 +10,7 @@
 |---|---|
 | 1 · Zemin | tamam (24 Kasım): 1.1 hedef ve başarı ölçütü, 1.2 kısıtlar, 1.3 kanıt envanteri, 1.4 mimari iskelet |
 | 2 · Bileşen bileşen tasarım | tamam (27 Kasım): 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu tamam (26 Kasım: teşhis ölçümüyle seçenek 2'nin dayanağı tutmadı, yeniden kararım A: bağın maliyeti selamdan, eşikle düşürme yok, veri yalnız güvenlik ağı; karıştırılan bağ son çare; kâğıt onaylandı); 2.4 B4 yol tamam (26 Kasım: uygulanabilirlik koşulu, Babel ailesi; olağan bağlar son çaredekilerden önce; kâğıt onaylandı); 2.5 B5 iletim kararı tamam (27 Kasım: teşhisten sonra kararım A, tek yol; kâğıt onaylandı; B4'e Babel'in iki kuralı eklendi, onaylandı); 2.6 B6 kontrol iletileri tamam (27 Kasım: kararım Z1, uyarlanır aralık; kâğıt onaylandı; B4 kural 15'in olay listesi düzeltildi); 2.7 B7 bekletme ve komut tamam (27 Kasım: kararım H1, kısa bekletme, ve geri iz; kâğıt onaylandı) |
-| 3 · Bütünlük ve donma | sırada |
+| 3 · Bütünlük ve donma | sürüyor (28 Kasım): 3.1 bütünlük denetimi tamam (`bilesen/01-BUTUNLUK.md`, onaylandı 28 Kasım); sırada 3.2 bağımsız denetim, sonra 3.3 donma |
 | 4 · Kod ve ölçüm | bekliyor |
 
 ## Yöntem
@@ -275,53 +275,55 @@ Bileşenlerin ne olduğu, neyin sahibi oldukları ve birbirleriyle nasıl konuş
 | # | bileşen | sorusu | sahibi olduğu durum | öteki bileşenlere verdiği | sınıf |
 |---|---|---|---|---|---|
 | B1 | komşu ve bağın ölçüsü | komşu kim; bağ iki yönde ne kadar iyi; veri taşıyor mu | komşu tablosu: selam geçmişi, iki yöndeki oran, veri sonuçlarının geçmişi, son duyulma | komşu kümesi; bağ başına ölçüler (selamdan, veriden) ve tazelikleri | genel |
-| B2 | karıştırma kanıtı | ben karıştırılıyor muyum; hangi komşuyla bağım karıştırılıyor | saniyelik işaretler (kanal meşgul payı, çözülen çerçeve, selam kaybı, MAC vazgeçmesi), kendi durumum, komşuların bildirdiği durum | kendi durumum (yok · girişim · kanal kilidi); bağ başına karıştırma işareti | karıştırmaya karşı |
-| B3 | bağın durumu | bağ kullanılır mı; ne zaman bırakılır, ne zaman döner | bağ başına durum ve süreleri; hatırlanan kalite | bağ başına durum, maliyet (tek kaynak) ve işaretler | genel çekirdek + karıştırma eki |
-| B4 | yol | geçide hangi komşular üzerinden gidilir; maliyetim ne; döngü nasıl önlenir ya da yakalanır | komşuların ilanları; ardıl ve sıralı aday listesi (her adayın türü: döngüsüz yedek, son çare…); kendi maliyetim; döngü kaydı | aday listesi; kendi maliyetim; ilan olayları | genel |
-| B5 | iletim kararı | bu paket hangi komşuya, şimdi mi, kopyalı mı | paket başına kayıtlar (getiren, gönderilen, denemeler) | simülatöre karar: sonraki atlama, bekletme, kopyalar | genel çekirdek + karıştırma eki |
-| B6 | kontrol iletileri | hangi ileti, ne zaman, kime | ileti sırası, aralık, plan | simülatöre kontrol iletileri ve uyandırmalar | genel |
-| B7 | bekletme ve komut | yol yokken paket ne kadar tutulur; komut hangi yoldan iner | tampon kayıtları; geri iz | B5'e bekletme kararı; komutun sonraki atlaması | genel |
+| B2 | karıştırma kanıtı | ben karıştırılıyor muyum; hangi komşuyla bağım karıştırılıyor | saniyelik işaretler (kanal meşgul payı, çözülen çerçeve, selam kaybı), kendi durumum ve aralıklarım, komşuların bildirimi ve bildirim aralıkları, göndericinin olayları (B1'in veri kaydından) | kendi durumum (yok · girişim · kanal kilidi) ve aralıklarım; bağ başına bildirim ve göndericinin olayı; selamın biti | karıştırmaya karşı |
+| B3 | bağın durumu | bağ kullanılır mı; ne zaman bırakılır, ne zaman döner | bağ başına durum, sebepleri ve maliyeti (karıştırmadan önceki kalite, B1'in okumasında hariç aralıkla korunur) | bağ başına durum ve maliyet (tek kaynak); bildirilecek oran listesi | genel çekirdek + karıştırma eki |
+| B4 | yol | geçide hangi komşular üzerinden gidilir; maliyetim ne; döngü nasıl önlenir | komşuların ilanları ve yaşları; FD ve tur; ardıl ve sıralı aday listesi (O ve S sınıfı); kendi maliyetim; yok sayma ve istek kayıtları; döngü tanısının kaydı (yalnız ölçüm) | aday listesi ve ardıl; kendi maliyetim ve açlık; ilan, "hemen gönder" olayları ve tur istekleri (B6'ya) | genel (kendi karıştırılmam kuralları karıştırma katmanında) |
+| B5 | iletim kararı | bu paket hangi komşuya, şimdi mi | yok: durum tutmaz (kararım A, §2.5) | simülatöre karar: sonraki atlama ya da bekletme; kopya ve sapma yok | genel (karıştırma eki yok) |
+| B6 | kontrol iletileri | hangi ileti, ne zaman, kime | selamın sırası, aralığı (I) ve planları (selam, son tarih) | simülatöre kontrol iletileri ve uyandırmalar; alınan iletinin alanları (B1, B2 ve B4'e) | genel (kilit kuralı karıştırma katmanında) |
+| B7 | bekletme ve komut | yol yokken paket ne kadar tutulur; komut hangi yoldan iner | bekletme kayıtları (paketin ilk bekletme anı); geri iz; yeniden sorma planı | B5'e, B5'ten önce: yol yoksa bekletme ya da düşürme ve sebebi; komutun sonraki atlaması | genel |
 
 **Sözleşme:**
-1. **Tek yönlü akış.** Her bileşen yalnız kendinden aşağıdakilerin çıktılarını okur; hiçbir bileşen başkasının durumuna yazmaz.
+1. **Tek yönlü akış.** Her bileşen yalnız kendinden aşağıdakilerin çıktılarını okur; hiçbir bileşen başkasının durumuna yazmaz. Tek istisna B7'nin B5'e cevabıdır (yol var mı, komutun sonraki atlaması): B5'ten önce hesaplanır, yani bu iş için B7 B5'in altında sayılır (B7 kural 10).
 2. **Gözlemler sahibine gider.** Simülatörden gelen her gözlem, o bilginin sahibi olan bileşene dağıtılır:
-   - MAC sonucu B1'e ve B2'ye;
-   - komşunun ilanı B4'e;
-   - "paket daha büyük atlama sayısıyla geri döndü" B4'e (döngü kanıtı);
-   - paketi getiren komşu B4'e ve B7'ye.
+   - MAC sonucu B1'e; B2 göndericinin kanıtını B1'in veri kaydından okur (sözleşme 3);
+   - kontrol iletisini B6 çözer: selamın sırası, aralığı ve oranı B1'e, biti B2'ye, ilanı B4'e; tur isteği B4'e;
+   - paketin başlığı (kaynak, sıra, atlama sayısı) B4'ün döngü tanısına (yalnız ölçüm, karara girmez);
+   - paketi getiren komşu B7'ye (geri iz).
 
    Yukarıdaki bir bileşenin kararı aşağıdakine ancak böyle, bir sonraki gözlem olarak yansır.
 3. **Tek kaynak.** Her büyüklük tek bileşende hesaplanır: bağın maliyeti B3'te, kendi maliyetim B4'te, karıştırma işareti B2'de. Öteki bileşenler okur, yeniden hesaplamaz. Her değer de tek yerde tanımlanır.
 4. **Kanıtı silmeme.** Bir bileşenin kararı başka bir bileşenin kullandığı gözlemi ortadan kaldırıyorsa (ör. paket getirene gönderilmeyince döngünün dönüş kanıtı oluşmaz), bu etkileşim iki bileşenin kâğıdında da yazılır ve kanıtın yerine geçen şey tanımlanır (eksiksizlik listesi madde 14).
 5. **Rota durumu ile paket kararı ayrı.** B4 sıralı bir aday listesi tutar; paketin yönünü B5 seçer. Paket başına bir sapma (ör. getiren komşuya geri göndermemek) rota durumunu değiştirmez. Rota durumunu değiştirecek bir kanıt varsa B4'e gözlem olarak gider.
 6. **Kontrol iletileri tek yerde.** İletilerin biçimi ve gönderimi B6'dadır. Öteki bileşenler B6'ya yalnız taşınacak değerleri ve "hemen gönder" olaylarını verir.
-7. **Ablasyon.** Her mekanizmanın bayrağı ve "kapalıyken" davranışı yazılır. Karıştırmaya karşı olanlar (B2'nin tamamı, B3 ve B5'in karıştırma ekleri) tek bir bayrak grubuyla birlikte kapanabilir. Kapalıyken kalan protokol eksiksiz çalışır; mekanizma kapısı bunu ister (`06` §0.4.5).
+7. **Ablasyon.** Her mekanizmanın bayrağı ve "kapalıyken" davranışı yazılır. Karıştırmaya karşı olanlar (B2'nin tamamı, B3'ün karıştırma eki, B4'ün kendi karıştırılmam kuralları, B6'nın kilit kuralı; B5'in eki yok) tek bir bayrak grubuyla birlikte kapanabilir. Kapalıyken kalan protokol eksiksiz çalışır; mekanizma kapısı bunu ister (`06` §0.4.5).
 8. **Bellek sınırı.** Her tablonun üst sınırı ve silme kuralı yazılır (komşu, paket kayıtları, tampon, iz).
 
-**Olay sırası** (her niyetli kancada aynı):
-1. Gözlemi sahibine dağıt.
-2. Zaman olayları: zaman aşımları, süre dolumları.
+**Olay sırası** (her niyetli kancada aynı; 28 Kasım'da düzeltildi, `bilesen/01-BUTUNLUK.md` §4):
+1. B1'in zaman olayları: zaman aşımları, silmeler (B1 kural 20). Öteki bileşenlerin süreleri kendi adımlarında, o anın saatiyle değerlendirilir.
+2. Gözlemi sahibine dağıt; kontrol iletisini B6 çözer.
 3. B2 → B3 → B4: kanıt, bağın durumu, yol.
-4. B5: paket varsa kararı (B7'ye danışarak).
-5. B6: değişim olaylarından doğan ve planlı kontrol iletileri.
-6. B7: tampon için uyandırma.
-7. Beyanlar: kopma, rota kuruldu.
+4. Paket varsa önce B7'nin cevabı (yol var mı, komutun sonraki atlaması), sonra B5'in kararı.
+5. B6: değişim olaylarından doğan ve planlı kontrol iletileri; B4'ün tur istekleri; B6'nın uyandırmaları.
+6. B7: yeniden sorma uyandırması.
+7. Beyanlar: kopma, rota kuruldu; düşen paketin `rota_gecersiz`i kararla birlikte.
 
-Niyet döndüremeyen kancalarda (`iletim_sonucu`, `cerceve_duyuldu`) yalnız 1. adım yapılır; gerisi bir sonraki niyetli kancada.
+Niyet döndüremeyen kancalarda (`iletim_sonucu`, `cerceve_duyuldu`) yalnız 1. ve 2. adım yapılır; gerisi bir sonraki niyetli kancada.
 
 **Kancalar ve gözlemleri:**
 
-| kanca | dağıtılan gözlem | sonra |
+| kanca | dağıtılan gözlem | olay sırasının adımları |
 |---|---|---|
-| saniyelik zamanlayıcı | B2: kanal meşgul süresi, çözülen çerçeve sayısı, selam kaybı | 2–7 |
-| uyandırma | B6: selam zamanı · B7: tampon · zaman olayları | 2–7 |
-| kontrol iletisi alındı | B1: selamın sırası ve oranları · B2: komşunun durumu · B4: ilanı | 2–7 |
-| iletim sonucu (niyetsiz) | B1: veri sonucu · B2: MAC vazgeçmesi | — |
-| iletim başarısız | — | 2–7 |
-| çerçeve duyuldu (niyetsiz) | B1: komşu hâlâ orada · B4: paketi getiren, bayat bilgi · B7: geri iz | — |
-| sonraki atlama | B4: döngü kanıtı | 2–7, B5'in kararı |
+| saniyelik zamanlayıcı | B2: kanal meşgul süresi, çözülen çerçeve sayısı (selam kaybını B1'in örneklerinden hesaplar) | 1–7 |
+| uyandırma | — (B6'nın selamı ve son tarihi, B7'nin yeniden sorması; simülatör bekletme tamponunu döker) | 1–7 |
+| kontrol iletisi alındı | B6 çözer · B1: selamın sırası, aralığı, oranı · B2: karıştırma biti · B4: ilan; tur isteği | 1–7 |
+| iletim sonucu (niyetsiz) | B1: veri sonucu ve onay (B2 B1'in kaydından okur) | 1–2 |
+| iletim başarısız | — | 1–7 |
+| çerçeve duyuldu (niyetsiz) | B1: komşu hâlâ orada · B7: geri iz | 1–2 |
+| sonraki atlama | paket: B7 ve B5 (yön) · B4: döngü tanısı (yalnız ölçüm) | 1–7; B7'nin cevabı ve B5'in kararı |
 
-**Karıştırma katmanı kapalıyken çekirdek:** B1, B3'ün çekirdeği, B4, B5'in çekirdeği, B6, B7. Çekirdek kendi başına eksiksiz bir yönlendirme protokolüdür; ikizde zarar olmadığını ve kapı ölçümünü bu kol verir.
+**Karıştırma katmanı kapalıyken çekirdek:** B1, B3'ün çekirdeği, B4 ve B6 (kendi karıştırılmam kuralları olmadan), B5, B7. Çekirdek kendi başına eksiksiz bir yönlendirme protokolüdür; ikizde zarar olmadığını ve kapı ölçümünü bu kol verir.
+
+**28 Kasım düzeltmesi** (Aşama 3, `bilesen/01-BUTUNLUK.md` §11): tablo, sözleşme 1, 2 ve 7, olay sırası ve kanca tablosu onaylı kâğıtlara göre düzeltildi. 24 Kasım'daki metin B5'e paket başına kayıt ve karıştırma eki, B4'e döngü kaydı, B2'ye MAC vazgeçmesi öngörüyordu; olay sırasında gözlemin dağıtımı zaman olaylarından önceydi. Yapı kararı 3'ün ayrımı korunur: B5 ayrı ve durumsuzdur. Kararı A (sapma yok, §2.5) bu yapının içinde bir seçimdir; komutun yolu (B7'nin izi) B4'ün ardılından ayrıdır.
 
 ## Bileşenler
 

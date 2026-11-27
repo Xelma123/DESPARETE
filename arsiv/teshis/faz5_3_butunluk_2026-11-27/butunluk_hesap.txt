@@ -1,0 +1,7 @@
+== H1 · ilanın ömrü ile son çarenin birleşimi (birincil, açık evre, pencere içi, alıcı geçit değil) ==
+  alan G: açık karar 13725 · ardılın ilanı bayat 1028 (%7.49) · bayat ve başka aday yok 255 (%1.86)
+    bu kararlarda atlamanın onayı %22.75 · bildirimli olanlarda %9.30 (129 karar)
+    onaylanan bu atlamalar açık doğana oranla (bedelin üst sınırı): 0.0020
+  alan E: açık karar 1545 · ardılın ilanı bayat 333 (%21.55) · bayat ve başka aday yok 121 (%7.83)
+    bu kararlarda atlamanın onayı %1.65 · bildirimli olanlarda %1.79 (112 karar)
+    onaylanan bu atlamalar açık doğana oranla (bedelin üst sınırı): 0.0001

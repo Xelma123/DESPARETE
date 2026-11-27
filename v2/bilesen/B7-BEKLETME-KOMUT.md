@@ -91,7 +91,7 @@ Bir paketin B7'deki yaşamı:
 
 **C · Sıra**
 
-10. **B7'nin cevabı B5'ten önce hesaplanır** (B5 Ö-4). Her `sonraki_atlama` kancasında B1–B4'ten sonra B7 yol var mı sorusunu cevaplar, sonra B5 karar verir (olay sırası 4). B7'nin yeniden sorma uyandırması olay sırasının 6. adımında döner. İskelet B5'in B7'ye danışmasını öngörür. Sözleşme 1'e (yalnız aşağıdakini okur) göre B7 bu iş için B5'in altında sayılır (`00-DIZIN`, Aşama 3).
+10. **B7'nin cevabı B5'ten önce hesaplanır** (B5 Ö-4). Her `sonraki_atlama` kancasında B1–B4'ten sonra B7 yol var mı sorusunu cevaplar, sonra B5 karar verir (olay sırası 4). B7'nin yeniden sorma uyandırması olay sırasının 6. adımında döner. İskelet B5'in B7'ye danışmasını öngörür. Sözleşme 1'e (yalnız aşağıdakini okur) göre B7 bu iş için B5'in altında sayılır; iskelete 28 Kasım'da işlendi (`18` §1.4 sözleşme 1).
 11. **Niyetsiz kanca:** `cerceve_duyuldu`'da yalnız iz öğrenilir (kural 6); uyandırma bir sonraki niyetli kancada döner.
 
 ## 6 · İletiler

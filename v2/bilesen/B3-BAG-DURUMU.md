@@ -27,7 +27,7 @@ B3 gözlem sözleşmesinden doğrudan bir şey okumaz; yalnız aşağıdaki bile
 
 | kaynak | B3'ün kullandığı | kullanmadığı |
 |---|---|---|
-| B1 | `E_selam`, `n_s`, `d_f`, `d_r` (hariç aralık listesiyle, kural 9); veri kayıtları (an, deneme, onay; kural 6–7 için); komşu kümesi, yeni ve silinen komşu olayları; bildirilecek oran listesi (kural 10) | `E_veri` ve vazgeçme payı (çekirdekte maliyete girmez, B3 teşhisi K2; tanıda raporlanır) · sondaki sessizlik (B1 kural 16) |
+| B1 | `E_selam`, `n_s`, `d_f`, `d_r` (hariç aralık listesiyle, kural 9); veri kayıtları (an, deneme, onay; kural 6–7 için); komşu kümesi, yeni ve silinen komşu olayları; bildirilecek oran listesi (kural 10) | `E_veri` ve vazgeçme payı (çekirdekte maliyete girmez, B3 teşhisi K2; tanıda raporlanır) · sondaki sessizlik (B1 kural 16; Aşama 3'te kaldırıldı) |
 | B2 | kendi aralıklarım; bağ başına bildirim (`kb`, `kb_t`) ve bildirim aralıkları; bağ başına geçerli gönderici olayı | kendi durumumun değeri (yalnız aralıklar) · son işaretler (tanı) |
 | yapılandırma | geçidin kimliği (kural 8) | — |
 
@@ -157,7 +157,7 @@ B3 ileti göndermez. Maliyeti ilanlarda B4 ve B6, oran listesini selamda B6 taş
 
 | çıktı | kural | okuyan |
 |---|---|---|
-| bağ başına durum, sebepler, `durum_t` | 4–8 | B4, B5 (karıştırma eki), B7 |
+| bağ başına durum, sebepler, `durum_t` | 4–8 | B4, B7 (komutun kararı, B7 kural 8) |
 | bağ başına maliyet (E, M) | 1–2 | B4 (yol maliyeti), B6 (ilan B4 üzerinden) |
 | "durum değişti" olayları | 4 | B4, B6 |
 | hariç aralık listesi | 9 | B1'e yapılan okuma isteği (B3'ün kendisi) |
@@ -174,7 +174,7 @@ B3 ileti göndermez. Maliyeti ilanlarda B4 ve B6, oran listesini selamda B6 taş
 
 1. **B1 ile:**
    - B3 ölçüyü hariç aralıkla ister; B1'in örneklerini silmez, dondurmaz.
-   - B1'in sondaki sessizliğini (kural 16) ne B2 ne B3 kullanıyor; Aşama 3'te kaldırılır (`00-DIZIN`).
+   - B1'in sondaki sessizliğini (kural 16) ne B2 ne B3 kullanıyordu; Aşama 3'te kaldırıldı (`01-BUTUNLUK.md` §11).
    - `E_veri` maliyete girmez; tanıda raporlanır.
 2. **B2 ile:**
    - B2 kanıt verir, B3 karar verir. Gönderici olayının ömrü ve uzatılması kural 6'dadır.
@@ -184,9 +184,9 @@ B3 ileti göndermez. Maliyeti ilanlarda B4 ve B6, oran listesini selamda B6 taş
    - yol değişiminin histerezisi (maliyetin kendisinde histerezis yok; B3 teşhisi K4: veri bile yükle oynamıyor, selam daha durgun);
    - "son çare" adı B4'ün aday türlerinde başka anlamda kullanılmamalı (Aşama 3'ün ortak sözlüğü).
    - Selam ölçeği sıkıştırır: iyi bağ ~%20 ucuz, kenar bağ ~%15–28 pahalı görünür (B3 teşhisi §10.1). Yol maliyeti bu yüzden az sayıda uzun bağ yerine iyi bağlardan geçen yolları biraz kayırır; bu İlke 1'le aynı yöndedir.
-4. **B5:** SON ÇARE bağına paket ancak B4 olağan aday vermezse gider. Paket başına karar (ör. hedefin kendisine giden bağ) B5'indir.
+4. **B5 ve B7:** telemetri SON ÇARE bağına ancak B4 olağan aday vermezse gider (B5 kural 1). Komut izin gösterdiği komşuya, o S'de olsa da gider (B7 kural 8): komutun bilinen tek yolu odur.
 5. **B6:** oran listesi (kural 10); "durum değişti" ve maliyet değişimi B4 üzerinden ara ilanı tetikleyebilir.
-6. **B7:** yalnız SON ÇARE ya da hiç aday kalmayınca bekletme kararı B7'nindir.
+6. **B7:** hiç aday kalmayınca (açlık) bekletme kararı B7'nindir. Ardıl S'deyken paket ona gider, bekletilmez (B5 kural 1).
 7. **Kanıtı silmeme** (sözleşme 4):
    - SON ÇARE'deki bağa veri gönderilmez, yeni kayıt ve yeni olay oluşmaz. Bu yüzden kanıt süreyle kalkar (kural 6–7) ve bağ yeniden denenir; böylece kanıtın kesilmesi bağı süresiz dışarıda bırakmaz.
    - Hariç aralık B1'in örneklerini silmez, yalnız saymaz.

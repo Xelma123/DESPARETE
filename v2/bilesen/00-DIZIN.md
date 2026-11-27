@@ -1,6 +1,6 @@
 # Bileşen kâğıtları — dizin, değerler, bayraklar, gözlemin kullanımı
 
-> Yeni tasarımın (`../18-YENI-TASARIM.md`) kural kâğıtları: bileşen başına bir kâğıt. Bileşenin sorunu, kanıtı, seçenekleri ve kararım `18`'in "Bileşenler" bölümünde; kuralları kâğıdında. Değerler, bayraklar ve gözlemin kullanımı **yalnız bu dosyada** tutulur; kâğıtlar adlarıyla anar (`18` bütünlük listesi madde 1). Kod Aşama 4'te bu kâğıtlardan yazılır. Önceki tasarımın kâğıtları `../kural/KK-*`; yeni tasarım donana kadar bugünkü kodun belgesidir. Güncel: 27 Kasım 2026 (B7; aynı gün B5, B6 ve B4'ün eki). Yedi kâğıdın hepsi onaylandı; sırada Aşama 3'ün bütünlük denetimi (`18`).
+> Yeni tasarımın (`../18-YENI-TASARIM.md`) kural kâğıtları: bileşen başına bir kâğıt. Bileşenin sorunu, kanıtı, seçenekleri ve kararım `18`'in "Bileşenler" bölümünde; kuralları kâğıdında. Değerler, bayraklar ve gözlemin kullanımı **yalnız bu dosyada** tutulur; kâğıtlar adlarıyla anar (`18` bütünlük listesi madde 1). Kod Aşama 4'te bu kâğıtlardan yazılır. Önceki tasarımın kâğıtları `../kural/KK-*`; yeni tasarım donana kadar bugünkü kodun belgesidir. Güncel: 28 Kasım 2026 (Aşama 3'ün bütünlük denetimi, `01-BUTUNLUK.md`, onaylandı; açık kalanlar kapandı, sondaki bölüm). 27 Kasım: B7; aynı gün B5, B6 ve B4'ün eki. Yedi kâğıdın hepsi onaylandı.
 
 ## Kâğıtlar
 
@@ -13,6 +13,8 @@
 | B5 | iletim kararı | `B5-ILETIM-KARARI.md` | onaylandı (27 Kasım) |
 | B6 | kontrol iletileri | `B6-KONTROL-ILETILERI.md` | onaylandı (27 Kasım) |
 | B7 | bekletme ve komut | `B7-BEKLETME-KOMUT.md` | onaylandı (27 Kasım) |
+
+Bütünlük denetimi (Aşama 3, yedi bileşen birlikte): `01-BUTUNLUK.md`, onaylandı (28 Kasım).
 
 ## Ortak birimler
 
@@ -114,22 +116,26 @@ Her mekanizmanın bayrağı, sınıfı (karıştırmaya karşı ya da genel; K-2
 | B1 | selam: göndereni, sırası, aralığı, benim için bildirilen oran (B6 çözer) · `iletim_sonucu`: hedef, başarı, `tekrar` (ölçüye yalnız tür `veri`; onayın gelmesi her türde varlık kanıtı) · `cerceve_duyuldu`: göndereni, yalnız tür `veri` ve `kontrol` · `saat_s` (yalnız süreler) | `olculen_gurultu_w` (yasak, K-227) · RSSI · `phy_hata` · `alinan_cerceve` · `mesgul_sure_s` · `kendi_konum` · `kendi_hiz` · `komsular` (simülatörün beacon listesi) · kuyruk · duyulan onay ve kontrol onayının göndereni (gerçek 802.11 onayı verici adresi taşımaz) |
 | B2 | `mesgul_sure_s` (`kanal_dolulugu_ister`; yalnız `karistirma_katmani` açıkken) · `alinan_cerceve` · selam: göndereni ve karıştırma biti (B6 çözer) · B1'in çıktıları: selam örnekleri, `son_selam_t`, komşu kümesi ve olayları, veri kayıtları · `saat_s` (yalnız süreler) | `olculen_gurultu_w` (yasak, K-227) · RSSI · `phy_hata` · `kanal_mesgul_mu` · `iletim_sonucu` ve `cerceve_duyuldu` doğrudan (veri sonucu B1'in kaydından) · `kendi_konum` · `kendi_hiz` · `komsular` · kuyruk |
 | B3 | yalnız B1'in ve B2'nin çıktıları (B3 §2) · yapılandırma: geçidin kimliği | gözlem sözleşmesinin hiçbir alanını doğrudan okumaz · `olculen_gurultu_w` (yasak, K-227) · RSSI · konum |
-| B4 | selam: tur ve maliyet (B6 çözer) · tur isteği: gönderen, istenen tur, kalan atlama (B6 çözer) · B1: komşu kümesi ve olayları, komşunun selam aralığı `a` · B2: kendi durumum ve kendi aralıklarım · B3: bağın durumu ve maliyeti · `saat_s` (yalnız süreler) · yapılandırma: geçidin kimliği | gözlem sözleşmesinin öteki alanları · `olculen_gurultu_w` (yasak, K-227) · konum · paket başlığı |
+| B4 | selam: tur ve maliyet (B6 çözer) · tur isteği: gönderen, istenen tur, kalan atlama (B6 çözer) · B1: komşu kümesi ve olayları, komşunun selam aralığı `a` · B2: kendi durumum ve kendi aralıklarım · B3: bağın durumu ve maliyeti · `saat_s` (yalnız süreler) · yapılandırma: geçidin kimliği · paket başlığı (`sonraki_atlama`): kaynak, `kaynak_sira`, atlama sayısı, yalnız döngü tanısı (kural 17) | gözlem sözleşmesinin öteki alanları · `olculen_gurultu_w` (yasak, K-227) · konum · paket başlığının öteki alanları |
 | B5 | paket başlığından yalnız hedef (geçit mi) · B4: ardıl, aday listesi, açlık durumu · B7: bekletme kararı ve komutun sonraki atlaması (B7'nin kâğıdında) | gözlem sözleşmesinin öteki alanları · `olculen_gurultu_w` (yasak, K-227) · RSSI · kuyruk · konum · başlığın öteki alanları (kaynak, `kaynak_sira`, atlama sayısı: döngü tanısı B4'ün, geri iz B7'nin) · B1, B2, B3 doğrudan (B4 üzerinden) |
 | B6 | selam ve tur isteği (`kontrol_alindi`): bütün alanlar; çözer ve dağıtır · B1: yeni komşu olayı · B2: bit, "bit değişti", kendi durumum kanal kilidi mi · B3: bildirilecek oran listesi · B4: ilan (tur, C), "hemen gönder" olayları, tur isteği iletileri, kural 4a'nın anı · `saat_s` (yalnız süreler) | `olculen_gurultu_w` (yasak, K-227) · RSSI · kuyruk · konum · `komsular` (simülatörün beacon listesi) · veri paketleri |
 | B7 | paket başlığı (`sonraki_atlama`): kaynak, hedef, `kaynak_sira` · `cerceve_duyuldu`: bana adresli veri çerçevesinin göndereni ve başlığı · B1: silinen komşu olayı · B3: izin komşusunun durumu · B4: ardıl var mı, açlıktan çıkış · yapılandırma: geçidin kimliği · `saat_s` (yalnız süreler) | `olculen_gurultu_w` (yasak, K-227) · RSSI · kuyruk · konum · B2 · başkasına adresli çerçeveler |
 
-## Aşama 3'e açık kalanlar
+## Aşama 3'ün açık kalanları: kapanış (28 Kasım)
 
-- **Olay sırası:** B1, bir gözlemi işlemeden önce o ana kadarki kendi zaman olaylarını işler (B1 kural 20); `18` §1.4'ün olay sırasında gözlemin dağıtımı (1) zaman olaylarından (2) önce yazılı. Bütün bileşenler için ortak kural bütünlük denetiminde yazılır.
-- **Bileşenler arası beklentiler:** B1'in, B2'nin, B3'ün ve B4'ün B6'dan beklentileri B6'da karşılandı (B6 §6'nın tablosu, 27 Kasım). B2'nin B3'e bıraktıkları (B2 §11 madde 2) bütünlük denetiminde denetlenir.
-- **İskeletin kanca tablosu** (`18` §1.4): iletim sonucu B2'ye ayrıca dağıtılmaz; B2 veri sonucunu B1'in kaydından okur (B2 §2, sözleşme 3). Tablo bütünlük denetiminde buna göre düzeltilir.
-- **B1'in sondaki sessizliği** (B1 kural 16): ne B2 (B2 §2) ne B3 (B3 §2) kullanıyor; kaldırılır.
-- **B3'ün B4'ten beklentileri** (B3 §6, §11 madde 3): olağan adaylar SON ÇARE'den önce; yol değişiminin histerezisi B4'te.
-- **Ortak sözlük:** B3'ün SON ÇARE durumu ile B4'ün aday türlerinin adları karışmamalı (B4 adaylarını O ve S sınıfı diye anar).
-- **B4'ün B6'dan beklentileri** (B4 Ö-1…Ö-5): B6'da karşılandı (B6 kural 1–2, 6–8, 13). Tek başına ardıl değişimi olay sayılmadı; B4 kural 15 düzeltildi (27 Kasım).
+Bütünlük denetiminde kapandı (`01-BUTUNLUK.md` §9):
+- **Olay sırası:** ortak kural `01-BUTUNLUK` §4; `18` §1.4 düzeltildi (zaman olayları 1., gözlemin dağıtımı 2. adım; B7'nin cevabı B5'ten önce).
+- **Bileşenler arası beklentiler:** B1–B4'ün B6'dan ve B5'in B7'den beklentileri karşılandı (B6 §6, B7 §6); B2'nin B3'e bıraktıkları (B2 §11 madde 2) B3'te karşılanıyor.
+- **İskeletin tablosu, kanca tablosu ve B5 satırı:** `18` §1.4 düzeltildi.
+- **B1'in sondaki sessizliği:** kural 16 kaldırıldı (numara korunur).
+- **B3'ün B4'ten beklentileri:** B4 kural 3 ve 5 (olağan adaylar önce; histerezis B4'te).
+- **Ortak sözlük:** `01-BUTUNLUK` §8.
+- **B5 ile B7'nin sırası:** `18` §1.4 sözleşme 1 ve olay sırası 4.
+- **Mekanizma kapısının payı:** kestirildi (`01-BUTUNLUK` §10): katmana ait ölçülmüş üst sınırların toplamı ~0,03, ayrıca ölçülmemiş bir pay; Aşama 4'ün beklentisine yazılır.
+
+## Aşama 4'e kalanlar
+
 - **İki meşgul payı eşiği:** `ED_ESIK` (0,55) ve `CBAR_ED_ESIK` (0,62). Birleştirmek ölçülen kuralı değiştirir; Aşama 4'te bakılır.
-- **İskeletin B5 satırı** (`18` §1.4): A seçildi (27 Kasım). B5 paket başına kayıt tutmaz ve karıştırma eki yoktur; tablo bütünlük denetiminde düzeltilir.
-- **B5'in B7'den beklentileri** (B5 §6): B7'de karşılandı (B7 §6'nın tablosu, 27 Kasım).
-- **B5 ile B7'nin sırası:** iskelet B5'in B7'ye danışmasını öngörüyor (`18` §1.4 olay sırası 4; B7'nin satırı "B5'e bekletme kararı"). Sözleşme 1'e (yalnız aşağıdakini okur) göre B7'nin bu cevabı B5'ten önce hesaplanır, yani B7 bu iş için B5'in altında sayılır. B7'nin kâğıdında yazıldı (B7 kural 10); iskelete bütünlük denetiminde işlenir.
-- **Mekanizma kapısının payı:** B5 teşhisinde J1'in (karıştırma katmanının kurtarabileceği kayıp, 0,0485) yalnız 0,016'sı katmana ait; kalanını çekirdeğin "veri yok" ve ilanın ömrü kuralları da görüyor (`arsiv/teshis/faz5_3_b5_iletim_kaybi_2026-11-26/ek_hesap.txt` E7). Bütünlük denetiminde kapının beklenen payı yeniden kestirilir.
+- **B2'nin eşikleri yeni trafikte** (B2 §11 madde 8): işaretler bugünkü çekirdeğin trafiğinde ölçüldü.
+- **Kontrol payı:** kestirim protokolün iletileri için ~%3, veri onaylarıyla ~%6–7 (`01-BUTUNLUK` §2); iletiler ve onaylar ayrı ölçülür (B6 §13).
+- **Ölçülmeyenler:** her kâğıdın §15'i; ablasyon kolları ve tanılar.

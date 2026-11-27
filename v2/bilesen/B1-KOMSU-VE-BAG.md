@@ -102,14 +102,14 @@ Selam sayımındaki "yeniden başlama" (kural 4) kaydı silmez, yalnız örnekle
 
     `E_veri` veri çerçevesini ve onayını gerçek boylarıyla, çarpışmalar dâhil ölçer; ETX'in tahmin etmeye çalıştığı şey budur (4B [69]: veri onayının bağ ölçüsüne girmesi). `E_selam` ile aynı birimdedir; ikisinin nasıl birleştirileceği B3'ün kararıdır.
 15. **Tazelik:** `ilk_t`, `son_duyulma_t`, `son_selam_t`, en yeni veri kaydının anı, `n_s`, `n_v` ve `d_f`'nin dayandığı bildirimin anı.
-16. **Sondaki sessizlik (B2 için):** ham örneklerin sonundaki ardışık sıfırların sayısı ve ilkinin anı; hariç aralık uygulanmaz. B2 sessizlikten önceki kaliteyi, `d_r`'yi bu andan başlayan bir hariç aralıkla isteyerek alır.
+16. *Kaldırıldı (28 Kasım, Aşama 3):* sondaki sessizliği (ham örneklerin sonundaki ardışık sıfırlar) ne B2 ne B3 kullanıyor (B2 §2, B3 §2; `01-BUTUNLUK.md` §11). Numara korunur.
 17. **Bildirilecek oran listesi (B6 için):** `n_s` ≥ `ORNEK_EN_AZ` olan her komşunun adresi ve `d_r`'si, adrese göre sıralı. Hangi hariç aralıkla isteneceği B3 ile B6'nın kararıdır (§11 madde 3). Tek örnekle 1,0 bildirilmez.
 18. **Olaylar:** bu kancada açılan ("yeni komşu") ve silinen ("silinen komşu") kayıtların listesi. Kanca boyunca okunur, bir sonraki kancanın başında boşalır.
 19. **Son tarih:** bekleyen en erken zaman olayının anı (zaman aşımı ya da silme). B1 uyandırma istemez; istenip istenmeyeceği B6'nın kararıdır (Ö-6).
 
 **F · Sıra**
 
-20. Her kancanın başında B1 o ana kadar gelmiş zaman olaylarını (kural 3, 5) kendi anlarının sırasıyla işler. Aynı anda olanlarda önce zaman aşımı, sonra silme gelir; komşular arasında küçük adres önce işlenir. Sonra kancanın gözlemini işler. Böylece her gözlem, B1'in o ana kadar güncel hâline uygulanır. `18` §1.4'ün olay sırasında gözlemin dağıtımı (1) zaman olaylarından (2) önce yazılı; B1 için ikisi bu sırayla birleşir. Bütün bileşenler için ortak kural Aşama 3'te yazılır (`00-DIZIN` "Aşama 3'e açık kalanlar").
+20. Her kancanın başında B1 o ana kadar gelmiş zaman olaylarını (kural 3, 5) kendi anlarının sırasıyla işler. Aynı anda olanlarda önce zaman aşımı, sonra silme gelir; komşular arasında küçük adres önce işlenir. Sonra kancanın gözlemini işler. Böylece her gözlem, B1'in o ana kadar güncel hâline uygulanır. Bütün bileşenler için ortak kural `01-BUTUNLUK.md` §4'tedir; `18` §1.4'ün olay sırası buna göre düzeltildi (28 Kasım): zaman olayları 1., gözlemin dağıtımı 2. adımdır.
 
 ## 6 · İletiler
 
@@ -163,11 +163,11 @@ B1 ileti göndermez; kontrol yüküne doğrudan katkısı yoktur. Ölçünün ç
 | `d_r`, `d_f`, `E_selam` (hariç aralıkla) | 11–13 | B3 |
 | `E_veri`, vazgeçme payı, `n_v` (hariç aralıkla) | 14 | B3 |
 | tazelik | 15 | B3, B2 |
-| selam örnekleri, `son_selam_t`, `a`, sondaki sessizlik | 4–6, 16 | B2 |
+| selam örnekleri, `son_selam_t`, `a` | 4–6 | B2 |
 | bildirilecek oran listesi | 17 | B6 (B3 üzerinden, §11 madde 3) |
 | son tarih | 19 | B6 |
 
-**Olay sırası** (`18` §1.4): B1 her kancada yalnız ilk adımda çalışır: önce kendi zaman olaylarını işler, sonra gözlemi alır (kural 20). Sonraki adımlarda öteki bileşenler B1'in çıktısını okur. B1 hiçbir bileşenin durumunu okumaz (en alttadır).
+**Olay sırası** (`18` §1.4): B1 her kancada olay sırasının ilk iki adımında çalışır: önce kendi zaman olaylarını işler, sonra gözlemi alır (kural 20). Sonraki adımlarda öteki bileşenler B1'in çıktısını okur. B1 hiçbir bileşenin durumunu okumaz (en alttadır).
 
 ## 10 · Kapalıyken davranış
 
@@ -186,7 +186,7 @@ B1'in bayrağı yoktur: çekirdektir; selam olmadan komşu ve bağ bilinemez. Ö
    Silinen komşunun kayıtlarını öteki bileşenler de budar ("silinen komşu" olayı); B3'ün o bağ için tuttuğu hariç aralıklar da gider.
 2. **Kendi karıştırılmam sırasında silme durmaz** (önceki tasarımda dururdu, KK-01 kural 13). 30 s'den uzun sessizlikte komşular silinir ve yeniden öğrenilir; bunun için en az `ORNEK_EN_AZ` selam gerekir. Birincil (15 s açık) ve dayanıklılık (10 s) hücrelerinde gerçekleşmez; daha uzun açık dönemli sınıflarda tanıda sayılır. Önceki tasarımda da kalitenin hatırası en çok 30 s tutuluyordu (`T_HATIRA`, `KENDI_UST_SURE`); 30 s'den uzun sağırlıktan sonra iki tasarımda da bağlar yeniden ölçülür. Bu yüzden silmeyi durdurmak için B1'e yukarıdan bilgi verilmez (sözleşme 1).
 3. **Komşulara bildirdiğim oran** (kural 17): kendi karıştırılmam sırasında `d_r`'lerim düşer. Selamda ham değer giderse komşular bana olan bağı kötü ölçer; önceki tasarımda dondurmanın sebebi buydu (KK-01 kural 13). Hangi değerin gideceği B3 ile B6 arasında yazılır.
-4. **B2'nin sayımı:** B2'nin selam kaybı ve sessizlik kanıtı B1'in örneklerini okur. B1 donmadığı için önceki tasarımdaki ikinci sayım (gölge geçmiş, KK-03 kural 2, Y-10) gerekmez. Geri alma, kanal kilidindeki komşunun sıfırlarını selamı dönünce siler; B2 bu sıfırları karıştırma sürerken okumalıdır, sonradan görünmezler.
+4. **B2'nin sayımı:** B2'nin selam kaybı payı B1'in örneklerini okur. B1 donmadığı için önceki tasarımdaki ikinci sayım (gölge geçmiş, KK-03 kural 2, Y-10) gerekmez. Geri alma, kanal kilidindeki komşunun sıfırlarını selamı dönünce siler; B2 bu sıfırları karıştırma sürerken okumalıdır, sonradan görünmezler.
 5. **Seçim yanlılığı:** verinin ölçüsü yalnız veri gönderilen (çoğunlukla ardıl) bağlarda oluşur; yedekler yalnız selamla bilinir. B5 bir bağa göndermeyi bırakınca o bağın verisi `VERI_PENCERE_S` sonra tanımsız olur. B3 "veri yok"u "kötü" saymamalıdır.
 6. **Kalabalık:** selam sıfırlarının bir kısmı çarpışmadır (önceki KK-03 kural 12'nin riski). B1 bunu ayırmaz; B2'nin sorusudur.
 7. **Komşunun aralığı** (`a`) B6'nın kuralından gelir. Zaman aşımı, `SELAM_SAKLA` ve `BOSLUK_EN_COK` buna bağlıdır (Ö-2, Ö-4).
@@ -205,7 +205,7 @@ Komşu i ve j; aralıklar örnek (B6'nın kuralına bağlı).
 
    B1 iki sayıyı da verir (1,33 ve 1,73); hangisinin nasıl kullanılacağı B3'ün kararıdır.
 4. **Komşu kanal kilidinde:** j 40,0–55,0 s arasında karıştırıcıya çok yakın kalır, selam gönderemez ve sırası ilerlemez (Ö-5). Son selamı 39,5 s'de (sıra s, aralık 2,2 s).
-   - i'de zaman aşımı 42,8 · 45,0 · 47,2 · 49,4 · 51,6 · 53,8 s'de altı sıfır ekler. B2 bu sırada sondaki sessizliği okur (kural 16: 6 sıfır, ilki 42,8 s).
+   - i'de zaman aşımı 42,8 · 45,0 · 47,2 · 49,4 · 51,6 · 53,8 s'de altı sıfır ekler.
    - 55,3 s'de j'nin selamı sıra s + 1 ile gelir. i'de `beklenen` s + 7 olduğu için fark −6: altı sıfır silinir, (55,3; 1) eklenir.
    - `d_r` karıştırmadan önceki değerine döner; hariç aralığa gerek kalmaz.
 5. **Kendim girişimde:** 70,0–85,0 s arasında i, j'nin selamlarını çözemez; j göndermeyi sürdürür. Zaman aşımlarının sıfırları gerçek kayıptır ve anları bu aralıktadır.
@@ -238,7 +238,7 @@ Komşu i ve j; aralıklar örnek (B6'nın kuralına bağlı).
    - `E_veri` = `D` / `G`; `G` = 0 iken ∞; kayıt yokken tanımsız;
    - `VERI_PENCERE` ve `VERI_PENCERE_S` sınırları;
    - kontrol sonucu ve kayıtsız komşunun sonucu yazılmaz.
-9. Sondaki sessizlik: sayısı ve ilk anı; geri almadan sonra sıfırlanır.
+9. *Kaldırıldı (kural 16 ile birlikte, 28 Kasım).*
 10. Oran listesi: `ORNEK_EN_AZ`'ın altındaki komşu listelenmez; adrese göre sıralı.
 11. Olaylar: yeni ve silinen komşu yalnız o kancada görünür.
 12. Silme: `T_SILME`'de; silinen kaydın örnekleri ve veri kayıtları gider; aynı komşu yeni selamla yeniden açılır.
