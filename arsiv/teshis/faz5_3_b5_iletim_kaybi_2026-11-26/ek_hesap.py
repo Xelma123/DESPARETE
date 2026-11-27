@@ -27,6 +27,8 @@ E8 · K6'nın temiz engelli komşusu, ardılın durumuna göre: hangi kayıplard
 E9 · temiz kararlarda ardılın ilanının bayatlığı: o kararlarda ardıla
      giden çerçevenin onay payı, ardılın bağının bandı, ardıldan başka aday
      olup olmadığı (`ILAN_OMUR_KAT`'ın girdisi).
+E10 · J3 ve J4, alıcının alanına ve ardılın kanıtına göre (B5 kâğıdının
+     son çaredeki ardıl için bekletme sorusu; 27 Kasım).
 """
 
 from __future__ import annotations
@@ -156,6 +158,8 @@ def main() -> None:
     e7(rs)
     e8(rs)
     e9(kayit)
+    print()
+    e10(rs)
 
 
 KATMAN = L.K_BILDIRIM_A | L.K_GONDERICI
@@ -259,6 +263,41 @@ def e9(kayit: dict) -> None:
                   f"onayı {SH.yuzde(ok / n)} · ardılın bağı iyi bantta "
                   f"{SH.yuzde(iyi / n)} · ardıldan başka aday yok "
                   f"{SH.yuzde(tek / n)}")
+
+
+def e10(rs: list[dict]) -> None:
+    print("== E10 · J3 ve J4, alıcının alanına ve ardılın kanıtına göre "
+          "(birincil; ham, açık doğana oranla) ==")
+    for s in ("J3", "J4"):
+        pay: dict[tuple, list] = {}
+        for x, r in enumerate(rs):
+            n = SH.dogan(r)
+            kl = SH.kararlar(r)
+            a: dict[tuple, int] = {}
+            for o, _ in SH.kayiplar(r, kl):
+                if o.sinif("A") != s:
+                    continue
+                if not o.kanit & L.KANIT_A:
+                    k = "kanıt yok"
+                elif o.kanit & L.K_BILDIRIM_A:
+                    k = "kanıt var, bildirim de"
+                else:
+                    k = "kanıt var, bildirimsiz"
+                a[(o.zj, k)] = a.get((o.zj, k), 0) + 1
+            for anahtar in set(pay) | set(a):
+                pay.setdefault(anahtar, [0.0] * x).append(a.get(anahtar, 0) / n)
+        print(f"  {s}")
+        for alan_ in ("E", "G"):
+            toplam = 0.0
+            for k in ("kanıt var, bildirim de", "kanıt var, bildirimsiz",
+                      "kanıt yok"):
+                v = pay.get((alan_, k), [0.0] * len(rs))
+                v = v + [0.0] * (len(rs) - len(v))
+                toplam += ist.mean(v)
+                print(f"    {alan_} · {k:<24} {ist.mean(v):.4f}")
+            print(f"    {alan_} · toplam                   {toplam:.4f}")
+    print("  (bildirim anında biçimdedir: kanal kilidindeki alıcı gerçekte "
+          "selam gönderemez)")
 
 
 if __name__ == "__main__":

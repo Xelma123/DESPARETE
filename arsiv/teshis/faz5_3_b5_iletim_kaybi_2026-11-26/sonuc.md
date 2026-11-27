@@ -3,7 +3,7 @@
 > 27 Kasım 2026 · ölçüt `beklenti.md` (öngörüler ve karar kuralı commit `cdb1a48`, dumandan önce; duman notu ve dumandan sonra eklenen betimleyici ölçü S6 commit `09ba063`).
 > - **Koşu** (`zaman.txt`): 00:43–02:59, toplam 2 sa 16 dk (tahmin ~2–3 sa). Adımlar: ikiz 1 sa 0 dk · birincil 1 sa 16 dk.
 > - **Kopya:** `kopya/` = `09ba063`, 166 dosya birebir (satır sonları normalleştirilerek; `kopya_ozet.txt`).
-> - **Çıktılar:** ham çıktı `olcum_*.txt`, kayıt `kayit_*.json.gz`; karar kuralı `sonuc_hesap.py` → `sonuc_hesap.txt`; ek sayılar `ek_hesap.py` → `ek_hesap.txt` (koşudan sonra yazıldı, karar girdisi değil; E4'ün düzeltmesi ve E7–E9 27 Kasım'da, ana seçenekten önce eklendi).
+> - **Çıktılar:** ham çıktı `olcum_*.txt`, kayıt `kayit_*.json.gz`; karar kuralı `sonuc_hesap.py` → `sonuc_hesap.txt`; ek sayılar `ek_hesap.py` → `ek_hesap.txt` (koşudan sonra yazıldı, karar girdisi değil; E4'ün düzeltmesi ve E7–E9 27 Kasım'da, ana seçenekten önce eklendi; E10 B5 kâğıdı için, karardan sonra).
 >
 > Paylar açık dönemde doğan paketlere oranladır (`PDR_açık`'ın birimi), sekiz tohumun ortalamasıdır. "Ağırlıklı" pay, sıradaki adaya gidilseydi geçme olasılığının kâhine göre üst sınırıdır.
 
@@ -156,6 +156,7 @@ Tutmayanların gerekçesi:
   - İkizde kararların %2,06'sında ardılın tek kanıtı ilanın bayatlığı. Bu kararlarda ardıla giden çerçevenin onayı %96,1 (kanıtsız kararlarda %97,9) ve ardılın bağı hep iyi bantta. Birincilin temiz kararlarında %90,2 ↔ %97,4.
   - Bu kararların %30,6'sında ardıldan başka aday yok. Yeni tasarımda ardıl bu kararlarda aday olmaktan çıkar; üçte birinde açlık ve tur isteği doğar.
   - Babel-a seçili rotanın süresi dolmadan ilan edene tek alıcılı istek gönderiyor (RFC 8966 §3.8.2.3, SHOULD; süresinin 7/8'inde). B4'te bu kural yok.
+- **J4'ün çoğu girişimde** (E10; B5 kâğıdı için, karardan sonra eklendi): J4'ün 0,053'ünün 0,011'i kanal kilidindeki, 0,042'si girişimdeki alıcıda. J3'ün 0,016'sı kanal kilidinde, 0,066'sı girişimde.
 
 ## 9 · Bundan çıkan
 

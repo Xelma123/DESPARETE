@@ -9,7 +9,7 @@
 | aşama | durum |
 |---|---|
 | 1 · Zemin | tamam (24 Kasım): 1.1 hedef ve başarı ölçütü, 1.2 kısıtlar, 1.3 kanıt envanteri, 1.4 mimari iskelet |
-| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu tamam (26 Kasım: teşhis ölçümüyle seçenek 2'nin dayanağı tutmadı, yeniden kararım A: bağın maliyeti selamdan, eşikle düşürme yok, veri yalnız güvenlik ağı; karıştırılan bağ son çare; kâğıt onaylandı); 2.4 B4 yol tamam (26 Kasım: uygulanabilirlik koşulu, Babel ailesi; olağan bağlar son çaredekilerden önce; kâğıt onaylandı); 2.5 B5 iletim kararı sürüyor (26 Kasım: ana seçenekten önce teşhis; 27 Kasım: teşhis koşuldu, hiçbir aile elenmedi; ana seçenek sırada) |
+| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu tamam (26 Kasım: teşhis ölçümüyle seçenek 2'nin dayanağı tutmadı, yeniden kararım A: bağın maliyeti selamdan, eşikle düşürme yok, veri yalnız güvenlik ağı; karıştırılan bağ son çare; kâğıt onaylandı); 2.4 B4 yol tamam (26 Kasım: uygulanabilirlik koşulu, Babel ailesi; olağan bağlar son çaredekilerden önce; kâğıt onaylandı); 2.5 B5 iletim kararı tamam (27 Kasım: teşhisten sonra kararım A, tek yol; kâğıt onaylandı; B4'e Babel'in iki kuralı eklendi, onaylandı); 2.6 B6 kontrol iletileri sırada |
 | 3 · Bütünlük ve donma | bekliyor |
 | 4 · Kod ve ölçüm | bekliyor |
 
@@ -500,7 +500,7 @@ Seçilmeyenler: 1, kanıtlanmış yanılgıyı bıraktığı ve `E_veri`'yi kull
 
 ### 2.4 · B4 · Yol (26 Kasım, kararım)
 
-Kâğıt: `bilesen/B4-YOL.md` (onaylandı, 26 Kasım). Kâğıttaki yapı kararları:
+Kâğıt: `bilesen/B4-YOL.md` (onaylandı, 26 Kasım; 27 Kasım eki onaylandı, aşağıda). Kâğıttaki yapı kararları:
 - adaylar iki sınıf: B3'te olağan olanlar (O) son çaredekilerden (S) önce, sınıf içinde maliyetle (kural 3, 5);
 - geçiş Babel'in histerezisiyle: anlık ve düzgünleştirilmiş maliyet birlikte (kural 5–6);
 - ilanın ömrü: komşunun son ilanı selam aralığının 3,5 katından eskiyse ∞ (kural 4);
@@ -549,7 +549,16 @@ Girdileri B3'ün bağ maliyetleri ve durumları (olağan · son çare · kullan�
 
 Seçilmeyenler: Y2, en kötü tohumda ve sessiz dönemde koruma ölçütlerini geçemediği ve döngüyü iki kuralla da çözemediği için; Y3, ölçülmediği ve iki mekanizmayı birlikte taşıdığı için. Açlığın yeni tasarımdaki sıklığı Aşama 4'te ölçülür. Yüksek kalırsa Y3'ün açlıktaki son çaresi o zaman düşünülür.
 
-### 2.5 · B5 · İletim kararı (26 Kasım; ana seçenekten önce teşhis)
+**27 Kasım eki** (kararım; B5 teşhisinden sonra, yeni kanıtla). 26 Kasım'daki kâğıtta Babel'in iki SHOULD kuralı yoktu; ikisi de rakip Babel-a'da var. B5 teşhisi ikisinin bedelini gösterdi (`arsiv/teshis/faz5_3_b5_iletim_kaybi_2026-11-26/ek_hesap.txt` E8, E9; kuraldan sonra):
+- **Tercih edilir uygulanamaz ilanda istek** (RFC 8966 §3.8.2.2'nin ikinci paragrafı; B4 kural 10a). Ardıl varken bir komşunun ilanı uygulanamaz ama sıralamada ardıldan önce geliyorsa o komşuya tur isteği gider. "Önce gelmek": sınıfı daha iyi (olağan ↔ son çare) ya da aynı sınıfta en az 2 ETX ucuz (babeld'in eşiği). Kanıt: ardılın kanıtı varken olağan aday yoksa, yalnız uygulanabilirlik yüzünden aday olmayan temiz bir komşu J3, J4 ve U2'nin kayıplarında 0,038 payda. B4 isteği yalnız hiç aday kalmayınca gönderiyordu.
+- **Süre dolmadan istek** (§3.8.2.3; B4 kural 4a). Ardılın ilanı bir selam aralığı kala tazelenmemişse ardıla tek alıcılı rota isteği gider; ardıl hemen selamla yanıtlar. Kanıt: ikizde kararların %2,1'inde ardılın ilanı bayattı, ama ardıla giden çerçevelerin %96'sı onaylanıyordu; bunların %31'inde başka aday yoktu. `ILAN_OMUR_KAT` 3,5'te kaldı.
+- Seçilmeyenler: kuralları Aşama 4'e bırakmak (ölçülmüş bir bedel açık kalırdı); `ILAN_OMUR_KAT`'ı büyütmek (daha basit, ama susan komşu geç bırakılır ve değeri seçecek ölçü kayıtta yok).
+- Eki yazarken bir tutarsızlık düzeltildi: kural 14 kendi karıştırılmamda "adaylar değişmez" diyordu, ama ilanların yaşı işlemeye devam ediyordu. Girişim alanında selamların ~%73'ü kaybolduğu için ardıl birkaç selam aralığında aday olmaktan çıkardı. Kendi aralıklarımda yaş artık durur (B4 kural 4), bağın maliyetinin hariç aralıkla korunması gibi (B3 kural 9).
+- İki yeni kuralın bayrağı var (`sure_istegi`, `tercih_istegi`; genel); katkıları Aşama 4'te ölçülür.
+
+### 2.5 · B5 · İletim kararı (26–27 Kasım, kararım)
+
+Kâğıt: `bilesen/B5-ILETIM-KARARI.md` (onaylandı, 27 Kasım). Kâğıttaki yapı kararları: B5 durum tutmaz; karar paket havaya çıkarken verilir (geç bağlama); son çaredeki ardıla gönderim sürer, ayrı bekletme yok; açlıkta ve komutta karar B7'nindir; karıştırma eki yok.
 
 **Sorun.** B5 her veri paketi için üç şeye karar verir:
 - hangi komşuya: B4'ün sıralı aday listesinden; listedeki her aday uygulanabilir olduğu için döngü oluşmaz (`bilesen/B4-YOL.md` §15);
@@ -602,6 +611,24 @@ Teşhis: `arsiv/teshis/faz5_3_b5_iletim_kaybi_2026-11-26/`. Bugünkü kodun `eğ
   - J1'in 0,032'sinde karar anında çekirdeğin bir kanıtı da var (veri yok, ilan bayat). Katmanın kendine ait payı en çok 0,016. Mekanizma kapısının kolunda (katman kapalı, genel mekanizmalar açık) çekirdeğin kanıtı kalır; genel bir kurtarma bu kolda katmanın kayıplarını da kurtarır.
   - Yalnız uygulanabilirlik koşulu yüzünden aday olmayan temiz bir komşu J3, J4 ve U2'de 0,137 payda var. Bunun 0,038'inde ardılın kanıtı var ve olağan aday yok. RFC 8966 §3.8.2.2'nin ikinci paragrafı böyle bir komşuya tur isteği gönderilmesini ister (SHOULD); B4'te bu kural yok, Babel-a'da var.
   - İkizde kararların %2,1'inde ardılın ilanı bayat, ama ardıla giden çerçevenin onayı %96. Bu kararların %31'inde ardıldan başka aday yok; yeni tasarımda ardıl bu kararlarda aday olmaktan çıkar. RFC 8966 §3.8.2.3 seçili rotanın süresi dolmadan istek gönderilmesini ister (SHOULD); B4'te bu kural yok, Babel-a'da var.
+
+**Kararım (27 Kasım): A, tek yol.** Paket hep B4'ün ardılına gider; kopya, paket başına sapma ve kurtarma yok. Karıştırmaya karşılık B2 → B3 → B4'ten gelir; B5'in karıştırma eki yoktur.
+- Mekanizma kapısını bulandırmaz: kapının kolunda (karıştırma katmanı kapalı) B5 aynı çalışır. Katmanın J1'deki kendi payı zaten ince (en çok 0,016); onu küçültecek bir genel mekanizma eklemedim.
+- Fazladan veri yayını eklemez; kalabalık kanalda bu bir koruma ölçütüdür.
+- Simülatörün yetenek sözleşmesine dokunmaz.
+- Bedeli: B5'in ailelerinin ulaşabileceği kayıp açık kalır (J2 + J3 + U1, üst sınır 0,100). Hedefe (+0,048) ulaşmak garanti değil; dayandığı paylar, katmanın J1'i (0,0485) ve B4'ün 27 Kasım eki (0,038), birer üst sınırdır.
+
+Seçilmeyenler:
+- **B · hızlı sapma:** tetik yok; en iyi aday bile temiz kanalda kararların %1,5–2,2'sini saptırıyor. Ulaşabileceği pay sınırda (0,022; 8 tohumun 4'ünde 0,02'yi geçiyor).
+- **C · seçici kopya:** C1 kalabalık kanala koşu başına 81 s yayın ekliyor (veri yayın süresinin %22'si). C2 ucuz ama 0,004'e ulaşıyor; Aşama 4'te ayırt edilemez.
+- **D · kurtarma:** en büyük kaldıraç (0,100), ama dört bedeli var:
+  - genel bir mekanizma: ikizde de üst sınırı 0,0525 (K-247); kapıya girmez;
+  - kapının kolunda katmanın kurtaracağı paketleri de kurtarır ve katmanın kendi payını büyük ölçüde siler. Kapı "üstün" hükmünün şartıdır (`06` §0.4.5); geçmezse hüküm "fark var, karıştırmaya özgü mekanizmaya bağlanamadı" olur;
+  - simülatörün yetenek sözleşmesini (`13`) genişletir; alıcı çerçeveyi çözmüş ama onay kaybolmuşsa kurtarılan paket bir kopyaya dönüşür;
+  - birincilde koşu başına 41 s yayın eki.
+
+  D ölçülmüş üst sınırıyla kayıtlıdır. Aşama 4'te hedef tutmazsa ilk düşünülecek kaldıraç odur; kapıya etkisi o zaman yeniden hesaplanır.
+- **Son çaredeki ardıl için bekletme** (alt soru): alınmadı. J4'ün (karıştırılan ardıldan başka aday yok) 0,053'ünün yalnız 0,011'i kanal kilidindeki alıcıda, 0,042'si girişimde (`ek_hesap.txt` E10); girişimdeki ardıla gönderim çoğu zaman işe yarıyor. Açlıkta bekletme B7'nindir.
 
 ## Eksiksizlik listesi
 

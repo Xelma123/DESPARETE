@@ -1,6 +1,6 @@
 # Bileşen kâğıtları — dizin, değerler, bayraklar, gözlemin kullanımı
 
-> Yeni tasarımın (`../18-YENI-TASARIM.md`) kural kâğıtları: bileşen başına bir kâğıt. Bileşenin sorunu, kanıtı, seçenekleri ve kararım `18`'in "Bileşenler" bölümünde; kuralları kâğıdında. Değerler, bayraklar ve gözlemin kullanımı **yalnız bu dosyada** tutulur; kâğıtlar adlarıyla anar (`18` bütünlük listesi madde 1). Kod Aşama 4'te bu kâğıtlardan yazılır. Önceki tasarımın kâğıtları `../kural/KK-*`; yeni tasarım donana kadar bugünkü kodun belgesidir. Güncel: 26 Kasım 2026 (B4).
+> Yeni tasarımın (`../18-YENI-TASARIM.md`) kural kâğıtları: bileşen başına bir kâğıt. Bileşenin sorunu, kanıtı, seçenekleri ve kararım `18`'in "Bileşenler" bölümünde; kuralları kâğıdında. Değerler, bayraklar ve gözlemin kullanımı **yalnız bu dosyada** tutulur; kâğıtlar adlarıyla anar (`18` bütünlük listesi madde 1). Kod Aşama 4'te bu kâğıtlardan yazılır. Önceki tasarımın kâğıtları `../kural/KK-*`; yeni tasarım donana kadar bugünkü kodun belgesidir. Güncel: 27 Kasım 2026 (B5; B4'ün 27 Kasım eki).
 
 ## Kâğıtlar
 
@@ -9,9 +9,9 @@
 | B1 | komşu ve bağın ölçüsü | `B1-KOMSU-VE-BAG.md` | onaylandı (24 Kasım) |
 | B2 | karıştırma kanıtı | `B2-KARISTIRMA-KANITI.md` | onaylandı (25 Kasım) |
 | B3 | bağın durumu | `B3-BAG-DURUMU.md` | onaylandı (26 Kasım) |
-| B4 | yol | `B4-YOL.md` | onaylandı (26 Kasım) |
-| B5 | iletim kararı | — | sırada |
-| B6 | kontrol iletileri | — | bekliyor |
+| B4 | yol | `B4-YOL.md` | onaylandı (26 Kasım; eki 27 Kasım) |
+| B5 | iletim kararı | `B5-ILETIM-KARARI.md` | onaylandı (27 Kasım) |
+| B6 | kontrol iletileri | — | sırada |
 | B7 | bekletme ve komut | — | bekliyor |
 
 ## Ortak birimler
@@ -51,10 +51,12 @@ Her değer için: kuralı, kaynağı ve gerekçesi, küçük ve büyük olursa n
 | `KANIT_OMUR_S` | 5 s | B3/6–7 | son başarısızlıktan sonra gönderici ve veri yok kanıtının ömrü; bağ kullanılmazken yeni kanıt gelmediği için yeniden denemenin aralığı (İlke 3). Birincilde açık dönem 15 s, dayanıklılıkta 10 s; G alanındaki alıcıların çoğu bütün dönem karıştırılıyor (B2 teşhisi §8.1): dönem başına 1–2 yeniden deneme, her biri bir çerçeve; karıştırma bitince bağ en çok 5 s geç döner | karıştırılan bağa sık yeniden deneme, boşa kanal süresi · karıştırma bitince bağ geç döner (sessiz dönem) | Aşama 4'te bakılır |
 | `VERI_YOK_N` | 4 kayıt | B3/7 | B3 teşhisi `ek_hesap.txt` E4 (kuraldan sonra): son 4 kaydın hepsinin vazgeçme olması temiz kanalda veri örneklerinin %0,01–0,15'i, karıştırılan alıcıda %7–26'sı; 3 kayıtla temizde %0,05–0,32. B1'in `ORNEK_EN_AZ`'ıyla aynı | 3: temizde yanlış alarm ~2–5 kat · 6–8: kalıcı sorunda geç | Aşama 4'te bakılır |
 | `BILDIRIM_PAYI_S` | 3 s | B3/9 | komşu durumunu geç bulur: girişim kuralı 3 s içinde %34–35, alana girişten gecikme ortancası 2 s (B2 teşhisi E7); bit selam başına %35 olasılıkla ulaşır | komşunun sezilmemiş karıştırmasındaki düşük bildirimler ölçüye girer · sağlam örnekler gereksiz dışarıda kalır | hayır |
-| `HARIC_UST_S` | 30 s | B3/9–10 | İlke 2 (ölçmeyi bırakmamak); B1'in `SELAM_SAKLA`'sı 30 s'lik hariç aralığa göre seçildi; önceki tasarımın `T_HATIRA`'sı ve `KENDI_UST_SURE`'si | uzun karıştırmada kalite erken bozulur · uzun karıştırmada bağın yeni hâli geç görülür, B1'in saklaması yetmez | hayır |
-| `ILAN_OMUR_KAT` | 3,5 × komşunun selam aralığı `a` | B4/4 | Babel'in rota süresi: ilan aralığının 3,5 katı (RFC 8966 Ek B, "Route Expiry time"). Bizde ilan her selamdadır, aralık selamınki; tek kaybolan selam ilanı bayatlatmaz (~3 selam) | gecikmeyle gelen selamda aday gereksiz düşer · ölü ya da kilitli komşu geç bırakılır | Aşama 4'te bakılır |
+| `HARIC_UST_S` | 30 s | B3/9–10 · B4/4 | İlke 2 (ölçmeyi bırakmamak); B1'in `SELAM_SAKLA`'sı 30 s'lik hariç aralığa göre seçildi; önceki tasarımın `T_HATIRA`'sı ve `KENDI_UST_SURE`'si. B4 kural 4'te kendi aralığımın ilanın yaşından çıkarılan kısmının sınırı da budur | uzun karıştırmada kalite erken bozulur · uzun karıştırmada bağın yeni hâli geç görülür, B1'in saklaması yetmez | hayır |
+| `ILAN_OMUR_KAT` | 3,5 × komşunun selam aralığı `a` | B4/4 | Babel'in rota süresi: ilan aralığının 3,5 katı (RFC 8966 Ek B, "Route Expiry time"). Bizde ilan her selamdadır, aralık selamınki; tek kaybolan selam ilanı bayatlatmaz (~3 selam). B5 teşhisi (E9, kuraldan sonra): ikizde kararların %2,1'inde ardılın ilanı bu sınırı aşıyor, ardıla giden çerçevelerin %96'sı yine onaylanıyor; karşılığı kural 4a (27 Kasım). Kendi aralıklarımda yaş durur | gecikmeyle gelen selamda aday gereksiz düşer · ölü ya da kilitli komşu geç bırakılır | Aşama 4'te bakılır |
+| `SURE_ISTEK_PAYI` | 1 × ardılın selam aralığı `a` | B4/4a | RFC 8966 §3.8.2.3: süre dolmadan kısa bir süre önce ("shortly before") istek. Babel-a tutma süresinin 7/8'inde ister (`protokoller/babel_bicim.py`); Babel'in 16 s'lik ilan aralığıyla bu, süre dolmadan 7 s, kabaca iki Babel selamıdır. Bizde ilan selamdadır ve yanıt bir selamdır; bir selam aralığı, en kısa aralıkta (0,5 s, B1 Ö-4) bile ardılın bir kez yanıtlamasına yeter | yanıt yetişmez, çalışan ardılın ilanı yine düşer · istek daha erken, her kaçan selamda gider: gereksiz istek ve kontrol yükü | Aşama 4'te bakılır |
+| `TERCIH_FARKI` | 128 birim (2 ETX) | B4/10a | babeld `send_unfeasible_request`: seçili rotanın metriği yeni metrik + 512'den küçük değilse istek (Babel-a `TERCIH_FARKI` 512). Babel'de kusursuz bir bağ 256'dır (Ek A.2.2); 512 iki kusursuz atlamalık fark, bizim birimimizle (1 ETX = 64) 128. Sınıf farkı (O ↔ S) bu eşiğe bakmaz | küçük maliyet farkları için istek, sık tur artışı ve çalkalanma · belirgin daha iyi yol açılmaz | Aşama 4'te bakılır |
 | `DUZ_S` | 6 s | B4/6 | RFC 8966 Ek A.3: düzgünleştirmenin zaman sabiti selam aralığının ~3 katı; önceki tasarımın `DUZ_S`'i (3 × `I_MAX` 2 s) | geçiş gecikmesiz olur, iki yol arasında salınım · daha iyi yola geç geçilir | B6'nın selam aralığına bağlı; aralık değişirse yeniden bakılır |
-| `YOK_SAYMA_S` | 5 s | B4/10 | önceki tasarımın `ISTEK_ARA`'sı (18 Kasım KK-04 kural 7): isteğin geçide gidip yanıtın dönmesine yeten süre | tur gelmeden ardıl bırakılır, gereksiz açlık · gerçekten kötüleşen ardıl geç bırakılır | Aşama 4'te bakılır |
+| `YOK_SAYMA_S` | 5 s | B4/10, 10a | önceki tasarımın `ISTEK_ARA`'sı (18 Kasım KK-04 kural 7): isteğin geçide gidip yanıtın dönmesine yeten süre. Kural 10a'da yeni isteğin beklemesi aynı süredir (bekleyen istekler, RFC 8966 §3.2.7; Babel-a §3.8.2.2 isteğini 2 s tutar) | tur gelmeden ardıl bırakılır, gereksiz açlık; 10a'da yinelenen istek · gerçekten kötüleşen ardıl geç bırakılır; 10a'da kaybolan isteğin yenisi geç gider | Aşama 4'te bakılır |
 | `ISTEK_YINELEME` · `ISTEK_ARALIK_S` | 3 kez · 0,5 s | B4/11 | RFC 8966 §3.8.2.1 ve Ek B: istek kayba karşı birkaç kez, en çok üç kez yinelenir. Babel'in ilk aralığı 2 s ve her yinelemede ikiye katlanır; bizim selam aralığımız Babel'inkinin (4 s) 2–8'de biri olduğu için aralık kısaltıldı (önceki tasarım, KK-00) | kayıpta yanıt gecikir · kontrol yükü artar | Aşama 4'te bakılır |
 | `ISTEK_ARA_S` | 5 s | B4/11 | önceki tasarım: açlık sürerken istek dizisinin yinelenmesi | gereksiz istek, kontrol yükü · uzun açlıkta yeni tur geç gelir | hayır |
 | `ISTEK_ANIMSA_S` | 4 s | B4/12 | önceki tasarım: iletilen isteğin yanıtını beklerken kayıt | geç gelen yanıt geri yayılmaz · bellek | hayır |
@@ -71,16 +73,20 @@ Her mekanizmanın bayrağı, sınıfı (karıştırmaya karşı ya da genel; K-2
 | mekanizma | bileşen · kural | bayrak | sınıf | kapalıyken |
 |---|---|---|---|---|
 | komşu kaydı, selam sayımı, veri kaydı, ölçüler | B1 | yok (çekirdek) | genel | — (selam olmadan komşu ve bağ bilinemez; ölçmek davranışı değiştirmez, ölçünün kullanımının bayrağı kullanan bileşendedir, B1 §10) |
-| kendi durumum, kendi aralıklarım, işaretler; B3 ve B5'in karıştırma ekleri | B2 1–9, 14, 17 | `karistirma_katmani` (grup) | karıştırmaya karşı | B2 çalışmaz, `kanal_dolulugu_ister` denmez; durum hep "yok", aralık ve kanıt yok, bit hep 0 (alan kalır); B1'in hariç aralık listesi boş; alt bayraklar etkisiz (B2 §10) |
+| kendi durumum, kendi aralıklarım, işaretler; B3'ün karıştırma eki ve B4'ün kendi karıştırılmam kuralları (B5'in karıştırma eki yok) | B2 1–9, 14, 17 | `karistirma_katmani` (grup) | karıştırmaya karşı | B2 çalışmaz, `kanal_dolulugu_ister` denmez; durum hep "yok", aralık ve kanıt yok, bit hep 0 (alan kalır); B1'in hariç aralık listesi boş; alt bayraklar etkisiz (B2 §10) |
 | alıcının biti | B2 9–11 | `alici_bildirimi` | karıştırmaya karşı | bit hep 0 gider, alınan bit okunmaz, "bit değişti" olayı yok (alan kalır, boy aynı); kendi durumum ve aralıklar sürer; A, B olur (`18` §2.2) |
 | göndericinin kanıtı | B2 12–13 | `gonderici_kaniti` | karıştırmaya karşı | gönderici olayı oluşmaz |
 | bağın maliyeti (selamdan, eşiksiz), durumu, KULLANILMAZ | B3 1–4, 11–12 | yok (çekirdek) | genel | — (maliyetsiz yol seçilemez) |
 | veri yok güvenlik ağı | B3 7 | `veri_yok` | genel | sebep oluşmaz |
 | karıştırılan bağın son çare olması (bildirim, gönderici), geçit istisnası | B3 5–6, 8 | `karistirma_katmani` (grup) | karıştırmaya karşı | sebep oluşmaz |
 | hariç aralık, karıştırmadan önceki oranın bildirilmesi | B3 9–10 | `haric_aralik` | karıştırmaya karşı | liste boş: B1 ham ölçer, oran ham bildirilir; SON ÇARE sebepleri sürer |
-| uygulanabilirlik koşulu, seçim, ilan, FD, tur isteği | B4 1–3, 5, 7–16 | yok (çekirdek) | genel | — (kapatılamaz: döngüsüzlüğü kaldırır) |
+| uygulanabilirlik koşulu, seçim, ilan, FD, tur isteği | B4 1–3, 5, 7–13, 15–16 | yok (çekirdek) | genel | — (kapatılamaz: döngüsüzlüğü kaldırır) |
 | anlık ve düzgünleştirilmiş maliyetle geçiş | B4 5–6 | `duzgun_gecis` | genel | isteğe bağlı geçişte yalnız anlık maliyet |
-| ilanın ömrü | B4 4 | `ilan_omru` | genel | ilan, komşu B1'de silinene kadar geçerli |
+| ilanın ömrü | B4 4 | `ilan_omru` | genel | ilan, komşu B1'de silinene kadar geçerli; kural 4a da çalışmaz |
+| süre dolmadan istek | B4 4a | `sure_istegi` | genel | istek gitmez; ilan tazelenmezse kural 4'le düşer |
+| tercih edilir uygulanamaz ilanda tur isteği | B4 10a | `tercih_istegi` | genel | tur isteği yalnız yok saymada ve açlıkta gider |
+| kendi karıştırılmamda ilanların yaşının durması ve isteğin bastırılması | B4 4 (yaş), 14 | `karistirma_katmani` (grup) | karıştırmaya karşı | B2 hep "yok" der: ilanların yaşı kesintisiz işler, istek bastırılmaz |
+| paketin ardıla gönderilmesi (tek yol); kopya, sapma ve kurtarma yok | B5 1–7 | yok (çekirdek) | genel | — (paket B5 olmadan gönderilemez; B5'in karıştırma eki yok, `18` §2.5) |
 
 **Mekanizma kapısının "hepsi kapalı" kolu** (`06` §0.4.5): `karistirma_katmani` kapalı, genel mekanizmalar açık.
 
@@ -91,7 +97,8 @@ Her mekanizmanın bayrağı, sınıfı (karıştırmaya karşı ya da genel; K-2
 | B1 | selam: göndereni, sırası, aralığı, benim için bildirilen oran (B6 çözer) · `iletim_sonucu`: hedef, başarı, `tekrar` (ölçüye yalnız tür `veri`; onayın gelmesi her türde varlık kanıtı) · `cerceve_duyuldu`: göndereni, yalnız tür `veri` ve `kontrol` · `saat_s` (yalnız süreler) | `olculen_gurultu_w` (yasak, K-227) · RSSI · `phy_hata` · `alinan_cerceve` · `mesgul_sure_s` · `kendi_konum` · `kendi_hiz` · `komsular` (simülatörün beacon listesi) · kuyruk · duyulan onay ve kontrol onayının göndereni (gerçek 802.11 onayı verici adresi taşımaz) |
 | B2 | `mesgul_sure_s` (`kanal_dolulugu_ister`; yalnız `karistirma_katmani` açıkken) · `alinan_cerceve` · selam: göndereni ve karıştırma biti (B6 çözer) · B1'in çıktıları: selam örnekleri, `son_selam_t`, komşu kümesi ve olayları, veri kayıtları · `saat_s` (yalnız süreler) | `olculen_gurultu_w` (yasak, K-227) · RSSI · `phy_hata` · `kanal_mesgul_mu` · `iletim_sonucu` ve `cerceve_duyuldu` doğrudan (veri sonucu B1'in kaydından) · `kendi_konum` · `kendi_hiz` · `komsular` · kuyruk |
 | B3 | yalnız B1'in ve B2'nin çıktıları (B3 §2) · yapılandırma: geçidin kimliği | gözlem sözleşmesinin hiçbir alanını doğrudan okumaz · `olculen_gurultu_w` (yasak, K-227) · RSSI · konum |
-| B4 | selam: tur ve maliyet (B6 çözer) · tur isteği: gönderen, istenen tur, kalan atlama (B6 çözer) · B1: komşu kümesi ve olayları, komşunun selam aralığı `a` · B2: kendi durumum · B3: bağın durumu ve maliyeti · `saat_s` (yalnız süreler) · yapılandırma: geçidin kimliği | gözlem sözleşmesinin öteki alanları · `olculen_gurultu_w` (yasak, K-227) · konum · paket başlığı |
+| B4 | selam: tur ve maliyet (B6 çözer) · tur isteği: gönderen, istenen tur, kalan atlama (B6 çözer) · B1: komşu kümesi ve olayları, komşunun selam aralığı `a` · B2: kendi durumum ve kendi aralıklarım · B3: bağın durumu ve maliyeti · `saat_s` (yalnız süreler) · yapılandırma: geçidin kimliği | gözlem sözleşmesinin öteki alanları · `olculen_gurultu_w` (yasak, K-227) · konum · paket başlığı |
+| B5 | paket başlığından yalnız hedef (geçit mi) · B4: ardıl, aday listesi, açlık durumu · B7: bekletme kararı ve komutun sonraki atlaması (B7'nin kâğıdında) | gözlem sözleşmesinin öteki alanları · `olculen_gurultu_w` (yasak, K-227) · RSSI · kuyruk · konum · başlığın öteki alanları (kaynak, `kaynak_sira`, atlama sayısı: döngü tanısı B4'ün, geri iz B7'nin) · B1, B2, B3 doğrudan (B4 üzerinden) |
 
 ## Aşama 3'e açık kalanlar
 
@@ -103,3 +110,8 @@ Her mekanizmanın bayrağı, sınıfı (karıştırmaya karşı ya da genel; K-2
 - **Ortak sözlük:** B3'ün SON ÇARE durumu ile B4'ün aday türlerinin adları karışmamalı (B4 adaylarını O ve S sınıfı diye anar).
 - **B4'ün B6'dan beklentileri** (B4 §6, Ö-1…Ö-4): selamda tur ve maliyet, "hemen gönder", tur isteği iletisi, aralık alanının ilanın ömrü için de kullanılması.
 - **İki meşgul payı eşiği:** `ED_ESIK` (0,55) ve `CBAR_ED_ESIK` (0,62). Birleştirmek ölçülen kuralı değiştirir; Aşama 4'te bakılır.
+- **İskeletin B5 satırı** (`18` §1.4): A seçildi (27 Kasım). B5 paket başına kayıt tutmaz ve karıştırma eki yoktur; tablo bütünlük denetiminde düzeltilir.
+- **B5'in B7'den beklentileri** (B5 §6): açlıkta bekletme kararı; komutun sonraki atlaması (geri iz).
+- **B5 ile B7'nin sırası:** iskelet B5'in B7'ye danışmasını öngörüyor (`18` §1.4 olay sırası 4; B7'nin satırı "B5'e bekletme kararı"). Sözleşme 1'e (yalnız aşağıdakini okur) göre B7'nin bu cevabı B5'ten önce hesaplanır, yani B7 bu iş için B5'in altında sayılır. B7'nin kâğıdında ve bütünlük denetiminde yazılır.
+- **B4'ün B6'dan yeni beklentisi** (B4 Ö-5): kural 4 ve 4a'nın anları için uyandırma.
+- **Mekanizma kapısının payı:** B5 teşhisinde J1'in (karıştırma katmanının kurtarabileceği kayıp, 0,0485) yalnız 0,016'sı katmana ait; kalanını çekirdeğin "veri yok" ve ilanın ömrü kuralları da görüyor (`arsiv/teshis/faz5_3_b5_iletim_kaybi_2026-11-26/ek_hesap.txt` E7). Bütünlük denetiminde kapının beklenen payı yeniden kestirilir.

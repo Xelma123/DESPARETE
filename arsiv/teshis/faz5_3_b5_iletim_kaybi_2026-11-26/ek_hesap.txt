@@ -58,3 +58,24 @@
   birincil  kanıt yok          karar  246918 · ardıla giden çerçevenin onayı %97.39 · ardılın bağı iyi bantta %99.37 · ardıldan başka aday yok %25.76
   birincil  yalnız ilan bayat  karar    6879 · ardıla giden çerçevenin onayı %90.22 · ardılın bağı iyi bantta %93.55 · ardıldan başka aday yok %32.87
   birincil  öteki kanıtlar     karar    2510 · ardıla giden çerçevenin onayı %83.39 · ardılın bağı iyi bantta %90.40 · ardıldan başka aday yok %17.01
+
+== E10 · J3 ve J4, alıcının alanına ve ardılın kanıtına göre (birincil; ham, açık doğana oranla) ==
+  J3
+    E · kanıt var, bildirim de   0.0119
+    E · kanıt var, bildirimsiz   0.0012
+    E · kanıt yok                0.0030
+    E · toplam                   0.0161
+    G · kanıt var, bildirim de   0.0337
+    G · kanıt var, bildirimsiz   0.0112
+    G · kanıt yok                0.0207
+    G · toplam                   0.0655
+  J4
+    E · kanıt var, bildirim de   0.0096
+    E · kanıt var, bildirimsiz   0.0009
+    E · kanıt yok                0.0007
+    E · toplam                   0.0112
+    G · kanıt var, bildirim de   0.0182
+    G · kanıt var, bildirimsiz   0.0086
+    G · kanıt yok                0.0149
+    G · toplam                   0.0417
+  (bildirim anında biçimdedir: kanal kilidindeki alıcı gerçekte selam gönderemez)
