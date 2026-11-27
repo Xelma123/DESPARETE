@@ -9,8 +9,8 @@
 | aşama | durum |
 |---|---|
 | 1 · Zemin | tamam (24 Kasım): 1.1 hedef ve başarı ölçütü, 1.2 kısıtlar, 1.3 kanıt envanteri, 1.4 mimari iskelet |
-| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu tamam (26 Kasım: teşhis ölçümüyle seçenek 2'nin dayanağı tutmadı, yeniden kararım A: bağın maliyeti selamdan, eşikle düşürme yok, veri yalnız güvenlik ağı; karıştırılan bağ son çare; kâğıt onaylandı); 2.4 B4 yol tamam (26 Kasım: uygulanabilirlik koşulu, Babel ailesi; olağan bağlar son çaredekilerden önce; kâğıt onaylandı); 2.5 B5 iletim kararı tamam (27 Kasım: teşhisten sonra kararım A, tek yol; kâğıt onaylandı; B4'e Babel'in iki kuralı eklendi, onaylandı); 2.6 B6 kontrol iletileri tamam (27 Kasım: kararım Z1, uyarlanır aralık; kâğıt onaylandı; B4 kural 15'in olay listesi düzeltildi); 2.7 B7 bekletme ve komut sırada |
-| 3 · Bütünlük ve donma | bekliyor |
+| 2 · Bileşen bileşen tasarım | tamam (27 Kasım): 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu tamam (26 Kasım: teşhis ölçümüyle seçenek 2'nin dayanağı tutmadı, yeniden kararım A: bağın maliyeti selamdan, eşikle düşürme yok, veri yalnız güvenlik ağı; karıştırılan bağ son çare; kâğıt onaylandı); 2.4 B4 yol tamam (26 Kasım: uygulanabilirlik koşulu, Babel ailesi; olağan bağlar son çaredekilerden önce; kâğıt onaylandı); 2.5 B5 iletim kararı tamam (27 Kasım: teşhisten sonra kararım A, tek yol; kâğıt onaylandı; B4'e Babel'in iki kuralı eklendi, onaylandı); 2.6 B6 kontrol iletileri tamam (27 Kasım: kararım Z1, uyarlanır aralık; kâğıt onaylandı; B4 kural 15'in olay listesi düzeltildi); 2.7 B7 bekletme ve komut tamam (27 Kasım: kararım H1, kısa bekletme, ve geri iz; kâğıt onaylandı) |
+| 3 · Bütünlük ve donma | sırada |
 | 4 · Kod ve ölçüm | bekliyor |
 
 ## Yöntem
@@ -681,6 +681,56 @@ Simülatörün çerçevesi (`13` §03, kod):
 - Bedeli ölçülü: protokolün kendi iletileri kanal süresinin %2,6'sı (Babel-a %11).
 
 Seçilmeyenler: Z2, kazancının üst sınırı küçük (kanal kilidindeki alıcının kaybı J3 ve J4'te 0,027) ve B2'nin eşiklerini sınanmamış bırakırdı; Z3, bitin hızlanması J1'e en çok 0,004 katar; Z4, ilanın ömrü açık dönem kadar uzar.
+
+### 2.7 · B7 · Bekletme ve komut (27 Kasım, kararım)
+
+Kâğıt: `bilesen/B7-BEKLETME-KOMUT.md` (onaylandı, 27 Kasım). Kâğıttaki yapı kararları: bekletme yalnız ardıl yokken, atlama başına en çok 1 s; yol gelince tampon hemen, paket varken 0,5 s'de bir yeniden sorulur; düşen paketin sebebi daha önce yol ya da iz varsa `rota_gecersiz`, yoksa `hedef_yok`; geri iz yalnız daha yeni paket sırasıyla güncellenir, 3 s tazedir; izin gösterdiği komşu son çaredeyse komut yine ona gider, kullanılmazsa beklenir; B7'nin cevabı B5'ten önce hesaplanır.
+
+**Sorun.** B7 iki soruyu cevaplar (§1.4):
+- **Bekletme:** yol yokken (B4 açlıkta, ardıl yok) paket ne kadar tutulur; tutulan paket ne zaman yeniden sorulur, ne zaman düşer?
+- **Komutun yolu:** geçitten bir İHA'ya giden komut hangi komşuya verilir?
+
+B5'in beklentileri (`bilesen/B5-ILETIM-KARARI.md` §6): açlıkta telemetri için bekletme ya da düşürme kararı (Ö-1); komutun sonraki atlaması (Ö-2); bekletilen paket için uyandırma (Ö-3); B7'nin cevabının B5'ten önce hesaplanması (Ö-4).
+
+Simülatörün çerçevesi (kod, `sim2/kosum/dugum.py`, `sim2/kosum/kontrol.py`):
+- `Karar(beklet)` paketi bekletme tamponuna alır. Düğüm başına en çok 64 paket ve paket başına en çok 30 s; ikisi de simülatörün her protokole aynı tavanı. Dolunca en eski düşer (`tampon_asimi`).
+- Tampon yalnız protokol bir uyandırma döndürünce yeniden sorulur (K-135). Bekleyenlerin hepsi arayüz kuyruğunun sonuna geçer ve havaya çıkarken yeniden sorulur.
+- Paketin yaşı protokole görünmez: doğum anı başlıkta yok, saatler senkron değil (`05` §3.2). Başlığa değer yazılamaz (K-232).
+- Geçit, komutun hedefine giden yolu bilmez. Başlığa yalnız kaynak rotası yazılabilir; aradaki düğümler telemetrinin geçtiği yolu başlığa ekleyemez.
+
+**Kanıt** (ölçüldü; bugünkü kodun `eğim0` kolu: atlama başına en çok 1 s bekletme, 0,5 s'de bir yeniden sorma, geri izli komut; ikiz ve birincil, 8 tohum; `arsiv/teshis/faz5_3_b7_bekletme_2026-11-27/bekletme_komut.txt`, B5 teşhisinin ve teşhis (c)'nin kayıtlarından, yeni koşu yok):
+- **Açlık:** ikizde koşu başına 18 bölüm, ortalama 1,1 s. Birincilde 103 bölüm, toplam 256 s, ortalama 2,1 s (tohum başına 0,6–4,1 s).
+- **Bekletme:** birincilde koşu başına 525 paket bekletiliyor; %38'i yol bulununca gidiyor, %62'si 1 s dolunca düşüyor. İkizde 157 paket, %42 ve %58.
+- **Rota yokluğu kaybı:** birincilde açık doğumlularda %3,7, sessiz doğumlularda %4,2, önce evresinde %0,3; ikizde %0,2. Babel'de ~%0,01: Babel bekletmiyor, açlığı tur isteğiyle hemen çözüyor (§2.4).
+- **Gecikme:** birincilde bekledikten sonra giden paketler teslimin %2,1'i (0,8–5,3). Bu yüzden gecikmenin p99'u bekletmenin süresine bağlı: 1,08 s (0,18–3,25). Babel'inki 1,31 s; koruma ölçütü p99'un Babel'inkinden büyük olmaması (§1.1). İkizde bu pay %0,65, p99 0,18 s (Babel 0,23). Açık doğumluların %0,47'si 5 s'den geç teslim ediliyor.
+- **Bekletmenin süresi:** 1 s ↔ 2 s ikizde ayırt edilemedi (−0,003, 8 tohumun 3'ünde artı; `arsiv/teshis/faz5_3_yeni_cekirdek_2026-11-19/sonuc.md` §5). Birincilde ölçülmedi.
+- **Komut:** birincilde koşu başına açıkta ~88 komut doğuyor (paketlerin ~%2,4'ü). Bunların %22'si iletimde kayboluyor; telemetride bu pay %30. Geri izin hazır olma payı önceki sürümde (v0.4.1) ölçüldü: komut kararlarının ikizde %95,7'sinde, birincilde %92,9'unda taze iz vardı (`17` §6).
+- **Yeni tasarımda açlığın sıklığı değişir:** B3 eşikle düşürmeyi kaldırdı (açlığın kökü, §2.3). B4'e süre dolmadan istek (kural 4a) ve tercih edilir ilanda istek (kural 10a) eklendi. Bugünkü kodun açlığı bu kurallar olmadan ölçüldü.
+
+**Seçenekler · bekletme** (ana seçenek; karar değil):
+
+| | ne | artı | eksi ve bedel |
+|---|---|---|---|
+| H1 · kısa bekletme (bugünkü) | yol yokken paket atlama başına en çok 1 s tutulur; yol gelince hemen, yoksa 0,5 s'de bir yeniden sorulur | ölçülmüş; p99 1,08 s, Babel'in altında; telemetride en taze paket değerlidir (`17` T-18) | birincilde bekletilenlerin %62'si düşüyor (açlık ortalama 2,1 s) |
+| H2 · uzun bekletme (ör. 3 s) | sınır 3 s | açlığın ortalamasını kapsar; rota yokluğu kaybının (açıkta %3,7) bir kısmını kurtarır | bekledikten sonra gidenler teslimin %2'sinden fazlası olacağı için p99 ~2 s'ye çıkar (kestirim): koruma ölçütü (≤ 1,31 s) bozulur; birkaç röle sırayla tutarsa 5 s'lik tavan aşılır |
+| H3 · bekletmesiz (Babel gibi) | yol yoksa paket hemen düşer | en basit; bekleme kuyruğu yok | bugün bekledikten sonra teslim edilenler (birincilde teslimin %2'si, ikizde %0,65) kaybolur |
+| H4 · paket başına toplam bütçe | paketin birikmiş beklemesi başlıkta taşınır | uçtan uca gecikme sınırlı kalır | başlığa değer yazılamaz (K-232); elenir |
+
+**Komutun yolu** (tek gerçekçi seçenek): **K1 · geri iz** (bugünkü; `17` T-20, v0.4.1'in V11'i). Her röle, bir düğümün telemetrisini hangi komşudan aldığını hatırlar; o düğüme giden komut o komşuya verilir. Ek ileti gerekmez. İz yalnız daha yeni bir paket sırasıyla güncellendiği için komut döngüye giremez (KK-05 kural 6). Seçilmeyenler:
+- kaynak rotası: geçit yolu bilemez (yukarıda);
+- her İHA'ya ayrı rota ilanı (Babel gibi her düğüm hedef): selamdaki ilan hedef başına 4 bayt büyür, 40 hedefle selam ~2,5 kat uzar (kestirim); her düğüme rota taşıyan Babel-a'nın kendi iletileri kanal süresinin %11'i;
+- sel: her komut bütün ağa yayılır.
+
+**Kâğıda kalan teknik sorular** (ana seçenekten sonra, gerekçesiyle): yeniden sormanın zamanı (yol gelince hemen; tamponda paket varken aralıkla); iz kaydının tazeliği (bugün 3 s) ve izin gösterdiği komşunun B3 durumu (son çaredeyse gönderilip gönderilmeyeceği); düşürmenin sebebi (`rota_gecersiz` ya da `hedef_yok`); komutun bekletilmesi; kayıtların bellek sınırı.
+
+**Teşhis gerekir mi:** H1 ölçülmüş koşuldur. H2'nin kazancı açlık bölümlerinin süre dağılımına bağlı; kayıtta yalnız ortalaması var. Ama H2'nin bedeli (p99) bugünkü kanıtla açık. Kararın girdisi eksik değil; teşhis önermiyorum.
+
+**Kararım (27 Kasım): H1, kısa bekletme; komut için K1, geri iz.** Yol yokken paket atlama başına en çok 1 s tutulur; komut, hedefinin telemetrisini getiren komşuya verilir.
+- Gecikme koruma ölçütünü koruyan ve ölçülmüş tek seçenek: bekledikten sonra teslim edilenler birincilde teslimin %2'si olduğu için p99'u bekletmenin süresi belirliyor; bugün 1,08 s, Babel'in 1,31 s'sinin altında.
+- Telemetride en taze paket değerlidir; uzun bekletme sahada da değerini yitirmiş paketi taşır.
+- Rota yokluğu kaybının asıl çaresi açlığı azaltmaktır: B3 eşikle düşürmeyi kaldırdı, B4'e kural 4a ve 10a eklendi. Etkileri Aşama 4'te ölçülür.
+
+Seçilmeyenler: H2, p99'u ~2 s'ye çıkarıp koruma ölçütünü bozardı (kestirim); H3, bugün bekledikten sonra teslim edilenleri (birincilde teslimin %2'si) kaybettirirdi; H4, başlığa değer yazılamadığı için elendi. Komutun yolunda kaynak rotası, her İHA'ya ayrı rota ilanı ve sel seçilmedi (yukarıda).
 
 ## Eksiksizlik listesi
 
