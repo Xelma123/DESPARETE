@@ -1,6 +1,6 @@
 # B4 · Yol
 
-> Yeni tasarımın (`../18-YENI-TASARIM.md`) dördüncü bileşeni. İskelet `18` §1.4; sorun, kanıt, seçenekler ve kararım `18` §2.4 (26 Kasım: uygulanabilirlik koşulu, Babel ailesi). Kurallar Babel'in belirtiminden uyarlandı (RFC 8966 [4], `protokol_kaynaklari/rfc8966_babel.txt`; bölüm numaraları kurallarda). Değerler, bayraklar ve gözlemin kullanımı yalnız `00-DIZIN.md`de; burada adlarıyla anılır. Durum: onaylandı (26 Kasım); 27 Kasım eki onaylandı (B5 teşhisinden sonra: kural 4'te ilanın yaşı kendi aralıklarımda durur, kural 4a ve 10a eklendi, kural 14 ve 16 buna göre; `18` §2.4). Önceki tasarımda karşılıkları `../kural/KK-04` (eğim) ve arşivdeki `../arsiv/kural/KK-04-ROTA-2026-11-18.md` (uygulanabilirlik koşulu).
+> Yeni tasarımın (`../18-YENI-TASARIM.md`) dördüncü bileşeni. İskelet `18` §1.4; sorun, kanıt, seçenekler ve kararım `18` §2.4 (26 Kasım: uygulanabilirlik koşulu, Babel ailesi). Kurallar Babel'in belirtiminden uyarlandı (RFC 8966 [4], `protokol_kaynaklari/rfc8966_babel.txt`; bölüm numaraları kurallarda). Değerler, bayraklar ve gözlemin kullanımı yalnız `00-DIZIN.md`de; burada adlarıyla anılır. Durum: onaylandı (26 Kasım); 27 Kasım eki onaylandı (B5 teşhisinden sonra: kural 4'te ilanın yaşı kendi aralıklarımda durur, kural 4a ve 10a eklendi, kural 14 ve 16 buna göre; `18` §2.4). Kural 15'in olay listesinden tek başına ardıl değişimi çıktı (27 Kasım, B6 ile; onaylandı). Önceki tasarımda karşılıkları `../kural/KK-04` (eğim) ve arşivdeki `../arsiv/kural/KK-04-ROTA-2026-11-18.md` (uygulanabilirlik koşulu).
 >
 > Eksiksizlik listesinin maddeleri (`18`): 1 §1 · 2–4 `18` §2.4 · 5 §2 · 6 §3 · 7 §4 · 8 §5 · 9 §6 · 10 §7 · 11 §8 · 12 §9 · 13 §10 · 14 §11 · 15 §12 · 16 §13 · 17 §14. Döngüsüzlüğün gerekçesi ve ölçülmeyen §15.
 
@@ -165,10 +165,11 @@ Açlık dizisi kendi durumumda bekler (kural 14) ve açlık bitince durur. Yok s
     - **ilan:** (tur, C) (B6 için);
     - **olaylar** (B6 için "hemen gönder"):
       - ∞ ↔ sonlu;
-      - ardılın değişmesi;
       - tur değişimi (istek yanıtı);
       - kural 12'nin yanıtları;
-    - maliyetin önemli değişimi: önemlinin eşiği B6'nın;
+      - maliyetin önemli değişimi; önemlinin eşiği B6'nın (`ILAN_ESIGI`).
+
+      Tek başına ardıl değişimi olay değildir; maliyeti önemli değiştiriyorsa son maddeye girer (RFC 8966 §3.7.2: maliyeti belirgin değiştirmeyen ardıl değişiminde tetiklenen güncelleme SHOULD NOT). 27 Kasım'da B6'yla düzeltildi; 26 Kasım'daki metin ardıl değişimini olay sayıyordu;
     - **tur isteği iletileri:** (alıcı ya da çoklu yayın, istenen tur, kalan atlama) (B6 gönderir);
     - **ardıl değişti** olayı (B5, B7).
 16. **Sıra:** her niyetli kancada B1 → B2 → B3 → B4 → B5. B4'ün kendi sırası:
@@ -190,7 +191,7 @@ Açlık dizisi kendi durumumda bekler (kural 14) ve açlık bitince durur. Yok s
 B4 ileti göndermez; ilanı ve tur isteğini B6 taşır. B6'dan beklediklerim (Aşama 2.6'da kapanır):
 
 - **Ö-1** Her selamda ilan bulunur: tur (16 bit) ve maliyet (16 bit, B3 kural 2'nin birimi; 0xFFFF = ∞). Bedeli selam başına 4 bayt. Bugünkü çekirdekte yalnız maliyet var, yani 2 bayt eklenir.
-- **Ö-2** "Hemen gönder" olayında selam en kısa sürede gider (B1 Ö-4'ün en kısa aralığıyla). Geri çekme (∞) ve ardıl değişimi olaylardır (RFC 8966 §3.7.2).
+- **Ö-2** "Hemen gönder" olayında selam en kısa sürede gider (B1 Ö-4'ün en kısa aralığıyla). Geri çekme (∞) olaydır (RFC 8966 §3.7.2: SHOULD). Ardıl değişimi ancak maliyeti önemli değiştiriyorsa olaydır (§3.7.2: aksi hâlde SHOULD NOT; kural 15, B6 kural 7; 27 Kasım'da düzeltildi).
 - **Ö-3** Tur isteği iletisi: istenen tur (16 bit) ve kalan atlama (8 bit, başlangıcı `ISTEK_ATLAMA`). Açlıkta çoklu yayın; yok saymada, iletmede ve kural 10a'da tek alıcılı (7 deneme). Boyu ⌈24/8⌉ + 64 = 67 bayt. Kural 4a'nın rota isteği aynı iletidir: tek alıcılı, kalan atlama 1, istenen tur ardılın ilanının turu. Ayrı bir ileti türü gerekmez.
 - **Ö-4** Selamın aralık alanı (B1 Ö-2) ilanın ömrü için de kullanılır (kural 4). Aralık değişirse ömür ona göre değişir.
 - **Ö-5** (27 Kasım) Kural 4'ün ve 4a'nın anları B4'ün son tarihidir: ardılın ilanının (`ILAN_OMUR_KAT` − `SURE_ISTEK_PAYI`) · a yaşına ve `ILAN_OMUR_KAT` · a yaşına ulaşacağı anlar. Bunlar için uyandırma kurulup kurulmayacağı B6'nın kararıdır (B1 Ö-6 gibi). Kurulmazsa istek en geç bir sonraki niyetli kancada gider; saniyelik zamanlayıcı bunu en çok 1 s geciktirir. En kısa selam aralığında (0,5 s) bu, isteğin geç kalması demektir.
@@ -341,7 +342,7 @@ Maliyetler ETX cinsinden (tamsayısı × 64). i'nin FD'si (tur 7, 2,0).
    - bastırma;
    - kayıt ve yanıtın geri yayılması.
 10. **İlan:** turu ardılınki, geçitte kendininki; ∞'da FD'nin turu.
-11. **Olaylar:** ∞ ↔ sonlu, ardıl değişimi, tur değişimi.
+11. **Olaylar:** ∞ ↔ sonlu, tur değişimi, maliyetin önemli değişimi; tek başına ardıl değişimi olay değil.
 12. **Döngüsüzlük (uçtan uca):** küçük test dünyasında rastgele maliyet değişimleri ve kopmalarla döngü tanısı (kural 17) 0.
 13. Örnek senaryonun (§12) sayıları uçtan uca.
 14. **İlanın yaşı** (kural 4): kendi aralığıma düşen süre sayılmaz; sürmekteki aralık; geriye dönük açılan aralık; `HARIC_UST_S` kesmesi; katman kapalıyken yaş kesintisiz.

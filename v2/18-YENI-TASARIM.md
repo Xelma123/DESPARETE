@@ -9,7 +9,7 @@
 | aşama | durum |
 |---|---|
 | 1 · Zemin | tamam (24 Kasım): 1.1 hedef ve başarı ölçütü, 1.2 kısıtlar, 1.3 kanıt envanteri, 1.4 mimari iskelet |
-| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu tamam (26 Kasım: teşhis ölçümüyle seçenek 2'nin dayanağı tutmadı, yeniden kararım A: bağın maliyeti selamdan, eşikle düşürme yok, veri yalnız güvenlik ağı; karıştırılan bağ son çare; kâğıt onaylandı); 2.4 B4 yol tamam (26 Kasım: uygulanabilirlik koşulu, Babel ailesi; olağan bağlar son çaredekilerden önce; kâğıt onaylandı); 2.5 B5 iletim kararı tamam (27 Kasım: teşhisten sonra kararım A, tek yol; kâğıt onaylandı; B4'e Babel'in iki kuralı eklendi, onaylandı); 2.6 B6 kontrol iletileri sırada |
+| 2 · Bileşen bileşen tasarım | sürüyor: 2.1 B1 komşu ve bağın ölçüsü tamam (24 Kasım); 2.2 B2 karıştırma kanıtı tamam (25 Kasım: alıcı ve gönderici birlikte; kurallar teşhis ölçümüyle seçildi, kanal kilidi kuralı sonuçtan sonra karara bağlandı; kâğıt onaylandı); 2.3 B3 bağın durumu tamam (26 Kasım: teşhis ölçümüyle seçenek 2'nin dayanağı tutmadı, yeniden kararım A: bağın maliyeti selamdan, eşikle düşürme yok, veri yalnız güvenlik ağı; karıştırılan bağ son çare; kâğıt onaylandı); 2.4 B4 yol tamam (26 Kasım: uygulanabilirlik koşulu, Babel ailesi; olağan bağlar son çaredekilerden önce; kâğıt onaylandı); 2.5 B5 iletim kararı tamam (27 Kasım: teşhisten sonra kararım A, tek yol; kâğıt onaylandı; B4'e Babel'in iki kuralı eklendi, onaylandı); 2.6 B6 kontrol iletileri tamam (27 Kasım: kararım Z1, uyarlanır aralık; kâğıt onaylandı; B4 kural 15'in olay listesi düzeltildi); 2.7 B7 bekletme ve komut sırada |
 | 3 · Bütünlük ve donma | bekliyor |
 | 4 · Kod ve ölçüm | bekliyor |
 
@@ -629,6 +629,58 @@ Seçilmeyenler:
 
   D ölçülmüş üst sınırıyla kayıtlıdır. Aşama 4'te hedef tutmazsa ilk düşünülecek kaldıraç odur; kapıya etkisi o zaman yeniden hesaplanır.
 - **Son çaredeki ardıl için bekletme** (alt soru): alınmadı. J4'ün (karıştırılan ardıldan başka aday yok) 0,053'ünün yalnız 0,011'i kanal kilidindeki alıcıda, 0,042'si girişimde (`ek_hesap.txt` E10); girişimdeki ardıla gönderim çoğu zaman işe yarıyor. Açlıkta bekletme B7'nindir.
+
+### 2.6 · B6 · Kontrol iletileri (27 Kasım, kararım)
+
+Kâğıt: `bilesen/B6-KONTROL-ILETILERI.md` (onaylandı, 27 Kasım). Kâğıttaki yapı kararları: iki ileti (selam ve tur isteği), alanları B1–B4'ün beklentilerinden; komşu listesi her selamda tam; selamı öne çeken olaylar B4'ün geri çekmesi, tur değişimi, istek yanıtı ve maliyetin önemli değişimi (%15), B2'nin bit değişimi, B1'in yeni komşusu ve kendi kanal kilidimin bitişi; tek başına ardıl değişimi olay değil (RFC 8966 §3.7.2; B4 kural 15 buna göre düzeltildi); en kısa ara 0,5 s; çoklu yayın titreşimli; kendi kanal kilidimde selam kurulmaz (karıştırma eki); B4 kural 4a'nın anı için uyandırma.
+
+**Sorun.** B6 kontrol iletilerinin biçimini ve gönderimini tek yerde toplar (§1.4 sözleşme 6): hangi ileti, ne zaman, kime. Öteki bileşenler B6'ya yalnız taşınacak değerleri ve "hemen gönder" olaylarını verir. Kâğıtların B6'dan beklentileri:
+- **B1** Ö-1…Ö-7: sıra numarası; bir sonraki selama kadarki üst sınırı taşıyan aralık alanı; komşu listesi (adres, oran); iki selam arası en az 0,5 s; sırası tüketilen selamın gönderilmesi; B1'in son tarihi için uyandırma; yeni komşu olayının karşılığı.
+- **B2** Ö-1…Ö-5: 1 bitlik karıştırma alanı; "bit değişti"de hemen selam; durum sürerken aralığın kısaltılması (B6'nın kararı); kanal kilidinde kurulup bekleyen selamın bayat biti; bayrak kapalıyken alanın kalması.
+- **B3** §6: bildirilecek oran listesi (B3 kural 10).
+- **B4** Ö-1…Ö-5: her selamda ilan (tur ve maliyet, 16'şar bit); "hemen gönder" olayları; tur isteği iletisi (istenen tur 16 bit, kalan atlama 8 bit); aralık alanının ilanın ömrü için de kullanılması; kural 4 ve 4a'nın anları için uyandırma.
+
+İletilerin içeriği bu beklentilerle büyük ölçüde belli. Selamın ilanı ve oran listesini taşıması B1'de ve B4'te yazılı; ayrı bir ilan iletisi önceki tasarımda da yoktu (`17` T-16: her çerçevenin 64 baytlık ek yükü ve kanal erişimi bir kez ödenir). Açık kalan asıl soru **selamın zamanlamasıdır**: selam ne sıklıkla gider, onu ne öne çeker. Öteki bileşenlerin değerleri bugünkü zamanlamaya göre yazıldı: ilanın ömrü 3,5 · a, B2'nin selam kaybı penceresi 4 s, B1'in saklaması (128 örnek) ve boşluk sınırı (64 selam), düzgünleştirmenin zaman sabiti 6 s, istek aralığı 0,5 s (`bilesen/00-DIZIN.md`).
+
+Simülatörün çerçevesi (`13` §03, kod):
+- kontrol iletisi veriyle aynı kanalı, MAC'i ve kayıp fiziğini paylaşır; kuyrukta önceliklidir;
+- yayın onaysız ve tekrarsızdır; tek alıcılı ileti 7 kez denenir;
+- ileti boyu ⌈Σ bit / 8⌉ + 64 bayttır. Selam temel hızda (1 Mb/s) gider: komşu listesi boşken 73 bayt ve 0,78 ms, 15 komşuyla 103 bayt ve 1,02 ms, 39 komşuyla 151 bayt ve 1,40 ms;
+- uyandırma düğüm başına en çok 256; titreşimi protokol ister.
+
+**Kanıt** (ölçüldü; bugünkü kodun `eğim0` kolu, ikiz ve birincil, 8 tohum; `arsiv/teshis/faz5_3_b6_kontrol_bedeli_2026-11-27/kontrol_bedeli.txt`, B5 teşhisinin ve teşhis (c)'nin kayıtlarından, yeni koşu yok):
+- **Bugünkü selam** (`kural/KK-02`): aralık Trickle mantığıyla uyarlanır. I 0,5 s'den başlar, olaysız her selamdan sonra iki katına çıkar (en çok 2 s); bir değişim olayında 0,5 s'ye iner. İlan edilen aralık 1,1 · I, en çok 2,2 s.
+- **Sıklık:** koşu başına 8 635 selam (ikiz) ve 9 384 (birincil), düğüm başına saniyede 0,62 ve 0,67. Bunların %15'i ve %19'u ara ilan. Yeni komşu olayı koşu başına ~1 080.
+- **Bedel:** "kontrol payı" (kontrol kanal süresinin toplam gönderim süresine oranı) %6,0 ve %5,9. Bunun yalnız %2,6'sı ve %2,7'si protokolün kendi iletileri (selam ve tur istekleri, ileti başına ~100 bayt). Geri kalanı veri çerçevelerinin MAC onaylarıdır: simülatör onayı da kontrol çerçevesi sayıyor (`sim2/kosum/teslim.py`). Aynı ayrımla Babel-a'nın kendi iletileri %11,0 ve %11,6, onaylar dâhil %14,7 ve %15,1. Koruma ölçütü (§1.1) onaylı tanımla yazıldı; tanım değişmiyor.
+- **Kanalın duyarlılığı:** kanaldaki toplam gönderim 100 s artınca alıcıların çerçeveye kilitlenmesi ~2 puan düşüyor (`arsiv/teshis/faz5_2_secenek_iletim_2026-11-15/sonuc.md` §5). Koşu başına ~9 s'lik selam süresi bu ölçekte küçük.
+- **Selam kaybı:** temiz kanalda da yüksek: ikizde selam kaybı payının ortalaması 0,46 (B2 §11 madde 6). Ardılın ilanı kararların %2,1'inde 3,5 · a'dan eski (B5 teşhisi E9); B4 kural 4a bunun karşılığı.
+- **Bit:** girişimdeki düğümün selamı uzak bir komşuya 0,35 olasılıkla ulaşıyor (B2 teşhisi K6). Bitin anında bilinmesi (ideal) ile bugünkü selamlarla gelmesi arasındaki fark, katmanın kurtarabileceği kayıpta (J1) yalnız 0,004 (0,0485 ↔ 0,0447; B5 teşhisi K1).
+- **Babel** (RFC 8966 [4] Ek B, §3.7.2): selam 4 s; ters yön bildirimi üç selamda bir, kayıplı bağda her selamda; güncelleme 16 s; rotanın ömrü 3,5 × 16 s. Kopuş 1,5–3,5 selam aralığında fark edilir. Tetiklenen güncelleme geri çekmede SHOULD; maliyeti belirgin değiştirmeyen ardıl değişiminde SHOULD NOT.
+- **Ölçülmüş kanıtın koşulu:** B2'nin eşikleri (`s` ve `c` bu selam trafiğiyle ölçüldü), B3 ve B5 teşhisleri hep bu zamanlamadadır.
+
+**Seçenekler · selamın zamanlaması** (ana seçenek; karar değil):
+
+| | ne | artı | eksi ve bedel |
+|---|---|---|---|
+| Z1 · uyarlanır aralık (bugünkü) | I 0,5 s'den 2 s'ye ikiye katlanır; değişim olayında 0,5 s'ye iner | ölçülmüş bütün kanıtın ve B2'nin eşiklerinin koşulu; bedeli ölçülü (%2,6); değişim en geç 0,5 s'de duyurulur; Trickle [62] ve Babel'in aralık alanı | sakin ağda aralık 2,2 s: ilanın ömrü 7,7 s; susan komşu ve bağın değişimi buna göre geç görülür (`d_r`'nin 16 örneği ~35 s) |
+| Z2 · sabit kısa aralık (ör. 1 s) | her selam 1 s'de; olay yine öne çeker | öngörülebilir; ilanın ömrü ~3,9 s; `s` ve `d_r` daha çok örnekle; susan komşu iki kat çabuk fark edilir | selam ~%75 artar, protokolün payı %2,6'dan ~%4,5'e (kestirim); B2'nin eşikleri ve teşhislerin kanıtı bu trafikte ölçülmedi, Aşama 4'e kadar sınanmamış kalır; susan ardıla karşı kazancın üst sınırı küçük (kanal kilidindeki alıcının kaybı J3'te 0,016, J4'te 0,011; B5 teşhisi E10) |
+| Z3 · Z1 + karıştırmaya duyarlı aralık | kendi bitim 1 iken aralık 0,5 s'de kalır (B2 Ö-3) | bit komşulara daha çabuk ulaşır; karıştırma katmanının parçası olur, kapıya girer | bitin hızlanmasının J1'e katkısı en çok 0,004 (yukarıda); girişimdeki ~7 düğüm açık dönemde selamı 4 kat sık gönderir |
+| Z4 · Babel'in aralığı (4 s) | sabit 4 s | en az yük | ilanın ömrü ~15 s, açık dönem 15 s: karıştırmaya tepki çok geç |
+
+**Kâğıda kalan teknik sorular** (ana seçenekten sonra, gerekçesiyle):
+- iletilerin biçimi ve boyu: selam (sıra, aralık, tur, maliyet, bit, komşu listesi) ve tur isteği;
+- "hemen gönder" olayları ve sıklık sınırı; maliyetin "önemli" değişiminin eşiği (önceki tasarımda %15). B4 Ö-2 ardıl değişimini olay sayıyor. RFC 8966 §3.7.2 maliyeti belirgin değiştirmeyen ardıl değişiminde tetik istemiyor (SHOULD NOT); önceki tasarım da almamıştı (`17` T-17: v0.4.1'de koşu başına 24 122 tetik ilanı);
+- kendi kanal kilidimde selam: önceki tasarım kurmuyordu (KK-02 kural 5; B1 Ö-5, B2 Ö-4);
+- uyandırmalar (B1 Ö-6, B4 Ö-5); titreşim; komşu listesinin her selamda tam olup olmayacağı (Babel ters yön bildirimini kayıpsız bağda üç selamda bir gönderir).
+
+**Teşhis gerekir mi:** Z1 ölçülmüş koşuldur. Z2'nin ve Z3'ün kazancı ancak A/B ile ölçülür; tasarımda A/B yok. Var olan kanıt kazançlarının üst sınırını veriyor: bitin hızlanması J1'de en çok 0,004; kanal kilidindeki alıcının kaybı J3 ve J4'te birlikte 0,027. Kararın girdisi eksik değil; teşhis önermiyorum.
+
+**Kararım (27 Kasım): Z1, uyarlanır aralık.** Selam aralığı I 0,5 s'den 2 s'ye ikiye katlanır, değişim olayında 0,5 s'ye iner; ilan edilen aralık 1,1 · I.
+- Ölçülmüş bütün kanıtın koşulu: B2'nin eşikleri, B3 ve B5 teşhisleri bu zamanlamada ölçüldü; öteki bileşenlerin değerleri buna göre yazıldı.
+- Hızlı tepkiyi olaylar verir: geri çekme, tur değişimi, maliyetin önemli değişimi, bit değişimi ve yeni komşu selamı 0,5 s içinde öne çeker.
+- Bedeli ölçülü: protokolün kendi iletileri kanal süresinin %2,6'sı (Babel-a %11).
+
+Seçilmeyenler: Z2, kazancının üst sınırı küçük (kanal kilidindeki alıcının kaybı J3 ve J4'te 0,027) ve B2'nin eşiklerini sınanmamış bırakırdı; Z3, bitin hızlanması J1'e en çok 0,004 katar; Z4, ilanın ömrü açık dönem kadar uzar.
 
 ## Eksiksizlik listesi
 
