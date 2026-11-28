@@ -1,6 +1,6 @@
 # B6 · Kontrol iletileri
 
-> Yeni tasarımın (`../18-YENI-TASARIM.md`) altıncı bileşeni. İskelet `18` §1.4; sorun, kanıt, seçenekler ve kararım `18` §2.6 (27 Kasım: Z1, uyarlanır aralık). Bugünkü selamın bedeli `arsiv/teshis/faz5_3_b6_kontrol_bedeli_2026-11-27/kontrol_bedeli.txt`'te (kayıtlardan hesap, yeni koşu yok). Kurallar Babel'den (RFC 8966 [4], `protokol_kaynaklari/rfc8966_babel.txt`) ve Trickle'dan (RFC 6206 [62], `protokol_kaynaklari/faz5_arastirma_2026-10-21/rfc6206_trickle.txt`) uyarlandı; bölüm numaraları kurallarda. Değerler, bayraklar ve gözlemin kullanımı yalnız `00-DIZIN.md`de; burada adlarıyla anılır. Durum: onaylandı (27 Kasım). Önceki tasarımda karşılığı `../kural/KK-02` (selam ve ara ilan).
+> Yeni tasarımın (`../18-YENI-TASARIM.md`) altıncı bileşeni. İskelet `18` §1.4; sorun, kanıt, seçenekler ve kararım `18` §2.6 (27 Kasım: Z1, uyarlanır aralık). Bugünkü selamın bedeli `arsiv/teshis/faz5_3_b6_kontrol_bedeli_2026-11-27/kontrol_bedeli.txt`'te (kayıtlardan hesap, yeni koşu yok). Kurallar Babel'den (RFC 8966 [4], `protokol_kaynaklari/rfc8966_babel.txt`) ve Trickle'dan (RFC 6206 [62], `protokol_kaynaklari/faz5_arastirma_2026-10-21/rfc6206_trickle.txt`) uyarlandı; bölüm numaraları kurallarda. Değerler, bayraklar ve gözlemin kullanımı yalnız `00-DIZIN.md`de; burada adlarıyla anılır. Durum: onaylandı (27 Kasım); 28 Kasım'da bağımsız denetimden sonra düzeltildi (kural 7; kural 11 kaldırıldı; `../../arsiv/denetim/DENETIM-TASARIM-KAPANIS-2026-11-28.md`). Önceki tasarımda karşılığı `../kural/KK-02` (selam ve ara ilan).
 >
 > Eksiksizlik listesinin maddeleri (`18`): 1 §1 · 2–4 `18` §2.6 · 5 §2 · 6 §3 · 7 §4 · 8 §5 · 9 §6 · 10 §7 · 11 §8 · 12 §9 · 13 §10 · 14 §11 · 15 §12 · 16 §13 · 17 §14. Ölçülen ve ölçülmeyen §15.
 
@@ -13,11 +13,11 @@ B6 kontrol iletilerinin biçimini ve gönderimini tek yerde toplar (`18` §1.4 s
 
 Alınan iletileri çözer ve alanlarını sahiplerine dağıtır (sözleşme 2). Neyin taşınacağına karar vermez: değerler B1–B4'ten gelir, "hemen gönder" olaylarını onlar verir.
 
-**Sınıf:** genel (K-247), çekirdek. Karıştırma eki tek kuraldır: kendi kanal kilidimde selam kurulmaz (kural 11). B2'nin çıktısını okur; karıştırma katmanıyla kapanır (§10).
+**Sınıf:** genel (K-247), çekirdek; karıştırma eki yok. Tek karıştırma kuralı, kendi kanal kilidimde selam kurmamak (kural 11), 28 Kasım'da kaldırıldı (bağımsız denetim Ö-5). B2'den yalnız biti okur (§10).
 
 **Hizmet ettiği hedef** (`18` §1.1):
 - Koruma ölçütlerinden kontrol payı. Protokolün kendi iletileri bugün kanal süresinin %2,6'sı, onaylar dâhil %6; Babel-a'da %11 ve %15. Hedefin sınırı %10.
-- Öteki bileşenlerin tepki hızı: bit değişimi, geri çekme ve tur değişimi 0,5 s içinde duyurulur. İlanın ömrü, zaman aşımı ve B2'nin selam kaybı penceresi selamın aralığına bağlıdır.
+- Öteki bileşenlerin tepki hızı: bit değişimi, geri çekme ve isteğe yanıt (isteği karşılayan tur değişimi dâhil) 0,5 s içinde duyurulur. İlanın ömrü, zaman aşımı ve B2'nin selam kaybı penceresi selamın aralığına bağlıdır.
 
 ## 2 · Gördüğü (`05`; yasak alanlar okunmaz)
 
@@ -25,7 +25,7 @@ Alınan iletileri çözer ve alanlarını sahiplerine dağıtır (sözleşme 2).
 |---|---|---|
 | selam ve tur isteği (`kontrol_alindi`) | alanların hepsi; çözer ve dağıtır (kural 3) | — |
 | B1 | yeni komşu olayı (kural 7) | ölçüler (B3 üzerinden) |
-| B2 | selamın biti ve "bit değişti" olayı; kendi durumum kanal kilidi mi (kural 11) | işaretler, aralıklar, kanıt |
+| B2 | selamın biti ve "bit değişti" olayı | kendi durumum, işaretler, aralıklar, kanıt |
 | B3 | bildirilecek oran listesi (B3 kural 10, B1 kural 17) | maliyetler, durumlar |
 | B4 | ilan (tur, C); "hemen gönder" olayları; tur isteği iletileri; kural 4a'nın anı (B4 Ö-5) | aday listesi, FD |
 | `saat_s` | yalnız süreler | — |
@@ -45,7 +45,6 @@ Düğüm başına:
 | `C_ilan` (son selamda ilan ettiğim maliyet) | yok | her kurulan selamda | — |
 | `tur_ilan` (son selamda ilan ettiğim tur) | yok | her kurulan selamda | — |
 | plan: hedef anı ve nesil numarası | yok · 0 | kural 13 | — |
-| kilit bekleyişi (kanal kilidi bitince selam gidecek mi) | hayır | kural 11 | — |
 | son tarih planı (kural 4a'nın anı) ve nesli | yok | kural 13 | B4'ün anı değişince |
 
 **Bellek:** sabit. Geçerli plan en çok iki (selam ve son tarih). Yeniden planlanan eski nesillerin uyandırmaları iptal edilemediği için dolana kadar bekler (en çok `I_MAX` + titreşim); sayıları birkaçı geçmez, simülatörün düğüm başına sınırı 256.
@@ -56,9 +55,8 @@ Düğüm başına:
 |---|---|---|
 | olağan | planlı selam bekleniyor; I `I_MIN`…`I_MAX` arasında | olay: I ← `I_MIN`, selam öne çekilir (kural 5, 7–8) |
 | olay bekliyor | olay oldu, en kısa ara henüz dolmadı | ara dolunca selam gider (kural 8) |
-| kilitte | B2'nin durumu kanal kilidi | durum değişince selam hemen gider (kural 11) |
 
-Takılı kalma yok: her plan bir uyandırmayla biter; kilitten çıkış B2'nin bir saniyelik işaretine bağlıdır (B2 kural 6).
+Takılı kalma yok: her plan bir uyandırmayla biter. Kanal kilidi ayrı bir durum değildir (kural 11, 28 Kasım).
 
 ## 5 · Kurallar
 
@@ -101,13 +99,13 @@ Takılı kalma yok: her plan bir uyandırmayla biter; kilitten çıkış B2'nin 
    - I yalnız selam kurulurken büyür, arada yalnız küçülür (olay). Böylece alan her zaman bir üst sınırdır (RFC 8966 §3.4.1: aralık her an azaltılabilir, ancak selamdan hemen önce artırılabilir).
    - Alıcının zaman aşımı (B1 kural 5) ve ilanın ömrü (B4 kural 4) bu alana dayanır.
 7. **Olaylar** (selamı öne çekenler; birkaçı birleşebilir):
-   - **B4:** geri çekme ya da dönüş (C ∞ ↔ sonlu); ilan edilen turun değişmesi (istek yanıtı dâhil); B4 kural 12'nin "hemen gönder"i (tur isteğine ve kural 4a'nın rota isteğine yanıt); maliyetin önemli değişimi: |C − `C_ilan`| ≥ `ILAN_ESIGI` · `C_ilan`. Geçitte C hep 0'dır.
+   - **B4:** geri çekme ya da dönüş (C ∞ ↔ sonlu); B4 kural 12'nin "hemen gönder"i (tur isteğine ve kural 4a'nın rota isteğine yanıt, tutulan bir isteği karşılayan tur değişimi, geçidin istekle turunu artırması); maliyetin önemli değişimi: |C − `C_ilan`| ≥ `ILAN_ESIGI` · `C_ilan`. Geçitte C hep 0'dır.
    - **B2:** "bit değişti" (B2 kural 9, Ö-2).
    - **B1:** yeni komşu (B1 kural 18). İki yönlü ölçüm ancak her iki tarafta `ORNEK_EN_AZ` selamla kurulur (B1 Ö-7); en kısa aralıkla ~2 s sürer.
-   - Kendi kanal kilidimin bitişi (kural 11).
 
    **Olay olmayanlar:**
    - **Tek başına ardıl değişimi:** maliyeti önemli değiştiriyorsa maliyet maddesine girer. RFC 8966 §3.7.2 maliyeti belirgin değiştirmeyen ardıl değişiminde tetiklenen güncelleme istemez (SHOULD NOT). v0.4.1'de her ardıl değişiminde giden ilan kanalı dolduruyordu (`17` T-17: koşu başına 24 122 tetik ilanı). B4 kural 15'in olay listesi buna göre düzeltildi (27 Kasım).
+   - **İsteği karşılamayan tur değişimi:** yeni tur bir sonraki planlı selamla yayılır. RFC 8966 §3.7.2 yeni sıra numarasını yaymak için tetiklenen güncelleme istemez (SHOULD NOT, isteği karşılamak dışında); 17 Kasım denetiminin B-10 kararı ve bugünkü kod (KK-02 kural 3) da böyle, ölçülen selam payı (%2,7) bu kuralla ölçüldü. 27 Kasım'daki metin her tur değişimini olay sayıyordu (28 Kasım, bağımsız denetim Ö-1).
    - **Bir komşunun durum değişimi** (S'ye düşmesi, dönmesi): yolumu değiştiriyorsa maliyet maddesine girer (önceki tasarım, KK-02 kural 3). Karıştırma sırasında, kanal zorlanırken selam seli böylece oluşmaz.
 8. **En kısa ara:** iki selam arasında en az `SELAM_ARASI_EN_AZ` geçer (B1 Ö-4). Olay selamı, son selamdan bu kadar süre geçtiyse hemen, geçmediyse süre dolunca gider. Arada olan olaylar o selamda birleşir.
 9. **Titreşim** (RFC 8966 §3.1, SHOULD):
@@ -118,15 +116,14 @@ Takılı kalma yok: her plan bir uyandırmayla biter; kilitten çıkış B2'nin 
    Gerekçe: aynı olayı (ör. geçitteki tur artışı) duyan komşuların selamları eşzamanlanmasın. Babel'in acil iletileri 0,2 s içinde gider (Ek B); burada olay selamının titreşimi en çok 0,05 s (I = `I_MIN`). ETX'in yoklamaları da ±0,1 · τ titreşimlidir [36].
 10. **Selam anında kurulur:** içerik, uyandırmanın titreşimden sonraki anında, o anki bilgiyle kurulur: B2'nin biti, B3'ün oran listesi, B4'ün (tur, C). Titreşim boyunca bayatlamaz (önceki tasarım, G-5). Kuyrukta beklerken içerik kurulduğu gibi kalır.
 
-**C · Kendi karıştırılmam** (karıştırma eki)
+**C · Kendi karıştırılmam**
 
-11. **Kendi kanal kilidimde selam kurulmaz:** B2'nin durumu "kanal kilidi" iken selam uyandırması selam kurmaz, sırayı tüketmez ve yeni plan kurmaz; olaylar da plan kurmaz. Durum değişince (yok ya da girişim) selam hemen gider; bu bir olaydır (kural 7).
-    - Gerekçe: kanal kilidinde geri çekilme bitmez (simülatör). Kurulan selamlar kontrol kuyruğunda birikir, kanal açılınca bayat içerikle art arda giderdi (B2 Ö-4). Sırası tüketilip gönderilmeyen selam alıcıda kayıp sayılır (B1 Ö-5); kurulmayan selam sıra tüketmez. Alıcıda zaman aşımının eklediği sıfırları, selamım dönünce geri alma siler (B1 kural 4).
-    - Kilitten hemen önce kurulup kuyrukta bekleyen en çok bir selam, kilit bitince eski bitiyle gidebilir. Ardından gelen olay selamı onu düzeltir.
-    - Girişimde selam olağan kurallarla gider; bit 1'dir.
-    - Durum sürerken (bit 1) aralık ayrıca kısaltılmaz (B2 Ö-3); `18` §2.6'da Z3 seçilmedi: bitin hızlanması J1'e en çok 0,004 katar.
-    - Karıştırma katmanı kapalıyken B2 hep "yok" der: selam kilitte de kurulur ve kuyrukta bekler.
-12. **Kendi kanal kilidimde tur isteği** de gitmez: B4 kural 14 onu zaten bastırır. B6 ayrıca bir şey yapmaz.
+11. *Kaldırıldı (28 Kasım, bağımsız denetim Ö-5):* kendi kanal kilidimde selam kurmama kuralı. Selam kilitte de olağan kurallarla kurulur. Numara korunur. Gerekçe:
+    - B2'nin "kanal kilidi"si, saniyenin meşgul payının 0,55'i geçmesidir. Bu saniyelerin çoğunda kanal kısmen boştur. B2 teşhisinin kayıtlarında, açık evrede kilit işaretli düğüm-saniyelerin %46'sında (birincil) ve %37'sinde (dayanıklılık) meşgul payı 0,55–0,70'tir; 0,95'i geçenler %34 ve %43. Kısmen boş kanalda düğüm veri göndermeyi sürdürür. Selamı susturmak ilanını komşularında bayatlatır (B4 kural 4) ve alt ağacı onu bırakırdı.
+    - Tam kilitte selam kontrol kuyruğunda bekler (kuyruk 50 ileti; 15 s'lik kilitte ~5–9 selam birikir) ve kanal açılınca sırayla gider. Sırası tüketilip gönderilmeyen selam olmaz (B1 Ö-5); alıcıda zaman aşımının eklediği sıfırları geç gelen ilk selam geri almayla siler (B1 kural 4).
+    - Kuyrukta beklerken içerik kurulduğu gibi kalır (kural 10). Kilitteki bit 1'dir ve doğrudur; ilan kendi karıştırılmamda değişmez (B4 kural 14). Durum değişince "bit değişti" olayı yeni bir selamla içeriği düzeltir (kural 7).
+    - Kendi karıştırılmam sürerken (bit 1) aralık ayrıca kısaltılmaz (B2 Ö-3); `18` §2.6'da Z3 seçilmedi: bitin hızlanması J1'e en çok 0,004 katar.
+12. **Kendi karıştırılmamda tur isteği** gitmez: B4 kural 14 onu bastırır. B6 ayrıca bir şey yapmaz.
 
 **D · Uyandırma ve sıra**
 
@@ -156,13 +153,13 @@ Bu bileşenin iletileri kural 1–2'dedir.
 |---|---|
 | B1 Ö-1 sıra · Ö-2 aralık alanı · Ö-3 komşu listesi | kural 1, 6 |
 | B1 Ö-4 iki selam arası en az 0,5 s | kural 8 (`SELAM_ARASI_EN_AZ`) |
-| B1 Ö-5 sırası tüketilen selam gönderilir | kural 11: kilitte selam kurulmaz, sıra tüketilmez |
+| B1 Ö-5 sırası tüketilen selam gönderilir | kural 10–11: kilitte kurulan selam kuyrukta bekler ve kanal açılınca gider (kuyruk 50 ileti); 28 Kasım'a kadar kilitte selam kurulmuyordu |
 | B1 Ö-6 son tarih için uyandırma | kural 13: kurulmaz, bir sonraki niyetli kancada işlenir |
 | B1 Ö-7 yeni komşu | kural 7: olay |
 | B2 Ö-1 bit · Ö-5 bayrak kapalıyken alan | kural 1 |
 | B2 Ö-2 "bit değişti"de hemen selam | kural 7–8 |
-| B2 Ö-3 durum sürerken aralık | kural 11: kısaltılmaz (Z3 seçilmedi) |
-| B2 Ö-4 kilitte bekleyen bayat selam | kural 11 |
+| B2 Ö-3 durum sürerken aralık | kısaltılmaz (Z3 seçilmedi; kural 11'in son maddesi) |
+| B2 Ö-4 kilitte bekleyen bayat selam | kural 10–11: içerik kurulduğu gibi kalır; kilitte bit 1 doğrudur, durum değişince olay selamı düzeltir |
 | B3 §6 oran listesi | kural 1 |
 | B4 Ö-1 her selamda ilan | kural 1 |
 | B4 Ö-2 "hemen gönder" | kural 7–8; tek başına ardıl değişimi olay değil (B4 kural 15 düzeltildi) |
@@ -179,12 +176,12 @@ Bu bileşenin iletileri kural 1–2'dedir.
 - **Soğuk açılış:** ilk selam hemen gider (kural 4). Komşu listesi boştur (73 bayt). İlk komşular yeni komşu olayıyla I'yı `I_MIN`'de tutar; iki yönlü ölçüm ~2 s'de kurulur.
 - **Geçit:** aynı kurallar. Maliyeti hep 0, turu kendi turudur; turu istekle artınca bu bir olaydır (kural 7).
 - **Hiç komşu yok:** selam yine gider; liste boş. **Tek komşu:** özel bir durum yok.
-- **Düğüm kendisi karıştırılırken:** kanal kilidinde selam kurulmaz (kural 11); girişimde olağan, bit 1.
+- **Düğüm kendisi karıştırılırken:** selam olağan kurallarla kurulur, bit 1. Tam kilitte kuyrukta bekler ve kanal açılınca gider (kural 11).
 - **Komşu karıştırılırken:** B6 için özel bir durum yok. Rotam değişirse maliyet olayı, komşunun biti değişirse onun selamı gelir.
 - **Sayaç taşması:** `sira` 16 bit, modüler (65535'ten sonra 0). Aralık alanı 0xFFFF'te doyar (655 s; `I_MAX` 2 s'yle hiç olmaz).
 - **Zaman aşımı:** B6'nın kendi zaman aşımı yok; uyandırmalar kural 13'te.
 - **Aynı anda olaylar:** birleşir (kural 8). Aynı kancada hem selam uyandırması hem olay varsa tek selam gider.
-- **Tamponun dolması:** kontrol kuyruğu simülatörün (kapasite 50, dolunca `kuyruk_tasmasi`, `13` §03.2). Kilitte selam kurulmadığı için kilit kuyruğu selamla doldurmaz. Katman kapalıyken doldurabilir; tanıda sayılır.
+- **Tamponun dolması:** kontrol kuyruğu simülatörün (kapasite 50, dolunca `kuyruk_tasmasi`, `13` §03.2). Tam kilit ~100 s'yi aşarsa (en uzun aralıkta 50 selam) kuyruk taşabilir; taşan selamın sırası alıcıda kayıp sayılır (B1 Ö-5). Birincil ve dayanıklılık hücresinde oluşmaz; tanıda sayılır.
 
 ## 9 · Arayüz
 
@@ -192,8 +189,8 @@ Bu bileşenin iletileri kural 1–2'dedir.
 
 | kanca | B6'ya giden | B6'nın işi |
 |---|---|---|
-| `kontrol_alindi` | ileti, gönderen | çözme ve dağıtım (kural 3, olay sırası 1); sonra kural 7–9, 13 (olay sırası 5) |
-| `uyandi`: selam ya da son tarih | etiket (nesil) | güncel nesilse selamı kurar (kural 5–6, 10–11) ya da o kancada B4'ün kural 4a'sı çalışır |
+| `kontrol_alindi` | ileti, gönderen | çözme ve dağıtım (kural 3, olay sırası 2); sonra kural 7–9, 13 (olay sırası 5) |
+| `uyandi`: selam ya da son tarih | etiket (nesil) | güncel nesilse selamı kurar (kural 5–6, 10) ya da o kancada B4'ün kural 4a'sı çalışır |
 | saniyelik zamanlayıcı, `iletim_basarisiz`, `sonraki_atlama` | — | kural 7–9, 13 (o kancanın olayları) |
 | niyetsiz kancalar | — | — |
 
@@ -203,7 +200,7 @@ Bu bileşenin iletileri kural 1–2'dedir.
 
 | çıktı | kural | okuyan |
 |---|---|---|
-| selam (`KontrolIstegi`, çoklu yayın, titreşimli) | 1, 4–11 | simülatör |
+| selam (`KontrolIstegi`, çoklu yayın, titreşimli) | 1, 4–10 | simülatör |
 | tur isteği (`KontrolIstegi`, B4'ün alıcısıyla) | 2, 9 | simülatör |
 | uyandırmalar (`Uyandirma`, nesil numaralı) | 13 | simülatör |
 | çözülen alanlar | 3 | B1, B2, B4 |
@@ -212,7 +209,7 @@ Bu bileşenin iletileri kural 1–2'dedir.
 
 B6'nın bütünü çekirdektir: selam olmadan komşu, bağ ve yol bilinemez. Alt mekanizmalar:
 - **`uyarlanir_aralik` kapalı** (genel): I sabit `I_MAX`; olaylar selamı yine öne çeker, I'yı değiştirmez.
-- **Karıştırma katmanı kapalı** (`karistirma_katmani`): kural 11 çalışmaz, selam kilitte de kurulur; bit hep 0 gider (B2), "bit değişti" olayı oluşmaz.
+- **Karıştırma katmanı kapalı** (`karistirma_katmani`): bit hep 0 gider (B2), "bit değişti" olayı oluşmaz. B6'nın başka bir karıştırma kuralı yoktur (kural 11, 28 Kasım).
 - `alici_bildirimi` kapalıyken bit alanı kalır ve 0 gider; ileti boyu ve kontrol yükü değişmez (B2 Ö-5).
 
 ## 11 · Etkileşimler
@@ -220,10 +217,10 @@ B6'nın bütünü çekirdektir: selam olmadan komşu, bağ ve yol bilinemez. Alt
 1. **B1:**
    - zaman aşımı aralık alanına dayanır; alan hep üst sınırdır (kural 6);
    - B1'in saklaması (`SELAM_SAKLA`) ve boşluk sınırı (`BOSLUK_EN_COK`) en kısa araya (0,5 s) dayanır;
-   - kilitte selam kurulmadığı için sıra boşluğu oluşmaz (Ö-5).
+   - kilitte kurulan selam kuyrukta bekleyip gönderildiği için sıra boşluğu oluşmaz (Ö-5); geç gelen ilk selam zaman aşımının sıfırlarını geri almayla siler (B1 kural 4).
 2. **B2:**
    - bit ve "bit değişti" olayı kural 1 ve 7'de;
-   - kendi durumum kural 11'de;
+   - kendi durumumu B6 okumaz (kural 11, 28 Kasım);
    - B2'nin selam kaybı penceresi (`KAYIP_PENCERE_S`, 4 s) bu aralıkla komşu başına 2–8 örnek görür; eşikler bu trafikte ölçüldü.
 3. **B3:** oran listesi kendi aralıklarımla istenir (B3 kural 10); B6 yalnız taşır.
 4. **B4:**
@@ -232,8 +229,8 @@ B6'nın bütünü çekirdektir: selam olmadan komşu, bağ ve yol bilinemez. Alt
    - "hemen gönder" olayları kural 7'de; tek başına ardıl değişimi olay değildir, B4 kural 15 buna göre düzeltildi;
    - kural 4a'nın yanıtı bir olay selamıdır; en kısa ara (0,5 s) bu yüzden `SURE_ISTEK_PAYI` (bir selam aralığı) içinde kalır.
 5. **B5, B7:** B6 veri paketine dokunmaz. Kontrol kuyruğu veriden önceliklidir (`13` §03.2); sık selam veri paketlerinin bekleyişini uzatır. Bedeli kontrol payındadır.
-6. **Kanıtı silmeme** (sözleşme 4): B6 hiçbir gözlemi silmez. Kilitte selam kurmamak alıcılarda o süre için selam boşluğu bırakır; geri alma sıfırları siler (B1 kural 4). Kanıt kaybolmaz: kilitteki komşuyu göndericinin kanıtı ve ilanın ömrü gösterir (B2 §8, B4 kural 4).
-7. **Mekanizma kapısı:** çekirdek (zamanlama, olaylar, biçim) iki kolda aynıdır. Kapıya giren tek kural 11'dir. Katman kapalıyken kilitte kurulan selamların bayat birikmesi kapının kolunda kalır.
+6. **Kanıtı silmeme** (sözleşme 4): B6 hiçbir gözlemi silmez. Tam kilitte selam kuyrukta bekler; alıcıda o süre için zaman aşımı sıfırları oluşur, geç gelen selamlar onları geri almayla siler (B1 kural 4). Kilitteki komşuyu o sırada göndericinin kanıtı ve ilanın ömrü gösterir (B2 §8, B4 kural 4).
+7. **Mekanizma kapısı:** B6'nın bütünü iki kolda aynıdır; kapıya B6'dan kural girmez (kural 11, 28 Kasım). İki kolda yalnız bitin değeri farklıdır (B2).
 
 ## 12 · Örnek senaryo
 
@@ -246,10 +243,11 @@ Düğüm i'nin selamları. Titreşim yazılmadı (en çok 0,1 · I).
 5. **Tek başına ardıl değişimi:** isteğe bağlı geçişle ardıl j'den k'ye, C 2,3'ten 2,4 ETX'e: fark %4, olay değil.
 6. **Geri çekme:** açlık, C ∞: olay, selam hemen. B4'ün açlık isteği çoklu yayınla gider, titreşimi U(0, 0,05 s); 0,5 s arayla üç kez daha yinelenir (B4 kural 11).
 7. **Rota isteği** (B4 kural 4a): ardıl l'nin son ilanı 300,0 s'de, aralığı 2,0 s. 305,0 için son tarih uyandırması kurulur; i o anda l'ye titreşimsiz, tek alıcılı istek gönderir. l'de istek `kontrol_alindi` ile B4'e gider, kural 12 "hemen gönder" der. l'nin son selamı 304,0'da olduğu için en kısa ara dolmuştur: l'nin selamı 305,0x'te gider.
-8. **Kendim kanal kilidinde:** i 180,0–190,0 s arasında karıştırıcıya çok yakın; 183,7'de B2'nin durumu "kanal kilidi".
-   - 184,2'deki planlı uyandırma selam kurmaz, sırayı tüketmez.
-   - 190,3'te durum "yok"a döner: olay, selam hemen, taze içerikle (sıra bir öncekinin devamı); alan 0,55 s.
-   - Komşularda zaman aşımının eklediği sıfırlar, sıra ilerlemediği için geri almayla silinir (B1 kural 4).
+8. **Kendim kanal kilidinde:** i 180,0–190,0 s arasında karıştırıcıya çok yakın; 183,7'de B2'nin durumu "kanal kilidi", bit 1.
+   - Bit değişti: olay; selam 183,7'de kurulur, ama kanal boşalmadığı için kontrol kuyruğunda bekler. Sonraki selamlar 184,2 · 185,2 · 187,2 · 189,2'de kurulur; onlar da bekler.
+   - 190,0'da kanal açılır: kuyruktaki beş selam sırayla gider (her biri ~1 ms); içerikleri kuruldukları anınki.
+   - 190,3'te durum "yok"a döner: bit değişti, olay; selam en kısa arayla gider, alan 0,55 s.
+   - Komşularda zaman aşımının eklediği sıfırları geç gelen ilk selam geri almayla siler (B1 kural 4).
 
 ## 13 · Sınanması
 
@@ -268,14 +266,14 @@ Düğüm i'nin selamları. Titreşim yazılmadı (en çok 0,1 · I).
    - `ILAN_ESIGI` sınırı (tam eşitlik dâhil);
    - ∞ ↔ sonlu; geçitte maliyet 0.
 6. **Titreşim:** aralığı; tek alıcılı iletide titreşim yok.
-7. **Kanal kilidi:** selam kurulmaz, sıra tüketilmez; bitişte hemen selam; katman kapalıyken kurulur.
+7. **Kanal kilidi:** selam kilitte de kurulur ve kuyrukta bekler; kanal açılınca sırayla gider; alıcıda geri alma (B1 kural 4) sıfırları siler; kuyruk taşması tanıda (kural 11, 28 Kasım).
 8. **Uyandırma:** nesil numarası; eski nesil yok sayılır; kural 4a'nın son tarihi.
 9. **`uyarlanir_aralik` kapalı:** I sabit `I_MAX`; olaylar öne çeker, I değişmez.
 10. Örnek senaryonun (§12) sayıları uçtan uca.
 
 **Ölçümde sayılacak tanı:**
 - selam sayısı ve aralığın dağılımı; ara ilanların olaya göre sayısı;
-- kilitte kurulmayan selamlar; kontrol kuyruğunda bekleme süresi ve taşma;
+- kilitte kuyrukta bekleyen selamlar, bekleme süresi ve taşma;
 - tur isteklerinin türüne göre sayısı (açlık, yok sayma, 10a, 4a, iletme);
 - kontrol payı, protokolün iletileri ve veri onayları ayrı (`kontrol_bedeli.py`'nin ayrımı).
 
@@ -283,12 +281,12 @@ Düğüm i'nin selamları. Titreşim yazılmadı (en çok 0,1 · I).
 
 - **Selam, sıra numarası, aralık alanı (üst sınır, santisaniye) ve aralığın değiştirilme kuralı:** Babel, RFC 8966 [4] §3.4, §3.4.1, §4.6.5. Ters yön bildiriminin selamda taşınması ETX'ten [36] ve Babel'den.
 - **Aralığın ikiye katlanıp olayda en küçüğe inmesi:** Trickle, RFC 6206 [62] §4.2 kural 5–6. Bastırma (kural 3–4) ve aralığın ikinci yarısında rastgele gönderim (kural 2) alınmadı (kural 5).
-- **Tetiklenen güncellemenin kuralları:** RFC 8966 §3.7.2 (geri çekmede SHOULD; maliyeti belirgin değiştirmeyen ardıl değişiminde SHOULD NOT).
+- **Tetiklenen güncellemenin kuralları:** RFC 8966 §3.7.2 (geri çekmede SHOULD; maliyeti belirgin değiştirmeyen ardıl değişiminde ve isteği karşılamayan yeni sıra numarasında SHOULD NOT).
 - **Titreşim:** RFC 8966 §3.1 ve Ek B (acil iletiler 0,2 s içinde); ETX'in yoklama titreşimi [36].
-- **Önceki tasarım:** `../kural/KK-02` (`17` T-1, T-16, T-17): zamanlama, ara ilan, kilitte selam kurmama, selamın anında kurulması. Değerler oradan; kurallar bu kâğıt için yeniden yazıldı.
+- **Önceki tasarım:** `../kural/KK-02` (`17` T-1, T-16, T-17): zamanlama, ara ilan, selamın anında kurulması. Değerler oradan; kurallar bu kâğıt için yeniden yazıldı. Kilitte selam kurmama da oradandı; 28 Kasım'da kaldırıldı (kural 11).
 - **Bu tasarımın:**
   - ilanın ve oran listesinin tek selamda, listenin her selamda tam taşınması;
-  - olay kümesi: tek başına ardıl değişiminin ve komşu durumunun olay sayılmaması;
+  - olay kümesi: tek başına ardıl değişiminin, isteği karşılamayan tur değişiminin ve komşu durumunun olay sayılmaması;
   - kural 4a'nın anı için uyandırma; öteki son tarihlerin bir sonraki niyetli kancaya bırakılması;
   - tek alıcılı iletilerin titreşimsiz gönderilmesi.
 
@@ -302,5 +300,5 @@ Düğüm i'nin selamları. Titreşim yazılmadı (en çok 0,1 · I).
 **Ölçülmeyen** (Aşama 4'te sayılır ya da ablasyonla ölçülür):
 - yeni tasarımın selam sıklığı (bit değişimleri, kural 4a ve 10a'nın istekleriyle);
 - `uyarlanir_aralik`'ın katkısı;
-- kilitte selam kurmamanın katkısı (karıştırma katmanıyla birlikte);
+- kilitte kuyrukta bekleyen selamların alıcıdaki etkisi: geri almadan sonra oran, art arda gelen selamlarla kısa bir süre iyimser görünür;
 - `ILAN_ESIGI` ve `I_MAX`'ın etkisi (seçenek Z2'nin sorusu).

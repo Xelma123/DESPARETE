@@ -1,6 +1,6 @@
 # B3 · Bağın durumu
 
-> Yeni tasarımın (`../18-YENI-TASARIM.md`) üçüncü bileşeni. İskelet `18` §1.4; sorun, kanıt, seçenekler ve kararım `18` §2.3 (25 Kasım; çekirdekte yeniden kararım 26 Kasım). Teşhis ölçümü `arsiv/teshis/faz5_3_b3_bag_olculeri_2026-11-25/` (bundan sonra "B3 teşhisi"). Değerler, bayraklar ve gözlemin kullanımı yalnız `00-DIZIN.md`de; burada adlarıyla anılır. Durum: onaylandı (26 Kasım). Önceki tasarımda karşılığı `../kural/KK-01` (orada ölçü, eşikli durumlar ve dondurma tek kâğıttaydı).
+> Yeni tasarımın (`../18-YENI-TASARIM.md`) üçüncü bileşeni. İskelet `18` §1.4; sorun, kanıt, seçenekler ve kararım `18` §2.3 (25 Kasım; çekirdekte yeniden kararım 26 Kasım). Teşhis ölçümü `arsiv/teshis/faz5_3_b3_bag_olculeri_2026-11-25/` (bundan sonra "B3 teşhisi"). Değerler, bayraklar ve gözlemin kullanımı yalnız `00-DIZIN.md`de; burada adlarıyla anılır. Durum: onaylandı (26 Kasım); 28 Kasım'da bağımsız denetimden sonra düzeltildi (kural 7; `../../arsiv/denetim/DENETIM-TASARIM-KAPANIS-2026-11-28.md`). Önceki tasarımda karşılığı `../kural/KK-01` (orada ölçü, eşikli durumlar ve dondurma tek kâğıttaydı).
 >
 > Eksiksizlik listesinin maddeleri (`18`): 1 §1 · 2–4 `18` §2.3 · 5 §2 · 6 §3 · 7 §4 · 8 §5 · 9 §6 · 10 §7 · 11 §8 · 12 §9 · 13 §10 · 14 §11 · 15 §12 · 16 §13 · 17 §14. Ölçülen ve ölçülmeyen §15.
 
@@ -90,7 +90,7 @@ Durum her niyetli kancada kanıttan yeniden hesaplanır; geçmişe bağlı bir h
    Kendi aralıklarıma düşen kayıtlar sayılmaz (B2 kural 13'ün ayıklaması). Başarılı bir çerçeve (7'den az denemeyle onay) sebebi hemen kaldırır.
 
    Gerekçe: B2'nin olayı sayım başına bir kez oluşur; ardından gelen başarısız çerçeveler yeni olay doğurmaz. Bu yüzden kanıt, başarısızlık sürdükçe kayıtlardan uzatılır. Bağ kullanılmazsa yeni kanıt gelmez; `KANIT_OMUR_S` sonra bağ yeniden denenir (İlke 3: kanıt kalkınca geri al). Karıştırma sürüyorsa tek bir başarısız çerçeve sebebi hemen geri getirir.
-7. **Sebep "veri yok"** (çekirdek, `veri_yok`): j'ye son `VERI_YOK_N` veri kaydının (son `VERI_PENCERE_S` içinde, kendi aralıklarım dışında) hepsi vazgeçmedir ve şimdi − en yenisinin anı ≤ `KANIT_OMUR_S`.
+7. **Sebep "veri yok"** (çekirdek, `veri_yok`): j'ye en az `VERI_YOK_N` veri kaydı vardır (son `VERI_PENCERE_S` içinde, kendi aralıklarım dışında), son `VERI_YOK_N`'inin hepsi vazgeçmedir ve şimdi − en yenisinin anı ≤ `KANIT_OMUR_S` (en az kayıt koşulu 28 Kasım'da yazıldı, bağımsız denetim K-6; teşhisin E4'ü de bunu şart koşuyordu).
    - Bir başarılı kayıt sebebi kaldırır.
    - Bağ kullanılmazsa `KANIT_OMUR_S` sonra yeniden denenir. Yeni bir vazgeçme sebebi hemen geri getirir, çünkü son `VERI_YOK_N` kayıt yine hepsi vazgeçme olur.
    - Selamı geçen ama veriyi taşımayan bağın güvenlik ağıdır.
@@ -197,11 +197,11 @@ B3 ileti göndermez. Maliyeti ilanlarda B4 ve B6, oran listesini selamda B6 taş
 i'nin komşuları j (maliyet 1,6) ve k (2,1); B4'e göre ardıl j. Sayılar örnektir.
 
 1. **Olağan:** iki bağ OLAĞAN. M(j) = ⌈64 × 1,6⌉ = 103, M(k) = ⌈64 × 2,1⌉ = 135.
-2. **j girişimde, bit geliyor:** j 152,1 s'den beri karıştırılıyor. 153,4'te durumunu bulur, bit 1'li selamı i'ye 155,1'de ulaşır.
+2. **j girişimde, bit geliyor:** j 152,1 s'den beri karıştırılıyor. 153,4'te durumunu bulur; bit 1'li ilk iki selamı (153,4 · 153,9) i'ye ulaşmaz, üçüncüsü 155,1'de gelir (B2 §12'nin varsayımı).
    - i'nin bu kancasında j SON ÇARE olur (sebep bildirim); B4 olağan aday k'ye geçer.
    - j'nin ölçüsü için hariç aralık [152,1, ∞): 155,1 − 3 s. Maliyet 1,6'da kalır.
 3. **j'ye giden çerçeveler:** 152,1–155,0 arasında i'nin j'ye üç çerçevesi tam denemeyle biter. B2 155,0'da gönderici olayı verir; 155,1'de bildirim de gelir. Sebepler {bildirim, gönderici}.
-4. **Karıştırma biter:** 165,0'da j'nin girişimi biter, 165,9'da bit 0'lı selamı gelir.
+4. **Karıştırma biter:** 165,0'da j'nin girişimi biter, 165,9'da bit 0'lı selamı gelir (165,4'teki selam kaybolur; B2 §12'nin varsayımı).
    - Bildirim sebebi kalkar. Gönderici sebebi 155,0 + 5 = 160,0'da zaten süresiyle kalkmıştı; o sırada j'ye çerçeve gitmedi.
    - j OLAĞAN'a döner, maliyet 1,6: aralık [152,1, 165,9]. B4 j'ye döner.
 5. **Kanal kilidi:** j 180,0–190,0 arasında karıştırıcıya çok yakın, selam gönderemez.

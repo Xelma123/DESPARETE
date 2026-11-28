@@ -1,6 +1,6 @@
 # B2 · Karıştırma kanıtı
 
-> Yeni tasarımın (`../18-YENI-TASARIM.md`) ikinci bileşeni. İskelet `18` §1.4; sorun, kanıt, seçenekler ve kararım `18` §2.2 (24 Kasım; kanal kilidi kuralı 25 Kasım). Kuralların ve eşiklerin kaynağı teşhis ölçümüdür: `arsiv/teshis/faz5_3_b2_isaretler_2026-11-24/` (`beklenti.md`, `sonuc.md`, `ek_hesap.txt`; bundan sonra "teşhis"). Değerler, bayraklar ve gözlemin kullanımı yalnız `00-DIZIN.md`de; burada adlarıyla anılır. Durum: onaylandı (25 Kasım). Önceki tasarımda karşılığı `../kural/KK-03` (orada kendi durumum, bağ kanıtı ve bağın "bitti"si tek kâğıttaydı; bağın durumu artık B3'te).
+> Yeni tasarımın (`../18-YENI-TASARIM.md`) ikinci bileşeni. İskelet `18` §1.4; sorun, kanıt, seçenekler ve kararım `18` §2.2 (24 Kasım; kanal kilidi kuralı 25 Kasım). Kuralların ve eşiklerin kaynağı teşhis ölçümüdür: `arsiv/teshis/faz5_3_b2_isaretler_2026-11-24/` (`beklenti.md`, `sonuc.md`, `ek_hesap.txt`; bundan sonra "teşhis"). Değerler, bayraklar ve gözlemin kullanımı yalnız `00-DIZIN.md`de; burada adlarıyla anılır. Durum: onaylandı (25 Kasım); 28 Kasım'da bağımsız denetimden sonra düzeltildi (kural 6, 12; `../../arsiv/denetim/DENETIM-TASARIM-KAPANIS-2026-11-28.md`). Önceki tasarımda karşılığı `../kural/KK-03` (orada kendi durumum, bağ kanıtı ve bağın "bitti"si tek kâğıttaydı; bağın durumu artık B3'te).
 >
 > Eksiksizlik listesinin maddeleri (`18`): 1 §1 · 2–4 `18` §2.2 · 5 §2 · 6 §3 · 7 §4 · 8 §5 · 9 §6 · 10 §7 · 11 §8 · 12 §9 · 13 §10 · 14 §11 · 15 §12 · 16 §13 · 17 §14. Ölçülen kurallardan farklar ve kapsam §15.
 
@@ -92,7 +92,7 @@ Göndericinin kanıtı bir durum değil, zamanlı bir olaydır (kural 12). Ne ka
 
 6. **Alt durumlar:**
    - **kanal kilidi:** kanal kilidi işaretli saniyenin sonunda girilir, işaretsiz ilk saniyenin sonunda çıkılır;
-   - **girişim:** art arda `G_GIRIS` işaretli saniye tamamlanınca girilir, art arda `G_CIKIS` işaretsiz saniye tamamlanınca çıkılır. Ardışık sayımlar kanal kilidi sürerken de işler.
+   - **girişim:** art arda `G_GIRIS` işaretli saniye tamamlanınca girilir, art arda `G_CIKIS` girişim işareti olmayan saniye tamamlanınca çıkılır (kural 4'ün "işaretsiz saniye"si değil: meşgul payına bakılmaz; teşhisin kuralı, 28 Kasım, bağımsız denetim K-6). Ardışık sayımlar kanal kilidi sürerken de işler.
 7. **Durum:** kanal kilidi alt durumu varsa "kanal kilidi"; yoksa girişim alt durumu varsa "girişim"; ikisi de yoksa "yok".
    - Kanal kilidi önceliklidir. ED alanında girişim işaretinin iki koşulu da çoğu saniye sağlanır (E alanında çözülen çerçeve 6,2/s, selam kaybı 0,86; teşhis §1), ama düğüm gönderemez. Önceki tasarımda da öyleydi (KK-03 kural 4, Y-3).
    - Birleşimin yakalaması kuraldan sonra ölçüldü (teşhis §8.2): 3 s içinde E alanında 0,56–0,61, G alanında 0,36–0,39.
@@ -120,7 +120,8 @@ Göndericinin kanıtı bir durum değil, zamanlı bir olaydır (kural 12). Ne ka
 12. **Gönderici olayı:** j'ye giden veri kayıtları (B1 kural 8) zaman sırasıyla ve her biri bir kez işlenir. Ardışık sayım:
     - kaydın anı kendi aralıklarımdan birine düşüyorsa sayım sıfırlanır, kayıt sayılmaz;
     - deneme `GK_DENEME` ise (bütün denemeler harcandı: onay son denemede geldi ya da vazgeçildi) sayım bir artar;
-    - değilse sayım sıfırlanır.
+    - değilse sayım sıfırlanır;
+    - kendi aralıklarımdan biri açılınca (geriye dönük açılan dâhil, kural 8) sayım sıfırlanır; aralık açılmadan önce sayılmış kayıtlar seriyi sürdürmez (28 Kasım, bağımsız denetim K-2).
 
     Sayım `GK_ARDISIK`'e ulaştığı kayıtta olay oluşur; anı o kaydın anıdır. Sayım sürerken yeni olay oluşmaz; sayım kırılınca yeniden başlar. `gonderici_kaniti` kapalıyken olay oluşmaz.
 
@@ -201,7 +202,7 @@ B2 kendisi ileti göndermez. Selamda bir alanı vardır; biçim ve gönderim B6'
 
 | çıktı | kural | okuyan |
 |---|---|---|
-| kendi durumum, `durum_t` | 7, 14 | B4 (kural 14), B6 (kilit kuralı, B6 kural 11) |
+| kendi durumum, `durum_t` | 7, 14 | B4 (kural 14) |
 | kendi aralıklarım | 8, 14 | B3 (hariç aralık, B1 kural 10), B4 (ilanın yaşı, B4 kural 4) |
 | bağ başına bildirim ve bildirim aralıkları | 10–11, 15 | B3 |
 | bağ başına geçerli gönderici olayı | 12–13, 15 | B3 |
@@ -212,7 +213,7 @@ B2 kendisi ileti göndermez. Selamda bir alanı vardır; biçim ve gönderim B6'
 
 ## 10 · Kapalıyken davranış
 
-- **`karistirma_katmani` kapalı** (B2'nin bütünü; B3'ün karıştırma eki, B4'ün ve B6'nın kendi karıştırılmam kuralları da kapanır): B2 çalışmaz ve `kanal_dolulugu_ister` denmez. Kendi durumum hep "yok"tur; aralık ve kanıt yoktur; bit hep 0 gider (alan kalır); olay oluşmaz. B1'in hariç aralık listesi boştur (B1 §10). Kalan protokol eksiksiz çalışır: çekirdek bu koldur (`18` §1.4).
+- **`karistirma_katmani` kapalı** (B2'nin bütünü; B3'ün karıştırma eki ve B4'ün kendi karıştırılmam kuralları da kapanır): B2 çalışmaz ve `kanal_dolulugu_ister` denmez. Kendi durumum hep "yok"tur; aralık ve kanıt yoktur; bit hep 0 gider (alan kalır); olay oluşmaz. B1'in hariç aralık listesi boştur (B1 §10). Kalan protokol eksiksiz çalışır: çekirdek bu koldur (`18` §1.4).
 - **`alici_bildirimi` kapalı:** bit hep 0 gider, alınan bit okunmaz, "bit değişti" olayı oluşmaz. Kendi durumum ve aralıklar sürer (hariç aralık ve kural 13). A, B olur (`18` §2.2); bitin katkısı Aşama 4'te bu bayrakla ölçülür.
 - **`gonderici_kaniti` kapalı:** gönderici olayı oluşmaz.
 
@@ -231,11 +232,11 @@ Grup kapalıyken alt bayraklar etkisizdir. Mekanizma kapısının "hepsi kapalı
    - hariç aralıkların payı ve üst süresi. Bildirim aralığının başlangıcı geç kalır (kural 11); B1'in saklaması 30 s'lik hariç aralığa göre hesaplandı (`SELAM_SAKLA`);
    - geçidin biti: hedeften kaçınılamaz (§8);
    - bir bağa gönderilmeyince o bağda yeni veri kaydı ve gönderici olayı oluşmaz; dönüşün bilgisi selamdan (bit 0) gelir. "Veri yok" kötü değildir (B1 §11 madde 5).
-3. **B4, B5 ve B6:** kendi durumum B4'e (kendi karıştırılmamda istek gitmez, B4 kural 14) ve B6'ya (kanal kilidinde selam kurulmaz, B6 kural 11) gider. B5'in karıştırma eki yok (`18` §2.5); B5 kendi durumumu okumaz.
+3. **B4, B5 ve B6:** kendi durumum B4'e gider (kendi karıştırılmamda istek gitmez, B4 kural 14). B5'in karıştırma eki yok (`18` §2.5) ve B5 kendi durumumu okumaz. B6 yalnız biti okur; kanal kilidinde selamı susturan kural 28 Kasım'da kaldırıldı (B6 kural 11).
 4. **B6:** Ö-1…Ö-5.
 5. **Kendini besleme:** bitim 1 iken komşular bana daha az veri gönderir, `c` biraz daha düşer. Çıkış `c`'nin bütün çözülen çerçevelerle (selam, onay, başkasına giden veri) toparlanmasına ve `s`'ye dayanır. Ölçülen çıkış ortancası 1 s, ama teşhiste biti okuyan bileşen yoktu (§15); etkisi Aşama 4'te ölçülür.
 6. **Kalabalık** (önceki KK-03 kural 12'nin riski): temiz kanalda da selam kaybı yüksektir (ikizde `s`'nin ortalaması 0,46). Kural selam kaybını `c` düşüşüyle birlikte arayarak tıkanıklıktan ayırır: ikizde yanlış alarm 86 400 düğüm-saniyenin 2'si, ikisi de en az yüklü üçte birde (teşhis K5). Yük koruması gerekmedi.
-7. **Kanıtı silmeme** (sözleşme 4): B2 hiçbir bileşenin gözlemini silmez. Kendi aralığımla açıklanan olaylar B2'nin kaydında kalır, yalnız çıktıda geçerli sayılmaz. B2'ye dayanan kararların (B3, B4, B6) kanıtı nasıl etkilediği madde 2'de.
+7. **Kanıtı silmeme** (sözleşme 4): B2 hiçbir bileşenin gözlemini silmez. Kendi aralığımla açıklanan olaylar B2'nin kaydında kalır, yalnız çıktıda geçerli sayılmaz. B2'ye dayanan kararların (B3, B4) kanıtı nasıl etkilediği madde 2'de.
 8. **Trafik:** işaretler bugünkü çekirdeğin trafiğinde ölçüldü. B4–B6'nın kararları trafiği değiştirebilir (ör. selam aralığı `s`'nin örnek sayısını değiştirir). Eşikler başlangıçtır; Aşama 4'te yeniden bakılır.
 
 ## 12 · Örnek senaryo
@@ -250,12 +251,12 @@ Düzeyler teşhisten: ikizde `c`'nin ortalaması 71,4/s; birincilde G alanında 
    - B6 selamı hemen gönderir; durum sürdükçe her selamda bit 1 gider. Karıştırmanın başından karara 3,4 s geçti.
 2. **Komşunun gördüğü:** k, i'ye veri gönderir; k uzak alandadır, kendi durumu "yok".
    - k'nin i'ye kayıtları: 152,1 s'de 7 deneme (vazgeçme) · 152,9 s'de 7 · 153,6 s'de 7 → üçüncüsünde gönderici olayı (153,6 s).
-   - i'nin ilk selamı k'ye ulaşmaz; ikincisi 155,1 s'de gelir: `kb` = 1, bildirim aralığı [155,1, ∞).
+   - i'nin 153,4 ve 153,9'daki ilk iki selamı (B6 kural 5 ve 8'in çizelgesi) k'ye ulaşmaz; 154,9'da çıkan üçüncüsü titreşim ve kuyrukta bekleme payıyla 155,1 s'de gelir (varsayım): `kb` = 1, bildirim aralığı [155,1, ∞).
    - B3 bu iki kanıtla i'ye giden bağı karıştırılıyor sayabilir; karar B3'ündür.
 3. **i'nin kendi gönderimi:** i'nin ardılı j alanın dışındadır. i'nin çerçeveleri j'ye ulaşır, ama i onayları duyamaz; j'ye giden kayıtlar 151,6 · 152,1 · 152,8 s'de tam denemelidir. 152,9 s'de gelen bir selamın kancasında B2 kayıtları işler: sayım 3'e ulaşır, olay oluşur (152,8 s). 153,4'te aralık [151,4, ∞) açılınca olay kendimle açıklanır (kural 13): B3 onu yalnız 152,9–153,4 arasında gördü.
 4. **Çıkış:** karıştırıcı 165,0 s'de kapanır.
    - (164,4–165,4]: `c` 46 ≥ 28 → işaretsiz → 165,4'te durum "yok"; aralık [151,4, 164,4]; bit 0, "bit değişti", selam hemen gider.
-   - k bu selamı 165,9 s'de alır: `kb` = 0, bildirim aralığı [155,1, 165,9].
+   - 165,4'teki selam k'ye ulaşmaz; `I_MIN` sonraki selam 165,9 s'de gelir (varsayım): `kb` = 0, bildirim aralığı [155,1, 165,9].
 5. **Kanal kilidi** (teşhisteki örnek, §8.1: birincil, tohum 1003, düğüm 32): karıştırıcı 180,0 s'den beri açıktır, İHA saniyede ~4 m alçalır. 183,2 s'de görüş hattı açılır; karıştırıcının gücü −88,7'den −67,7 dBm'e, meşgul payı 0,33'ten 0,94'e çıkar.
    - Düğümün saniye sonları 182,7 · 183,7 · … olsun. (182,7–183,7] saniyesinin yarısı kilitlidir: `m` ≈ 0,5 × 0,33 + 0,5 × 0,94 ≈ 0,64 ≥ 0,55 → 183,7'de "kanal kilidi", aralık [182,7, ∞).
    - Düğüm gönderemez; bit 1 kuyrukta bekler (Ö-4). Ona veri gönderen komşuların kayıtları vazgeçmeyle dolar; art arda üçüncüde gönderici olayı oluşur.

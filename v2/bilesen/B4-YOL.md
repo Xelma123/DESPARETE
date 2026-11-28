@@ -1,6 +1,6 @@
 # B4 · Yol
 
-> Yeni tasarımın (`../18-YENI-TASARIM.md`) dördüncü bileşeni. İskelet `18` §1.4; sorun, kanıt, seçenekler ve kararım `18` §2.4 (26 Kasım: uygulanabilirlik koşulu, Babel ailesi). Kurallar Babel'in belirtiminden uyarlandı (RFC 8966 [4], `protokol_kaynaklari/rfc8966_babel.txt`; bölüm numaraları kurallarda). Değerler, bayraklar ve gözlemin kullanımı yalnız `00-DIZIN.md`de; burada adlarıyla anılır. Durum: onaylandı (26 Kasım); 27 Kasım eki onaylandı (B5 teşhisinden sonra: kural 4'te ilanın yaşı kendi aralıklarımda durur, kural 4a ve 10a eklendi, kural 14 ve 16 buna göre; `18` §2.4). Kural 15'in olay listesinden tek başına ardıl değişimi çıktı (27 Kasım, B6 ile; onaylandı). Önceki tasarımda karşılıkları `../kural/KK-04` (eğim) ve arşivdeki `../arsiv/kural/KK-04-ROTA-2026-11-18.md` (uygulanabilirlik koşulu).
+> Yeni tasarımın (`../18-YENI-TASARIM.md`) dördüncü bileşeni. İskelet `18` §1.4; sorun, kanıt, seçenekler ve kararım `18` §2.4 (26 Kasım: uygulanabilirlik koşulu, Babel ailesi). Kurallar Babel'in belirtiminden uyarlandı (RFC 8966 [4], `protokol_kaynaklari/rfc8966_babel.txt`; bölüm numaraları kurallarda). Değerler, bayraklar ve gözlemin kullanımı yalnız `00-DIZIN.md`de; burada adlarıyla anılır. Durum: onaylandı (26 Kasım); 27 Kasım eki onaylandı (B5 teşhisinden sonra: kural 4'te ilanın yaşı kendi aralıklarımda durur, kural 4a ve 10a eklendi, kural 14 ve 16 buna göre; `18` §2.4); 28 Kasım'da bağımsız denetimden sonra düzeltildi (kural 3, 4a, 10a, 12, 14, 15, 17; kural 18 eklendi; `../../arsiv/denetim/DENETIM-TASARIM-KAPANIS-2026-11-28.md`). Kural 15'in olay listesinden tek başına ardıl değişimi çıktı (27 Kasım, B6 ile; onaylandı). Önceki tasarımda karşılıkları `../kural/KK-04` (eğim) ve arşivdeki `../arsiv/kural/KK-04-ROTA-2026-11-18.md` (uygulanabilirlik koşulu).
 >
 > Eksiksizlik listesinin maddeleri (`18`): 1 §1 · 2–4 `18` §2.4 · 5 §2 · 6 §3 · 7 §4 · 8 §5 · 9 §6 · 10 §7 · 11 §8 · 12 §9 · 13 §10 · 14 §11 · 15 §12 · 16 §13 · 17 §14. Döngüsüzlüğün gerekçesi ve ölçülmeyen §15.
 
@@ -15,7 +15,7 @@ Paketin yönünü seçmez: aday listesinden paketi hangi komşuya göndereceğin
 
 **Sınıf:** genel (K-247), çekirdek. B3'ün son çare durumunu sıralamada kullanır (kural 5); bu durumun karıştırma sebepleri B3'ün karıştırma ekinden gelir. B4'ün iki kuralı karıştırma katmanına bağlıdır: kendi karıştırılmamda ilanların yaşının durması (kural 4) ve isteğin bastırılması (kural 14). İkisi de B2'nin çıktısını okur; katman kapalıyken B2 hep "yok" dediği için etkisizdir (§10).
 
-**Hizmet ettiği hedef** (`18` §1.1): koruma ölçütleri. Ölçülen yollar içinde en kötü tohum, sessiz dönem ve gecikmenin p99'u ölçütlerinin hepsini geçen tek yol bu koşul (`18` §2.4). Birincilde ortalamayı yol seçimi belirlemiyor; asıl kazanç B2 ile B3'ün karıştırma ekinden beklenir (B5'in kararı A, tek yol: `18` §2.5). 27 Kasım eki iki kayba karşıdır: yalnız uygulanabilirlik koşulu yüzünden aday olmayan temiz komşunun kaybı (kural 10a) ve temiz kanalda ilanın yanlış bayatlaması (kural 4a).
+**Hizmet ettiği hedef** (`18` §1.1): koruma ölçütleri. Ölçülen yollar içinde en kötü tohum, sessiz dönem ve gecikmenin p99'u ölçütlerinin hepsini geçen tek yol bu koşul (`18` §2.4). Birincilde ortalamayı yol seçimi belirlemiyor; asıl kazanç B2 ile B3'ün karıştırma ekinden beklenir (B5'in kararı A, tek yol: `18` §2.5). 27 Kasım eki iki kayba karşıdır: yalnız uygulanabilirlik koşulu yüzünden aday olmayan temiz komşunun kaybı (kural 10a) ve temiz kanalda ilanın yanlış bayatlaması (kural 4a). 28 Kasım'dan beri kural 10a'nın sınıf dalı yalnız ilan ettiği maliyet benimkinden küçük komşuya istek gönderir. Kararlı durumda FD maliyetime eşit olduğu için dal artık çoğunlukla eski turlu ilanlarda ya da maliyetim aynı turda yükseldiğinde çalışır; karıştırılan ardıl tek aday ve temiz kardeş dal benden pahalıyken oluşan kayıp artık kapsanmaz (bağımsız denetim E-1 ve ikinci okuma).
 
 ## 2 · Gördüğü (`05`; yasak alanlar okunmaz)
 
@@ -23,7 +23,7 @@ Paketin yönünü seçmez: aday listesinden paketi hangi komşuya göndereceğin
 |---|---|---|
 | komşunun ilanı (selamda; iletiyi B6 çözer) | tur ve maliyet (kural 1–4) | öteki alanlar (B1'in, B2'nin) |
 | tur isteği (`kontrol_alindi`; B6 çözer) | gönderen, istenen tur, kalan atlama (kural 12) | — |
-| paket başlığı (`sonraki_atlama`) | kaynak, `kaynak_sira`, atlama sayısı: yalnız döngü tanısı (kural 17) | hedef ve yön (B5'in) |
+| paket başlığı (`sonraki_atlama`) | kaynak, `kaynak_sira`, atlama sayısı: yalnız aynı düğüme dönüşün tanısı (kural 17) | hedef ve yön (B5'in) |
 | B1 | komşu kümesi, yeni ve silinen komşu olayları; komşunun ilan ettiği selam aralığı `a` (kural 4) | ölçüler (B3 üzerinden) |
 | B2 | kendi durumum "yok" mu (kural 14) · kendi aralıklarım (kural 4) | öteki çıktılar (B3 üzerinden) |
 | B3 | bağ başına durum ve maliyet (M) | sebepler (yalnız tanı) |
@@ -52,13 +52,14 @@ Düğüm başına:
 | yok sayma: başlangıç anı, istek gitti mi | yok | kural 10 | yok sayma bitince |
 | açlık dizisi: sonraki istek anı, kalan yineleme | yok | kural 11 | açlık bitince |
 | son tur isteğim: istenen tur ve anı (kural 10, 10a, 11) | yok | her tur isteğimde | `YOK_SAYMA_S`'den eski olunca |
+| son kural 10a isteğinin anı (28 Kasım) | yok | kural 10a | `YOK_SAYMA_S`'den eski olunca |
 | iletilen istekler: (istenen tur, isteyen, an) | boş | kural 12 | `ISTEK_ANIMSA_S`'den eski olunca |
 | geçitte kendi turum | `TUR_BASLANGIC` | kural 13 | — |
-| döngü tanısı: kaynak başına en yeni paket (`kaynak_sira`, atlama sayısı) ve sayaç | yok · 0 | kural 17 | — |
+| aynı düğüme dönüşün tanısı: kaynak başına en yeni paket (`kaynak_sira`, atlama sayısı) ve sayaç | yok · 0 | kural 17 | — |
 
 Kanca başına olaylar: "hemen gönder" (B6 için), tur isteği iletileri (B6 gönderir), ardıl değişti (B5, B7 için). Bir sonraki kancanın başında boşalır.
 
-**Bellek:** komşu başına sabit alanlar (en çok 255 komşu); iletilen istek kaydı `ISTEK_ANIMSA_S` içindekilerle sınırlı (aynı tur için bastırma, kural 12); döngü tanısının kaydı kaynak başına bir (en çok 255).
+**Bellek:** komşu başına sabit alanlar (en çok 255 komşu); iletilen istek kaydı `ISTEK_ANIMSA_S` içindekilerle sınırlı (aynı tur için bastırma, kural 12); aynı düğüme dönüş tanısının kaydı kaynak başına bir (en çok 255).
 
 ## 4 · Durumlar ve geçişler
 
@@ -83,7 +84,7 @@ Açlık dizisi kendi durumumda bekler (kural 14) ve açlık bitince durur. Yok s
 
    Turlar 16 bit, modüler karşılaştırılır (`00-DIZIN` ortak birimler). Uygulanabilirlik her seçimde güncel FD ile hesaplanır, saklanmaz.
 2. **Yol maliyeti:** `m_j` = M_j + `C_j` (tamsayı birim, B3 kural 2; 0xFFFE'de doyar; biri ∞ ise ∞). M_j ≥ 64 olduğundan maliyet her atlamada kesin artar. RFC 8966 §3.5.2'nin döngüsüzlük için şart koştuğu kesin artan toplama budur.
-3. **Aday kümesi:** j adaydır ⇔ B1'de kayıtlı, B3 durumu KULLANILMAZ değil, ilanı sonlu, taze (kural 4) ve uygulanabilir (kural 1). Adaylar iki sınıftadır:
+3. **Aday kümesi:** j adaydır ⇔ B1'de kayıtlı, B3 durumu KULLANILMAZ değil, ilanı sonlu, taze (kural 4) ve uygulanabilir (kural 1). Ardıl yok saymadayken (kural 10) uygulanabilirlik kabul edilen ilanla, tazelik son ilanla değerlendirilir; ardıl değişince yok sayma biter (28 Kasım, bağımsız denetim K-1). Adaylar iki sınıftadır:
    - **O:** B3 durumu OLAĞAN;
    - **S:** B3 durumu SON ÇARE.
 4. **İlanın ömrü:** j'nin son ilanının yaşı `ILAN_OMUR_KAT` · a_j'yi (a_j: B1'in tuttuğu, j'nin ilan ettiği selam aralığı) aşarsa ilan ∞ sayılır. Babel'de bu rotanın sona ermesidir (Ek B: ilan aralığının 3,5 katı); bizde ilan her selamdadır, aralık selamınkidir. Susan komşu (ölü, uzaklaşmış ya da kanal kilidinde) böylece birkaç selam aralığında aday olmaktan çıkar; bağ maliyetinin sonsuza gitmesini (B1'de 16 sıfır) beklemez.
@@ -92,7 +93,7 @@ Açlık dizisi kendi durumumda bekler (kural 14) ve açlık bitince durur. Yok s
    - Karıştırma katmanı kapalıyken kendi aralıklarım yoktur; yaş kesintisiz işler.
 4a. **Süre dolmadan istek** (RFC 8966 §3.8.2.3, SHOULD): ardılın son ilanı sonluysa ve yaşı (kural 4) (`ILAN_OMUR_KAT` − `SURE_ISTEK_PAYI`) · a'ya ulaştıysa, bu ilan için henüz istek gitmediyse ardıla tek alıcılı istek gider. İstenen tur ardılın son ilanının turudur, kalan atlama 1'dir.
    - Ardıl kural 12'nin ilk dalıyla yanıtlar: rotası sonlu ve turu istenen turdan küçük değil, "hemen gönder" (selamla ilan).
-   - Bu bir rota isteğidir (Babel'in route request'i, §3.8.1.1); tur artırmaz. İstenen tur ardılın zaten ilan ettiği turdur; geçit turunu yalnız istenen tur kendininkinden büyükse artırır (kural 12). Kalan atlama 1 olduğu için istek iletilmez. Ardılın rotası ∞ ise yanıt yoktur; ardıl ∞'u zaten "hemen gönder"le ilan etmiştir (kural 15).
+   - Bu bir rota isteğidir (Babel'in route request'i, §3.8.1.1); tur artırmaz. İstenen tur ardılın zaten ilan ettiği turdur; geçit turunu yalnız istenen tur kendininkinden büyükse artırır (kural 12). Kalan atlama 1 olduğu için istek iletilmez. Ardılın rotası ∞ ise ardıl ∞'u selamla yeniden gönderir (kural 12'nin ikinci dalı; RFC 8966 §3.8.1.1: seçili rota yoksa geri çekmeyle yanıt, MUST). 27 Kasım'daki metinde bu yanıt yoktu; ∞ ilanı kaybolmuşsa ardıl bir aralık daha aday kalıyordu (28 Kasım, bağımsız denetim K-4).
    - İlan başına bir istek gider; yeni ilan gelince sayım baştan başlar.
    - **Gerekçe** (27 Kasım): temiz kanalda selamlar çarpışmada kaybolur. B5 teşhisinde ikizde kararların %2,1'inde ardılın ilanı bayattı, ama ardıla giden çerçevelerin %96'sı onaylanıyordu. Bu kararların %31'inde ardıldan başka aday yoktu (`arsiv/teshis/faz5_3_b5_iletim_kaybi_2026-11-26/ek_hesap.txt` E9). İstek çalışan ardılın ilanını tazeler; susan ardıldan yanıt gelmez ve ilan yine kural 4'le düşer. Babel-a aynı kuralı uygular (`protokoller/babel_bicim.py`; tutma süresinin 7/8'i, Babel'de ilan aralığı 16 s).
    - `sure_istegi` kapalıyken istek gitmez.
@@ -133,11 +134,12 @@ Açlık dizisi kendi durumumda bekler (kural 14) ve açlık bitince durur. Yok s
 10a. **Tercih edilir uygulanamaz ilan** (RFC 8966 §3.8.2.2'nin ikinci paragrafı, SHOULD): ardıl varken aday olmayan bir komşu j aşağıdakileri sağlıyorsa j'ye tek alıcılı tur isteği gider. İstenen tur FD.tur + 1, kalan atlama `ISTEK_ATLAMA`.
     - j B1'de kayıtlı, B3 durumu KULLANILMAZ değil, ilanı sonlu ve taze (kural 4), ama uygulanamaz (kural 1).
     - j sıralamada ardıldan önce gelir: ya sınıfı daha iyidir (j O'da, ardıl S'de) ya da sınıfları aynıdır ve `m_j` + `TERCIH_FARKI` ≤ `m_ardil`.
+    - j'nin ilan ettiği maliyet benimkinden küçüktür: `C_j` < C (28 Kasım). Yolu benden geçen bir komşunun ilanı benimkinden en az bir bağ maliyeti (≥ 64) büyüktür; yeni tur onu aday yapmaz, çünkü yeni turlu ilanı da benimkinden türer. Koşul, yeni turdan sonra j'nin ilanının uygulanabilir olmasını da sağlar: yeni tur bana hangi yoldan önce ulaşırsa ulaşsın, maliyetim düşmedikçe FD'm yeni turda C'den küçük olmaz ve `C_j` ondan küçüktür. Aynı sınıf dalında koşul `TERCIH_FARKI`'ndan zaten çıkar. Sınıf dalı onu dolaylı korumasız bırakıyordu: B5 teşhisinin E8 payının ~%72'sinde engelli komşunun yolu kararı veren düğümden geçiyordu (bağımsız denetim E-1).
     - Birden çok j varsa istek, kural 5'in sırasıyla en iyisine gider.
-    - **Bekleme:** son `YOK_SAYMA_S` içinde istenen turu aynı ya da daha büyük bir tur isteği gönderdiysem (kural 10, 10a ya da 11) yenisi gitmez. Bu, Babel'in bekleyen istekler tablosudur (RFC 8966 §3.2.7).
-    - İstek j'nin ardıl zinciriyle geçide ulaşır; geçit turunu artırır ve yanıt aynı yoldan döner (kural 12–13). j'nin yeni turlu ilanı uygulanabilirdir (kural 1). j aday olur; sınıfı ardılınkinden iyiyse zorunlu geçişle, değilse isteğe bağlı geçişle ardıl olabilir (kural 5).
+    - **Bekleme:** son `YOK_SAYMA_S` içinde kural 10a'yla istek gönderdiysem, istenen tur ne olursa olsun, yenisi gitmez; istenen turu aynı ya da daha büyük bir tur isteği (kural 10 ya da 11) gönderdiysem de gitmez. İkincisi Babel'in bekleyen istekler tablosudur (RFC 8966 §3.2.7). Birincisi 28 Kasım'da eklendi: istenen tur FD.tur + 1'dir ve her yeni turla büyür; yalnız tura bakan bekleme art arda isteği durdurmuyordu ve karıştırma sürdükçe geçidin turu art arda artabiliyordu (bağımsız denetim E-1).
+    - İstek j'nin ardıl zinciriyle geçide ulaşır; geçit turunu artırır ve yanıt aynı yoldan döner (kural 12–13). j'nin yeni turlu ilanı, yeni tur bana hangi yoldan önce ulaşırsa ulaşsın, maliyetim düşmedikçe uygulanabilirdir (kural 1; `C_j` < C). j aday olur; sınıfı ardılınkinden iyiyse zorunlu geçişle, değilse isteğe bağlı geçişle ardıl olabilir (kural 5).
     - **Gerekçe** (27 Kasım): B5 teşhisinde yalnız uygulanabilirlik koşulu yüzünden aday olmayan temiz bir komşu, J3, J4 ve U2'nin kayıplarında 0,137 payda vardı. Bunun 0,038'inde ardılın kanıtı vardı ve olağan aday yoktu (`ek_hesap.txt` E8). Kural 11 bu durumda istek göndermez, çünkü bir aday vardır: son çaredeki ardılın kendisi. Babel-a aynı kuralı uygular. "Tercih edilir"in eşiği babeld'inkidir: 512, yani 2 ETX (`protokoller/babel_bicim.py`).
-    - **Uyarlama:** Babel yalnız metriğe bakar. Burada önce sınıfa bakılır, çünkü ardılın son çarede olması selamın maliyetinde görünmez (karıştırmada selam neredeyse hiç tepki vermiyor, B3 teşhisi K6).
+    - **Uyarlama:** Babel yalnız metriğe bakar. Burada önce sınıfa bakılır, çünkü ardılın son çarede olması selamın maliyetinde görünmez (karıştırmada selam neredeyse hiç tepki vermiyor, B3 teşhisi K6). Babel'in metrik koşulu yolu benden geçen komşuyu kendiliğinden dışlar; sınıf dalında bu işi `C_j` < C yapar (28 Kasım).
     - `tercih_istegi` kapalıyken istek gitmez.
 11. **Açlık** (aday yok):
     - C = ∞ ilan edilir (kural 8) ve "hemen gönder" olayı oluşur. Paketlerin bekletilmesi B7'nindir.
@@ -148,8 +150,9 @@ Açlık dizisi kendi durumumda bekler (kural 14) ve açlık bitince durur. Yok s
     - Açlık bitince ya da koşul kalkınca dizi durur. Öteki hâllerde istek gitmez; yeni tur hiçbir komşuyu aday yapmaz.
 12. **Tur isteği gelince** (isteyen g, istenen t, kalan atlama h; RFC 8966 §3.8.1.2):
     - **Rotam sonlu ve turu ≥ t:** "hemen gönder" (selamla ilan).
+    - **Rota isteği (h = 1) ve rotam ∞:** "hemen gönder"; selam ∞'u taşır (RFC 8966 §3.8.1.1: seçili rota yoksa geri çekmeyle yanıt, MUST; 28 Kasım, bağımsız denetim K-4).
     - **Geçitsem ve turum < t:** turum bir artar (bir istekle en çok bir) ve "hemen gönder".
-    - **Öteki hâllerde h ≥ 2 ise** istek h − 1 ile tek alıcılı iletilir. Alıcı, g olmayan bir aday (önce ardıl, sonra aday sırası); yoksa ilanı sonlu ama uygulanamaz, g olmayan ve bağı KULLANILMAZ olmayan bir komşu.
+    - **Öteki hâllerde, rotam sonluysa ve h ≥ 2 ise** istek h − 1 ile tek alıcılı iletilir. Rotası ∞ olan (açlıktaki) düğüm iletmez: RFC 8966 §3.8.1.2 iletmeyi önekin ilan edilmesine bağlar ve 17 Kasım denetiminin B-16 kararı da böyleydi; 27 Kasım'daki metinde bu koşul yoktu (28 Kasım, bağımsız denetim K-5). Alıcı, g olmayan bir aday (önce ardıl, sonra aday sırası); yoksa ilanı sonlu ama uygulanamaz, g olmayan ve bağı KULLANILMAZ olmayan bir komşu.
       - Kayıt (t, g, an) `ISTEK_ANIMSA_S` tutulur.
       - Aynı ya da daha küçük bir t için `ISTEK_BASTIRMA_S` içinde ikinci istek iletilmez (RFC: yinelenen istek iletilmez); kayıt tazelenir.
       - Yanıt çok-yayın selam olduğu için kayıt isteyeni tutmaz.
@@ -158,7 +161,7 @@ Açlık dizisi kendi durumumda bekler (kural 14) ve açlık bitince durur. Yok s
 
 **E · Kendi karıştırılmam**
 
-14. **Kendi durumum "yok" değilken** (B2): seçim aynı kurallarla sürer. Bağların maliyetleri hariç aralıkla (B3 kural 9), ilanların yaşı kendi aralıklarımla (kural 4) korunur; bu yüzden adaylar ve maliyetleri değişmez. İstek (kural 4a, 10, 10a, 11) gönderilmez. Durumum "yok"a dönünce açlık sürüyorsa açlık isteği hemen gider; kural 4a'nın ya da 10a'nın koşulu sürüyorsa onların isteği o kancada gider. Gerekçe: sorun benim alıcımda, yanıtları duyamam; gereksiz tur artışı bütün ağı çalkalar (önceki KK-04'ün 18 Kasım sürümü, kural 8).
+14. **Kendi durumum "yok" değilken** (B2): seçim aynı kurallarla sürer. Bağların maliyetleri hariç aralıkla (B3 kural 9), ilanların yaşı kendi aralıklarımla (kural 4) korunur; bu yüzden adaylar ve maliyetleri değişmez. İstek (kural 4a, 10, 10a, 11) gönderilmez. Durumum "yok"a dönünce açlık sürüyorsa açlık isteği hemen gider; kural 4a'nın ya da 10a'nın koşulu sürüyorsa onların isteği o kancada gider. Gerekçe: sorun benim alıcımda, yanıtları duyamam; gereksiz tur artışı bütün ağı çalkalar (önceki KK-04'ün 18 Kasım sürümü, kural 8). Bedeli (bilinçli): kendi aralığımda ölen ya da kilide giren ardıl, aralık bitene kadar aday kalır ve paketler ona gider; kendi alımım bozukken bunu ayırt etmenin yolu yok (bağımsız denetim S-3).
 
 **F · Çıktılar ve sıra**
 
@@ -167,11 +170,10 @@ Açlık dizisi kendi durumumda bekler (kural 14) ve açlık bitince durur. Yok s
     - **ilan:** (tur, C) (B6 için);
     - **olaylar** (B6 için "hemen gönder"):
       - ∞ ↔ sonlu;
-      - tur değişimi (istek yanıtı);
-      - kural 12'nin yanıtları;
+      - kural 12'nin yanıtları: tur isteğine ve rota isteğine yanıt, tutulan bir isteği karşılayan tur değişimi, geçidin istekle turunu artırması;
       - maliyetin önemli değişimi; önemlinin eşiği B6'nın (`ILAN_ESIGI`).
 
-      Tek başına ardıl değişimi olay değildir; maliyeti önemli değiştiriyorsa son maddeye girer (RFC 8966 §3.7.2: maliyeti belirgin değiştirmeyen ardıl değişiminde tetiklenen güncelleme SHOULD NOT). 27 Kasım'da B6'yla düzeltildi; 26 Kasım'daki metin ardıl değişimini olay sayıyordu;
+      Tek başına ardıl değişimi olay değildir; maliyeti önemli değiştiriyorsa son maddeye girer (RFC 8966 §3.7.2: maliyeti belirgin değiştirmeyen ardıl değişiminde tetiklenen güncelleme SHOULD NOT). 27 Kasım'da B6'yla düzeltildi; 26 Kasım'daki metin ardıl değişimini olay sayıyordu. İsteği karşılamayan tur değişimi de olay değildir; yeni tur bir sonraki planlı selamla yayılır (RFC 8966 §3.7.2: yeni sıra numarasını yaymak için tetiklenen güncelleme SHOULD NOT, isteği karşılamak dışında; 17 Kasım denetiminin B-10 kararı). 27 Kasım'daki metinde "tur değişimi (istek yanıtı)" ayrı bir olaydı ve B6 onu her tur değişimi diye okuyordu (28 Kasım, bağımsız denetim Ö-1);
     - **tur isteği iletileri:** (alıcı ya da çoklu yayın, istenen tur, kalan atlama) (B6 gönderir);
     - **ardıl değişti** olayı (B5, B7).
 16. **Sıra:** her niyetli kancada B1 → B2 → B3 → B4 → B5. B4'ün kendi sırası:
@@ -183,24 +185,34 @@ Açlık dizisi kendi durumumda bekler (kural 14) ve açlık bitince durur. Yok s
     6. ilan ve FD (kural 8–9);
     7. açlık (kural 11);
     8. süre dolmadan istek (kural 4a) ve tercih edilir uygulanamaz ilan (kural 10a); ikisi de ardıl varken, açlık isteği ise ardıl yokken çalışır;
-    9. istekler (kural 12).
+    9. istekler (kural 12);
+    10. ölçüm beyanları (kural 18).
 
     Selam niyetli bir kancada gelir (`kontrol_alindi`); ilanı o kancada işlenir.
-17. **Döngü tanısı** (yalnız ölçüm): paket bana daha büyük bir atlama sayısıyla yeniden gelirse sayılır. Kaynak başına en yeni paket (`kaynak_sira` ve atlama sayısı) tutulur; aynı paket daha büyük atlama sayısıyla gelirse döngüdür. MAC'in yeniden denemelerini simülatör bastırır, protokole gelmez. Yalnız kaynağın en yeni paketi izlendiği için sayı bir alt sınırdır. Uygulanabilirlik koşuluyla bu sayı 0 olmalıdır (§15). Bir mekanizma değildir; sınamada 0'dan büyük çıkması hatadır. Girdisi ve kaydı 28 Kasım'da (Aşama 3) §2–3'e yazıldı.
+17. **Aynı düğüme dönüş** (yalnız tanı; 28 Kasım'a kadar "döngü tanısı"): paket bana daha büyük bir atlama sayısıyla yeniden gelirse sayılır. Kaynak başına en yeni paket (`kaynak_sira` ve atlama sayısı) tutulur; aynı paket daha büyük atlama sayısıyla gelirse sayılır. MAC'in yeniden denemelerini simülatör bastırır, protokole gelmez. Yalnız kaynağın en yeni paketi izlendiği için sayı bir alt sınırdır. Girdisi ve kaydı 28 Kasım'da (Aşama 3) §2–3'e yazıldı.
+    - Bu sayı 0 olmak zorunda değildir ve hata sayılmaz. Uygulanabilirlik koşulu ardıl grafiğini her an döngüsüz tutar (§15), ama paket bir düğümde beklerken yol değişirse aynı düğüme dönebilir. Örnek: açlıkta bekletilen paket, yeni turla yolu değişen eski çocuğuma gider (bağımsız denetim Ö-2).
+    - Döngünün sınaması ardıl grafiğindedir (§13 madde 12).
+18. **Ölçüm beyanları** (yalnız ölçüme gider; anlamları Babel-a'nınkiyle aynı, K-139; 28 Kasım, bağımsız denetim Ö-4 ve ikinci okuma Y-1):
+    - **`kopma(K)`:** bir önceki niyetli kancanın sonunda ardılım olan K bu kancada aday değil, çünkü bağı KULLANILMAZ oldu (B3), K B1'de silindi ya da ilanının ömrü doldu (kural 4). Üçü de "bir sonraki atlamaya artık ulaşılamıyor" demektir.
+    - Kopma sayılmayanlar: S'ye düşmek (bağ kullanılabilir kalır); K'nin ∞ ilanı (K yolunu kaybetti, bağ sağlam); yok saymanın sonunda uygulanamaz kalan ilan (kural 10); daha iyi bir adaya geçiş (kural 5).
+    - **`rota_kuruldu(K)`:** K'nin kopmasından sonra yeniden ardılım var; aynı kancada da olabilir.
+    - Susan komşuyu Babel-a bağın maliyetiyle tanır: IHU tutma süresi (3,5 × 12 s ≈ 42 s) dolunca maliyet ∞ olur, komşu kullanılır komşu kümesinden çıkar ve rota hâlâ seçiliyken kopma beyan edilir; etkilenen önek yeniden seçili rotaya kavuşunca rota kuruldu (`protokoller/babel.py`, `_maliyet`, `_beyanlar`). DESPARETE aynı komşuyu ilanın ömrüyle tanır (en çok ~7,7 s); bağ ancak ~30 s'de KULLANILMAZ olur ve o anda K artık ardıl değildir. İlanın ömrü sayılmasaydı susan ardıl için kopma hiç beyan edilmezdi; 28 Kasım'ın ilk metni böyleydi (ikinci okuma Y-1).
+    - Kendi karıştırılmamda ilanın yaşı durduğu için (kural 4) bu sırada ilanın ömrüyle kopma beyan edilmez.
+    - Beyanlar olay sırasının 7. adımında döner (`18` §1.4). `rota_gecersiz` B7'nindir (B7 kural 4).
 
 ## 6 · İletiler
 
 B4 ileti göndermez; ilanı ve tur isteğini B6 taşır. B6'dan beklediklerim (Aşama 2.6'da kapanır):
 
 - **Ö-1** Her selamda ilan bulunur: tur (16 bit) ve maliyet (16 bit, B3 kural 2'nin birimi; 0xFFFF = ∞). Bedeli selam başına 4 bayt. Bugünkü çekirdekte yalnız maliyet var, yani 2 bayt eklenir.
-- **Ö-2** "Hemen gönder" olayında selam en kısa sürede gider (B1 Ö-4'ün en kısa aralığıyla). Geri çekme (∞) olaydır (RFC 8966 §3.7.2: SHOULD). Ardıl değişimi ancak maliyeti önemli değiştiriyorsa olaydır (§3.7.2: aksi hâlde SHOULD NOT; kural 15, B6 kural 7; 27 Kasım'da düzeltildi).
+- **Ö-2** "Hemen gönder" olayında selam en kısa sürede gider (B1 Ö-4'ün en kısa aralığıyla). Geri çekme (∞) olaydır (RFC 8966 §3.7.2: SHOULD). Ardıl değişimi ancak maliyeti önemli değiştiriyorsa olaydır (§3.7.2: aksi hâlde SHOULD NOT; kural 15, B6 kural 7; 27 Kasım'da düzeltildi). Tur değişimi yalnız bekleyen bir isteği karşılıyorsa olaydır (§3.7.2; kural 15; 28 Kasım'da düzeltildi).
 - **Ö-3** Tur isteği iletisi: istenen tur (16 bit) ve kalan atlama (8 bit, başlangıcı `ISTEK_ATLAMA`). Açlıkta çoklu yayın; yok saymada, iletmede ve kural 10a'da tek alıcılı (7 deneme). Boyu ⌈24/8⌉ + 64 = 67 bayt. Kural 4a'nın rota isteği aynı iletidir: tek alıcılı, kalan atlama 1, istenen tur ardılın ilanının turu. Ayrı bir ileti türü gerekmez.
 - **Ö-4** Selamın aralık alanı (B1 Ö-2) ilanın ömrü için de kullanılır (kural 4). Aralık değişirse ömür ona göre değişir.
 - **Ö-5** (27 Kasım) Kural 4'ün ve 4a'nın anları B4'ün son tarihidir: ardılın ilanının (`ILAN_OMUR_KAT` − `SURE_ISTEK_PAYI`) · a yaşına ve `ILAN_OMUR_KAT` · a yaşına ulaşacağı anlar. Bunlar için uyandırma kurulup kurulmayacağı B6'nın kararıdır (B1 Ö-6 gibi). Kurulmazsa istek en geç bir sonraki niyetli kancada gider; saniyelik zamanlayıcı bunu en çok 1 s geciktirir. En kısa selam aralığında (0,5 s) bu, isteğin geç kalması demektir.
 
 **Kontrol yüküne katkı:** selam başına 2 bayt (tur alanı) ve tur istekleri. İlk çekirdekte (18 Kasım) koşu başına 822 açlık ve 92 tur artışı vardı. Açlığın kökü kalktıktan sonra istek sayısı tanıda sayılır.
 - Kural 4a, ardılın ilanı bir selam aralığı kala hâlâ tazelenmemişse gider. Temiz kanalda ardılın ilanı 3,5 a'da kararların %2,1'inde bayattı (B5 teşhisi E9); 2,5 a'ya ulaşan ilan bundan sıktır. Her istek bir 67 baytlık çerçeve ve bir yanıt selamı.
-- Kural 10a yalnız tercih edilir uygulanamaz bir ilan varken ve en çok `YOK_SAYMA_S`'de bir gider. Turu geçitte artırdığı için yeni tur ağa yayılır (§11 madde 8).
+- Kural 10a yalnız tercih edilir uygulanamaz bir ilan varken (ilan ettiği maliyet benimkinden küçük komşu) ve en çok `YOK_SAYMA_S`'de bir gider; 28 Kasım'dan beri bekleme istenen turdan bağımsızdır. Turu geçitte artırdığı için yeni tur ağa yayılır (§11 madde 8).
 - İkisinin sayısı ve kontrol payına etkisi tanıda sayılır (§13).
 
 ## 7 · Değerler
@@ -214,7 +226,7 @@ B4 ileti göndermez; ilanı ve tur isteğini B6 taşır. B6'dan beklediklerim (A
 - **Hiç komşu yok:** C = ∞, istek yok (uygulanamaz ilanlı komşu yok). **Tek komşu:** o komşu uygulanabilirse ardıldır; S'de ise yine kullanılır (E1).
 - **Düğüm kendisi karıştırılırken:** ilanların yaşı durur (kural 4), istek gitmez (kural 14). Durumum "yok"a dönünce yaş kaldığı yerden işler.
 - **Komşu karıştırılırken:**
-  - girişimdeki komşu B3'te S'dir; O'da aday varsa ona geçilir. O'da aday yoksa ve uygulanamaz ilanlı olağan bir komşu varsa ona istek gider (kural 10a);
+  - girişimdeki komşu B3'te S'dir; O'da aday varsa ona geçilir. O'da aday yoksa ve ilan ettiği maliyet benimkinden küçük, uygulanamaz ilanlı olağan bir komşu varsa ona istek gider (kural 10a);
   - kanal kilidindeki komşu susar. Ardılsa bir selam aralığı kala ona istek gider (kural 4a), yanıt gelmez; ilanı `ILAN_OMUR_KAT` · a sonra ∞ olur (kural 4).
 - **Ardılın maliyeti yükselirken:** ilanı uygulanabilir kaldıkça kabul edilir. Uygulanamaz olursa yok sayılır ve tur istenir (kural 10).
 - **Sayaç taşması:** tur 16 bit, modüler. Maliyet 0xFFFE'de doyar; FD.maliyet de öyle.
@@ -244,6 +256,8 @@ B4 ileti göndermez; ilanı ve tur isteğini B6 taşır. B6'dan beklediklerim (A
 | ilan (tur, C), "hemen gönder" olayları | 8, 15 | B6 |
 | tur isteği iletileri (rota isteği dâhil) | 4a, 10–12 | B6 |
 | açlık durumu | 11 | B7 (bekletme) |
+| ölçüm beyanları (kopma, rota kuruldu) | 18 | simülatör (ölçüm) |
+| aynı düğüme dönüş sayısı | 17 | yalnız tanı |
 
 ## 10 · Kapalıyken davranış
 
@@ -269,8 +283,8 @@ Karıştırma katmanı kapalıyken B3 son çare durumunu yalnız "veri yok" sebe
 4. **B7:** açlıkta paketler bekletilir; ne kadar ve ne zaman düşeceği B7'nin.
 5. **B2:** kendi durumum isteği bastırır (kural 14); kendi aralıklarım ilanların yaşını durdurur (kural 4). Kendi aralıklarım geriye dönük açılır (B2 kural 8); yaş her seçimde yeniden hesaplandığı için sonradan açılan aralık da sayılır.
 6. **Kanıtı silmeme** (sözleşme 4): B4 hiçbir gözlemi silmez. Uygulanamaz ilanı yok saymak (kural 10) yalnız seçimi geciktirir; ilan kaydedilir, süre dolunca uygulanır.
-7. **Eski döngü kuralları:** geri gönderme yasağı ve döngü bekçisi gerekmez. Uygulanabilirlik koşulu paketi getiren komşuya geri göndermeyi de kendiliğinden önler: getiren komşu, yolu benden geçtiği için bana uygulanamaz görünür (§15). Döngü yalnız tanıda sayılır (kural 17).
-8. **Tur artışı** (27 Kasım eki): kural 10a ile tur isteği daha sık gider. Her istek geçitte turu en çok bir artırır (kural 12–13). Yeni tur uygulanabilirliği bütün ağda gevşetir: daha çok komşu aday olur, isteğe bağlı geçişler artabilir. Döngüsüzlük bozulmaz (§15). Tur artışının sayısı ve sebebi tanıda sayılır.
+7. **Eski döngü kuralları:** geri gönderme yasağı ve döngü bekçisi gerekmez. Uygulanabilirlik koşulu paketi getiren komşuya geri göndermeyi de kendiliğinden önler: getiren komşu, yolu benden geçtiği için bana uygulanamaz görünür (§15). Aynı düğüme dönüş yalnız tanıda sayılır (kural 17); döngünün sınaması ardıl grafiğindedir (§13 madde 12).
+8. **Tur artışı** (27 Kasım eki; 28 Kasım düzeltmesi): kural 10a ile tur isteği daha sık gider. Her istek geçitte turu en çok bir artırır (kural 12–13); kural 10a düğüm başına en çok `YOK_SAYMA_S`'de bir istek gönderir. Yeni tur ağa yayıldıktan sonra uygulanabilirliği gevşetir: daha çok komşu aday olur, isteğe bağlı geçişler artabilir. Yayılırken, yeni turu benimseyen düğüm eski turlu komşularını bir süre uygulanamaz görür. Döngüsüzlük bozulmaz (§15). Tur artışının sayısı ve sebebi tanıda sayılır. 27 Kasım'daki metinde kural 10a'nın beklemesi istenen tura bağlıydı ve sınıf dalı yolu benden geçen komşuları da hedef alıyordu; karıştırma sürdükçe tur art arda artabiliyordu (bağımsız denetim E-1).
 9. **Kural 4a ile 4'ün ilişkisi:** 4a, 4'ün yaşını kullanır. Kendi karıştırılmamda yaş durduğu için 4a da beklemiş olur; istek ayrıca kural 14'le bastırılır.
 
 ## 12 · Örnek senaryo
@@ -298,10 +312,11 @@ Maliyetler ETX cinsinden (tamsayısı × 64). i'nin FD'si (tur 7, 2,0).
    - l'nin rotası sonlu ve turu 9: "hemen gönder". Son selamından (304,0) beri en kısa aralıktan (0,5 s) uzun süre geçtiği için selam hemen çıkar ve 305,1'de gelir. İlan tazelenir, l ardıl kalır. Tur artmaz.
 8. **Tercih edilir uygulanamaz ilan** (kural 10a): i'nin FD'si (9, 4,5), ardılı l (`m_l` = 1,0 + 3,5 = 4,5).
    - l girişime girer, bitini gönderir; B3'te S olur. O'da aday yok, l ardıl kalır (E1).
-   - Komşu m'nin bağı olağan (1,2), ilanı (9 · 4,6) taze ama uygulanamaz (4,6 ≥ 4,5).
-   - m O'da, ardıl S'de: m tercih edilir. m'ye tek alıcılı tur isteği gider (istenen 10).
-   - İstek m'nin ardıl zinciriyle geçide ulaşır, geçit turunu 10 yapar, yanıt aynı yoldan döner. m (10 · 4,6) ilan eder: daha yeni tur, uygulanabilir.
-   - m O'da aday olur; l S'de olduğu için zorunlu geçişle ardıl m: C = 1,2 + 4,6 = 5,8, FD (10, 5,8).
+   - Komşu m'nin bağı olağan (1,2). İlanı (8 · 3,0) taze ama eski turlu, bu yüzden uygulanamaz: m'nin dalına tur 9 henüz ulaşmadı.
+   - m O'da, ardıl S'de ve `C_m` 3,0 < C 4,5: m tercih edilir. m'ye tek alıcılı tur isteği gider (istenen 10).
+   - İstek m'nin ardıl zinciriyle geçide ulaşır, geçit turunu 10 yapar, yanıt istek yolundan döner. m (10 · 3,0) ilan eder.
+   - Yeni tur bana önce l'den ulaşsa da (FD (10, 4,5)) m'nin ilanı uygulanabilirdir: 3,0 < 4,5. m O'da aday olur; l S'de olduğu için zorunlu geçişle ardıl m: C = 1,2 + 3,0 = 4,2, FD (10, 4,2).
+   - Yolu benden geçen bir komşunun ilanı ise (9 · 5,5) gibidir: `C` ≥ 4,5 olduğu için ona istek gitmez (28 Kasım, bağımsız denetim E-1).
 9. **Kendim karıştırılırken** (kural 4, 14): i 340,0–350,0 arasında girişimde; kendi aralığım [338,0, 349,0] (B2 kural 8).
    - Ardıl m'nin son ilanı 338,5'te geldi, sonraki selamları kaybolur.
    - 345,0'da aralık sürüyor: yaş (345,0 − 338,5) − (345,0 − 338,5) = 0. 350,0'da yaş (350,0 − 338,5) − (349,0 − 338,5) = 1,0 s.
@@ -344,8 +359,8 @@ Maliyetler ETX cinsinden (tamsayısı × 64). i'nin FD'si (tur 7, 2,0).
    - bastırma;
    - kayıt ve yanıtın geri yayılması.
 10. **İlan:** turu ardılınki, geçitte kendininki; ∞'da FD'nin turu.
-11. **Olaylar:** ∞ ↔ sonlu, tur değişimi, maliyetin önemli değişimi; tek başına ardıl değişimi olay değil.
-12. **Döngüsüzlük (uçtan uca):** küçük test dünyasında rastgele maliyet değişimleri ve kopmalarla döngü tanısı (kural 17) 0.
+11. **Olaylar:** ∞ ↔ sonlu, kural 12'nin yanıtları (tutulan isteği karşılayan tur değişimi dâhil), maliyetin önemli değişimi; tek başına ardıl değişimi ve isteği karşılamayan tur değişimi olay değil.
+12. **Döngüsüzlük (uçtan uca):** küçük test dünyasında rastgele maliyet değişimleri, tur artışları ve kopmalarla her olaydan sonra bütün düğümlerin ardıl grafiği döngüsüz. Aynı düğüme dönüş (kural 17) yalnız raporlanır; 0 olması beklenmez (28 Kasım, bağımsız denetim Ö-2).
 13. Örnek senaryonun (§12) sayıları uçtan uca.
 14. **İlanın yaşı** (kural 4): kendi aralığıma düşen süre sayılmaz; sürmekteki aralık; geriye dönük açılan aralık; `HARIC_UST_S` kesmesi; katman kapalıyken yaş kesintisiz.
 15. **Süre dolmadan istek** (kural 4a):
@@ -357,9 +372,12 @@ Maliyetler ETX cinsinden (tamsayısı × 64). i'nin FD'si (tur 7, 2,0).
     - sınıf tercihi (j O'da, ardıl S'de); aynı sınıfta `TERCIH_FARKI` sınırı (tam eşitlik dâhil);
     - KULLANILMAZ bağlı, ∞ ya da bayat ilanlı komşuya istek gitmemesi;
     - birden çok j varken en iyisine gitmesi;
-    - `YOK_SAYMA_S` beklemesi (kural 10, 10a ve 11'in istekleriyle);
+    - `C_j` < C koşulu: yolu benden geçebilecek (maliyeti benimkinden küçük olmayan) komşuya istek gitmez; yeni turdan sonra hedefin uygulanabilir olması, yeni tur önce ardıldan gelse de;
+    - bekleme: 10a'dan sonra `YOK_SAYMA_S` boyunca, istenen tur ne olursa olsun, yeni 10a isteği yok; yeni tur benimsendiği kancada yinelenmez; 10 ve 11'in istekleriyle istenen tura göre;
     - ardıl yokken gitmemesi (açlık kural 11'in işi);
     - kendi durumumda bastırma; `tercih_istegi` kapalıyken istek yok.
+17. **İstek gelince, 28 Kasım ekleri** (kural 12): rota isteğine (h = 1) rotası ∞ olan düğüm ∞'lu selamla yanıt verir; rotası ∞ olan düğüm tur isteğini iletmez.
+18. **Ölçüm beyanları** (kural 18): ardılın bağı KULLANILMAZ olunca, ardıl silinince ya da ilanının ömrü dolunca kopma; S'ye düşüşte, ∞ ilanda, yok saymanın sonunda ve daha iyi adaya geçişte beyan yok; kendi aralığımda ilanın ömrüyle kopma yok; yeni ardılla rota kuruldu, aynı kancada da.
 
 **Ölçümde sayılacak tanı:**
 - açlık bölümlerinin sayısı ve süresi, kökü (ardılın ∞'u, ilanın ömrü, uygulanamaz ilan);
@@ -372,7 +390,7 @@ Maliyetler ETX cinsinden (tamsayısı × 64). i'nin FD'si (tur 7, 2,0).
 - kural 10a'nın istekleri, açtığı adaylar ve açılma süresi;
 - tur artışının sebebe göre sayısı (açlık, yok sayma, 10a);
 - kendi aralıklarımla durdurulan ilan yaşı;
-- döngü tanısı (0 beklenir);
+- aynı düğüme dönüş (kural 17; 0 beklenmez) ve ardıl grafiğinde döngü (kaydedici her olaydan sonra denetler; 0 olmalı);
 - yol maliyetinin dağılımı.
 
 ## 14 · Kaynak
@@ -390,7 +408,9 @@ Maliyetler ETX cinsinden (tamsayısı × 64). i'nin FD'si (tur 7, 2,0).
   - isteğin yalnız kullanılır bağlı uygulanamaz komşu varken gönderilmesi;
   - kendi aralıklarımda ilanın yaşının durması;
   - "tercih edilir"in önce sınıfla tanımlanması;
-  - süre dolmadan isteğin bir selam aralığı kala, tur isteği iletisiyle ve kalan atlama 1 ile gönderilmesi.
+  - süre dolmadan isteğin bir selam aralığı kala, tur isteği iletisiyle ve kalan atlama 1 ile gönderilmesi;
+  - kural 10a'nın sınıf dalında maliyet koşulu (`C_j` < C) ve istenen turdan bağımsız bekleme (28 Kasım).
+- **Ölçüm beyanları:** anlamları Babel-a'nınki (K-139; `protokoller/babel.py`).
 
 Önceki tasarımın 18 Kasım sürümü de bu ailedendi (`../arsiv/kural/KK-04-ROTA-2026-11-18.md`). Kurallar oradan alınmadı, RFC'den yeniden yazıldı. Farklar: aday sınıfları, ilanın ömrü, RFC'nin uygulanamaz yola istek iletmesinin eklenmesi. 26 Kasım'daki metinde RFC'nin iki SHOULD'u (§3.8.2.2'nin ikinci paragrafı, §3.8.2.3) yoktu; B5 teşhisinin gösterdiği bedelle 27 Kasım'da eklendi.
 
@@ -399,13 +419,15 @@ Maliyetler ETX cinsinden (tamsayısı × 64). i'nin FD'si (tur 7, 2,0).
 **Döngüsüzlük** (RFC 8966 §2.4, §3.5'in gerekçesi):
 - Bir düğüm yalnız uygulanabilir komşuya paket gönderir: komşunun ilanı benim FD'mden kesin iyidir.
 - Komşunun kendi FD'si, onun gönderdiği her sonlu ilandan iyi ya da ona eşittir. Bu yüzden paketin geçtiği düğümlerin FD'si her atlamada kesin iyileşir. Karşılaştırma önce tura, sonra maliyete bakar; maliyet her atlamada kesin artar (kural 2).
-- Bu yüzden paket aynı düğüme dönemez. Kural, B5'in aday listesinden yaptığı her seçim için de geçerlidir: listedeki her aday uygulanabilirdir.
+- Bu yüzden ardıl grafiğinde her an döngü yoktur. Kural, B5'in aday listesinden yaptığı her seçim için de geçerlidir: listedeki her aday uygulanabilirdir.
+- Bu, paketin aynı düğüme hiç dönmeyeceği demek değildir: paket bir düğümde beklerken FD'ler yeni turla değişebilir. Dönüş bir döngü değildir; sayısı yalnız tanıdır (kural 17; 28 Kasım, bağımsız denetim Ö-2).
 - FD'nin tutucu güncellenmesi (kural 9) bunu bozmaz: FD yalnız küçülebilir.
 
 **Ölçülmeyen** (Aşama 4'te sayılır ya da ablasyonla ölçülür):
 - açlığın yeni tasarımdaki sıklığı (iki kökü kalktı, kendisi ölçülmedi);
 - ilanın ömrünün etkisi (`ilan_omru`);
-- kural 4a ve 10a'nın etkisi ve sayısı (`sure_istegi`, `tercih_istegi`); B5 teşhisi yalnız üst sınırlarını verdi (E8: 0,038; E9: temiz kanalda kararların %2,1'i);
+- kural 4a ve 10a'nın etkisi ve sayısı (`sure_istegi`, `tercih_istegi`); B5 teşhisi yalnız üst sınırlarını verdi (E8: 0,038, bunun ~%72'sinde hedef kararı veren düğümün alt ağacındaydı, alt ağaç dışlanınca en çok ~0,011; yeni koşul bunun ancak bir kısmına ulaşabilir, ne kadarına ulaştığı ölçülemedi: kayıt hedefin ve kararı verenin ilan ettiği maliyeti tutmuyor; E9: temiz kanalda kararların %2,1'i);
+- ardıl grafiğinin döngüsüzlüğü bugünkü kodda ölçülmedi: `eğim0`'ın kayıtlarında döngü sayacı yoktu ve `18` §2.4'teki "0" bir ölçüm değildi (28 Kasım, bağımsız denetim Ö-2); dayanak RFC 8966 §2.4'ün ispatıdır;
 - kendi aralıklarımla ilanın yaşının durmasının etkisi (karıştırma katmanıyla birlikte);
 - S sınıfının kullanım sıklığı ve etkisi;
 - değerler (`DUZ_S`, `SURE_ISTEK_PAYI`, `TERCIH_FARKI`, istek aralıkları);

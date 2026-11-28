@@ -19,6 +19,8 @@
 | **geri** | **0,948 ± 0,037** | 0,860 | **0,666 ± 0,156** | 0,412 | 0,826 | 1,49 s | 275 · 3163 |
 | **geri+sınır** | **0,958 ± 0,013** | 0,937 | **0,659 ± 0,156** | 0,408 | 0,863 | 1,24 s | 10 · 1014 |
 
+> **28 Kasım düzeltmesi** (yeni tasarımın bağımsız denetimi, Ö-2; `arsiv/denetim/DENETIM-RAPORU-TASARIM-2026-11-28.md`): eğim0 satırındaki "0 · 0" bir ölçüm değil. eğim0'ın kayıtlarında (`arsiv/teshis/faz5_3_yeni_cekirdek_2026-11-19/kayit_egim0_{ikiz,birincil}.json`, 16 koşu) `rota.dongu` sayacı yok; sayacı yalnız eğim modülü tutuyordu. `sonuc_hesap.py`'nin `sayac` işlevi eksik anahtara 0 döndürüyordu. Kayıtlarda sayacın yokluğu 28 Kasım'da yeniden denetlendi. Döngüsüzlüğün dayanağı RFC 8966 §2.4'ün ispatıdır.
+
 Tohum başına:
 
 | | 1003 | 1004 | 1005 | 1006 | 1007 | 1008 | 1009 | 1010 |

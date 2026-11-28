@@ -1,6 +1,6 @@
 # Bütünlük denetimi — yedi bileşen birlikte
 
-> Aşama 3'ün ilk adımı (`../18-YENI-TASARIM.md` Aşama 3 madde 1): bütün bileşenler birlikte, `18`'in "Bütünlük denetiminde" listesine göre (madde 1–6; madde 7 bağımsız denetimin). Kâğıtlar `B1`…`B7`, değerler, bayraklar ve gözlemin kullanımı `00-DIZIN.md`. Hesaplar kayıtlardan, yeni koşu yok: `arsiv/teshis/faz5_3_butunluk_2026-11-27/butunluk_hesap.txt`, B6'nın `kontrol_bedeli.txt`'i, B7'nin `bekletme_komut.txt`'i. Durum: onaylandı (28 Kasım).
+> Aşama 3'ün ilk adımı (`../18-YENI-TASARIM.md` Aşama 3 madde 1): bütün bileşenler birlikte, `18`'in "Bütünlük denetiminde" listesine göre (madde 1–6; madde 7 bağımsız denetimin). Kâğıtlar `B1`…`B7`, değerler, bayraklar ve gözlemin kullanımı `00-DIZIN.md`. Hesaplar kayıtlardan, yeni koşu yok: `arsiv/teshis/faz5_3_butunluk_2026-11-27/butunluk_hesap.txt`, B6'nın `kontrol_bedeli.txt`'i, B7'nin `bekletme_komut.txt`'i. Durum: onaylandı (28 Kasım); aynı gün bağımsız denetimden sonra düzeltildi (§13).
 
 ## Özet
 
@@ -14,8 +14,9 @@
   - iskelet (`18` §1.4): tablo, sözleşme 1, 2 ve 7, olay sırası ve kanca tablosu onaylı kâğıtlara göre düzeltildi;
   - B1 kural 16 (sondaki sessizlik) kaldırıldı;
   - B5'in kararından önce yazılmış dokuz anış düzeltildi (B2'de beş, B3'te üç, B4'te bir). Bunlar B5'e karıştırma eki ve paket başına karar, son çaredeki ardıl için de bekletme öngörüyordu;
-  - B4'ün döngü tanısının girdisi ve kaydı yazıldı; B4 §2 başlığı okunmayanlar arasında sayıyordu, §3'te kaydı yoktu.
-- **Mekanizma kapısı** (§10): karıştırma katmanının kendine ait payı ince. Ölçülmüş üst sınırların toplamı ~0,03; ayrıca ölçülmemiş bir pay var. Aşama 4'ün beklentisinde kapının tutmama olasılığı açıkça yazılmalı.
+  - B4'ün döngü tanısının (28 Kasım'dan beri "aynı düğüme dönüş", §13) girdisi ve kaydı yazıldı; B4 §2 başlığı okunmayanlar arasında sayıyordu, §3'te kaydı yoktu.
+- **Mekanizma kapısı** (§10): karıştırma katmanının kendine ait payı ince. Ölçülmüş üst sınırların toplamı bağımsız denetimden sonra ~0,02, yani eşikte; ayrıca ölçülmemiş paylar var. Aşama 4'ün beklentisinde kapının tutmama olasılığı açıkça yazılmalı.
+- **Bağımsız denetim** (§13): bir engelleyici, beş önemli ve altı küçük bulgu; hepsi doğrulandı ve işlendi.
 
 ## 1 · Değerler tek yerde (madde 1)
 
@@ -43,12 +44,13 @@ Başka ileti yok. Komut ve telemetri veri çerçevesidir.
 | selam ve bugünkü tur istekleri (bugünkü biçim ve zamanlama, ara ilanlar dâhil) | ölçüldü, `eğim0`: düğüm başına saniyede 0,67 selam, ~100 bayt (`kontrol_bedeli.txt`; `18` §2.6) | %2,7 |
 | bit değişimiyle öne çekilen selamlar | B2 §6: 30 s'lik çevrimde ağda ~16 ek selam; selam sayısının ~%2'si | ~%0,05 |
 | kural 4a'nın rota istekleri ve yanıt selamları | ardılın iki selamı art arda kaybolunca bir istek. Temiz kanalda ilan kararların %2,1'inde 3,5 · a'dan eski (B5 teşhisi E9); selam kaybı bağımsızsa ardılın selam kaybı ~0,27, iki kayıp ~%7,5. Düğüm başına saniyede ~0,05 istek; her biri ~2 ms (istek, onay, yanıt selamı) | ~%0,4 |
-| açlık, yok sayma ve 10a'nın tur istekleri | açlık ve yok sayma istekleri bugünkü sayıma dâhil; 10a seyrek (en çok `YOK_SAYMA_S`'de bir) | ~0 |
-| **toplam (protokolün iletileri)** | | **~%3** |
+| açlık, yok sayma ve 10a'nın tur istekleri | açlık ve yok sayma istekleri bugünkü sayıma dâhil; 10a düğüm başına en çok `YOK_SAYMA_S`'de bir ve yalnız maliyeti benimkinden küçük komşuya (B4 kural 10a, 28 Kasım) | ~0 |
+| rota isteğinin yanıtı ardılın aralığını kısaltır | yanıt bir olay selamıdır, ardılın I'sı `I_MIN`'e iner; istek başına ~1–2 ek selam (bağımsız denetim S-6) | ~%0,1–0,3 |
+| **toplam (protokolün iletileri)** | | **~%3–3,5** |
 | veri çerçevelerinin MAC onayları (simülatör kontrol sayar) | ölçüldü: %3,2–3,4 (`18` §2.6) | %3,2–3,4 |
 | **kontrol payı (koruma ölçütünün tanımı)** | | **~%6–7** |
 
-Hedefin sınırı %10, Babel'in payı %15 (kendi iletileri %11). Kestirimlerin dayandığı selam kaybı bağımsızlığı bir varsayımdır; sayılar Aşama 4'te ölçülür (B6 §13'ün tanısı, iletiler ve onaylar ayrı).
+Hedefin sınırı %10, Babel'in payı %15 (kendi iletileri %11). Kestirimlerin dayandığı selam kaybı bağımsızlığı bir varsayımdır; sayılar Aşama 4'te ölçülür (B6 §13'ün tanısı, iletiler ve onaylar ayrı). Ölçülen %2,7, tur değişimini yalnız bir isteği karşılarken olay sayan kuralla ölçüldü (bugünkü kod, KK-02 kural 3); B6 kural 7 28 Kasım'da buna döndü (bağımsız denetim Ö-1). Tavan: en kısa ara (0,5 s) her düğümü saniyede en çok iki selamla sınırlar; bütün düğümler sürekli `I_MIN`'de olsa kontrol payı onaylarla ~%10 olurdu.
 
 ## 3 · Durumların birleşimi (madde 3)
 
@@ -61,14 +63,14 @@ Her durumda yedi bileşenin yaptığı (i, bakılan düğüm; j, ardılı):
 | j kanal kilidinde | j susar; dönüşte geri alma sıfırları siler | bit gelmez; göndericinin olayı | j SON ÇARE (gönderici, veri yok) | zorunlu geçiş ya da S; ilan 3,5 · a'da bayat; j ardılsa 4a'nın isteği yanıtsız | ardıla, aday kaldıkça | — | iz j'yi gösterirse komut j'ye; j'den telemetri gelmez, iz 3 s'de bayatlar |
 | j öldü ya da uzaklaştı | 30 s'de silinir | göndericinin olayı | SON ÇARE; silinince yok | ilan bayat, aday dışı; açlıksa açlık isteği | ardıla, aday kaldıkça | — | iz 3 s'de bayat, j silinince geçersiz; komut bekler |
 | i girişimde | sıfırlar (gerçek kayıp) | girişim, bit 1, kendi aralıklarım | hariç aralık: maliyetler korunur; komşulara önceki oran | ilanların yaşı durur; istek gitmez | olağan; çerçeve ulaşır, onayı duyulmaz | olağan, bit 1 | olağan |
-| i kanal kilidinde | sıfırlar | kanal kilidi | hariç aralık | yaş durur; istek gitmez | sorulmaz (geri çekilme bitmez) | selam kurulmaz; kilit bitince hemen | paketler kuyrukta bekler |
+| i kanal kilidinde | sıfırlar | kanal kilidi | hariç aralık | yaş durur; istek gitmez | tam kilitte sorulmaz; kısmi kilitte olağan | selam olağan kurulur; tam kilitte kuyrukta bekler | tam kilitte paketler kuyrukta bekler |
 | açlık | — | — | — | C = ∞; açlık isteği (çoklu yayın) | B7'nin kararı | ∞ olayı, istek titreşimli | 1 s bekletir; açlık bitince hemen yeniden sorar |
 | geçit | ölçer | aynı kurallar | geçide giden bağ bildirim ve gönderici sebebiyle S'ye düşmez | C = 0, tur istekle artar | yalnız komut | C = 0 | komut izi gelen telemetriden |
 
 **Çelişki yok:** her bileşenin bir durumdaki kuralı, ötekilerin kuralının varsaydığı şeyle uyumlu. Denetlenen birleşimler:
 - son çare: B3 (E1) → B4'ün sıralaması → B5'in gönderimi: olağan aday yoksa son çare kullanılır. B7'de komutun bilinen tek yolu iz olduğu için izin komşusu S'de olsa da kullanılır (B7 kural 8); E1 ile uyumlu;
-- kendi karıştırılmam: B3'ün hariç aralığı, B4'ün ilan yaşı ve istek bastırması, B6'nın kilit kuralı ve B2'nin gönderici ayıklaması aynı kaynağa, B2'nin kendi durumuna ve aralıklarına dayanıyor;
-- kilitte selam kurulmaması (B6) ↔ B1'in sırası tüketilen selam beklentisi (Ö-5) ↔ B1'in geri alması;
+- kendi karıştırılmam: B3'ün hariç aralığı, B4'ün ilan yaşı ve istek bastırması ve B2'nin gönderici ayıklaması aynı kaynağa, B2'nin kendi durumuna ve aralıklarına dayanıyor;
+- kilitte kurulup kuyrukta bekleyen selamlar (B6, 28 Kasım) ↔ B1'in sırası tüketilen selam beklentisi (Ö-5) ↔ B1'in geri alması: geç gelen ilk selam zaman aşımının sıfırlarını siler;
 - kural 4a'nın isteği (B4) ↔ B6'nın tek alıcılı titreşimsiz gönderimi ↔ B4 kural 12'nin yanıtı ↔ B6'nın olay selamı;
 - B7'nin yeniden sorması ↔ simülatörün her uyandırmada tamponu dökmesi (B6'nın selam uyandırması dâhil): yalnız daha sık yeniden sorma, zararsız.
 
@@ -88,9 +90,9 @@ Her durumda yedi bileşenin yaptığı (i, bakılan düğüm; j, ardılı):
 4. **B7'nin cevabı, sonra B5:** paket varsa B7 yolun olup olmadığını ve komutun sonraki atlamasını söyler, B5 karar verir (B7 kural 10).
 5. **B6:** değişim olaylarından doğan ve planlı kontrol iletileri; B4'ün tur istekleri; B6'nın uyandırmaları (B6 kural 13–14).
 6. **B7:** yeniden sorma uyandırması (B7 kural 3).
-7. **Beyanlar:** kopma, rota kuruldu; düşen paketin `rota_gecersiz`i kararla birlikte (B7 kural 4).
+7. **Beyanlar:** kopma ve rota kuruldu (B4 kural 18, 28 Kasım); düşen paketin `rota_gecersiz`i kararla birlikte (B7 kural 4).
 
-Niyet döndüremeyen kancalarda (`iletim_sonucu`, `cerceve_duyuldu`) yalnız 1. ve 2. adım yapılır; gerisi bir sonraki niyetli kancada.
+Niyet döndüremeyen kancalarda (`iletim_sonucu`, `cerceve_duyuldu`) yalnız 1. ve 2. adım yapılır; gerisi bir sonraki niyetli kancada. B1'in olay listeleri bu kancalarda birikir ve niyetli kancanın sonunda boşalır (B1 kural 18, 28 Kasım); niyetsiz bir kancada işlenen silme de böylece okuyanlara ulaşır.
 
 `18` §1.4'teki eski sıradan farklar:
 - 1 ile 2 yer değiştirdi: B1 bir gözlemi, o ana kadarki kendi zaman olaylarından sonra işler; böylece her gözlem B1'in o ana kadar güncel hâline uygulanır (B1 kural 20). Eski sıra öteki bileşenlerin süreleri için de ayrı bir adım öngörüyordu. Onlar zaten kendi kurallarının sırasıyla değerlendiriliyor (ör. B4 kural 16).
@@ -117,9 +119,9 @@ Geçit G; röle r, G'nin komşusu; düğüm i, r'nin komşusu.
 **Girişim bölgesi:** i'nin ardılı j, olağan yedeği k (B4 §12'nin sayıları: `m_j` 2,3, `m_k` 2,7; j'nin bağı 1,1). j 152,1 s'den beri karıştırılıyor; zaman çizelgesi B2 §12 ve B3 §12'nin örneklerinden.
 1. i'nin j'ye 152,1 · 152,9 · 153,6 s'deki çerçeveleri tam denemeyle biter. Üçüncüsünde göndericinin olayı oluşur (B2 kural 12), j SON ÇARE olur (B3 kural 6).
 2. B4 olağan aday k'ye zorunlu geçer (kural 5). C 2,3'ten 2,7'ye çıkar (+%17, eşik %15): olay, selam hemen (B6 kural 7). 153,6'dan sonraki paketler k'ye gider (B5 kural 1).
-3. j 153,4'te kendi girişimini bulur ve biti 1 olan selamını hemen gönderir (B2 kural 9, B6 kural 7). Bu selam i'ye ulaşmaz, sonraki 155,1'de gelir: bildirim sebebi doğar (B3 kural 5). Girişimdeki düğümün biti uzak komşuya selam başına ~0,35 olasılıkla ulaşır (B2 kural 11). j'nin bağının maliyeti hariç aralıkla 1,1'de kalır (B3 kural 9).
+3. j 153,4'te kendi girişimini bulur ve biti 1 olan selamını hemen gönderir (B2 kural 9, B6 kural 7). 153,4 ve 153,9'daki selamlar i'ye ulaşmaz; 154,9'da çıkan üçüncüsü titreşim ve kuyruk payıyla 155,1'de gelir (B2 §12'nin varsayımı): bildirim sebebi doğar (B3 kural 5). Girişimdeki düğümün biti uzak komşuya selam başına ~0,35 olasılıkla ulaşır (B2 kural 11). j'nin bağının maliyeti hariç aralıkla 1,1'de kalır (B3 kural 9).
 4. Göndericinin sebebi 158,6'da (153,6 + 5 s) kalkar; j'ye çerçeve gitmediği için kanıt uzamaz (B3 kural 6). Bildirim sürdüğü için j S'de kalır.
-5. Karıştırma 165,0'da biter. j 165,4'te bitini 0 yapar ve selamını hemen gönderir; i onu 165,9'da alır, j OLAĞAN olur.
+5. Karıştırma 165,0'da biter. j 165,4'te bitini 0 yapar ve selamını hemen gönderir. Bu selam i'ye ulaşmaz; `I_MIN` sonraki selam 165,9'da gelir (varsayım), j OLAĞAN olur.
 6. `m_j` 2,3 < `m_k` 2,7 ve düzgünleştirilmiş maliyet de küçük: isteğe bağlı geçişle ardıl j'ye döner (B4 kural 5–6). C 2,7'den 2,3'e döner. Yeni maliyet, değişim eşiği aşıyorsa olay selamıyla, aşmıyorsa bir sonraki planlı selamla (en geç ~2,2 s) gider (B6 kural 7).
 7. Kayıp yalnız 152,1–153,6 arasındaki tam denemeli çerçevelerden vazgeçilenlerdir.
 
@@ -127,7 +129,7 @@ Geçit G; röle r, G'nin komşusu; düğüm i, r'nin komşusu.
 1. j selam gönderemez. i'nin çerçeveleri vazgeçmeyle biter; üçüncüsünde (181,8) göndericinin olayı doğar, j S'ye düşer, B4 k'ye geçer.
 2. 186,8'de (181,8 + 5) kanıt kalkar, j OLAĞAN'a döner ve B4 j'yi yeniden seçer. İlanının yaşı 7,3 s; rota isteğinin eşiği 5,5 s'yi geçmiş (B4 kural 4a): j'ye istek gider, kilitteki j yanıtlayamaz. 187,0'daki çerçeve de vazgeçmeyle biter. Sebep hemen geri gelir (B3 kural 6), ardıl yine k.
 3. j'nin ilanı 187,2'de (179,5 + 7,7) bayatlar (B4 kural 4); j artık aday değildir.
-4. j 190,0'da kilitten çıkar. B6 kilit bitince selamı hemen gönderir (kural 11). i'de geri alma, zaman aşımının sıfırlarını siler (B1 kural 4); ilan tazelenir.
+4. j 190,0'da kilitten çıkar; kilitte kurup kuyrukta beklettiği selamlar sırayla gider (B6 kural 11'in 28 Kasım'da kaldırılmasından sonra). i'de geri alma, zaman aşımının sıfırlarını siler (B1 kural 4); ilan tazelenir.
 5. 192,0'da (187,0 + 5) kanıt yine kalkar. j'nin ilanı taze, maliyeti geri almayla eski değerinde: B4 j'ye döner ve 192,2'deki çerçeve onay alır (B3 §12 madde 5).
 
 **Son çare ardıl, olağan aday yok:** k de yokken j S'de kalır ve paketler j'ye gider (B5 kural 1). B4 kural 10a, yalnız uygulanabilirlik yüzünden aday olmayan temiz bir komşuya tur isteği gönderir. Yeni tur gelince o komşu olağan aday ve ardıl olur (B4 §12 madde 8).
@@ -144,7 +146,7 @@ Geçit G; röle r, G'nin komşusu; düğüm i, r'nin komşusu.
 1. i'nin FD'si (7, 2,0). Komşu l'nin ilanı (7, 2,3) uygulanamaz: l'nin yolu i'den geçiyor olabilir. B4 l'yi aday yapmaz (kural 1, 3).
 2. i'nin ardılı ölür, i'nin hiç adayı kalmaz. i ∞ ilan eder; ardılı i olan l de yolunu kaybeder ve ∞ ilan eder. Kimse daha kötü bir ilanı kabul etmediği için sayı sayarak sonsuza gitme olmaz.
 3. Uygulanamaz ama sonlu bir ilan duyan açlıktaki düğümler tur ister (kural 11). Geçit turunu 8 yapar; tur 8'li ilanlar uygulanabilirliği yeniden açar ve döngüsüz yeni bir ağaç kurulur (B4 §15).
-4. B5 paketi yalnız ardıla gönderdiği ve her aday uygulanabilir olduğu için veri yolunda da döngü yoktur. B4'ün döngü tanısı 0 olmalıdır (kural 17; sınaması B4 §13 madde 12).
+4. B5 paketi yalnız ardıla gönderdiği ve her aday uygulanabilir olduğu için ardıl grafiğinde her an döngü yoktur (sınaması B4 §13 madde 12). Paket bir düğümde beklerken yol değişirse aynı düğüme dönebilir; bu döngü değildir, B4 kural 17 onu yalnız sayar (bağımsız denetim Ö-2).
 5. Komut izden ize ilerlerken izin dayandığı paket sırası azalmaz. Komut ancak aynı telemetri paketinin yolunda bir döngüyle döngüye girebilirdi; o yol uygulanabilirlik koşuluyla döngüsüzdür (B7 kural 6, B4 §15).
 
 ### S5 · Geçide yakın karıştırma
@@ -171,7 +173,7 @@ Hedefler `18` §1.1'den. "Sınama" kâğıtların §13'ündeki birim testleri; "
 |---|---|---|---|
 | birincilde `PDR_açık` Babel + 0,05 | B2 1–13 (kanıt) · B3 5–9 (son çare, hariç aralık) · B4 3, 5 (O önce S), 10a · B5 1 · B7 1–3 | B2 §13 · B3 §13 · B4 §13 · B5 §13 · B7 §13 | birincil hücre, 8 tohum |
 | fark-içinde-fark (birincildeki fark > ikizdeki fark) | karıştırma katmanı (aşağıda) | — | ikiz ve birincil |
-| mekanizma kapısı (katman kapalıyken birincilde ≥ 0,02 düşüş) | `karistirma_katmani`: B2'nin tamamı · B3 5–6, 8–10 · B4 4'ün yaşı, 14 · B6 11 | bayrak sınamaları (her kâğıdın §13'ü) | birincil, katman kapalı kol (§10) |
+| mekanizma kapısı (katman kapalıyken birincilde ≥ 0,02 düşüş) | `karistirma_katmani`: B2'nin tamamı · B3 5–6, 8–10 · B4 4'ün yaşı, 14 | bayrak sınamaları (her kâğıdın §13'ü) | birincil, katman kapalı kol (§10) |
 | ikizde zarar yok | B2'nin yanlış alarmı (doğrulamada düğüm-saniyelerin %0,002–0,007'si) · B3 eşiksiz maliyet · B4 4a (yanlış bayatlık) · B6 olay kümesi | B2 §13 · B3 §13 · B4 §13 · B6 §13 | ikiz; katman açık ↔ kapalı |
 | dayanıklılık hücresi | zaman sabitleri çizelgeye bağlı değil (İlke 3): B2 `G_CIKIS` 1 s · B3 `KANIT_OMUR_S` 5 s · B4 ilanın ömrü | — | dayanıklılık hücresi (10 s açık · 20 s sessiz) |
 | en kötü tohum ≥ 0,465 | B4 uygulanabilirlik koşulu (döngüsüz) · B3 eşiksiz maliyet (açlığın kökü kalktı) | B4 §13 madde 12 | birincil, tohum başına |
@@ -195,13 +197,13 @@ Hedefler `18` §1.1'den. "Sınama" kâğıtların §13'ündeki birim testleri; "
 | sözleşme | karşılığı |
 |---|---|
 | 1 · tek yönlü akış | her kâğıdın §9'u yalnız aşağıdakileri okur. Tek istisna yazılı: B7'nin B5'e cevabı B5'ten önce hesaplanır (B7 kural 10; §11'de iskelete işlendi) |
-| 2 · gözlemler sahibine | kanca tablosu (§11'de düzeltildi); kontrol iletisini B6 çözer; B4'ün döngü tanısının girdisi B4 §2'ye yazıldı (§11) |
+| 2 · gözlemler sahibine | kanca tablosu (§11'de düzeltildi); kontrol iletisini B6 çözer; B4'ün aynı düğüme dönüş tanısının girdisi B4 §2'ye yazıldı (§11) |
 | 3 · tek kaynak | bağın maliyeti B3'te, kendi maliyetim B4'te, kanıt B2'de, oran B1'de; değerler `00-DIZIN`'de (§1) |
 | 4 · kanıtı silmeme | her kâğıdın §11'i. Örnek: B3'te gönderilmeyen bağın kanıtı süreyle kalkar ve bağ yeniden denenir; B6'da kilitte selam kurulmaması alıcının geri almasıyla iz bırakmaz |
 | 5 · rota durumu ile paket kararı ayrı | B5 A: paket ardıla, sapma yok; B4'ün aday listesi döngüsüz. Bu, yapı kararı 3'ün seçilmeyeni (tek ardıl, B4 ile B5 bir arada) değildir: B5 ayrı ve durumsuzdur, komutun yolu (B7'nin izi) B4'ün ardılından ayrıdır. İskelete not düşüldü (§11) |
 | 6 · kontrol iletileri tek yerde | B6 kural 1–2; öteki bileşenler değer ve olay verir |
 | 7 · ablasyon | `00-DIZIN` bayrak tablosu; her kâğıdın §10'u |
-| 8 · bellek sınırı | her kâğıdın §3'ü (B5 durum tutmaz); B4'ün döngü tanısının kaydı kaynak başına bir (§11) |
+| 8 · bellek sınırı | her kâğıdın §3'ü (B5 durum tutmaz); B4'ün aynı düğüme dönüş tanısının kaydı kaynak başına bir (§11) |
 
 ## 8 · Ortak sözlük
 
@@ -226,6 +228,8 @@ Hedefler `18` §1.1'den. "Sınama" kâğıtların §13'ündeki birim testleri; "
 | rota isteği | kural 4a'nın tur isteği: kalan atlama 1, tur artırmaz | B4 kural 4a |
 | bekletme | yol yokken paketi tamponda tutmak, atlama başına en çok 1 s | B7 kural 1–2 |
 | geri iz | bir düğümün telemetrisini getiren komşunun kaydı | B7 kural 6 |
+| aynı düğüme dönüş | paketin bir düğüme yeniden gelmesi; yol değişirken olabilir, döngü değildir | B4 kural 17 |
+| kopma, rota kuruldu | ölçüm beyanları: ardıl, bağı kullanılmaz olduğu, silindiği ya da ilanının ömrü dolduğu için bırakıldı; ardından yeniden ardıl var | B4 kural 18 |
 
 "Son çare" yalnız B3'ün durumudur; B4 adaylarını O ve S diye anar.
 
@@ -255,12 +259,12 @@ Kapı, karıştırma katmanı kapatılınca birincilde `PDR_açık`'ın en az 0,
 | katmanın mekanizması | kendine ait payın kanıtı |
 |---|---|
 | B2'nin bildirimi ve göndericinin olayı (B3'te son çare) | J1'in yalnız katman kanıtlı kısmı en çok 0,016 (B5 teşhisi E7). Kalanını çekirdeğin "veri yok" ve ilanın ömrü kuralları da görüyor |
-| B4 kural 10a'nın katman kanıtıyla tetiklenen istekleri | en çok 0,014 (B5 teşhisi E8) |
+| B4 kural 10a'nın katman kanıtıyla tetiklenen istekleri | en çok ~0,003: E8'in 0,0143'ünün 0,0109'unda engelli komşunun yolu kararı veren düğümden geçiyordu (bağımsız denetim E-1, Ek A.1; yeniden üretildi). 28 Kasım'dan beri kural 10a o komşulara istek göndermez |
 | B4 kural 4: kendi girişimimde ilanların yaşının durması | ölçülmedi. Açık dönemde G alanında ortalama ~6,8 düğüm var (B2 §6, `18` §2.2). Katman kapalıyken bu düğümler ardıllarının selamlarını duyamaz (girişim alanında selamların ~%73'ü kaybolur, B4 kural 4'ün gerekçesi). İlanlar bayatlar, açlık doğar; katman bunu önler |
-| B6 kural 11: kilitte selam kurulmaması | ölçülmedi; küçük olmalı |
+| B6 kural 11: kilitte selam kurulmaması | kaldırıldı (28 Kasım): kilit saniyelerinin çoğunda kanal kısmen boştu, kural payı eksiye çekebilirdi (bağımsız denetim Ö-5) |
 | B3 kural 9: hariç aralık | çoğu sessiz dönemin toparlanmasına gider, `PDR_açık`'a az girer |
 
-**Sonuç:** ölçülmüş üst sınırların toplamı ~0,03. Gerçekleşecek pay bunun altında kalır, ama ölçülmemiş B4 kural 4 payı ekler. Kapı geçebilir, ama geçeceği güvence değil. Aşama 4'ün beklentisinde bu açıkça yazılmalı: kapı geçmezse hüküm "fark var, karıştırmaya özgü mekanizmaya bağlanamadı" olur (`06` §0.4.5).
+**Sonuç** (bağımsız denetimden sonra): ölçülmüş üst sınırların toplamı ~0,02, yani kapının eşiğinde (önce ~0,03). Gerçekleşecek pay bunun altında kalır; kapının geçmesi ölçülmemiş paylara, özellikle B4 kural 4'ünkine bağlı. Kapı geçebilir, ama geçeceği güvence değil. Aşama 4'ün beklentisinde bu açıkça yazılmalı: kapı geçmezse hüküm "fark var, karıştırmaya özgü mekanizmaya bağlanamadı" olur (`06` §0.4.5).
 
 ## 11 · Yapılan düzeltmeler (28 Kasım)
 
@@ -290,9 +294,29 @@ Kuralların hiçbiri değişmedi. Düzeltilenler, onaylı kararlarla çelişen y
 
 ## 12 · Bağımsız denetime kalanlar
 
-- Bu denetimi kâğıtları yazan yaptı. Bağımsız denetim (Aşama 3 madde 2) ayrı bir oturumda, yeni bir istemle yapılır (eski istemler `arsiv/denetim/`de).
+- Bu denetimi kâğıtları yazan yaptı. Bağımsız denetim (Aşama 3 madde 2) ayrı bir oturumda yapıldı (§13).
 - Bakılması istenecek riskler:
   - mekanizma kapısının ince payı (§10);
   - kontrol payının kestirimindeki varsayımlar (§2);
   - kâğıtların kural sayısı ve birlikte kodlanabilirliği;
   - B2'nin eşiklerinin B4–B6'nın değiştirdiği trafikte geçerliliği (B2 §11 madde 8).
+
+## 13 · Bağımsız denetimden sonra (28 Kasım)
+
+Rapor `../../arsiv/denetim/DENETIM-RAPORU-TASARIM-2026-11-28.md`, kapanış `../../arsiv/denetim/DENETIM-TASARIM-KAPANIS-2026-11-28.md`. İlk hüküm: dondurulmaya ve kodlanmaya hazır değil; 1 engelleyici, 5 önemli, 6 küçük bulgu, hepsi belge düzeyinde. Bulgular kaynağından doğrulandı ve işlendi. İkinci okumada (raporun §7'si) engelleyici bulgu kalmadı; kopmanın tanımı ilanın ömrünü de sayacak biçimde düzeltildi (B4 kural 18) ve iki metin hatası giderildi.
+
+Bu belgede değişenler:
+- §2: kural 10a'nın sınırı, rota isteği yanıtının kalemi, tur olayının kapsamı, tavan;
+- §3 ve §5: kilitte selamın kuyrukta beklemesi (B6 kural 11 kaldırıldı); S2'de selamların varış varsayımları;
+- §4: beyanlar (B4 kural 18), B1'in olay listeleri (B1 kural 18);
+- §5 S4: aynı düğüme dönüş döngü değildir (B4 kural 17);
+- §8: iki yeni terim;
+- §10: kapının ölçülmüş payı ~0,02.
+
+Bu denetimin gözden kaçırdıkları:
+- kural 10a'nın sınıf dalının yolu benden geçen komşuyu hedeflemesi ve tura bağlı beklemenin art arda isteği durdurmaması (E-1);
+- B6'nın tur olayını RFC'nin ve 17 Kasım kararının ötesine genişletmesi (Ö-1);
+- S4'te döngü tanısının 0 beklenmesi ve `18` §2.4'teki ölçülmemiş "0" (Ö-2);
+- niyetsiz kancada kaybolan silinen komşu olayı (Ö-3);
+- tanımsız kopma ve rota kuruldu beyanları (Ö-4);
+- kısmi kilitte susturulan selam (Ö-5).

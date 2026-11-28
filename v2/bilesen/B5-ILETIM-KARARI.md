@@ -1,6 +1,6 @@
 # B5 · İletim kararı
 
-> Yeni tasarımın (`../18-YENI-TASARIM.md`) beşinci bileşeni. İskelet `18` §1.4; sorun, kanıt, seçenekler ve kararım `18` §2.5 (27 Kasım: A, tek yol). Teşhis ölçümü `arsiv/teshis/faz5_3_b5_iletim_kaybi_2026-11-26/` (`beklenti.md`, `sonuc.md`, `ek_hesap.txt`; bundan sonra "B5 teşhisi"). Değerler, bayraklar ve gözlemin kullanımı yalnız `00-DIZIN.md`de; burada adlarıyla anılır. Durum: onaylandı (27 Kasım). Önceki tasarımda karşılıkları `../kural/KK-04` kural 13 (eğimde getirene geri göndermeme) ve `../kural/KK-05` (bekletme ve komutun yolu); orada paket kararı rota kurallarının içindeydi.
+> Yeni tasarımın (`../18-YENI-TASARIM.md`) beşinci bileşeni. İskelet `18` §1.4; sorun, kanıt, seçenekler ve kararım `18` §2.5 (27 Kasım: A, tek yol). Teşhis ölçümü `arsiv/teshis/faz5_3_b5_iletim_kaybi_2026-11-26/` (`beklenti.md`, `sonuc.md`, `ek_hesap.txt`; bundan sonra "B5 teşhisi"). Değerler, bayraklar ve gözlemin kullanımı yalnız `00-DIZIN.md`de; burada adlarıyla anılır. Durum: onaylandı (27 Kasım); 28 Kasım'da bağımsız denetimden sonra düzeltildi (kural 6; `../../arsiv/denetim/DENETIM-TASARIM-KAPANIS-2026-11-28.md`). Önceki tasarımda karşılıkları `../kural/KK-04` kural 13 (eğimde getirene geri göndermeme) ve `../kural/KK-05` (bekletme ve komutun yolu); orada paket kararı rota kurallarının içindeydi.
 >
 > Eksiksizlik listesinin maddeleri (`18`): 1 §1 · 2–4 `18` §2.5 · 5 §2 · 6 §3 · 7 §4 · 8 §5 · 9 §6 · 10 §7 · 11 §8 · 12 §9 · 13 §10 · 14 §11 · 15 §12 · 16 §13 · 17 §14. Ölçülen ve ölçülmeyen §15.
 
@@ -25,7 +25,7 @@ Rota durumunu değiştirmez (`18` §1.4 sözleşme 5). Karıştırmaya karşıl�
 
 | kaynak | B5'in kullandığı | kullanmadığı |
 |---|---|---|
-| paket başlığı (`sonraki_atlama` kancasının gözlemi) | hedef: geçit mi | kaynak, `kaynak_sira`, atlama sayısı (döngü tanısı B4'ün, geri iz B7'nin) · kaynak rotası (kullanılmaz) |
+| paket başlığı (`sonraki_atlama` kancasının gözlemi) | hedef: geçit mi | kaynak, `kaynak_sira`, atlama sayısı (aynı düğüme dönüşün tanısı B4'ün, geri iz B7'nin) · kaynak rotası (kullanılmaz) |
 | B4 | ardıl; açlık durumu | aday listesinin öteki üyeleri (yalnız tanı) · maliyetler (tanı) |
 | B7 | açlıkta bekletme ya da düşürme kararı; komutun sonraki atlaması (B7'nin kâğıdında) | — |
 | B1, B2, B3 | doğrudan okumaz (B4 üzerinden) | kendi durumum: karıştırma eki olmadığı için gerekmez |
@@ -36,7 +36,7 @@ Rota durumunu değiştirmez (`18` §1.4 sözleşme 5). Karıştırmaya karşıl�
 
 B5 durum tutmaz. Her karar o kancadaki B4 ve B7 durumundan verilir.
 
-İskelet (`18` §1.4) B5'e paket başına kayıt öngörmüştü (getiren, gönderilen, denemeler); bunlar paket başına sapma ve kopya içindi, A'da gerekmedi. Paketin kaynağı ve sırası B7'nin geri izine (getiren komşuyla) ve B4'ün döngü tanısına (atlama sayısıyla) gider (sözleşme 2). İskeletin B5 satırı Aşama 3'te düzeltildi (28 Kasım, `01-BUTUNLUK.md` §11).
+İskelet (`18` §1.4) B5'e paket başına kayıt öngörmüştü (getiren, gönderilen, denemeler); bunlar paket başına sapma ve kopya içindi, A'da gerekmedi. Paketin kaynağı ve sırası B7'nin geri izine (getiren komşuyla) ve B4'ün aynı düğüme dönüş tanısına (atlama sayısıyla) gider (sözleşme 2). İskeletin B5 satırı Aşama 3'te düzeltildi (28 Kasım, `01-BUTUNLUK.md` §11).
 
 **Bellek:** yok.
 
@@ -79,7 +79,7 @@ B5'in durumu yoktur; her paket bir karar tablosundan geçer (kural 1–4):
 
 5. **Geç bağlama:** karar paket kuyruğa girerken değil, kuyruktan havaya çıkarken verilir (simülatörün kuralı: `sim2/kosum/gonderim.py`, `iletime_basla`). Ardıl değişince kuyruktaki paketler kendiliğinden yeni ardıla gider; ayrıca bir iş gerekmez. DSR'nin kuyruktaki paketler sorunu (RFC 4728 §3.4.2) böylece doğmaz. Yeniden denemeler aynı komşuya gider; protokole yeniden sorulmaz.
 6. **Kendi karıştırılmam:**
-   - **Kanal kilidinde** geri çekilme bitmez; protokole sorulmaz, paketler kuyrukta bekler (kuyruk dolarsa `kuyruk_tasmasi`). Kilit kalkınca ilk paket o anki ardılla gider.
+   - **Tam kilitte** (kanalın hiç boş kalmadığı sürede) geri çekilme bitmez; protokole sorulmaz, paketler kuyrukta bekler (kuyruk dolarsa `kuyruk_tasmasi`). Kanal açılınca ilk paket o anki ardılla gider. B2'nin "kanal kilidi" saydığı saniyelerin çoğunda kanal kısmen boştur (meşgul payı 0,55–0,95; B2 teşhisinin kayıtlarında kilit saniyelerinin %57–66'sı); o saniyelerde geri çekilme biter ve kural 1–5 aynen uygulanır (28 Kasım, bağımsız denetim Ö-5).
    - **Girişimde** kural 1–5 aynen uygulanır. Çerçevem ardıla ulaşır ama onayını duyamam; MAC 7 kez dener. Alıcı çerçeveyi çözmüşse paket düşmez (simülatörün kuralı, `vazgec`). B4 bu sırada ardılı korur (B4 kural 4, 14).
 
 **C · Sıra**
@@ -108,7 +108,7 @@ B5'in kendi değeri yok. Kullandığı süreler ve sınırlar B4'ün (`ILAN_OMUR
 - **Hedef komşuysa:** telemetride hedef geçittir. Geçit komşuysa B4'ün adayıdır (yol maliyeti yalnız bağınki, M + 0) ve çoğu zaman ardıldır. B5 ayrıca bir "hedef komşu" kuralı koymaz. Geçide giden bağ bildirim ve gönderici kanıtıyla S'ye düşmez (B3 kural 8).
 - **Düğüm kendisi karıştırılırken:** kural 6.
 - **Komşu karıştırılırken:** ardıl S'ye düşer ve B4 olağan bir adaya geçer. Olağan aday yoksa paket S'deki ardıla gider (kural 1); B4 kural 10a bu sırada temiz bir aday açabilir.
-- **Paket aynı düğüme daha büyük atlama sayısıyla dönerse:** B4'ün döngü tanısı sayar (B4 kural 17; uygulanabilirlik koşuluyla olmamalıdır). B5 yine kural 1'le karar verir.
+- **Paket aynı düğüme daha büyük atlama sayısıyla dönerse:** B4 kural 17 sayar. Bu bir döngü değildir: ardıl grafiği her an döngüsüzdür, ama paket bir düğümde beklerken yol değişebilir (28 Kasım, bağımsız denetim Ö-2). B5 yine kural 1'le karar verir.
 - **Sayaç taşması:** B5'in sayacı yok.
 - **Zaman aşımı:** B5'in yok. Paketin ömrü (TTL 64) simülatörün.
 - **Aynı anda olaylar:** kural 7.
@@ -144,7 +144,7 @@ B5'in bayrağı yoktur: paket B5 olmadan gönderilemez. Karıştırma eki yoktur
 3. **Kanıtı silmeme** (sözleşme 4):
    - S'deki ardıla giden paketler veri kaydı üretir; B2'nin gönderici kanıtı ve B3'ün "veri yok"u sürer.
    - Ardıl değişince eski ardıla paket gitmez, yeni kayıt oluşmaz. Kanıt B3 kural 6–7'nin süresiyle kalkar ve bağ yeniden denenir (B3 §11 madde 7). Bu, B3'te zaten yazılı etkileşimdir.
-   - Paketin başlığı B5'te yalnız hedef için okunur. Kaynağı, sırası ve atlama sayısı B4'ün döngü tanısına, getiren komşuyla birlikte B7'nin geri izine gider; B5 hiçbirini silmez.
+   - Paketin başlığı B5'te yalnız hedef için okunur. Kaynağı, sırası ve atlama sayısı B4'ün aynı düğüme dönüş tanısına, getiren komşuyla birlikte B7'nin geri izine gider; B5 hiçbirini silmez.
 4. **B2:** B5 B2'yi okumaz. Kendi karıştırılmamda karar değişmez (kural 6); kendi aralığıma düşen MAC sonuçları kanıttan B2'de ayıklanır (B2 kural 12–13).
 5. **B7:** açlıkta ve komutta karar B7'nindir (kural 2–3). Bekletilen paket yeniden sorulunca kural 1'le karar verilir.
 6. **Mekanizma kapısı:** B5 genel ve tek yollu olduğu için kapının iki kolunda aynı çalışır; karıştırma katmanının payını küçültmez. B5 teşhisinde J1'in (katmanın kurtarabileceği kayıp, 0,0485) yalnız 0,016'sı katmana aitti (`ek_hesap.txt` E7). Genel bir kurtarma kapının kolunda bu payı da kurtarırdı; D bu yüzden alınmadı.
@@ -160,7 +160,7 @@ i'nin komşuları j, k, l; B4'e göre ardıl j (O). Paketler telemetri.
 4. **Vazgeçme:** p5 k'ye 7 denemede de geçmez ve alıcı çerçeveyi çözmemiştir: paket düşer (simülatör). B5 onu yeniden göndermez (kural 4). Vazgeçme B1'in veri kaydına ve B2'nin gönderici sayımına girer.
 5. **Açlık:** bütün komşular ∞ ilan eder, B4 açlıkta. p6 için karar B7'nindir; B7 bekletir (kural 2). B4 açlık isteğini gönderir. Yeni tur gelince ardıl doğar; B7'nin uyandırmasıyla p6 yeniden sorulur ve ardıla gider.
 6. **Komut:** geçitten düğüm 12'ye giden q, i'nin kuyruğunda. Hedef geçit değil: sonraki atlama B7'nin geri izinden gelir (kural 3).
-7. **Kendim kanal kilidinde:** 200,0–205,0 s arasında geri çekilme bitmez, protokole sorulmaz; paketler kuyrukta bekler. 205,1 s'de kilit kalkar, ilk paket o anki ardılla gider (kural 5–6).
+7. **Kendim tam kilitte:** 200,0–205,0 s arasında geri çekilme bitmez, protokole sorulmaz; paketler kuyrukta bekler. 205,1 s'de kilit kalkar, ilk paket o anki ardılla gider (kural 5–6).
 
 ## 13 · Sınanması
 

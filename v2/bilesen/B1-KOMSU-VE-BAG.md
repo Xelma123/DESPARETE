@@ -1,6 +1,6 @@
 # B1 · Komşu ve bağın ölçüsü
 
-> Yeni tasarımın (`../18-YENI-TASARIM.md`) birinci bileşeni. İskelet `18` §1.4; sorun, kanıt, seçenekler ve kararım `18` §2.1 (24 Kasım). Değerler, bayraklar ve gözlemin kullanımı yalnız `00-DIZIN.md`de; burada adlarıyla anılır. Durum: onaylandı (24 Kasım). Önceki tasarımda karşılığı `../kural/KK-01` (orada ölçü ile bağın durumu tek kâğıttaydı; durum artık B3'te).
+> Yeni tasarımın (`../18-YENI-TASARIM.md`) birinci bileşeni. İskelet `18` §1.4; sorun, kanıt, seçenekler ve kararım `18` §2.1 (24 Kasım). Değerler, bayraklar ve gözlemin kullanımı yalnız `00-DIZIN.md`de; burada adlarıyla anılır. Durum: onaylandı (24 Kasım); 28 Kasım'da bütünlük denetiminden (kural 16 kaldırıldı) ve bağımsız denetimden sonra düzeltildi (kural 12, 18; `../../arsiv/denetim/DENETIM-TASARIM-KAPANIS-2026-11-28.md`). Önceki tasarımda karşılığı `../kural/KK-01` (orada ölçü ile bağın durumu tek kâğıttaydı; durum artık B3'te).
 >
 > Eksiksizlik listesinin maddeleri (`18`): 1 §1 · 2–4 `18` §2.1 · 5 §2 · 6 §3 · 7 §4 · 8 §5 · 9 §6 · 10 §7 · 11 §8 · 12 §9 · 13 §10 · 14 §11 · 15 §12 · 16 §13 · 17 §14.
 
@@ -39,7 +39,7 @@ Komşu j başına:
 | `asim_t` (bir sonraki zaman aşımı) | `son_selam_t + ZAMAN_ASIMI_KATSAYI · a` | kural 4, 5 | kayıtla | — |
 | veri kayıtları: (an, deneme 1–7, onay geldi mi) | boş | kural 8 | kural 9, kayıtla | `VERI_SAKLA` |
 
-Kanca başına: bu kancada açılan ve silinen komşuların listesi (kural 18); bir sonraki kancanın başında boşalır.
+Kanca başına: açılan ve silinen komşuların listesi (kural 18); niyetsiz kancalarda birikir, niyetli bir kancanın sonunda boşalır.
 
 **Bellek:** komşu tablosu en çok 255 kayıt (selamdaki adres 8 bit, düğüm kimliği < 256; referans dünyada 39 komşu); düğüm başına en çok 255 × (`SELAM_SAKLA` + `VERI_SAKLA`) örnek.
 
@@ -50,7 +50,7 @@ B1'in bağ için durumu yoktur; OLAĞAN, KÖTÜ, KARIŞTIRILIYOR gibi durumlar B
 | döngü | durumlar | geçiş ve tetikleyici | çıkış |
 |---|---|---|---|
 | komşu kaydı | yok · kayıtlı | yok → kayıtlı: j'den ilk selam (kural 1) · kayıtlı → yok: `T_SILME` boyunca j'den hiç çerçeve duyulmadı (kural 3) | kayıtlıdan tek çıkış silmedir ve zamanla kendiliğinden gelir; yoktan çıkış ilk selamdır; takılı kalma yok |
-| `d_f` | tanımsız · biliniyor | tanımsız → biliniyor: j'nin beni listeleyen selamı · biliniyor → tanımsız: o bildirimden beri `DF_UNUT_S` geçti (kural 12) | ikisinden de çıkış var (bildirim ya da süre) |
+| `d_f` | tanımsız · biliniyor | tanımsız → biliniyor: j'nin beni listeleyen selamı · biliniyor → tanımsız: o bildirimin yaşı (hariç aralıklar çıkarılarak) `DF_UNUT_S`'yi aştı (kural 12) | ikisinden de çıkış var (bildirim ya da süre) |
 
 Selam sayımındaki "yeniden başlama" (kural 4) kaydı silmez, yalnız örnekleri siler.
 
@@ -94,7 +94,7 @@ Selam sayımındaki "yeniden başlama" (kural 4) kaydı silmez, yalnız örnekle
 
     Hesap en yeni örnekten geriye doğru yapılır ve gereken sayıda (`N_SELAM`, `VERI_PENCERE`) sayılan örnek bulununca durur. Hariç aralık yokken iş önceki tasarımın hesabı kadardır; koşu süresi uzamaz.
 11. **`d_r` (j'den bana gelen yön):** hariç olmayan en yeni `N_SELAM` örnekte 1'lerin payı; dayandığı örnek sayısı `n_s`. `n_s` = 0 ise tanımsız.
-12. **`d_f` (benden j'ye giden yön):** hariç olmayan ve oranı olan en yeni örneğin oranı. Öyle bir örnek yoksa ya da `DF_UNUT_S`'den eskiyse tanımsız.
+12. **`d_f` (benden j'ye giden yön):** hariç olmayan ve oranı olan en yeni örneğin oranı. Öyle bir örnek yoksa ya da yaşı `DF_UNUT_S`'yi aşıyorsa tanımsız. Yaş, hariç aralıklara düşen süre çıkarılarak ölçülür (B4 kural 4'ün yaşı gibi). Sebep: 30 s'den uzun bir kendi aralığının sonunda aralıktaki bildirimler sayılmaz, öncekiler de 30 s'den eski olur; yaş kesintisiz ölçülseydi bütün bağlar bir an KULLANILMAZ olurdu (28 Kasım, bağımsız denetim S-2).
 13. **`E_selam` = 1 / (`d_f` · `d_r`)** (ETX [36]); biri tanımsız ya da 0 ise ∞ (tek yönlü bağ). Birimi beklenen deneme sayısıdır.
 14. **Verinin ölçüsü:** hariç olmayan, `VERI_PENCERE_S` içindeki en yeni `VERI_PENCERE` kayıt üzerinden `n_v` (kayıt sayısı), `D` (toplam deneme), `G` (onay gelen kayıt):
     - `E_veri = D / G`: onaylanan bir paket başına harcanan deneme. Vazgeçilen paketin 7 denemesi de sayılır. `G` = 0 ve `n_v` > 0 ise ∞; `n_v` = 0 ise tanımsız.
@@ -104,7 +104,7 @@ Selam sayımındaki "yeniden başlama" (kural 4) kaydı silmez, yalnız örnekle
 15. **Tazelik:** `ilk_t`, `son_duyulma_t`, `son_selam_t`, en yeni veri kaydının anı, `n_s`, `n_v` ve `d_f`'nin dayandığı bildirimin anı.
 16. *Kaldırıldı (28 Kasım, Aşama 3):* sondaki sessizliği (ham örneklerin sonundaki ardışık sıfırlar) ne B2 ne B3 kullanıyor (B2 §2, B3 §2; `01-BUTUNLUK.md` §11). Numara korunur.
 17. **Bildirilecek oran listesi (B6 için):** `n_s` ≥ `ORNEK_EN_AZ` olan her komşunun adresi ve `d_r`'si, adrese göre sıralı. Hangi hariç aralıkla isteneceği B3 ile B6'nın kararıdır (§11 madde 3). Tek örnekle 1,0 bildirilmez.
-18. **Olaylar:** bu kancada açılan ("yeni komşu") ve silinen ("silinen komşu") kayıtların listesi. Kanca boyunca okunur, bir sonraki kancanın başında boşalır.
+18. **Olaylar:** açılan ("yeni komşu") ve silinen ("silinen komşu") kayıtların listesi. Niyet döndüremeyen kancalarda birikir; niyetli bir kancanın sonunda, olay sırasının 7. adımından sonra boşalır. Böylece niyetsiz bir kancada işlenen silme de onu okuyanlara (B2, B3, B4, B7) ulaşır. 27 Kasım'daki metinde liste her kancanın başında boşalıyordu ve niyetsiz kancada işlenen silme okuyanlara ulaşmıyordu (28 Kasım, bağımsız denetim Ö-3).
 19. **Son tarih:** bekleyen en erken zaman olayının anı (zaman aşımı ya da silme). B1 uyandırma istemez; istenip istenmeyeceği B6'nın kararıdır (Ö-6).
 
 **F · Sıra**
@@ -119,7 +119,7 @@ B1 ileti göndermez; kontrol yüküne doğrudan katkısı yoktur. Ölçünün ç
 - **Ö-2** Selam, bir sonraki selama kadarki sürenin üst sınırını taşır (aralık alanı, RFC 8966 §4.6.5). Aralık uzarken yeni aralığın üst sınırı yazılır; alıcı sahte kayıp saymaz.
 - **Ö-3** Selamda komşu listesi bulunur: kural 17'nin listesi (adres, oran). Komşu, benden kendisine giden yönün oranını (`d_f`) yalnız benim listemden öğrenir; listede olmayan komşuyla bağ ölçülemez. Her komşu en geç `DF_UNUT_S` içinde bir kez listelenmelidir. Listenin bedeli komşu başına adres ve oran bitleridir; önceki biçimde 2 bayt, 15 komşuyla 30 bayt.
 - **Ö-4** İki selam arası en az 0,5 s olur; `SELAM_SAKLA` ve `BOSLUK_EN_COK` buna dayanır, değişirse yeniden hesaplanır.
-- **Ö-5** Sırası tüketilen selam gönderilmelidir: sırası tüketilip hiç gönderilmeyen selamı alıcı kayıp sayar, geri alma (kural 4) onu silemez. Önceki tasarımda kendi kanal kilidimde selam hiç kurulmuyordu (KK-02 kural 5, karıştırma katmanına bağlıydı); kanal kilidindeki komşunun sessizliği, selamı dönünce alıcıda geri almayla iz bırakmadan kapanıyordu (§12). Kanal açılınca kuyrukta bekleyen eski selamların gönderilmesi de geri almayı bozmaz, çünkü ilk gelenin sırası bir sonraki sıradır. Bayat içeriğin sakıncası B6'nın sorusudur.
+- **Ö-5** Sırası tüketilen selam gönderilmelidir: sırası tüketilip hiç gönderilmeyen selamı alıcı kayıp sayar, geri alma (kural 4) onu silemez. Önceki tasarımda kendi kanal kilidimde selam hiç kurulmuyordu (KK-02 kural 5, karıştırma katmanına bağlıydı); kanal kilidindeki komşunun sessizliği, selamı dönünce alıcıda geri almayla iz bırakmadan kapanıyordu (§12). Kanal açılınca kuyrukta bekleyen eski selamların gönderilmesi de geri almayı bozmaz, çünkü ilk gelenin sırası bir sonraki sıradır. Bayat içeriğin sakıncası B6'nın sorusudur. 28 Kasım'dan beri B6 kilitte de selam kurar; kurulan selamlar kuyrukta bekleyip sırayla gider (B6 kural 11).
 - **Ö-6** B1'in son tarihi (kural 19) için uyandırma kurulup kurulmayacağı kararlaştırılır. Kurulmazsa zaman olayları en geç bir sonraki kancada işlenir; anları doğru yazıldığı için ölçü değişmez, yalnız yukarıdaki bileşenlerin tepkisi gecikir.
 - **Ö-7** Yeni komşu olayının karşılığı kararlaştırılır (önceki tasarımda selam hızlanıyordu, KK-02 kural 3). Yeni komşunun iki yönde ölçülmesi her iki tarafta en az `ORNEK_EN_AZ` selam ister.
 
@@ -133,12 +133,12 @@ B1 ileti göndermez; kontrol yüküne doğrudan katkısı yoktur. Ölçünün ç
 - **Geçit:** B1 geçitte de aynı çalışır. Geçidin veri kaydı gönderdiği komutlardan oluşur.
 - **Hiç komşu yok:** bütün ölçüler boş, olay yok. **Tek komşu:** özel bir durum yok.
 - **Düğüm kendisi karıştırılırken:** B1 bunu bilmez, olanı kaydeder. Girişimdeyken kaçan selamlar sıfır, başarısız veriler vazgeçme olarak yazılır. Kanal kilidinde gönderemem, veri kaydı oluşmaz; duyamadığım için sıfırlar eklenir. Hariç aralık B3'ten gelir (kural 10). 30 s'den uzun sürerse komşular silinir (§11 madde 2).
-- **Komşu karıştırılırken:** kanal kilidindeki komşu selam gönderemez. Zaman aşımı sıfır ekler; selamı dönünce sıra ilerlemediği için geri alma bu sıfırları siler (Ö-5). Girişimdeki komşunun selamları gönderilir ama kaybolur; bu sıfırlar gerçektir, hariç aralıkları B3'ten gelir.
+- **Komşu karıştırılırken:** kanal kilidindeki komşu selam gönderemez. Zaman aşımı sıfır ekler; selamları dönünce geri alma bu sıfırları siler, çünkü kuyrukta bekleyen ilk selam bir sonraki sırayı taşır (Ö-5). Girişimdeki komşunun selamları gönderilir ama kaybolur; bu sıfırlar gerçektir, hariç aralıkları B3'ten gelir.
 - **Sayaç taşması:** sıra modüler karşılaştırılır; 65535'ten sonra 0 gelir ve fark 1'dir.
 - **Komşu yeniden başlarsa** (sıra farkı > `BOSLUK_EN_COK`): örnekler silinir, kayıt kalır. Simülatörde düğüm yeniden başlamaz; ölen düğüm susar ve silinir.
 - **Zaman aşımı:** kural 5. Komşu susarsa her `a`'da bir sıfır eklenir, örnek sayısı `SELAM_SAKLA`'da doyar, `T_SILME`'de kayıt silinir.
 - **Aralık 0 ya da çok küçük:** `ARALIK_EN_AZ` zaman aşımının sonsuz döngüye girmesini önler.
-- **Komşu beni listelemiyor:** `d_f` önceki bildirimden gelir; `DF_UNUT_S`'den sonra tanımsız olur, `E_selam` ∞.
+- **Komşu beni listelemiyor:** `d_f` önceki bildirimden gelir; bildirimin yaşı (hariç aralıklar çıkarılarak) `DF_UNUT_S`'yi aşınca tanımsız olur, `E_selam` ∞.
 - **Aynı anda gelen olaylar:** kural 20. Selam tam zaman aşımı anında gelirse önce sıfır eklenir, sonra selamın geri alması onu siler; net etki yok. Silme anında aynı komşudan çerçeve gelirse (kayan noktada tam eşitlik; pratikte görülmez) kayıt silinir; gelen selamsa kayıt yeniden açılır. Takılı kalma yok.
 - **Veri gönderilmeyen bağ:** `n_v` = 0, `E_veri` tanımsız. Bu "kötü" değil "bilinmiyor"dur (§11 madde 5).
 - **Tamponun dolması:** B1'in tamponu yoktur. Tabloların sınırı §3'te: dolunca en eski örnek atılır; komşu tablosu 255'i aşamaz.
@@ -149,7 +149,7 @@ B1 ileti göndermez; kontrol yüküne doğrudan katkısı yoktur. Ölçünün ç
 
 | kanca | B1'e giden | B1'in işi |
 |---|---|---|
-| her kancanın başı | şimdi | zaman olayları (kural 20); olay listeleri boşalır |
+| her kancanın başı | şimdi | zaman olayları (kural 20) |
 | kontrol iletisi alındı, selam | gönderen, sıra, aralık, benim için oran ya da yok | kural 1, 4, 7 |
 | iletim sonucu (niyetsiz) | hedef, onay geldi mi, `tekrar`, tür | kural 2, 8 |
 | çerçeve duyuldu (niyetsiz) | gönderen, tür | kural 2 |
@@ -167,7 +167,7 @@ B1 ileti göndermez; kontrol yüküne doğrudan katkısı yoktur. Ölçünün ç
 | bildirilecek oran listesi | 17 | B6 (B3 üzerinden, §11 madde 3) |
 | son tarih | 19 | B6 |
 
-**Olay sırası** (`18` §1.4): B1 her kancada olay sırasının ilk iki adımında çalışır: önce kendi zaman olaylarını işler, sonra gözlemi alır (kural 20). Sonraki adımlarda öteki bileşenler B1'in çıktısını okur. B1 hiçbir bileşenin durumunu okumaz (en alttadır).
+**Olay sırası** (`18` §1.4): B1 her kancada olay sırasının ilk iki adımında çalışır: önce kendi zaman olaylarını işler, sonra gözlemi alır (kural 20). Olay listeleri niyetli kancanın sonunda boşalır (kural 18). Sonraki adımlarda öteki bileşenler B1'in çıktısını okur. B1 hiçbir bileşenin durumunu okumaz (en alttadır).
 
 ## 10 · Kapalıyken davranış
 
@@ -204,10 +204,10 @@ Komşu i ve j; aralıklar örnek (B6'nın kuralına bağlı).
    - `E_veri` = 26 / 15 = 1,73; vazgeçme payı 1/16 = 0,06.
 
    B1 iki sayıyı da verir (1,33 ve 1,73); hangisinin nasıl kullanılacağı B3'ün kararıdır.
-4. **Komşu kanal kilidinde:** j 40,0–55,0 s arasında karıştırıcıya çok yakın kalır, selam gönderemez ve sırası ilerlemez (Ö-5). Son selamı 39,5 s'de (sıra s, aralık 2,2 s).
+4. **Komşu kanal kilidinde:** j 40,0–55,0 s arasında karıştırıcıya çok yakın kalır, selam gönderemez; kurduğu selamlar (sıra s + 1, s + 2, …) kuyrukta bekler (Ö-5; B6 kural 11, 28 Kasım). Son giden selamı 39,5 s'de (sıra s, aralık 2,2 s).
    - i'de zaman aşımı 42,8 · 45,0 · 47,2 · 49,4 · 51,6 · 53,8 s'de altı sıfır ekler.
-   - 55,3 s'de j'nin selamı sıra s + 1 ile gelir. i'de `beklenen` s + 7 olduğu için fark −6: altı sıfır silinir, (55,3; 1) eklenir.
-   - `d_r` karıştırmadan önceki değerine döner; hariç aralığa gerek kalmaz.
+   - 55,3 s'de kuyruktaki ilk selam sıra s + 1 ile gelir. i'de `beklenen` s + 7 olduğu için fark −6: altı sıfır silinir, (55,3; 1) eklenir. Kuyruktaki öteki selamlar arkasından gelir ve fark 0'la eklenir.
+   - `d_r` karıştırmadan önceki değerine döner (art arda gelen selamlarla kısa bir süre biraz iyimser); hariç aralığa gerek kalmaz.
 5. **Kendim girişimde:** 70,0–85,0 s arasında i, j'nin selamlarını çözemez; j göndermeyi sürdürür. Zaman aşımlarının sıfırları gerçek kayıptır ve anları bu aralıktadır.
    - B3'ün karıştırma eki açıksa aralığı verir (ör. 70,0–88,0 s; bitişi B2'nin "bitti"sine bağlı). `d_r` bu aralık dışındaki en yeni 16 örnekten, yani karıştırmadan önceki ve sonra gelen örneklerden hesaplanır.
    - Kapalıysa ham `d_r` kullanılır: son 16 örnekte 7 sıfır varsa 9/16 = 0,56 ve `E_selam` = 1 / (0,90 · 0,56) ≈ 1,98. Yeni selamlarla birkaç aralıkta toparlanır.
@@ -231,7 +231,7 @@ Komşu i ve j; aralıklar örnek (B6'nın kuralına bağlı).
    - bitişi açık aralık;
    - aralıktan sonra öncesinin kalitesi geri gelir;
    - liste boşken ham ölçü.
-6. `d_f`: beni listelemeyen selam önceki değeri bozmaz; `DF_UNUT_S`'den sonra tanımsız; hariç aralıktaki bildirim sayılmaz.
+6. `d_f`: beni listelemeyen selam önceki değeri bozmaz; yaşı (hariç aralıklar çıkarılarak) `DF_UNUT_S`'yi aşınca tanımsız; hariç aralıktaki bildirim sayılmaz ve hariç aralıkta yaş işlemez (30 s'den uzun aralığın sonunda `d_f` tanımlı kalır).
 7. `E_selam`: `d_f` ya da `d_r` tanımsız ya da 0 iken ∞.
 8. Veri:
    - deneme = `tekrar` + 1, vazgeçmede 7;

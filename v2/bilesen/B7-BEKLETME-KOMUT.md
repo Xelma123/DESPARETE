@@ -1,6 +1,6 @@
 # B7 · Bekletme ve komut
 
-> Yeni tasarımın (`../18-YENI-TASARIM.md`) yedinci bileşeni. İskelet `18` §1.4; sorun, kanıt, seçenekler ve kararım `18` §2.7 (27 Kasım: H1, kısa bekletme; K1, geri iz). Bugünkü bekletmenin ve komutun sayıları `arsiv/teshis/faz5_3_b7_bekletme_2026-11-27/bekletme_komut.txt`'te (kayıtlardan hesap, yeni koşu yok). Değerler, bayraklar ve gözlemin kullanımı yalnız `00-DIZIN.md`de; burada adlarıyla anılır. Durum: onaylandı (27 Kasım). Önceki tasarımda karşılığı `../kural/KK-05` (bekletme ve komutun yolu).
+> Yeni tasarımın (`../18-YENI-TASARIM.md`) yedinci bileşeni. İskelet `18` §1.4; sorun, kanıt, seçenekler ve kararım `18` §2.7 (27 Kasım: H1, kısa bekletme; K1, geri iz). Bugünkü bekletmenin ve komutun sayıları `arsiv/teshis/faz5_3_b7_bekletme_2026-11-27/bekletme_komut.txt`'te (kayıtlardan hesap, yeni koşu yok). Değerler, bayraklar ve gözlemin kullanımı yalnız `00-DIZIN.md`de; burada adlarıyla anılır. Durum: onaylandı (27 Kasım); 28 Kasım'da bağımsız denetimden sonra düzeltildi (kural 3, §8; `../../arsiv/denetim/DENETIM-TASARIM-KAPANIS-2026-11-28.md`). Önceki tasarımda karşılığı `../kural/KK-05` (bekletme ve komutun yolu).
 >
 > Eksiksizlik listesinin maddeleri (`18`): 1 §1 · 2–4 `18` §2.7 · 5 §2 · 6 §3 · 7 §4 · 8 §5 · 9 §6 · 10 §7 · 11 §8 · 12 §9 · 13 §10 · 14 §11 · 15 §12 · 16 §13 · 17 §14. Ölçülen ve ölçülmeyen §15.
 
@@ -23,7 +23,7 @@ B5'e bu iki cevabı verir (B5 §6, Ö-1…Ö-4); paketi kendisi göndermez.
 
 | kaynak | B7'nin kullandığı | kullanmadığı |
 |---|---|---|
-| paket başlığı (`sonraki_atlama`) | kaynak, hedef, `kaynak_sira` | atlama sayısı (B4'ün döngü tanısı) · kaynak rotası |
+| paket başlığı (`sonraki_atlama`) | kaynak, hedef, `kaynak_sira` | atlama sayısı (B4'ün aynı düğüme dönüş tanısı) · kaynak rotası |
 | `cerceve_duyuldu` (niyet döndürmez) | tür `veri`, bana adresli çerçevenin göndereni ve paket başlığı (kaynak, hedef, `kaynak_sira`) | RSSI · başkasına adresli çerçeveler · onay ve kontrol çerçeveleri |
 | B1 | silinen komşu olayı | ölçüler |
 | B3 | izin gösterdiği komşunun durumu (KULLANILMAZ mı) | maliyet, sebepler |
@@ -70,7 +70,7 @@ Bir paketin B7'deki yaşamı:
 3. **Yeniden sorma** (uyandırma; simülatör tamponu yalnız uyandırmadan sonra döker, K-135):
    - **yol gelince hemen:** B4 açlıktan çıktığı kancada ("ardıl değişti", öncesi ardılsız), ya da bekleyen komutun hedefine taze iz doğduğunda, B7 en kısa gecikmeli bir uyandırma döndürür (simülatörün alt sınırı bir yuva, `13` §03.5);
    - **aralıkla:** tamponda paket varken her `YENIDEN_SOR_S`'de bir uyandırma kurulur. Süresi dolanlar böylece düşer; komutun izi niyet döndürmeyen bir kancada tazelendiyse en geç bu aralıkta görülür.
-   - Plan nesil numaralıdır; eski nesil yok sayılır.
+   - Plan nesil numaralıdır; eski nesil yok sayılır. Daha erken bir plan varken yenisi kurulmaz; plan dolunca tamponda paket kaldıysa bir sonraki kurulur (bugünkü kodun kuralı, `protokoller/desparete5.py`; 28 Kasım, bağımsız denetim K-6).
    - Simülatör tamponu her uyandırmadan sonra döker (B6'nın selam uyandırması dâhil). Bu yalnız daha sık yeniden sormadır, zararı yok.
 4. **Düşmenin sebebi** (ölçüm beyanı, K-134 · K-139; simülatör sebebi beyana bakar): paket bu düğümde daha önce yolu bilinen bir hedefe gidiyorsa `Karar(sonraki = None)` ile `Beyan("rota_gecersiz")` döner, değilse beyansız (`hedef_yok`).
    - Telemetride "biliniyor": B4'te bu düğüm daha önce ardıl kurmuştu.
@@ -118,8 +118,8 @@ B7 ileti göndermez; kontrol yüküne katkısı yoktur. Yeniden sorma uyandırma
 - **Hiç komşu yok:** açlık; paketler 1 s bekletilir ve düşer.
 - **Hedef komşuysa:** iz hedefin kendisini gösterir (telemetrisini doğrudan getirdiği için); komut doğrudan ona gider.
 - **Düğüm kendisi karıştırılırken:**
-  - kanal kilidinde protokole sorulmaz (B5 kural 6). Tampondaki paketler uyandırmayla arayüz kuyruğuna geçer ama havaya çıkamaz;
-  - kilit bitince sorulurlar: yol varsa gider, yoksa ilk bekletmeden beri süre dolduysa düşer;
+  - tam kilitte protokole sorulmaz (B5 kural 6). Tampondaki paketler uyandırmayla arayüz kuyruğuna geçer ama havaya çıkamaz;
+  - kanal açılınca sorulurlar: yol varsa gider. Yoksa ilk bekletme kaydı duruyorsa ve süre dolduysa düşer; kayıt silinmişse (kural 5) paket yeni sayılır ve en çok `TUTMA_EN_COK_S` daha bekletilir (28 Kasım, bağımsız denetim K-3);
   - girişimde kurallar aynıdır.
 - **Komşu karıştırılırken:** izin komşusu son çaredeyse komut yine gider (kural 8).
 - **Sayaç taşması:** `kaynak_sira` 16 bit, modüler karşılaştırılır.
